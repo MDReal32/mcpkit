@@ -5,7 +5,10 @@
   "description": "Server definitions the registry manifests are compiled from.",
   "type": "module",
   "exports": {
-    ".": "./src/main.ts"
+    ".": {
+      "types": "./build/mcpkit.servers.d.ts",
+      "import": "./build/mcpkit.servers.js"
+    }
   },
   "scripts": {
     "build": "vite build --configLoader runner",
@@ -20,6 +23,7 @@
     "@usemcpkit/testing": "workspace:*",
     "typescript": "^5.9.0",
     "vite": "^8.0.0",
+    "vite-plugin-dts": "5.1.2",
     "vitest": "^4.0.0"
   },
   "license": "MIT"

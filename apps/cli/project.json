@@ -1,0 +1,11 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "targets": {
+    "typecheck": {
+      "dependsOn": ["...", { "projects": ["@usemcpkit/servers"], "target": "build" }]
+    },
+    "test": {
+      "dependsOn": ["...", { "projects": ["@usemcpkit/servers"], "target": "build" }]
+    }
+  }
+}
