@@ -8,6 +8,9 @@ export const planSpec = async <Result extends Operation>(plan: SpecPlan<Result>,
   const supported: Result[] = [];
   const skipped: string[] = [];
   for (const operation of plan.collectOperations(document)) {
+    if (plan.isExcluded?.(operation)) {
+      continue;
+    }
     const reason = plan.findUnsupportedReason(operation);
     if (reason) {
       skipped.push(`${plan.describeOperation(operation)}: ${reason}`);

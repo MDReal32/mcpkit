@@ -8,6 +8,8 @@ export interface SpecPlan<Result extends Operation> {
   collectOperations: (document: OpenApiDocument) => Result[];
   /** Names a skipped operation in the report. */
   describeOperation: (operation: Result) => string;
+  /** Operations left out on purpose; they are not reported as skipped. */
+  isExcluded?: (operation: Result) => boolean;
   findUnsupportedReason: (operation: Result) => string | undefined;
   /** One name per operation, in the order given. */
   nameOperations: (operations: Result[]) => OperationNames[];
