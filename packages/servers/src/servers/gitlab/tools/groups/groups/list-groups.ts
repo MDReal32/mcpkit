@@ -119,5 +119,6 @@ export const groupsGroupsListGroups = defineTool({
       "with_custom_attributes",
       "custom_attributes",
     ],
+    commaQuery: ["skip_groups"],
   },
 });

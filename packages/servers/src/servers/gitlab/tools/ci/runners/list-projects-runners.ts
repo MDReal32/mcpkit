@@ -68,5 +68,6 @@ export const ciRunnersListProjectsRunners = defineTool({
     method: "GET",
     path: "/projects/{id}/runners",
     query: ["scope", "type", "paused", "status", "tag_list", "version_prefix", "page", "per_page"],
+    commaQuery: ["tag_list"],
   },
 });

@@ -42,5 +42,6 @@ export const cloudV1ContentGetDescendantsOfType = defineTool({
     method: "GET",
     path: "/wiki/rest/api/content/{id}/descendant/{type}",
     query: ["depth", "expand", "start", "limit"],
+    commaQuery: ["expand"],
   },
 });

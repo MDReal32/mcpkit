@@ -32,5 +32,6 @@ export const aiGitlabDuoWorkflowsListAiDuoWorkflowsWorkflowsCheckpoints = define
     method: "GET",
     path: "/ai/duo_workflows/workflows/{id}/checkpoints",
     query: ["accept_compressed", "checkpoint_ns", "channels"],
+    commaQuery: ["channels"],
   },
 });

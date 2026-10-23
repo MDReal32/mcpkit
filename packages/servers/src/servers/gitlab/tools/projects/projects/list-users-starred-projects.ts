@@ -225,5 +225,6 @@ export const projectsProjectsListUsersStarredProjects = defineTool({
       "simple",
       "statistics",
     ],
+    commaQuery: ["topic"],
   },
 });

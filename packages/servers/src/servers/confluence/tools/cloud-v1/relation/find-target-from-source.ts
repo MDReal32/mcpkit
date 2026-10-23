@@ -65,5 +65,6 @@ export const cloudV1RelationFindTargetFromSource = defineTool({
     method: "GET",
     path: "/wiki/rest/api/relation/{relationName}/from/{sourceType}/{sourceKey}/to/{targetType}",
     query: ["sourceStatus", "targetStatus", "sourceVersion", "targetVersion", "expand", "start", "limit"],
+    commaQuery: ["expand"],
   },
 });

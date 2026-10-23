@@ -65,6 +65,7 @@ export const cloudV1ContentbodyAsyncConvertContentBodyRequest = defineTool({
     method: "POST",
     path: "/wiki/rest/api/contentbody/convert/async/{to}",
     query: ["expand", "spaceKeyContext", "contentIdContext", "allowCache", "embeddedContentRender"],
+    commaQuery: ["expand"],
     body: ["value", "representation"],
   },
 });

@@ -38,5 +38,6 @@ export const cloudV1SearchSearchUser = defineTool({
     method: "GET",
     path: "/wiki/rest/api/search/user",
     query: ["cql", "start", "limit", "expand", "sitePermissionTypeFilter"],
+    commaQuery: ["expand"],
   },
 });

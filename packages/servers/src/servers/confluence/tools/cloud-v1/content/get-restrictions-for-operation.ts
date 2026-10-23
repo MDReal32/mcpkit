@@ -37,5 +37,6 @@ export const cloudV1ContentGetRestrictionsForOperation = defineTool({
     method: "GET",
     path: "/wiki/rest/api/content/{id}/restriction/byOperation/{operationKey}",
     query: ["expand", "start", "limit"],
+    commaQuery: ["expand"],
   },
 });

@@ -115,5 +115,6 @@ export const issuesMilestonesListProjectsMilestones = defineTool({
       "page",
       "per_page",
     ],
+    commaQuery: ["iids"],
   },
 });

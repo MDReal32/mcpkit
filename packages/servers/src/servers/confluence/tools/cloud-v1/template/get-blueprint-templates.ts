@@ -31,5 +31,6 @@ export const cloudV1TemplateGetBlueprintTemplates = defineTool({
     method: "GET",
     path: "/wiki/rest/api/template/blueprint",
     query: ["spaceKey", "start", "limit", "expand"],
+    commaQuery: ["expand"],
   },
 });

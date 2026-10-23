@@ -73,6 +73,7 @@ export const cloudV1ContentPublishLegacyDraft = defineTool({
     method: "POST",
     path: "/wiki/rest/api/content/blueprint/instance/{draftId}",
     query: ["status", "expand"],
+    commaQuery: ["expand"],
     body: {
       version: "version",
       title: "title",

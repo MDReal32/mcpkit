@@ -57,5 +57,6 @@ export const issuesCodeReviewAnalyticsListAnalyticsCodeReview = defineTool({
       "not[label_name]": "not_label_name",
       "not[milestone_title]": "not_milestone_title",
     },
+    commaQuery: ["label_name"],
   },
 });

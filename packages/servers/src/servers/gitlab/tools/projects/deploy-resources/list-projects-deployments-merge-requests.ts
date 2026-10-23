@@ -302,5 +302,6 @@ export const projectsDeployResourcesListProjectsDeploymentsMergeRequests = defin
       merge_user_id: "merge_user_id",
       merge_user_username: "merge_user_username",
     },
+    commaQuery: ["labels"],
   },
 });

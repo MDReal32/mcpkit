@@ -31,5 +31,6 @@ export const cloudV1ContentGetRestrictions = defineTool({
     method: "GET",
     path: "/wiki/rest/api/content/{id}/restriction",
     query: ["expand", "start", "limit"],
+    commaQuery: ["expand"],
   },
 });

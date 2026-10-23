@@ -144,5 +144,6 @@ export const issuesEpicsListGroupsEpicsGet = defineTool({
       "not[author_id]": "not_author_id",
       "not[author_username]": "not_author_username",
     },
+    commaQuery: ["labels"],
   },
 });

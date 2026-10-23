@@ -17,5 +17,6 @@ export const cloudV1UserGetAnonymousUser = defineTool({
     method: "GET",
     path: "/wiki/rest/api/user/anonymous",
     query: ["expand"],
+    commaQuery: ["expand"],
   },
 });

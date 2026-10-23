@@ -36,5 +36,6 @@ export const projectsHooksListGroupsHooksEvents = defineTool({
     method: "GET",
     path: "/groups/{id}/hooks/{hook_id}/events",
     query: ["status", "per_page", "page"],
+    commaQuery: ["status"],
   },
 });

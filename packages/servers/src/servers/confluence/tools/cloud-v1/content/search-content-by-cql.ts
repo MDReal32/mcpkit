@@ -37,5 +37,6 @@ export const cloudV1ContentSearchContentByCql = defineTool({
     method: "GET",
     path: "/wiki/rest/api/content/search",
     query: ["cql", "cqlcontext", "expand", "cursor", "limit"],
+    commaQuery: ["expand"],
   },
 });

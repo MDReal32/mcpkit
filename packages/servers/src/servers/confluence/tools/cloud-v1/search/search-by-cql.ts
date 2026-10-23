@@ -82,5 +82,6 @@ export const cloudV1SearchSearchByCql = defineTool({
       "_",
       "expand",
     ],
+    commaQuery: ["expand"],
   },
 });

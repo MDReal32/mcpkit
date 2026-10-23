@@ -60,5 +60,6 @@ export const projectsProjectsListProjectsInvitedGroups = defineTool({
       "with_custom_attributes",
       "custom_attributes",
     ],
+    commaQuery: ["relation"],
   },
 });

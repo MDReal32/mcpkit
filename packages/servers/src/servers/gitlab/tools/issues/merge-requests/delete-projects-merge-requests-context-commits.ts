@@ -25,5 +25,6 @@ export const issuesMergeRequestsDeleteProjectsMergeRequestsContextCommits = defi
     method: "DELETE",
     path: "/projects/{id}/merge_requests/{merge_request_iid}/context_commits",
     query: ["commits"],
+    commaQuery: ["commits"],
   },
 });

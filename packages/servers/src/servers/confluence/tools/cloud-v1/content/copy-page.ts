@@ -76,6 +76,7 @@ export const cloudV1ContentCopyPage = defineTool({
     method: "POST",
     path: "/wiki/rest/api/content/{id}/copy",
     query: ["expand"],
+    commaQuery: ["expand"],
     body: [
       "copyAttachments",
       "copyPermissions",

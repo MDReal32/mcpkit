@@ -31,5 +31,6 @@ export const cloudV1TemplateGetContentTemplates = defineTool({
     method: "GET",
     path: "/wiki/rest/api/template/page",
     query: ["spaceKey", "start", "limit", "expand"],
+    commaQuery: ["expand"],
   },
 });

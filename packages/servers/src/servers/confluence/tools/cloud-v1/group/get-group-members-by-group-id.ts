@@ -35,5 +35,6 @@ export const cloudV1GroupGetGroupMembersByGroupId = defineTool({
     method: "GET",
     path: "/wiki/rest/api/group/{groupId}/membersByGroupId",
     query: ["start", "limit", "shouldReturnTotalSize", "expand"],
+    commaQuery: ["expand"],
   },
 });

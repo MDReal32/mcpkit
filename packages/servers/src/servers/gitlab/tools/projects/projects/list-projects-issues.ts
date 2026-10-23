@@ -285,5 +285,6 @@ export const projectsProjectsListProjectsIssues = defineTool({
       per_page: "per_page",
       cursor: "cursor",
     },
+    commaQuery: ["labels", "iids"],
   },
 });

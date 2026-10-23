@@ -22,5 +22,6 @@ export const cloudV1UserGetBulkUserLookup = defineTool({
     method: "GET",
     path: "/wiki/rest/api/user/bulk",
     query: ["accountId", "expand"],
+    commaQuery: ["expand"],
   },
 });

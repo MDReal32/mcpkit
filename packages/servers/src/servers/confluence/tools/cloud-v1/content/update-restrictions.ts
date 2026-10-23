@@ -45,6 +45,7 @@ export const cloudV1ContentUpdateRestrictions = defineTool({
     method: "PUT",
     path: "/wiki/rest/api/content/{id}/restriction",
     query: ["expand"],
+    commaQuery: ["expand"],
     body: ["results", "start", "limit", "size", "restrictionsHash", "_links"],
   },
 });

@@ -138,5 +138,6 @@ export const usersSearchGetProjectsSearch = defineTool({
       page: "page",
       per_page: "per_page",
     },
+    commaQuery: ["type", "fields", "label_name"],
   },
 });

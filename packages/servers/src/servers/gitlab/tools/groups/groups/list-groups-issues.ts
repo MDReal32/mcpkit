@@ -287,5 +287,6 @@ export const groupsGroupsListGroupsIssues = defineTool({
       per_page: "per_page",
       non_archived: "non_archived",
     },
+    commaQuery: ["labels", "iids"],
   },
 });

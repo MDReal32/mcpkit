@@ -40,5 +40,6 @@ export const cloudV1SpaceGetContentsWithState = defineTool({
       limit: "limit",
       start: "start",
     },
+    commaQuery: ["expand"],
   },
 });

@@ -22,5 +22,6 @@ export const cloudV1ContentDeleteRestrictions = defineTool({
     method: "DELETE",
     path: "/wiki/rest/api/content/{id}/restriction",
     query: ["expand"],
+    commaQuery: ["expand"],
   },
 });

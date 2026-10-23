@@ -62,5 +62,6 @@ export const cloudV1RelationGetRelationship = defineTool({
     method: "GET",
     path: "/wiki/rest/api/relation/{relationName}/from/{sourceType}/{sourceKey}/to/{targetType}/{targetKey}",
     query: ["sourceStatus", "targetStatus", "sourceVersion", "targetVersion", "expand"],
+    commaQuery: ["expand"],
   },
 });

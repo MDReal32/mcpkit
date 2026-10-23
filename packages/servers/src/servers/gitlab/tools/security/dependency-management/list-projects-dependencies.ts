@@ -32,5 +32,6 @@ export const securityDependencyManagementListProjectsDependencies = defineTool({
     method: "GET",
     path: "/projects/{id}/dependencies",
     query: ["package_manager", "page", "per_page"],
+    commaQuery: ["package_manager"],
   },
 });

@@ -72,6 +72,7 @@ export const cloudV1ContentPublishSharedDraft = defineTool({
     method: "PUT",
     path: "/wiki/rest/api/content/blueprint/instance/{draftId}",
     query: ["status", "expand"],
+    commaQuery: ["expand"],
     body: {
       version: "version",
       title: "title",

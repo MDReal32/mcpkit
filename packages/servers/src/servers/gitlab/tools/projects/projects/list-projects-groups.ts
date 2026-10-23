@@ -58,5 +58,6 @@ export const projectsProjectsListProjectsGroups = defineTool({
       "page",
       "per_page",
     ],
+    commaQuery: ["skip_groups"],
   },
 });

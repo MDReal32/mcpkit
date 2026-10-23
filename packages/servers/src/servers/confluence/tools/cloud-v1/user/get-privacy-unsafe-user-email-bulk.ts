@@ -18,5 +18,6 @@ export const cloudV1UserGetPrivacyUnsafeUserEmailBulk = defineTool({
     method: "GET",
     path: "/wiki/rest/api/user/email/bulk",
     query: ["accountId"],
+    commaQuery: ["accountId"],
   },
 });

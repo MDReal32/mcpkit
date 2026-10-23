@@ -320,5 +320,6 @@ export const issuesMergeRequestsListProjectsMergeRequests = defineTool({
       per_page: "per_page",
       iids: "iids",
     },
+    commaQuery: ["labels", "iids"],
   },
 });

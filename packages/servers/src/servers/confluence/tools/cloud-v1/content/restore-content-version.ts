@@ -47,6 +47,7 @@ export const cloudV1ContentRestoreContentVersion = defineTool({
     method: "POST",
     path: "/wiki/rest/api/content/{id}/version",
     query: ["expand"],
+    commaQuery: ["expand"],
     body: ["operationKey", "params"],
   },
 });

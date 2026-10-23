@@ -48,5 +48,6 @@ export const groupsMembersListProjectsMembers = defineTool({
     method: "GET",
     path: "/projects/{id}/members",
     query: ["query", "user_ids", "skip_users", "show_seat_info", "with_saml_identity", "page", "per_page"],
+    commaQuery: ["user_ids", "skip_users"],
   },
 });

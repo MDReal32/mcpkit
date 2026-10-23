@@ -17,5 +17,6 @@ export const cloudV1UserGetCurrentUser = defineTool({
     method: "GET",
     path: "/wiki/rest/api/user/current",
     query: ["expand"],
+    commaQuery: ["expand"],
   },
 });

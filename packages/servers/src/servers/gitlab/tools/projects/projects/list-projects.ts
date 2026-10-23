@@ -232,5 +232,6 @@ export const projectsProjectsListProjects = defineTool({
       "with_custom_attributes",
       "custom_attributes",
     ],
+    commaQuery: ["topic"],
   },
 });

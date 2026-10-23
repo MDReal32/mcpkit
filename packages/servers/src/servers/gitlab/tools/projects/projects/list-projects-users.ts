@@ -35,5 +35,6 @@ export const projectsProjectsListProjectsUsers = defineTool({
     method: "GET",
     path: "/projects/{id}/users",
     query: ["search", "skip_users", "page", "per_page"],
+    commaQuery: ["skip_users"],
   },
 });

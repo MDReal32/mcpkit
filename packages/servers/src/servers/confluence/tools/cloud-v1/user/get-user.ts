@@ -23,5 +23,6 @@ export const cloudV1UserGetUser = defineTool({
     method: "GET",
     path: "/wiki/rest/api/user",
     query: ["accountId", "expand"],
+    commaQuery: ["expand"],
   },
 });

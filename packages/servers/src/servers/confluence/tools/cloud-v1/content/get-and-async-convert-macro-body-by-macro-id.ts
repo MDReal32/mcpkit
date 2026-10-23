@@ -53,5 +53,6 @@ export const cloudV1ContentGetAndAsyncConvertMacroBodyByMacroId = defineTool({
     method: "GET",
     path: "/wiki/rest/api/content/{id}/history/{version}/macro/id/{macroId}/convert/async/{to}",
     query: ["expand", "allowCache", "spaceKeyContext", "embeddedContentRender"],
+    commaQuery: ["expand"],
   },
 });

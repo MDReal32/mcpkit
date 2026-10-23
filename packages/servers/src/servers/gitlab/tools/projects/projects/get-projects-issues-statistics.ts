@@ -210,5 +210,6 @@ export const projectsProjectsGetProjectsIssuesStatistics = defineTool({
       iteration_id: "iteration_id",
       iteration_title: "iteration_title",
     },
+    commaQuery: ["labels", "iids"],
   },
 });

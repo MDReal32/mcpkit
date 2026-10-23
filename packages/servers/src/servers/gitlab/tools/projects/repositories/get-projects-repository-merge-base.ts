@@ -21,5 +21,6 @@ export const projectsRepositoriesGetProjectsRepositoryMergeBase = defineTool({
     method: "GET",
     path: "/projects/{id}/repository/merge_base",
     query: ["refs"],
+    commaQuery: ["refs"],
   },
 });

@@ -59,5 +59,6 @@ export const groupsGroupsListGroupsInvitedGroups = defineTool({
       "with_custom_attributes",
       "custom_attributes",
     ],
+    commaQuery: ["relation"],
   },
 });

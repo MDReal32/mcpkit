@@ -46,5 +46,6 @@ export const projectsRepositoriesGetProjectsRepositoryArchive = defineTool({
     method: "GET",
     path: "/projects/{id}/repository/archive",
     query: ["sha", "ref_type", "format", "path", "include_lfs_blobs", "exclude_paths"],
+    commaQuery: ["exclude_paths"],
   },
 });

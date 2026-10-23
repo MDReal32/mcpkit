@@ -120,5 +120,6 @@ export const issuesMilestonesListGroupsMilestones = defineTool({
       "per_page",
       "include_descendants",
     ],
+    commaQuery: ["iids"],
   },
 });

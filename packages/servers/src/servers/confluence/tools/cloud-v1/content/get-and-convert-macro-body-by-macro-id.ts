@@ -47,5 +47,6 @@ export const cloudV1ContentGetAndConvertMacroBodyByMacroId = defineTool({
     method: "GET",
     path: "/wiki/rest/api/content/{id}/history/{version}/macro/id/{macroId}/convert/{to}",
     query: ["expand", "spaceKeyContext", "embeddedContentRender"],
+    commaQuery: ["expand"],
   },
 });
