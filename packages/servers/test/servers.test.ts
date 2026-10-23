@@ -72,26 +72,39 @@ describe('github', () => {
 
 describe('gitlab', () => {
   it('encodes the project path and targets the API of the configured host', async () => {
-    const [saas] = await sendTool(gitlab, 'issue:get', { project: 'acme/app', issue_iid: 7 }, { GITLAB_TOKEN: 't' });
+    const [saas] = await sendTool(
+      gitlab,
+      'projects:projects:get_projects_issues',
+      { id: 'acme/app', issue_iid: 7 },
+      { GITLAB_TOKEN: 't' },
+    );
     const [selfManaged] = await sendTool(
       gitlab,
-      'issue:list',
-      { project: 'acme/sub/app', state: 'opened' },
+      'projects:projects:list_projects_issues',
+      { id: 'acme/sub/app', state: 'opened' },
       { GITLAB_HOST: 'git.acme.com/gitlab', GITLAB_TOKEN: 't' },
     );
 
     expect(saas?.url).toBe('https://gitlab.com/api/v4/projects/acme%2Fapp/issues/7');
-    expect(selfManaged?.url).toMatch(
-      /^https:\/\/git\.acme\.com\/gitlab\/api\/v4\/projects\/acme%2Fsub%2Fapp\/issues\?state=opened/,
+    const selfManagedUrl = new URL(selfManaged?.url ?? '');
+
+    expect(selfManagedUrl.origin + selfManagedUrl.pathname).toBe(
+      'https://git.acme.com/gitlab/api/v4/projects/acme%2Fsub%2Fapp/issues',
     );
+    expect(selfManagedUrl.searchParams.get('state')).toBe('opened');
   });
 
-  it('lists member projects and posts comment bodies', async () => {
-    const [projects] = await sendTool(gitlab, 'project:list', { search: 'app' }, { GITLAB_TOKEN: 't' });
+  it('lists projects and posts comment bodies', async () => {
+    const [projects] = await sendTool(
+      gitlab,
+      'projects:projects:list_projects',
+      { search: 'app', membership: true },
+      { GITLAB_TOKEN: 't' },
+    );
     const [comment] = await sendTool(
       gitlab,
-      'merge_request:add_comment',
-      { project: 'acme/app', merge_request_iid: 3, body: 'LGTM' },
+      'issues:notes:create_projects_merge_requests_notes',
+      { id: 'acme/app', noteable_id: 3, body: 'LGTM' },
       { GITLAB_TOKEN: 't' },
     );
 

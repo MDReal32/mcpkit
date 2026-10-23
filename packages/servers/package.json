@@ -14,6 +14,7 @@
     "build": "vite build --configLoader runner",
     "generate:github": "node generator/github/main.ts",
     "generate:jira": "node generator/jira/main.ts",
+    "generate:gitlab": "node generator/gitlab/main.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --configLoader runner",
     "lint": "biome check ."
@@ -25,7 +26,8 @@
     "typescript": "^5.9.0",
     "vite": "^8.0.0",
     "vite-plugin-dts": "5.1.2",
-    "vitest": "^4.0.0"
+    "vitest": "^4.0.0",
+    "yaml": "2.9.0"
   },
   "license": "MIT"
 }

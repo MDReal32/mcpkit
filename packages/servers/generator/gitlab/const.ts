@@ -1,0 +1,236 @@
+export const SPEC_URL = 'https://gitlab.com/gitlab-org/gitlab/-/raw/master/doc/api/openapi/openapi_v3.yaml';
+
+export const API_PATH_PREFIX = '/api/v4';
+
+export const MAX_SCHEMA_DEPTH = 3;
+
+export const MAX_DESCRIPTION_LENGTH = 400;
+
+export const SERVER_VERSION = '1.0.0';
+
+export const HTTP_METHODS = ['get', 'post', 'put', 'patch', 'delete'];
+
+export const JSON_CONTENT_TYPE = 'application/json';
+
+export const SERVER_NAME = 'gitlab';
+
+export const SERVER_DESCRIPTION =
+  "GitLab REST API (gitlab.com and self-managed): projects, issues and merge requests, CI/CD, packages, security, groups, users, administration, AI and meta endpoints. Tools are named '<group>:<resource>:<action>'.";
+
+export const EXCLUDED_TAGS: Record<string, string> = {
+  'Internal operations': 'internal endpoint used by GitLab components, not by API clients',
+};
+
+export const EXCLUDED_TAG_PREFIXES: Record<string, string> = {
+  'Packages: ': 'package manager protocol endpoint, not meant for API clients',
+};
+
+export const SERVER_GROUPS = [
+  {
+    name: 'projects',
+    categories: [
+      'Projects',
+      'Branches',
+      'Protected branches',
+      'Tags',
+      'Protected tags',
+      'Repositories',
+      'Commits',
+      'Commit statuses',
+      'Files',
+      'Submodules',
+      'Releases',
+      'Web commits',
+      'Project topics',
+      'Project templates',
+      'Project snapshots',
+      'Project alias',
+      'Project mirrors',
+      'Remote mirrors',
+      'Project import',
+      'Badges',
+      'Deploy resources',
+      'Keys',
+      'Hooks',
+      'Integrations',
+      'Push rules',
+      'Freeze periods',
+      'GitLab Pages',
+      'Wikis',
+      'Snippets',
+      'Templates',
+      'Project Google Cloud integration',
+      'Projects job token scope',
+      'Imports',
+      'Namespace projects',
+      'Attestations',
+    ],
+  },
+  {
+    name: 'issues',
+    categories: [
+      'Issues',
+      'Merge requests',
+      'Merge request approvals',
+      'Project approvals',
+      'Approval rules',
+      'Draft notes',
+      'Merge trains',
+      'External status checks',
+      'Suggestions',
+      'Discussions',
+      'Notes',
+      'Resource events',
+      'Award emoji',
+      'Metric images',
+      'Epics',
+      'Milestones',
+      'Labels',
+      'Iterations',
+      'Boards',
+      'To-dos',
+      'Resource subscriptions',
+      'Alert management',
+      'Error tracking',
+      'Code review analytics',
+    ],
+  },
+  {
+    name: 'ci',
+    categories: [
+      'Pipelines',
+      'Pipeline schedules',
+      'Jobs',
+      'CI jobs',
+      'CI runners',
+      'Runners',
+      'Runner controller tokens',
+      'Runner controllers',
+      'CI variables',
+      'CI triggers',
+      'CI lint',
+      'CI resource groups',
+      'Secure files',
+      'Job artifacts',
+      'CI catalog',
+      'CI minutes',
+      'Environments',
+      'Protected environments',
+      'Feature flags',
+      'Unleash',
+      'Terraform',
+      'Clusters',
+      'Cluster agents',
+      'Agents',
+      'Rollouts',
+    ],
+  },
+  {
+    name: 'packages',
+    categories: ['Packages', 'Container registry', 'Dependency proxy', 'ML Model Registry', 'MLOps'],
+  },
+  {
+    name: 'security',
+    categories: [
+      'Vulnerabilities',
+      'Security scans',
+      'Software composition analysis',
+      'Dependency management',
+      'Licenses',
+      'Compliance policy settings',
+      'Group credentials inventory',
+      'Access tokens',
+    ],
+  },
+  {
+    name: 'groups',
+    categories: [
+      'Groups',
+      'Members',
+      'Invitations',
+      'Access requests',
+      'SAML group links',
+      'Member roles',
+      'Enterprise users',
+      'Organizations',
+      'Namespaces',
+      'Group import and export',
+      'Service accounts',
+      'LDAP',
+      'Provider identities',
+      'GitLab subscriptions',
+      'Add on purchases',
+      'Plan limits',
+      'Workspaces',
+    ],
+  },
+  {
+    name: 'users',
+    categories: [
+      'Users',
+      'Avatars',
+      'Notification settings',
+      'Applications',
+      'OAuth applications',
+      'Mobile push subscriptions',
+      'Search',
+      'Code search',
+      'Events',
+      'Authn',
+      'Custom attributes',
+    ],
+  },
+  {
+    name: 'admin',
+    categories: [
+      'Geo',
+      'Sidekiq',
+      'Storage moves',
+      'Broadcast messages',
+      'Batched background operations',
+      'Batched background migrations',
+      'Database dictionary',
+      'Audit events',
+      'Migrations',
+      'Offline transfers',
+      'Data management',
+      'Advanced search rollout',
+      'Analytics',
+      'DORA metrics',
+    ],
+  },
+  {
+    name: 'ai',
+    categories: [
+      'GitLab Duo',
+      'GitLab Duo workflows',
+      'Ai agent sessions',
+      'Ai agent identities',
+      'Ai agent audit events',
+      'Code Suggestions',
+      'Orbit',
+      'Knowledge graph',
+      'Active context',
+      'Token exchange',
+    ],
+  },
+  {
+    name: 'meta',
+    categories: [
+      'Metadata',
+      'Markdown',
+      'GLQL',
+      'VSCode',
+      'MCP',
+      'Usage data',
+      'Metrics',
+      'Instance',
+      'Experiments',
+      'Features',
+      'Jira forge subscriptions',
+      'Jira forge user delegation',
+      'Jira forge installation',
+      'Jira Connect subscriptions',
+    ],
+  },
+];

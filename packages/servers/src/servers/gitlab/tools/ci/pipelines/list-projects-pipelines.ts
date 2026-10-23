@@ -1,0 +1,147 @@
+import { defineTool } from '@usemcpkit/core';
+
+export const ciPipelinesListProjectsPipelines = defineTool({
+  name: 'ci:pipelines:list_projects_pipelines',
+  description:
+    'List all project pipelines. Lists all pipelines in a project. By default, child pipelines are not included in the results. To return child pipelines, set `source` to `parent_pipeline`.',
+  input: {
+    type: 'object',
+    properties: {
+      id: {
+        type: 'string',
+        description: 'ID or URL-encoded path of the project.',
+      },
+      page: {
+        type: 'integer',
+        default: 1,
+        description: 'Page number of results to retrieve.',
+      },
+      per_page: {
+        type: 'integer',
+        default: 20,
+        description: 'Number of items to list per page.',
+      },
+      scope: {
+        type: 'string',
+        enum: ['running', 'pending', 'finished', 'branches', 'tags'],
+        description: 'Return pipelines in the specified scope.',
+      },
+      status: {
+        type: 'string',
+        enum: [
+          'created',
+          'waiting_for_resource',
+          'preparing',
+          'waiting_for_callback',
+          'pending',
+          'running',
+          'success',
+          'failed',
+          'canceling',
+          'canceled',
+          'skipped',
+          'manual',
+          'scheduled',
+        ],
+        description: 'Return pipelines with the specified status.',
+      },
+      ref: {
+        type: 'string',
+        description: 'Return pipelines for the specified branch or tag.',
+      },
+      sha: {
+        type: 'string',
+        description: 'Return pipelines for the specified commit SHA.',
+      },
+      yaml_errors: {
+        type: 'boolean',
+        description: 'If `true`, returns only pipelines with invalid configurations.',
+      },
+      username: {
+        type: 'string',
+        description: 'Return pipelines triggered by the specified username.',
+      },
+      updated_before: {
+        type: 'string',
+        description: 'Return pipelines updated on or before the specified time.',
+      },
+      updated_after: {
+        type: 'string',
+        description: 'Return pipelines updated on or after the specified time.',
+      },
+      created_before: {
+        type: 'string',
+        description: 'Return pipelines created before the specified time.',
+      },
+      created_after: {
+        type: 'string',
+        description: 'Return pipelines created after the specified time.',
+      },
+      order_by: {
+        type: 'string',
+        default: 'id',
+        enum: ['id', 'status', 'ref', 'updated_at', 'user_id'],
+        description: 'Sort results by the specified field.',
+      },
+      sort: {
+        type: 'string',
+        default: 'desc',
+        enum: ['asc', 'desc'],
+        description: 'Sort results in ascending or descending order.',
+      },
+      source: {
+        type: 'string',
+        enum: [
+          'unknown',
+          'push',
+          'web',
+          'trigger',
+          'schedule',
+          'api',
+          'external',
+          'pipeline',
+          'chat',
+          'webide',
+          'merge_request_event',
+          'external_pull_request_event',
+          'parent_pipeline',
+          'ondemand_dast_scan',
+          'ondemand_dast_validation',
+          'security_orchestration_policy',
+          'container_registry_push',
+          'duo_workflow',
+          'pipeline_execution_policy_schedule',
+          'dependency_management_security_update',
+        ],
+        description: 'The source of pipelines',
+      },
+      name: {
+        type: 'string',
+        description: 'Return pipelines with the specified name.',
+      },
+    },
+    required: ['id'],
+  },
+  request: {
+    method: 'GET',
+    path: '/projects/{id}/pipelines',
+    query: [
+      'page',
+      'per_page',
+      'scope',
+      'status',
+      'ref',
+      'sha',
+      'yaml_errors',
+      'username',
+      'updated_before',
+      'updated_after',
+      'created_before',
+      'created_after',
+      'order_by',
+      'sort',
+      'source',
+      'name',
+    ],
+  },
+});
