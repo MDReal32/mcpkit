@@ -5,6 +5,7 @@ import { validateArgSpec } from "./validate-arg-spec";
 import { validateBodyArg } from "./validate-body-arg";
 import { validateCommaQuery } from "./validate-comma-query";
 import { validateContentType } from "./validate-content-type";
+import { validateFileArgs } from "./validate-file-args";
 import { validateFixedHeaders } from "./validate-fixed-headers";
 import { validateFixedValues } from "./validate-fixed-values";
 import { validateRequestPath } from "./validate-request-path";
@@ -21,6 +22,7 @@ export const validateRequest = (request: unknown, declaredArgs: ReadonlySet<stri
     ...validateRequestPath(request.path, declaredArgs, location),
     ...validateArgSpec(request.query, declaredArgs, `${location}.request.query`),
     ...validateArgSpec(request.body, declaredArgs, `${location}.request.body`),
+    ...validateFileArgs(request.fileArgs, declaredArgs, `${location}.request.fileArgs`),
     ...validateContentType(request, location),
     ...validateBodyArg(request, declaredArgs, location),
     ...validateFixedValues(request.fixedQuery, `${location}.request.fixedQuery`),

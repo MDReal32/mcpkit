@@ -3,6 +3,7 @@ import { mapResponse } from "../mapping";
 import { sendWithAuthFallback } from "./auth-fallback/send-with-auth-fallback";
 import { DEFAULT_TIMEOUT_MS } from "./const";
 import type { ExecuteOptions } from "./execute-options";
+import { loadFileArgs } from "./request/load-file-args";
 import { prepareToolArgs } from "./request/prepare-tool-args";
 import { readApiErrorMessage } from "./response/read-api-error-message";
 import { readResponseBody } from "./response/read-response-body";
@@ -15,7 +16,7 @@ export const executeTool = async (
   rawArgs: ToolArgs | undefined,
   { fetchImpl = fetch, timeoutMs = DEFAULT_TIMEOUT_MS, env = process.env, ...hooks }: ExecuteOptions = {},
 ) => {
-  const args = prepareToolArgs(tool, rawArgs);
+  const args = await loadFileArgs(tool, prepareToolArgs(tool, rawArgs));
   const context: CallContext = {
     env,
     fetchImpl,

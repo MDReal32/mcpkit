@@ -4,5 +4,5 @@ export interface HttpRequest {
   url: string;
   method: HttpMethod;
   headers: Readonly<Record<string, string>>;
-  body?: string;
+  body?: string | FormData | Blob;
 }

@@ -69,6 +69,51 @@ describe("buildRequest", () => {
     expect(request.url).toBe("https://api.example.com/items?ids=1&ids=2&tags=a%2Cb");
   });
 
+  it("builds a multipart form from fields and uploaded files", () => {
+    const tool = {
+      ...createItemTool,
+      input: {
+        type: "object",
+        properties: { owner: { type: "string" }, title: { type: "string" }, file: { type: "string" } },
+      },
+      request: {
+        method: "POST",
+        path: "/owners/{owner}/files",
+        body: ["title", "file"],
+        contentType: "multipart/form-data",
+        fileArgs: ["file"],
+      },
+    } as const;
+    const file = { name: "a.txt", data: new TextEncoder().encode("hi") };
+
+    const request = buildRequest(demoManifest, tool, { owner: "o", title: "t", file }, BEARER_AUTH);
+
+    const form = request.body as FormData;
+    expect(form.get("title")).toBe("t");
+    expect((form.get("file") as File).name).toBe("a.txt");
+    expect(request.headers["Content-Type"]).toBeUndefined();
+  });
+
+  it("sends an uploaded file as the raw body", () => {
+    const tool = {
+      ...createItemTool,
+      input: { type: "object", properties: { owner: { type: "string" }, body: { type: "string" } } },
+      request: {
+        method: "POST",
+        path: "/owners/{owner}/assets",
+        bodyArg: "body",
+        contentType: "application/octet-stream",
+        fileArgs: ["body"],
+      },
+    } as const;
+    const file = { name: "a.bin", data: new Uint8Array([1, 2]) };
+
+    const request = buildRequest(demoManifest, tool, { owner: "o", body: file }, BEARER_AUTH);
+
+    expect((request.body as Blob).size).toBe(2);
+    expect(request.headers["Content-Type"]).toBe("application/octet-stream");
+  });
+
   it("sends fixed headers under the auth headers", () => {
     const tool = {
       ...listItemsTool,
