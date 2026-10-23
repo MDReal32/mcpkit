@@ -1,7 +1,21 @@
-import { commentTools } from './comment';
-import { issueTools } from './issue';
-import { projectTools } from './project';
-import { transitionTools } from './transition';
-import { userTools } from './user';
+import { administrationGroupTools } from './administration';
+import { appsGroupTools } from './apps';
+import { collaborationGroupTools } from './collaboration';
+import { fieldsGroupTools } from './fields';
+import { issuesGroupTools } from './issues';
+import { projectsGroupTools } from './projects';
+import { softwareGroupTools } from './software';
+import { usersGroupTools } from './users';
+import { workflowsGroupTools } from './workflows';
 
-export const jiraTools = [...commentTools, ...issueTools, ...projectTools, ...transitionTools, ...userTools];
+export const jiraTools = [
+  ...issuesGroupTools,
+  ...projectsGroupTools,
+  ...usersGroupTools,
+  ...workflowsGroupTools,
+  ...fieldsGroupTools,
+  ...collaborationGroupTools,
+  ...administrationGroupTools,
+  ...appsGroupTools,
+  ...softwareGroupTools,
+];

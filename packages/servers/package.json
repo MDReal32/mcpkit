@@ -13,6 +13,7 @@
   "scripts": {
     "build": "vite build --configLoader runner",
     "generate:github": "node generator/github/main.ts",
+    "generate:jira": "node generator/jira/main.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --configLoader runner",
     "lint": "biome check ."
