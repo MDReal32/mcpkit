@@ -6,6 +6,8 @@ export interface OpenApiParameter {
   required?: boolean;
   description?: string;
   schema?: OpenApiSchema;
+  style?: string;
+  explode?: boolean;
 }
 
 export interface OpenApiRequestBody {
