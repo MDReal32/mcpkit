@@ -27,6 +27,30 @@ describe("buildRequest", () => {
     expect(request.headers["Content-Type"]).toBe("application/json");
   });
 
+  it("sends the body argument unchanged as the whole JSON body", () => {
+    const tool = {
+      ...createItemTool,
+      input: { type: "object", properties: { owner: { type: "string" }, body: { type: "array" } } },
+      request: { method: "POST", path: "/owners/{owner}/labels", bodyArg: "body" },
+    } as const;
+
+    const request = buildRequest(demoManifest, tool, { owner: "o", body: ["a", "b"] }, BEARER_AUTH);
+
+    expect(request.body).toBe('["a","b"]');
+    expect(request.headers["Content-Type"]).toBe("application/json");
+  });
+
+  it("sends no body when the body argument is absent", () => {
+    const tool = {
+      ...createItemTool,
+      request: { method: "POST", path: "/owners/{owner}/labels", bodyArg: "title" },
+    } as const;
+
+    const request = buildRequest(demoManifest, tool, { owner: "o" }, BEARER_AUTH);
+
+    expect(request.body).toBeUndefined();
+  });
+
   it("rejects calls missing required args", () => {
     expect(() => prepareToolArgs(createItemTool, { owner: "o" })).toThrow(/missing required argument\(s\): title/);
   });

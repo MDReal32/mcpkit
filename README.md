@@ -168,7 +168,8 @@ Confluence Cloud v2 tools take a space id (`cloud:spaces:get_spaces`) instead of
         "query": ["state", "per_page"],          // or { "q": "query" } to rename
         "body": ["title"],                       // JSON body for non-GET, see Request bodies
         "fixedQuery": { "sort": "updated" },     // optional: constant query values
-        "fixedBody": { "type": "issue" }         // optional: constant body values, args win
+        "fixedBody": { "type": "issue" },        // optional: constant body values, args win
+        "bodyArg": "body"                        // optional: send this arg as the whole JSON body (array, string or free-form object); excludes body/fixedBody
       },
       "response": {
         "root": "items",                         // optional: dig into the payload

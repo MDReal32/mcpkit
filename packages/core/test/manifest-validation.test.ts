@@ -22,6 +22,25 @@ describe("validateManifest", () => {
     );
   });
 
+  it("rejects a body argument that is undeclared or combined with body", () => {
+    const manifest = {
+      ...demoManifest,
+      tools: [
+        { ...createItemTool, request: { method: "POST", path: "/x", bodyArg: "ghost" } },
+        {
+          ...createItemTool,
+          name: "second",
+          request: { method: "POST", path: "/x", bodyArg: "title", body: ["title"] },
+        },
+      ],
+    };
+
+    expect(validateManifest(manifest)).toEqual([
+      "tools[0] (create_item).request.bodyArg must name a declared arg",
+      "tools[1] (second).request.bodyArg cannot be combined with body or fixedBody",
+    ]);
+  });
+
   it("rejects requests that reference undeclared args", () => {
     const invalid = {
       ...demoManifest,

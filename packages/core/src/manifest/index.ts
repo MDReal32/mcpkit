@@ -22,6 +22,7 @@ export type { HttpMethod } from "./types/tool/http-method";
 export type { InputSchema } from "./types/tool/input-schema";
 export type { JsonSchema } from "./types/tool/json-schema";
 export type { NameMapping } from "./types/tool/name-mapping";
+export type { RequestSpec } from "./types/tool/request-spec";
 export type { ResponseSpec } from "./types/tool/response-spec";
 export type { ToolArgs } from "./types/tool/tool-args";
 export type { ToolEdition } from "./types/tool/tool-edition";
