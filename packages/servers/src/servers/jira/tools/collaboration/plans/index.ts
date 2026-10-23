@@ -4,6 +4,7 @@ import { collaborationPlansDuplicatePlan } from "./duplicate-plan";
 import { collaborationPlansGetPlan } from "./get-plan";
 import { collaborationPlansGetPlans } from "./get-plans";
 import { collaborationPlansTrashPlan } from "./trash-plan";
+import { collaborationPlansUpdatePlan } from "./update-plan";
 
 export const collaborationPlansTools = [
   collaborationPlansArchivePlan,
@@ -12,4 +13,5 @@ export const collaborationPlansTools = [
   collaborationPlansGetPlan,
   collaborationPlansGetPlans,
   collaborationPlansTrashPlan,
+  collaborationPlansUpdatePlan,
 ];
