@@ -28,7 +28,7 @@ const createReleaseFetch = (version: string, binary: string) => {
   const tarball = gzipSync(createTar([{ path: 'package/bin/mcpkit', content: binary }]));
   const tarballUrl = `${REGISTRY}/cli-darwin-arm64-${version}.tgz`;
   return createBinaryFetch({
-    [`${REGISTRY}/@mcpkit%2fcli-darwin-arm64`]: {
+    [`${REGISTRY}/@usemcpkit%2fcli-darwin-arm64`]: {
       'dist-tags': { latest: version },
       versions: { [version]: { dist: { tarball: tarballUrl, integrity: toIntegrity(tarball) } } },
     },
@@ -115,7 +115,7 @@ describe('updateBinary', () => {
 
   it('explains how to proceed when the platform package is not published', async () => {
     await expect(updateBinary(createContext(createBinaryFetch({})), 'unused', '0.1.0')).rejects.toThrow(
-      /@mcpkit\/cli-darwin-arm64 is not published on https:\/\/reg\.example; .*--binary/,
+      /@usemcpkit\/cli-darwin-arm64 is not published on https:\/\/reg\.example; .*--binary/,
     );
   });
 });

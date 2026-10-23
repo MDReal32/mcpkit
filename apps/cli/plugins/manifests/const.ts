@@ -1,7 +1,3 @@
-export const VIRTUAL_ID = 'virtual:mcpkit/manifests';
-
-export const RESOLVED_VIRTUAL_ID = `\0${VIRTUAL_ID}`;
-
 export const PLUGIN_NAME = 'mcpkit:manifests';
 
 export const DEFAULT_SERVERS_DIR = 'src/servers';

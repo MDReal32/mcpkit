@@ -89,8 +89,8 @@ command instead. The Homebrew formula's `caveats` and the winget manifest's `Ins
 ```
 apps/cli/src/servers/github/github.ts   author servers in TypeScript (one folder per server, one tool per file)
   └─ vite build                          plugins/manifests/ compiles + validates src/servers/*, then:
-       ├─ build/mcpkit.cli.js             core + manifests embedded as JSON, one file
-       └─ build/manifests/*.json          compiled manifests + index.json (registry folder)
+       ├─ build/mcpkit.cli.js             the CLI, no manifests inside
+       └─ build/manifests/*.json          compiled manifests + index.json (the registry; CI publishes it to GitHub Pages)
             └─ yarn package              plugins/binaries/ runs bun compile → build/bin/mcpkit-<os>-<arch>
 ```
 
@@ -319,15 +319,17 @@ with file mode `0600`, together with the entry that issued it. Tool calls send i
 it before it expires. Concurrent calls share one sign-in. If the MCP client gives up waiting, the sign-in still
 finishes and the next call uses the token.
 
-## Updating servers without reinstalling
+## Server manifests
 
-Manifests are data, not code, so they can be updated at runtime:
+No manifest ships inside the binary. They live in a registry (by default the repository's GitHub Pages, published by
+`.github/workflows/registry.yml` whenever `apps/cli/src/servers` or the manifest compiler changes) and are copied to
+`~/.mcpkit/manifests` (`MCPKIT_HOME` overrides):
 
-```bash
-mcpkit update --registry https://example.com/mcpkit   # or set MCPKIT_REGISTRY
-```
+- `mcpkit install` and the first `serve`/`list` with an empty folder download them.
+- After that `serve` checks once a day in the background (`~/.mcpkit/manifests/.synced`); the result applies at the
+  next start. `MCPKIT_AUTO_UPDATE=0` turns the background check off.
+- `mcpkit update [--registry <url>]` syncs now. The URL comes from the flag, `MCPKIT_REGISTRY`, then the default.
 
-This downloads `<registry>/index.json` and the manifests it lists, validates them, and
-writes them to `~/.mcpkit/manifests` (`MCPKIT_HOME` overrides). On load, a user manifest
-replaces the embedded one when its version is the same or higher. Publishing a registry is
-just hosting the `apps/cli/build/manifests/` folder.
+A file is rewritten whenever its content differs, so an edit published without a version bump still lands. Each
+manifest is validated first. Files removed from the registry are not deleted locally. If two files declare the same
+server name, the higher version wins. Self-hosting a registry is hosting the `apps/cli/build/manifests/` folder.

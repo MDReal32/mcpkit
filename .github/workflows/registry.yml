@@ -1,0 +1,56 @@
+name: Registry
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - apps/cli/src/servers/**
+      - apps/cli/plugins/manifests/**
+      - packages/core/src/**
+      - .github/workflows/registry.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: registry
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Publish manifests to GitHub Pages
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          package-manager-cache: false
+
+      - name: Install
+        run: |
+          corepack enable
+          yarn install --immutable
+
+      - name: Build
+        run: yarn build
+
+      - name: Upload registry
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: apps/cli/build/manifests
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v5

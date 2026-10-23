@@ -1,16 +1,15 @@
 import { relative, resolve } from 'node:path';
 import type { Plugin, ResolvedConfig } from 'vite';
 import { compileServers } from './compile-servers';
-import { DEFAULT_OUT_SUBDIR, DEFAULT_SERVERS_DIR, PLUGIN_NAME, RESOLVED_VIRTUAL_ID, VIRTUAL_ID } from './const';
-import { createVirtualModule } from './create-virtual-module';
+import { DEFAULT_OUT_SUBDIR, DEFAULT_SERVERS_DIR, PLUGIN_NAME } from './const';
 import { formatBuildSummary } from './format-build-summary';
 import type { CompileResult } from './types/compile-result';
 import type { ManifestsPluginOptions } from './types/manifests-plugin-options';
 import { writeManifests } from './write-manifests';
 
 /**
- * Compiles src/servers definitions into JSON manifests at build time, exposes them as
- * `virtual:mcpkit/manifests` and writes them to `<outDir>/manifests`. Invalid definitions fail the build.
+ * Compiles src/servers definitions into JSON manifests at build time and writes them to `<outDir>/manifests`,
+ * the registry folder CI publishes. The CLI binary embeds none of them. Invalid definitions fail the build.
  */
 export const mcpkitManifests = ({
   serversDir = DEFAULT_SERVERS_DIR,
@@ -45,15 +44,6 @@ export const mcpkitManifests = ({
       if (errors.length > 0) {
         this.error(`invalid server definition(s):\n  ${errors.join('\n  ')}`);
       }
-    },
-    resolveId(id) {
-      return id === VIRTUAL_ID ? RESOLVED_VIRTUAL_ID : undefined;
-    },
-    async load(id) {
-      if (id !== RESOLVED_VIRTUAL_ID) {
-        return undefined;
-      }
-      return createVirtualModule((await compile()).compiled);
     },
     watchChange() {
       compiling = undefined;

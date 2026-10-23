@@ -1,3 +1,12 @@
 export const MANIFESTS_DIR_NAME = 'manifests';
 
 export const FETCH_TIMEOUT_MS = 30_000;
+
+/** Where CI publishes the compiled manifests (GitHub Pages of the repository). */
+export const DEFAULT_REGISTRY_URL = 'https://mdreal32.github.io/mcpkit';
+
+export const REGISTRY_ENV = 'MCPKIT_REGISTRY';
+
+export const SYNC_MARKER_FILE_NAME = '.synced';
+
+export const MANIFEST_SYNC_INTERVAL_MS = 24 * 60 * 60_000;

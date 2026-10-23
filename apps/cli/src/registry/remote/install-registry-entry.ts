@@ -1,10 +1,24 @@
-import { writeFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { isValidManifest, validateManifest } from '@usemcpkit/core';
+import { isMissingFileError, isValidManifest, validateManifest } from '@usemcpkit/core';
 import type { UpdateResult } from '../types/update-result';
 import { fetchJson } from './fetch-json';
 
-/** Manifest names match SERVER_NAME_PATTERN after validation, so they are safe file names. */
+const readExisting = async (file: string) => {
+  try {
+    return await readFile(file, 'utf8');
+  } catch (error) {
+    if (isMissingFileError(error)) {
+      return undefined;
+    }
+    throw error;
+  }
+};
+
+/**
+ * Manifest names match SERVER_NAME_PATTERN after validation, so they are safe file names.
+ * Content is compared, not the version, so an edit published without a version bump still lands.
+ */
 export const installRegistryEntry = async (
   baseUrl: string,
   entry: string,
@@ -16,12 +30,17 @@ export const installRegistryEntry = async (
     const rejected: UpdateResult = { status: 'rejected', entry, errors: validateManifest(data) };
     return rejected;
   }
-  await writeFile(join(targetDir, `${data.name}.json`), `${JSON.stringify(data, null, 2)}\n`);
-  const updated: UpdateResult = {
-    status: 'updated',
+  const file = join(targetDir, `${data.name}.json`);
+  const content = `${JSON.stringify(data, null, 2)}\n`;
+  const changed = (await readExisting(file)) !== content;
+  if (changed) {
+    await writeFile(file, content);
+  }
+  const result: UpdateResult = {
+    status: changed ? 'updated' : 'unchanged',
     entry,
     name: data.name,
     version: data.version,
   };
-  return updated;
+  return result;
 };

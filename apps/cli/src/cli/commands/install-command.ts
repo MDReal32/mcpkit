@@ -6,6 +6,7 @@ import { BINARY_FLAG, EXIT_FAILURE, EXIT_SUCCESS } from '../const';
 import { printDetectedClientsMissing } from '../output/print-detected-clients-missing';
 import { printError } from '../output/print-error';
 import { printLine } from '../output/print-line';
+import { syncQuietly } from '../serve/sync-quietly';
 import { toAction } from '../to-action';
 import type { InstallOptions } from '../types/install-options';
 import { prepareLaunchBinary } from '../update/prepare-launch-binary';
@@ -31,6 +32,7 @@ export const installCommand = async (options: InstallOptions) => {
   const failed = await applyToClients(selected, (client) =>
     setClientEntry(client.definition, client.configPath, { command: binary.path, args: SERVE_ARGS }),
   );
+  await syncQuietly();
   printLine(`Restart the clients to load mcpkit. ${binary.updateHint}`);
   return failed === 0 ? EXIT_SUCCESS : EXIT_FAILURE;
 };
