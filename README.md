@@ -326,7 +326,8 @@ No manifest ships inside the binary. They live in a registry (by default the rep
 
 ```
 index.json                  every server: id, version, description, tool names, link, sha256
-<category>/<server>.json    one manifest, for example git/github.json
+<category>/<server>.json    one manifest, for example git/gitlab.json
+<category>/<server>/<group>.json  with grouped tool names (git/github.json is a shell listing git/github/<group>.json)
 ```
 
 Only `index.json` is synced by default (into `~/.mcpkit/manifests`, `MCPKIT_HOME` overrides). A manifest is downloaded

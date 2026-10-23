@@ -10,7 +10,7 @@ export const describeTool = async (catalog: Catalog, id: string) => {
     return createTextResult(found.error, true);
   }
   try {
-    const manifest = await catalog.loadManifest(found.serverId);
+    const manifest = await catalog.loadManifest(found.serverId, found.tool);
     const tool = manifest.tools.find((candidate) => candidate.name === found.tool);
     if (!tool) {
       return createTextResult(`"${id}" is not in the manifest of ${found.serverId}`, true);

@@ -22,12 +22,12 @@ export const loadCatalog = async (selection: readonly string[]) => {
   );
   const catalog: Catalog = {
     servers,
-    loadManifest: async (id) => {
+    loadManifest: async (id, tool) => {
       const server = servers.find((candidate) => candidate.id === id);
       if (!server) {
         throw new Error(`unknown server "${id}"`);
       }
-      return loadManifest(server, context);
+      return loadManifest(server, context, tool);
     },
   };
   return catalog;

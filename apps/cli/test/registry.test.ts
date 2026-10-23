@@ -14,6 +14,7 @@ import {
 import { MANIFEST_SYNC_INTERVAL_MS } from '../src/registry/const';
 import { isSyncDue } from '../src/registry/sync/is-sync-due';
 import { createRegistryFetch } from './fixtures/create-registry-fetch';
+import { createSplitRegistryFetch } from './fixtures/create-split-registry-fetch';
 
 const REGISTRY = 'https://reg.example';
 
@@ -48,7 +49,7 @@ describe('syncRegistry', () => {
   it('re-downloads a cached manifest whose content changed under the same version', async () => {
     const first = setup('one');
     await syncRegistry(first.context);
-    await loadManifest(await readIndexServer(), first.context);
+    await loadManifest(await readIndexServer(), first.context, 'ping:run');
 
     const second = setup('two');
     const report = await syncRegistry(second.context);
@@ -61,7 +62,7 @@ describe('syncRegistry', () => {
   it('leaves an up-to-date cached manifest alone', async () => {
     const { registry, context } = setup();
     await syncRegistry(context);
-    await loadManifest(await readIndexServer(), context);
+    await loadManifest(await readIndexServer(), context, 'ping:run');
     registry.requests.length = 0;
 
     const report = await syncRegistry(context);
@@ -87,8 +88,8 @@ describe('loadManifest', () => {
     await syncRegistry(context);
     const server = await readIndexServer();
 
-    const first = await loadManifest(server, context);
-    const second = await loadManifest(server, context);
+    const first = await loadManifest(server, context, 'ping:run');
+    const second = await loadManifest(server, context, 'ping:run');
 
     expect(first.name).toBe('demo');
     expect(second).toEqual(first);
@@ -104,7 +105,7 @@ describe('loadManifest', () => {
       fetchImpl: async () => new Response('{"name":"demo"}'),
     });
 
-    await expect(loadManifest(server, tampered)).rejects.toThrow(/checksum/);
+    await expect(loadManifest(server, tampered, 'ping:run')).rejects.toThrow(/checksum/);
     await expect(stat(join(readDir(), 'test', 'demo.json'))).rejects.toThrow();
   });
 
@@ -112,10 +113,10 @@ describe('loadManifest', () => {
     const { context } = setup();
     await syncRegistry(context);
     const server = await readIndexServer();
-    await loadManifest(server, context);
+    await loadManifest(server, context, 'ping:run');
     await writeFile(join(readDir(), 'test', 'demo.json'), 'edited');
 
-    const manifest = await loadManifest(server, context);
+    const manifest = await loadManifest(server, context, 'ping:run');
 
     expect(manifest.version).toBe('1.0.0');
   });
@@ -139,5 +140,39 @@ describe('sync status', () => {
     );
     expect(resolveRegistryUrl(undefined, { MCPKIT_REGISTRY: 'https://env.example' })).toBe('https://env.example');
     expect(resolveRegistryUrl(undefined, {})).toBe(DEFAULT_REGISTRY_URL);
+  });
+});
+
+describe('loadManifest of a server split into parts', () => {
+  const ping = createPingManifest('1.0.0');
+  const [tool] = ping.tools;
+  const split = {
+    ...ping,
+    tools: ['a', 'b'].map((group) => ({ ...tool, name: `${group}:x:run` })),
+  } as typeof ping;
+
+  it('downloads only the part of the tool group and serves it from the cache afterwards', async () => {
+    const registry = createSplitRegistryFetch(REGISTRY, split);
+    const context = createRegistryContext({ dir: readDir(), registryUrl: REGISTRY, fetchImpl: registry.fetchImpl });
+    await syncRegistry(context);
+    const server = await readIndexServer();
+
+    const manifest = await loadManifest(server, context, 'a:x:run');
+    await loadManifest(server, context, 'a:x:run');
+
+    expect(manifest.tools.map((candidate) => candidate.name)).toEqual(['a:x:run']);
+    expect(registry.requests).toEqual([
+      `${REGISTRY}/index.json`,
+      `${REGISTRY}/test/demo.json`,
+      `${REGISTRY}/test/demo/a.json`,
+    ]);
+  });
+
+  it('rejects a tool group the shell does not list', async () => {
+    const registry = createSplitRegistryFetch(REGISTRY, split);
+    const context = createRegistryContext({ dir: readDir(), registryUrl: REGISTRY, fetchImpl: registry.fetchImpl });
+    await syncRegistry(context);
+
+    await expect(loadManifest(await readIndexServer(), context, 'c:x:run')).rejects.toThrow(/no group "c"/);
   });
 });

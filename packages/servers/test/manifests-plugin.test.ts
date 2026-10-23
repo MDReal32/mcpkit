@@ -79,6 +79,13 @@ describe('writeManifests', () => {
     expect(linked.url).toBe('https://reg.example/mcpkit/git/github.json');
     expect(plain.url).toBe('git/github.json');
     expect(linked.tools).toContain('issues:issues:create');
+    const shell = JSON.parse(file);
+    expect(shell.tools).toBeUndefined();
+    const issues = shell.parts.find((part: { name: string }) => part.name === 'issues');
+    expect(issues.path).toBe('git/github/issues.json');
+    const part = await readFile(join(readDir(), 'linked', issues.path), 'utf8');
+    expect(issues.sha256).toBe(createHash('sha256').update(part).digest('hex'));
+    expect(JSON.parse(part).tools.map((tool: { name: string }) => tool.name)).toContain('issues:issues:create');
     expect(linked.sha256).toBe(createHash('sha256').update(file).digest('hex'));
   });
 });
