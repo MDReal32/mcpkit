@@ -1,4 +1,4 @@
-import { defineGithubServer } from '../../providers/github';
+import { defineGithubServer } from '../../../providers/github';
 
 import { actionsAddCustomLabelsToSelfHostedRunnerForOrg } from './tools/actions/add-custom-labels-to-self-hosted-runner-for-org';
 import { actionsAddCustomLabelsToSelfHostedRunnerForRepo } from './tools/actions/add-custom-labels-to-self-hosted-runner-for-repo';

@@ -1,4 +1,4 @@
-import { defineGithubServer } from '../../providers/github';
+import { defineGithubServer } from '../../../providers/github';
 
 import { activityCheckRepoIsStarredByAuthenticatedUser } from './tools/activity/check-repo-is-starred-by-authenticated-user';
 import { activityDeleteRepoSubscription } from './tools/activity/delete-repo-subscription';

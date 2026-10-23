@@ -1,4 +1,4 @@
-import { defineGithubServer } from '../../providers/github';
+import { defineGithubServer } from '../../../providers/github';
 
 import { issuesAddAssignees } from './tools/issues/add-assignees';
 import { issuesAddBlockedByDependency } from './tools/issues/add-blocked-by-dependency';

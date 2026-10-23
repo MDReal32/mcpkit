@@ -1,4 +1,4 @@
-import { defineGithubServer } from '../../providers/github';
+import { defineGithubServer } from '../../../providers/github';
 
 import { appsAddRepoToInstallationForAuthenticatedUser } from './tools/apps/add-repo-to-installation-for-authenticated-user';
 import { appsCheckToken } from './tools/apps/check-token';

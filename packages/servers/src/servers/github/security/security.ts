@@ -1,4 +1,4 @@
-import { defineGithubServer } from '../../providers/github';
+import { defineGithubServer } from '../../../providers/github';
 
 import { codeScanningCommitAutofix } from './tools/code-scanning/commit-autofix';
 import { codeScanningCreateAutofix } from './tools/code-scanning/create-autofix';

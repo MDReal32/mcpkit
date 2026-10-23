@@ -1,5 +1,5 @@
 import { existsSync } from 'node:fs';
-import { relative } from 'node:path';
+import { basename, relative } from 'node:path';
 import { describeError } from '@usemcpkit/core';
 import { checkManifestJson } from './check-manifest-json';
 import { loadServerDefinition } from './load-server-definition';
@@ -9,7 +9,7 @@ import type { ServerOutcome } from './types/server-outcome';
 
 export const compileServer = async ({ dir, file }: ServerEntry) => {
   if (!existsSync(file)) {
-    const missing: ServerOutcome = { dir, errors: [`missing entry file ${dir}/${dir}.ts`], dependencies: [] };
+    const missing: ServerOutcome = { dir, errors: [`missing entry file ${dir}/${basename(dir)}.ts`], dependencies: [] };
     return missing;
   }
   try {

@@ -1,4 +1,4 @@
-import { defineGithubServer } from '../../providers/github';
+import { defineGithubServer } from '../../../providers/github';
 
 import { codesOfConductGetAllCodesOfConduct } from './tools/codes-of-conduct/get-all-codes-of-conduct';
 import { codesOfConductGetConductCode } from './tools/codes-of-conduct/get-conduct-code';

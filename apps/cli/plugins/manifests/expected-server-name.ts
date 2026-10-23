@@ -1,1 +1,1 @@
-export const expectedServerName = (dir: string) => dir.replaceAll('-', '_');
+export const expectedServerName = (dir: string) => dir.replace(/[-/]/g, '_');

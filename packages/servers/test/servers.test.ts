@@ -3,8 +3,8 @@ import { executeTool, validateManifest } from '@usemcpkit/core';
 import { useTempDir } from '@usemcpkit/testing';
 import { describe, expect, it } from 'vitest';
 import { confluence } from '../src/servers/confluence/confluence';
-import { githubIssues } from '../src/servers/github-issues/github-issues';
-import { githubRepos } from '../src/servers/github-repos/github-repos';
+import { githubIssues } from '../src/servers/github/issues/issues';
+import { githubRepos } from '../src/servers/github/repos/repos';
 import { gitlab } from '../src/servers/gitlab/gitlab';
 import { jira } from '../src/servers/jira/jira';
 

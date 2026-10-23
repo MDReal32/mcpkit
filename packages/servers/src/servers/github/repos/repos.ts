@@ -1,4 +1,4 @@
-import { defineGithubServer } from '../../providers/github';
+import { defineGithubServer } from '../../../providers/github';
 
 import { checksCreate } from './tools/checks/create';
 import { checksCreateSuite } from './tools/checks/create-suite';

@@ -1,5 +1,5 @@
 import { mkdir, rm, writeFile } from 'node:fs/promises';
-import { dirname, join } from 'node:path';
+import { basename, dirname, join } from 'node:path';
 import { renderServerFile } from './render-server-file.ts';
 import { renderToolFile } from './render-tool-file.ts';
 import type { GeneratedTool } from './types/generated-tool.ts';
@@ -22,5 +22,5 @@ export const writeGeneratedFiles = async (
       writeText(join(serverDir, 'tools', tool.resourceFolder, `${tool.actionFile}.ts`), renderToolFile(tool)),
     ),
   );
-  await writeText(join(serverDir, `${folder}.ts`), renderServerFile(folder, description, tools));
+  await writeText(join(serverDir, `${basename(folder)}.ts`), renderServerFile(folder, description, tools));
 };

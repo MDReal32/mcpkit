@@ -13,7 +13,7 @@ export const JSON_CONTENT_TYPE = 'application/json';
 
 export const SERVER_GROUPS = [
   {
-    folder: 'github-repos',
+    folder: 'github/repos',
     description: 'GitHub REST API: repositories, branches, commits, releases, deployments, checks, pages, git data.',
     categories: [
       'repos',
@@ -31,17 +31,17 @@ export const SERVER_GROUPS = [
     ],
   },
   {
-    folder: 'github-issues',
+    folder: 'github/issues',
     description: 'GitHub REST API: issues, pull requests, reactions, projects.',
     categories: ['issues', 'pulls', 'reactions', 'projects'],
   },
   {
-    folder: 'github-actions',
+    folder: 'github/actions',
     description: 'GitHub REST API: Actions workflows, runs, runners, secrets, variables, caches, artifacts.',
     categories: ['actions'],
   },
   {
-    folder: 'github-security',
+    folder: 'github/security',
     description: 'GitHub REST API: code scanning, secret scanning, Dependabot, dependency graph, security advisories.',
     categories: [
       'security-advisories',
@@ -55,27 +55,27 @@ export const SERVER_GROUPS = [
     ],
   },
   {
-    folder: 'github-orgs',
+    folder: 'github/orgs',
     description: 'GitHub REST API: organizations, teams, billing, interaction limits, migrations, classroom.',
     categories: ['orgs', 'teams', 'billing', 'interactions', 'migrations', 'campaigns', 'classroom'],
   },
   {
-    folder: 'github-users',
+    folder: 'github/users',
     description: 'GitHub REST API: users, notifications and stars, gists, search.',
     categories: ['users', 'activity', 'gists', 'search'],
   },
   {
-    folder: 'github-apps',
+    folder: 'github/apps',
     description: 'GitHub REST API: GitHub Apps, packages, codespaces.',
     categories: ['apps', 'packages', 'codespaces'],
   },
   {
-    folder: 'github-copilot',
+    folder: 'github/copilot',
     description: 'GitHub REST API: Copilot, agents and automations.',
     categories: ['copilot', 'copilot-spaces', 'agents', 'agent-automations', 'agent-tasks'],
   },
   {
-    folder: 'github-meta',
+    folder: 'github/meta',
     description:
       'GitHub REST API: meta, rate limit, emojis, gitignore templates, licenses, markdown, codes of conduct.',
     categories: ['meta', 'rate-limit', 'emojis', 'gitignore', 'licenses', 'markdown', 'codes-of-conduct'],

@@ -1,4 +1,4 @@
-import { defineGithubServer } from '../../providers/github';
+import { defineGithubServer } from '../../../providers/github';
 
 import { apiInsightsGetRouteStatsByActor } from './tools/api-insights/get-route-stats-by-actor';
 import { apiInsightsGetSubjectStats } from './tools/api-insights/get-subject-stats';

@@ -1,4 +1,4 @@
-import { defineGithubServer } from '../../providers/github';
+import { defineGithubServer } from '../../../providers/github';
 
 import { agentAutomationsCreateRepoAutomation } from './tools/agent-automations/create-repo-automation';
 import { agentAutomationsDeleteRepoAutomation } from './tools/agent-automations/delete-repo-automation';
