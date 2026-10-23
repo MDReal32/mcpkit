@@ -1,3 +1,4 @@
+import { writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildToolDefinition } from './build-tool-definition.ts';
@@ -5,6 +6,7 @@ import { collectOperations } from './collect-operations.ts';
 import { SERVER_GROUPS } from './const.ts';
 import { findUnsupportedReason } from './find-unsupported-reason.ts';
 import { readSpec } from './read-spec.ts';
+import { renderGroupIndexFile } from './render-group-index-file.ts';
 import { toGeneratedTool, toToolNames } from './to-tool-names.ts';
 import type { GeneratedTool } from './types/generated-tool.ts';
 import { writeGeneratedFiles } from './write-generated-files.ts';
@@ -38,4 +40,11 @@ for (const group of SERVER_GROUPS) {
   await writeGeneratedFiles(SERVERS_DIR, group.folder, group.description, tools);
   process.stdout.write(`${group.folder}: ${tools.length} tools\n`);
 }
+await writeFile(
+  join(SERVERS_DIR, 'github', 'index.ts'),
+  renderGroupIndexFile(
+    'github',
+    SERVER_GROUPS.map((group) => group.folder),
+  ),
+);
 process.stdout.write(`skipped ${skipped.length}:\n${skipped.map((line) => `  ${line}`).join('\n')}\n`);

@@ -1,15 +1,5 @@
 import { defineServer, defineUI } from '@usemcpkit/core';
-import { addIssueComment } from './tools/issue/add-comment';
-import { createIssue } from './tools/issue/create';
-import { getIssue } from './tools/issue/get';
-import { listIssues } from './tools/issue/list';
-import { addMergeRequestComment } from './tools/merge-request/add-comment';
-import { getMergeRequest } from './tools/merge-request/get';
-import { listMergeRequests } from './tools/merge-request/list';
-import { listPipelines } from './tools/pipeline/list';
-import { getProject } from './tools/project/get';
-import { listProjects } from './tools/project/list';
-import { getCurrentUser } from './tools/user/me';
+import { gitlabTools } from './tools';
 
 export const gitlab = defineServer({
   name: 'gitlab',
@@ -47,17 +37,5 @@ export const gitlab = defineServer({
       }),
     },
   ],
-  tools: [
-    getCurrentUser,
-    listProjects,
-    getProject,
-    listIssues,
-    getIssue,
-    createIssue,
-    addIssueComment,
-    listMergeRequests,
-    getMergeRequest,
-    addMergeRequestComment,
-    listPipelines,
-  ],
+  tools: gitlabTools,
 });

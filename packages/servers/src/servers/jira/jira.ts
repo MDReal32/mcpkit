@@ -1,13 +1,5 @@
 import { defineServer, defineUI } from '@usemcpkit/core';
-import { addComment } from './tools/comment/add';
-import { deleteComment } from './tools/comment/delete';
-import { createIssue } from './tools/issue/create';
-import { getIssue } from './tools/issue/get';
-import { searchIssues } from './tools/issue/search';
-import { transitionIssue } from './tools/issue/transition';
-import { listProjects } from './tools/project/list';
-import { listTransitions } from './tools/transition/list';
-import { getMyself } from './tools/user/me';
+import { jiraTools } from './tools';
 
 export const jira = defineServer({
   name: 'jira',
@@ -64,15 +56,5 @@ export const jira = defineServer({
       }),
     },
   ],
-  tools: [
-    getMyself,
-    searchIssues,
-    getIssue,
-    createIssue,
-    addComment,
-    deleteComment,
-    listTransitions,
-    transitionIssue,
-    listProjects,
-  ],
+  tools: jiraTools,
 });
