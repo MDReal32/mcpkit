@@ -12,10 +12,10 @@
   },
   "scripts": {
     "build": "vite build --configLoader runner",
-    "generate:github": "node generator/github/main.ts",
-    "generate:jira": "node generator/jira/main.ts",
-    "generate:gitlab": "node generator/gitlab/main.ts",
-    "generate:confluence": "node generator/confluence/main.ts",
+    "generate:github": "node generator/providers/github/main.ts",
+    "generate:jira": "node generator/providers/jira/main.ts",
+    "generate:gitlab": "node generator/providers/gitlab/main.ts",
+    "generate:confluence": "node generator/providers/confluence/main.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --configLoader runner",
     "lint": "biome check ."
