@@ -1,5 +1,5 @@
 import type { JsonSchema } from "@usemcpkit/core";
-import { JSON_CONTENT_TYPE, SAVE_TO_ARGUMENT, SAVE_TO_DESCRIPTION } from "../const";
+import { BINARY_CONTENT_TYPE, JSON_CONTENT_TYPE, SAVE_TO_ARGUMENT, SAVE_TO_DESCRIPTION } from "../const";
 import { buildBodyArguments } from "../schema/build-body-arguments";
 import { buildParameterSchema } from "../schema/build-parameter-schema";
 import { isDownload } from "../support/is-download";
@@ -14,7 +14,14 @@ import { replacePlaceholder } from "./replace-placeholder";
 import { simplifyMapping } from "./simplify-mapping";
 
 export const buildToolDefinition = (operation: Operation, name: string, options: ToolDefinitionOptions) => {
-  const { schema: schemaOptions, naming, descriptionPrefix, downloadPaths = [], filePartName } = options;
+  const {
+    schema: schemaOptions,
+    naming,
+    descriptionPrefix,
+    downloadPaths = [],
+    octetStreamPaths = [],
+    filePartName,
+  } = options;
   const parameters: OpenApiParameter[] = operation.spec.parameters ?? [];
   const pathParameters = parameters.filter((parameter) => parameter.in === "path");
   const queryParameters = parameters.filter(
@@ -44,9 +51,11 @@ export const buildToolDefinition = (operation: Operation, name: string, options:
     operation.spec.requestBody && operation.method !== "get"
       ? buildBodyArguments(operation.spec.requestBody, taken, schemaOptions, naming, filePartName)
       : undefined;
-  const saveToArg = isDownload(operation, downloadPaths)
-    ? naming.bodyProperty(SAVE_TO_ARGUMENT, taken, new Set())
-    : undefined;
+  const isOctetStream = operation.method === "get" && octetStreamPaths.some((pattern) => pattern.test(operation.path));
+  const saveToArg =
+    isDownload(operation, downloadPaths) || isOctetStream
+      ? naming.bodyProperty(SAVE_TO_ARGUMENT, taken, new Set())
+      : undefined;
   if (saveToArg !== undefined) {
     properties[saveToArg] = { type: "string", description: SAVE_TO_DESCRIPTION };
     required.push(saveToArg);
@@ -55,7 +64,10 @@ export const buildToolDefinition = (operation: Operation, name: string, options:
   required.push(...(body?.required ?? []));
 
   const commaQuery = collectCommaQuery(queryParameters);
-  const fixedHeaders = collectFixedHeaders(parameters);
+  const fixedHeaders = {
+    ...collectFixedHeaders(parameters),
+    ...(isOctetStream && { Accept: BINARY_CONTENT_TYPE }),
+  };
   const request: ToolDefinition["request"] = {
     method: operation.method.toUpperCase() as ToolDefinition["request"]["method"],
     path,

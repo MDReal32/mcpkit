@@ -9,4 +9,6 @@ export interface ToolDefinitionOptions {
   /** GET paths that stream a file although the spec declares no readable response body (redirects, empty content). */
   filePartName?: string;
   downloadPaths?: readonly RegExp[];
+  /** Paths whose JSON metadata operation also serves the file when called with `Accept: application/octet-stream`. */
+  octetStreamPaths?: readonly RegExp[];
 }

@@ -6,7 +6,7 @@ import { buildToolDefinition } from "../../utils/tool/build-tool-definition";
 import { verbatimArgumentNaming } from "../../utils/tool/verbatim-argument-naming";
 import type { CategorizedOperation } from "../../utils/types/categorized-operation";
 import type { SpecPlan } from "../../utils/types/spec-plan";
-import { DOWNLOAD_PATHS, SPEC_URL } from "./const";
+import { DOWNLOAD_PATHS, OCTET_STREAM_PATHS, SPEC_URL } from "./const";
 import { nameOperations } from "./name-operations";
 import { toOperation } from "./to-operation";
 
@@ -22,6 +22,7 @@ export const createSpecPlan = () => {
         schema: DEFAULT_SCHEMA_OPTIONS,
         naming: verbatimArgumentNaming,
         downloadPaths: DOWNLOAD_PATHS,
+        octetStreamPaths: OCTET_STREAM_PATHS,
       }),
   };
   return plan;
