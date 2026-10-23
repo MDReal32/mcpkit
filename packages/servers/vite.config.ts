@@ -9,6 +9,11 @@ export default defineConfig({
     target: 'node20',
     outDir: 'build',
     emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        entryFileNames: 'mcpkit.servers.js',
+      },
+    },
   },
   test: {
     include: ['test/**/*.test.ts'],
