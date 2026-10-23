@@ -2,6 +2,7 @@ export interface OpenApiSchema {
   $ref?: string;
   type?: string | string[];
   description?: string;
+  format?: string;
   default?: unknown;
   enum?: unknown[];
   items?: OpenApiSchema;

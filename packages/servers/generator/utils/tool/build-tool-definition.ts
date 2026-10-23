@@ -55,6 +55,7 @@ export const buildToolDefinition = (operation: Operation, name: string, options:
     ...(commaQuery.length > 0 && { commaQuery }),
     ...(body?.wholeBody === undefined ? body && { body: simplifyMapping(body.mapping) } : { bodyArg: body.wholeBody }),
     ...(body && body.contentType !== JSON_CONTENT_TYPE && { contentType: body.contentType }),
+    ...(body && body.fileArgs.length > 0 && { fileArgs: body.fileArgs }),
     ...(Object.keys(fixedHeaders).length > 0 && { fixedHeaders }),
   };
   const definition: ToolDefinition = {

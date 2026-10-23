@@ -12,7 +12,7 @@ export const JIRA_BASE: Omit<Manifest, "name" | "description" | "tools"> = {
   editions: {
     cloud: { label: "Cloud", hosts: [".atlassian.net"] },
   },
-  headers: { Accept: "application/json" },
+  headers: { Accept: "application/json", "X-Atlassian-Token": "no-check" },
   auth: [
     {
       type: "basic",
