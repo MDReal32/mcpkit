@@ -1,6 +1,6 @@
-import type { OperationNames } from '../types/operation-names.ts';
-import { toCamelCase } from './to-camel-case.ts';
-import { toSnakeCase } from './to-snake-case.ts';
+import type { OperationNames } from '../types/operation-names';
+import { toCamelCase } from './to-camel-case';
+import { toSnakeCase } from './to-snake-case';
 
 export const toToolNames = (group: string, resourceFolder: string, actionFile: string): OperationNames => ({
   group,

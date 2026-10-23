@@ -1,5 +1,5 @@
-import { resourceArrayName } from '../naming/resource-array-name.ts';
-import type { GeneratedTool } from '../types/generated-tool.ts';
+import { resourceArrayName } from '../naming/resource-array-name';
+import type { GeneratedTool } from '../types/generated-tool';
 
 export const renderResourceIndexFile = (group: string, resourceFolder: string, tools: GeneratedTool[]) => {
   const imports = tools.map((tool) => `import { ${tool.identifier} } from './${tool.actionFile}';`);

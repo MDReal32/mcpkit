@@ -1,5 +1,5 @@
-import { groupArrayName } from '../naming/group-array-name.ts';
-import { resourceArrayName } from '../naming/resource-array-name.ts';
+import { groupArrayName } from '../naming/group-array-name';
+import { resourceArrayName } from '../naming/resource-array-name';
 
 export const renderGroupIndexFile = (group: string, resourceFolders: string[], groupArraySuffix: string) => {
   const imports = resourceFolders.map(

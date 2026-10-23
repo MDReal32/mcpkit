@@ -1,8 +1,8 @@
-import { findBodyReason } from '../../utils/support/find-body-reason.ts';
-import { findRequiredHeader } from '../../utils/support/find-required-header.ts';
-import type { Operation } from '../../utils/types/operation.ts';
-import { BODY_REASON_OPTIONS } from './const.ts';
-import type { SpecSource } from './types/spec-source.ts';
+import { findBodyReason } from '../../utils/support/find-body-reason';
+import { findRequiredHeader } from '../../utils/support/find-required-header';
+import type { Operation } from '../../utils/types/operation';
+import { BODY_REASON_OPTIONS } from './const';
+import type { SpecSource } from './types/spec-source';
 
 export const findUnsupportedReason = (operation: Operation, source: SpecSource) => {
   if (!operation.path.startsWith(`${source.apiRoot}/`)) {

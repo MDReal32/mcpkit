@@ -1,6 +1,6 @@
-import type { OpenApiDocument } from '../types/open-api-operation.ts';
-import { loadSpecText } from './load-spec-text.ts';
-import { parseJsonSpec } from './parse-json-spec.ts';
+import type { OpenApiDocument } from '../types/open-api-operation';
+import { loadSpecText } from './load-spec-text';
+import { parseJsonSpec } from './parse-json-spec';
 
 export type SpecParser = (text: string, localPath: string | undefined) => OpenApiDocument;
 

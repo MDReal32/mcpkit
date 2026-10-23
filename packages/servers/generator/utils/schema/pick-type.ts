@@ -1,4 +1,4 @@
-import type { OpenApiSchema } from '../types/open-api-schema.ts';
+import type { OpenApiSchema } from '../types/open-api-schema';
 
 const JSON_TYPES = ['string', 'number', 'integer', 'boolean', 'array', 'object'];
 

@@ -1,14 +1,14 @@
 import { rm } from 'node:fs/promises';
 import { join } from 'node:path';
-import type { GeneratedTool } from '../types/generated-tool.ts';
-import type { ServerOutput } from '../types/server-output.ts';
-import { groupToolsBy } from './group-tools-by.ts';
-import { renderGroupIndexFile } from './render-group-index-file.ts';
-import { renderResourceIndexFile } from './render-resource-index-file.ts';
-import { renderServerFile } from './render-server-file.ts';
-import { renderToolFile } from './render-tool-file.ts';
-import { renderToolsIndexFile } from './render-tools-index-file.ts';
-import { writeText } from './write-text.ts';
+import type { GeneratedTool } from '../types/generated-tool';
+import type { ServerOutput } from '../types/server-output';
+import { groupToolsBy } from './group-tools-by';
+import { renderGroupIndexFile } from './render-group-index-file';
+import { renderResourceIndexFile } from './render-resource-index-file';
+import { renderServerFile } from './render-server-file';
+import { renderToolFile } from './render-tool-file';
+import { renderToolsIndexFile } from './render-tools-index-file';
+import { writeText } from './write-text';
 
 export const writeGeneratedFiles = async (serversDir: string, output: ServerOutput, tools: GeneratedTool[]) => {
   const { serverName, serverDescription, groups, groupArraySuffix } = output;

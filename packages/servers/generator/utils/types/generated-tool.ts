@@ -1,4 +1,4 @@
-import type { ToolDefinition } from './tool-definition.ts';
+import type { ToolDefinition } from './tool-definition';
 
 export interface GeneratedTool {
   group: string;

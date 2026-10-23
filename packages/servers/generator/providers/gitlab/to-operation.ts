@@ -1,7 +1,7 @@
-import type { OperationCandidate } from '../../utils/types/operation-candidate.ts';
-import { API_PATH_PREFIX } from './const.ts';
-import { returnsArray } from './returns-array.ts';
-import type { GitlabOperation } from './types/gitlab-operation.ts';
+import type { OperationCandidate } from '../../utils/types/operation-candidate';
+import { API_PATH_PREFIX } from './const';
+import { returnsArray } from './returns-array';
+import type { GitlabOperation } from './types/gitlab-operation';
 
 export const toOperation = ({ method, path, spec }: OperationCandidate) => {
   const operation: GitlabOperation = {

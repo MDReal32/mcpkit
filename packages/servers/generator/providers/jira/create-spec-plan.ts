@@ -1,16 +1,16 @@
-import { collectOperations } from '../../utils/spec/collect-operations.ts';
-import { readSpec } from '../../utils/spec/read-spec.ts';
-import { buildToolDefinition } from '../../utils/tool/build-tool-definition.ts';
-import { verbatimArgumentNaming } from '../../utils/tool/verbatim-argument-naming.ts';
-import type { SpecPlan } from '../../utils/types/spec-plan.ts';
-import { SCHEMA_OPTIONS } from './const.ts';
-import { dereferenceOperation } from './dereference-operation.ts';
-import { findUnsupportedReason } from './find-unsupported-reason.ts';
-import { nameOperations } from './name-operations.ts';
-import { toEntryKey } from './to-entry-key.ts';
-import { toOperation } from './to-operation.ts';
-import type { JiraOperation } from './types/jira-operation.ts';
-import type { SpecSource } from './types/spec-source.ts';
+import { collectOperations } from '../../utils/spec/collect-operations';
+import { readSpec } from '../../utils/spec/read-spec';
+import { buildToolDefinition } from '../../utils/tool/build-tool-definition';
+import { verbatimArgumentNaming } from '../../utils/tool/verbatim-argument-naming';
+import type { SpecPlan } from '../../utils/types/spec-plan';
+import { SCHEMA_OPTIONS } from './const';
+import { dereferenceOperation } from './dereference-operation';
+import { findUnsupportedReason } from './find-unsupported-reason';
+import { nameOperations } from './name-operations';
+import { toEntryKey } from './to-entry-key';
+import { toOperation } from './to-operation';
+import type { JiraOperation } from './types/jira-operation';
+import type { SpecSource } from './types/spec-source';
 
 export const createSpecPlan = (source: SpecSource) => {
   const plan: SpecPlan<JiraOperation> = {

@@ -1,8 +1,8 @@
-import { JSON_CONTENT_TYPE } from '../const.ts';
-import { convertSchema } from '../schema/convert-schema.ts';
-import type { BodyReasonOptions } from '../types/body-reason-options.ts';
-import type { Operation } from '../types/operation.ts';
-import { NO_NAMED_PROPERTIES_REASON } from './const.ts';
+import { JSON_CONTENT_TYPE } from '../const';
+import { convertSchema } from '../schema/convert-schema';
+import type { BodyReasonOptions } from '../types/body-reason-options';
+import type { Operation } from '../types/operation';
+import { NO_NAMED_PROPERTIES_REASON } from './const';
 
 export const findBodyReason = (
   { method, spec }: Operation,

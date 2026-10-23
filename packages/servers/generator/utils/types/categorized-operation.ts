@@ -1,4 +1,4 @@
-import type { Operation } from './operation.ts';
+import type { Operation } from './operation';
 
 export interface CategorizedOperation extends Operation {
   category: string;

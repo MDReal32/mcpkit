@@ -1,14 +1,14 @@
-import { DEFAULT_SCHEMA_OPTIONS } from '../../utils/schema/const.ts';
-import { collectOperations } from '../../utils/spec/collect-operations.ts';
-import { readSpec } from '../../utils/spec/read-spec.ts';
-import { findBodyReason } from '../../utils/support/find-body-reason.ts';
-import { buildToolDefinition } from '../../utils/tool/build-tool-definition.ts';
-import { verbatimArgumentNaming } from '../../utils/tool/verbatim-argument-naming.ts';
-import type { CategorizedOperation } from '../../utils/types/categorized-operation.ts';
-import type { SpecPlan } from '../../utils/types/spec-plan.ts';
-import { SPEC_URL } from './const.ts';
-import { nameOperations } from './name-operations.ts';
-import { toOperation } from './to-operation.ts';
+import { DEFAULT_SCHEMA_OPTIONS } from '../../utils/schema/const';
+import { collectOperations } from '../../utils/spec/collect-operations';
+import { readSpec } from '../../utils/spec/read-spec';
+import { findBodyReason } from '../../utils/support/find-body-reason';
+import { buildToolDefinition } from '../../utils/tool/build-tool-definition';
+import { verbatimArgumentNaming } from '../../utils/tool/verbatim-argument-naming';
+import type { CategorizedOperation } from '../../utils/types/categorized-operation';
+import type { SpecPlan } from '../../utils/types/spec-plan';
+import { SPEC_URL } from './const';
+import { nameOperations } from './name-operations';
+import { toOperation } from './to-operation';
 
 export const createSpecPlan = () => {
   const plan: SpecPlan<CategorizedOperation> = {

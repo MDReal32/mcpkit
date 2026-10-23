@@ -1,7 +1,7 @@
-import type { OperationCandidate } from '../../utils/types/operation-candidate.ts';
-import { UNTAGGED_CATEGORY } from './const.ts';
-import type { JiraOperation } from './types/jira-operation.ts';
-import type { SpecSource } from './types/spec-source.ts';
+import type { OperationCandidate } from '../../utils/types/operation-candidate';
+import { UNTAGGED_CATEGORY } from './const';
+import type { JiraOperation } from './types/jira-operation';
+import type { SpecSource } from './types/spec-source';
 
 export const toOperation = ({ method, path, spec }: OperationCandidate, source: SpecSource) => {
   const operation: JiraOperation = {

@@ -1,8 +1,8 @@
 import type { JsonSchema } from '@usemcpkit/core';
-import type { OpenApiParameter } from '../types/open-api-operation.ts';
-import type { SchemaOptions } from '../types/schema-options.ts';
-import { cleanDescription } from './clean-description.ts';
-import { convertSchema } from './convert-schema.ts';
+import type { OpenApiParameter } from '../types/open-api-operation';
+import type { SchemaOptions } from '../types/schema-options';
+import { cleanDescription } from './clean-description';
+import { convertSchema } from './convert-schema';
 
 export const buildParameterSchema = (parameter: OpenApiParameter, options: SchemaOptions): JsonSchema => {
   const schema = parameter.schema ?? {};

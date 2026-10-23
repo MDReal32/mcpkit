@@ -1,4 +1,4 @@
-import type { SchemaOptions } from '../types/schema-options.ts';
+import type { SchemaOptions } from '../types/schema-options';
 
 export const MAX_DESCRIPTION_LENGTH = 400;
 

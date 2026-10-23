@@ -1,8 +1,8 @@
-import { findBodyReason } from '../../utils/support/find-body-reason.ts';
-import { SCHEMA_OPTIONS } from './const.ts';
-import { findExcludedTagReason } from './find-excluded-tag-reason.ts';
-import { findUndeclaredPlaceholder } from './find-undeclared-placeholder.ts';
-import type { GitlabOperation } from './types/gitlab-operation.ts';
+import { findBodyReason } from '../../utils/support/find-body-reason';
+import { SCHEMA_OPTIONS } from './const';
+import { findExcludedTagReason } from './find-excluded-tag-reason';
+import { findUndeclaredPlaceholder } from './find-undeclared-placeholder';
+import type { GitlabOperation } from './types/gitlab-operation';
 
 export const findUnsupportedReason = (operation: GitlabOperation) => {
   const undeclared = findUndeclaredPlaceholder(operation);

@@ -1,4 +1,4 @@
-import type { OpenApiOperation } from './open-api-operation.ts';
+import type { OpenApiOperation } from './open-api-operation';
 
 export interface Operation {
   method: string;

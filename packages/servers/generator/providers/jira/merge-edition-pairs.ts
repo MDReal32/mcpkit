@@ -1,11 +1,11 @@
-import { findDuplicate } from '../../utils/pipeline/find-duplicate.ts';
-import type { FinalizedTools } from '../../utils/types/finalized-tools.ts';
-import type { GeneratedTool } from '../../utils/types/generated-tool.ts';
-import type { PlannedTool } from '../../utils/types/planned-tool.ts';
-import { EDITION_PAIRS } from './const.ts';
-import { mergeEditionDefinitions } from './merge-edition-definitions.ts';
-import { toEntryKey } from './to-entry-key.ts';
-import type { JiraOperation } from './types/jira-operation.ts';
+import { findDuplicate } from '../../utils/pipeline/find-duplicate';
+import type { FinalizedTools } from '../../utils/types/finalized-tools';
+import type { GeneratedTool } from '../../utils/types/generated-tool';
+import type { PlannedTool } from '../../utils/types/planned-tool';
+import { EDITION_PAIRS } from './const';
+import { mergeEditionDefinitions } from './merge-edition-definitions';
+import { toEntryKey } from './to-entry-key';
+import type { JiraOperation } from './types/jira-operation';
 
 export const mergeEditionPairs = (planned: PlannedTool<JiraOperation>[]) => {
   const entries = new Map<string, GeneratedTool>();

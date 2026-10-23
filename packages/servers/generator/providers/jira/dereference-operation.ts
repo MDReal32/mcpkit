@@ -1,6 +1,6 @@
-import type { OpenApiOperation, OpenApiRequestBody } from '../../utils/types/open-api-operation.ts';
-import { dereferenceSchema, type SchemaIndex } from './dereference-schema.ts';
-import type { JiraOperation } from './types/jira-operation.ts';
+import type { OpenApiOperation, OpenApiRequestBody } from '../../utils/types/open-api-operation';
+import { dereferenceSchema, type SchemaIndex } from './dereference-schema';
+import type { JiraOperation } from './types/jira-operation';
 
 const dereferenceBody = (body: OpenApiRequestBody, index: SchemaIndex) => {
   const content = Object.fromEntries(

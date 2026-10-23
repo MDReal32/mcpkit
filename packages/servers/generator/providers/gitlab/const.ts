@@ -1,5 +1,5 @@
-import { DEFAULT_SCHEMA_OPTIONS } from '../../utils/schema/const.ts';
-import type { SchemaOptions } from '../../utils/types/schema-options.ts';
+import { DEFAULT_SCHEMA_OPTIONS } from '../../utils/schema/const';
+import type { SchemaOptions } from '../../utils/types/schema-options';
 
 export const SPEC_URL = 'https://gitlab.com/gitlab-org/gitlab/-/raw/master/doc/api/openapi/openapi_v3.yaml';
 

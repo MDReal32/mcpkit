@@ -1,8 +1,8 @@
-import type { Operation } from '../../utils/types/operation.ts';
-import { LIST_VERB, PATH_VERBS } from './const.ts';
-import { isPathParameter, splitPath } from './split-path.ts';
-import { toWords } from './to-words.ts';
-import type { SpecSource } from './types/spec-source.ts';
+import type { Operation } from '../../utils/types/operation';
+import { LIST_VERB, PATH_VERBS } from './const';
+import { isPathParameter, splitPath } from './split-path';
+import { toWords } from './to-words';
+import type { SpecSource } from './types/spec-source';
 
 const deriveFromPath = (operation: Operation, source: SpecSource) => {
   const [, ...rest] = splitPath(operation, source);

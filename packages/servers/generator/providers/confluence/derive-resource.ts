@@ -1,8 +1,8 @@
-import type { Operation } from '../../utils/types/operation.ts';
-import { RESOURCE_RENAMES } from './const.ts';
-import { splitPath } from './split-path.ts';
-import { toWords } from './to-words.ts';
-import type { SpecSource } from './types/spec-source.ts';
+import type { Operation } from '../../utils/types/operation';
+import { RESOURCE_RENAMES } from './const';
+import { splitPath } from './split-path';
+import { toWords } from './to-words';
+import type { SpecSource } from './types/spec-source';
 
 export const deriveResource = (operation: Operation, source: SpecSource) => {
   const [segment = ''] = splitPath(operation, source);

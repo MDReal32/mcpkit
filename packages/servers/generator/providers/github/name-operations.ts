@@ -1,7 +1,7 @@
-import { findGroupName } from '../../utils/naming/find-group-name.ts';
-import type { CategorizedOperation } from '../../utils/types/categorized-operation.ts';
-import { SERVER_GROUPS } from './const.ts';
-import { toToolNames } from './to-tool-names.ts';
+import { findGroupName } from '../../utils/naming/find-group-name';
+import type { CategorizedOperation } from '../../utils/types/categorized-operation';
+import { SERVER_GROUPS } from './const';
+import { toToolNames } from './to-tool-names';
 
 export const nameOperations = (operations: CategorizedOperation[]) =>
   operations.map(({ category, spec }) => {

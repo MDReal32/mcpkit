@@ -1,6 +1,6 @@
-import type { OpenApiSchema } from '../types/open-api-schema.ts';
-import type { SchemaOptions } from '../types/schema-options.ts';
-import { pickType } from './pick-type.ts';
+import type { OpenApiSchema } from '../types/open-api-schema';
+import type { SchemaOptions } from '../types/schema-options';
+import { pickType } from './pick-type';
 
 export const sharedScalarType = (schema: OpenApiSchema, options: SchemaOptions) => {
   const types = [...(schema.oneOf ?? []), ...(schema.anyOf ?? [])].map(pickType);

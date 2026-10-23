@@ -1,4 +1,4 @@
-import { groupArrayName } from '../naming/group-array-name.ts';
+import { groupArrayName } from '../naming/group-array-name';
 
 export const renderToolsIndexFile = (serverName: string, groups: string[], groupArraySuffix: string) => {
   const imports = groups.map((group) => `import { ${groupArrayName(group, groupArraySuffix)} } from './${group}';`);

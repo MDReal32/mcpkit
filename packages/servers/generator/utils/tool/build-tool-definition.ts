@@ -1,13 +1,13 @@
 import type { JsonSchema } from '@usemcpkit/core';
-import { buildBodyArguments } from '../schema/build-body-arguments.ts';
-import { buildParameterSchema } from '../schema/build-parameter-schema.ts';
-import type { OpenApiParameter } from '../types/open-api-operation.ts';
-import type { Operation } from '../types/operation.ts';
-import type { ToolDefinition } from '../types/tool-definition.ts';
-import type { ToolDefinitionOptions } from '../types/tool-definition-options.ts';
-import { describeOperation } from './describe-operation.ts';
-import { replacePlaceholder } from './replace-placeholder.ts';
-import { simplifyMapping } from './simplify-mapping.ts';
+import { buildBodyArguments } from '../schema/build-body-arguments';
+import { buildParameterSchema } from '../schema/build-parameter-schema';
+import type { OpenApiParameter } from '../types/open-api-operation';
+import type { Operation } from '../types/operation';
+import type { ToolDefinition } from '../types/tool-definition';
+import type { ToolDefinitionOptions } from '../types/tool-definition-options';
+import { describeOperation } from './describe-operation';
+import { replacePlaceholder } from './replace-placeholder';
+import { simplifyMapping } from './simplify-mapping';
 
 export const buildToolDefinition = (operation: Operation, name: string, options: ToolDefinitionOptions) => {
   const { schema: schemaOptions, naming, descriptionPrefix } = options;

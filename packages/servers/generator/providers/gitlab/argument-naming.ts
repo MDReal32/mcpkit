@@ -1,6 +1,6 @@
-import { prefixIfTaken } from '../../utils/tool/prefix-if-taken.ts';
-import type { ArgumentNaming } from '../../utils/types/argument-naming.ts';
-import { toArgumentName } from './to-argument-name.ts';
+import { prefixIfTaken } from '../../utils/tool/prefix-if-taken';
+import type { ArgumentNaming } from '../../utils/types/argument-naming';
+import { toArgumentName } from './to-argument-name';
 
 export const argumentNaming: ArgumentNaming = {
   dropsQueryShadowedByPath: false,

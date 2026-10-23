@@ -1,5 +1,5 @@
-import { isRecord } from './is-record.ts';
-import { resolveReference } from './resolve-reference.ts';
+import { isRecord } from './is-record';
+import { resolveReference } from './resolve-reference';
 
 /**
  * Inlines every local `$ref` found under `node` (the whole `root` when omitted). A reference that points back into

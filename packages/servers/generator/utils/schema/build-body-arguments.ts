@@ -1,9 +1,9 @@
-import { JSON_CONTENT_TYPE } from '../const.ts';
-import type { ArgumentNaming } from '../types/argument-naming.ts';
-import type { BodyArguments } from '../types/body-arguments.ts';
-import type { OpenApiRequestBody } from '../types/open-api-operation.ts';
-import type { SchemaOptions } from '../types/schema-options.ts';
-import { convertSchema } from './convert-schema.ts';
+import { JSON_CONTENT_TYPE } from '../const';
+import type { ArgumentNaming } from '../types/argument-naming';
+import type { BodyArguments } from '../types/body-arguments';
+import type { OpenApiRequestBody } from '../types/open-api-operation';
+import type { SchemaOptions } from '../types/schema-options';
+import { convertSchema } from './convert-schema';
 
 export const buildBodyArguments = (
   requestBody: OpenApiRequestBody,

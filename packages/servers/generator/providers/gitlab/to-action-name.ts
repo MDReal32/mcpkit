@@ -1,5 +1,5 @@
-import { slugify } from './slugify.ts';
-import type { GitlabOperation } from './types/gitlab-operation.ts';
+import { slugify } from './slugify';
+import type { GitlabOperation } from './types/gitlab-operation';
 
 const READ_VERB = 'get';
 

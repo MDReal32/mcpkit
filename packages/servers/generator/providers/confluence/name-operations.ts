@@ -1,11 +1,11 @@
-import { toToolNames } from '../../utils/naming/to-tool-names.ts';
-import type { Operation } from '../../utils/types/operation.ts';
-import type { OperationNames } from '../../utils/types/operation-names.ts';
-import { deriveActionWords } from './derive-action-words.ts';
-import { deriveDisambiguationWords } from './derive-disambiguation-words.ts';
-import { deriveResource } from './derive-resource.ts';
-import { splitPath } from './split-path.ts';
-import type { SpecSource } from './types/spec-source.ts';
+import { toToolNames } from '../../utils/naming/to-tool-names';
+import type { Operation } from '../../utils/types/operation';
+import type { OperationNames } from '../../utils/types/operation-names';
+import { deriveActionWords } from './derive-action-words';
+import { deriveDisambiguationWords } from './derive-disambiguation-words';
+import { deriveResource } from './derive-resource';
+import { splitPath } from './split-path';
+import type { SpecSource } from './types/spec-source';
 
 const FIRST_NUMBERED_ACTION = 2;
 

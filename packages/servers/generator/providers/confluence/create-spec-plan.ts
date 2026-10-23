@@ -1,15 +1,15 @@
-import { collectOperations } from '../../utils/spec/collect-operations.ts';
-import { readSpec } from '../../utils/spec/read-spec.ts';
-import { buildToolDefinition } from '../../utils/tool/build-tool-definition.ts';
-import type { Operation } from '../../utils/types/operation.ts';
-import type { SpecPlan } from '../../utils/types/spec-plan.ts';
-import { argumentNaming } from './argument-naming.ts';
-import { SCHEMA_OPTIONS } from './const.ts';
-import { findUnsupportedReason } from './find-unsupported-reason.ts';
-import { nameOperations } from './name-operations.ts';
-import { parseSpec } from './parse-spec.ts';
-import { toOperation } from './to-operation.ts';
-import type { SpecSource } from './types/spec-source.ts';
+import { collectOperations } from '../../utils/spec/collect-operations';
+import { readSpec } from '../../utils/spec/read-spec';
+import { buildToolDefinition } from '../../utils/tool/build-tool-definition';
+import type { Operation } from '../../utils/types/operation';
+import type { SpecPlan } from '../../utils/types/spec-plan';
+import { argumentNaming } from './argument-naming';
+import { SCHEMA_OPTIONS } from './const';
+import { findUnsupportedReason } from './find-unsupported-reason';
+import { nameOperations } from './name-operations';
+import { parseSpec } from './parse-spec';
+import { toOperation } from './to-operation';
+import type { SpecSource } from './types/spec-source';
 
 export const createSpecPlan = (source: SpecSource) => {
   const plan: SpecPlan<Operation> = {

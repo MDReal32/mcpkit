@@ -1,6 +1,6 @@
 import { parse } from 'yaml';
-import { dereference } from '../../utils/spec/dereference.ts';
-import type { OpenApiDocument } from '../../utils/types/open-api-operation.ts';
+import { dereference } from '../../utils/spec/dereference';
+import type { OpenApiDocument } from '../../utils/types/open-api-operation';
 
 interface RawDocument {
   paths: unknown;

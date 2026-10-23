@@ -1,5 +1,5 @@
-import type { Operation } from '../../utils/types/operation.ts';
-import type { SpecSource } from './types/spec-source.ts';
+import type { Operation } from '../../utils/types/operation';
+import type { SpecSource } from './types/spec-source';
 
 export const isPathParameter = (segment: string) => segment.startsWith('{') && segment.endsWith('}');
 

@@ -1,7 +1,7 @@
-import { findGroupName } from '../../utils/naming/find-group-name.ts';
-import { SERVER_GROUPS } from './const.ts';
-import { createNameAllocator } from './create-name-allocator.ts';
-import type { GitlabOperation } from './types/gitlab-operation.ts';
+import { findGroupName } from '../../utils/naming/find-group-name';
+import { SERVER_GROUPS } from './const';
+import { createNameAllocator } from './create-name-allocator';
+import type { GitlabOperation } from './types/gitlab-operation';
 
 export const nameOperations = (operations: GitlabOperation[]) => {
   const allocateNames = createNameAllocator();

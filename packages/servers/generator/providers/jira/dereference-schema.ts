@@ -1,5 +1,5 @@
-import type { OpenApiSchema } from '../../utils/types/open-api-schema.ts';
-import { SCHEMA_OPTIONS } from './const.ts';
+import type { OpenApiSchema } from '../../utils/types/open-api-schema';
+import { SCHEMA_OPTIONS } from './const';
 
 const REF_PREFIX = '#/components/schemas/';
 

@@ -1,6 +1,6 @@
 import type { JsonSchema } from '@usemcpkit/core';
-import type { ToolDefinition } from '../../utils/types/tool-definition.ts';
-import { CLOUD_EDITION, CLOUD_ONLY_SUFFIX, DATA_CENTER_ONLY_SUFFIX } from './const.ts';
+import type { ToolDefinition } from '../../utils/types/tool-definition';
+import { CLOUD_EDITION, CLOUD_ONLY_SUFFIX, DATA_CENTER_ONLY_SUFFIX } from './const';
 
 const annotate = (schema: JsonSchema, suffix: string) => ({
   ...schema,

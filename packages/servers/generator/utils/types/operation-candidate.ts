@@ -1,4 +1,4 @@
-import type { OpenApiOperation, OpenApiPathItem } from './open-api-operation.ts';
+import type { OpenApiOperation, OpenApiPathItem } from './open-api-operation';
 
 export interface OperationCandidate {
   method: string;

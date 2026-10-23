@@ -1,4 +1,4 @@
-import type { OpenApiParameter } from './open-api-operation.ts';
+import type { OpenApiParameter } from './open-api-operation';
 
 export interface ArgumentNaming {
   /** A query parameter that shares its name with a path parameter is left out instead of renamed. */

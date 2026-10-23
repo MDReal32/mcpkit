@@ -1,10 +1,10 @@
 import type { JsonSchema } from '@usemcpkit/core';
-import type { OpenApiSchema } from '../types/open-api-schema.ts';
-import type { SchemaOptions } from '../types/schema-options.ts';
-import { cleanDescription } from './clean-description.ts';
-import { mergeVariants } from './merge-variants.ts';
-import { pickType } from './pick-type.ts';
-import { sharedScalarType } from './shared-scalar-type.ts';
+import type { OpenApiSchema } from '../types/open-api-schema';
+import type { SchemaOptions } from '../types/schema-options';
+import { cleanDescription } from './clean-description';
+import { mergeVariants } from './merge-variants';
+import { pickType } from './pick-type';
+import { sharedScalarType } from './shared-scalar-type';
 
 const isPrimitive = (value: unknown) => ['string', 'number', 'boolean'].includes(typeof value);
 

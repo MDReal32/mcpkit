@@ -1,7 +1,7 @@
-import { DEFAULT_SCHEMA_OPTIONS } from '../../utils/schema/const.ts';
-import type { BodyReasonOptions } from '../../utils/types/body-reason-options.ts';
-import type { SchemaOptions } from '../../utils/types/schema-options.ts';
-import type { SpecSource } from './types/spec-source.ts';
+import { DEFAULT_SCHEMA_OPTIONS } from '../../utils/schema/const';
+import type { BodyReasonOptions } from '../../utils/types/body-reason-options';
+import type { SchemaOptions } from '../../utils/types/schema-options';
+import type { SpecSource } from './types/spec-source';
 
 export const DATA_CENTER_VERSION = '10.2.19';
 

@@ -1,4 +1,4 @@
-import { MAX_DESCRIPTION_LENGTH } from './const.ts';
+import { MAX_DESCRIPTION_LENGTH } from './const';
 
 export const cleanDescription = (text: string | undefined, stripBold: boolean) => {
   const firstParagraph = (text ?? '').trim().split(/\n\s*\n/)[0] ?? '';

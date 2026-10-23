@@ -1,7 +1,7 @@
-import { toGeneratedTool } from '../naming/to-generated-tool.ts';
-import type { Operation } from '../types/operation.ts';
-import type { SpecPlan } from '../types/spec-plan.ts';
-import type { SpecPlanResult } from '../types/spec-plan-result.ts';
+import { toGeneratedTool } from '../naming/to-generated-tool';
+import type { Operation } from '../types/operation';
+import type { SpecPlan } from '../types/spec-plan';
+import type { SpecPlanResult } from '../types/spec-plan-result';
 
 export const planSpec = async <Result extends Operation>(plan: SpecPlan<Result>, localPath: string | undefined) => {
   const document = await plan.readDocument(localPath);

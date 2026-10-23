@@ -1,7 +1,7 @@
-import { toToolNames } from '../../utils/naming/to-tool-names.ts';
-import { slugify } from './slugify.ts';
-import { toActionName } from './to-action-name.ts';
-import type { GitlabOperation } from './types/gitlab-operation.ts';
+import { toToolNames } from '../../utils/naming/to-tool-names';
+import { slugify } from './slugify';
+import { toActionName } from './to-action-name';
+import type { GitlabOperation } from './types/gitlab-operation';
 
 /**
  * Names tools `<group>:<tag>:<verb>_<path words>`. When two operations of one tag collapse to the

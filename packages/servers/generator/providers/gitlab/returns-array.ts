@@ -1,6 +1,6 @@
-import { JSON_CONTENT_TYPE } from '../../utils/const.ts';
-import { pickType } from '../../utils/schema/pick-type.ts';
-import type { OpenApiOperation } from '../../utils/types/open-api-operation.ts';
+import { JSON_CONTENT_TYPE } from '../../utils/const';
+import { pickType } from '../../utils/schema/pick-type';
+import type { OpenApiOperation } from '../../utils/types/open-api-operation';
 
 const isSuccessStatus = (status: string) => status.startsWith('2');
 

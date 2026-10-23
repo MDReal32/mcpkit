@@ -1,6 +1,6 @@
-import { DEFAULT_SCHEMA_OPTIONS } from '../../utils/schema/const.ts';
-import type { EditionPair } from './types/edition-pair.ts';
-import type { SpecSource } from './types/spec-source.ts';
+import { DEFAULT_SCHEMA_OPTIONS } from '../../utils/schema/const';
+import type { EditionPair } from './types/edition-pair';
+import type { SpecSource } from './types/spec-source';
 
 /**
  * Jira Cloud publishes the platform API twice, once per REST version. The v2 document is generated because

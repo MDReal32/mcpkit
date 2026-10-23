@@ -1,5 +1,5 @@
-import { cleanDescription } from '../schema/clean-description.ts';
-import type { Operation } from '../types/operation.ts';
+import { cleanDescription } from '../schema/clean-description';
+import type { Operation } from '../types/operation';
 
 export const describeOperation = ({ spec }: Operation, stripBold: boolean, prefix: string | undefined) => {
   const summary = (spec.summary ?? '').replace(/\.$/, '');

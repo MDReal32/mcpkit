@@ -1,8 +1,8 @@
-import { findGroupName } from '../../utils/naming/find-group-name.ts';
-import { SERVER_GROUPS } from './const.ts';
-import { toToolNames } from './to-tool-names.ts';
-import type { JiraOperation } from './types/jira-operation.ts';
-import type { SpecSource } from './types/spec-source.ts';
+import { findGroupName } from '../../utils/naming/find-group-name';
+import { SERVER_GROUPS } from './const';
+import { toToolNames } from './to-tool-names';
+import type { JiraOperation } from './types/jira-operation';
+import type { SpecSource } from './types/spec-source';
 
 export const nameOperations = (operations: JiraOperation[], source: SpecSource) =>
   operations.map((operation) => {
