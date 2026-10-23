@@ -14,6 +14,7 @@ import { writeManifests } from './write-manifests';
 export const mcpkitManifests = ({
   serversDir = DEFAULT_SERVERS_DIR,
   outSubdir = DEFAULT_OUT_SUBDIR,
+  registryUrl,
 }: ManifestsPluginOptions = {}) => {
   let resolvedConfig: ResolvedConfig | undefined;
   let compiling: Promise<CompileResult> | undefined;
@@ -52,7 +53,7 @@ export const mcpkitManifests = ({
       const config = readConfig();
       const { compiled } = await compile();
       const outDir = resolve(config.root, config.build.outDir, outSubdir);
-      await writeManifests(compiled, outDir);
+      await writeManifests(compiled, outDir, registryUrl);
       config.logger.info(formatBuildSummary(compiled, relative(config.root, outDir)));
     },
   };

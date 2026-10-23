@@ -1,3 +1,5 @@
+import type { RegistryServer } from './registry-server';
+
 export interface RegistryIndex {
-  manifests: readonly string[];
+  servers: readonly RegistryServer[];
 }

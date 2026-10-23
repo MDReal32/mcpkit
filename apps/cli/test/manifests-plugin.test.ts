@@ -1,8 +1,10 @@
-import { mkdir, writeFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { useTempDir } from '@usemcpkit/testing';
 import { describe, expect, it } from 'vitest';
 import { compileServers } from '../plugins/manifests';
+import { writeManifests } from '../plugins/manifests/write-manifests';
 
 const readDir = useTempDir('mcpkit-servers-');
 
@@ -60,5 +62,23 @@ describe('compileServers', () => {
       'other: name "renamed" must match folder name "other" (expected "other")',
       expect.stringMatching(/^twice: failed to load .*expected exactly one named export, found 2 \(a, b\)$/),
     ]);
+  });
+});
+
+describe('writeManifests', () => {
+  it('writes <category>/<name>.json and an index of ids, tool names, links and checksums', async () => {
+    const { compiled } = await compileServers(resolve('src/servers'));
+
+    await writeManifests(compiled, join(readDir(), 'linked'), 'https://reg.example/mcpkit/');
+    await writeManifests(compiled, join(readDir(), 'plain'));
+
+    const read = async (dir: string) => JSON.parse(await readFile(join(readDir(), dir, 'index.json'), 'utf8'));
+    const linked = (await read('linked')).servers.find((server: { id: string }) => server.id === 'git:github');
+    const plain = (await read('plain')).servers.find((server: { id: string }) => server.id === 'git:github');
+    const file = await readFile(join(readDir(), 'linked', 'git', 'github.json'), 'utf8');
+    expect(linked.url).toBe('https://reg.example/mcpkit/git/github.json');
+    expect(plain.url).toBe('git/github.json');
+    expect(linked.tools).toContain('get_repo');
+    expect(linked.sha256).toBe(createHash('sha256').update(file).digest('hex'));
   });
 });

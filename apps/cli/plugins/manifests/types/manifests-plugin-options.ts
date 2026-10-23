@@ -3,4 +3,6 @@ export interface ManifestsPluginOptions {
   serversDir?: string;
   /** Subfolder of build.outDir that receives the JSON manifests. */
   outSubdir?: string;
+  /** Public base URL of the registry; index.json then lists absolute links instead of file names. */
+  registryUrl?: string;
 }

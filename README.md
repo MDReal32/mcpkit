@@ -322,14 +322,35 @@ finishes and the next call uses the token.
 ## Server manifests
 
 No manifest ships inside the binary. They live in a registry (by default the repository's GitHub Pages, published by
-`.github/workflows/registry.yml` whenever `apps/cli/src/servers` or the manifest compiler changes) and are copied to
-`~/.mcpkit/manifests` (`MCPKIT_HOME` overrides):
+`.github/workflows/registry.yml` whenever `apps/cli/src/servers` or the manifest compiler changes):
 
-- `mcpkit install` and the first `serve`/`list` with an empty folder download them.
+```
+index.json                  every server: id, version, description, tool names, link, sha256
+<category>/<server>.json    one manifest, for example git/github.json
+```
+
+Only `index.json` is synced by default (into `~/.mcpkit/manifests`, `MCPKIT_HOME` overrides). A manifest is downloaded
+the first time a tool of that server is described or called, checked against the `sha256` in the index, and cached.
+
+- `mcpkit install` and the first `serve`/`list` with nothing cached download the index.
 - After that `serve` checks once a day in the background (`~/.mcpkit/manifests/.synced`); the result applies at the
   next start. `MCPKIT_AUTO_UPDATE=0` turns the background check off.
-- `mcpkit update [--registry <url>]` syncs now. The URL comes from the flag, `MCPKIT_REGISTRY`, then the default.
+- `mcpkit update [--registry <url>]` syncs now: it refreshes the index and re-downloads cached manifests whose
+  checksum changed, so an edit published without a version bump still lands. The URL comes from the flag,
+  `MCPKIT_REGISTRY`, then the default.
+- Self-hosting a registry is hosting the `apps/cli/build/manifests/` folder (links in `index.json` are built from the
+  registry URL in `apps/cli/vite.config.ts`).
 
-A file is rewritten whenever its content differs, so an edit published without a version bump still lands. Each
-manifest is validated first. Files removed from the registry are not deleted locally. If two files declare the same
-server name, the higher version wins. Self-hosting a registry is hosting the `apps/cli/build/manifests/` folder.
+### What the AI client sees
+
+Tool names cannot contain `:`, so the server exposes four fixed tools and the tool id is an argument:
+
+| Tool            | Arguments              | Returns                                                         |
+| --------------- | ---------------------- | --------------------------------------------------------------- |
+| `list_servers`  | none                   | server ids, for example `["git:github", "git:gitlab"]`          |
+| `list_tools`    | `server`               | tool ids, for example `["git:github:get_pull_requests"]`        |
+| `describe_tool` | `id`                   | description and input schema (loads the manifest)               |
+| `call_tool`     | `id`, `arguments`      | the tool result (loads the manifest)                            |
+
+Ids come straight from `index.json`; `<category>:<server>:<tool>` selects `<category>/<server>.json`.
+`mcpkit serve [servers…]` limits the catalog to the given ids or bare names.

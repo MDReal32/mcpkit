@@ -1,11 +1,11 @@
 import { describeError } from '@usemcpkit/core';
-import { syncManifests } from '../../registry';
+import { syncRegistry } from '../../registry';
 import { printError } from '../output/print-error';
 
 export const syncQuietly = async () => {
   try {
-    await syncManifests();
+    await syncRegistry();
   } catch (error) {
-    printError(`mcpkit: manifest sync failed: ${describeError(error)}`);
+    printError(`mcpkit: registry sync failed: ${describeError(error)}`);
   }
 };

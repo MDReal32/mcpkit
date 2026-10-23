@@ -1,107 +1,133 @@
-import { readFile, writeFile } from 'node:fs/promises';
+import { readFile, stat, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { createPingManifest, useTempDir } from '@usemcpkit/testing';
 import { describe, expect, it } from 'vitest';
-import { loadManifests, readSyncStatus, resolveRegistryUrl, syncManifests, updateFromRegistry } from '../src/registry';
+import {
+  createRegistryContext,
+  loadManifest,
+  readCachedIndex,
+  readSyncStatus,
+  resolveRegistryUrl,
+  syncRegistry,
+} from '../src/registry';
 import { DEFAULT_REGISTRY_URL, MANIFEST_SYNC_INTERVAL_MS } from '../src/registry/const';
 import { isSyncDue } from '../src/registry/sync/is-sync-due';
-import { createRouteFetch } from './fixtures/create-route-fetch';
+import { createRegistryFetch } from './fixtures/create-registry-fetch';
+
+const REGISTRY = 'https://reg.example';
 
 const readDir = useTempDir('mcpkit-registry-');
 
-const writeUserManifest = (file: string, data: unknown) => writeFile(join(readDir(), file), JSON.stringify(data));
+const setup = (description = '') => {
+  const registry = createRegistryFetch(REGISTRY, [createPingManifest('1.0.0', description)]);
+  const context = createRegistryContext({ dir: readDir(), registryUrl: REGISTRY, fetchImpl: registry.fetchImpl });
+  return { registry, context };
+};
 
-describe('loadManifests', () => {
-  it('prefers the higher version when two files declare the same server', async () => {
-    await writeUserManifest('a.json', createPingManifest('1.10.0', 'newer', 'github'));
-    await writeUserManifest('b.json', createPingManifest('0.9.0', 'older', 'github'));
+const readIndexServer = async () => {
+  const index = await readCachedIndex(readDir());
+  const [server] = index?.servers ?? [];
+  if (!server) {
+    throw new Error('index has no server');
+  }
+  return server;
+};
 
-    const { manifests } = await loadManifests(readDir());
+describe('syncRegistry', () => {
+  it('downloads only the index, never a manifest nobody used', async () => {
+    const { registry, context } = setup();
 
-    expect(manifests.get('github')?.description).toBe('newer');
+    const report = await syncRegistry(context);
+
+    expect(report).toEqual({ servers: 1, refreshed: [], failed: [] });
+    expect(registry.requests).toEqual([`${REGISTRY}/index.json`]);
+    expect((await readIndexServer()).tools).toEqual(['ping']);
   });
 
-  it('skips invalid manifests with a warning', async () => {
-    await writeUserManifest('bad.json', { name: 'x' });
+  it('re-downloads a cached manifest whose content changed under the same version', async () => {
+    const first = setup('one');
+    await syncRegistry(first.context);
+    await loadManifest(await readIndexServer(), first.context);
 
-    const { manifests, warnings } = await loadManifests(readDir());
+    const second = setup('two');
+    const report = await syncRegistry(second.context);
 
-    expect(manifests.has('x')).toBe(false);
-    expect(warnings[0]).toMatch(/^skipping .*bad\.json:/);
+    expect(report.refreshed).toEqual(['test:demo']);
+    const cached: unknown = JSON.parse(await readFile(join(readDir(), 'test', 'demo.json'), 'utf8'));
+    expect(cached).toMatchObject({ description: 'two' });
   });
 
-  it('loads manifests from disk and reports unreadable JSON', async () => {
-    await writeFile(join(readDir(), 'demo.json'), JSON.stringify(createPingManifest('9.0.0')));
-    await writeFile(join(readDir(), 'broken.json'), '{');
+  it('leaves an up-to-date cached manifest alone', async () => {
+    const { registry, context } = setup();
+    await syncRegistry(context);
+    await loadManifest(await readIndexServer(), context);
+    registry.requests.length = 0;
 
-    const { manifests, warnings } = await loadManifests(readDir());
+    const report = await syncRegistry(context);
 
-    expect(manifests.get('demo')?.version).toBe('9.0.0');
-    expect(warnings.some((warning) => warning.includes('broken.json'))).toBe(true);
-  });
-
-  it('has no manifests when the dir is missing, since none ship in the binary', async () => {
-    const { manifests, warnings } = await loadManifests(join(readDir(), 'missing'));
-
-    expect(manifests.size).toBe(0);
-    expect(warnings).toEqual([]);
-  });
-});
-
-describe('updateFromRegistry', () => {
-  it('writes only valid manifests', async () => {
-    const fetchImpl = createRouteFetch({
-      'https://reg.example/index.json': { manifests: ['demo.json', 'bad.json'] },
-      'https://reg.example/demo.json': createPingManifest('3.0.0'),
-      'https://reg.example/bad.json': { name: 'bad' },
-    });
-
-    const results = await updateFromRegistry('https://reg.example/', { fetchImpl, targetDir: readDir() });
-
-    expect(results.map((result) => [result.entry, result.status])).toEqual([
-      ['demo.json', 'updated'],
-      ['bad.json', 'rejected'],
-    ]);
-    const written: unknown = JSON.parse(await readFile(join(readDir(), 'demo.json'), 'utf8'));
-    expect(written).toMatchObject({ version: '3.0.0' });
-  });
-
-  it('rewrites a same-version manifest whose content changed and leaves identical ones alone', async () => {
-    const route = (description: string) =>
-      createRouteFetch({
-        'https://reg.example/index.json': { manifests: ['demo.json'] },
-        'https://reg.example/demo.json': createPingManifest('1.0.0', description),
-      });
-
-    const first = await updateFromRegistry('https://reg.example', { fetchImpl: route('one'), targetDir: readDir() });
-    const same = await updateFromRegistry('https://reg.example', { fetchImpl: route('one'), targetDir: readDir() });
-    const edited = await updateFromRegistry('https://reg.example', { fetchImpl: route('two'), targetDir: readDir() });
-
-    expect([first, same, edited].map(([result]) => result?.status)).toEqual(['updated', 'unchanged', 'updated']);
-    const written: unknown = JSON.parse(await readFile(join(readDir(), 'demo.json'), 'utf8'));
-    expect(written).toMatchObject({ description: 'two' });
+    expect(report.refreshed).toEqual([]);
+    expect(registry.requests).toEqual([`${REGISTRY}/index.json`]);
   });
 
   it('rejects a malformed index', async () => {
-    const fetchImpl = createRouteFetch({ 'https://reg.example/index.json': { files: [] } });
+    const context = createRegistryContext({
+      dir: readDir(),
+      registryUrl: REGISTRY,
+      fetchImpl: async () => new Response(JSON.stringify({ manifests: [] })),
+    });
 
-    await expect(updateFromRegistry('https://reg.example', { fetchImpl, targetDir: readDir() })).rejects.toThrow(
-      /"manifests" array/,
-    );
+    await expect(syncRegistry(context)).rejects.toThrow();
   });
 });
 
-describe('manifest sync', () => {
-  it('reports an empty dir, then a fresh one right after a sync, then a due one a day later', async () => {
-    const fetchImpl = createRouteFetch({
-      'https://reg.example/index.json': { manifests: ['demo.json'] },
-      'https://reg.example/demo.json': createPingManifest('1.0.0'),
+describe('loadManifest', () => {
+  it('downloads on first use, then serves the cache', async () => {
+    const { registry, context } = setup();
+    await syncRegistry(context);
+    const server = await readIndexServer();
+
+    const first = await loadManifest(server, context);
+    const second = await loadManifest(server, context);
+
+    expect(first.name).toBe('demo');
+    expect(second).toEqual(first);
+    expect(registry.requests.filter((url) => url.endsWith('demo.json'))).toHaveLength(1);
+  });
+
+  it('refuses a download that does not match the index checksum', async () => {
+    const { context } = setup();
+    await syncRegistry(context);
+    const server = await readIndexServer();
+    const tampered = createRegistryContext({
+      ...context,
+      fetchImpl: async () => new Response('{"name":"demo"}'),
     });
 
+    await expect(loadManifest(server, tampered)).rejects.toThrow(/checksum/);
+    await expect(stat(join(readDir(), 'test', 'demo.json'))).rejects.toThrow();
+  });
+
+  it('re-downloads a cached copy that no longer matches the index', async () => {
+    const { context } = setup();
+    await syncRegistry(context);
+    const server = await readIndexServer();
+    await loadManifest(server, context);
+    await writeFile(join(readDir(), 'test', 'demo.json'), 'edited');
+
+    const manifest = await loadManifest(server, context);
+
+    expect(manifest.version).toBe('1.0.0');
+  });
+});
+
+describe('sync status', () => {
+  it('reports an empty dir, then a fresh one right after a sync, then a due one a day later', async () => {
+    const { context } = setup();
+
     const before = await readSyncStatus(readDir());
-    await syncManifests('https://reg.example', { fetchImpl, targetDir: readDir() });
+    await syncRegistry(context);
     const after = await readSyncStatus(readDir());
-    const later = await isSyncDue(readDir(), Date.now() + MANIFEST_SYNC_INTERVAL_MS);
+    const later = await isSyncDue(readDir(), Date.now() + MANIFEST_SYNC_INTERVAL_MS + 1000);
 
     expect([before, after, later]).toEqual(['empty', 'fresh', true]);
   });
