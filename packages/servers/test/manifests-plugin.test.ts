@@ -82,8 +82,8 @@ describe('writeManifests', () => {
     const shell = JSON.parse(file);
     expect(shell.tools).toBeUndefined();
     const issues = shell.parts.find((part: { name: string }) => part.name === 'issues');
-    expect(issues.path).toBe('git/github/issues.json');
-    const part = await readFile(join(readDir(), 'linked', issues.path), 'utf8');
+    expect(issues.url).toBe('https://reg.example/mcpkit/git/github/issues.json');
+    const part = await readFile(join(readDir(), 'linked', 'git', 'github', 'issues.json'), 'utf8');
     expect(issues.sha256).toBe(createHash('sha256').update(part).digest('hex'));
     expect(JSON.parse(part).tools.map((tool: { name: string }) => tool.name)).toContain('issues:issues:create');
     expect(linked.sha256).toBe(createHash('sha256').update(file).digest('hex'));

@@ -35,7 +35,7 @@ const writeEntry = async (entry: CompiledManifest, outDir: string, split: SplitM
  * A server with grouped tool names is written as a shell plus one file per group (see splitManifest).
  */
 export const writeManifests = async (compiled: readonly CompiledManifest[], outDir: string, registryUrl?: string) => {
-  const splits = compiled.map((entry) => splitManifest(entry.manifest));
+  const splits = compiled.map((entry) => splitManifest(entry.manifest, registryUrl));
   await Promise.all(compiled.map((entry, position) => writeEntry(entry, outDir, splits[position])));
   const servers = compiled.map((entry, position) =>
     toIndexEntry(entry, splits[position]?.shellJson ?? entry.json, registryUrl),

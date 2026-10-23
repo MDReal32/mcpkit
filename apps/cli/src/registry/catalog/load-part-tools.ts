@@ -28,7 +28,7 @@ export const loadPartTools = async (server: RegistryServer, part: ManifestPart, 
   if (cached !== undefined && hashText(cached) === part.sha256) {
     return parseTools(server, part, cached);
   }
-  const url = resolveRegistryLink(context, part.path);
+  const url = resolveRegistryLink(context, part.url);
   const text = await fetchText(url, context.fetchImpl);
   if (hashText(text) !== part.sha256) {
     throw new Error(`${server.id}: ${url} does not match the checksum in the manifest`);

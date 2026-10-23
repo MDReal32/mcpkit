@@ -12,7 +12,7 @@ export const createSplitRegistryFetch = (registryUrl: string, manifest: Manifest
     const text = `${JSON.stringify({ tools: manifest.tools.filter((tool) => tool.name.startsWith(`${name}:`)) })}\n`;
     const path = `${manifest.category}/${manifest.name}/${name}.json`;
     routes.set(`${registryUrl}/${path}`, text);
-    return { name, path, sha256: sha256Of(text) };
+    return { name, url: path, sha256: sha256Of(text) };
   });
   const { tools, ...shell } = manifest;
   const shellText = `${JSON.stringify({ ...shell, parts })}\n`;
