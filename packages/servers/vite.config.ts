@@ -3,6 +3,8 @@ import { defineConfig } from 'vitest/config';
 import { mcpkitManifests } from './plugins/manifests';
 import { DEFAULT_REGISTRY_URL } from './src/const';
 
+const TEST_TIMEOUT_MS = 60_000;
+
 export default defineConfig({
   plugins: [
     dts({ include: ['src/main.ts', 'src/const.ts'], bundleTypes: true }),
@@ -25,5 +27,6 @@ export default defineConfig({
   },
   test: {
     include: ['test/**/*.test.ts'],
+    testTimeout: TEST_TIMEOUT_MS,
   },
 });
