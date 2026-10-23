@@ -25,7 +25,7 @@ publish() {
     return
   fi
   echo "publish $name@$version"
-  npm publish "$source" --access public
+  npm publish "./$source" --access public
 }
 
 command="${1:?usage: publish-npm.sh platforms|pack <dir>|publish-dir <dir>|publish-lib <dir> <tarballs>}"
