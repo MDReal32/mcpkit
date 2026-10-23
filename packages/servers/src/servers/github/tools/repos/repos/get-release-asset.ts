@@ -18,11 +18,19 @@ export const reposReposGetReleaseAsset = defineTool({
         type: "integer",
         description: "The unique identifier of the asset.",
       },
+      save_to: {
+        type: "string",
+        description: "Local path the downloaded file is saved to.",
+      },
     },
-    required: ["owner", "repo", "asset_id"],
+    required: ["owner", "repo", "asset_id", "save_to"],
   },
   request: {
     method: "GET",
     path: "/repos/{owner}/{repo}/releases/assets/{asset_id}",
+    saveToArg: "save_to",
+    fixedHeaders: {
+      Accept: "application/octet-stream",
+    },
   },
 });
