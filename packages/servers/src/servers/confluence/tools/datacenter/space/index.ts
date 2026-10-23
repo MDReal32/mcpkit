@@ -1,5 +1,6 @@
 import { datacenterSpaceCreate } from "./create";
 import { datacenterSpaceCreateCategory } from "./create-category";
+import { datacenterSpaceCreatePermissions } from "./create-permissions";
 import { datacenterSpaceCreatePersonal } from "./create-personal";
 import { datacenterSpaceCreatePrivate } from "./create-private";
 import { datacenterSpaceCreateProperty } from "./create-property";
@@ -31,12 +32,19 @@ import { datacenterSpaceUpdateArchive } from "./update-archive";
 import { datacenterSpaceUpdateColorScheme } from "./update-color-scheme";
 import { datacenterSpaceUpdateColorSchemeReset } from "./update-color-scheme-reset";
 import { datacenterSpaceUpdateColorSchemeType } from "./update-color-scheme-type";
+import { datacenterSpaceUpdatePermissionsAnonymousGrant } from "./update-permissions-anonymous-grant";
+import { datacenterSpaceUpdatePermissionsAnonymousRevoke } from "./update-permissions-anonymous-revoke";
+import { datacenterSpaceUpdatePermissionsGroupGrant } from "./update-permissions-group-grant";
+import { datacenterSpaceUpdatePermissionsGroupRevoke } from "./update-permissions-group-revoke";
+import { datacenterSpaceUpdatePermissionsUserGrant } from "./update-permissions-user-grant";
+import { datacenterSpaceUpdatePermissionsUserRevoke } from "./update-permissions-user-revoke";
 import { datacenterSpaceUpdateProperty } from "./update-property";
 import { datacenterSpaceUpdateRestore } from "./update-restore";
 
 export const datacenterSpaceTools = [
   datacenterSpaceCreate,
   datacenterSpaceCreateCategory,
+  datacenterSpaceCreatePermissions,
   datacenterSpaceCreatePersonal,
   datacenterSpaceCreatePrivate,
   datacenterSpaceCreateProperty,
@@ -68,6 +76,12 @@ export const datacenterSpaceTools = [
   datacenterSpaceUpdateColorScheme,
   datacenterSpaceUpdateColorSchemeReset,
   datacenterSpaceUpdateColorSchemeType,
+  datacenterSpaceUpdatePermissionsAnonymousGrant,
+  datacenterSpaceUpdatePermissionsAnonymousRevoke,
+  datacenterSpaceUpdatePermissionsGroupGrant,
+  datacenterSpaceUpdatePermissionsGroupRevoke,
+  datacenterSpaceUpdatePermissionsUserGrant,
+  datacenterSpaceUpdatePermissionsUserRevoke,
   datacenterSpaceUpdateProperty,
   datacenterSpaceUpdateRestore,
 ];

@@ -16,6 +16,7 @@ import { cloudSpacesGetSpacePropertyById } from "./get-space-property-by-id";
 import { cloudSpacesGetSpaceRoleAssignments } from "./get-space-role-assignments";
 import { cloudSpacesGetSpaces } from "./get-spaces";
 import { cloudSpacesPutSpaceDefaultClassificationLevel } from "./put-space-default-classification-level";
+import { cloudSpacesSetSpaceRoleAssignments } from "./set-space-role-assignments";
 import { cloudSpacesUpdateSpacePropertyById } from "./update-space-property-by-id";
 
 export const cloudSpacesTools = [
@@ -37,5 +38,6 @@ export const cloudSpacesTools = [
   cloudSpacesGetSpaceRoleAssignments,
   cloudSpacesGetSpaces,
   cloudSpacesPutSpaceDefaultClassificationLevel,
+  cloudSpacesSetSpaceRoleAssignments,
   cloudSpacesUpdateSpacePropertyById,
 ];

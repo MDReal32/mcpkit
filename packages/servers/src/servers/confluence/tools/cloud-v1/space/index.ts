@@ -1,4 +1,5 @@
 import { cloudV1SpaceAddCustomContentPermissions } from "./add-custom-content-permissions";
+import { cloudV1SpaceAddLabelsToSpace } from "./add-labels-to-space";
 import { cloudV1SpaceAddPermissionToSpace } from "./add-permission-to-space";
 import { cloudV1SpaceCreatePrivateSpace } from "./create-private-space";
 import { cloudV1SpaceCreateSpace } from "./create-space";
@@ -19,6 +20,7 @@ import { cloudV1SpaceUpdateSpaceSettings } from "./update-space-settings";
 
 export const cloudV1SpaceTools = [
   cloudV1SpaceAddCustomContentPermissions,
+  cloudV1SpaceAddLabelsToSpace,
   cloudV1SpaceAddPermissionToSpace,
   cloudV1SpaceCreatePrivateSpace,
   cloudV1SpaceCreateSpace,

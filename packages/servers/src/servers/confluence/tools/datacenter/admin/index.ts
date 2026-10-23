@@ -1,3 +1,4 @@
+import { datacenterAdminCreateGroup } from "./create-group";
 import { datacenterAdminCreateSpacePersonal } from "./create-space-personal";
 import { datacenterAdminCreateUser } from "./create-user";
 import { datacenterAdminCreateUserPassword } from "./create-user-password";
@@ -9,6 +10,7 @@ import { datacenterAdminUpdateUserDisable } from "./update-user-disable";
 import { datacenterAdminUpdateUserEnable } from "./update-user-enable";
 
 export const datacenterAdminTools = [
+  datacenterAdminCreateGroup,
   datacenterAdminCreateSpacePersonal,
   datacenterAdminCreateUser,
   datacenterAdminCreateUserPassword,

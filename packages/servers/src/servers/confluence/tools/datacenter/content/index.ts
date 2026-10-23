@@ -1,6 +1,8 @@
 import { datacenterContentCreate } from "./create";
 import { datacenterContentCreateBlueprintInstance } from "./create-blueprint-instance";
+import { datacenterContentCreateBulkPageDelete } from "./create-bulk-page-delete";
 import { datacenterContentCreateBulkPageDeleteDeletableDescendantCounts } from "./create-bulk-page-delete-deletable-descendant-counts";
+import { datacenterContentCreateBulkPageDeletePreview } from "./create-bulk-page-delete-preview";
 import { datacenterContentCreateChildAttachmentMove } from "./create-child-attachment-move";
 import { datacenterContentCreateLabel } from "./create-label";
 import { datacenterContentCreateProperty } from "./create-property";
@@ -41,11 +43,14 @@ import { datacenterContentUpdate } from "./update";
 import { datacenterContentUpdateBlueprintInstance } from "./update-blueprint-instance";
 import { datacenterContentUpdateChildAttachment } from "./update-child-attachment";
 import { datacenterContentUpdateProperty } from "./update-property";
+import { datacenterContentUpdateRestriction } from "./update-restriction";
 
 export const datacenterContentTools = [
   datacenterContentCreate,
   datacenterContentCreateBlueprintInstance,
+  datacenterContentCreateBulkPageDelete,
   datacenterContentCreateBulkPageDeleteDeletableDescendantCounts,
+  datacenterContentCreateBulkPageDeletePreview,
   datacenterContentCreateChildAttachmentMove,
   datacenterContentCreateLabel,
   datacenterContentCreateProperty,
@@ -86,4 +91,5 @@ export const datacenterContentTools = [
   datacenterContentUpdateBlueprintInstance,
   datacenterContentUpdateChildAttachment,
   datacenterContentUpdateProperty,
+  datacenterContentUpdateRestriction,
 ];
