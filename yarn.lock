@@ -2022,19 +2022,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"mcpkit@workspace:apps/npx":
-  version: 0.0.0-use.local
-  resolution: "mcpkit@workspace:apps/npx"
-  dependencies:
-    "@biomejs/biome": "npm:2.5.15"
-    "@usemcpkit/cli": "workspace:*"
-    typescript: "npm:^5.9.0"
-    vite: "npm:^8.0.0"
-  bin:
-    mcpkit: build/mcpkit.npx.js
-  languageName: unknown
-  linkType: soft
-
 "micromatch@npm:^4.0.8":
   version: 4.0.8
   resolution: "micromatch@npm:4.0.8"
@@ -3052,6 +3039,19 @@ __metadata:
   checksum: 10c0/273c1eab0eca4470c7317428689295c31dbe8ab0b306504de9f03cd20c156debb4131bef24b27ac615862958c5dd950a3951d26c0723ea774652ab3624149cff
   languageName: node
   linkType: hard
+
+"usemcpkit@workspace:apps/npx":
+  version: 0.0.0-use.local
+  resolution: "usemcpkit@workspace:apps/npx"
+  dependencies:
+    "@biomejs/biome": "npm:2.5.15"
+    "@usemcpkit/cli": "workspace:*"
+    typescript: "npm:^5.9.0"
+    vite: "npm:^8.0.0"
+  bin:
+    usemcpkit: build/mcpkit.npx.js
+  languageName: unknown
+  linkType: soft
 
 "util-deprecate@npm:1.0.2, util-deprecate@npm:^1.0.1":
   version: 1.0.2

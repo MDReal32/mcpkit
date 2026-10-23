@@ -20,7 +20,7 @@ Yarn 4 workspaces + Nx (targets are inferred from each `package.json`; pipeline 
   - `src/mcp/supervisor/` — a compiled `serve` is a supervisor that owns the client's stdio and runs `serve --worker`; it swaps the worker when the binary file changes (handshake replay + `tools/list_changed`). Keep worker-side behavior in `serveStdio`, never in the supervisor.
   - `src/cli/` commands and flags, parsed by `yargs-extended` (each command file in `commands/` has a `registerXCommand`; `create-program.ts` lists them), `src/mcp/` the stdio server and supervisor, `src/registry/` manifests, `src/servers/` the server definitions. Domains with their own boundary live in packages below.
   - Vite loads its config with `--configLoader runner` because the plugins import `@usemcpkit/core` TS source; other projects use `--configLoader native`.
-- `apps/npx` (`mcpkit`) — published wrapper so `npx mcpkit` runs `@usemcpkit/cli` (bare `mcpkit` = install).
+- `apps/npx` (`usemcpkit`) — published wrapper so `npx usemcpkit` runs `@usemcpkit/cli` (bare `mcpkit` = install).
 - `src/<domain>/index.ts` is each domain's public boundary; relative imports into a folder with an `index.ts` (from outside it) target the folder, never its files. Other workspaces are imported by package name.
 
 The private packages ship as source (`exports` points at `src/main.ts`, like `@usemcpkit/testing`) and are bundled into the CLI by Vite; only `@usemcpkit/core` has a build.

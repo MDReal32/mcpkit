@@ -10,7 +10,7 @@ packages/core      @usemcpkit/core      library: manifest format, SDK, executor,
 packages/ui        @usemcpkit/ui        Svelte pages the CLI opens in the browser, e.g. the credentials form (private)
 packages/testing   @usemcpkit/testing   shared test fixtures (private)
 apps/cli           @usemcpkit/cli       mcpkit CLI + MCP stdio server, server definitions, binaries
-apps/npx           mcpkit            wrapper so `npx mcpkit` runs @usemcpkit/cli
+apps/npx           usemcpkit         wrapper so `npx usemcpkit` runs @usemcpkit/cli
 ```
 
 Yarn 4 workspaces and Nx, Node 22.18+. Every command below runs from the repository root.
@@ -32,7 +32,7 @@ Every package builds from `src/main.ts` into `build/mcpkit.<package>.js` (`mcpki
 ## Install
 
 ```bash
-npx mcpkit
+npx usemcpkit
 ```
 
 This finds the AI clients installed for the current user, asks which ones to set up, copies the mcpkit binary for
@@ -41,8 +41,8 @@ Running it again updates the entries in place. Only the `mcpkit` key is touched:
 previous file is kept as `<config>.mcpkit-backup`. Restart the clients afterwards (later updates reload live).
 
 ```bash
-npx mcpkit --all                         # every detected client, no checklist (needed without a terminal)
-npx mcpkit --clients cursor,codex        # only these
+npx usemcpkit --all                         # every detected client, no checklist (needed without a terminal)
+npx usemcpkit --clients cursor,codex        # only these
 mcpkit install --binary ./mcpkit         # install a local binary instead of downloading one
 mcpkit uninstall [--all | --clients ...] # remove the entry; the binary stays
 mcpkit upgrade                           # update the installed binary now
@@ -109,7 +109,7 @@ Put each tool in `src/servers/<name>/tools/<tool>.ts` and shared params in `cons
 
 ### Use with an MCP client
 
-`npx mcpkit` writes the entry for you (see Install). By hand:
+`npx usemcpkit` writes the entry for you (see Install). By hand:
 
 ```json
 {
