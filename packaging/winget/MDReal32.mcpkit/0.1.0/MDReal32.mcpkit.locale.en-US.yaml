@@ -1,0 +1,22 @@
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.12.0.schema.json
+
+PackageIdentifier: MDReal32.mcpkit
+PackageVersion: 0.1.0
+PackageLocale: en-US
+Publisher: MDReal32
+PublisherUrl: https://github.com/MDReal32
+PublisherSupportUrl: https://github.com/MDReal32/mcpkit/issues
+PackageName: mcpkit
+PackageUrl: https://github.com/MDReal32/mcpkit
+License: MIT
+LicenseUrl: https://github.com/MDReal32/mcpkit/blob/master/LICENSE
+ShortDescription: Many MCP servers in one tool. Adds GitHub, GitLab, Jira and Confluence to every AI client on this computer.
+Moniker: mcpkit
+Tags:
+- mcp
+- model-context-protocol
+- ai
+- cli
+ReleaseNotesUrl: https://github.com/MDReal32/mcpkit/releases/tag/v0.1.0
+ManifestType: defaultLocale
+ManifestVersion: 1.12.0
