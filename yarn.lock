@@ -767,6 +767,7 @@ __metadata:
     vite: "npm:^8.0.0"
     vite-plugin-dts: "npm:5.1.2"
     vitest: "npm:^4.0.0"
+    yaml: "npm:2.9.0"
   languageName: unknown
   linkType: soft
 
