@@ -11,6 +11,8 @@ export interface RequestSpec {
   body?: ArgSpec;
   /** Names the argument sent unchanged as the whole JSON body (an array, string or free-form object); excludes `body` and `fixedBody`. */
   bodyArg?: string;
+  /** Defaults to `application/json`. A `text/*` type sends `bodyArg` as plain text; any other type is sent as JSON. */
+  contentType?: string;
   fixedQuery?: FixedValues;
   /** Header values sent on every call; auth headers win over them. */
   fixedHeaders?: Readonly<Record<string, string>>;

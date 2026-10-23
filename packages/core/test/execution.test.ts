@@ -27,6 +27,37 @@ describe("buildRequest", () => {
     expect(request.headers["Content-Type"]).toBe("application/json");
   });
 
+  it("sends a text body as is under its own content type", () => {
+    const tool = {
+      ...createItemTool,
+      input: { type: "object", properties: { owner: { type: "string" }, body: { type: "string" } } },
+      request: { method: "POST", path: "/owners/{owner}/markdown", bodyArg: "body", contentType: "text/plain" },
+    } as const;
+
+    const request = buildRequest(demoManifest, tool, { owner: "o", body: "# hi" }, BEARER_AUTH);
+
+    expect(request.body).toBe("# hi");
+    expect(request.headers["Content-Type"]).toBe("text/plain");
+  });
+
+  it("sends a JSON patch body as JSON under its own content type", () => {
+    const tool = {
+      ...createItemTool,
+      input: { type: "object", properties: { owner: { type: "string" }, body: { type: "array" } } },
+      request: {
+        method: "PATCH",
+        path: "/owners/{owner}",
+        bodyArg: "body",
+        contentType: "application/json-patch+json",
+      },
+    } as const;
+
+    const request = buildRequest(demoManifest, tool, { owner: "o", body: [{ op: "add" }] }, BEARER_AUTH);
+
+    expect(request.body).toBe('[{"op":"add"}]');
+    expect(request.headers["Content-Type"]).toBe("application/json-patch+json");
+  });
+
   it("sends fixed headers under the auth headers", () => {
     const tool = {
       ...listItemsTool,
