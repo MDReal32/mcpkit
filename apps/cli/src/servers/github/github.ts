@@ -1,11 +1,11 @@
 import { defineServer, defineUI } from '@usemcpkit/core';
-import { createIssue } from './tools/create-issue';
-import { getAuthenticatedUser } from './tools/get-authenticated-user';
-import { getIssue } from './tools/get-issue';
-import { getRepo } from './tools/get-repo';
-import { listIssues } from './tools/list-issues';
-import { listPullRequests } from './tools/list-pull-requests';
-import { searchRepositories } from './tools/search-repositories';
+import { createIssue } from './tools/issue/create';
+import { getIssue } from './tools/issue/get';
+import { listIssues } from './tools/issue/list';
+import { listPullRequests } from './tools/pull-request/list';
+import { getRepo } from './tools/repository/get';
+import { searchRepositories } from './tools/repository/search';
+import { getAuthenticatedUser } from './tools/user/me';
 
 export const github = defineServer({
   name: 'github',

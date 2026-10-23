@@ -17,7 +17,7 @@ const SERVER_PROPERTY = {
 
 const TOOL_ID_PROPERTY = {
   type: 'string',
-  description: 'Tool id, as returned by list_tools, for example "git:github:get_pull_requests".',
+  description: 'Tool id, as returned by list_tools, for example "git:github:pull_request:list".',
 } as const;
 
 export const META_TOOLS: readonly MetaTool[] = [
@@ -28,7 +28,7 @@ export const META_TOOLS: readonly MetaTool[] = [
   },
   {
     name: LIST_TOOLS_TOOL,
-    description: 'List the tools of one server as an array of ids like "git:github:get_pull_requests".',
+    description: 'List the tools of one server as an array of ids like "git:github:pull_request:list".',
     inputSchema: { type: 'object', properties: { server: SERVER_PROPERTY }, required: ['server'] },
   },
   {

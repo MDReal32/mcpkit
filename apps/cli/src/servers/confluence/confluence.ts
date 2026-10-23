@@ -1,10 +1,10 @@
 import { defineServer, defineUI } from '@usemcpkit/core';
-import { createPage } from './tools/create-page';
-import { getPage } from './tools/get-page';
-import { getPageChildren } from './tools/get-page-children';
-import { listSpaces } from './tools/list-spaces';
-import { search } from './tools/search';
-import { updatePage } from './tools/update-page';
+import { search } from './tools/content/search';
+import { createPage } from './tools/page/create';
+import { getPage } from './tools/page/get';
+import { getPageChildren } from './tools/page/list-children';
+import { updatePage } from './tools/page/update';
+import { listSpaces } from './tools/space/list';
 
 export const confluence = defineServer({
   name: 'confluence',

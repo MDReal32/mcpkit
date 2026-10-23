@@ -41,7 +41,7 @@ describe('syncRegistry', () => {
 
     expect(report).toEqual({ servers: 1, refreshed: [], failed: [] });
     expect(registry.requests).toEqual([`${REGISTRY}/index.json`]);
-    expect((await readIndexServer()).tools).toEqual(['ping']);
+    expect((await readIndexServer()).tools).toEqual(['ping:run']);
   });
 
   it('re-downloads a cached manifest whose content changed under the same version', async () => {

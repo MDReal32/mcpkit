@@ -10,7 +10,7 @@ export const createPingManifest = (version: string, description = '', name = 'de
     auth,
     tools: [
       {
-        name: 'ping',
+        name: 'ping:run',
         description: 'Ping',
         input: { type: 'object', properties: {} },
         request: { method: 'GET', path: '/ping' },

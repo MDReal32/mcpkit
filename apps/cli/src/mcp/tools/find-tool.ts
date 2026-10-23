@@ -6,7 +6,7 @@ import { parseToolId } from './parse-tool-id';
 export const findTool = (catalog: Catalog, id: string): ToolLookup => {
   const parsed = parseToolId(id);
   if (!parsed) {
-    return { error: `invalid tool id "${id}"; expected <category>:<server>:<tool>, see list_tools` };
+    return { error: `invalid tool id "${id}"; expected <category>:<server>:<resource>:<action>, see list_tools` };
   }
   const server = catalog.servers.find((candidate) => candidate.id === parsed.serverId);
   if (!server) {

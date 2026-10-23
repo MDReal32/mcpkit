@@ -2,6 +2,9 @@ import type { AuthType } from './types/auth/auth-type';
 
 export const SERVER_NAME_PATTERN = /^[a-z][a-z0-9_]*$/;
 
+/** `resource:action`, for example `pull_request:list`; the action part is optional. */
+export const TOOL_NAME_PATTERN = /^[a-z][a-z0-9_]*(:[a-z][a-z0-9_]*)?$/;
+
 export const SERVER_CATEGORY_PATTERN = /^[a-z][a-z0-9-]*$/;
 
 export const HTTP_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'] as const;

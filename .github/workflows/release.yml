@@ -41,7 +41,7 @@ jobs:
 
   cli:
     name: npm cli
-    needs: platforms
+    needs: build
     uses: ./.github/workflows/release-npm-package.yml
     with:
       dir: apps/cli

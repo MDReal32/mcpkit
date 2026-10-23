@@ -1,15 +1,15 @@
 import { defineServer, defineUI } from '@usemcpkit/core';
-import { addIssueComment } from './tools/add-issue-comment';
-import { addMergeRequestComment } from './tools/add-merge-request-comment';
-import { createIssue } from './tools/create-issue';
-import { getCurrentUser } from './tools/get-current-user';
-import { getIssue } from './tools/get-issue';
-import { getMergeRequest } from './tools/get-merge-request';
-import { getProject } from './tools/get-project';
-import { listIssues } from './tools/list-issues';
-import { listMergeRequests } from './tools/list-merge-requests';
-import { listPipelines } from './tools/list-pipelines';
-import { listProjects } from './tools/list-projects';
+import { addIssueComment } from './tools/issue/add-comment';
+import { createIssue } from './tools/issue/create';
+import { getIssue } from './tools/issue/get';
+import { listIssues } from './tools/issue/list';
+import { addMergeRequestComment } from './tools/merge-request/add-comment';
+import { getMergeRequest } from './tools/merge-request/get';
+import { listMergeRequests } from './tools/merge-request/list';
+import { listPipelines } from './tools/pipeline/list';
+import { getProject } from './tools/project/get';
+import { listProjects } from './tools/project/list';
+import { getCurrentUser } from './tools/user/me';
 
 export const gitlab = defineServer({
   name: 'gitlab',

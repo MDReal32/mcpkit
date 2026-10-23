@@ -28,7 +28,7 @@ describe('compileServers', () => {
     expect(compiled.map(({ manifest }) => manifest.name)).toEqual(['confluence', 'github', 'gitlab', 'jira']);
     const github = compiled.find(({ manifest }) => manifest.name === 'github');
     expect(JSON.parse(github?.json ?? 'null')).toEqual(github?.manifest);
-    expect(github?.manifest.tools.find((tool) => tool.name === 'create_issue')?.input.required).toEqual([
+    expect(github?.manifest.tools.find((tool) => tool.name === 'issue:create')?.input.required).toEqual([
       'owner',
       'repo',
       'title',
@@ -78,7 +78,7 @@ describe('writeManifests', () => {
     const file = await readFile(join(readDir(), 'linked', 'git', 'github.json'), 'utf8');
     expect(linked.url).toBe('https://reg.example/mcpkit/git/github.json');
     expect(plain.url).toBe('git/github.json');
-    expect(linked.tools).toContain('get_repo');
+    expect(linked.tools).toContain('repository:get');
     expect(linked.sha256).toBe(createHash('sha256').update(file).digest('hex'));
   });
 });

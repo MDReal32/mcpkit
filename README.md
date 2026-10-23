@@ -105,7 +105,7 @@ mcpkit: 1 manifest(s) → build/manifests
 
 Create `apps/cli/src/servers/<name>/<name>.ts` with exactly one named export built with `defineServer`
 from `@usemcpkit/core`. Folder dashes become underscores in the server name (`my-api` → `my_api`).
-Put each tool in `src/servers/<name>/tools/<tool>.ts` and shared params in `const.ts`.
+Put each tool in `src/servers/<name>/tools/<resource>/<action>.ts` (the tool `pull_request:list` lives in `tools/pull-request/list.ts`) and shared params in `const.ts`.
 
 ### Use with an MCP client
 
@@ -128,10 +128,10 @@ Put each tool in `src/servers/<name>/tools/<tool>.ts` and shared params in `cons
 
 | Server | Category | Hosts | Tools |
 | --- | --- | --- | --- |
-| `github` | `git` | github.com, GitHub Enterprise Server, GHE.com | get_authenticated_user, get_repo, list_issues, get_issue, create_issue, list_pull_requests, search_repositories |
-| `gitlab` | `git` | gitlab.com, self-managed GitLab (`<host>[/<relative url root>]`) | get_current_user, list_projects, get_project, list_issues, get_issue, create_issue, add_issue_comment, list_merge_requests, get_merge_request, add_merge_request_comment, list_pipelines |
-| `jira` | `atlassian` | Jira Cloud (`<site>.atlassian.net`), Jira Data Center | get_myself, search_issues (JQL), get_issue, create_issue, add_comment, delete_comment, list_transitions, transition_issue, list_projects |
-| `confluence` | `atlassian` | Confluence Cloud (`<site>.atlassian.net`), Confluence Data Center | search (CQL), get_page, create_page, update_page, list_spaces, get_page_children |
+| `github` | `git` | github.com, GitHub Enterprise Server, GHE.com | user:me, repository:get, repository:search, issue:list, issue:get, issue:create, pull_request:list |
+| `gitlab` | `git` | gitlab.com, self-managed GitLab (`<host>[/<relative url root>]`) | user:me, project:list, project:get, issue:list, issue:get, issue:create, issue:add_comment, merge_request:list, merge_request:get, merge_request:add_comment, pipeline:list |
+| `jira` | `atlassian` | Jira Cloud (`<site>.atlassian.net`), Jira Data Center | user:me, issue:search (JQL), issue:get, issue:create, issue:transition, comment:add, comment:delete, transition:list, project:list |
+| `confluence` | `atlassian` | Confluence Cloud (`<site>.atlassian.net`), Confluence Data Center | content:search (CQL), page:get, page:create, page:update, page:list_children, space:list |
 
 GitLab reads `GITLAB_HOST` (default `gitlab.com`) and a personal access token in `GITLAB_TOKEN`. Tools take a project
 id or its full path (`group/subgroup/project`), and issue and merge request numbers are the per-project `iid`.
@@ -348,9 +348,9 @@ Tool names cannot contain `:`, so the server exposes four fixed tools and the to
 | Tool            | Arguments              | Returns                                                         |
 | --------------- | ---------------------- | --------------------------------------------------------------- |
 | `list_servers`  | none                   | server ids, for example `["git:github", "git:gitlab"]`          |
-| `list_tools`    | `server`               | tool ids, for example `["git:github:get_pull_requests"]`        |
+| `list_tools`    | `server`               | tool ids, for example `["git:github:pull_request:list"]`        |
 | `describe_tool` | `id`                   | description and input schema (loads the manifest)               |
 | `call_tool`     | `id`, `arguments`      | the tool result (loads the manifest)                            |
 
-Ids come straight from `index.json`; `<category>:<server>:<tool>` selects `<category>/<server>.json`.
+Ids come straight from `index.json`; `<category>:<server>:<resource>:<action>` selects `<category>/<server>.json`, for example `git:github:pull_request:list`.
 `mcpkit serve [servers…]` limits the catalog to the given ids or bare names.

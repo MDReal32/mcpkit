@@ -9,7 +9,7 @@ const manifest = createPingManifest('1.0.0', '', 'demo');
 const createCatalog = () => {
   const loaded: string[] = [];
   const catalog: Catalog = {
-    servers: [{ id: 'test:demo', description: 'Demo', tools: ['ping'] }],
+    servers: [{ id: 'test:demo', description: 'Demo', tools: ['ping:run'] }],
     loadManifest: async (id) => {
       loaded.push(id);
       return manifest;
@@ -55,15 +55,15 @@ describe('createRpcHandler', () => {
     const tools = await handle({ id: 4, ...call('list_tools', { server: 'test:demo' }) });
 
     expect(JSON.parse(textOf(servers?.result))).toEqual(['test:demo']);
-    expect(JSON.parse(textOf(tools?.result))).toEqual(['test:demo:ping']);
+    expect(JSON.parse(textOf(tools?.result))).toEqual(['test:demo:ping:run']);
     expect(loaded).toEqual([]);
   });
 
   it('describes a tool by loading its manifest', async () => {
-    const response = await handle({ id: 5, ...call('describe_tool', { id: 'test:demo:ping' }) });
+    const response = await handle({ id: 5, ...call('describe_tool', { id: 'test:demo:ping:run' }) });
 
     expect(JSON.parse(textOf(response?.result))).toEqual({
-      id: 'test:demo:ping',
+      id: 'test:demo:ping:run',
       description: 'Ping',
       inputSchema: { type: 'object', properties: {} },
     });
@@ -71,7 +71,7 @@ describe('createRpcHandler', () => {
   });
 
   it('calls a tool and returns JSON text content', async () => {
-    const response = await handle({ id: 6, ...call('call_tool', { id: 'test:demo:ping', arguments: {} }) });
+    const response = await handle({ id: 6, ...call('call_tool', { id: 'test:demo:ping:run', arguments: {} }) });
 
     expect(response?.result).toEqual({ content: [{ type: 'text', text: '{\n  "pong": true\n}' }] });
   });
@@ -79,13 +79,13 @@ describe('createRpcHandler', () => {
   it('reports tool failures as isError results', async () => {
     const failing = createRpcHandler(createCatalog().catalog, { fetchImpl: createFakeFetch(500, 'boom') });
 
-    const response = await failing({ id: 7, ...call('call_tool', { id: 'test:demo:ping' }) });
+    const response = await failing({ id: 7, ...call('call_tool', { id: 'test:demo:ping:run' }) });
 
     expect(response?.result).toEqual({ content: [{ type: 'text', text: 'demo API 500: boom' }], isError: true });
   });
 
   it('reports unknown servers, tools and malformed ids as isError results', async () => {
-    const ids = ['test:nope:ping', 'test:demo:nope', 'ping'];
+    const ids = ['test:nope:ping:run', 'test:demo:nope:run', 'ping'];
 
     for (const id of ids) {
       const response = await handle({ id: 8, ...call('call_tool', { id }) });

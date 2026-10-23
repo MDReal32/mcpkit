@@ -2,7 +2,7 @@ export { describeAuth } from './auth/describe-auth';
 export { describeAuthSpec } from './auth/describe-auth-spec';
 export { isInteractiveAuth } from './auth/is-interactive-auth';
 export { listAuthEnvNames } from './auth/list-auth-env-names';
-export { SERVER_NAME_PATTERN } from './const';
+export { SERVER_NAME_PATTERN, TOOL_NAME_PATTERN } from './const';
 export { applyDomain } from './domain/apply-domain';
 export { isDomainValue } from './domain/is-domain-value';
 export { isValidManifest } from './is-valid-manifest';

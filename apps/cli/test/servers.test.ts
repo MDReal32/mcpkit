@@ -50,10 +50,10 @@ describe('bundled servers', () => {
 
 describe('gitlab', () => {
   it('encodes the project path and targets the API of the configured host', async () => {
-    const [saas] = await sendTool(gitlab, 'get_issue', { project: 'acme/app', issue_iid: 7 }, { GITLAB_TOKEN: 't' });
+    const [saas] = await sendTool(gitlab, 'issue:get', { project: 'acme/app', issue_iid: 7 }, { GITLAB_TOKEN: 't' });
     const [selfManaged] = await sendTool(
       gitlab,
-      'list_issues',
+      'issue:list',
       { project: 'acme/sub/app', state: 'opened' },
       { GITLAB_HOST: 'git.acme.com/gitlab', GITLAB_TOKEN: 't' },
     );
@@ -65,10 +65,10 @@ describe('gitlab', () => {
   });
 
   it('lists member projects and posts comment bodies', async () => {
-    const [projects] = await sendTool(gitlab, 'list_projects', { search: 'app' }, { GITLAB_TOKEN: 't' });
+    const [projects] = await sendTool(gitlab, 'project:list', { search: 'app' }, { GITLAB_TOKEN: 't' });
     const [comment] = await sendTool(
       gitlab,
-      'add_merge_request_comment',
+      'merge_request:add_comment',
       { project: 'acme/app', merge_request_iid: 3, body: 'LGTM' },
       { GITLAB_TOKEN: 't' },
     );
@@ -86,8 +86,8 @@ describe('jira', () => {
   it('searches with the endpoint of each edition', async () => {
     const args = { jql: 'project = A' };
 
-    const [cloud] = await sendTool(jira, 'search_issues', args, JIRA_CLOUD);
-    const [dataCenter] = await sendTool(jira, 'search_issues', args, JIRA_DATA_CENTER);
+    const [cloud] = await sendTool(jira, 'issue:search', args, JIRA_CLOUD);
+    const [dataCenter] = await sendTool(jira, 'issue:search', args, JIRA_DATA_CENTER);
 
     expect(cloud?.url).toMatch(/^https:\/\/acme\.atlassian\.net\/rest\/api\/2\/search\/jql\?/);
     expect(dataCenter?.url).toMatch(/^https:\/\/jira\.acme\.com\/jira\/rest\/api\/2\/search\?/);
@@ -97,7 +97,7 @@ describe('jira', () => {
   });
 
   it('nests the create_issue fields', async () => {
-    const [request] = await sendTool(jira, 'create_issue', { project_key: 'A', summary: 'Broken' }, JIRA_DATA_CENTER);
+    const [request] = await sendTool(jira, 'issue:create', { project_key: 'A', summary: 'Broken' }, JIRA_DATA_CENTER);
 
     expect(request?.body).toEqual({
       fields: { project: { key: 'A' }, summary: 'Broken', issuetype: { name: 'Task' } },
@@ -107,7 +107,7 @@ describe('jira', () => {
 
 describe('jira comments', () => {
   it('deletes a comment by issue key and comment id', async () => {
-    const [request] = await sendTool(jira, 'delete_comment', { issue_key: 'A-1', comment_id: '10' }, JIRA_DATA_CENTER);
+    const [request] = await sendTool(jira, 'comment:delete', { issue_key: 'A-1', comment_id: '10' }, JIRA_DATA_CENTER);
 
     expect(request).toMatchObject({
       method: 'DELETE',
@@ -120,7 +120,7 @@ describe('confluence', () => {
   const page = { space: 'DOCS', title: 'Notes', body: '<p>Hi</p>', parent_id: '7' };
 
   it('creates pages through v1 on Data Center', async () => {
-    const [request] = await sendTool(confluence, 'create_page', page, CONFLUENCE_DATA_CENTER);
+    const [request] = await sendTool(confluence, 'page:create', page, CONFLUENCE_DATA_CENTER);
 
     expect(request?.url).toBe('https://wiki.acme.com/rest/api/content');
     expect(request?.body).toEqual({
@@ -133,7 +133,7 @@ describe('confluence', () => {
   });
 
   it('creates pages through v2 on Cloud', async () => {
-    const [request] = await sendTool(confluence, 'create_page', page, CONFLUENCE_CLOUD);
+    const [request] = await sendTool(confluence, 'page:create', page, CONFLUENCE_CLOUD);
 
     expect(request?.url).toBe('https://acme.atlassian.net/wiki/api/v2/pages');
     expect(request?.body).toEqual({

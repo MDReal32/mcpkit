@@ -1,13 +1,13 @@
 import { defineServer, defineUI } from '@usemcpkit/core';
-import { addComment } from './tools/add-comment';
-import { createIssue } from './tools/create-issue';
-import { deleteComment } from './tools/delete-comment';
-import { getIssue } from './tools/get-issue';
-import { getMyself } from './tools/get-myself';
-import { listProjects } from './tools/list-projects';
-import { listTransitions } from './tools/list-transitions';
-import { searchIssues } from './tools/search-issues';
-import { transitionIssue } from './tools/transition-issue';
+import { addComment } from './tools/comment/add';
+import { deleteComment } from './tools/comment/delete';
+import { createIssue } from './tools/issue/create';
+import { getIssue } from './tools/issue/get';
+import { searchIssues } from './tools/issue/search';
+import { transitionIssue } from './tools/issue/transition';
+import { listProjects } from './tools/project/list';
+import { listTransitions } from './tools/transition/list';
+import { getMyself } from './tools/user/me';
 
 export const jira = defineServer({
   name: 'jira',

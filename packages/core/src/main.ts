@@ -71,6 +71,7 @@ export {
   isValidManifest,
   listAuthEnvNames,
   SERVER_NAME_PATTERN,
+  TOOL_NAME_PATTERN,
   toNameMapping,
   validateManifest,
 } from './manifest';
