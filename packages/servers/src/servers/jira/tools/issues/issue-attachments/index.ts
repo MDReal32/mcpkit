@@ -1,3 +1,4 @@
+import { issuesIssueAttachmentsAddAttachment } from "./add-attachment";
 import { issuesIssueAttachmentsExpandAttachmentForHumans } from "./expand-attachment-for-humans";
 import { issuesIssueAttachmentsExpandAttachmentForMachines } from "./expand-attachment-for-machines";
 import { issuesIssueAttachmentsGetAttachment } from "./get-attachment";
@@ -7,6 +8,7 @@ import { issuesIssueAttachmentsGetAttachmentThumbnail } from "./get-attachment-t
 import { issuesIssueAttachmentsRemoveAttachment } from "./remove-attachment";
 
 export const issuesIssueAttachmentsTools = [
+  issuesIssueAttachmentsAddAttachment,
   issuesIssueAttachmentsExpandAttachmentForHumans,
   issuesIssueAttachmentsExpandAttachmentForMachines,
   issuesIssueAttachmentsGetAttachment,
