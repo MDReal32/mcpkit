@@ -33,7 +33,14 @@ publish_workspace() {
   publish "$dir" "$tarball"
 }
 
-for dir in apps/cli/build/npm/cli-*/; do
+shopt -s nullglob
+platform_dirs=(apps/cli/build/npm/cli-*/)
+if [ "${#platform_dirs[@]}" -eq 0 ]; then
+  echo "no platform packages in apps/cli/build/npm; run yarn package first" >&2
+  exit 1
+fi
+
+for dir in "${platform_dirs[@]}"; do
   publish "${dir%/}" "${dir%/}"
 done
 publish_workspace packages/core
