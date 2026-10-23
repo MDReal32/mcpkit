@@ -1,0 +1,23 @@
+{
+  "name": "@usemcpkit/servers",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Server definitions the registry manifests are compiled from.",
+  "type": "module",
+  "exports": {
+    ".": "./src/main.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --configLoader native",
+    "lint": "biome check ."
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.15",
+    "@usemcpkit/core": "workspace:*",
+    "@usemcpkit/testing": "workspace:*",
+    "typescript": "^5.9.0",
+    "vitest": "^4.0.0"
+  },
+  "license": "MIT"
+}

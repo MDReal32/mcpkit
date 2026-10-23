@@ -1,21 +1,21 @@
 import { relative, resolve } from 'node:path';
 import type { Plugin, ResolvedConfig } from 'vite';
 import { compileServers } from './compile-servers';
-import { DEFAULT_OUT_SUBDIR, DEFAULT_SERVERS_DIR, PLUGIN_NAME } from './const';
+import { DEFAULT_OUT_SUBDIR, PLUGIN_NAME } from './const';
 import { formatBuildSummary } from './format-build-summary';
 import type { CompileResult } from './types/compile-result';
 import type { ManifestsPluginOptions } from './types/manifests-plugin-options';
 import { writeManifests } from './write-manifests';
 
 /**
- * Compiles src/servers definitions into JSON manifests at build time and writes them to `<outDir>/manifests`,
+ * Compiles the server definitions in serversDir into JSON manifests at build time and writes them to `<outDir>/manifests`,
  * the registry folder CI publishes. The CLI binary embeds none of them. Invalid definitions fail the build.
  */
 export const mcpkitManifests = ({
-  serversDir = DEFAULT_SERVERS_DIR,
+  serversDir,
   outSubdir = DEFAULT_OUT_SUBDIR,
   registryUrl,
-}: ManifestsPluginOptions = {}) => {
+}: ManifestsPluginOptions) => {
   let resolvedConfig: ResolvedConfig | undefined;
   let compiling: Promise<CompileResult> | undefined;
 
@@ -27,7 +27,7 @@ export const mcpkitManifests = ({
   };
 
   const compile = () => {
-    compiling ??= compileServers(resolve(readConfig().root, serversDir));
+    compiling ??= compileServers(serversDir);
     return compiling;
   };
 

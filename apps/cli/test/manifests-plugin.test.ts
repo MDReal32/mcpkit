@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import { join, resolve } from 'node:path';
+import { join } from 'node:path';
+import { SERVERS_DIR } from '@usemcpkit/servers';
 import { useTempDir } from '@usemcpkit/testing';
 import { describe, expect, it } from 'vitest';
 import { compileServers } from '../plugins/manifests';
@@ -22,7 +23,7 @@ const writeServer = async (dir: string, source: string) => {
 
 describe('compileServers', () => {
   it('compiles src/servers into valid JSON manifests', async () => {
-    const { compiled, errors, dependencies } = await compileServers(resolve('src/servers'));
+    const { compiled, errors, dependencies } = await compileServers(SERVERS_DIR);
 
     expect(errors).toEqual([]);
     expect(compiled.map(({ manifest }) => manifest.name)).toEqual(['confluence', 'github', 'gitlab', 'jira']);
@@ -67,7 +68,7 @@ describe('compileServers', () => {
 
 describe('writeManifests', () => {
   it('writes <category>/<name>.json and an index of ids, tool names, links and checksums', async () => {
-    const { compiled } = await compileServers(resolve('src/servers'));
+    const { compiled } = await compileServers(SERVERS_DIR);
 
     await writeManifests(compiled, join(readDir(), 'linked'), 'https://reg.example/mcpkit/');
     await writeManifests(compiled, join(readDir(), 'plain'));

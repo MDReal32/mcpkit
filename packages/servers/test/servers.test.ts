@@ -2,10 +2,10 @@ import type { Manifest, ToolArgs } from '@usemcpkit/core';
 import { executeTool, validateManifest } from '@usemcpkit/core';
 import { useTempDir } from '@usemcpkit/testing';
 import { describe, expect, it } from 'vitest';
-import { confluence } from '../src/servers/confluence/confluence';
-import { github } from '../src/servers/github/github';
-import { gitlab } from '../src/servers/gitlab/gitlab';
-import { jira } from '../src/servers/jira/jira';
+import { confluence } from '../src/confluence/confluence';
+import { github } from '../src/github/github';
+import { gitlab } from '../src/gitlab/gitlab';
+import { jira } from '../src/jira/jira';
 
 const readHome = useTempDir('mcpkit-servers-');
 

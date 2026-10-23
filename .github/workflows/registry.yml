@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - apps/cli/src/servers/**
+      - packages/servers/src/**
       - apps/cli/plugins/manifests/**
       - packages/core/src/**
       - .github/workflows/registry.yml

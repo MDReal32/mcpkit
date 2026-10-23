@@ -35,6 +35,7 @@
     "@usemcpkit/clients": "workspace:*",
     "@usemcpkit/core": "workspace:*",
     "@usemcpkit/credentials-form": "workspace:*",
+    "@usemcpkit/servers": "workspace:*",
     "@usemcpkit/testing": "workspace:*",
     "@usemcpkit/ui": "workspace:*",
     "typescript": "^5.9.0",

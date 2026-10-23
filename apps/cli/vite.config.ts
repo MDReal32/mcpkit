@@ -1,3 +1,4 @@
+import { SERVERS_DIR } from '@usemcpkit/servers';
 import { defineConfig } from 'vitest/config';
 import { version } from './package.json';
 import { mcpkitBinaries } from './plugins/binaries';
@@ -8,7 +9,7 @@ const PACKAGE_MODE = 'package';
 
 export default defineConfig(({ mode }) => ({
   plugins: [
-    mcpkitManifests({ registryUrl: DEFAULT_REGISTRY_URL }),
+    mcpkitManifests({ serversDir: SERVERS_DIR, registryUrl: DEFAULT_REGISTRY_URL }),
     ...(mode === PACKAGE_MODE
       ? [mcpkitBinaries({ version, targets: process.env.MCPKIT_TARGETS?.split(',').filter(Boolean) })]
       : []),

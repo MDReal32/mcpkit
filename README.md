@@ -87,8 +87,8 @@ command instead. The Homebrew formula's `caveats` and the winget manifest's `Ins
 ## CLI
 
 ```
-apps/cli/src/servers/github/github.ts   author servers in TypeScript (one folder per server, one tool per file)
-  └─ vite build                          plugins/manifests/ compiles + validates src/servers/*, then:
+packages/servers/src/github/github.ts   author servers in TypeScript (one folder per server, one tool per file)
+  └─ vite build                          plugins/manifests/ compiles + validates packages/servers/src/*, then:
        ├─ build/mcpkit.cli.js             the CLI, no manifests inside
        └─ build/manifests/*.json          compiled manifests + index.json (the registry; CI publishes it to GitHub Pages)
             └─ yarn package              plugins/binaries/ runs bun compile → build/bin/mcpkit-<os>-<arch>
@@ -103,9 +103,9 @@ mcpkit: 1 manifest(s) → build/manifests
 
 ### Adding a server
 
-Create `apps/cli/src/servers/<name>/<name>.ts` with exactly one named export built with `defineServer`
+Create `packages/servers/src/<name>/<name>.ts` with exactly one named export built with `defineServer`
 from `@usemcpkit/core`. Folder dashes become underscores in the server name (`my-api` → `my_api`).
-Put each tool in `src/servers/<name>/tools/<resource>/<action>.ts` (the tool `pull_request:list` lives in `tools/pull-request/list.ts`) and shared params in `const.ts`.
+Put each tool in `packages/servers/src/<name>/tools/<resource>/<action>.ts` (the tool `pull_request:list` lives in `tools/pull-request/list.ts`) and shared params in `const.ts`.
 
 ### Use with an MCP client
 
@@ -322,7 +322,7 @@ finishes and the next call uses the token.
 ## Server manifests
 
 No manifest ships inside the binary. They live in a registry (by default the repository's GitHub Pages, published by
-`.github/workflows/registry.yml` whenever `apps/cli/src/servers` or the manifest compiler changes):
+`.github/workflows/registry.yml` whenever `packages/servers/src` or the manifest compiler changes):
 
 ```
 index.json                  every server: id, version, description, tool names, link, sha256

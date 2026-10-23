@@ -705,6 +705,7 @@ __metadata:
     "@usemcpkit/clients": "workspace:*"
     "@usemcpkit/core": "workspace:*"
     "@usemcpkit/credentials-form": "workspace:*"
+    "@usemcpkit/servers": "workspace:*"
     "@usemcpkit/testing": "workspace:*"
     "@usemcpkit/ui": "workspace:*"
     typescript: "npm:^5.9.0"
@@ -746,6 +747,18 @@ __metadata:
 "@usemcpkit/credentials-form@workspace:*, @usemcpkit/credentials-form@workspace:packages/credentials-form":
   version: 0.0.0-use.local
   resolution: "@usemcpkit/credentials-form@workspace:packages/credentials-form"
+  dependencies:
+    "@biomejs/biome": "npm:2.5.15"
+    "@usemcpkit/core": "workspace:*"
+    "@usemcpkit/testing": "workspace:*"
+    typescript: "npm:^5.9.0"
+    vitest: "npm:^4.0.0"
+  languageName: unknown
+  linkType: soft
+
+"@usemcpkit/servers@workspace:*, @usemcpkit/servers@workspace:packages/servers":
+  version: 0.0.0-use.local
+  resolution: "@usemcpkit/servers@workspace:packages/servers"
   dependencies:
     "@biomejs/biome": "npm:2.5.15"
     "@usemcpkit/core": "workspace:*"
