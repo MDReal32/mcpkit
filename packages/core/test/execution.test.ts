@@ -1,3 +1,6 @@
+import { mkdtemp, readFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { createFakeFetch } from "@usemcpkit/testing";
 import { describe, expect, it } from "vitest";
 import { buildRequest, executeTool, prepareToolArgs, ToolError } from "../src/main";
@@ -170,6 +173,23 @@ describe("executeTool", () => {
 
     await expect(call).rejects.toThrow(ToolError);
     await expect(call).rejects.toThrow("demo API 404: Not Found");
+  });
+
+  it("saves a download to the local path instead of returning it", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "mcpkit-"));
+    const path = join(dir, "nested", "out.bin");
+    const tool = {
+      ...listItemsTool,
+      name: "download_archive",
+      input: { type: "object", properties: { owner: { type: "string" }, save_to: { type: "string" } } },
+      request: { method: "GET", path: "/owners/{owner}/archive", saveToArg: "save_to" },
+    } as const;
+    const fetchImpl: typeof fetch = async () => new Response(new Uint8Array([1, 2, 3]), { status: 200 });
+
+    const result = await executeTool(demoManifest, tool, { owner: "o", save_to: path }, { env: DEMO_ENV, fetchImpl });
+
+    expect(result).toMatchObject({ savedTo: path, bytes: 3 });
+    expect([...(await readFile(path))]).toEqual([1, 2, 3]);
   });
 
   it("returns non-JSON bodies as text", async () => {

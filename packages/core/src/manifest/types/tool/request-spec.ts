@@ -20,6 +20,8 @@ export interface RequestSpec {
    * parts; with `bodyArg` naming one of them the file is the raw request body.
    */
   fileArgs?: readonly string[];
+  /** Names the argument holding the local path a successful response is saved to, instead of being returned. */
+  saveToArg?: string;
   fixedQuery?: FixedValues;
   /** Header values sent on every call; auth headers win over them. */
   fixedHeaders?: Readonly<Record<string, string>>;

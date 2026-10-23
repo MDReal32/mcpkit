@@ -9,6 +9,7 @@ import { validateFileArgs } from "./validate-file-args";
 import { validateFixedHeaders } from "./validate-fixed-headers";
 import { validateFixedValues } from "./validate-fixed-values";
 import { validateRequestPath } from "./validate-request-path";
+import { validateSaveToArg } from "./validate-save-to-arg";
 
 export const validateRequest = (request: unknown, declaredArgs: ReadonlySet<string>, location: string) => {
   if (!isJsonObject(request)) {
@@ -22,6 +23,7 @@ export const validateRequest = (request: unknown, declaredArgs: ReadonlySet<stri
     ...validateRequestPath(request.path, declaredArgs, location),
     ...validateArgSpec(request.query, declaredArgs, `${location}.request.query`),
     ...validateArgSpec(request.body, declaredArgs, `${location}.request.body`),
+    ...validateSaveToArg(request.saveToArg, declaredArgs, location),
     ...validateFileArgs(request.fileArgs, declaredArgs, `${location}.request.fileArgs`),
     ...validateContentType(request, location),
     ...validateBodyArg(request, declaredArgs, location),

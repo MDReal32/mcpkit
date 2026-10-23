@@ -7,6 +7,7 @@ import { loadFileArgs } from "./request/load-file-args";
 import { prepareToolArgs } from "./request/prepare-tool-args";
 import { readApiErrorMessage } from "./response/read-api-error-message";
 import { readResponseBody } from "./response/read-response-body";
+import { saveResponseFile } from "./response/save-response-file";
 import { ToolError } from "./tool-error";
 import type { CallContext } from "./types/call-context";
 
@@ -24,6 +25,10 @@ export const executeTool = async (
     ...hooks,
   };
   const { response, tool: sentTool } = await sendWithAuthFallback(manifest, tool, args, context);
+  const { saveToArg } = sentTool.request;
+  if (saveToArg !== undefined && response.ok) {
+    return saveResponseFile(response, args[saveToArg]);
+  }
   const body = await readResponseBody(response);
   if (!response.ok) {
     throw new ToolError(`${manifest.name} API ${response.status}: ${readApiErrorMessage(body)}`.trim());
