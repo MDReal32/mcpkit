@@ -1,0 +1,35 @@
+import { defineTool } from '@usemcpkit/core';
+
+export const copilotSpacesRemoveCollaboratorForOrg = defineTool({
+  name: 'copilot_spaces:remove_collaborator_for_org',
+  description:
+    'Remove a collaborator from an organization Copilot Space. Removes a collaborator from a specific Copilot Space owned by an organization. The authenticated user must have appropriate permissions to manage collaborators.',
+  input: {
+    type: 'object',
+    properties: {
+      org: {
+        type: 'string',
+        description: 'The organization name. The name is not case sensitive.',
+      },
+      space_number: {
+        type: 'integer',
+        description: 'The unique identifier of the Copilot Space.',
+      },
+      actor_type: {
+        type: 'string',
+        enum: ['User', 'Team'],
+        description: 'The type of actor (user or team).',
+      },
+      actor_identifier: {
+        type: 'string',
+        description:
+          'The username (for users) or team slug (for teams). The numeric ID of a user or team is also accepted.',
+      },
+    },
+    required: ['org', 'space_number', 'actor_type', 'actor_identifier'],
+  },
+  request: {
+    method: 'DELETE',
+    path: '/orgs/{org}/copilot-spaces/{space_number}/collaborators/{actor_type}/{actor_identifier}',
+  },
+});

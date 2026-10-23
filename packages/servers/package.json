@@ -8,6 +8,7 @@
     ".": "./src/main.ts"
   },
   "scripts": {
+    "generate:github": "node generator/github/main.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --configLoader native",
     "lint": "biome check ."

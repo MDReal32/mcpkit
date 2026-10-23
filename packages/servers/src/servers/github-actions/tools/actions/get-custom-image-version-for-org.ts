@@ -1,0 +1,29 @@
+import { defineTool } from '@usemcpkit/core';
+
+export const actionsGetCustomImageVersionForOrg = defineTool({
+  name: 'actions:get_custom_image_version_for_org',
+  description:
+    'Get an image version of a custom image for GitHub Actions Hosted Runners. Get an image version of a custom image for GitHub Actions Hosted Runners.',
+  input: {
+    type: 'object',
+    properties: {
+      org: {
+        type: 'string',
+        description: 'The organization name. The name is not case sensitive.',
+      },
+      image_definition_id: {
+        type: 'integer',
+        description: 'Image definition ID of custom image',
+      },
+      version: {
+        type: 'string',
+        description: 'Version of a custom image',
+      },
+    },
+    required: ['org', 'image_definition_id', 'version'],
+  },
+  request: {
+    method: 'GET',
+    path: '/orgs/{org}/actions/hosted-runners/images/custom/{image_definition_id}/versions/{version}',
+  },
+});

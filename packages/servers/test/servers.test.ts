@@ -2,10 +2,11 @@ import type { Manifest, ToolArgs } from '@usemcpkit/core';
 import { executeTool, validateManifest } from '@usemcpkit/core';
 import { useTempDir } from '@usemcpkit/testing';
 import { describe, expect, it } from 'vitest';
-import { confluence } from '../src/confluence/confluence';
-import { github } from '../src/github/github';
-import { gitlab } from '../src/gitlab/gitlab';
-import { jira } from '../src/jira/jira';
+import { confluence } from '../src/servers/confluence/confluence';
+import { githubIssues } from '../src/servers/github-issues/github-issues';
+import { githubRepos } from '../src/servers/github-repos/github-repos';
+import { gitlab } from '../src/servers/gitlab/gitlab';
+import { jira } from '../src/servers/jira/jira';
 
 const readHome = useTempDir('mcpkit-servers-');
 
@@ -43,8 +44,30 @@ const CONFLUENCE_CLOUD = {
 const CONFLUENCE_DATA_CENTER = { CONFLUENCE_HOST: 'wiki.acme.com', CONFLUENCE_PERSONAL_TOKEN: 't' };
 
 describe('bundled servers', () => {
-  it.each([github, gitlab, jira, confluence])('$name compiles to a valid manifest', (server) => {
+  it.each([githubRepos, githubIssues, gitlab, jira, confluence])('$name compiles to a valid manifest', (server) => {
     expect(validateManifest(JSON.parse(JSON.stringify(server)))).toEqual([]);
+  });
+});
+
+describe('github', () => {
+  it('fills path and query parameters and sends the body under renamed keys', async () => {
+    const env = { GITHUB_TOKEN: 't' };
+    const [content] = await sendTool(
+      githubRepos,
+      'repos:get_content',
+      { owner: 'a', repo: 'b', path: 'x', ref: 'dev' },
+      env,
+    );
+    const [created] = await sendTool(
+      githubIssues,
+      'issues:create',
+      { owner: 'a', repo: 'b', title: 'T', labels: ['bug'] },
+      env,
+    );
+
+    expect(content?.url).toBe('https://api.github.com/repos/a/b/contents/x?ref=dev');
+    expect(created?.method).toBe('POST');
+    expect(created?.body).toEqual({ title: 'T', labels: ['bug'] });
   });
 });
 

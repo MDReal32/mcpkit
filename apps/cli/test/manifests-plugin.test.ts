@@ -26,10 +26,23 @@ describe('compileServers', () => {
     const { compiled, errors, dependencies } = await compileServers(SERVERS_DIR);
 
     expect(errors).toEqual([]);
-    expect(compiled.map(({ manifest }) => manifest.name)).toEqual(['confluence', 'github', 'gitlab', 'jira']);
-    const github = compiled.find(({ manifest }) => manifest.name === 'github');
+    expect(compiled.map(({ manifest }) => manifest.name)).toEqual([
+      'confluence',
+      'github_actions',
+      'github_apps',
+      'github_copilot',
+      'github_issues',
+      'github_meta',
+      'github_orgs',
+      'github_repos',
+      'github_security',
+      'github_users',
+      'gitlab',
+      'jira',
+    ]);
+    const github = compiled.find(({ manifest }) => manifest.name === 'github_issues');
     expect(JSON.parse(github?.json ?? 'null')).toEqual(github?.manifest);
-    expect(github?.manifest.tools.find((tool) => tool.name === 'issue:create')?.input.required).toEqual([
+    expect(github?.manifest.tools.find((tool) => tool.name === 'issues:create')?.input.required).toEqual([
       'owner',
       'repo',
       'title',
@@ -74,12 +87,12 @@ describe('writeManifests', () => {
     await writeManifests(compiled, join(readDir(), 'plain'));
 
     const read = async (dir: string) => JSON.parse(await readFile(join(readDir(), dir, 'index.json'), 'utf8'));
-    const linked = (await read('linked')).servers.find((server: { id: string }) => server.id === 'git:github');
-    const plain = (await read('plain')).servers.find((server: { id: string }) => server.id === 'git:github');
-    const file = await readFile(join(readDir(), 'linked', 'git', 'github.json'), 'utf8');
-    expect(linked.url).toBe('https://reg.example/mcpkit/git/github.json');
-    expect(plain.url).toBe('git/github.json');
-    expect(linked.tools).toContain('repository:get');
+    const linked = (await read('linked')).servers.find((server: { id: string }) => server.id === 'git:github_issues');
+    const plain = (await read('plain')).servers.find((server: { id: string }) => server.id === 'git:github_issues');
+    const file = await readFile(join(readDir(), 'linked', 'git', 'github_issues.json'), 'utf8');
+    expect(linked.url).toBe('https://reg.example/mcpkit/git/github_issues.json');
+    expect(plain.url).toBe('git/github_issues.json');
+    expect(linked.tools).toContain('issues:create');
     expect(linked.sha256).toBe(createHash('sha256').update(file).digest('hex'));
   });
 });
