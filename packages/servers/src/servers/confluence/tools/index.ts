@@ -1,5 +1,5 @@
-import { contentTools } from './content';
-import { pageTools } from './page';
-import { spaceTools } from './space';
+import { cloudAllTools } from './cloud';
+import { cloudV1AllTools } from './cloud-v1';
+import { datacenterAllTools } from './datacenter';
 
-export const confluenceTools = [...contentTools, ...pageTools, ...spaceTools];
+export const confluenceTools = [...cloudAllTools, ...cloudV1AllTools, ...datacenterAllTools];

@@ -182,11 +182,23 @@ describe('jira comments', () => {
 });
 
 describe('confluence', () => {
-  const page = { space: 'DOCS', title: 'Notes', body: '<p>Hi</p>', parent_id: '7' };
+  const pageBody = { title: 'Notes', body: { representation: 'storage', value: '<p>Hi</p>' } };
 
-  it('creates pages through v1 on Data Center', async () => {
-    const [request] = await sendTool(confluence, 'page:create', page, CONFLUENCE_DATA_CENTER);
+  it('creates content through the Data Center API on a Data Center host', async () => {
+    const [request] = await sendTool(
+      confluence,
+      'datacenter:content:create',
+      {
+        type: 'page',
+        title: 'Notes',
+        space: { key: 'DOCS' },
+        body: { storage: { value: '<p>Hi</p>', representation: 'storage' } },
+        ancestors: [{ id: '7' }],
+      },
+      CONFLUENCE_DATA_CENTER,
+    );
 
+    expect(request?.method).toBe('POST');
     expect(request?.url).toBe('https://wiki.acme.com/rest/api/content');
     expect(request?.body).toEqual({
       type: 'page',
@@ -197,16 +209,62 @@ describe('confluence', () => {
     });
   });
 
-  it('creates pages through v2 on Cloud', async () => {
-    const [request] = await sendTool(confluence, 'page:create', page, CONFLUENCE_CLOUD);
+  it('keeps the context path of a Data Center host', async () => {
+    const [request] = await sendTool(
+      confluence,
+      'datacenter:content:get',
+      { id: '7', expand: 'body.storage' },
+      { CONFLUENCE_HOST: 'wiki.acme.com/confluence', CONFLUENCE_PERSONAL_TOKEN: 't' },
+    );
+
+    expect(request?.url).toBe('https://wiki.acme.com/confluence/rest/api/content/7?expand=body.storage');
+  });
+
+  it('creates pages through the v2 API on a Cloud host', async () => {
+    const [request] = await sendTool(
+      confluence,
+      'cloud:pages:create_page',
+      { spaceId: '123', parentId: '7', status: 'current', ...pageBody },
+      CONFLUENCE_CLOUD,
+    );
 
     expect(request?.url).toBe('https://acme.atlassian.net/wiki/api/v2/pages');
-    expect(request?.body).toEqual({
-      status: 'current',
-      spaceId: 'DOCS',
-      title: 'Notes',
-      body: { value: '<p>Hi</p>', representation: 'storage' },
-      parentId: '7',
-    });
+    expect(request?.body).toEqual({ spaceId: '123', parentId: '7', status: 'current', ...pageBody });
+  });
+
+  it('renames hyphenated v2 parameters to word-character arguments and sends them under the original keys', async () => {
+    const [request] = await sendTool(
+      confluence,
+      'cloud:pages:get_page_by_id',
+      { id: '7', body_format: 'storage', get_draft: true },
+      CONFLUENCE_CLOUD,
+    );
+
+    expect(request?.url).toBe('https://acme.atlassian.net/wiki/api/v2/pages/7?body-format=storage&get-draft=true');
+  });
+
+  it('reaches the Cloud v1 API under /wiki/rest/api', async () => {
+    const [request] = await sendTool(
+      confluence,
+      'cloud_v1:search:search_by_cql',
+      { cql: 'type = page', limit: 5 },
+      CONFLUENCE_CLOUD,
+    );
+
+    expect(request?.url).toBe('https://acme.atlassian.net/wiki/rest/api/search?cql=type+%3D+page&limit=5');
+  });
+
+  it('declares the Cloud edition and prefixes every tool path by its API', () => {
+    const roots: Record<string, string> = {
+      cloud: '/wiki/api/v2/',
+      cloud_v1: '/wiki/rest/api/',
+      datacenter: '/rest/api/',
+    };
+
+    expect(confluence.editions).toEqual({ cloud: { label: 'Cloud', hosts: ['.atlassian.net'] } });
+    for (const tool of confluence.tools) {
+      const [group = ''] = tool.name.split(':');
+      expect(tool.request.path.startsWith(roots[group] ?? 'unknown group'), tool.name).toBe(true);
+    }
   });
 });
