@@ -1,4 +1,4 @@
-import { CREDENTIALS_FORM_API } from '@mcpkit/core';
+import { CREDENTIALS_FORM_API } from '@usemcpkit/core';
 import { createSessionHeaders } from './create-session-headers';
 
 export const cancelCredentials = async () => {

@@ -1,4 +1,4 @@
-import { number, string } from '@mcpkit/core';
+import { number, string } from '@usemcpkit/core';
 
 export const PAGE_ID = string('Page id');
 

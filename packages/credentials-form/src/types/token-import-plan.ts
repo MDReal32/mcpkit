@@ -1,4 +1,4 @@
-import type { CliTokenCommand } from '@mcpkit/core';
+import type { CliTokenCommand } from '@usemcpkit/core';
 
 export interface TokenImportPlan {
   cli: CliTokenCommand;

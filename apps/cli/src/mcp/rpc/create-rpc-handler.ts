@@ -1,4 +1,4 @@
-import type { ExecuteOptions, Manifest } from '@mcpkit/core';
+import type { ExecuteOptions, Manifest } from '@usemcpkit/core';
 import { createRpcMethods } from '../methods/create-rpc-methods';
 import { buildToolIndex } from '../tools/build-tool-index';
 import type { RpcHandler } from '../types/rpc-handler';

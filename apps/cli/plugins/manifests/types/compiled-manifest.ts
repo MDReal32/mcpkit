@@ -1,4 +1,4 @@
-import type { Manifest } from '@mcpkit/core';
+import type { Manifest } from '@usemcpkit/core';
 
 export interface CompiledManifest {
   file: string;

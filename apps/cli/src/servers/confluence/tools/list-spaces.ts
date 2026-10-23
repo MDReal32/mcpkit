@@ -1,4 +1,4 @@
-import { defineTool, input } from '@mcpkit/core';
+import { defineTool, input } from '@usemcpkit/core';
 import { LIMIT, SPACE_FIELDS } from '../const';
 
 export const listSpaces = defineTool({

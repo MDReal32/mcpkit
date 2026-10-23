@@ -1,4 +1,4 @@
-import { fillTemplate } from '@mcpkit/core';
+import { fillTemplate } from '@usemcpkit/core';
 import type { SubmitResult } from '../types/submit-result';
 import { createSessionHeaders } from './create-session-headers';
 import { readErrorList } from './read-error-list';

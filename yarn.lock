@@ -256,105 +256,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mcpkit/binary@workspace:*, @mcpkit/binary@workspace:packages/binary":
-  version: 0.0.0-use.local
-  resolution: "@mcpkit/binary@workspace:packages/binary"
-  dependencies:
-    "@biomejs/biome": "npm:2.5.15"
-    "@mcpkit/core": "workspace:*"
-    "@mcpkit/testing": "workspace:*"
-    typescript: "npm:^5.9.0"
-    vitest: "npm:^4.0.0"
-  languageName: unknown
-  linkType: soft
-
-"@mcpkit/cli@workspace:*, @mcpkit/cli@workspace:apps/cli":
-  version: 0.0.0-use.local
-  resolution: "@mcpkit/cli@workspace:apps/cli"
-  dependencies:
-    "@biomejs/biome": "npm:2.5.15"
-    "@clack/prompts": "npm:1.8.1"
-    "@mcpkit/binary": "workspace:*"
-    "@mcpkit/clients": "workspace:*"
-    "@mcpkit/core": "workspace:*"
-    "@mcpkit/credentials-form": "workspace:*"
-    "@mcpkit/testing": "workspace:*"
-    "@mcpkit/ui": "workspace:*"
-    typescript: "npm:^5.9.0"
-    vite: "npm:^8.0.0"
-    vitest: "npm:^4.0.0"
-    yargs-extended: "npm:1.1.0"
-  bin:
-    mcpkit: build/mcpkit.cli.js
-  languageName: unknown
-  linkType: soft
-
-"@mcpkit/clients@workspace:*, @mcpkit/clients@workspace:packages/clients":
-  version: 0.0.0-use.local
-  resolution: "@mcpkit/clients@workspace:packages/clients"
-  dependencies:
-    "@biomejs/biome": "npm:2.5.15"
-    "@mcpkit/core": "workspace:*"
-    "@mcpkit/testing": "workspace:*"
-    jsonc-parser: "npm:3.3.1"
-    typescript: "npm:^5.9.0"
-    vitest: "npm:^4.0.0"
-  languageName: unknown
-  linkType: soft
-
-"@mcpkit/core@workspace:*, @mcpkit/core@workspace:packages/core":
-  version: 0.0.0-use.local
-  resolution: "@mcpkit/core@workspace:packages/core"
-  dependencies:
-    "@biomejs/biome": "npm:2.5.15"
-    "@mcpkit/testing": "workspace:*"
-    "@microsoft/api-extractor": "npm:^7.59.4"
-    typescript: "npm:^5.9.0"
-    vite: "npm:^8.0.0"
-    vite-plugin-dts: "npm:5.1.2"
-    vitest: "npm:^4.0.0"
-  languageName: unknown
-  linkType: soft
-
-"@mcpkit/credentials-form@workspace:*, @mcpkit/credentials-form@workspace:packages/credentials-form":
-  version: 0.0.0-use.local
-  resolution: "@mcpkit/credentials-form@workspace:packages/credentials-form"
-  dependencies:
-    "@biomejs/biome": "npm:2.5.15"
-    "@mcpkit/core": "workspace:*"
-    "@mcpkit/testing": "workspace:*"
-    typescript: "npm:^5.9.0"
-    vitest: "npm:^4.0.0"
-  languageName: unknown
-  linkType: soft
-
-"@mcpkit/testing@workspace:*, @mcpkit/testing@workspace:packages/testing":
-  version: 0.0.0-use.local
-  resolution: "@mcpkit/testing@workspace:packages/testing"
-  dependencies:
-    "@biomejs/biome": "npm:2.5.15"
-    "@mcpkit/core": "workspace:*"
-    typescript: "npm:^5.9.0"
-    vitest: "npm:^4.0.0"
-  languageName: unknown
-  linkType: soft
-
-"@mcpkit/ui@workspace:*, @mcpkit/ui@workspace:packages/ui":
-  version: 0.0.0-use.local
-  resolution: "@mcpkit/ui@workspace:packages/ui"
-  dependencies:
-    "@biomejs/biome": "npm:2.5.15"
-    "@mcpkit/core": "workspace:*"
-    "@sveltejs/vite-plugin-svelte": "npm:7.3.1"
-    svelte: "npm:5.57.2"
-    svelte-check: "npm:4.7.6"
-    typescript: "npm:^5.9.0"
-    vite: "npm:^8.0.0"
-    vite-plugin-singlefile: "npm:2.3.3"
-    vitest: "npm:^4.0.0"
-  languageName: unknown
-  linkType: soft
-
 "@microsoft/api-extractor-model@npm:7.33.15":
   version: 7.33.15
   resolution: "@microsoft/api-extractor-model@npm:7.33.15"
@@ -781,6 +682,105 @@ __metadata:
   checksum: 10c0/b51a7f8854007ad579dffdd0633d8addbfeb2c97cceb380f2eba0ed163638ec52e17565385a6cc04d54ac4ff99c70c64aee68a4ca45b6128c035e828794e29c5
   languageName: node
   linkType: hard
+
+"@usemcpkit/binary@workspace:*, @usemcpkit/binary@workspace:packages/binary":
+  version: 0.0.0-use.local
+  resolution: "@usemcpkit/binary@workspace:packages/binary"
+  dependencies:
+    "@biomejs/biome": "npm:2.5.15"
+    "@usemcpkit/core": "workspace:*"
+    "@usemcpkit/testing": "workspace:*"
+    typescript: "npm:^5.9.0"
+    vitest: "npm:^4.0.0"
+  languageName: unknown
+  linkType: soft
+
+"@usemcpkit/cli@workspace:*, @usemcpkit/cli@workspace:apps/cli":
+  version: 0.0.0-use.local
+  resolution: "@usemcpkit/cli@workspace:apps/cli"
+  dependencies:
+    "@biomejs/biome": "npm:2.5.15"
+    "@clack/prompts": "npm:1.8.1"
+    "@usemcpkit/binary": "workspace:*"
+    "@usemcpkit/clients": "workspace:*"
+    "@usemcpkit/core": "workspace:*"
+    "@usemcpkit/credentials-form": "workspace:*"
+    "@usemcpkit/testing": "workspace:*"
+    "@usemcpkit/ui": "workspace:*"
+    typescript: "npm:^5.9.0"
+    vite: "npm:^8.0.0"
+    vitest: "npm:^4.0.0"
+    yargs-extended: "npm:1.1.0"
+  bin:
+    mcpkit: build/mcpkit.cli.js
+  languageName: unknown
+  linkType: soft
+
+"@usemcpkit/clients@workspace:*, @usemcpkit/clients@workspace:packages/clients":
+  version: 0.0.0-use.local
+  resolution: "@usemcpkit/clients@workspace:packages/clients"
+  dependencies:
+    "@biomejs/biome": "npm:2.5.15"
+    "@usemcpkit/core": "workspace:*"
+    "@usemcpkit/testing": "workspace:*"
+    jsonc-parser: "npm:3.3.1"
+    typescript: "npm:^5.9.0"
+    vitest: "npm:^4.0.0"
+  languageName: unknown
+  linkType: soft
+
+"@usemcpkit/core@workspace:*, @usemcpkit/core@workspace:packages/core":
+  version: 0.0.0-use.local
+  resolution: "@usemcpkit/core@workspace:packages/core"
+  dependencies:
+    "@biomejs/biome": "npm:2.5.15"
+    "@microsoft/api-extractor": "npm:^7.59.4"
+    "@usemcpkit/testing": "workspace:*"
+    typescript: "npm:^5.9.0"
+    vite: "npm:^8.0.0"
+    vite-plugin-dts: "npm:5.1.2"
+    vitest: "npm:^4.0.0"
+  languageName: unknown
+  linkType: soft
+
+"@usemcpkit/credentials-form@workspace:*, @usemcpkit/credentials-form@workspace:packages/credentials-form":
+  version: 0.0.0-use.local
+  resolution: "@usemcpkit/credentials-form@workspace:packages/credentials-form"
+  dependencies:
+    "@biomejs/biome": "npm:2.5.15"
+    "@usemcpkit/core": "workspace:*"
+    "@usemcpkit/testing": "workspace:*"
+    typescript: "npm:^5.9.0"
+    vitest: "npm:^4.0.0"
+  languageName: unknown
+  linkType: soft
+
+"@usemcpkit/testing@workspace:*, @usemcpkit/testing@workspace:packages/testing":
+  version: 0.0.0-use.local
+  resolution: "@usemcpkit/testing@workspace:packages/testing"
+  dependencies:
+    "@biomejs/biome": "npm:2.5.15"
+    "@usemcpkit/core": "workspace:*"
+    typescript: "npm:^5.9.0"
+    vitest: "npm:^4.0.0"
+  languageName: unknown
+  linkType: soft
+
+"@usemcpkit/ui@workspace:*, @usemcpkit/ui@workspace:packages/ui":
+  version: 0.0.0-use.local
+  resolution: "@usemcpkit/ui@workspace:packages/ui"
+  dependencies:
+    "@biomejs/biome": "npm:2.5.15"
+    "@sveltejs/vite-plugin-svelte": "npm:7.3.1"
+    "@usemcpkit/core": "workspace:*"
+    svelte: "npm:5.57.2"
+    svelte-check: "npm:4.7.6"
+    typescript: "npm:^5.9.0"
+    vite: "npm:^8.0.0"
+    vite-plugin-singlefile: "npm:2.3.3"
+    vitest: "npm:^4.0.0"
+  languageName: unknown
+  linkType: soft
 
 "@vitest/expect@npm:4.1.12":
   version: 4.1.12
@@ -2027,7 +2027,7 @@ __metadata:
   resolution: "mcpkit@workspace:apps/npx"
   dependencies:
     "@biomejs/biome": "npm:2.5.15"
-    "@mcpkit/cli": "workspace:*"
+    "@usemcpkit/cli": "workspace:*"
     typescript: "npm:^5.9.0"
     vite: "npm:^8.0.0"
   bin:

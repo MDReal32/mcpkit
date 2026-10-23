@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { CredentialRequest } from '@mcpkit/core';
+  import type { CredentialRequest } from '@usemcpkit/core';
   import { AUTO_CLOSE_DELAY_MS } from '../const';
   import type { FormStatus } from '../types/form-status';
 

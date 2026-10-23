@@ -1,5 +1,5 @@
 import { access } from 'node:fs/promises';
-import { isMissingFileError } from '@mcpkit/core';
+import { isMissingFileError } from '@usemcpkit/core';
 
 export const pathExists = async (path: string) => {
   try {

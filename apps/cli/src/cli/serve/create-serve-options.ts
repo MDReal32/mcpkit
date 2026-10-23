@@ -1,6 +1,6 @@
-import type { ExecuteOptions } from '@mcpkit/core';
-import { createFileSecretStore } from '@mcpkit/core';
-import { createCredentialsForm } from '@mcpkit/credentials-form';
+import type { ExecuteOptions } from '@usemcpkit/core';
+import { createFileSecretStore } from '@usemcpkit/core';
+import { createCredentialsForm } from '@usemcpkit/credentials-form';
 import { credentialsFormPage } from '../browser/credentials-form-page';
 import { announceAuthorizationUrl } from '../output/announce-authorization-url';
 import { announceCredentialsFormUrl } from '../output/announce-credentials-form-url';

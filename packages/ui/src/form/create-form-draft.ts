@@ -1,4 +1,4 @@
-import type { CredentialRequest } from '@mcpkit/core';
+import type { CredentialRequest } from '@usemcpkit/core';
 import type { FormDraft } from '../types/form-draft';
 
 export const createFormDraft = (request: CredentialRequest) => {

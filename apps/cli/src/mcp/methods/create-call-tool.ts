@@ -1,5 +1,5 @@
-import type { ExecuteOptions } from '@mcpkit/core';
-import { describeError, executeTool } from '@mcpkit/core';
+import type { ExecuteOptions } from '@usemcpkit/core';
+import { describeError, executeTool } from '@usemcpkit/core';
 import { createTextContent } from '../rpc/create-text-content';
 import { findToolEntry } from '../tools/find-tool-entry';
 import { readToolArguments } from '../tools/read-tool-arguments';

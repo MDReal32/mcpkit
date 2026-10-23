@@ -1,4 +1,4 @@
-import { defineTool, input } from '@mcpkit/core';
+import { defineTool, input } from '@usemcpkit/core';
 import { REPO_PARAMS } from '../const';
 
 export const getRepo = defineTool({

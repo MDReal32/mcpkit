@@ -1,6 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { useTempDir } from '@mcpkit/testing';
+import { useTempDir } from '@usemcpkit/testing';
 import { describe, expect, it } from 'vitest';
 import type { ClientDefinition, LaunchCommand } from '../src/main';
 import { CLIENT_DEFINITIONS, createClientContext, detectClients, removeClientEntry, setClientEntry } from '../src/main';

@@ -1,5 +1,5 @@
-import type { CliTokenCommand } from '@mcpkit/core';
-import { isJsonObject } from '@mcpkit/core';
+import type { CliTokenCommand } from '@usemcpkit/core';
+import { isJsonObject } from '@usemcpkit/core';
 
 /** The reason a CLI gave on stderr, or that it is not installed; undefined when neither is known. */
 export const readCommandFailure = (cli: CliTokenCommand, error: unknown) => {

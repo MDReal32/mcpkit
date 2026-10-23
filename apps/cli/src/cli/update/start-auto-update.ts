@@ -1,5 +1,5 @@
-import { isCompiledBinary } from '@mcpkit/binary';
-import { describeError } from '@mcpkit/core';
+import { isCompiledBinary } from '@usemcpkit/binary';
+import { describeError } from '@usemcpkit/core';
 import { printError } from '../output/print-error';
 import { runAutoUpdate } from './run-auto-update';
 

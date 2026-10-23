@@ -1,6 +1,6 @@
 import { writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { isValidManifest, validateManifest } from '@mcpkit/core';
+import { isValidManifest, validateManifest } from '@usemcpkit/core';
 import type { UpdateResult } from '../types/update-result';
 import { fetchJson } from './fetch-json';
 

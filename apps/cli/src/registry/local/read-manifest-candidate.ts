@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises';
-import { describeError } from '@mcpkit/core';
+import { describeError } from '@usemcpkit/core';
 import type { ManifestCandidate } from '../types/manifest-candidate';
 
 export const readManifestCandidate = async (file: string) => {

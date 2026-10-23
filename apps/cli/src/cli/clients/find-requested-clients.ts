@@ -1,4 +1,4 @@
-import type { DetectedClient } from '@mcpkit/clients';
+import type { DetectedClient } from '@usemcpkit/clients';
 
 /** Resolves `--clients a,b` against the detected clients; throws on ids that are unknown or not installed. */
 export const findRequestedClients = (detected: readonly DetectedClient[], idList: string) => {

@@ -1,5 +1,5 @@
 import { spawn } from 'node:child_process';
-import { describeError } from '@mcpkit/core';
+import { describeError } from '@usemcpkit/core';
 import { printError } from '../output/print-error';
 import { resolveBrowserCommand } from './resolve-browser-command';
 

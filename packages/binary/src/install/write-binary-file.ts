@@ -1,6 +1,6 @@
 import { chmod, mkdir, rename, rm, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
-import { isMissingFileError } from '@mcpkit/core';
+import { isMissingFileError } from '@usemcpkit/core';
 import { EXECUTABLE_MODE, REPLACED_BINARY_SUFFIX } from '../const';
 
 /**

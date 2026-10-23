@@ -1,7 +1,7 @@
 import { chmod, copyFile, mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import type { Target } from '@mcpkit/binary';
-import { PLATFORM_PACKAGE_BIN_DIR, toBinaryFileName, toNpmPlatform, toPlatformPackageName } from '@mcpkit/binary';
+import type { Target } from '@usemcpkit/binary';
+import { PLATFORM_PACKAGE_BIN_DIR, toBinaryFileName, toNpmPlatform, toPlatformPackageName } from '@usemcpkit/binary';
 import { PLATFORM_PACKAGE_LICENSE, PLATFORM_PACKAGE_REPOSITORY_URL } from './const';
 import type { PlatformPackageJson } from './types/platform-package-json';
 

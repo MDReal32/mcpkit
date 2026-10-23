@@ -1,8 +1,8 @@
 import { chmod, writeFile } from 'node:fs/promises';
 import { delimiter, join } from 'node:path';
-import type { CredentialRequest } from '@mcpkit/core';
-import { CREDENTIALS_FORM_API, CREDENTIALS_FORM_SESSION_HEADER, DEFAULT_UI_TEXTS } from '@mcpkit/core';
-import { useTempDir } from '@mcpkit/testing';
+import type { CredentialRequest } from '@usemcpkit/core';
+import { CREDENTIALS_FORM_API, CREDENTIALS_FORM_SESSION_HEADER, DEFAULT_UI_TEXTS } from '@usemcpkit/core';
+import { useTempDir } from '@usemcpkit/testing';
 import { afterEach, describe, expect, it } from 'vitest';
 import { createCredentialsForm } from '../src/main';
 

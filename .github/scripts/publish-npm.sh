@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Publishes every public mcpkit package whose version is not on npm yet, dependencies first:
-# the per-OS binaries, @mcpkit/core, @mcpkit/cli, then the `mcpkit` wrapper that depends on it.
+# the per-OS binaries, @usemcpkit/core, @usemcpkit/cli, then the `mcpkit` wrapper that depends on it.
 # Workspaces go through `yarn pack` so `workspace:*` and `publishConfig` are rewritten before npm sees them.
 set -euo pipefail
 

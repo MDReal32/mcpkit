@@ -1,4 +1,4 @@
-import { defineTool, input } from '@mcpkit/core';
+import { defineTool, input } from '@usemcpkit/core';
 import { ISSUE_KEY } from '../const';
 
 export const listTransitions = defineTool({

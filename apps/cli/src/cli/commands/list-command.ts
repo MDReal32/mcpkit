@@ -1,4 +1,4 @@
-import { describeAuth } from '@mcpkit/core';
+import { describeAuth } from '@usemcpkit/core';
 import type { Program } from 'yargs-extended';
 import { EXIT_SUCCESS } from '../const';
 import { printLine } from '../output/print-line';

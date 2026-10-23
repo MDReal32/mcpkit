@@ -1,4 +1,4 @@
-import { defineTool, input, optional, string } from '@mcpkit/core';
+import { defineTool, input, optional, string } from '@usemcpkit/core';
 
 export const createIssue = defineTool({
   name: 'create_issue',

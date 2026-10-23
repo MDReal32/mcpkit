@@ -1,4 +1,4 @@
-import { isCompiledBinary } from '@mcpkit/binary';
+import { isCompiledBinary } from '@usemcpkit/binary';
 import type { Program } from 'yargs-extended';
 import { serveStdio } from '../../mcp';
 import { VERSION } from '../../version';

@@ -1,4 +1,4 @@
-import { createClientContext, detectClients, pathExists, SERVE_ARGS, setClientEntry } from '@mcpkit/clients';
+import { createClientContext, detectClients, pathExists, SERVE_ARGS, setClientEntry } from '@usemcpkit/clients';
 import type { Program } from 'yargs-extended';
 import { applyToClients } from '../clients/apply-to-clients';
 import { selectClients } from '../clients/select-clients';

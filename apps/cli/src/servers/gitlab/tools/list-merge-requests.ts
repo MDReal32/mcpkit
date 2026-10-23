@@ -1,4 +1,4 @@
-import { defineTool, input, optional, string } from '@mcpkit/core';
+import { defineTool, input, optional, string } from '@usemcpkit/core';
 import { MERGE_REQUEST_FIELDS, MERGE_REQUEST_STATE_FILTER, PAGE, PER_PAGE, PROJECT } from '../const';
 
 export const listMergeRequests = defineTool({

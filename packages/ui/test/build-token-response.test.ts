@@ -1,5 +1,5 @@
-import type { CredentialRequest } from '@mcpkit/core';
-import { DEFAULT_UI_TEXTS } from '@mcpkit/core';
+import type { CredentialRequest } from '@usemcpkit/core';
+import { DEFAULT_UI_TEXTS } from '@usemcpkit/core';
 import { describe, expect, it } from 'vitest';
 import { buildSignInResponse } from '../src/form/build-sign-in-response';
 import { buildTokenImportRequest } from '../src/form/build-token-import-request';

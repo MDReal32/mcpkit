@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { describeError, isValidCredentialResponse, validateCredentialResponse } from '@mcpkit/core';
+import { describeError, isValidCredentialResponse, validateCredentialResponse } from '@usemcpkit/core';
 import { readJsonBody } from './server/read-json-body';
 import { sendJson } from './server/send-json';
 import type { FormSession } from './types/form-session';

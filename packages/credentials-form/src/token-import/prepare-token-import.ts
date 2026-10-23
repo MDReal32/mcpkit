@@ -1,5 +1,5 @@
-import type { CredentialRequest } from '@mcpkit/core';
-import { isJsonObject, resolveCliCommand, validateCredentialResponse } from '@mcpkit/core';
+import type { CredentialRequest } from '@usemcpkit/core';
+import { isJsonObject, resolveCliCommand, validateCredentialResponse } from '@usemcpkit/core';
 import { PENDING_TOKEN_VALUE } from '../const';
 import type { TokenImportPlan } from '../types/token-import-plan';
 

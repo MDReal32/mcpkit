@@ -1,4 +1,4 @@
-import type { CredentialRequest } from '@mcpkit/core';
+import type { CredentialRequest } from '@usemcpkit/core';
 import type { FormDraft } from '../types/form-draft';
 
 /** The domain belongs in the answer only when the form offered it. */

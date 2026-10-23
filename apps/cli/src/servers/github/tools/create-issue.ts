@@ -1,4 +1,4 @@
-import { array, defineTool, input, optional, string } from '@mcpkit/core';
+import { array, defineTool, input, optional, string } from '@usemcpkit/core';
 import { REPO_PARAMS } from '../const';
 
 export const createIssue = defineTool({

@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import { mkdir, readFile, realpath, stat, symlink, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { gzipSync } from 'node:zlib';
-import { useTempDir } from '@mcpkit/testing';
+import { useTempDir } from '@usemcpkit/testing';
 import { describe, expect, it } from 'vitest';
 import type { BinaryContext } from '../src/main';
 import {

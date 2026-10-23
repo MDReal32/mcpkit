@@ -1,5 +1,5 @@
-import type { CredentialRequest } from '@mcpkit/core';
-import { CREDENTIALS_REQUEST_ELEMENT_ID } from '@mcpkit/core';
+import type { CredentialRequest } from '@usemcpkit/core';
+import { CREDENTIALS_REQUEST_ELEMENT_ID } from '@usemcpkit/core';
 
 const REQUEST_ELEMENT = new RegExp(`(<script[^>]*\\bid="${CREDENTIALS_REQUEST_ELEMENT_ID}"[^>]*>)\\s*(</script>)`);
 

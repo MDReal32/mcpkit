@@ -1,5 +1,5 @@
 import { createInterface } from 'node:readline';
-import { describeError } from '@mcpkit/core';
+import { describeError } from '@usemcpkit/core';
 import { printError } from '../../cli/output/print-error';
 import { TOOLS_LIST_CHANGED } from './const';
 import { recordHandshakeLine } from './record-handshake-line';

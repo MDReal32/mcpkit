@@ -1,4 +1,4 @@
-import { CLIENT_DEFINITIONS } from '@mcpkit/clients';
+import { CLIENT_DEFINITIONS } from '@usemcpkit/clients';
 import { printError } from './print-error';
 
 export const printDetectedClientsMissing = () => {

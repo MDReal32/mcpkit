@@ -1,4 +1,4 @@
-import type { CredentialResponse } from '@mcpkit/core';
+import type { CredentialResponse } from '@usemcpkit/core';
 
 export interface FormServer {
   url: string;

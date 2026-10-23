@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 import { readFile, stat, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { createPingManifest, useTempDir } from '@mcpkit/testing';
+import { createPingManifest, useTempDir } from '@usemcpkit/testing';
 import { describe, expect, it } from 'vitest';
 import { executeTool, signIn, validateManifest } from '../src/main';
 import { createRecordingFetch } from './fixtures/create-recording-fetch';

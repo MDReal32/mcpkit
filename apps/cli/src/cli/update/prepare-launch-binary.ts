@@ -1,5 +1,5 @@
-import { createBinaryContext, detectPackageManagerInstall, installBinary } from '@mcpkit/binary';
-import { pathExists } from '@mcpkit/clients';
+import { createBinaryContext, detectPackageManagerInstall, installBinary } from '@usemcpkit/binary';
+import { pathExists } from '@usemcpkit/clients';
 import { VERSION } from '../../version';
 import { printLine } from '../output/print-line';
 import type { LaunchBinary } from '../types/launch-binary';

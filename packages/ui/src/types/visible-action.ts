@@ -1,4 +1,4 @@
-import type { UiAction } from '@mcpkit/core';
+import type { UiAction } from '@usemcpkit/core';
 
 export interface VisibleAction {
   index: number;

@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs';
 import { relative } from 'node:path';
-import { describeError } from '@mcpkit/core';
+import { describeError } from '@usemcpkit/core';
 import { checkManifestJson } from './check-manifest-json';
 import { loadServerDefinition } from './load-server-definition';
 import { toManifestJson } from './to-manifest-json';

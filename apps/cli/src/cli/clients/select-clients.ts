@@ -1,4 +1,4 @@
-import type { DetectedClient } from '@mcpkit/clients';
+import type { DetectedClient } from '@usemcpkit/clients';
 import { ALL_FLAG, CLIENTS_FLAG } from '../const';
 import type { ClientSelection } from '../types/client-selection';
 import type { ClientSelectionMode } from '../types/client-selection-mode';

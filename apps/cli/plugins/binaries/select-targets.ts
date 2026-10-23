@@ -1,4 +1,4 @@
-import { isTarget, TARGETS } from '@mcpkit/binary';
+import { isTarget, TARGETS } from '@usemcpkit/binary';
 
 /** No requested names selects every target; unknown names fail fast. */
 export const selectTargets = (requested: readonly string[] = []) => {

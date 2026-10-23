@@ -1,7 +1,7 @@
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import type { CliTokenCommand } from '@mcpkit/core';
-import { describeError } from '@mcpkit/core';
+import type { CliTokenCommand } from '@usemcpkit/core';
+import { describeError } from '@usemcpkit/core';
 import { CLI_TOKEN_TIMEOUT_MS } from '../const';
 import { readCommandFailure } from './read-command-failure';
 

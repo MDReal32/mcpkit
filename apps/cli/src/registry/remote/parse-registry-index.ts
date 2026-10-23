@@ -1,4 +1,4 @@
-import { isJsonObject } from '@mcpkit/core';
+import { isJsonObject } from '@usemcpkit/core';
 import type { RegistryIndex } from '../types/registry-index';
 
 export const parseRegistryIndex = (body: unknown) => {

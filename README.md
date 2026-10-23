@@ -6,11 +6,11 @@ API, auth, tools and response mapping. A generic executor runs those manifests.
 ## Repository layout
 
 ```
-packages/core      @mcpkit/core      library: manifest format, SDK, executor, auth (publishable)
-packages/ui        @mcpkit/ui        Svelte pages the CLI opens in the browser, e.g. the credentials form (private)
-packages/testing   @mcpkit/testing   shared test fixtures (private)
-apps/cli           @mcpkit/cli       mcpkit CLI + MCP stdio server, server definitions, binaries
-apps/npx           mcpkit            wrapper so `npx mcpkit` runs @mcpkit/cli
+packages/core      @usemcpkit/core      library: manifest format, SDK, executor, auth (publishable)
+packages/ui        @usemcpkit/ui        Svelte pages the CLI opens in the browser, e.g. the credentials form (private)
+packages/testing   @usemcpkit/testing   shared test fixtures (private)
+apps/cli           @usemcpkit/cli       mcpkit CLI + MCP stdio server, server definitions, binaries
+apps/npx           mcpkit            wrapper so `npx mcpkit` runs @usemcpkit/cli
 ```
 
 Yarn 4 workspaces and Nx, Node 22.18+. Every command below runs from the repository root.
@@ -55,9 +55,9 @@ Supported clients (ids): `claude-desktop`, `claude-code` (`~/.claude.json`), `cu
 client's path and entry shape lives in `packages/clients/src/definitions/<id>.ts`.
 
 **Where the binary comes from.** When the CLI runs as the compiled binary it copies itself. Under Node (`npx`) it
-downloads `@mcpkit/cli-<target>` (for example `@mcpkit/cli-darwin-arm64`, `@mcpkit/cli-linux-x64-musl`) at the same
+downloads `@usemcpkit/cli-<target>` (for example `@usemcpkit/cli-darwin-arm64`, `@usemcpkit/cli-linux-x64-musl`) at the same
 version from the npm registry and checks the tarball against its published `sha512` integrity. `yarn package`
-writes those packages to `apps/cli/build/npm/cli-<target>/`; publish each of them together with `@mcpkit/cli` and
+writes those packages to `apps/cli/build/npm/cli-<target>/`; publish each of them together with `@usemcpkit/cli` and
 `mcpkit`.
 
 **Auto-update.** `mcpkit serve`, when it is the installed binary, checks the npm registry at most once a day
@@ -104,7 +104,7 @@ mcpkit: 1 manifest(s) → build/manifests
 ### Adding a server
 
 Create `apps/cli/src/servers/<name>/<name>.ts` with exactly one named export built with `defineServer`
-from `@mcpkit/core`. Folder dashes become underscores in the server name (`my-api` → `my_api`).
+from `@usemcpkit/core`. Folder dashes become underscores in the server name (`my-api` → `my_api`).
 Put each tool in `src/servers/<name>/tools/<tool>.ts` and shared params in `const.ts`.
 
 ### Use with an MCP client
@@ -247,7 +247,7 @@ over the file.
 the page as JSON, and the page only renders it. Wording and buttons come from the manifest through `defineUI`:
 
 ```ts
-import { defineServer, defineUI } from '@mcpkit/core';
+import { defineServer, defineUI } from '@usemcpkit/core';
 
 defineServer({
   // ...

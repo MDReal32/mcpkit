@@ -1,4 +1,4 @@
-import { isValidManifest, validateManifest } from '@mcpkit/core';
+import { isValidManifest, validateManifest } from '@usemcpkit/core';
 import { expectedServerName } from './expected-server-name';
 
 export const checkManifestJson = (json: string, dir: string) => {

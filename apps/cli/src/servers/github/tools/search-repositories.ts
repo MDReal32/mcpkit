@@ -1,4 +1,4 @@
-import { defineTool, input, number, string } from '@mcpkit/core';
+import { defineTool, input, number, string } from '@usemcpkit/core';
 
 export const searchRepositories = defineTool({
   name: 'search_repositories',

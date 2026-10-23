@@ -1,3 +1,3 @@
-import credentialsFormPage from '@mcpkit/ui/mcpkit.ui.html?raw';
+import credentialsFormPage from '@usemcpkit/ui/mcpkit.ui.html?raw';
 
 export { credentialsFormPage };

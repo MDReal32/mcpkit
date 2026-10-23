@@ -1,4 +1,4 @@
-import type { CredentialRequest, CredentialResponse } from '@mcpkit/core';
+import type { CredentialRequest, CredentialResponse } from '@usemcpkit/core';
 
 export interface FormSession {
   request: CredentialRequest;

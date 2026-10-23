@@ -1,5 +1,5 @@
-import type { CredentialOption, CredentialRequest } from '@mcpkit/core';
-import { isDomainValue, resolveLinkUrl } from '@mcpkit/core';
+import type { CredentialOption, CredentialRequest } from '@usemcpkit/core';
+import { isDomainValue, resolveLinkUrl } from '@usemcpkit/core';
 import type { FormDraft } from '../types/form-draft';
 import type { VisibleAction } from '../types/visible-action';
 

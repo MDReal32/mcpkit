@@ -1,4 +1,4 @@
-import { autoUpdateBinary, createBinaryContext } from '@mcpkit/binary';
+import { autoUpdateBinary, createBinaryContext } from '@usemcpkit/binary';
 import { VERSION } from '../../version';
 import { printError } from '../output/print-error';
 

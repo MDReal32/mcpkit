@@ -1,4 +1,4 @@
-import { defineTool, input } from '@mcpkit/core';
+import { defineTool, input } from '@usemcpkit/core';
 
 export const getCurrentUser = defineTool({
   name: 'get_current_user',

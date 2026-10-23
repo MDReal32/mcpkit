@@ -1,4 +1,4 @@
-import { createPingManifest } from '@mcpkit/testing';
+import { createPingManifest } from '@usemcpkit/testing';
 import { describe, expect, it } from 'vitest';
 import type { AuthSpec, CredentialRequest, Manifest, UiAction, UiCliAction } from '../src/main';
 import {

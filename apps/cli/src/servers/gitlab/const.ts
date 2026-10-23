@@ -1,4 +1,4 @@
-import { number, oneOf, string } from '@mcpkit/core';
+import { number, oneOf, string } from '@usemcpkit/core';
 
 export const PROJECT = string('Project id or full path, for example group/subgroup/project');
 

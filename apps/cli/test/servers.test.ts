@@ -1,6 +1,6 @@
-import type { Manifest, ToolArgs } from '@mcpkit/core';
-import { executeTool, validateManifest } from '@mcpkit/core';
-import { useTempDir } from '@mcpkit/testing';
+import type { Manifest, ToolArgs } from '@usemcpkit/core';
+import { executeTool, validateManifest } from '@usemcpkit/core';
+import { useTempDir } from '@usemcpkit/testing';
 import { describe, expect, it } from 'vitest';
 import { confluence } from '../src/servers/confluence/confluence';
 import { github } from '../src/servers/github/github';

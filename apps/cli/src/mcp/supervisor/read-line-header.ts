@@ -1,4 +1,4 @@
-import { isJsonObject } from '@mcpkit/core';
+import { isJsonObject } from '@usemcpkit/core';
 import { parseJsonLine } from '../rpc/parse-json-line';
 import type { LineHeader } from './types/line-header';
 

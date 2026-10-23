@@ -1,6 +1,6 @@
 import { constants } from 'node:fs';
 import { access, stat } from 'node:fs/promises';
-import { isJsonObject } from '@mcpkit/core';
+import { isJsonObject } from '@usemcpkit/core';
 import { PATH_LOOKUP_MISS_CODES } from '../const';
 
 export const isExecutableFile = async (file: string) => {

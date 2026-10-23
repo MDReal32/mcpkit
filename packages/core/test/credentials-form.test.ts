@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { createPingManifest, useTempDir } from '@mcpkit/testing';
+import { createPingManifest, useTempDir } from '@usemcpkit/testing';
 import { describe, expect, it } from 'vitest';
 import type { AuthSpec, CredentialRequest, CredentialResponse, ExecuteOptions, Manifest } from '../src/main';
 import { DEFAULT_UI_TEXTS, executeTool, validateCredentialResponse, validateManifest } from '../src/main';

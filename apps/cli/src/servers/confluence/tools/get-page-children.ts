@@ -1,4 +1,4 @@
-import { defineTool, input } from '@mcpkit/core';
+import { defineTool, input } from '@usemcpkit/core';
 import { CLOUD_PAGE_LIST_FIELDS, LIMIT, PAGE_ID, SERVER_PAGE_LIST_FIELDS } from '../const';
 
 export const getPageChildren = defineTool({

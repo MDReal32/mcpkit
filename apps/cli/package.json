@@ -1,7 +1,7 @@
 {
-  "name": "@mcpkit/cli",
+  "name": "@usemcpkit/cli",
   "version": "0.1.0",
-  "description": "Many MCP servers in one tool. Each server is a JSON manifest; @mcpkit/core executes it.",
+  "description": "Many MCP servers in one tool. Each server is a JSON manifest; @usemcpkit/core executes it.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MDReal32/mcpkit.git",
@@ -31,12 +31,12 @@
   "devDependencies": {
     "@biomejs/biome": "2.5.15",
     "@clack/prompts": "1.8.1",
-    "@mcpkit/binary": "workspace:*",
-    "@mcpkit/clients": "workspace:*",
-    "@mcpkit/core": "workspace:*",
-    "@mcpkit/credentials-form": "workspace:*",
-    "@mcpkit/testing": "workspace:*",
-    "@mcpkit/ui": "workspace:*",
+    "@usemcpkit/binary": "workspace:*",
+    "@usemcpkit/clients": "workspace:*",
+    "@usemcpkit/core": "workspace:*",
+    "@usemcpkit/credentials-form": "workspace:*",
+    "@usemcpkit/testing": "workspace:*",
+    "@usemcpkit/ui": "workspace:*",
     "typescript": "^5.9.0",
     "vite": "^8.0.0",
     "vitest": "^4.0.0",

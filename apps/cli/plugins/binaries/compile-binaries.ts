@@ -1,4 +1,4 @@
-import type { Target } from '@mcpkit/binary';
+import type { Target } from '@usemcpkit/binary';
 import { compileBinary } from './compile-binary';
 import type { BinaryResult } from './types/binary-result';
 

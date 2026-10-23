@@ -1,4 +1,4 @@
-import { defineTool, input, string } from '@mcpkit/core';
+import { defineTool, input, string } from '@usemcpkit/core';
 import { LIMIT } from '../const';
 
 export const search = defineTool({

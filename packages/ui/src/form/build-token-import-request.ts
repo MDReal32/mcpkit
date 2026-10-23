@@ -1,4 +1,4 @@
-import type { CredentialRequest, TokenImportRequest } from '@mcpkit/core';
+import type { CredentialRequest, TokenImportRequest } from '@usemcpkit/core';
 import type { FormDraft } from '../types/form-draft';
 import { pickDomain } from './pick-domain';
 

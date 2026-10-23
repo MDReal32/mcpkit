@@ -1,4 +1,4 @@
-import { number, oneOf, string } from '@mcpkit/core';
+import { number, oneOf, string } from '@usemcpkit/core';
 
 export const REPO_PARAMS = {
   owner: string('Repository owner (user or org)'),

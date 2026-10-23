@@ -1,5 +1,5 @@
 import { PassThrough } from 'node:stream';
-import { createFakeFetch, createPingManifest } from '@mcpkit/testing';
+import { createFakeFetch, createPingManifest } from '@usemcpkit/testing';
 import { describe, expect, it } from 'vitest';
 import { createRpcHandler, serveStdio } from '../src/mcp';
 

@@ -1,4 +1,4 @@
-import { isJsonObject } from '@mcpkit/core';
+import { isJsonObject } from '@usemcpkit/core';
 import type { PackageRelease } from '../types/package-release';
 
 /** Picks one version's dist info out of npm package metadata; `versionOrTag` may be a dist-tag such as `latest`. */

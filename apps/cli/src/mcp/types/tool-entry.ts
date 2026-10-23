@@ -1,4 +1,4 @@
-import type { Manifest, ToolSpec } from '@mcpkit/core';
+import type { Manifest, ToolSpec } from '@usemcpkit/core';
 
 export interface ToolEntry {
   manifest: Manifest;

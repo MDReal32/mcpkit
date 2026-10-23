@@ -1,4 +1,4 @@
-import { defineTool, input } from '@mcpkit/core';
+import { defineTool, input } from '@usemcpkit/core';
 import { PAGE, PER_PAGE, REPO_PARAMS, STATE_FILTER } from '../const';
 
 export const listPullRequests = defineTool({

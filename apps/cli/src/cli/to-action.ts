@@ -1,4 +1,4 @@
-import { describeError } from '@mcpkit/core';
+import { describeError } from '@usemcpkit/core';
 import { EXIT_FAILURE } from './const';
 import { printError } from './output/print-error';
 

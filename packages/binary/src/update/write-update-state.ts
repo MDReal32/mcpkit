@@ -1,6 +1,6 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
-import type { Env } from '@mcpkit/core';
+import type { Env } from '@usemcpkit/core';
 import type { UpdateState } from '../types/update-state';
 import { resolveUpdateStatePath } from './resolve-update-state-path';
 

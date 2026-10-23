@@ -1,5 +1,5 @@
-import type { Manifest } from '@mcpkit/core';
-import { compareVersions, isValidManifest, validateManifest } from '@mcpkit/core';
+import type { Manifest } from '@usemcpkit/core';
+import { compareVersions, isValidManifest, validateManifest } from '@usemcpkit/core';
 import type { LoadResult } from './types/load-result';
 import type { ManifestCandidate } from './types/manifest-candidate';
 

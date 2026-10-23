@@ -1,6 +1,6 @@
 import { readFile, stat, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { useTempDir } from '@mcpkit/testing';
+import { useTempDir } from '@usemcpkit/testing';
 import { describe, expect, it } from 'vitest';
 import type { SecretOwner } from '../src/main';
 import { createFileSecretStore } from '../src/main';

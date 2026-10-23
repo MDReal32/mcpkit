@@ -2,7 +2,7 @@ import { existsSync } from 'node:fs';
 import { utimes, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { PassThrough } from 'node:stream';
-import { useTempDir } from '@mcpkit/testing';
+import { useTempDir } from '@usemcpkit/testing';
 import { describe, expect, it, vi } from 'vitest';
 import { superviseServe } from '../src/mcp';
 import { watchBinaryFile } from '../src/mcp/supervisor/watch-binary-file';

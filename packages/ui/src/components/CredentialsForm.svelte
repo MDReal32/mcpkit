@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { CredentialRequest } from '@mcpkit/core';
+  import type { CredentialRequest } from '@usemcpkit/core';
   import { untrack } from 'svelte';
   import { cancelCredentials } from '../api/cancel-credentials';
   import { importCliToken } from '../api/import-cli-token';

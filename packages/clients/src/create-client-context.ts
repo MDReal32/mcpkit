@@ -1,6 +1,6 @@
 import { homedir } from 'node:os';
 import { join } from 'node:path';
-import type { Env } from '@mcpkit/core';
+import type { Env } from '@usemcpkit/core';
 import { resolveAppDataDir } from './paths/resolve-app-data-dir';
 import type { ClientContext } from './types/client-context';
 

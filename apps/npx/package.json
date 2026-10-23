@@ -1,7 +1,7 @@
 {
   "name": "mcpkit",
   "version": "0.1.0",
-  "description": "npx mcpkit: adds mcpkit to every AI client on this computer. Runs @mcpkit/cli.",
+  "description": "npx mcpkit: adds mcpkit to every AI client on this computer. Runs @usemcpkit/cli.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MDReal32/mcpkit.git",
@@ -21,7 +21,7 @@
     "lint": "biome check ."
   },
   "dependencies": {
-    "@mcpkit/cli": "workspace:*"
+    "@usemcpkit/cli": "workspace:*"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.15",

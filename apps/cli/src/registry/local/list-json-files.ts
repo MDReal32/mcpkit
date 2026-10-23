@@ -1,6 +1,6 @@
 import { readdir } from 'node:fs/promises';
 import { join } from 'node:path';
-import { isMissingFileError } from '@mcpkit/core';
+import { isMissingFileError } from '@usemcpkit/core';
 
 export const listJsonFiles = async (dir: string) => {
   try {

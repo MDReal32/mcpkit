@@ -1,5 +1,5 @@
 {
-  "name": "@mcpkit/core",
+  "name": "@usemcpkit/core",
   "version": "0.1.0",
   "description": "Manifest-driven MCP tool execution: manifest validation, HTTP execution, response mapping, auth and the server SDK.",
   "repository": {
@@ -31,8 +31,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.15",
-    "@mcpkit/testing": "workspace:*",
     "@microsoft/api-extractor": "^7.59.4",
+    "@usemcpkit/testing": "workspace:*",
     "typescript": "^5.9.0",
     "vite": "^8.0.0",
     "vite-plugin-dts": "5.1.2",

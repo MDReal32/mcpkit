@@ -1,4 +1,4 @@
-import { describeError, isMissingFileError } from '@mcpkit/core';
+import { describeError, isMissingFileError } from '@usemcpkit/core';
 import { printError } from '../../cli/output/print-error';
 import { BINARY_POLL_INTERVAL_MS } from './const';
 import { readFileSignature } from './read-file-signature';

@@ -1,5 +1,5 @@
-import { AUTO_UPDATE_ENV, NPM_REGISTRY_ENV } from '@mcpkit/binary';
-import { CLIENT_DEFINITIONS } from '@mcpkit/clients';
+import { AUTO_UPDATE_ENV, NPM_REGISTRY_ENV } from '@usemcpkit/binary';
+import { CLIENT_DEFINITIONS } from '@usemcpkit/clients';
 
 export const describeProgram = () => `mcpkit [command] — many MCP servers, one binary (no command means install)
 

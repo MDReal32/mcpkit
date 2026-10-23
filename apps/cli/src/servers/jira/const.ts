@@ -1,4 +1,4 @@
-import { number, string } from '@mcpkit/core';
+import { number, string } from '@usemcpkit/core';
 
 export const ISSUE_KEY = string('Issue key, for example PROJ-123');
 

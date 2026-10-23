@@ -1,4 +1,4 @@
-import type { ExecuteOptions } from '@mcpkit/core';
+import type { ExecuteOptions } from '@usemcpkit/core';
 import type { RpcMethod } from '../types/rpc-method';
 import type { ToolIndex } from '../types/tool-index';
 import { createCallTool } from './create-call-tool';

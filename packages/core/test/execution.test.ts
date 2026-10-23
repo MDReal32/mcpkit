@@ -1,4 +1,4 @@
-import { createFakeFetch } from '@mcpkit/testing';
+import { createFakeFetch } from '@usemcpkit/testing';
 import { describe, expect, it } from 'vitest';
 import { buildRequest, executeTool, prepareToolArgs, ToolError } from '../src/main';
 import { createItemTool, DEMO_ENV, demoManifest, listItemsTool } from './fixtures/demo-manifest';

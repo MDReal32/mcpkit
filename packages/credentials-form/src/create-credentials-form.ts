@@ -1,4 +1,4 @@
-import type { CredentialRequest } from '@mcpkit/core';
+import type { CredentialRequest } from '@usemcpkit/core';
 import { keepInstalledCliActions } from './cli-detection/keep-installed-cli-actions';
 import { CREDENTIALS_FORM_TIMEOUT_MS } from './const';
 import { startFormServer } from './server/start-form-server';

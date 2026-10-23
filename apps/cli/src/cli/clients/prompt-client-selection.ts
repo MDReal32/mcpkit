@@ -1,5 +1,5 @@
 import { isCancel, multiselect } from '@clack/prompts';
-import type { DetectedClient } from '@mcpkit/clients';
+import type { DetectedClient } from '@usemcpkit/clients';
 import type { ClientSelectionMode } from '../types/client-selection-mode';
 import { describeClient } from './describe-client';
 

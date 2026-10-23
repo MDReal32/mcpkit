@@ -1,4 +1,4 @@
-import { defineTool, input, number } from '@mcpkit/core';
+import { defineTool, input, number } from '@usemcpkit/core';
 import { ISSUE_FIELDS, REPO_PARAMS } from '../const';
 
 export const getIssue = defineTool({

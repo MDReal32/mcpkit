@@ -1,4 +1,4 @@
-import { defineServer, defineUI } from '@mcpkit/core';
+import { defineServer, defineUI } from '@usemcpkit/core';
 import { createIssue } from './tools/create-issue';
 import { getAuthenticatedUser } from './tools/get-authenticated-user';
 import { getIssue } from './tools/get-issue';

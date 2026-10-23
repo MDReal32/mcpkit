@@ -1,4 +1,4 @@
-import { describeError } from '@mcpkit/core';
+import { describeError } from '@usemcpkit/core';
 import { printError, runCli } from './cli';
 
 try {

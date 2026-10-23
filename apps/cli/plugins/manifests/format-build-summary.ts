@@ -1,4 +1,4 @@
-import { describeAuth } from '@mcpkit/core';
+import { describeAuth } from '@usemcpkit/core';
 import { formatKilobytes } from './format-kilobytes';
 import { formatTable } from './format-table';
 import type { CompiledManifest } from './types/compiled-manifest';

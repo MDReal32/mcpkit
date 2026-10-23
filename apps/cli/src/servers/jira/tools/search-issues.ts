@@ -1,4 +1,4 @@
-import { defineTool, input, number, optional, string } from '@mcpkit/core';
+import { defineTool, input, number, optional, string } from '@usemcpkit/core';
 import { ISSUE_LIST_FIELDS, ISSUE_SUMMARY_FIELDS, MAX_RESULTS } from '../const';
 
 export const searchIssues = defineTool({

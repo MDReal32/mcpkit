@@ -1,4 +1,4 @@
-import type { CredentialRequest } from '@mcpkit/core';
+import type { CredentialRequest } from '@usemcpkit/core';
 import { isCommandInstalled } from './is-command-installed';
 
 /** Drops CLI buttons whose program is not on PATH, before the page sees the request, so action indexes stay valid. */

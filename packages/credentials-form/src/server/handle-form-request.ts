@@ -1,5 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { CREDENTIALS_FORM_API } from '@mcpkit/core';
+import { CREDENTIALS_FORM_API } from '@usemcpkit/core';
 import { submitAnswer } from '../submit-answer';
 import { importToken } from '../token-import/import-token';
 import type { FormSession } from '../types/form-session';

@@ -1,5 +1,5 @@
 import { join } from 'node:path';
-import type { Env } from '@mcpkit/core';
+import type { Env } from '@usemcpkit/core';
 
 export const resolveAppDataDir = (homeDir: string, platform: NodeJS.Platform, env: Env) => {
   if (platform === 'darwin') {

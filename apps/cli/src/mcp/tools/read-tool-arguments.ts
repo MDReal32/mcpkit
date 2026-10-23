@@ -1,4 +1,4 @@
-import { isJsonObject } from '@mcpkit/core';
+import { isJsonObject } from '@usemcpkit/core';
 import { RPC_ERROR_CODES } from '../const';
 import { RpcError } from '../rpc/rpc-error';
 import type { RpcParams } from '../types/rpc-params';

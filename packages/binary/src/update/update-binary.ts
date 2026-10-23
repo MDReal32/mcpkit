@@ -1,4 +1,4 @@
-import { compareVersions } from '@mcpkit/core';
+import { compareVersions } from '@usemcpkit/core';
 import { LATEST_TAG } from '../const';
 import { writeBinaryFile } from '../install/write-binary-file';
 import { downloadReleaseBinary } from '../release/download-release-binary';

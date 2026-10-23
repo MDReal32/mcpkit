@@ -1,5 +1,5 @@
-import { createBinaryContext, resolveInstalledBinaryPath } from '@mcpkit/binary';
-import { createClientContext, detectClients, removeClientEntry } from '@mcpkit/clients';
+import { createBinaryContext, resolveInstalledBinaryPath } from '@usemcpkit/binary';
+import { createClientContext, detectClients, removeClientEntry } from '@usemcpkit/clients';
 import type { Program } from 'yargs-extended';
 import { applyToClients } from '../clients/apply-to-clients';
 import { selectClients } from '../clients/select-clients';

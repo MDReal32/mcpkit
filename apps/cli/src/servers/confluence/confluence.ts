@@ -1,4 +1,4 @@
-import { defineServer, defineUI } from '@mcpkit/core';
+import { defineServer, defineUI } from '@usemcpkit/core';
 import { createPage } from './tools/create-page';
 import { getPage } from './tools/get-page';
 import { getPageChildren } from './tools/get-page-children';

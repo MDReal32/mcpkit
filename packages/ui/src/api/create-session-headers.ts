@@ -1,4 +1,4 @@
-import { CREDENTIALS_FORM_SESSION_HEADER } from '@mcpkit/core';
+import { CREDENTIALS_FORM_SESSION_HEADER } from '@usemcpkit/core';
 import { readSessionToken } from './read-session-token';
 
 export const createSessionHeaders = () => ({

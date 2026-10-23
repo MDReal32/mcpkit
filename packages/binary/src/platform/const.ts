@@ -10,8 +10,8 @@ export const TARGETS = [
 
 export const BINARY_NAME = 'mcpkit';
 
-/** Each target is published as `@mcpkit/cli-<target>` holding `bin/mcpkit[.exe]`. */
-export const PLATFORM_PACKAGE_PREFIX = '@mcpkit/cli-';
+/** Each target is published as `@usemcpkit/cli-<target>` holding `bin/mcpkit[.exe]`. */
+export const PLATFORM_PACKAGE_PREFIX = '@usemcpkit/cli-';
 
 export const PLATFORM_PACKAGE_BIN_DIR = 'bin';
 

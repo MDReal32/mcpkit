@@ -3,8 +3,8 @@ import {
   detectPackageManagerInstall,
   resolveInstalledBinaryPath,
   updateBinary,
-} from '@mcpkit/binary';
-import { pathExists } from '@mcpkit/clients';
+} from '@usemcpkit/binary';
+import { pathExists } from '@usemcpkit/clients';
 import type { Program } from 'yargs-extended';
 import { EXIT_FAILURE, EXIT_SUCCESS } from '../const';
 import { printError } from '../output/print-error';

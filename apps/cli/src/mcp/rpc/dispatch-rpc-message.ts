@@ -1,4 +1,4 @@
-import { describeError } from '@mcpkit/core';
+import { describeError } from '@usemcpkit/core';
 import { RPC_ERROR_CODES } from '../const';
 import type { RpcMessage } from '../types/rpc-message';
 import type { RpcMethod } from '../types/rpc-method';

@@ -1,4 +1,4 @@
-import { describeError } from '@mcpkit/core';
+import { describeError } from '@usemcpkit/core';
 import { readConfigText } from '../config/read-config-text';
 import { hasClientEntry } from '../entry/has-client-entry';
 import type { ClientContext } from '../types/client-context';

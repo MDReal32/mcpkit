@@ -1,4 +1,4 @@
-import type { AuthSpec, Manifest } from '@mcpkit/core';
+import type { AuthSpec, Manifest } from '@usemcpkit/core';
 
 export const createPingManifest = (version: string, description = '', name = 'demo', auth?: readonly AuthSpec[]) => {
   const manifest: Manifest = {

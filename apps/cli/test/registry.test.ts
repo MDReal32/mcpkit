@@ -1,6 +1,6 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { createPingManifest, useTempDir } from '@mcpkit/testing';
+import { createPingManifest, useTempDir } from '@usemcpkit/testing';
 import { describe, expect, it } from 'vitest';
 import { loadManifests, updateFromRegistry } from '../src/registry';
 import { createRouteFetch } from './fixtures/create-route-fetch';

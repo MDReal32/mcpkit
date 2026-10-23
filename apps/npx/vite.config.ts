@@ -7,7 +7,7 @@ export default defineConfig({
     outDir: 'build',
     emptyOutDir: true,
     rollupOptions: {
-      external: ['@mcpkit/cli'],
+      external: ['@usemcpkit/cli'],
       output: {
         entryFileNames: 'mcpkit.npx.js',
         banner: '#!/usr/bin/env node',

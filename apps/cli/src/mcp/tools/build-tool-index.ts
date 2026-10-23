@@ -1,4 +1,4 @@
-import type { Manifest } from '@mcpkit/core';
+import type { Manifest } from '@usemcpkit/core';
 import type { ToolEntry } from '../types/tool-entry';
 import type { ToolIndex } from '../types/tool-index';
 

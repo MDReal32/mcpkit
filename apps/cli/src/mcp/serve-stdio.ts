@@ -1,5 +1,5 @@
 import { createInterface } from 'node:readline';
-import type { ExecuteOptions, Manifest } from '@mcpkit/core';
+import type { ExecuteOptions, Manifest } from '@usemcpkit/core';
 import { createRpcHandler } from './rpc/create-rpc-handler';
 import { handleLine } from './rpc/handle-line';
 import type { StdioOptions } from './types/stdio-options';

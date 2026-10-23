@@ -1,4 +1,4 @@
-import { defineServer, defineUI } from '@mcpkit/core';
+import { defineServer, defineUI } from '@usemcpkit/core';
 import { addComment } from './tools/add-comment';
 import { createIssue } from './tools/create-issue';
 import { deleteComment } from './tools/delete-comment';

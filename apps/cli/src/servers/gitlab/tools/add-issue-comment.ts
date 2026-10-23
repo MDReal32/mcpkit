@@ -1,4 +1,4 @@
-import { defineTool, input, string } from '@mcpkit/core';
+import { defineTool, input, string } from '@usemcpkit/core';
 import { ISSUE_IID, PROJECT } from '../const';
 
 export const addIssueComment = defineTool({

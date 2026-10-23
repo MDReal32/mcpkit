@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises';
-import { validateManifest } from '@mcpkit/core';
+import { validateManifest } from '@usemcpkit/core';
 import type { Program } from 'yargs-extended';
 import { EXIT_FAILURE, EXIT_SUCCESS } from '../const';
 import { printError } from '../output/print-error';

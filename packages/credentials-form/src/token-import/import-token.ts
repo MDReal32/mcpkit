@@ -1,6 +1,6 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import type { TokenCredentialResponse } from '@mcpkit/core';
-import { describeError } from '@mcpkit/core';
+import type { TokenCredentialResponse } from '@usemcpkit/core';
+import { describeError } from '@usemcpkit/core';
 import { readJsonBody } from '../server/read-json-body';
 import { sendJson } from '../server/send-json';
 import type { FormSession } from '../types/form-session';

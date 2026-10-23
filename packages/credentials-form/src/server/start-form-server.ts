@@ -1,6 +1,6 @@
 import { randomBytes } from 'node:crypto';
 import { createServer } from 'node:http';
-import type { CredentialRequest, CredentialResponse } from '@mcpkit/core';
+import type { CredentialRequest, CredentialResponse } from '@usemcpkit/core';
 import { FORM_CLOSED_MESSAGE, FORM_HOST, SESSION_TOKEN_BYTES } from '../const';
 import { injectCredentialRequest } from '../inject-credential-request';
 import type { FormServer } from '../types/form-server';

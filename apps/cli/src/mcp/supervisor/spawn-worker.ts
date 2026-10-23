@@ -1,6 +1,6 @@
 import { spawn } from 'node:child_process';
 import { createInterface } from 'node:readline';
-import { describeError } from '@mcpkit/core';
+import { describeError } from '@usemcpkit/core';
 import { printError } from '../../cli/output/print-error';
 import { HANDSHAKE_REQUEST_ID } from './const';
 import { readLineHeader } from './read-line-header';

@@ -1,4 +1,4 @@
-import type { Env } from '@mcpkit/core';
+import type { Env } from '@usemcpkit/core';
 import { detectTarget } from '../platform';
 import type { BinaryContext } from '../types/binary-context';
 

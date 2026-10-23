@@ -1,6 +1,6 @@
 import { spawn } from 'node:child_process';
-import type { Target } from '@mcpkit/binary';
-import { describeError } from '@mcpkit/core';
+import type { Target } from '@usemcpkit/binary';
+import { describeError } from '@usemcpkit/core';
 import { resolveBinaryFile } from './resolve-binary-file';
 import type { BinaryResult } from './types/binary-result';
 
