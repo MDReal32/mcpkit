@@ -47,7 +47,7 @@ export const buildToolDefinition = (operation: Operation, name: string, options:
     method: operation.method.toUpperCase() as ToolDefinition["request"]["method"],
     path,
     ...(queryParameters.length > 0 && { query: simplifyMapping(queryMapping) }),
-    ...(body && { body: simplifyMapping(body.mapping) }),
+    ...(body?.wholeBody === undefined ? body && { body: simplifyMapping(body.mapping) } : { bodyArg: body.wholeBody }),
   };
   const definition: ToolDefinition = {
     name,

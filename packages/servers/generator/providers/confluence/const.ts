@@ -41,8 +41,6 @@ export const SCHEMA_OPTIONS: SchemaOptions = {
 
 export const BODY_REASON_OPTIONS: BodyReasonOptions = {
   schema: SCHEMA_OPTIONS,
-  noNamedPropertiesReason:
-    "request body is an array or free-form object, only objects with named properties are supported",
   rejectsDottedNames: true,
 };
 
