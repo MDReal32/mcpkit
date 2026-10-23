@@ -167,6 +167,7 @@ Confluence Cloud v2 tools take a space id (`cloud:spaces:get_spaces`) instead of
         "path": "/repos/{owner}/{repo}/issues",  // {arg} → URL-encoded argument
         "query": ["state", "per_page"],          // or { "q": "query" } to rename
         "body": ["title"],                       // JSON body for non-GET, see Request bodies
+        "commaQuery": ["tags"],                  // optional: array query keys joined with commas (others repeat the key)
         "fixedQuery": { "sort": "updated" },     // optional: constant query values
         "contentType": "text/plain",             // optional: default application/json; text/* sends bodyArg as plain text
         "fixedHeaders": { "X-Atlassian-Token": "no-check" }, // optional: constant request headers

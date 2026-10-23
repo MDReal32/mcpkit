@@ -58,6 +58,17 @@ describe("buildRequest", () => {
     expect(request.headers["Content-Type"]).toBe("application/json-patch+json");
   });
 
+  it("repeats array query values unless the key is comma joined", () => {
+    const tool = {
+      ...listItemsTool,
+      request: { method: "GET", path: "/items", query: ["ids", "tags"], commaQuery: ["tags"] },
+    } as const;
+
+    const request = buildRequest(demoManifest, tool, { ids: ["1", "2"], tags: ["a", "b"] }, BEARER_AUTH);
+
+    expect(request.url).toBe("https://api.example.com/items?ids=1&ids=2&tags=a%2Cb");
+  });
+
   it("sends fixed headers under the auth headers", () => {
     const tool = {
       ...listItemsTool,

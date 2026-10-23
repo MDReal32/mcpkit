@@ -13,6 +13,8 @@ export interface RequestSpec {
   bodyArg?: string;
   /** Defaults to `application/json`. A `text/*` type sends `bodyArg` as plain text; any other type is sent as JSON. */
   contentType?: string;
+  /** Outgoing query keys whose array values are joined with commas; other arrays repeat the key once per item. */
+  commaQuery?: readonly string[];
   fixedQuery?: FixedValues;
   /** Header values sent on every call; auth headers win over them. */
   fixedHeaders?: Readonly<Record<string, string>>;
