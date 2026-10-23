@@ -1,0 +1,20 @@
+{
+  "name": "@mcpkit/testing",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Test fixtures shared across mcpkit workspaces.",
+  "type": "module",
+  "exports": {
+    ".": "./src/main.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check ."
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.15",
+    "@mcpkit/core": "workspace:*",
+    "typescript": "^5.9.0",
+    "vitest": "^4.0.0"
+  }
+}

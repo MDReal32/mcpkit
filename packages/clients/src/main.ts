@@ -1,0 +1,11 @@
+export { CLIENT_DEFINITIONS } from './client-definitions';
+export { ENTRY_NAME, SERVE_ARGS } from './const';
+export { createClientContext } from './create-client-context';
+export { detectClients } from './detection/detect-clients';
+export { removeClientEntry } from './entry/remove-client-entry';
+export { setClientEntry } from './entry/set-client-entry';
+export { pathExists } from './paths/path-exists';
+export type { ClientContext } from './types/client-context';
+export type { ClientDefinition } from './types/client-definition';
+export type { DetectedClient } from './types/detected-client';
+export type { LaunchCommand } from './types/launch-command';

@@ -1,0 +1,46 @@
+{
+  "name": "@mcpkit/cli",
+  "version": "0.1.0",
+  "description": "Many MCP servers in one tool. Each server is a JSON manifest; @mcpkit/core executes it.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MDReal32/mcpkit.git",
+    "directory": "apps/cli"
+  },
+  "type": "module",
+  "exports": {
+    ".": "./build/mcpkit.cli.js"
+  },
+  "bin": {
+    "mcpkit": "build/mcpkit.cli.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "build/mcpkit.cli.js"
+  ],
+  "scripts": {
+    "build": "vite build --configLoader runner",
+    "package": "vite build --configLoader runner --mode package",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --configLoader runner",
+    "start": "node build/mcpkit.cli.js",
+    "lint": "biome check ."
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.15",
+    "@clack/prompts": "1.8.1",
+    "@mcpkit/binary": "workspace:*",
+    "@mcpkit/clients": "workspace:*",
+    "@mcpkit/core": "workspace:*",
+    "@mcpkit/credentials-form": "workspace:*",
+    "@mcpkit/testing": "workspace:*",
+    "@mcpkit/ui": "workspace:*",
+    "typescript": "^5.9.0",
+    "vite": "^8.0.0",
+    "vitest": "^4.0.0",
+    "yargs-extended": "1.1.0"
+  },
+  "license": "MIT"
+}

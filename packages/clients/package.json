@@ -1,0 +1,24 @@
+{
+  "name": "@mcpkit/clients",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Detects AI clients and edits their MCP configuration.",
+  "type": "module",
+  "exports": {
+    ".": "./src/main.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --configLoader native",
+    "lint": "biome check ."
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.15",
+    "@mcpkit/core": "workspace:*",
+    "@mcpkit/testing": "workspace:*",
+    "jsonc-parser": "3.3.1",
+    "typescript": "^5.9.0",
+    "vitest": "^4.0.0"
+  },
+  "license": "MIT"
+}
