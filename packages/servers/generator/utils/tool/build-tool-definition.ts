@@ -5,6 +5,7 @@ import type { OpenApiParameter } from "../types/open-api-operation";
 import type { Operation } from "../types/operation";
 import type { ToolDefinition } from "../types/tool-definition";
 import type { ToolDefinitionOptions } from "../types/tool-definition-options";
+import { collectFixedHeaders } from "./collect-fixed-headers";
 import { describeOperation } from "./describe-operation";
 import { replacePlaceholder } from "./replace-placeholder";
 import { simplifyMapping } from "./simplify-mapping";
@@ -43,11 +44,13 @@ export const buildToolDefinition = (operation: Operation, name: string, options:
   Object.assign(properties, body?.properties);
   required.push(...(body?.required ?? []));
 
+  const fixedHeaders = collectFixedHeaders(parameters);
   const request: ToolDefinition["request"] = {
     method: operation.method.toUpperCase() as ToolDefinition["request"]["method"],
     path,
     ...(queryParameters.length > 0 && { query: simplifyMapping(queryMapping) }),
     ...(body?.wholeBody === undefined ? body && { body: simplifyMapping(body.mapping) } : { bodyArg: body.wholeBody }),
+    ...(Object.keys(fixedHeaders).length > 0 && { fixedHeaders }),
   };
   const definition: ToolDefinition = {
     name,
