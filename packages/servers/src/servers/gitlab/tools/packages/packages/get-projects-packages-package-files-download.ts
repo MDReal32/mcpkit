@@ -24,12 +24,17 @@ export const packagesPackagesGetProjectsPackagesPackageFilesDownload = defineToo
         description:
           "Requested download transfer mode (`proxy` or `direct`). Only honored when allowed by the object storage configuration.",
       },
+      save_to: {
+        type: "string",
+        description: "Local path the downloaded file is saved to.",
+      },
     },
-    required: ["id", "package_id", "package_file_id"],
+    required: ["id", "package_id", "package_file_id", "save_to"],
   },
   request: {
     method: "GET",
     path: "/projects/{id}/packages/{package_id}/package_files/{package_file_id}/download",
     query: ["download_mode"],
+    saveToArg: "save_to",
   },
 });

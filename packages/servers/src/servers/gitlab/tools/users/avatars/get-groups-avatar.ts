@@ -10,11 +10,16 @@ export const usersAvatarsGetGroupsAvatar = defineTool({
         type: "string",
         description: "ID or URL-encoded path of the group.",
       },
+      save_to: {
+        type: "string",
+        description: "Local path the downloaded file is saved to.",
+      },
     },
-    required: ["id"],
+    required: ["id", "save_to"],
   },
   request: {
     method: "GET",
     path: "/groups/{id}/avatar",
+    saveToArg: "save_to",
   },
 });

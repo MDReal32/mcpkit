@@ -22,11 +22,16 @@ export const ciTerraformGetPackagesTerraformModulesV1File = defineTool({
         type: "string",
         description: "Version of the module",
       },
+      save_to: {
+        type: "string",
+        description: "Local path the downloaded file is saved to.",
+      },
     },
-    required: ["module_namespace", "module_name", "module_system", "module_version"],
+    required: ["module_namespace", "module_name", "module_system", "module_version", "save_to"],
   },
   request: {
     method: "GET",
     path: "/packages/terraform/modules/v1/{module_namespace}/{module_name}/{module_system}/{module_version}/file",
+    saveToArg: "save_to",
   },
 });

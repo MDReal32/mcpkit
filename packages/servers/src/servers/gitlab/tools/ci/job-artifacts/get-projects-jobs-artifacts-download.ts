@@ -36,12 +36,17 @@ export const ciJobArtifactsGetProjectsJobsArtifactsDownload = defineTool({
         description:
           "Requested download transfer mode (`proxy` or `direct`). Only honored when allowed by the object storage configuration.",
       },
+      save_to: {
+        type: "string",
+        description: "Local path the downloaded file is saved to.",
+      },
     },
-    required: ["id", "ref_name", "job"],
+    required: ["id", "ref_name", "job", "save_to"],
   },
   request: {
     method: "GET",
     path: "/projects/{id}/jobs/artifacts/{ref_name}/download",
     query: ["job", "job_token", "search_recent_successful_pipelines", "download_mode"],
+    saveToArg: "save_to",
   },
 });

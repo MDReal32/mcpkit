@@ -19,11 +19,16 @@ export const projectsProjectsGetProjectsUploadsGet = defineTool({
         type: "string",
         description: "Filename of the upload.",
       },
+      save_to: {
+        type: "string",
+        description: "Local path the downloaded file is saved to.",
+      },
     },
-    required: ["id", "secret", "filename"],
+    required: ["id", "secret", "filename", "save_to"],
   },
   request: {
     method: "GET",
     path: "/projects/{id}/uploads/{secret}/{filename}",
+    saveToArg: "save_to",
   },
 });

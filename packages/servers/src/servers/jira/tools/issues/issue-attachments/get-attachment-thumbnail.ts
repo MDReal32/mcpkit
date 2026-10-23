@@ -29,12 +29,17 @@ export const issuesIssueAttachmentsGetAttachmentThumbnail = defineTool({
         type: "integer",
         description: "The maximum height to scale the thumbnail to.",
       },
+      save_to: {
+        type: "string",
+        description: "Local path the downloaded file is saved to.",
+      },
     },
-    required: ["id"],
+    required: ["id", "save_to"],
   },
   request: {
     method: "GET",
     path: "/rest/api/2/attachment/thumbnail/{id}",
     query: ["redirect", "fallbackToDefault", "width", "height"],
+    saveToArg: "save_to",
   },
 });

@@ -14,12 +14,17 @@ export const projectsProjectSnapshotsGetProjectsSnapshot = defineTool({
         type: "boolean",
         description: "If `true`, downloads the wiki repository instead of the project repository.",
       },
+      save_to: {
+        type: "string",
+        description: "Local path the downloaded file is saved to.",
+      },
     },
-    required: ["id"],
+    required: ["id", "save_to"],
   },
   request: {
     method: "GET",
     path: "/projects/{id}/snapshot",
     query: ["wiki"],
+    saveToArg: "save_to",
   },
 });

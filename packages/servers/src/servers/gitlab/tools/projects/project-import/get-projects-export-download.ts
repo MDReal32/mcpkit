@@ -10,11 +10,16 @@ export const projectsProjectImportGetProjectsExportDownload = defineTool({
         type: "string",
         description: "ID or URL-encoded path of the project.",
       },
+      save_to: {
+        type: "string",
+        description: "Local path the downloaded file is saved to.",
+      },
     },
-    required: ["id"],
+    required: ["id", "save_to"],
   },
   request: {
     method: "GET",
     path: "/projects/{id}/export/download",
+    saveToArg: "save_to",
   },
 });

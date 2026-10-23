@@ -10,11 +10,17 @@ export const metaMetricsGetUsageDataMetricDefinitions = defineTool({
         type: "boolean",
         description: "If `true`, includes file paths in the metric definitions.",
       },
+      save_to: {
+        type: "string",
+        description: "Local path the downloaded file is saved to.",
+      },
     },
+    required: ["save_to"],
   },
   request: {
     method: "GET",
     path: "/usage_data/metric_definitions",
     query: ["include_paths"],
+    saveToArg: "save_to",
   },
 });

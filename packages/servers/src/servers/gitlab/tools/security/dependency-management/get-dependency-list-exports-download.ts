@@ -10,11 +10,16 @@ export const securityDependencyManagementGetDependencyListExportsDownload = defi
         type: "string",
         description: "ID of the dependency list export.",
       },
+      save_to: {
+        type: "string",
+        description: "Local path the downloaded file is saved to.",
+      },
     },
-    required: ["export_id"],
+    required: ["export_id", "save_to"],
   },
   request: {
     method: "GET",
     path: "/dependency_list_exports/{export_id}/download",
+    saveToArg: "save_to",
   },
 });

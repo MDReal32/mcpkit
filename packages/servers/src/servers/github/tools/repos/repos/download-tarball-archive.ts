@@ -18,11 +18,16 @@ export const reposReposDownloadTarballArchive = defineTool({
       ref: {
         type: "string",
       },
+      save_to: {
+        type: "string",
+        description: "Local path the downloaded file is saved to.",
+      },
     },
-    required: ["owner", "repo", "ref"],
+    required: ["owner", "repo", "ref", "save_to"],
   },
   request: {
     method: "GET",
     path: "/repos/{owner}/{repo}/tarball/{ref}",
+    saveToArg: "save_to",
   },
 });

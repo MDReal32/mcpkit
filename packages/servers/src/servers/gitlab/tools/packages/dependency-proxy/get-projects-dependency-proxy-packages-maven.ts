@@ -19,11 +19,16 @@ export const packagesDependencyProxyGetProjectsDependencyProxyPackagesMaven = de
         type: "string",
         description: "Package path",
       },
+      save_to: {
+        type: "string",
+        description: "Local path the downloaded file is saved to.",
+      },
     },
-    required: ["id", "file_name", "path"],
+    required: ["id", "file_name", "path", "save_to"],
   },
   request: {
     method: "GET",
     path: "/projects/{id}/dependency_proxy/packages/maven/{path}/{file_name}",
+    saveToArg: "save_to",
   },
 });

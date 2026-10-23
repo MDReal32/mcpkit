@@ -15,11 +15,16 @@ export const projectsProjectsGetProjectsUploads = defineTool({
         type: "integer",
         description: "ID of the upload.",
       },
+      save_to: {
+        type: "string",
+        description: "Local path the downloaded file is saved to.",
+      },
     },
-    required: ["id", "upload_id"],
+    required: ["id", "upload_id", "save_to"],
   },
   request: {
     method: "GET",
     path: "/projects/{id}/uploads/{upload_id}",
+    saveToArg: "save_to",
   },
 });

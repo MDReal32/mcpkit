@@ -18,11 +18,16 @@ export const ciTerraformGetProjectsTerraformStateVersions = defineTool({
         type: "integer",
         description: "Version number of the Terraform state.",
       },
+      save_to: {
+        type: "string",
+        description: "Local path the downloaded file is saved to.",
+      },
     },
-    required: ["id", "name", "serial"],
+    required: ["id", "name", "serial", "save_to"],
   },
   request: {
     method: "GET",
     path: "/projects/{id}/terraform/state/{name}/versions/{serial}",
+    saveToArg: "save_to",
   },
 });

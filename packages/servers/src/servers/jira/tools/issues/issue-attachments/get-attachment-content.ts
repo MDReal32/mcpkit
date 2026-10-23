@@ -17,12 +17,17 @@ export const issuesIssueAttachmentsGetAttachmentContent = defineTool({
         description:
           "Whether a redirect is provided for the attachment download. Clients that do not automatically follow redirects can set this to `false` to avoid making multiple requests to download the attachment.",
       },
+      save_to: {
+        type: "string",
+        description: "Local path the downloaded file is saved to.",
+      },
     },
-    required: ["id"],
+    required: ["id", "save_to"],
   },
   request: {
     method: "GET",
     path: "/rest/api/2/attachment/content/{id}",
     query: ["redirect"],
+    saveToArg: "save_to",
   },
 });

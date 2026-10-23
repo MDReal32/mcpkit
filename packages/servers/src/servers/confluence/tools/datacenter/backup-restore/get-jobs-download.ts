@@ -11,11 +11,16 @@ export const datacenterBackupRestoreGetJobsDownload = defineTool({
         type: "integer",
         description: "id of the backup/restore job",
       },
+      save_to: {
+        type: "string",
+        description: "Local path the downloaded file is saved to.",
+      },
     },
-    required: ["jobId"],
+    required: ["jobId", "save_to"],
   },
   request: {
     method: "GET",
     path: "/rest/api/backup-restore/jobs/{jobId}/download",
+    saveToArg: "save_to",
   },
 });

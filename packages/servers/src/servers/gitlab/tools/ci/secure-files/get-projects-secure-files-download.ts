@@ -14,11 +14,16 @@ export const ciSecureFilesGetProjectsSecureFilesDownload = defineTool({
         type: "integer",
         description: "ID of the secure file.",
       },
+      save_to: {
+        type: "string",
+        description: "Local path the downloaded file is saved to.",
+      },
     },
-    required: ["id", "secure_file_id"],
+    required: ["id", "secure_file_id", "save_to"],
   },
   request: {
     method: "GET",
     path: "/projects/{id}/secure_files/{secure_file_id}/download",
+    saveToArg: "save_to",
   },
 });

@@ -25,12 +25,17 @@ export const projectsFilesGetProjectsRepositoryFilesRaw = defineTool({
         description:
           "If `true`, returns the Git LFS file contents instead of the pointer. Ignored if the file isn't tracked by Git LFS.",
       },
+      save_to: {
+        type: "string",
+        description: "Local path the downloaded file is saved to.",
+      },
     },
-    required: ["id", "file_path"],
+    required: ["id", "file_path", "save_to"],
   },
   request: {
     method: "GET",
     path: "/projects/{id}/repository/files/{file_path}/raw",
     query: ["ref", "lfs"],
+    saveToArg: "save_to",
   },
 });

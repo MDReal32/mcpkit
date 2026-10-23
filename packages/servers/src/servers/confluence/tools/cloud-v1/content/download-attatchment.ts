@@ -25,12 +25,17 @@ export const cloudV1ContentDownloadAttatchment = defineTool({
         description:
           "The statuses allowed on the retrieved attachment. If this parameter is absent, it will default to `current`. (comma-separated)",
       },
+      save_to: {
+        type: "string",
+        description: "Local path the downloaded file is saved to.",
+      },
     },
-    required: ["id", "attachmentId"],
+    required: ["id", "attachmentId", "save_to"],
   },
   request: {
     method: "GET",
     path: "/wiki/rest/api/content/{id}/child/attachment/{attachmentId}/download",
     query: ["version", "status"],
+    saveToArg: "save_to",
   },
 });

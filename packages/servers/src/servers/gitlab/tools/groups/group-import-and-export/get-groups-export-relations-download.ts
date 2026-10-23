@@ -24,12 +24,17 @@ export const groupsGroupImportAndExportGetGroupsExportRelationsDownload = define
         description:
           "Number of the export batch to download. All or none of `batched`, `batch_number` must be provided.",
       },
+      save_to: {
+        type: "string",
+        description: "Local path the downloaded file is saved to.",
+      },
     },
-    required: ["id", "relation"],
+    required: ["id", "relation", "save_to"],
   },
   request: {
     method: "GET",
     path: "/groups/{id}/export_relations/download",
     query: ["relation", "batched", "batch_number"],
+    saveToArg: "save_to",
   },
 });

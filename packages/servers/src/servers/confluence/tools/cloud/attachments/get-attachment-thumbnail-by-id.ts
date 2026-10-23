@@ -25,12 +25,17 @@ export const cloudAttachmentsGetAttachmentThumbnailById = defineTool({
         type: "integer",
         description: "Allows you to define the thumbnail width.",
       },
+      save_to: {
+        type: "string",
+        description: "Local path the downloaded file is saved to.",
+      },
     },
-    required: ["id"],
+    required: ["id", "save_to"],
   },
   request: {
     method: "GET",
     path: "/wiki/api/v2/attachments/{id}/thumbnail/download",
     query: ["version", "height", "width"],
+    saveToArg: "save_to",
   },
 });
