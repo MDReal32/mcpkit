@@ -1,15 +1,14 @@
-import { toCamelCase } from './to-camel-case.ts';
+import { groupArrayName, resourceArrayName } from './resource-array-name.ts';
 
-export const renderGroupIndexFile = (group: string, folders: string[]) => {
-  const names = folders.map(toCamelCase);
-  const imports = folders.map((folder, index) => {
-    const name = folder.slice(group.length + 1);
-    return `import { ${names[index]} } from './${name}/${name}';`;
-  });
+export const renderGroupIndexFile = (group: string, resourceFolders: string[]) => {
+  const imports = resourceFolders.map(
+    (resourceFolder) => `import { ${resourceArrayName(group, resourceFolder)} } from './${resourceFolder}';`,
+  );
+  const spreads = resourceFolders.map((resourceFolder) => `  ...${resourceArrayName(group, resourceFolder)},`);
   return `${imports.join('\n')}
 
-export const ${group}Servers = [
-${names.map((name) => `  ${name},`).join('\n')}
+export const ${groupArrayName(group)} = [
+${spreads.join('\n')}
 ];
 `;
 };

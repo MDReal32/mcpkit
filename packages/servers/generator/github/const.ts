@@ -13,8 +13,7 @@ export const JSON_CONTENT_TYPE = 'application/json';
 
 export const SERVER_GROUPS = [
   {
-    folder: 'github/repos',
-    description: 'GitHub REST API: repositories, branches, commits, releases, deployments, checks, pages, git data.',
+    name: 'repos',
     categories: [
       'repos',
       'branches',
@@ -31,18 +30,15 @@ export const SERVER_GROUPS = [
     ],
   },
   {
-    folder: 'github/issues',
-    description: 'GitHub REST API: issues, pull requests, reactions, projects.',
+    name: 'issues',
     categories: ['issues', 'pulls', 'reactions', 'projects'],
   },
   {
-    folder: 'github/actions',
-    description: 'GitHub REST API: Actions workflows, runs, runners, secrets, variables, caches, artifacts.',
+    name: 'actions',
     categories: ['actions'],
   },
   {
-    folder: 'github/security',
-    description: 'GitHub REST API: code scanning, secret scanning, Dependabot, dependency graph, security advisories.',
+    name: 'security',
     categories: [
       'security-advisories',
       'code-scanning',
@@ -55,29 +51,28 @@ export const SERVER_GROUPS = [
     ],
   },
   {
-    folder: 'github/orgs',
-    description: 'GitHub REST API: organizations, teams, billing, interaction limits, migrations, classroom.',
+    name: 'orgs',
     categories: ['orgs', 'teams', 'billing', 'interactions', 'migrations', 'campaigns', 'classroom'],
   },
   {
-    folder: 'github/users',
-    description: 'GitHub REST API: users, notifications and stars, gists, search.',
+    name: 'users',
     categories: ['users', 'activity', 'gists', 'search'],
   },
   {
-    folder: 'github/apps',
-    description: 'GitHub REST API: GitHub Apps, packages, codespaces.',
+    name: 'apps',
     categories: ['apps', 'packages', 'codespaces'],
   },
   {
-    folder: 'github/copilot',
-    description: 'GitHub REST API: Copilot, agents and automations.',
+    name: 'copilot',
     categories: ['copilot', 'copilot-spaces', 'agents', 'agent-automations', 'agent-tasks'],
   },
   {
-    folder: 'github/meta',
-    description:
-      'GitHub REST API: meta, rate limit, emojis, gitignore templates, licenses, markdown, codes of conduct.',
+    name: 'meta',
     categories: ['meta', 'rate-limit', 'emojis', 'gitignore', 'licenses', 'markdown', 'codes-of-conduct'],
   },
 ];
+
+export const SERVER_NAME = 'github';
+
+export const SERVER_DESCRIPTION =
+  "GitHub REST API: repositories, issues and pull requests, Actions, security, organizations, users, apps, Copilot and meta endpoints. Tools are named '<group>:<resource>:<action>'.";

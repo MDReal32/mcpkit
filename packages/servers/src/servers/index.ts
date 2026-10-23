@@ -1,6 +1,6 @@
 import { confluence } from './confluence/confluence';
-import { githubServers } from './github';
+import { github } from './github/github';
 import { gitlab } from './gitlab/gitlab';
 import { jira } from './jira/jira';
 
-export const servers = [confluence, ...githubServers, gitlab, jira];
+export const servers = [confluence, github, gitlab, jira];

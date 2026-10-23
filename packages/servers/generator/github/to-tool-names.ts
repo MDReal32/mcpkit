@@ -11,24 +11,21 @@ const toCamelCase = (kebab: string) =>
 
 const toSnakeCase = (kebab: string) => kebab.replaceAll('-', '_');
 
-export const toToolNames = (operationId: string) => {
+export const toToolNames = (group: string, operationId: string) => {
   const separator = operationId.indexOf('/');
   const resourceFolder = operationId.slice(0, separator);
   const actionFile = operationId.slice(separator + 1);
   return {
+    group,
     resourceFolder,
     actionFile,
-    name: `${toSnakeCase(resourceFolder)}:${toSnakeCase(actionFile)}`,
-    identifier: toCamelCase(`${resourceFolder}-${actionFile}`),
+    name: [group, resourceFolder, actionFile].map(toSnakeCase).join(':'),
+    identifier: toCamelCase(`${group}-${resourceFolder}-${actionFile}`),
   };
 };
 
-export const toGeneratedTool = (
-  folder: string,
-  names: ReturnType<typeof toToolNames>,
-  definition: ToolDefinition,
-): GeneratedTool => ({
-  folder,
+export const toGeneratedTool = (names: ReturnType<typeof toToolNames>, definition: ToolDefinition): GeneratedTool => ({
+  group: names.group,
   resourceFolder: names.resourceFolder,
   actionFile: names.actionFile,
   identifier: names.identifier,

@@ -1,7 +1,7 @@
 import type { ToolDefinition } from './tool-definition';
 
 export interface GeneratedTool {
-  folder: string;
+  group: string;
   resourceFolder: string;
   actionFile: string;
   identifier: string;

@@ -3,8 +3,7 @@ import { executeTool, validateManifest } from '@usemcpkit/core';
 import { useTempDir } from '@usemcpkit/testing';
 import { describe, expect, it } from 'vitest';
 import { confluence } from '../src/servers/confluence/confluence';
-import { githubIssues } from '../src/servers/github/issues/issues';
-import { githubRepos } from '../src/servers/github/repos/repos';
+import { github } from '../src/servers/github/github';
 import { gitlab } from '../src/servers/gitlab/gitlab';
 import { jira } from '../src/servers/jira/jira';
 
@@ -44,7 +43,7 @@ const CONFLUENCE_CLOUD = {
 const CONFLUENCE_DATA_CENTER = { CONFLUENCE_HOST: 'wiki.acme.com', CONFLUENCE_PERSONAL_TOKEN: 't' };
 
 describe('bundled servers', () => {
-  it.each([githubRepos, githubIssues, gitlab, jira, confluence])('$name compiles to a valid manifest', (server) => {
+  it.each([github, gitlab, jira, confluence])('$name compiles to a valid manifest', (server) => {
     expect(validateManifest(JSON.parse(JSON.stringify(server)))).toEqual([]);
   });
 });
@@ -53,14 +52,14 @@ describe('github', () => {
   it('fills path and query parameters and sends the body under renamed keys', async () => {
     const env = { GITHUB_TOKEN: 't' };
     const [content] = await sendTool(
-      githubRepos,
-      'repos:get_content',
+      github,
+      'repos:repos:get_content',
       { owner: 'a', repo: 'b', path: 'x', ref: 'dev' },
       env,
     );
     const [created] = await sendTool(
-      githubIssues,
-      'issues:create',
+      github,
+      'issues:issues:create',
       { owner: 'a', repo: 'b', title: 'T', labels: ['bug'] },
       env,
     );
