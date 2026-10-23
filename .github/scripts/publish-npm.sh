@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
-# Publishes every public mcpkit package whose version is not on npm yet, dependencies first:
-# the per-OS binaries, @usemcpkit/core, @usemcpkit/cli, then the `mcpkit` wrapper that depends on it.
-# Workspaces go through `yarn pack` so `workspace:*` and `publishConfig` are rewritten before npm sees them.
+# Publishes mcpkit packages whose version is not on npm yet. The release workflow runs the steps in parallel jobs:
+#   platforms            prints the per-OS package dirs as a JSON array (the job matrix)
+#   pack <dir>           `yarn pack` core, cli and the wrapper into <dir> (rewrites `workspace:*` and `publishConfig`)
+#   publish-dir <dir>    publish one package directory
+#   publish-lib <dir> <tarballs>  publish one workspace (packages/core, apps/cli, apps/npx) from the `pack` tarballs
 set -euo pipefail
 
-tarballs="$(mktemp -d)"
+LIB_DIRS=(packages/core apps/cli apps/npx)
 
 read_field() {
   node -p "require(process.argv[1]).$2" "$PWD/$1/package.json"
@@ -26,23 +28,33 @@ publish() {
   npm publish "$source" --access public
 }
 
-publish_workspace() {
-  local dir="$1" tarball
-  tarball="$tarballs/$(basename "$dir").tgz"
-  yarn workspace "$(read_field "$dir" name)" pack --out "$tarball"
-  publish "$dir" "$tarball"
-}
+command="${1:?usage: publish-npm.sh platforms|pack <dir>|publish-dir <dir>|publish-lib <dir> <tarballs>}"
 
-shopt -s nullglob
-platform_dirs=(apps/cli/build/npm/cli-*/)
-if [ "${#platform_dirs[@]}" -eq 0 ]; then
-  echo "no platform packages in apps/cli/build/npm; run yarn package first" >&2
-  exit 1
-fi
-
-for dir in "${platform_dirs[@]}"; do
-  publish "${dir%/}" "${dir%/}"
-done
-publish_workspace packages/core
-publish_workspace apps/cli
-publish_workspace apps/npx
+case "$command" in
+  platforms)
+    shopt -s nullglob
+    dirs=(apps/cli/build/npm/cli-*/)
+    if [ "${#dirs[@]}" -eq 0 ]; then
+      echo "no platform packages in apps/cli/build/npm; run yarn package first" >&2
+      exit 1
+    fi
+    printf '%s\n' "${dirs[@]%/}" | node -e 'console.log(JSON.stringify(require("fs").readFileSync(0, "utf8").trim().split("\n")))'
+    ;;
+  pack)
+    mkdir -p "$2"
+    out="$(cd "$2" && pwd)"
+    for dir in "${LIB_DIRS[@]}"; do
+      yarn workspace "$(read_field "$dir" name)" pack --out "$out/$(basename "$dir").tgz"
+    done
+    ;;
+  publish-dir)
+    publish "$2" "$2"
+    ;;
+  publish-lib)
+    publish "$2" "$3/$(basename "$2").tgz"
+    ;;
+  *)
+    echo "unknown command: $command" >&2
+    exit 1
+    ;;
+esac

@@ -1,0 +1,28 @@
+name: Release GitHub
+
+on:
+  workflow_call:
+
+jobs:
+  github-release:
+    name: GitHub Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Download the release files
+        uses: actions/download-artifact@v8
+        with:
+          name: release
+
+      - name: Extract
+        run: tar -xf release.tar
+
+      - name: GitHub Release
+        run: .github/scripts/publish-github-release.sh
+        env:
+          GH_TOKEN: ${{ github.token }}

@@ -1,0 +1,44 @@
+name: Release npm platforms
+
+on:
+  workflow_call:
+    inputs:
+      platforms:
+        description: JSON array of the per-OS package directories
+        type: string
+        required: true
+
+jobs:
+  platforms:
+    name: ${{ matrix.dir }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    strategy:
+      fail-fast: false
+      matrix:
+        dir: ${{ fromJSON(inputs.platforms) }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+          package-manager-cache: false
+
+      - name: Download the release files
+        uses: actions/download-artifact@v8
+        with:
+          name: release
+
+      - name: Extract
+        run: tar -xf release.tar
+
+      - name: Publish
+        run: .github/scripts/publish-npm.sh publish-dir "${{ matrix.dir }}"
+

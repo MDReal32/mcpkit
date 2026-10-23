@@ -15,45 +15,31 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  npm:
-    name: Publish to npm
-    runs-on: ubuntu-latest
+  build:
+    name: Build
+    uses: ./.github/workflows/release-build.yml
+
+  platforms:
+    name: npm platforms
+    needs: build
+    uses: ./.github/workflows/release-npm-platforms.yml
+    with:
+      platforms: ${{ needs.build.outputs.platforms }}
     permissions:
-      contents: write
+      contents: read
       id-token: write
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
+  libraries:
+    name: npm libraries
+    needs: platforms
+    uses: ./.github/workflows/release-npm-libraries.yml
+    permissions:
+      contents: read
+      id-token: write
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: "24"
-          registry-url: "https://registry.npmjs.org"
-          package-manager-cache: false
-
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: "1.2.21"
-
-      - name: Enable Corepack
-        run: corepack enable
-
-      - name: Install dependencies
-        run: yarn install --immutable
-
-      - name: Build
-        run: yarn build
-
-      - name: Package binaries
-        run: yarn package
-
-      - name: Publish
-        run: .github/scripts/publish-npm.sh
-
-      - name: GitHub Release
-        run: .github/scripts/publish-github-release.sh
-        env:
-          GH_TOKEN: ${{ github.token }}
+  github:
+    name: GitHub Release
+    needs: build
+    uses: ./.github/workflows/release-github.yml
+    permissions:
+      contents: write

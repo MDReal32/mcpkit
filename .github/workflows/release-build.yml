@@ -1,0 +1,60 @@
+name: Release build
+
+on:
+  workflow_call:
+    outputs:
+      platforms:
+        description: JSON array of the per-OS package directories
+        value: ${{ jobs.build.outputs.platforms }}
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    outputs:
+      platforms: ${{ steps.platforms.outputs.dirs }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          package-manager-cache: false
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.2.21"
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Build
+        run: yarn build
+
+      - name: Package binaries
+        run: yarn package
+
+      - name: Pack libraries
+        run: .github/scripts/publish-npm.sh pack release-tarballs
+
+      - name: List platform packages
+        id: platforms
+        run: echo "dirs=$(.github/scripts/publish-npm.sh platforms)" >> "$GITHUB_OUTPUT"
+
+      - name: Archive the release files
+        run: tar -cf release.tar apps/cli/build/npm apps/cli/build/bin release-tarballs
+
+      - name: Upload the release files
+        uses: actions/upload-artifact@v7
+        with:
+          name: release
+          path: release.tar
+          retention-days: 1
+
