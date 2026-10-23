@@ -20,6 +20,21 @@ describe("loadFileArgs", () => {
     expect(args.owner).toBe("o");
   });
 
+  it("loads every path of an array argument", async () => {
+    const dir = await mkdtemp(join(tmpdir(), "mcpkit-"));
+    const first = join(dir, "a.txt");
+    const second = join(dir, "b.txt");
+    await writeFile(first, "a");
+    await writeFile(second, "b");
+
+    const args = await loadFileArgs(uploadTool, { file: [first, second] });
+
+    expect(args.file).toEqual([
+      { name: "a.txt", data: new TextEncoder().encode("a") },
+      { name: "b.txt", data: new TextEncoder().encode("b") },
+    ]);
+  });
+
   it("fails with a ToolError when the file cannot be read", async () => {
     await expect(loadFileArgs(uploadTool, { file: "/nonexistent/mcpkit-file" })).rejects.toBeInstanceOf(ToolError);
   });

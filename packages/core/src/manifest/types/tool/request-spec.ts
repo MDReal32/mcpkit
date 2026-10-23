@@ -16,7 +16,7 @@ export interface RequestSpec {
   /** Outgoing query keys whose array values are joined with commas; other arrays repeat the key once per item. */
   commaQuery?: readonly string[];
   /**
-   * Names of arguments holding a local file path. With `contentType` multipart/form-data the files become form
+   * Names of arguments holding a local file path or an array of them. With `contentType` multipart/form-data the files become form
    * parts; with `bodyArg` naming one of them the file is the raw request body.
    */
   fileArgs?: readonly string[];

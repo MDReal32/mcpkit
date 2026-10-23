@@ -7,8 +7,11 @@ const toFieldValue = (value: unknown) => (typeof value === "object" ? JSON.strin
 export const buildFormData = ({ body, fixedBody }: RequestSpec, args: ToolArgs) => {
   const form = new FormData();
   for (const [key, value] of Object.entries({ ...fixedBody, ...collectArgs(body, args) })) {
-    if (isUploadedFile(value)) {
-      form.append(key, new Blob([value.data]), value.name);
+    const files = [value].flat().filter(isUploadedFile);
+    if (files.length > 0) {
+      for (const file of files) {
+        form.append(key, new Blob([file.data]), file.name);
+      }
       continue;
     }
     form.append(key, toFieldValue(value));
