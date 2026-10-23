@@ -22,6 +22,7 @@ import { softwareBoardGetProjectsFull } from "./get-projects-full";
 import { softwareBoardGetQuickFilter } from "./get-quick-filter";
 import { softwareBoardGetReportsForBoard } from "./get-reports-for-board";
 import { softwareBoardMoveIssuesToBoard } from "./move-issues-to-board";
+import { softwareBoardSetBoardProperty } from "./set-board-property";
 import { softwareBoardToggleFeatures } from "./toggle-features";
 
 export const softwareBoardTools = [
@@ -49,5 +50,6 @@ export const softwareBoardTools = [
   softwareBoardGetQuickFilter,
   softwareBoardGetReportsForBoard,
   softwareBoardMoveIssuesToBoard,
+  softwareBoardSetBoardProperty,
   softwareBoardToggleFeatures,
 ];

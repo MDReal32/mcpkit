@@ -7,6 +7,7 @@ import { softwareSprintGetProperty } from "./get-property";
 import { softwareSprintGetSprint } from "./get-sprint";
 import { softwareSprintMoveIssuesToSprintAndRank } from "./move-issues-to-sprint-and-rank";
 import { softwareSprintPartiallyUpdateSprint } from "./partially-update-sprint";
+import { softwareSprintSetProperty } from "./set-property";
 import { softwareSprintSwapSprint } from "./swap-sprint";
 import { softwareSprintUpdateSprint } from "./update-sprint";
 
@@ -20,6 +21,7 @@ export const softwareSprintTools = [
   softwareSprintGetSprint,
   softwareSprintMoveIssuesToSprintAndRank,
   softwareSprintPartiallyUpdateSprint,
+  softwareSprintSetProperty,
   softwareSprintSwapSprint,
   softwareSprintUpdateSprint,
 ];

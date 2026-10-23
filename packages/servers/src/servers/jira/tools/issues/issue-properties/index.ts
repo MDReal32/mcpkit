@@ -5,6 +5,7 @@ import { issuesIssuePropertiesBulkSetIssuesPropertiesList } from "./bulk-set-iss
 import { issuesIssuePropertiesDeleteIssueProperty } from "./delete-issue-property";
 import { issuesIssuePropertiesGetIssueProperty } from "./get-issue-property";
 import { issuesIssuePropertiesGetIssuePropertyKeys } from "./get-issue-property-keys";
+import { issuesIssuePropertiesSetIssueProperty } from "./set-issue-property";
 
 export const issuesIssuePropertiesTools = [
   issuesIssuePropertiesBulkDeleteIssueProperty,
@@ -14,4 +15,5 @@ export const issuesIssuePropertiesTools = [
   issuesIssuePropertiesDeleteIssueProperty,
   issuesIssuePropertiesGetIssueProperty,
   issuesIssuePropertiesGetIssuePropertyKeys,
+  issuesIssuePropertiesSetIssueProperty,
 ];

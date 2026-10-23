@@ -12,6 +12,7 @@ import { collaborationDashboardsGetDashboardItemProperty } from "./get-dashboard
 import { collaborationDashboardsGetDashboardItemPropertyKeys } from "./get-dashboard-item-property-keys";
 import { collaborationDashboardsGetDashboardsPaginated } from "./get-dashboards-paginated";
 import { collaborationDashboardsRemoveGadget } from "./remove-gadget";
+import { collaborationDashboardsSetDashboardItemProperty } from "./set-dashboard-item-property";
 import { collaborationDashboardsUpdateDashboard } from "./update-dashboard";
 import { collaborationDashboardsUpdateGadget } from "./update-gadget";
 
@@ -30,6 +31,7 @@ export const collaborationDashboardsTools = [
   collaborationDashboardsGetDashboardItemPropertyKeys,
   collaborationDashboardsGetDashboardsPaginated,
   collaborationDashboardsRemoveGadget,
+  collaborationDashboardsSetDashboardItemProperty,
   collaborationDashboardsUpdateDashboard,
   collaborationDashboardsUpdateGadget,
 ];

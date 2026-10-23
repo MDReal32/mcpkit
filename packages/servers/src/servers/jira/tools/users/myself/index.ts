@@ -3,6 +3,7 @@ import { usersMyselfGetLocale } from "./get-locale";
 import { usersMyselfGetPreference } from "./get-preference";
 import { usersMyselfRemovePreference } from "./remove-preference";
 import { usersMyselfSetLocale } from "./set-locale";
+import { usersMyselfSetPreference } from "./set-preference";
 
 export const usersMyselfTools = [
   usersMyselfGetCurrentUser,
@@ -10,4 +11,5 @@ export const usersMyselfTools = [
   usersMyselfGetPreference,
   usersMyselfRemovePreference,
   usersMyselfSetLocale,
+  usersMyselfSetPreference,
 ];
