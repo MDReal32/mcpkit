@@ -29,10 +29,32 @@ jobs:
       contents: read
       id-token: write
 
-  libraries:
-    name: npm libraries
+  core:
+    name: npm core
+    needs: build
+    uses: ./.github/workflows/release-npm-package.yml
+    with:
+      dir: packages/core
+    permissions:
+      contents: read
+      id-token: write
+
+  cli:
+    name: npm cli
     needs: platforms
-    uses: ./.github/workflows/release-npm-libraries.yml
+    uses: ./.github/workflows/release-npm-package.yml
+    with:
+      dir: apps/cli
+    permissions:
+      contents: read
+      id-token: write
+
+  wrapper:
+    name: npm wrapper
+    needs: cli
+    uses: ./.github/workflows/release-npm-package.yml
+    with:
+      dir: apps/npx
     permissions:
       contents: read
       id-token: write
