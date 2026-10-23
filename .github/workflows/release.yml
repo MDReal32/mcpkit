@@ -18,6 +18,9 @@ jobs:
   npm:
     name: Publish to npm
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
 
     steps:
       - name: Checkout
@@ -49,3 +52,8 @@ jobs:
 
       - name: Publish
         run: .github/scripts/publish-npm.sh
+
+      - name: GitHub Release
+        run: .github/scripts/publish-github-release.sh
+        env:
+          GH_TOKEN: ${{ github.token }}
