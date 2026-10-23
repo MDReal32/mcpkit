@@ -1,4 +1,6 @@
 import { cloudV1UserAddContentWatcher } from "./add-content-watcher";
+import { cloudV1UserAddLabelWatcher } from "./add-label-watcher";
+import { cloudV1UserAddSpaceWatcher } from "./add-space-watcher";
 import { cloudV1UserCreateUserProperty } from "./create-user-property";
 import { cloudV1UserDeleteUserProperty } from "./delete-user-property";
 import { cloudV1UserGetAnonymousUser } from "./get-anonymous-user";
@@ -13,12 +15,15 @@ import { cloudV1UserGetUserProperties } from "./get-user-properties";
 import { cloudV1UserGetUserProperty } from "./get-user-property";
 import { cloudV1UserIsWatchingLabel } from "./is-watching-label";
 import { cloudV1UserIsWatchingSpace } from "./is-watching-space";
+import { cloudV1UserRemoveContentWatcher } from "./remove-content-watcher";
 import { cloudV1UserRemoveLabelWatcher } from "./remove-label-watcher";
 import { cloudV1UserRemoveSpaceWatch } from "./remove-space-watch";
 import { cloudV1UserUpdateUserProperty } from "./update-user-property";
 
 export const cloudV1UserTools = [
   cloudV1UserAddContentWatcher,
+  cloudV1UserAddLabelWatcher,
+  cloudV1UserAddSpaceWatcher,
   cloudV1UserCreateUserProperty,
   cloudV1UserDeleteUserProperty,
   cloudV1UserGetAnonymousUser,
@@ -33,6 +38,7 @@ export const cloudV1UserTools = [
   cloudV1UserGetUserProperty,
   cloudV1UserIsWatchingLabel,
   cloudV1UserIsWatchingSpace,
+  cloudV1UserRemoveContentWatcher,
   cloudV1UserRemoveLabelWatcher,
   cloudV1UserRemoveSpaceWatch,
   cloudV1UserUpdateUserProperty,
