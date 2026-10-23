@@ -1,5 +1,5 @@
 import { existsSync } from 'node:fs';
-import { utimes, writeFile } from 'node:fs/promises';
+import { rename, utimes, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { PassThrough } from 'node:stream';
 import { useTempDir } from '@usemcpkit/testing';
@@ -97,8 +97,10 @@ describe('watchBinaryFile', () => {
     const onChange = vi.fn();
     const stop = await watchBinaryFile(path, onChange, 10);
 
-    await writeFile(path, 'version two');
-    await utimes(path, new Date(), new Date(Date.now() + 5000));
+    const replacement = `${path}.next`;
+    await writeFile(replacement, 'version two');
+    await utimes(replacement, new Date(), new Date(Date.now() + 5000));
+    await rename(replacement, path);
     await vi.waitFor(() => expect(onChange).toHaveBeenCalledTimes(1));
     await new Promise((resolve) => setTimeout(resolve, 80));
     stop();
