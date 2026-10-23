@@ -66,3 +66,5 @@ export const SERVER_NAME = "github";
 
 export const SERVER_DESCRIPTION =
   "GitHub REST API: repositories, issues and pull requests, Actions, security, organizations, users, apps, Copilot and meta endpoints. Tools are named '<group>:<resource>:<action>'.";
+
+export const DOWNLOAD_PATHS: readonly RegExp[] = [/\/(zipball|tarball)\/\{ref\}$/];

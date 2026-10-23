@@ -184,3 +184,5 @@ export const SERVER_NAME = "jira";
 
 export const SERVER_DESCRIPTION =
   "Jira REST API (Cloud and Data Center): issues, projects, users, workflows, fields, dashboards and filters, administration, apps and Jira Software boards and sprints. Tools are named '<group>:<resource>:<action>' and use the /rest/api/2 endpoints (Jira Software: /rest/agile/1.0), so endpoints that exist only on Cloud fail on Data Center. Issue search picks the endpoint of the deployment.";
+
+export const DOWNLOAD_PATHS: readonly RegExp[] = [/\/attachment\/(content|thumbnail)\/\{id\}$/];

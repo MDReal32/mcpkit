@@ -4,7 +4,7 @@ import { buildToolDefinition } from "../../utils/tool/build-tool-definition";
 import type { Operation } from "../../utils/types/operation";
 import type { SpecPlan } from "../../utils/types/spec-plan";
 import { argumentNaming } from "./argument-naming";
-import { SCHEMA_OPTIONS } from "./const";
+import { DOWNLOAD_PATHS, SCHEMA_OPTIONS } from "./const";
 import { findUnsupportedReason } from "./find-unsupported-reason";
 import { nameOperations } from "./name-operations";
 import { parseSpec } from "./parse-spec";
@@ -24,6 +24,7 @@ export const createSpecPlan = (source: SpecSource) => {
         schema: SCHEMA_OPTIONS,
         naming: argumentNaming,
         descriptionPrefix: source.descriptionPrefix,
+        downloadPaths: DOWNLOAD_PATHS,
       }),
   };
   return plan;

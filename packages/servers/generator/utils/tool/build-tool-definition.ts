@@ -1,7 +1,8 @@
 import type { JsonSchema } from "@usemcpkit/core";
-import { JSON_CONTENT_TYPE } from "../const";
+import { JSON_CONTENT_TYPE, SAVE_TO_ARGUMENT, SAVE_TO_DESCRIPTION } from "../const";
 import { buildBodyArguments } from "../schema/build-body-arguments";
 import { buildParameterSchema } from "../schema/build-parameter-schema";
+import { isDownload } from "../support/is-download";
 import type { OpenApiParameter } from "../types/open-api-operation";
 import type { Operation } from "../types/operation";
 import type { ToolDefinition } from "../types/tool-definition";
@@ -13,7 +14,7 @@ import { replacePlaceholder } from "./replace-placeholder";
 import { simplifyMapping } from "./simplify-mapping";
 
 export const buildToolDefinition = (operation: Operation, name: string, options: ToolDefinitionOptions) => {
-  const { schema: schemaOptions, naming, descriptionPrefix } = options;
+  const { schema: schemaOptions, naming, descriptionPrefix, downloadPaths = [] } = options;
   const parameters: OpenApiParameter[] = operation.spec.parameters ?? [];
   const pathParameters = parameters.filter((parameter) => parameter.in === "path");
   const queryParameters = parameters.filter(
@@ -43,6 +44,13 @@ export const buildToolDefinition = (operation: Operation, name: string, options:
     operation.spec.requestBody && operation.method !== "get"
       ? buildBodyArguments(operation.spec.requestBody, taken, schemaOptions, naming)
       : undefined;
+  const saveToArg = isDownload(operation, downloadPaths)
+    ? naming.bodyProperty(SAVE_TO_ARGUMENT, taken, new Set())
+    : undefined;
+  if (saveToArg !== undefined) {
+    properties[saveToArg] = { type: "string", description: SAVE_TO_DESCRIPTION };
+    required.push(saveToArg);
+  }
   Object.assign(properties, body?.properties);
   required.push(...(body?.required ?? []));
 
@@ -55,6 +63,7 @@ export const buildToolDefinition = (operation: Operation, name: string, options:
     ...(commaQuery.length > 0 && { commaQuery }),
     ...(body?.wholeBody === undefined ? body && { body: simplifyMapping(body.mapping) } : { bodyArg: body.wholeBody }),
     ...(body && body.contentType !== JSON_CONTENT_TYPE && { contentType: body.contentType }),
+    ...(saveToArg !== undefined && { saveToArg }),
     ...(body && body.fileArgs.length > 0 && { fileArgs: body.fileArgs }),
     ...(Object.keys(fixedHeaders).length > 0 && { fixedHeaders }),
   };

@@ -3,7 +3,7 @@ import { readSpec } from "../../utils/spec/read-spec";
 import { buildToolDefinition } from "../../utils/tool/build-tool-definition";
 import { verbatimArgumentNaming } from "../../utils/tool/verbatim-argument-naming";
 import type { SpecPlan } from "../../utils/types/spec-plan";
-import { SCHEMA_OPTIONS } from "./const";
+import { DOWNLOAD_PATHS, SCHEMA_OPTIONS } from "./const";
 import { dereferenceOperation } from "./dereference-operation";
 import { findUnsupportedReason } from "./find-unsupported-reason";
 import { nameOperations } from "./name-operations";
@@ -26,7 +26,11 @@ export const createSpecPlan = (source: SpecSource) => {
     findUnsupportedReason,
     nameOperations: (operations) => nameOperations(operations, source),
     buildToolDefinition: (operation, name) =>
-      buildToolDefinition(operation, name, { schema: SCHEMA_OPTIONS, naming: verbatimArgumentNaming }),
+      buildToolDefinition(operation, name, {
+        schema: SCHEMA_OPTIONS,
+        naming: verbatimArgumentNaming,
+        downloadPaths: DOWNLOAD_PATHS,
+      }),
   };
   return plan;
 };

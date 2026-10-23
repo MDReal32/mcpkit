@@ -63,3 +63,5 @@ export const SERVER_NAME = "confluence";
 
 export const SERVER_DESCRIPTION =
   "Confluence REST API for Cloud and Data Center. Tools are named '<group>:<resource>:<action>': group cloud is Cloud REST v2 (/wiki/api/v2), cloud_v1 is Cloud REST v1 (/wiki/rest/api) and datacenter is Data Center / Server REST (/rest/api); call the group that matches the configured host.";
+
+export const DOWNLOAD_PATHS: readonly RegExp[] = [/\/download$/, /\/thumbnail/];
