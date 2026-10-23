@@ -1,4 +1,4 @@
-import { JSON_CONTENT_TYPE } from "../const";
+import { selectBodyContent } from "../support/select-body-content";
 import type { ArgumentNaming } from "../types/argument-naming";
 import type { BodyArguments } from "../types/body-arguments";
 import type { OpenApiRequestBody } from "../types/open-api-operation";
@@ -12,12 +12,12 @@ export const buildBodyArguments = (
   schemaOptions: SchemaOptions,
   naming: ArgumentNaming,
 ) => {
-  const schema = requestBody.content[JSON_CONTENT_TYPE]?.schema;
-  if (!schema) {
+  const selected = selectBodyContent(requestBody.content);
+  if (!selected) {
     return undefined;
   }
-  const converted = convertSchema(schema, schemaOptions);
-  const result: BodyArguments = { mapping: {}, properties: {}, required: [] };
+  const converted = convertSchema(selected.schema, schemaOptions);
+  const result: BodyArguments = { mapping: {}, properties: {}, required: [], contentType: selected.contentType };
   if (Object.keys(converted.properties ?? {}).length === 0) {
     const argName = naming.bodyProperty(WHOLE_BODY_ARGUMENT, takenNames, new Set());
     return {

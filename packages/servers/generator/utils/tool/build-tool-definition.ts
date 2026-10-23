@@ -1,4 +1,5 @@
 import type { JsonSchema } from "@usemcpkit/core";
+import { JSON_CONTENT_TYPE } from "../const";
 import { buildBodyArguments } from "../schema/build-body-arguments";
 import { buildParameterSchema } from "../schema/build-parameter-schema";
 import type { OpenApiParameter } from "../types/open-api-operation";
@@ -50,6 +51,7 @@ export const buildToolDefinition = (operation: Operation, name: string, options:
     path,
     ...(queryParameters.length > 0 && { query: simplifyMapping(queryMapping) }),
     ...(body?.wholeBody === undefined ? body && { body: simplifyMapping(body.mapping) } : { bodyArg: body.wholeBody }),
+    ...(body && body.contentType !== JSON_CONTENT_TYPE && { contentType: body.contentType }),
     ...(Object.keys(fixedHeaders).length > 0 && { fixedHeaders }),
   };
   const definition: ToolDefinition = {

@@ -5,6 +5,7 @@ export interface BodyArguments {
   mapping: Record<string, string>;
   properties: Record<string, JsonSchema>;
   required: string[];
+  contentType: string;
   /** Set when the body has no named properties: the argument sent unchanged as the whole body. */
   wholeBody?: string;
 }
