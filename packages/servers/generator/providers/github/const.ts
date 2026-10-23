@@ -1,16 +1,6 @@
 export const SPEC_URL =
   'https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/dereferenced/api.github.com.2022-11-28.deref.json';
 
-export const MAX_SCHEMA_DEPTH = 3;
-
-export const MAX_DESCRIPTION_LENGTH = 400;
-
-export const SERVER_VERSION = '1.0.0';
-
-export const HTTP_METHODS = ['get', 'post', 'put', 'patch', 'delete'];
-
-export const JSON_CONTENT_TYPE = 'application/json';
-
 export const SERVER_GROUPS = [
   {
     name: 'repos',
