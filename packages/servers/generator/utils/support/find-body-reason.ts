@@ -2,11 +2,12 @@ import { MULTIPART_CONTENT_TYPE } from "../const";
 import { convertSchema } from "../schema/convert-schema";
 import type { BodyReasonOptions } from "../types/body-reason-options";
 import type { Operation } from "../types/operation";
+import { isFileListBody } from "./is-file-list-body";
 import { selectBodyContent } from "./select-body-content";
 
 export const findBodyReason = (
   { method, spec }: Operation,
-  { schema: schemaOptions, rejectsDottedNames }: BodyReasonOptions,
+  { schema: schemaOptions, rejectsDottedNames, filePartName }: BodyReasonOptions,
 ) => {
   const content = method === "get" ? undefined : spec.requestBody?.content;
   if (!content) {
@@ -15,6 +16,9 @@ export const findBodyReason = (
   const selected = selectBodyContent(content);
   if (!selected) {
     return `request body is ${Object.keys(content).join(", ")}, only JSON and text bodies are supported`;
+  }
+  if (isFileListBody(selected)) {
+    return filePartName ? undefined : "request body is a multipart file list without a configured part name";
   }
   const emptyMultipart = selected.contentType === MULTIPART_CONTENT_TYPE && !selected.schema.properties;
   if (emptyMultipart) {

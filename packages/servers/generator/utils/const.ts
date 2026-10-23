@@ -8,6 +8,8 @@ export const SAVE_TO_ARGUMENT = "save_to";
 
 export const SAVE_TO_DESCRIPTION = "Local path the downloaded file is saved to.";
 
+export const FILES_ARGUMENT_DESCRIPTION = "Paths of the local files to upload.";
+
 export const FILE_ARGUMENT_DESCRIPTION = "Path of a local file to upload.";
 
 export const TEXT_FALLBACK_SCHEMA = { type: "string" } as const;

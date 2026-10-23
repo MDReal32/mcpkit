@@ -1,4 +1,5 @@
-import { FILE_ARGUMENT_DESCRIPTION, MULTIPART_CONTENT_TYPE } from "../const";
+import { FILE_ARGUMENT_DESCRIPTION, FILES_ARGUMENT_DESCRIPTION, MULTIPART_CONTENT_TYPE } from "../const";
+import { isFileListBody } from "../support/is-file-list-body";
 import { selectBodyContent } from "../support/select-body-content";
 import type { ArgumentNaming } from "../types/argument-naming";
 import type { BodyArguments } from "../types/body-arguments";
@@ -13,12 +14,24 @@ export const buildBodyArguments = (
   takenNames: ReadonlySet<string>,
   schemaOptions: SchemaOptions,
   naming: ArgumentNaming,
+  filePartName?: string,
 ) => {
   const selected = selectBodyContent(requestBody.content);
   if (!selected) {
     return undefined;
   }
   const { contentType, schema } = selected;
+  if (filePartName && isFileListBody(selected)) {
+    const argName = naming.bodyProperty(filePartName, takenNames, new Set());
+    const fileList: BodyArguments = {
+      mapping: { [filePartName]: argName },
+      properties: { [argName]: { type: "array", items: { type: "string" }, description: FILES_ARGUMENT_DESCRIPTION } },
+      required: requestBody.required ? [argName] : [],
+      contentType,
+      fileArgs: [argName],
+    };
+    return fileList;
+  }
   const converted = convertSchema(schema, schemaOptions);
   const result: BodyArguments = { mapping: {}, properties: {}, required: [], contentType, fileArgs: [] };
   if (Object.keys(converted.properties ?? {}).length === 0) {

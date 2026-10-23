@@ -14,7 +14,7 @@ import { replacePlaceholder } from "./replace-placeholder";
 import { simplifyMapping } from "./simplify-mapping";
 
 export const buildToolDefinition = (operation: Operation, name: string, options: ToolDefinitionOptions) => {
-  const { schema: schemaOptions, naming, descriptionPrefix, downloadPaths = [] } = options;
+  const { schema: schemaOptions, naming, descriptionPrefix, downloadPaths = [], filePartName } = options;
   const parameters: OpenApiParameter[] = operation.spec.parameters ?? [];
   const pathParameters = parameters.filter((parameter) => parameter.in === "path");
   const queryParameters = parameters.filter(
@@ -42,7 +42,7 @@ export const buildToolDefinition = (operation: Operation, name: string, options:
   }
   const body =
     operation.spec.requestBody && operation.method !== "get"
-      ? buildBodyArguments(operation.spec.requestBody, taken, schemaOptions, naming)
+      ? buildBodyArguments(operation.spec.requestBody, taken, schemaOptions, naming, filePartName)
       : undefined;
   const saveToArg = isDownload(operation, downloadPaths)
     ? naming.bodyProperty(SAVE_TO_ARGUMENT, taken, new Set())
