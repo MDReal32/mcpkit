@@ -27,6 +27,7 @@ import { copilotCopilotListCopilotSeats } from "./list-copilot-seats";
 import { copilotCopilotRemoveOrganizationsFromEnterpriseCodingAgentPolicy } from "./remove-organizations-from-enterprise-coding-agent-policy";
 import { copilotCopilotSetCopilotCodingAgentPermissionsOrganization } from "./set-copilot-coding-agent-permissions-organization";
 import { copilotCopilotSetCopilotCodingAgentSelectedRepositoriesForOrganization } from "./set-copilot-coding-agent-selected-repositories-for-organization";
+import { copilotCopilotSetCopilotContentExclusionForOrganization } from "./set-copilot-content-exclusion-for-organization";
 import { copilotCopilotSetEnterpriseCodingAgentPolicy } from "./set-enterprise-coding-agent-policy";
 
 export const copilotCopilotTools = [
@@ -59,5 +60,6 @@ export const copilotCopilotTools = [
   copilotCopilotRemoveOrganizationsFromEnterpriseCodingAgentPolicy,
   copilotCopilotSetCopilotCodingAgentPermissionsOrganization,
   copilotCopilotSetCopilotCodingAgentSelectedRepositoriesForOrganization,
+  copilotCopilotSetCopilotContentExclusionForOrganization,
   copilotCopilotSetEnterpriseCodingAgentPolicy,
 ];
