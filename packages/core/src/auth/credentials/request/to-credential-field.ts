@@ -1,6 +1,6 @@
-import type { UiInputSpec, UiTexts } from '../../../manifest';
-import { fillTemplate } from '../../../manifest';
-import type { CredentialField } from '../../types/credentials/credential-field';
+import type { UiInputSpec, UiTexts } from "../../../manifest";
+import { fillTemplate } from "../../../manifest";
+import type { CredentialField } from "../../types/credentials/credential-field";
 
 export const toCredentialField = (
   key: string,
@@ -13,7 +13,7 @@ export const toCredentialField = (
     key,
     label: spec?.label ?? label,
     hint: spec?.hint ?? fillTemplate(texts.fieldHint, { key }),
-    placeholder: spec?.placeholder ?? '',
+    placeholder: spec?.placeholder ?? "",
     secret,
   };
   return field;

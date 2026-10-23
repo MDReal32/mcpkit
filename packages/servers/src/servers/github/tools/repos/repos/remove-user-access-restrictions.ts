@@ -1,38 +1,38 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const reposReposRemoveUserAccessRestrictions = defineTool({
-  name: 'repos:repos:remove_user_access_restrictions',
+  name: "repos:repos:remove_user_access_restrictions",
   description:
     "Remove user access restrictions. Protected branches are available in public repositories with GitHub Free and GitHub Free for organizations, and in public and private repositories with GitHub Pro, GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see GitHub's products in the GitHub Help documentation.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       owner: {
-        type: 'string',
-        description: 'The account owner of the repository. The name is not case sensitive.',
+        type: "string",
+        description: "The account owner of the repository. The name is not case sensitive.",
       },
       repo: {
-        type: 'string',
-        description: 'The name of the repository without the `.git` extension. The name is not case sensitive.',
+        type: "string",
+        description: "The name of the repository without the `.git` extension. The name is not case sensitive.",
       },
       branch: {
-        type: 'string',
+        type: "string",
         description:
-          'The name of the branch. Cannot contain wildcard characters. To use wildcard characters in branch names, use the GraphQL API.',
+          "The name of the branch. Cannot contain wildcard characters. To use wildcard characters in branch names, use the GraphQL API.",
       },
       users: {
-        type: 'array',
-        description: 'The username for users',
+        type: "array",
+        description: "The username for users",
         items: {
-          type: 'string',
+          type: "string",
         },
       },
     },
-    required: ['owner', 'repo', 'branch', 'users'],
+    required: ["owner", "repo", "branch", "users"],
   },
   request: {
-    method: 'DELETE',
-    path: '/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users',
-    body: ['users'],
+    method: "DELETE",
+    path: "/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users",
+    body: ["users"],
   },
 });

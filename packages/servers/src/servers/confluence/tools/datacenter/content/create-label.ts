@@ -1,62 +1,62 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterContentCreateLabel = defineTool({
-  name: 'datacenter:content:create_label',
+  name: "datacenter:content:create_label",
   description:
-    '[Data Center] Add Labels. Adds a list of labels to the specified content. The body is the json representation of the list.',
+    "[Data Center] Add Labels. Adds a list of labels to the specified content. The body is the json representation of the list.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
+        type: "string",
       },
       prefix: {
-        type: 'string',
+        type: "string",
       },
       name: {
-        type: 'string',
+        type: "string",
       },
       body_id: {
-        type: 'string',
+        type: "string",
       },
       label: {
-        type: 'string',
+        type: "string",
       },
       _links: {
-        type: 'object',
+        type: "object",
         properties: {
           base: {
-            type: 'string',
+            type: "string",
           },
           context: {
-            type: 'string',
+            type: "string",
           },
           self: {
-            type: 'string',
+            type: "string",
           },
         },
       },
       _expandable: {
-        type: 'object',
+        type: "object",
         properties: {
           attribute: {
-            type: 'string',
+            type: "string",
           },
         },
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'POST',
-    path: '/rest/api/content/{id}/label',
+    method: "POST",
+    path: "/rest/api/content/{id}/label",
     body: {
-      prefix: 'prefix',
-      name: 'name',
-      id: 'body_id',
-      label: 'label',
-      _links: '_links',
-      _expandable: '_expandable',
+      prefix: "prefix",
+      name: "name",
+      id: "body_id",
+      label: "label",
+      _links: "_links",
+      _expandable: "_expandable",
     },
   },
 });

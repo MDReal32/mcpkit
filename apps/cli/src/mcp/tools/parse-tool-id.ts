@@ -1,4 +1,4 @@
-import { TOOL_ID_SEPARATOR } from './const';
+import { TOOL_ID_SEPARATOR } from "./const";
 
 const SERVER_ID_PARTS = 2;
 
@@ -7,7 +7,7 @@ export const parseToolId = (id: string) => {
   const parts = id.split(TOOL_ID_SEPARATOR);
   const [category, name] = parts;
   const tool = parts.slice(SERVER_ID_PARTS).join(TOOL_ID_SEPARATOR);
-  if (!category || !name || !tool || parts.slice(SERVER_ID_PARTS).some((part) => part === '')) {
+  if (!category || !name || !tool || parts.slice(SERVER_ID_PARTS).some((part) => part === "")) {
     return undefined;
   }
   return { serverId: `${category}${TOOL_ID_SEPARATOR}${name}`, tool };

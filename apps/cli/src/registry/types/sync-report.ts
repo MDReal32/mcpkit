@@ -1,4 +1,4 @@
-import type { SyncFailure } from './sync-failure';
+import type { SyncFailure } from "./sync-failure";
 
 export interface SyncReport {
   servers: number;

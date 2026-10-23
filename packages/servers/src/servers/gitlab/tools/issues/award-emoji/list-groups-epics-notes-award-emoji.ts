@@ -1,40 +1,40 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesAwardEmojiListGroupsEpicsNotesAwardEmoji = defineTool({
-  name: 'issues:award_emoji:list_groups_epics_notes_award_emoji',
+  name: "issues:award_emoji:list_groups_epics_notes_award_emoji",
   description:
-    'List all emoji reactions for an epic comment. Lists all emoji reactions for a specified comment on an epic. This endpoint can be accessed without authentication if the comment is publicly accessible.',
+    "List all emoji reactions for an epic comment. Lists all emoji reactions for a specified comment on an epic. This endpoint can be accessed without authentication if the comment is publicly accessible.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       note_id: {
-        type: 'integer',
-        description: 'ID of the note.',
+        type: "integer",
+        description: "ID of the note.",
       },
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the group.',
+        type: "string",
+        description: "ID or URL-encoded path of the group.",
       },
       epic_iid: {
-        type: 'integer',
-        description: 'Internal ID of the epic.',
+        type: "integer",
+        description: "Internal ID of the epic.",
       },
       page: {
-        type: 'integer',
+        type: "integer",
         default: 1,
-        description: 'Page number of results to retrieve.',
+        description: "Page number of results to retrieve.",
       },
       per_page: {
-        type: 'integer',
+        type: "integer",
         default: 20,
-        description: 'Number of items to list per page.',
+        description: "Number of items to list per page.",
       },
     },
-    required: ['note_id', 'id', 'epic_iid'],
+    required: ["note_id", "id", "epic_iid"],
   },
   request: {
-    method: 'GET',
-    path: '/groups/{id}/epics/{epic_iid}/notes/{note_id}/award_emoji',
-    query: ['page', 'per_page'],
+    method: "GET",
+    path: "/groups/{id}/epics/{epic_iid}/notes/{note_id}/award_emoji",
+    query: ["page", "per_page"],
   },
 });

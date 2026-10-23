@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const adminGeoGetGeoNodes = defineTool({
-  name: 'admin:geo:get_geo_nodes',
-  description: 'Retrieve a single Geo node. Retrieves a single Geo Node.',
+  name: "admin:geo:get_geo_nodes",
+  description: "Retrieve a single Geo node. Retrieves a single Geo Node.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'The ID of the node',
+        type: "integer",
+        description: "The ID of the node",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/geo_nodes/{id}',
+    method: "GET",
+    path: "/geo_nodes/{id}",
   },
 });

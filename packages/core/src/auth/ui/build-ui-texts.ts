@@ -1,6 +1,6 @@
-import type { Manifest, UiTexts } from '../../manifest';
-import { DEFAULT_UI_TEXTS, fillTemplate } from '../../manifest';
-import { UI_TEXT_KEYS } from '../../manifest/ui/const';
+import type { Manifest, UiTexts } from "../../manifest";
+import { DEFAULT_UI_TEXTS, fillTemplate } from "../../manifest";
+import { UI_TEXT_KEYS } from "../../manifest/ui/const";
 
 /** The manifest's texts over the defaults, with the server's name filled in. */
 export const buildUiTexts = (manifest: Manifest) => {

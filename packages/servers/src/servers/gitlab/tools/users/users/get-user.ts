@@ -1,14 +1,14 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersUsersGetUser = defineTool({
-  name: 'users:users:get_user',
-  description: 'Retrieve current user details. Retrieves details about your user account.',
+  name: "users:users:get_user",
+  description: "Retrieve current user details. Retrieves details about your user account.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {},
   },
   request: {
-    method: 'GET',
-    path: '/user',
+    method: "GET",
+    path: "/user",
   },
 });

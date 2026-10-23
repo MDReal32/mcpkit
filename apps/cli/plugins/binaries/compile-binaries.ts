@@ -1,6 +1,6 @@
-import type { Target } from '@usemcpkit/binary';
-import { compileBinary } from './compile-binary';
-import type { BinaryResult } from './types/binary-result';
+import type { Target } from "@usemcpkit/binary";
+import { compileBinary } from "./compile-binary";
+import type { BinaryResult } from "./types/binary-result";
 
 /** Sequential on purpose: bun downloads per-target runtimes into a shared cache. */
 export const compileBinaries = async (entryFile: string, outDir: string, targets: readonly Target[]) => {

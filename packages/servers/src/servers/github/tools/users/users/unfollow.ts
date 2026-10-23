@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersUsersUnfollow = defineTool({
-  name: 'users:users:unfollow',
+  name: "users:users:unfollow",
   description:
-    'Unfollow a user. OAuth app tokens and personal access tokens (classic) need the `user:follow` scope to use this endpoint.',
+    "Unfollow a user. OAuth app tokens and personal access tokens (classic) need the `user:follow` scope to use this endpoint.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       username: {
-        type: 'string',
-        description: 'The handle for the GitHub user account.',
+        type: "string",
+        description: "The handle for the GitHub user account.",
       },
     },
-    required: ['username'],
+    required: ["username"],
   },
   request: {
-    method: 'DELETE',
-    path: '/user/following/{username}',
+    method: "DELETE",
+    path: "/user/following/{username}",
   },
 });

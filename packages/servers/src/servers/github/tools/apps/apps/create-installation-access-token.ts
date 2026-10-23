@@ -1,364 +1,364 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const appsAppsCreateInstallationAccessToken = defineTool({
-  name: 'apps:apps:create_installation_access_token',
+  name: "apps:apps:create_installation_access_token",
   description:
     "Create an installation access token for an app. Creates an installation access token that enables a GitHub App to make authenticated API requests for the app's installation on an organization or individual account. Installation tokens expire one hour from the time you create them. Using an expired token produces a status code of `401 - Unauthorized`, and requires creating a new installation token. By default the installation token has access t…",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       installation_id: {
-        type: 'integer',
-        description: 'The unique identifier of the installation.',
+        type: "integer",
+        description: "The unique identifier of the installation.",
       },
       repositories: {
-        type: 'array',
-        description: 'List of repository names that the token should have access to',
+        type: "array",
+        description: "List of repository names that the token should have access to",
         items: {
-          type: 'string',
+          type: "string",
         },
       },
       repository_ids: {
-        type: 'array',
-        description: 'List of repository IDs that the token should have access to',
+        type: "array",
+        description: "List of repository IDs that the token should have access to",
         items: {
-          type: 'integer',
+          type: "integer",
         },
       },
       permissions: {
-        type: 'object',
-        description: 'The permissions granted to the fine-grained access token.',
+        type: "object",
+        description: "The permissions granted to the fine-grained access token.",
         properties: {
           actions: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token for GitHub Actions workflows, workflow runs, and artifacts.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token for GitHub Actions workflows, workflow runs, and artifacts.",
+            enum: ["read", "write"],
           },
           administration: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token for repository creation, deletion, settings, teams, and collaborators creation.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token for repository creation, deletion, settings, teams, and collaborators creation.",
+            enum: ["read", "write"],
           },
           artifact_metadata: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token to create and retrieve build artifact metadata records.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token to create and retrieve build artifact metadata records.",
+            enum: ["read", "write"],
           },
           attestations: {
-            type: 'string',
-            description: 'The level of permission to create and retrieve the access token for repository attestations.',
-            enum: ['read', 'write'],
+            type: "string",
+            description: "The level of permission to create and retrieve the access token for repository attestations.",
+            enum: ["read", "write"],
           },
           checks: {
-            type: 'string',
-            description: 'The level of permission to grant the access token for checks on code.',
-            enum: ['read', 'write'],
+            type: "string",
+            description: "The level of permission to grant the access token for checks on code.",
+            enum: ["read", "write"],
           },
           code_quality: {
-            type: 'string',
-            description: 'The level of permission to grant the access token to view and manage code quality data.',
-            enum: ['read', 'write'],
+            type: "string",
+            description: "The level of permission to grant the access token to view and manage code quality data.",
+            enum: ["read", "write"],
           },
           codespaces: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token to create, edit, delete, and list Codespaces.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token to create, edit, delete, and list Codespaces.",
+            enum: ["read", "write"],
           },
           contents: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token for repository contents, commits, branches, downloads, releases, and merges.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token for repository contents, commits, branches, downloads, releases, and merges.",
+            enum: ["read", "write"],
           },
           dependabot_secrets: {
-            type: 'string',
-            description: 'The level of permission to grant the access token to manage Dependabot secrets.',
-            enum: ['read', 'write'],
+            type: "string",
+            description: "The level of permission to grant the access token to manage Dependabot secrets.",
+            enum: ["read", "write"],
           },
           deployments: {
-            type: 'string',
-            description: 'The level of permission to grant the access token for deployments and deployment statuses.',
-            enum: ['read', 'write'],
+            type: "string",
+            description: "The level of permission to grant the access token for deployments and deployment statuses.",
+            enum: ["read", "write"],
           },
           discussions: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token for discussions and related comments and labels.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token for discussions and related comments and labels.",
+            enum: ["read", "write"],
           },
           environments: {
-            type: 'string',
-            description: 'The level of permission to grant the access token for managing repository environments.',
-            enum: ['read', 'write'],
+            type: "string",
+            description: "The level of permission to grant the access token for managing repository environments.",
+            enum: ["read", "write"],
           },
           issues: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token for issues and related comments, assignees, labels, and milestones.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token for issues and related comments, assignees, labels, and milestones.",
+            enum: ["read", "write"],
           },
           merge_queues: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token to manage the merge queues for a repository.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token to manage the merge queues for a repository.",
+            enum: ["read", "write"],
           },
           metadata: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token to search repositories, list collaborators, and access repository metadata.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token to search repositories, list collaborators, and access repository metadata.",
+            enum: ["read", "write"],
           },
           packages: {
-            type: 'string',
-            description: 'The level of permission to grant the access token for packages published to GitHub Packages.',
-            enum: ['read', 'write'],
+            type: "string",
+            description: "The level of permission to grant the access token for packages published to GitHub Packages.",
+            enum: ["read", "write"],
           },
           pages: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token to retrieve Pages statuses, configuration, and builds, as well as create new builds.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token to retrieve Pages statuses, configuration, and builds, as well as create new builds.",
+            enum: ["read", "write"],
           },
           pull_requests: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token for pull requests and related comments, assignees, labels, milestones, and merges.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token for pull requests and related comments, assignees, labels, milestones, and merges.",
+            enum: ["read", "write"],
           },
           repository_custom_properties: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token to view and edit custom properties for a repository, when allowed by the property.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token to view and edit custom properties for a repository, when allowed by the property.",
+            enum: ["read", "write"],
           },
           repository_hooks: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token to manage the post-receive hooks for a repository.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token to manage the post-receive hooks for a repository.",
+            enum: ["read", "write"],
           },
           repository_projects: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token to manage repository projects, columns, and cards.',
-            enum: ['read', 'write', 'admin'],
+              "The level of permission to grant the access token to manage repository projects, columns, and cards.",
+            enum: ["read", "write", "admin"],
           },
           secret_scanning_alerts: {
-            type: 'string',
-            description: 'The level of permission to grant the access token to view and manage secret scanning alerts.',
-            enum: ['read', 'write'],
+            type: "string",
+            description: "The level of permission to grant the access token to view and manage secret scanning alerts.",
+            enum: ["read", "write"],
           },
           secrets: {
-            type: 'string',
-            description: 'The level of permission to grant the access token to manage repository secrets.',
-            enum: ['read', 'write'],
+            type: "string",
+            description: "The level of permission to grant the access token to manage repository secrets.",
+            enum: ["read", "write"],
           },
           security_events: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token to view and manage security events like code scanning alerts.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token to view and manage security events like code scanning alerts.",
+            enum: ["read", "write"],
           },
           single_file: {
-            type: 'string',
-            description: 'The level of permission to grant the access token to manage just a single file.',
-            enum: ['read', 'write'],
+            type: "string",
+            description: "The level of permission to grant the access token to manage just a single file.",
+            enum: ["read", "write"],
           },
           statuses: {
-            type: 'string',
-            description: 'The level of permission to grant the access token for commit statuses.',
-            enum: ['read', 'write'],
+            type: "string",
+            description: "The level of permission to grant the access token for commit statuses.",
+            enum: ["read", "write"],
           },
           vulnerability_alerts: {
-            type: 'string',
-            description: 'The level of permission to grant the access token to manage Dependabot alerts.',
-            enum: ['read', 'write'],
+            type: "string",
+            description: "The level of permission to grant the access token to manage Dependabot alerts.",
+            enum: ["read", "write"],
           },
           workflows: {
-            type: 'string',
-            description: 'The level of permission to grant the access token to update GitHub Actions workflow files.',
-            enum: ['write'],
+            type: "string",
+            description: "The level of permission to grant the access token to update GitHub Actions workflow files.",
+            enum: ["write"],
           },
           custom_properties_for_organizations: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token to view and edit custom properties for an organization, when allowed by the property.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token to view and edit custom properties for an organization, when allowed by the property.",
+            enum: ["read", "write"],
           },
           members: {
-            type: 'string',
-            description: 'The level of permission to grant the access token for organization teams and members.',
-            enum: ['read', 'write'],
+            type: "string",
+            description: "The level of permission to grant the access token for organization teams and members.",
+            enum: ["read", "write"],
           },
           organization_administration: {
-            type: 'string',
-            description: 'The level of permission to grant the access token to manage access to an organization.',
-            enum: ['read', 'write'],
+            type: "string",
+            description: "The level of permission to grant the access token to manage access to an organization.",
+            enum: ["read", "write"],
           },
           organization_custom_roles: {
-            type: 'string',
-            description: 'The level of permission to grant the access token for custom repository roles management.',
-            enum: ['read', 'write'],
+            type: "string",
+            description: "The level of permission to grant the access token for custom repository roles management.",
+            enum: ["read", "write"],
           },
           organization_custom_org_roles: {
-            type: 'string',
-            description: 'The level of permission to grant the access token for custom organization roles management.',
-            enum: ['read', 'write'],
+            type: "string",
+            description: "The level of permission to grant the access token for custom organization roles management.",
+            enum: ["read", "write"],
           },
           organization_custom_properties: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token for repository custom properties management at the organization level.',
-            enum: ['read', 'write', 'admin'],
+              "The level of permission to grant the access token for repository custom properties management at the organization level.",
+            enum: ["read", "write", "admin"],
           },
           organization_copilot_seat_management: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token for managing access to GitHub Copilot for members of an organization with a Copilot Business subscription. This property is in public preview and is subject to change.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token for managing access to GitHub Copilot for members of an organization with a Copilot Business subscription. This property is in public preview and is subject to change.",
+            enum: ["read", "write"],
           },
           organization_copilot_agent_settings: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token to view and manage Copilot cloud agent settings for an organization.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token to view and manage Copilot cloud agent settings for an organization.",
+            enum: ["read", "write"],
           },
           organization_copilot_requests: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token to make Copilot requests billed to the organization where the app is installed. This property is in public preview and is subject to change.',
-            enum: ['read'],
+              "The level of permission to grant the access token to make Copilot requests billed to the organization where the app is installed. This property is in public preview and is subject to change.",
+            enum: ["read"],
           },
           organization_external_properties_for_repos: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token for managing external custom properties for repositories in an organization.',
-            enum: ['read', 'write', 'admin'],
+              "The level of permission to grant the access token for managing external custom properties for repositories in an organization.",
+            enum: ["read", "write", "admin"],
           },
           organization_announcement_banners: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token to view and manage announcement banners for an organization.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token to view and manage announcement banners for an organization.",
+            enum: ["read", "write"],
           },
           organization_events: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token to view events triggered by an activity in an organization.',
-            enum: ['read'],
+              "The level of permission to grant the access token to view events triggered by an activity in an organization.",
+            enum: ["read"],
           },
           organization_hooks: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token to manage the post-receive hooks for an organization.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token to manage the post-receive hooks for an organization.",
+            enum: ["read", "write"],
           },
           organization_personal_access_tokens: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token for viewing and managing fine-grained personal access token requests to an organization.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token for viewing and managing fine-grained personal access token requests to an organization.",
+            enum: ["read", "write"],
           },
           organization_personal_access_token_requests: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token for viewing and managing fine-grained personal access tokens that have been approved by an organization.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token for viewing and managing fine-grained personal access tokens that have been approved by an organization.",
+            enum: ["read", "write"],
           },
           organization_plan: {
-            type: 'string',
+            type: "string",
             description: "The level of permission to grant the access token for viewing an organization's plan.",
-            enum: ['read'],
+            enum: ["read"],
           },
           organization_projects: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token to manage organization projects and projects public preview (where available).',
-            enum: ['read', 'write', 'admin'],
+              "The level of permission to grant the access token to manage organization projects and projects public preview (where available).",
+            enum: ["read", "write", "admin"],
           },
           organization_packages: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token for organization packages published to GitHub Packages.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token for organization packages published to GitHub Packages.",
+            enum: ["read", "write"],
           },
           organization_secrets: {
-            type: 'string',
-            description: 'The level of permission to grant the access token to manage organization secrets.',
-            enum: ['read', 'write'],
+            type: "string",
+            description: "The level of permission to grant the access token to manage organization secrets.",
+            enum: ["read", "write"],
           },
           organization_self_hosted_runners: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token to view and manage GitHub Actions self-hosted runners available to an organization.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token to view and manage GitHub Actions self-hosted runners available to an organization.",
+            enum: ["read", "write"],
           },
           organization_user_blocking: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token to view and manage users blocked by the organization.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token to view and manage users blocked by the organization.",
+            enum: ["read", "write"],
           },
           email_addresses: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token to manage the email addresses belonging to a user.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token to manage the email addresses belonging to a user.",
+            enum: ["read", "write"],
           },
           followers: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token to manage the followers belonging to a user.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token to manage the followers belonging to a user.",
+            enum: ["read", "write"],
           },
           git_ssh_keys: {
-            type: 'string',
-            description: 'The level of permission to grant the access token to manage git SSH keys.',
-            enum: ['read', 'write'],
+            type: "string",
+            description: "The level of permission to grant the access token to manage git SSH keys.",
+            enum: ["read", "write"],
           },
           gpg_keys: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token to view and manage GPG keys belonging to a user.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token to view and manage GPG keys belonging to a user.",
+            enum: ["read", "write"],
           },
           interaction_limits: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token to view and manage interaction limits on a repository.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token to view and manage interaction limits on a repository.",
+            enum: ["read", "write"],
           },
           profile: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token to manage the profile settings belonging to a user.',
-            enum: ['write'],
+              "The level of permission to grant the access token to manage the profile settings belonging to a user.",
+            enum: ["write"],
           },
           starring: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token to list and manage repositories a user is starring.',
-            enum: ['read', 'write'],
+              "The level of permission to grant the access token to list and manage repositories a user is starring.",
+            enum: ["read", "write"],
           },
           enterprise_custom_properties_for_organizations: {
-            type: 'string',
+            type: "string",
             description:
-              'The level of permission to grant the access token for organization custom properties management at the enterprise level.',
-            enum: ['read', 'write', 'admin'],
+              "The level of permission to grant the access token for organization custom properties management at the enterprise level.",
+            enum: ["read", "write", "admin"],
           },
         },
       },
     },
-    required: ['installation_id'],
+    required: ["installation_id"],
   },
   request: {
-    method: 'POST',
-    path: '/app/installations/{installation_id}/access_tokens',
-    body: ['repositories', 'repository_ids', 'permissions'],
+    method: "POST",
+    path: "/app/installations/{installation_id}/access_tokens",
+    body: ["repositories", "repository_ids", "permissions"],
   },
 });

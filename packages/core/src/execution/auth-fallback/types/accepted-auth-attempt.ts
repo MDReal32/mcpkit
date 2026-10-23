@@ -1,4 +1,4 @@
-import type { ToolSpec } from '../../../manifest';
+import type { ToolSpec } from "../../../manifest";
 
 export interface AcceptedAuthAttempt {
   accepted: true;

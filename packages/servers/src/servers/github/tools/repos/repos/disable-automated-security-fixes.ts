@@ -1,25 +1,25 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const reposReposDisableAutomatedSecurityFixes = defineTool({
-  name: 'repos:repos:disable_automated_security_fixes',
+  name: "repos:repos:disable_automated_security_fixes",
   description:
     'Disable Dependabot security updates. Disables Dependabot security updates for a repository. The authenticated user must have admin access to the repository. For more information, see "Configuring Dependabot security updates".',
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       owner: {
-        type: 'string',
-        description: 'The account owner of the repository. The name is not case sensitive.',
+        type: "string",
+        description: "The account owner of the repository. The name is not case sensitive.",
       },
       repo: {
-        type: 'string',
-        description: 'The name of the repository without the `.git` extension. The name is not case sensitive.',
+        type: "string",
+        description: "The name of the repository without the `.git` extension. The name is not case sensitive.",
       },
     },
-    required: ['owner', 'repo'],
+    required: ["owner", "repo"],
   },
   request: {
-    method: 'DELETE',
-    path: '/repos/{owner}/{repo}/automated-security-fixes',
+    method: "DELETE",
+    path: "/repos/{owner}/{repo}/automated-security-fixes",
   },
 });

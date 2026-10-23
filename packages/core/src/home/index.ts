@@ -1,1 +1,1 @@
-export { resolveHomeDir } from './resolve-home-dir';
+export { resolveHomeDir } from "./resolve-home-dir";

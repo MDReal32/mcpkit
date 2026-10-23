@@ -1,26 +1,26 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const orgsOrgsListMembershipsForAuthenticatedUser = defineTool({
-  name: 'orgs:orgs:list_memberships_for_authenticated_user',
+  name: "orgs:orgs:list_memberships_for_authenticated_user",
   description:
     "List organization memberships for the authenticated user. Lists all of the authenticated user's organization memberships.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       state: {
-        type: 'string',
-        enum: ['active', 'pending'],
+        type: "string",
+        enum: ["active", "pending"],
         description:
-          'Indicates the state of the memberships to return. If not specified, the API returns both active and pending memberships.',
+          "Indicates the state of the memberships to return. If not specified, the API returns both active and pending memberships.",
       },
       per_page: {
-        type: 'integer',
+        type: "integer",
         default: 30,
         description:
           'The number of results per page (max 100). For more information, see "Using pagination in the REST API."',
       },
       page: {
-        type: 'integer',
+        type: "integer",
         default: 1,
         description:
           'The page number of the results to fetch. For more information, see "Using pagination in the REST API."',
@@ -28,8 +28,8 @@ export const orgsOrgsListMembershipsForAuthenticatedUser = defineTool({
     },
   },
   request: {
-    method: 'GET',
-    path: '/user/memberships/orgs',
-    query: ['state', 'per_page', 'page'],
+    method: "GET",
+    path: "/user/memberships/orgs",
+    query: ["state", "per_page", "page"],
   },
 });

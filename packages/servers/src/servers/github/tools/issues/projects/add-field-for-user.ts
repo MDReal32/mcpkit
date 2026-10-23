@@ -1,79 +1,79 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesProjectsAddFieldForUser = defineTool({
-  name: 'issues:projects:add_field_for_user',
-  description: 'Add field to user owned project. Add a field to a specified user owned project.',
+  name: "issues:projects:add_field_for_user",
+  description: "Add field to user owned project. Add a field to a specified user owned project.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       username: {
-        type: 'string',
-        description: 'The handle for the GitHub user account.',
+        type: "string",
+        description: "The handle for the GitHub user account.",
       },
       project_number: {
-        type: 'integer',
+        type: "integer",
         description: "The project's number.",
       },
       name: {
-        type: 'string',
-        description: 'The name of the field.',
+        type: "string",
+        description: "The name of the field.",
       },
       data_type: {
-        type: 'string',
+        type: "string",
         description: "The field's data type.",
-        enum: ['iteration'],
+        enum: ["iteration"],
       },
       single_select_options: {
-        type: 'array',
+        type: "array",
         description:
-          'The options available for single select fields. At least one option must be provided when creating a single select field.',
+          "The options available for single select fields. At least one option must be provided when creating a single select field.",
         items: {
-          type: 'object',
+          type: "object",
           properties: {
             name: {
-              type: 'string',
-              description: 'The display name of the option.',
+              type: "string",
+              description: "The display name of the option.",
             },
             color: {
-              type: 'string',
-              description: 'The color associated with the option.',
-              enum: ['BLUE', 'GRAY', 'GREEN', 'ORANGE', 'PINK', 'PURPLE', 'RED', 'YELLOW'],
+              type: "string",
+              description: "The color associated with the option.",
+              enum: ["BLUE", "GRAY", "GREEN", "ORANGE", "PINK", "PURPLE", "RED", "YELLOW"],
             },
             description: {
-              type: 'string',
-              description: 'The description of the option.',
+              type: "string",
+              description: "The description of the option.",
             },
           },
         },
       },
       iteration_configuration: {
-        type: 'object',
-        description: 'The configuration for iteration fields.',
+        type: "object",
+        description: "The configuration for iteration fields.",
         properties: {
           start_date: {
-            type: 'string',
-            description: 'The start date of the first iteration.',
+            type: "string",
+            description: "The start date of the first iteration.",
           },
           duration: {
-            type: 'integer',
-            description: 'The default duration for iterations in days. Individual iterations can override this value.',
+            type: "integer",
+            description: "The default duration for iterations in days. Individual iterations can override this value.",
           },
           iterations: {
-            type: 'array',
-            description: 'Zero or more iterations for the field.',
+            type: "array",
+            description: "Zero or more iterations for the field.",
             items: {
-              type: 'object',
+              type: "object",
             },
           },
         },
-        required: ['start_date', 'duration'],
+        required: ["start_date", "duration"],
       },
     },
-    required: ['username', 'project_number', 'name', 'data_type'],
+    required: ["username", "project_number", "name", "data_type"],
   },
   request: {
-    method: 'POST',
-    path: '/users/{username}/projectsV2/{project_number}/fields',
-    body: ['name', 'data_type', 'single_select_options', 'iteration_configuration'],
+    method: "POST",
+    path: "/users/{username}/projectsV2/{project_number}/fields",
+    body: ["name", "data_type", "single_select_options", "iteration_configuration"],
   },
 });

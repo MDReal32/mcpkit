@@ -1,5 +1,5 @@
-import { isJsonObject } from '../../../json';
-import { UI_INPUT_KEYS } from '../../ui/const';
+import { isJsonObject } from "../../../json";
+import { UI_INPUT_KEYS } from "../../ui/const";
 
 export const validateUiInputs = (inputs: unknown, location: string, envNames: readonly string[]) => {
   if (inputs === undefined) {
@@ -11,12 +11,12 @@ export const validateUiInputs = (inputs: unknown, location: string, envNames: re
   return Object.entries(inputs).flatMap(([name, input]) => {
     const inputLocation = `${location}.${name}`;
     if (!envNames.includes(name)) {
-      return [`${inputLocation}: "${name}" is not a credential of this auth entry (${envNames.join(', ')})`];
+      return [`${inputLocation}: "${name}" is not a credential of this auth entry (${envNames.join(", ")})`];
     }
     if (!isJsonObject(input)) {
       return [`${inputLocation} must be an object`];
     }
-    return UI_INPUT_KEYS.filter((key) => input[key] !== undefined && typeof input[key] !== 'string').map(
+    return UI_INPUT_KEYS.filter((key) => input[key] !== undefined && typeof input[key] !== "string").map(
       (key) => `${inputLocation}.${key} must be a string`,
     );
   });

@@ -1,28 +1,28 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const administrationPoliciesRemovePolicyFromProjects = defineTool({
-  name: 'administration:policies:remove_policy_from_projects',
+  name: "administration:policies:remove_policy_from_projects",
   description:
-    'Remove a policy from projects. Removes a policy from a set of projects. Handles partial results: each project is processed independently, and failures on individual projects do not prevent the operation from proceeding on the remaining projects.',
+    "Remove a policy from projects. Removes a policy from a set of projects. Handles partial results: each project is processed independently, and failures on individual projects do not prevent the operation from proceeding on the remaining projects.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       policyId: {
-        type: 'string',
-        description: 'the policy ID to remove',
+        type: "string",
+        description: "the policy ID to remove",
       },
       projectIds: {
-        type: 'array',
+        type: "array",
         items: {
-          type: 'integer',
+          type: "integer",
         },
       },
     },
-    required: ['policyId'],
+    required: ["policyId"],
   },
   request: {
-    method: 'POST',
-    path: '/rest/api/2/policies/{policyId}/remove',
-    body: ['projectIds'],
+    method: "POST",
+    path: "/rest/api/2/policies/{policyId}/remove",
+    body: ["projectIds"],
   },
 });

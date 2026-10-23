@@ -1,24 +1,24 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesIssueWorklogPropertiesGetWorklogPropertyKeys = defineTool({
-  name: 'issues:issue_worklog_properties:get_worklog_property_keys',
-  description: 'Get worklog property keys. Returns the keys of all properties for a worklog.',
+  name: "issues:issue_worklog_properties:get_worklog_property_keys",
+  description: "Get worklog property keys. Returns the keys of all properties for a worklog.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       issueIdOrKey: {
-        type: 'string',
-        description: 'The ID or key of the issue.',
+        type: "string",
+        description: "The ID or key of the issue.",
       },
       worklogId: {
-        type: 'string',
-        description: 'The ID of the worklog.',
+        type: "string",
+        description: "The ID of the worklog.",
       },
     },
-    required: ['issueIdOrKey', 'worklogId'],
+    required: ["issueIdOrKey", "worklogId"],
   },
   request: {
-    method: 'GET',
-    path: '/rest/api/2/issue/{issueIdOrKey}/worklog/{worklogId}/properties',
+    method: "GET",
+    path: "/rest/api/2/issue/{issueIdOrKey}/worklog/{worklogId}/properties",
   },
 });

@@ -1,7 +1,7 @@
-import { copyFile, mkdir, rename, rm, writeFile } from 'node:fs/promises';
-import { dirname } from 'node:path';
-import { BACKUP_SUFFIX, NEW_CONFIG_FILE_MODE } from '../const';
-import { readFileMode } from './read-file-mode';
+import { copyFile, mkdir, rename, rm, writeFile } from "node:fs/promises";
+import { dirname } from "node:path";
+import { BACKUP_SUFFIX, NEW_CONFIG_FILE_MODE } from "../const";
+import { readFileMode } from "./read-file-mode";
 
 /** Keeps a copy of the previous file at `<path>.mcpkit-backup`, then swaps the new content in atomically. */
 export const writeConfigText = async (path: string, text: string) => {

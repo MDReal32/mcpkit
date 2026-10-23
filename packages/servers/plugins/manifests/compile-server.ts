@@ -1,11 +1,11 @@
-import { existsSync } from 'node:fs';
-import { basename, relative } from 'node:path';
-import { describeError } from '@usemcpkit/core';
-import { checkManifestJson } from './check-manifest-json';
-import { loadServerDefinition } from './load-server-definition';
-import { toManifestJson } from './to-manifest-json';
-import type { ServerEntry } from './types/server-entry';
-import type { ServerOutcome } from './types/server-outcome';
+import { existsSync } from "node:fs";
+import { basename, relative } from "node:path";
+import { describeError } from "@usemcpkit/core";
+import { checkManifestJson } from "./check-manifest-json";
+import { loadServerDefinition } from "./load-server-definition";
+import { toManifestJson } from "./to-manifest-json";
+import type { ServerEntry } from "./types/server-entry";
+import type { ServerOutcome } from "./types/server-outcome";
 
 export const compileServer = async ({ dir, file }: ServerEntry) => {
   if (!existsSync(file)) {

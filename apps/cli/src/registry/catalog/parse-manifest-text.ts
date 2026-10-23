@@ -1,10 +1,10 @@
-import type { Manifest } from '@usemcpkit/core';
-import { describeError, isJsonObject, isValidManifest, validateManifest } from '@usemcpkit/core';
-import type { ManifestFile } from '../types/manifest-file';
-import type { RegistryServer } from '../types/registry-server';
-import { parseManifestParts } from './parse-manifest-parts';
+import type { Manifest } from "@usemcpkit/core";
+import { describeError, isJsonObject, isValidManifest, validateManifest } from "@usemcpkit/core";
+import type { ManifestFile } from "../types/manifest-file";
+import type { RegistryServer } from "../types/registry-server";
+import { parseManifestParts } from "./parse-manifest-parts";
 
-const checkIdentity = (server: RegistryServer, data: Pick<Manifest, 'category' | 'name'> | Record<string, unknown>) => {
+const checkIdentity = (server: RegistryServer, data: Pick<Manifest, "category" | "name"> | Record<string, unknown>) => {
   if (`${data.category}:${data.name}` !== server.id) {
     throw new Error(`${server.id}: the manifest is ${data.category}:${data.name}`);
   }
@@ -18,14 +18,14 @@ export const parseManifestText = (server: RegistryServer, text: string) => {
   } catch (error) {
     throw new Error(`${server.id}: invalid JSON: ${describeError(error)}`);
   }
-  if (isJsonObject(data) && 'parts' in data) {
+  if (isJsonObject(data) && "parts" in data) {
     const { parts, ...shell } = data;
     checkIdentity(server, shell);
     const file: ManifestFile = { shell, parts: parseManifestParts(parts) };
     return file;
   }
   if (!isValidManifest(data)) {
-    throw new Error(`${server.id}: ${validateManifest(data).join('; ')}`);
+    throw new Error(`${server.id}: ${validateManifest(data).join("; ")}`);
   }
   checkIdentity(server, data);
   const file: ManifestFile = { manifest: data };

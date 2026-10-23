@@ -1,6 +1,6 @@
-import { compileServer } from './compile-server';
-import { listServerEntries } from './list-server-entries';
-import type { CompileResult } from './types/compile-result';
+import { compileServer } from "./compile-server";
+import { listServerEntries } from "./list-server-entries";
+import type { CompileResult } from "./types/compile-result";
 
 /** Loads and validates every server folder in serversDir. */
 export const compileServers = async (serversDir: string) => {

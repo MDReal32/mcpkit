@@ -1,26 +1,26 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterGroupGetGroupancestor = defineTool({
-  name: 'datacenter:group:get_groupancestor',
+  name: "datacenter:group:get_groupancestor",
   description:
     "[Data Center] Get group ancestor of a group. Get a collection of the specified group's direct parent groups and all its ancestors (i.e. the parents of its parents, and so on)",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       groupName: {
-        type: 'string',
+        type: "string",
       },
       limit: {
-        type: 'integer',
+        type: "integer",
       },
       start: {
-        type: 'integer',
+        type: "integer",
       },
     },
   },
   request: {
-    method: 'GET',
-    path: '/rest/api/group/groupancestor',
-    query: ['groupName', 'limit', 'start'],
+    method: "GET",
+    path: "/rest/api/group/groupancestor",
+    query: ["groupName", "limit", "start"],
   },
 });

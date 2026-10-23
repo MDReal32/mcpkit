@@ -1,26 +1,26 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const workflowsIssueResolutionsDeleteResolution = defineTool({
-  name: 'workflows:issue_resolutions:delete_resolution',
-  description: 'Delete resolution. Deletes an issue resolution.',
+  name: "workflows:issue_resolutions:delete_resolution",
+  description: "Delete resolution. Deletes an issue resolution.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'The ID of the issue resolution.',
+        type: "string",
+        description: "The ID of the issue resolution.",
       },
       replaceWith: {
-        type: 'string',
-        default: '',
-        description: 'The ID of the issue resolution that will replace the currently selected resolution.',
+        type: "string",
+        default: "",
+        description: "The ID of the issue resolution that will replace the currently selected resolution.",
       },
     },
-    required: ['id', 'replaceWith'],
+    required: ["id", "replaceWith"],
   },
   request: {
-    method: 'DELETE',
-    path: '/rest/api/2/resolution/{id}',
-    query: ['replaceWith'],
+    method: "DELETE",
+    path: "/rest/api/2/resolution/{id}",
+    query: ["replaceWith"],
   },
 });

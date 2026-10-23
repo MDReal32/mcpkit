@@ -1,87 +1,87 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const reposReposUpdateRepoRuleset = defineTool({
-  name: 'repos:repos:update_repo_ruleset',
-  description: 'Update a repository ruleset. Update a ruleset for a repository.',
+  name: "repos:repos:update_repo_ruleset",
+  description: "Update a repository ruleset. Update a ruleset for a repository.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       owner: {
-        type: 'string',
-        description: 'The account owner of the repository. The name is not case sensitive.',
+        type: "string",
+        description: "The account owner of the repository. The name is not case sensitive.",
       },
       repo: {
-        type: 'string',
-        description: 'The name of the repository without the `.git` extension. The name is not case sensitive.',
+        type: "string",
+        description: "The name of the repository without the `.git` extension. The name is not case sensitive.",
       },
       ruleset_id: {
-        type: 'integer',
-        description: 'The ID of the ruleset.',
+        type: "integer",
+        description: "The ID of the ruleset.",
       },
       name: {
-        type: 'string',
-        description: 'The name of the ruleset.',
+        type: "string",
+        description: "The name of the ruleset.",
       },
       target: {
-        type: 'string',
-        description: 'The target of the ruleset',
-        enum: ['branch', 'tag', 'push'],
+        type: "string",
+        description: "The target of the ruleset",
+        enum: ["branch", "tag", "push"],
       },
       enforcement: {
-        type: 'string',
+        type: "string",
         description:
-          'The enforcement level of the ruleset. `evaluate` allows admins to test rules before enforcing them. Admins can view insights on the Rule Insights page (`evaluate` is only available with GitHub Enterprise).',
-        enum: ['disabled', 'active', 'evaluate'],
+          "The enforcement level of the ruleset. `evaluate` allows admins to test rules before enforcing them. Admins can view insights on the Rule Insights page (`evaluate` is only available with GitHub Enterprise).",
+        enum: ["disabled", "active", "evaluate"],
       },
       bypass_actors: {
-        type: 'array',
-        description: 'The actors that can bypass the rules in this ruleset',
+        type: "array",
+        description: "The actors that can bypass the rules in this ruleset",
         items: {
-          type: 'object',
-          description: 'An actor that can bypass rules in a ruleset',
+          type: "object",
+          description: "An actor that can bypass rules in a ruleset",
           properties: {
             actor_id: {
-              type: 'integer',
+              type: "integer",
               description:
-                'The ID of the actor that can bypass a ruleset. Required for `Integration`, `RepositoryRole`, `Team`, and `User` actor types. If `actor_type` is `OrganizationAdmin`, `actor_id` is ignored. If `actor_type` is `DeployKey`, this should be null. `OrganizationAdmin` is not applicable for personal repositories.',
+                "The ID of the actor that can bypass a ruleset. Required for `Integration`, `RepositoryRole`, `Team`, and `User` actor types. If `actor_type` is `OrganizationAdmin`, `actor_id` is ignored. If `actor_type` is `DeployKey`, this should be null. `OrganizationAdmin` is not applicable for personal repositories.",
             },
             actor_type: {
-              type: 'string',
-              description: 'The type of actor that can bypass a ruleset.',
-              enum: ['Integration', 'OrganizationAdmin', 'RepositoryRole', 'Team', 'DeployKey', 'User'],
+              type: "string",
+              description: "The type of actor that can bypass a ruleset.",
+              enum: ["Integration", "OrganizationAdmin", "RepositoryRole", "Team", "DeployKey", "User"],
             },
             bypass_mode: {
-              type: 'string',
+              type: "string",
               description:
-                'When the specified actor can bypass the ruleset. `pull_request` means that an actor can only bypass rules on pull requests. `pull_request` is not applicable for the `DeployKey` actor type. Also, `pull_request` is only applicable to branch rulesets. When `bypass_mode` is `exempt`, rules will not be run for that actor and a bypass audit entry will not be created.',
-              default: 'always',
-              enum: ['always', 'pull_request', 'exempt'],
+                "When the specified actor can bypass the ruleset. `pull_request` means that an actor can only bypass rules on pull requests. `pull_request` is not applicable for the `DeployKey` actor type. Also, `pull_request` is only applicable to branch rulesets. When `bypass_mode` is `exempt`, rules will not be run for that actor and a bypass audit entry will not be created.",
+              default: "always",
+              enum: ["always", "pull_request", "exempt"],
             },
           },
-          required: ['actor_type'],
+          required: ["actor_type"],
         },
       },
       conditions: {
-        type: 'object',
-        description: 'Parameters for a repository ruleset ref name condition',
+        type: "object",
+        description: "Parameters for a repository ruleset ref name condition",
         properties: {
           ref_name: {
-            type: 'object',
+            type: "object",
             properties: {
               include: {
-                type: 'array',
+                type: "array",
                 description:
-                  'Array of ref names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~DEFAULT_BRANCH` to include the default branch or `~ALL` to include all branches.',
+                  "Array of ref names or patterns to include. One of these patterns must match for the condition to pass. Also accepts `~DEFAULT_BRANCH` to include the default branch or `~ALL` to include all branches.",
                 items: {
-                  type: 'string',
+                  type: "string",
                 },
               },
               exclude: {
-                type: 'array',
+                type: "array",
                 description:
-                  'Array of ref names or patterns to exclude. The condition will not pass if any of these patterns match.',
+                  "Array of ref names or patterns to exclude. The condition will not pass if any of these patterns match.",
                 items: {
-                  type: 'string',
+                  type: "string",
                 },
               },
             },
@@ -89,29 +89,29 @@ export const reposReposUpdateRepoRuleset = defineTool({
         },
       },
       rules: {
-        type: 'array',
-        description: 'An array of rules within the ruleset.',
+        type: "array",
+        description: "An array of rules within the ruleset.",
         items: {
-          type: 'object',
-          description: 'A repository rule.',
+          type: "object",
+          description: "A repository rule.",
           properties: {
             type: {
-              type: 'string',
-              enum: ['max_file_size'],
+              type: "string",
+              enum: ["max_file_size"],
             },
             parameters: {
-              type: 'object',
+              type: "object",
             },
           },
-          required: ['type'],
+          required: ["type"],
         },
       },
     },
-    required: ['owner', 'repo', 'ruleset_id'],
+    required: ["owner", "repo", "ruleset_id"],
   },
   request: {
-    method: 'PUT',
-    path: '/repos/{owner}/{repo}/rulesets/{ruleset_id}',
-    body: ['name', 'target', 'enforcement', 'bypass_actors', 'conditions', 'rules'],
+    method: "PUT",
+    path: "/repos/{owner}/{repo}/rulesets/{ruleset_id}",
+    body: ["name", "target", "enforcement", "bypass_actors", "conditions", "rules"],
   },
 });

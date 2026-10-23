@@ -1,1 +1,1 @@
-export type ClientSelectionMode = 'install' | 'uninstall';
+export type ClientSelectionMode = "install" | "uninstall";

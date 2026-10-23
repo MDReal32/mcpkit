@@ -1,25 +1,25 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const ciProtectedEnvironmentsDeleteGroupsProtectedEnvironments = defineTool({
-  name: 'ci:protected_environments:delete_groups_protected_environments',
-  description: 'Unprotect a group environment. Unprotects a specified protected environment for a group.',
+  name: "ci:protected_environments:delete_groups_protected_environments",
+  description: "Unprotect a group environment. Unprotects a specified protected environment for a group.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the group.',
+        type: "string",
+        description: "ID or URL-encoded path of the group.",
       },
       name: {
-        type: 'string',
+        type: "string",
         description:
-          'Deployment tier of the protected environment. Possible values are `production`, `staging`, `testing`, `development`, and `other`.',
+          "Deployment tier of the protected environment. Possible values are `production`, `staging`, `testing`, `development`, and `other`.",
       },
     },
-    required: ['id', 'name'],
+    required: ["id", "name"],
   },
   request: {
-    method: 'DELETE',
-    path: '/groups/{id}/protected_environments/{name}',
+    method: "DELETE",
+    path: "/groups/{id}/protected_environments/{name}",
   },
 });

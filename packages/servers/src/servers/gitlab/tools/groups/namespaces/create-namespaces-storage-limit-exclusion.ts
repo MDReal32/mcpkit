@@ -1,25 +1,25 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const groupsNamespacesCreateNamespacesStorageLimitExclusion = defineTool({
-  name: 'groups:namespaces:create_namespaces_storage_limit_exclusion',
-  description: 'Creates a storage limit exclusion for a Namespace. Creates a Namespaces::Storage::LimitExclusion',
+  name: "groups:namespaces:create_namespaces_storage_limit_exclusion",
+  description: "Creates a storage limit exclusion for a Namespace. Creates a Namespaces::Storage::LimitExclusion",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the namespace.',
+        type: "string",
+        description: "ID or URL-encoded path of the namespace.",
       },
       reason: {
-        type: 'string',
-        description: 'Reason the namespace is being excluded.',
+        type: "string",
+        description: "Reason the namespace is being excluded.",
       },
     },
-    required: ['id', 'reason'],
+    required: ["id", "reason"],
   },
   request: {
-    method: 'POST',
-    path: '/namespaces/{id}/storage/limit_exclusion',
-    body: ['reason'],
+    method: "POST",
+    path: "/namespaces/{id}/storage/limit_exclusion",
+    body: ["reason"],
   },
 });

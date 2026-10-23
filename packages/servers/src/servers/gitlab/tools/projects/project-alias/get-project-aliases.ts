@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsProjectAliasGetProjectAliases = defineTool({
-  name: 'projects:project_alias:get_project_aliases',
-  description: 'Retrieve a project alias. Retrieves details of a specified project alias.',
+  name: "projects:project_alias:get_project_aliases",
+  description: "Retrieve a project alias. Retrieves details of a specified project alias.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       name: {
-        type: 'string',
-        description: 'Name of the alias. Must be unique.',
+        type: "string",
+        description: "Name of the alias. Must be unique.",
       },
     },
-    required: ['name'],
+    required: ["name"],
   },
   request: {
-    method: 'GET',
-    path: '/project_aliases/{name}',
+    method: "GET",
+    path: "/project_aliases/{name}",
   },
 });

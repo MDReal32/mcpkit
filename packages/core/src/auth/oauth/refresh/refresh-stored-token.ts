@@ -1,9 +1,9 @@
-import type { OAuthAuth } from '../../../manifest';
-import { AuthError } from '../../auth-error';
-import { saveToken } from '../../token-store/save-token';
-import type { AuthContext } from '../../types/auth-context';
-import type { StoredToken } from '../../types/oauth/stored-token';
-import { requestToken } from '../sign-in/request-token';
+import type { OAuthAuth } from "../../../manifest";
+import { AuthError } from "../../auth-error";
+import { saveToken } from "../../token-store/save-token";
+import type { AuthContext } from "../../types/auth-context";
+import type { StoredToken } from "../../types/oauth/stored-token";
+import { requestToken } from "../sign-in/request-token";
 
 /** Providers may omit refresh_token on refresh; the previous one then stays valid. */
 export const refreshStoredToken = async (
@@ -17,7 +17,7 @@ export const refreshStoredToken = async (
   }
   const fresh = await requestToken(
     auth,
-    { grant_type: 'refresh_token', refresh_token: token.refreshToken },
+    { grant_type: "refresh_token", refresh_token: token.refreshToken },
     serverName,
     context,
   );

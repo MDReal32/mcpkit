@@ -1,6 +1,6 @@
-import { AUTO_UPDATE_ENV } from '@usemcpkit/binary';
-import { readSyncStatus } from '../../registry';
-import { syncQuietly } from './sync-quietly';
+import { AUTO_UPDATE_ENV } from "@usemcpkit/binary";
+import { readSyncStatus } from "../../registry";
+import { syncQuietly } from "./sync-quietly";
 
 /**
  * No manifests ship in the binary. With none on disk the first sync is awaited; afterwards a daily check
@@ -8,11 +8,11 @@ import { syncQuietly } from './sync-quietly';
  */
 export const autoSyncManifests = async (env = process.env) => {
   const status = await readSyncStatus();
-  if (status === 'empty') {
+  if (status === "empty") {
     await syncQuietly();
     return;
   }
-  if (status === 'due' && env[AUTO_UPDATE_ENV] !== '0') {
+  if (status === "due" && env[AUTO_UPDATE_ENV] !== "0") {
     void syncQuietly();
   }
 };

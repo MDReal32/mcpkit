@@ -1,1 +1,1 @@
-import '@usemcpkit/cli';
+import "@usemcpkit/cli";

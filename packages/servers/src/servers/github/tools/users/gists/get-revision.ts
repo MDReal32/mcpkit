@@ -1,23 +1,23 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersGistsGetRevision = defineTool({
-  name: 'users:gists:get_revision',
-  description: 'Get a gist revision. Gets a specified gist revision.',
+  name: "users:gists:get_revision",
+  description: "Get a gist revision. Gets a specified gist revision.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       gist_id: {
-        type: 'string',
-        description: 'The unique identifier of the gist.',
+        type: "string",
+        description: "The unique identifier of the gist.",
       },
       sha: {
-        type: 'string',
+        type: "string",
       },
     },
-    required: ['gist_id', 'sha'],
+    required: ["gist_id", "sha"],
   },
   request: {
-    method: 'GET',
-    path: '/gists/{gist_id}/{sha}',
+    method: "GET",
+    path: "/gists/{gist_id}/{sha}",
   },
 });

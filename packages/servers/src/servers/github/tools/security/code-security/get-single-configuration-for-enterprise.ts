@@ -1,25 +1,25 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const securityCodeSecurityGetSingleConfigurationForEnterprise = defineTool({
-  name: 'security:code_security:get_single_configuration_for_enterprise',
+  name: "security:code_security:get_single_configuration_for_enterprise",
   description:
-    'Retrieve a code security configuration of an enterprise. Gets a code security configuration available in an enterprise.',
+    "Retrieve a code security configuration of an enterprise. Gets a code security configuration available in an enterprise.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       enterprise: {
-        type: 'string',
-        description: 'The slug version of the enterprise name.',
+        type: "string",
+        description: "The slug version of the enterprise name.",
       },
       configuration_id: {
-        type: 'integer',
-        description: 'The unique identifier of the code security configuration.',
+        type: "integer",
+        description: "The unique identifier of the code security configuration.",
       },
     },
-    required: ['enterprise', 'configuration_id'],
+    required: ["enterprise", "configuration_id"],
   },
   request: {
-    method: 'GET',
-    path: '/enterprises/{enterprise}/code-security/configurations/{configuration_id}',
+    method: "GET",
+    path: "/enterprises/{enterprise}/code-security/configurations/{configuration_id}",
   },
 });

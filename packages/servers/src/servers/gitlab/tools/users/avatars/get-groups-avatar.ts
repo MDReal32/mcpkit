@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersAvatarsGetGroupsAvatar = defineTool({
-  name: 'users:avatars:get_groups_avatar',
-  description: 'Download a group avatar. Downloads a group avatar image.',
+  name: "users:avatars:get_groups_avatar",
+  description: "Download a group avatar. Downloads a group avatar image.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the group.',
+        type: "string",
+        description: "ID or URL-encoded path of the group.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/groups/{id}/avatar',
+    method: "GET",
+    path: "/groups/{id}/avatar",
   },
 });

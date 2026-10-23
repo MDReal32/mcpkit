@@ -1,1 +1,1 @@
-export { defineConfluenceServer } from './define-confluence-server';
+export { defineConfluenceServer } from "./define-confluence-server";

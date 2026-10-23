@@ -1,25 +1,25 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterSpaceCreatePersonal = defineTool({
-  name: 'datacenter:space:create_personal',
-  description: '[Data Center] Creates the personal Space for self. Creates a personal space for self.',
+  name: "datacenter:space:create_personal",
+  description: "[Data Center] Creates the personal Space for self. Creates a personal space for self.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       description: {
-        type: 'object',
+        type: "object",
       },
       isPrivate: {
-        type: 'boolean',
+        type: "boolean",
       },
       private: {
-        type: 'boolean',
+        type: "boolean",
       },
     },
   },
   request: {
-    method: 'POST',
-    path: '/rest/api/space/personal',
-    body: ['description', 'isPrivate', 'private'],
+    method: "POST",
+    path: "/rest/api/space/personal",
+    body: ["description", "isPrivate", "private"],
   },
 });

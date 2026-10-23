@@ -1,27 +1,27 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterGroupGetGroupmember2 = defineTool({
-  name: 'datacenter:group:get_groupmember_2',
-  description: '[Data Center] Get group members of group. Get a collection of child groups of the given group',
+  name: "datacenter:group:get_groupmember_2",
+  description: "[Data Center] Get group members of group. Get a collection of child groups of the given group",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       groupName: {},
       expand: {
-        type: 'string',
+        type: "string",
       },
       limit: {
-        type: 'integer',
+        type: "integer",
       },
       start: {
-        type: 'integer',
+        type: "integer",
       },
     },
-    required: ['groupName'],
+    required: ["groupName"],
   },
   request: {
-    method: 'GET',
-    path: '/rest/api/group/{groupName}/groupmember',
-    query: ['expand', 'limit', 'start'],
+    method: "GET",
+    path: "/rest/api/group/{groupName}/groupmember",
+    query: ["expand", "limit", "start"],
   },
 });

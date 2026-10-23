@@ -1,42 +1,42 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesProjectsListForUser = defineTool({
-  name: 'issues:projects:list_for_user',
+  name: "issues:projects:list_for_user",
   description:
-    'List projects for user. List all projects owned by a specific user accessible by the authenticated user.',
+    "List projects for user. List all projects owned by a specific user accessible by the authenticated user.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       username: {
-        type: 'string',
-        description: 'The handle for the GitHub user account.',
+        type: "string",
+        description: "The handle for the GitHub user account.",
       },
       q: {
-        type: 'string',
-        description: 'Limit results to projects of the specified type.',
+        type: "string",
+        description: "Limit results to projects of the specified type.",
       },
       before: {
-        type: 'string',
+        type: "string",
         description:
           'A cursor, as given in the Link header. If specified, the query only searches for results before this cursor. For more information, see "Using pagination in the REST API."',
       },
       after: {
-        type: 'string',
+        type: "string",
         description:
           'A cursor, as given in the Link header. If specified, the query only searches for results after this cursor. For more information, see "Using pagination in the REST API."',
       },
       per_page: {
-        type: 'integer',
+        type: "integer",
         default: 30,
         description:
           'The number of results per page (max 100). For more information, see "Using pagination in the REST API."',
       },
     },
-    required: ['username'],
+    required: ["username"],
   },
   request: {
-    method: 'GET',
-    path: '/users/{username}/projectsV2',
-    query: ['q', 'before', 'after', 'per_page'],
+    method: "GET",
+    path: "/users/{username}/projectsV2",
+    query: ["q", "before", "after", "per_page"],
   },
 });

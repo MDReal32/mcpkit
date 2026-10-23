@@ -1,16 +1,16 @@
-import type { FallbackAuth, UiTexts } from '../../../manifest';
-import { fillTemplate } from '../../../manifest';
-import { toCredentialField } from './to-credential-field';
+import type { FallbackAuth, UiTexts } from "../../../manifest";
+import { fillTemplate } from "../../../manifest";
+import { toCredentialField } from "./to-credential-field";
 
 export const listCredentialFields = (auth: FallbackAuth, texts: UiTexts) => {
-  if (auth.type === 'none') {
+  if (auth.type === "none") {
     return [];
   }
   const inputs = auth.ui?.inputs;
   switch (auth.type) {
-    case 'bearer':
+    case "bearer":
       return [toCredentialField(auth.env, texts.tokenLabel, true, texts, inputs?.[auth.env])];
-    case 'header':
+    case "header":
       return [
         toCredentialField(
           auth.env,
@@ -20,7 +20,7 @@ export const listCredentialFields = (auth: FallbackAuth, texts: UiTexts) => {
           inputs?.[auth.env],
         ),
       ];
-    case 'query':
+    case "query":
       return [
         toCredentialField(
           auth.env,
@@ -30,7 +30,7 @@ export const listCredentialFields = (auth: FallbackAuth, texts: UiTexts) => {
           inputs?.[auth.env],
         ),
       ];
-    case 'basic':
+    case "basic":
       return [
         toCredentialField(auth.usernameEnv, texts.usernameLabel, false, texts, inputs?.[auth.usernameEnv]),
         toCredentialField(auth.passwordEnv, texts.passwordLabel, true, texts, inputs?.[auth.passwordEnv]),

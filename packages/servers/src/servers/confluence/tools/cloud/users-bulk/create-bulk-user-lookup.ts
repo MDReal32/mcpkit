@@ -1,25 +1,25 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const cloudUsersBulkCreateBulkUserLookup = defineTool({
-  name: 'cloud:users_bulk:create_bulk_user_lookup',
+  name: "cloud:users_bulk:create_bulk_user_lookup",
   description:
-    '[Cloud] Create bulk user lookup using ids. Returns user details for the ids provided in the request body.',
+    "[Cloud] Create bulk user lookup using ids. Returns user details for the ids provided in the request body.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       accountIds: {
-        type: 'array',
-        description: 'List of accountIds to retrieve user info for.',
+        type: "array",
+        description: "List of accountIds to retrieve user info for.",
         items: {
-          type: 'string',
+          type: "string",
         },
       },
     },
-    required: ['accountIds'],
+    required: ["accountIds"],
   },
   request: {
-    method: 'POST',
-    path: '/wiki/api/v2/users-bulk',
-    body: ['accountIds'],
+    method: "POST",
+    path: "/wiki/api/v2/users-bulk",
+    body: ["accountIds"],
   },
 });

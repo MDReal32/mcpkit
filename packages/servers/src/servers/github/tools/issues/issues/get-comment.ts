@@ -1,29 +1,29 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesIssuesGetComment = defineTool({
-  name: 'issues:issues:get_comment',
+  name: "issues:issues:get_comment",
   description:
-    'Get an issue comment. You can use the REST API to get comments on issues and pull requests. Every pull request is an issue, but not every issue is a pull request.',
+    "Get an issue comment. You can use the REST API to get comments on issues and pull requests. Every pull request is an issue, but not every issue is a pull request.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       owner: {
-        type: 'string',
-        description: 'The account owner of the repository. The name is not case sensitive.',
+        type: "string",
+        description: "The account owner of the repository. The name is not case sensitive.",
       },
       repo: {
-        type: 'string',
-        description: 'The name of the repository without the `.git` extension. The name is not case sensitive.',
+        type: "string",
+        description: "The name of the repository without the `.git` extension. The name is not case sensitive.",
       },
       comment_id: {
-        type: 'integer',
-        description: 'The unique identifier of the comment.',
+        type: "integer",
+        description: "The unique identifier of the comment.",
       },
     },
-    required: ['owner', 'repo', 'comment_id'],
+    required: ["owner", "repo", "comment_id"],
   },
   request: {
-    method: 'GET',
-    path: '/repos/{owner}/{repo}/issues/comments/{comment_id}',
+    method: "GET",
+    path: "/repos/{owner}/{repo}/issues/comments/{comment_id}",
   },
 });

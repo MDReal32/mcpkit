@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const groupsProviderIdentitiesGetGroupsSamlIdentities = defineTool({
-  name: 'groups:provider_identities:get_groups_saml_identities',
-  description: 'Retrieve SAML identities for a group. Retrieves SAML identities for a group.',
+  name: "groups:provider_identities:get_groups_saml_identities",
+  description: "Retrieve SAML identities for a group. Retrieves SAML identities for a group.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the group.',
+        type: "string",
+        description: "ID or URL-encoded path of the group.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/groups/{id}/saml/identities',
+    method: "GET",
+    path: "/groups/{id}/saml/identities",
   },
 });

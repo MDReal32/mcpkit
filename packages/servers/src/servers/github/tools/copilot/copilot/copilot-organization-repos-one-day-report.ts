@@ -1,26 +1,26 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const copilotCopilotCopilotOrganizationReposOneDayReport = defineTool({
-  name: 'copilot:copilot:copilot_organization_repos_one_day_report',
+  name: "copilot:copilot:copilot_organization_repos_one_day_report",
   description:
-    'Get Copilot organization repository report for a specific day. Use this endpoint to retrieve download links for the Copilot organization repository report for a specific day. The report provides per-repository pull request metrics for Copilot across the organization, with one entry per repository.',
+    "Get Copilot organization repository report for a specific day. Use this endpoint to retrieve download links for the Copilot organization repository report for a specific day. The report provides per-repository pull request metrics for Copilot across the organization, with one entry per repository.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       org: {
-        type: 'string',
-        description: 'The organization name. The name is not case sensitive.',
+        type: "string",
+        description: "The organization name. The name is not case sensitive.",
       },
       day: {
-        type: 'string',
-        description: 'The day to request data for, in `YYYY-MM-DD` format.',
+        type: "string",
+        description: "The day to request data for, in `YYYY-MM-DD` format.",
       },
     },
-    required: ['org', 'day'],
+    required: ["org", "day"],
   },
   request: {
-    method: 'GET',
-    path: '/orgs/{org}/copilot/metrics/reports/repos-1-day',
-    query: ['day'],
+    method: "GET",
+    path: "/orgs/{org}/copilot/metrics/reports/repos-1-day",
+    query: ["day"],
   },
 });

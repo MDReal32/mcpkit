@@ -1,28 +1,28 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const actionsActionsAddSelectedRepoToOrgSecret = defineTool({
-  name: 'actions:actions:add_selected_repo_to_org_secret',
+  name: "actions:actions:add_selected_repo_to_org_secret",
   description:
-    'Add selected repository to an organization secret. Adds a repository to an organization secret when the `visibility` for repository access is set to `selected`. For more information about setting the visibility, see Create or update an organization secret.',
+    "Add selected repository to an organization secret. Adds a repository to an organization secret when the `visibility` for repository access is set to `selected`. For more information about setting the visibility, see Create or update an organization secret.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       org: {
-        type: 'string',
-        description: 'The organization name. The name is not case sensitive.',
+        type: "string",
+        description: "The organization name. The name is not case sensitive.",
       },
       secret_name: {
-        type: 'string',
-        description: 'The name of the secret.',
+        type: "string",
+        description: "The name of the secret.",
       },
       repository_id: {
-        type: 'integer',
+        type: "integer",
       },
     },
-    required: ['org', 'secret_name', 'repository_id'],
+    required: ["org", "secret_name", "repository_id"],
   },
   request: {
-    method: 'PUT',
-    path: '/orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}',
+    method: "PUT",
+    path: "/orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id}",
   },
 });

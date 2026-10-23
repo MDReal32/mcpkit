@@ -1,7 +1,7 @@
-import { createJsonResult } from '../tools/create-json-result';
-import { createTextResult } from '../tools/create-text-result';
-import { createToolId } from '../tools/create-tool-id';
-import type { Catalog } from '../types/catalog';
+import { createJsonResult } from "../tools/create-json-result";
+import { createTextResult } from "../tools/create-text-result";
+import { createToolId } from "../tools/create-tool-id";
+import type { Catalog } from "../types/catalog";
 
 export const listServerTools = (catalog: Catalog, serverId: string) => {
   const server = catalog.servers.find((candidate) => candidate.id === serverId);

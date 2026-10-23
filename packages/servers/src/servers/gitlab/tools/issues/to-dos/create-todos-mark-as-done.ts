@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesToDosCreateTodosMarkAsDone = defineTool({
-  name: 'issues:to_dos:create_todos_mark_as_done',
-  description: 'Mark a to-do item as done. Marks a to-do item for the current user as done.',
+  name: "issues:to_dos:create_todos_mark_as_done",
+  description: "Mark a to-do item as done. Marks a to-do item for the current user as done.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'ID of the to-do item.',
+        type: "integer",
+        description: "ID of the to-do item.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'POST',
-    path: '/todos/{id}/mark_as_done',
+    method: "POST",
+    path: "/todos/{id}/mark_as_done",
   },
 });

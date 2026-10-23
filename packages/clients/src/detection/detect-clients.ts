@@ -1,7 +1,7 @@
-import { CLIENT_DEFINITIONS } from '../client-definitions';
-import type { ClientContext } from '../types/client-context';
-import { inspectClient } from './inspect-client';
-import { isClientInstalled } from './is-client-installed';
+import { CLIENT_DEFINITIONS } from "../client-definitions";
+import type { ClientContext } from "../types/client-context";
+import { inspectClient } from "./inspect-client";
+import { isClientInstalled } from "./is-client-installed";
 
 /** Clients installed for this user, in CLIENT_DEFINITIONS order. */
 export const detectClients = async (context: ClientContext, definitions = CLIENT_DEFINITIONS) => {

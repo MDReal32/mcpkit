@@ -1,25 +1,25 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersUsersDeleteSocialAccountForAuthenticatedUser = defineTool({
-  name: 'users:users:delete_social_account_for_authenticated_user',
+  name: "users:users:delete_social_account_for_authenticated_user",
   description:
     "Delete social accounts for the authenticated user. Deletes one or more social accounts from the authenticated user's profile.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       account_urls: {
-        type: 'array',
-        description: 'Full URLs for the social media profiles to delete.',
+        type: "array",
+        description: "Full URLs for the social media profiles to delete.",
         items: {
-          type: 'string',
+          type: "string",
         },
       },
     },
-    required: ['account_urls'],
+    required: ["account_urls"],
   },
   request: {
-    method: 'DELETE',
-    path: '/user/social_accounts',
-    body: ['account_urls'],
+    method: "DELETE",
+    path: "/user/social_accounts",
+    body: ["account_urls"],
   },
 });

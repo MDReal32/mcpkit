@@ -1,4 +1,4 @@
-import type { SchemaOptions } from './schema-options';
+import type { SchemaOptions } from "./schema-options";
 
 export interface BodyReasonOptions {
   schema: SchemaOptions;

@@ -1,57 +1,57 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const appsIssueCustomFieldConfigurationAppsGetCustomFieldConfiguration = defineTool({
-  name: 'apps:issue_custom_field_configuration_apps:get_custom_field_configuration',
+  name: "apps:issue_custom_field_configuration_apps:get_custom_field_configuration",
   description:
-    'Get custom field configurations. Returns a paginated list of configurations for a custom field of a type created by a Forge app.',
+    "Get custom field configurations. Returns a paginated list of configurations for a custom field of a type created by a Forge app.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       fieldIdOrKey: {
-        type: 'string',
-        description: 'The ID or key of the custom field, for example `customfield_10000`.',
+        type: "string",
+        description: "The ID or key of the custom field, for example `customfield_10000`.",
       },
       id: {
-        type: 'string',
+        type: "string",
         description:
           "The list of configuration IDs. To include multiple configurations, separate IDs with an ampersand: `id=10000&id=10001`. Can't be provided with `fieldContextId`, `issueId`, `projectKeyOrId`, or `issueTypeId`. (comma-separated)",
       },
       fieldContextId: {
-        type: 'string',
+        type: "string",
         description:
           "The list of field context IDs. To include multiple field contexts, separate IDs with an ampersand: `fieldContextId=10000&fieldContextId=10001`. Can't be provided with `id`, `issueId`, `projectKeyOrId`, or `issueTypeId`. (comma-separated)",
       },
       issueId: {
-        type: 'integer',
+        type: "integer",
         description:
           "The ID of the issue to filter results by. If the issue doesn't exist, an empty list is returned. Can't be provided with `projectKeyOrId`, or `issueTypeId`.",
       },
       projectKeyOrId: {
-        type: 'string',
+        type: "string",
         description:
           "The ID or key of the project to filter results by. Must be provided with `issueTypeId`. Can't be provided with `issueId`.",
       },
       issueTypeId: {
-        type: 'string',
+        type: "string",
         description:
           "The ID of the issue type to filter results by. Must be provided with `projectKeyOrId`. Can't be provided with `issueId`.",
       },
       startAt: {
-        type: 'integer',
+        type: "integer",
         default: 0,
-        description: 'The index of the first item to return in a page of results (page offset).',
+        description: "The index of the first item to return in a page of results (page offset).",
       },
       maxResults: {
-        type: 'integer',
+        type: "integer",
         default: 100,
-        description: 'The maximum number of items to return per page.',
+        description: "The maximum number of items to return per page.",
       },
     },
-    required: ['fieldIdOrKey'],
+    required: ["fieldIdOrKey"],
   },
   request: {
-    method: 'GET',
-    path: '/rest/api/2/app/field/{fieldIdOrKey}/context/configuration',
-    query: ['id', 'fieldContextId', 'issueId', 'projectKeyOrId', 'issueTypeId', 'startAt', 'maxResults'],
+    method: "GET",
+    path: "/rest/api/2/app/field/{fieldIdOrKey}/context/configuration",
+    query: ["id", "fieldContextId", "issueId", "projectKeyOrId", "issueTypeId", "startAt", "maxResults"],
   },
 });

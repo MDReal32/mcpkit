@@ -1,5 +1,5 @@
-import { createHash } from 'node:crypto';
-import type { Manifest } from '@usemcpkit/core';
+import { createHash } from "node:crypto";
+import type { Manifest } from "@usemcpkit/core";
 
 export interface FakeRegistry {
   fetchImpl: typeof fetch;
@@ -19,7 +19,7 @@ export const createRegistryFetch = (registryUrl: string, manifests: readonly Man
       description: manifest.description,
       tools: manifest.tools.map((tool) => tool.name),
       url,
-      sha256: createHash('sha256').update(text).digest('hex'),
+      sha256: createHash("sha256").update(text).digest("hex"),
     };
   });
   routes.set(`${registryUrl}/index.json`, JSON.stringify({ servers }));
@@ -28,7 +28,7 @@ export const createRegistryFetch = (registryUrl: string, manifests: readonly Man
     const url = request instanceof Request ? request.url : String(request);
     requests.push(url);
     const body = routes.get(url);
-    return new Response(body ?? 'Not Found', { status: body === undefined ? 404 : 200 });
+    return new Response(body ?? "Not Found", { status: body === undefined ? 404 : 200 });
   };
   const registry: FakeRegistry = { fetchImpl, requests };
   return registry;

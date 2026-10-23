@@ -1,38 +1,38 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const ciCiVariablesGetProjectsVariables = defineTool({
-  name: 'ci:ci_variables:get_projects_variables',
+  name: "ci:ci_variables:get_projects_variables",
   description:
-    'Retrieve a single variable. Retrieves details of a specified variable. If there are multiple variables with the same key, use `filter` to select the correct `environment_scope`.',
+    "Retrieve a single variable. Retrieves details of a specified variable. If there are multiple variables with the same key, use `filter` to select the correct `environment_scope`.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
       key: {
-        type: 'string',
+        type: "string",
         description:
-          'Key of the project variable. Must be 255 characters or fewer and contain only `A-Z`, `a-z`, `0-9`, and `_`.',
+          "Key of the project variable. Must be 255 characters or fewer and contain only `A-Z`, `a-z`, `0-9`, and `_`.",
       },
       filter: {
-        type: 'object',
-        description: 'Filter results when multiple variables share the same key.',
+        type: "object",
+        description: "Filter results when multiple variables share the same key.",
       },
       filter_environment_scope: {
-        type: 'string',
-        description: 'Environment scope of the variable.',
+        type: "string",
+        description: "Environment scope of the variable.",
       },
     },
-    required: ['id', 'key'],
+    required: ["id", "key"],
   },
   request: {
-    method: 'GET',
-    path: '/projects/{id}/variables/{key}',
+    method: "GET",
+    path: "/projects/{id}/variables/{key}",
     query: {
-      filter: 'filter',
-      'filter[environment_scope]': 'filter_environment_scope',
+      filter: "filter",
+      "filter[environment_scope]": "filter_environment_scope",
     },
   },
 });

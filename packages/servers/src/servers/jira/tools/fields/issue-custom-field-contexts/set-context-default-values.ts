@@ -1,48 +1,48 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const fieldsIssueCustomFieldContextsSetContextDefaultValues = defineTool({
-  name: 'fields:issue_custom_field_contexts:set_context_default_values',
+  name: "fields:issue_custom_field_contexts:set_context_default_values",
   description:
-    'Set default values for a custom field by context and issue type. Updates default values for individual issue types in custom field contexts.',
+    "Set default values for a custom field by context and issue type. Updates default values for individual issue types in custom field contexts.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       fieldId: {
-        type: 'string',
-        description: 'The ID of the custom field, for example \\{@code customfield\\_10000\\}.',
+        type: "string",
+        description: "The ID of the custom field, for example \\{@code customfield\\_10000\\}.",
       },
       defaultValues: {
-        type: 'array',
-        description: 'The default values to update.',
+        type: "array",
+        description: "The default values to update.",
         items: {
-          type: 'object',
-          description: 'A default value update for one issue-type scope in a context.',
+          type: "object",
+          description: "A default value update for one issue-type scope in a context.",
           properties: {
             contextId: {
-              type: 'integer',
-              description: 'The ID of the context.',
+              type: "integer",
+              description: "The ID of the context.",
             },
             isAnyIssueType: {
-              type: 'boolean',
-              description: 'True when this is the catch-all default for issue types without a specific default.',
+              type: "boolean",
+              description: "True when this is the catch-all default for issue types without a specific default.",
             },
             issueTypeId: {
-              type: 'string',
-              description: 'The ID of the issue type this default value applies to.',
+              type: "string",
+              description: "The ID of the issue type this default value applies to.",
             },
             value: {
-              type: 'object',
+              type: "object",
             },
           },
-          required: ['contextId'],
+          required: ["contextId"],
         },
       },
     },
-    required: ['fieldId'],
+    required: ["fieldId"],
   },
   request: {
-    method: 'PUT',
-    path: '/rest/api/2/field/{fieldId}/context/defaultValues',
-    body: ['defaultValues'],
+    method: "PUT",
+    path: "/rest/api/2/field/{fieldId}/context/defaultValues",
+    body: ["defaultValues"],
   },
 });

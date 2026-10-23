@@ -1,24 +1,24 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesLabelsDeleteGroupsLabelsDelete = defineTool({
-  name: 'issues:labels:delete_groups_labels_delete',
-  description: 'Delete a group label. Deletes a specified group label.',
+  name: "issues:labels:delete_groups_labels_delete",
+  description: "Delete a group label. Deletes a specified group label.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the group.',
+        type: "string",
+        description: "ID or URL-encoded path of the group.",
       },
       name: {
-        type: 'string',
-        description: 'Name or ID of the label to delete.',
+        type: "string",
+        description: "Name or ID of the label to delete.",
       },
     },
-    required: ['id', 'name'],
+    required: ["id", "name"],
   },
   request: {
-    method: 'DELETE',
-    path: '/groups/{id}/labels/{name}',
+    method: "DELETE",
+    path: "/groups/{id}/labels/{name}",
   },
 });

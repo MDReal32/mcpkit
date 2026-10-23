@@ -1,27 +1,27 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersUsersCreateSshSigningKeyForAuthenticatedUser = defineTool({
-  name: 'users:users:create_ssh_signing_key_for_authenticated_user',
+  name: "users:users:create_ssh_signing_key_for_authenticated_user",
   description:
     "Create a SSH signing key for the authenticated user. Creates an SSH signing key for the authenticated user's GitHub account.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       title: {
-        type: 'string',
-        description: 'A descriptive name for the new key.',
+        type: "string",
+        description: "A descriptive name for the new key.",
       },
       key: {
-        type: 'string',
+        type: "string",
         description:
           'The public SSH key to add to your GitHub account. For more information, see "Checking for existing SSH keys."',
       },
     },
-    required: ['key'],
+    required: ["key"],
   },
   request: {
-    method: 'POST',
-    path: '/user/ssh_signing_keys',
-    body: ['title', 'key'],
+    method: "POST",
+    path: "/user/ssh_signing_keys",
+    body: ["title", "key"],
   },
 });

@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersUsersUpdateUsersDisableTwoFactor = defineTool({
-  name: 'users:users:update_users_disable_two_factor',
+  name: "users:users:update_users_disable_two_factor",
   description:
-    'Disable two-factor authentication for a user. Disables two-factor authentication for a specified user account. Administrators only.',
+    "Disable two-factor authentication for a user. Disables two-factor authentication for a specified user account. Administrators only.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'ID of the user.',
+        type: "integer",
+        description: "ID of the user.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'PATCH',
-    path: '/users/{id}/disable_two_factor',
+    method: "PATCH",
+    path: "/users/{id}/disable_two_factor",
   },
 });

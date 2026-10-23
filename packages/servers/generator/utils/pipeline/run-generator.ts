@@ -1,11 +1,11 @@
-import { DEFAULT_GROUP_ARRAY_SUFFIX } from '../naming/const';
-import { writeGeneratedFiles } from '../render/write-generated-files';
-import type { GeneratorConfig } from '../types/generator-config';
-import type { Operation } from '../types/operation';
-import type { SpecPlanResult } from '../types/spec-plan-result';
-import { SERVERS_DIR } from './const';
-import { keepAllTools } from './keep-all-tools';
-import { planSpec } from './plan-spec';
+import { DEFAULT_GROUP_ARRAY_SUFFIX } from "../naming/const";
+import { writeGeneratedFiles } from "../render/write-generated-files";
+import type { GeneratorConfig } from "../types/generator-config";
+import type { Operation } from "../types/operation";
+import type { SpecPlanResult } from "../types/spec-plan-result";
+import { SERVERS_DIR } from "./const";
+import { keepAllTools } from "./keep-all-tools";
+import { planSpec } from "./plan-spec";
 
 export const runGenerator = async <Result extends Operation>(
   config: GeneratorConfig<Result>,
@@ -25,5 +25,5 @@ export const runGenerator = async <Result extends Operation>(
     tools,
   );
   process.stdout.write(`${serverName}: ${tools.length} tools\n`);
-  process.stdout.write(`skipped ${skipped.length}:\n${skipped.map((line) => `  ${line}`).join('\n')}\n`);
+  process.stdout.write(`skipped ${skipped.length}:\n${skipped.map((line) => `  ${line}`).join("\n")}\n`);
 };

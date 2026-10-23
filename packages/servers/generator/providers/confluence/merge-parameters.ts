@@ -1,4 +1,4 @@
-import type { OpenApiParameter } from '../../utils/types/open-api-operation';
+import type { OpenApiParameter } from "../../utils/types/open-api-operation";
 
 export const mergeParameters = (shared: OpenApiParameter[], own: OpenApiParameter[]) => [
   ...shared.filter(

@@ -1,6 +1,6 @@
-import type { UiAction } from './ui-action';
-import type { UiInputSpec } from './ui-input-spec';
-import type { UiTexts } from './ui-texts';
+import type { UiAction } from "./ui-action";
+import type { UiInputSpec } from "./ui-input-spec";
+import type { UiTexts } from "./ui-texts";
 
 /**
  * What the credentials page shows. On the manifest only `texts` applies (page-wide strings); on an auth entry

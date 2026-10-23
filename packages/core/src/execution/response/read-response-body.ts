@@ -3,7 +3,7 @@ export const readResponseBody = async (response: Response) => {
   if (!text) {
     return null;
   }
-  const isJson = response.headers.get('content-type')?.includes('json') ?? false;
+  const isJson = response.headers.get("content-type")?.includes("json") ?? false;
   if (!isJson) {
     return text;
   }

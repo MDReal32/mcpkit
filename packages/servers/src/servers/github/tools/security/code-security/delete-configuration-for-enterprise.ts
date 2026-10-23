@@ -1,25 +1,25 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const securityCodeSecurityDeleteConfigurationForEnterprise = defineTool({
-  name: 'security:code_security:delete_configuration_for_enterprise',
+  name: "security:code_security:delete_configuration_for_enterprise",
   description:
-    'Delete a code security configuration for an enterprise. Deletes a code security configuration from an enterprise. Repositories attached to the configuration will retain their settings but will no longer be associated with the configuration.',
+    "Delete a code security configuration for an enterprise. Deletes a code security configuration from an enterprise. Repositories attached to the configuration will retain their settings but will no longer be associated with the configuration.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       enterprise: {
-        type: 'string',
-        description: 'The slug version of the enterprise name.',
+        type: "string",
+        description: "The slug version of the enterprise name.",
       },
       configuration_id: {
-        type: 'integer',
-        description: 'The unique identifier of the code security configuration.',
+        type: "integer",
+        description: "The unique identifier of the code security configuration.",
       },
     },
-    required: ['enterprise', 'configuration_id'],
+    required: ["enterprise", "configuration_id"],
   },
   request: {
-    method: 'DELETE',
-    path: '/enterprises/{enterprise}/code-security/configurations/{configuration_id}',
+    method: "DELETE",
+    path: "/enterprises/{enterprise}/code-security/configurations/{configuration_id}",
   },
 });

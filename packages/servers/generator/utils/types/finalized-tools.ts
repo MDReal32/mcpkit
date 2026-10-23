@@ -1,4 +1,4 @@
-import type { GeneratedTool } from './generated-tool';
+import type { GeneratedTool } from "./generated-tool";
 
 export interface FinalizedTools {
   tools: GeneratedTool[];

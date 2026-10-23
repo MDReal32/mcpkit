@@ -1,5 +1,5 @@
-import { describeError } from '../../../errors';
-import { AuthError } from '../../auth-error';
+import { describeError } from "../../../errors";
+import { AuthError } from "../../auth-error";
 
 export const readJsonBody = async (response: Response, serverName: string) => {
   const text = await response.text();

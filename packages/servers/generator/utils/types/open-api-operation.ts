@@ -1,4 +1,4 @@
-import type { OpenApiSchema } from './open-api-schema';
+import type { OpenApiSchema } from "./open-api-schema";
 
 export interface OpenApiParameter {
   name: string;

@@ -1,14 +1,14 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const metaInstanceGetApplicationSettings = defineTool({
-  name: 'meta:instance:get_application_settings',
-  description: 'Retrieve application settings. Retrieves the current application settings for this GitLab instance.',
+  name: "meta:instance:get_application_settings",
+  description: "Retrieve application settings. Retrieves the current application settings for this GitLab instance.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {},
   },
   request: {
-    method: 'GET',
-    path: '/application/settings',
+    method: "GET",
+    path: "/application/settings",
   },
 });

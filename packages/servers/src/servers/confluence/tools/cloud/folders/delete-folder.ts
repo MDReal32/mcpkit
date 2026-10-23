@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const cloudFoldersDeleteFolder = defineTool({
-  name: 'cloud:folders:delete_folder',
-  description: '[Cloud] Delete folder. Delete a folder by id.',
+  name: "cloud:folders:delete_folder",
+  description: "[Cloud] Delete folder. Delete a folder by id.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'The ID of the folder to be deleted.',
+        type: "integer",
+        description: "The ID of the folder to be deleted.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'DELETE',
-    path: '/wiki/api/v2/folders/{id}',
+    method: "DELETE",
+    path: "/wiki/api/v2/folders/{id}",
   },
 });

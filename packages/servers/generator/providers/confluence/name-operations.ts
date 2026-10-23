@@ -1,11 +1,11 @@
-import { toToolNames } from '../../utils/naming/to-tool-names';
-import type { Operation } from '../../utils/types/operation';
-import type { OperationNames } from '../../utils/types/operation-names';
-import { deriveActionWords } from './derive-action-words';
-import { deriveDisambiguationWords } from './derive-disambiguation-words';
-import { deriveResource } from './derive-resource';
-import { splitPath } from './split-path';
-import type { SpecSource } from './types/spec-source';
+import { toToolNames } from "../../utils/naming/to-tool-names";
+import type { Operation } from "../../utils/types/operation";
+import type { OperationNames } from "../../utils/types/operation-names";
+import { deriveActionWords } from "./derive-action-words";
+import { deriveDisambiguationWords } from "./derive-disambiguation-words";
+import { deriveResource } from "./derive-resource";
+import { splitPath } from "./split-path";
+import type { SpecSource } from "./types/spec-source";
 
 const FIRST_NUMBERED_ACTION = 2;
 
@@ -28,8 +28,8 @@ export const nameOperations = (operations: readonly Operation[], source: SpecSou
     const resource = deriveResource(operation, source);
     const base = deriveActionWords(operation, source);
     const isFree = (action: string) => !claimed.has(`${resource}/${action}`);
-    const plain = base.join('-');
-    const suffixed = [...base, ...deriveDisambiguationWords(operation, source)].join('-');
+    const plain = base.join("-");
+    const suffixed = [...base, ...deriveDisambiguationWords(operation, source)].join("-");
     let action = isFree(plain) ? plain : suffixed;
     for (let counter = FIRST_NUMBERED_ACTION; !isFree(action); counter += 1) {
       action = `${suffixed}-${counter}`;

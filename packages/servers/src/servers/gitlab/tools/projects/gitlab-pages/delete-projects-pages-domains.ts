@@ -1,24 +1,24 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsGitlabPagesDeleteProjectsPagesDomains = defineTool({
-  name: 'projects:gitlab_pages:delete_projects_pages_domains',
-  description: 'Delete Pages domain. Deletes a specified Pages domain in a project.',
+  name: "projects:gitlab_pages:delete_projects_pages_domains",
+  description: "Delete Pages domain. Deletes a specified Pages domain in a project.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
       domain: {
-        type: 'string',
-        description: 'Custom domain.',
+        type: "string",
+        description: "Custom domain.",
       },
     },
-    required: ['id', 'domain'],
+    required: ["id", "domain"],
   },
   request: {
-    method: 'DELETE',
-    path: '/projects/{id}/pages/domains/{domain}',
+    method: "DELETE",
+    path: "/projects/{id}/pages/domains/{domain}",
   },
 });

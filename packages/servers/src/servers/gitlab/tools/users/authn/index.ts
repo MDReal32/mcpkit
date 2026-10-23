@@ -1,3 +1,3 @@
-import { usersAuthnGetIamUserinfo } from './get-iam-userinfo';
+import { usersAuthnGetIamUserinfo } from "./get-iam-userinfo";
 
 export const usersAuthnTools = [usersAuthnGetIamUserinfo];

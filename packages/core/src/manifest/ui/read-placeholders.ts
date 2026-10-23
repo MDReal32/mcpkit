@@ -1,4 +1,4 @@
-import { UI_PLACEHOLDER_PATTERN } from './const';
+import { UI_PLACEHOLDER_PATTERN } from "./const";
 
 export const readPlaceholders = (template: string) =>
-  Array.from(template.matchAll(UI_PLACEHOLDER_PATTERN), (match) => match[1] ?? '');
+  Array.from(template.matchAll(UI_PLACEHOLDER_PATTERN), (match) => match[1] ?? "");

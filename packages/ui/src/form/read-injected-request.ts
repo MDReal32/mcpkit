@@ -1,5 +1,5 @@
-import type { CredentialRequest } from '@usemcpkit/core';
-import { CREDENTIALS_REQUEST_ELEMENT_ID } from '@usemcpkit/core';
+import type { CredentialRequest } from "@usemcpkit/core";
+import { CREDENTIALS_REQUEST_ELEMENT_ID } from "@usemcpkit/core";
 
 export const readInjectedRequest = () => {
   const text = document.getElementById(CREDENTIALS_REQUEST_ELEMENT_ID)?.textContent?.trim();

@@ -1,25 +1,25 @@
-import { defineConfig } from 'vitest/config';
-import { version } from './package.json';
-import { mcpkitBinaries } from './plugins/binaries';
+import { defineConfig } from "vitest/config";
+import { version } from "./package.json";
+import { mcpkitBinaries } from "./plugins/binaries";
 
-const PACKAGE_MODE = 'package';
+const PACKAGE_MODE = "package";
 
 export default defineConfig(({ mode }) => ({
   plugins: [
     ...(mode === PACKAGE_MODE
-      ? [mcpkitBinaries({ version, targets: process.env.MCPKIT_TARGETS?.split(',').filter(Boolean) })]
+      ? [mcpkitBinaries({ version, targets: process.env.MCPKIT_TARGETS?.split(",").filter(Boolean) })]
       : []),
   ],
   build: {
-    ssr: 'src/main.ts',
-    target: 'node20',
-    outDir: 'build',
+    ssr: "src/main.ts",
+    target: "node20",
+    outDir: "build",
     emptyOutDir: true,
     minify: true,
-    rollupOptions: {
+    rolldownOptions: {
       output: {
-        entryFileNames: 'mcpkit.cli.js',
-        banner: '#!/usr/bin/env node',
+        entryFileNames: "mcpkit.cli.js",
+        banner: "#!/usr/bin/env node",
       },
     },
   },
@@ -27,6 +27,6 @@ export default defineConfig(({ mode }) => ({
     noExternal: true,
   },
   test: {
-    include: ['test/**/*.test.ts'],
+    include: ["test/**/*.test.ts"],
   },
 }));

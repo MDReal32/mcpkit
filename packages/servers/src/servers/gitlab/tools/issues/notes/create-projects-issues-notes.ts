@@ -1,48 +1,48 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesNotesCreateProjectsIssuesNotes = defineTool({
-  name: 'issues:notes:create_projects_issues_notes',
-  description: 'Create an issue note. Creates a note for an issue.',
+  name: "issues:notes:create_projects_issues_notes",
+  description: "Create an issue note. Creates a note for an issue.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
       noteable_id: {
-        type: 'integer',
-        description: 'ID of the resource the note is attached to.',
+        type: "integer",
+        description: "ID of the resource the note is attached to.",
       },
       body: {
-        type: 'string',
-        description: 'Content of the note. Limited to 1,000,000 characters.',
+        type: "string",
+        description: "Content of the note. Limited to 1,000,000 characters.",
       },
       confidential: {
-        type: 'boolean',
-        description: 'If `true`, marks the note as internal. Deprecated. Use `internal` instead.',
+        type: "boolean",
+        description: "If `true`, marks the note as internal. Deprecated. Use `internal` instead.",
       },
       internal: {
-        type: 'boolean',
-        description: 'Internal note flag.',
+        type: "boolean",
+        description: "Internal note flag.",
         default: false,
       },
       created_at: {
-        type: 'string',
+        type: "string",
         description:
-          'Date and time the note was created, in ISO 8601 format such as `2016-03-11T03:45:40Z`. Requires administrator or project/group owner rights.',
+          "Date and time the note was created, in ISO 8601 format such as `2016-03-11T03:45:40Z`. Requires administrator or project/group owner rights.",
       },
       merge_request_diff_head_sha: {
-        type: 'string',
+        type: "string",
         description:
           "SHA of the head commit, which ensures the merge request wasn't updated after the API request was sent. Required for the `/merge` quick action.",
       },
     },
-    required: ['id', 'noteable_id', 'body'],
+    required: ["id", "noteable_id", "body"],
   },
   request: {
-    method: 'POST',
-    path: '/projects/{id}/issues/{noteable_id}/notes',
-    body: ['body', 'confidential', 'internal', 'created_at', 'merge_request_diff_head_sha'],
+    method: "POST",
+    path: "/projects/{id}/issues/{noteable_id}/notes",
+    body: ["body", "confidential", "internal", "created_at", "merge_request_diff_head_sha"],
   },
 });

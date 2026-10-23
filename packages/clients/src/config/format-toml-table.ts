@@ -1,4 +1,4 @@
-import { formatTomlValue } from './format-toml-value';
+import { formatTomlValue } from "./format-toml-value";
 
 export const formatTomlTable = (tableKey: string, entry: Record<string, unknown>) => [
   `[${tableKey}]`,

@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const ciClustersDeleteAdminClusters = defineTool({
-  name: 'ci:clusters:delete_admin_clusters',
+  name: "ci:clusters:delete_admin_clusters",
   description:
-    'Delete instance cluster. Deletes an existing instance cluster. Does not remove existing resources in the connected Kubernetes cluster.',
+    "Delete instance cluster. Deletes an existing instance cluster. Does not remove existing resources in the connected Kubernetes cluster.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       cluster_id: {
-        type: 'integer',
-        description: 'ID of the cluster.',
+        type: "integer",
+        description: "ID of the cluster.",
       },
     },
-    required: ['cluster_id'],
+    required: ["cluster_id"],
   },
   request: {
-    method: 'DELETE',
-    path: '/admin/clusters/{cluster_id}',
+    method: "DELETE",
+    path: "/admin/clusters/{cluster_id}",
   },
 });

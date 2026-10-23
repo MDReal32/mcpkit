@@ -1,27 +1,27 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const adminStorageMovesCreateGroupsRepositoryStorageMoves = defineTool({
-  name: 'admin:storage_moves:create_groups_repository_storage_moves',
+  name: "admin:storage_moves:create_groups_repository_storage_moves",
   description:
-    'Create a group repository storage move. Creates a group repository storage move for a specified group. This operation moves only group wiki repositories and does not move repositories for projects in a group.',
+    "Create a group repository storage move. Creates a group repository storage move for a specified group. This operation moves only group wiki repositories and does not move repositories for projects in a group.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the group.',
+        type: "string",
+        description: "ID or URL-encoded path of the group.",
       },
       destination_storage_name: {
-        type: 'string',
+        type: "string",
         description:
-          'Name of the destination storage shard. If omitted, the storage is selected automatically based on storage weights.',
+          "Name of the destination storage shard. If omitted, the storage is selected automatically based on storage weights.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'POST',
-    path: '/groups/{id}/repository_storage_moves',
-    body: ['destination_storage_name'],
+    method: "POST",
+    path: "/groups/{id}/repository_storage_moves",
+    body: ["destination_storage_name"],
   },
 });

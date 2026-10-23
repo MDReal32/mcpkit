@@ -1,8 +1,8 @@
-import type { AuthSpec } from '../types/auth/auth-spec';
-import { fillDomain } from './fill-domain';
+import type { AuthSpec } from "../types/auth/auth-spec";
+import { fillDomain } from "./fill-domain";
 
 export const applyAuthDomain = (auth: AuthSpec, domain: string) => {
-  if (auth.type !== 'oauth') {
+  if (auth.type !== "oauth") {
     return auth;
   }
   const resolved: AuthSpec = {

@@ -1,25 +1,25 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterUserDeleteGroup = defineTool({
-  name: 'datacenter:user:delete_group',
+  name: "datacenter:user:delete_group",
   description:
-    '[Data Center] Delete user group. Removes the given User identified by username from the given Group identified by groupName.',
+    "[Data Center] Delete user group. Removes the given User identified by username from the given Group identified by groupName.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       groupName: {
-        type: 'string',
-        description: 'The group name identifying the given group.',
+        type: "string",
+        description: "The group name identifying the given group.",
       },
       username: {
-        type: 'string',
-        description: 'The username identifying the given user.',
+        type: "string",
+        description: "The username identifying the given user.",
       },
     },
-    required: ['groupName', 'username'],
+    required: ["groupName", "username"],
   },
   request: {
-    method: 'DELETE',
-    path: '/rest/api/user/{username}/group/{groupName}',
+    method: "DELETE",
+    path: "/rest/api/user/{username}/group/{groupName}",
   },
 });

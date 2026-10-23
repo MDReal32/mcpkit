@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const appsAppsListInstallationRequestsForAuthenticatedApp = defineTool({
-  name: 'apps:apps:list_installation_requests_for_authenticated_app',
+  name: "apps:apps:list_installation_requests_for_authenticated_app",
   description:
-    'List installation requests for the authenticated app. Lists all the pending installation requests for the authenticated GitHub App.',
+    "List installation requests for the authenticated app. Lists all the pending installation requests for the authenticated GitHub App.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       per_page: {
-        type: 'integer',
+        type: "integer",
         default: 30,
         description:
           'The number of results per page (max 100). For more information, see "Using pagination in the REST API."',
       },
       page: {
-        type: 'integer',
+        type: "integer",
         default: 1,
         description:
           'The page number of the results to fetch. For more information, see "Using pagination in the REST API."',
@@ -22,8 +22,8 @@ export const appsAppsListInstallationRequestsForAuthenticatedApp = defineTool({
     },
   },
   request: {
-    method: 'GET',
-    path: '/app/installation-requests',
-    query: ['per_page', 'page'],
+    method: "GET",
+    path: "/app/installation-requests",
+    query: ["per_page", "page"],
   },
 });

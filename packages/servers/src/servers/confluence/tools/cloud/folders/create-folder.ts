@@ -1,29 +1,29 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const cloudFoldersCreateFolder = defineTool({
-  name: 'cloud:folders:create_folder',
-  description: '[Cloud] Create folder. Creates a folder in the space.',
+  name: "cloud:folders:create_folder",
+  description: "[Cloud] Create folder. Creates a folder in the space.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       spaceId: {
-        type: 'string',
-        description: 'ID of the space.',
+        type: "string",
+        description: "ID of the space.",
       },
       title: {
-        type: 'string',
-        description: 'Title of the folder.',
+        type: "string",
+        description: "Title of the folder.",
       },
       parentId: {
-        type: 'string',
-        description: 'The parent content ID of the folder.',
+        type: "string",
+        description: "The parent content ID of the folder.",
       },
     },
-    required: ['spaceId'],
+    required: ["spaceId"],
   },
   request: {
-    method: 'POST',
-    path: '/wiki/api/v2/folders',
-    body: ['spaceId', 'title', 'parentId'],
+    method: "POST",
+    path: "/wiki/api/v2/folders",
+    body: ["spaceId", "title", "parentId"],
   },
 });

@@ -1,36 +1,36 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const orgsOrgsDeleteAttestationsBulk = defineTool({
-  name: 'orgs:orgs:delete_attestations_bulk',
+  name: "orgs:orgs:delete_attestations_bulk",
   description:
-    'Delete attestations in bulk. Delete artifact attestations in bulk by either subject digests or unique ID.',
+    "Delete attestations in bulk. Delete artifact attestations in bulk by either subject digests or unique ID.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       org: {
-        type: 'string',
-        description: 'The organization name. The name is not case sensitive.',
+        type: "string",
+        description: "The organization name. The name is not case sensitive.",
       },
       subject_digests: {
-        type: 'array',
-        description: 'List of subject digests associated with the artifact attestations to delete.',
+        type: "array",
+        description: "List of subject digests associated with the artifact attestations to delete.",
         items: {
-          type: 'string',
+          type: "string",
         },
       },
       attestation_ids: {
-        type: 'array',
-        description: 'List of unique IDs associated with the artifact attestations to delete.',
+        type: "array",
+        description: "List of unique IDs associated with the artifact attestations to delete.",
         items: {
-          type: 'integer',
+          type: "integer",
         },
       },
     },
-    required: ['org'],
+    required: ["org"],
   },
   request: {
-    method: 'POST',
-    path: '/orgs/{org}/attestations/delete-request',
-    body: ['subject_digests', 'attestation_ids'],
+    method: "POST",
+    path: "/orgs/{org}/attestations/delete-request",
+    body: ["subject_digests", "attestation_ids"],
   },
 });

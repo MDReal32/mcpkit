@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const softwareBoardGetConfiguration = defineTool({
-  name: 'software:board:get_configuration',
-  description: 'Get configuration. Get the board configuration. The response contains the following fields:',
+  name: "software:board:get_configuration",
+  description: "Get configuration. Get the board configuration. The response contains the following fields:",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       boardId: {
-        type: 'integer',
-        description: 'The ID of the board for which configuration is requested.',
+        type: "integer",
+        description: "The ID of the board for which configuration is requested.",
       },
     },
-    required: ['boardId'],
+    required: ["boardId"],
   },
   request: {
-    method: 'GET',
-    path: '/rest/agile/1.0/board/{boardId}/configuration',
+    method: "GET",
+    path: "/rest/agile/1.0/board/{boardId}/configuration",
   },
 });

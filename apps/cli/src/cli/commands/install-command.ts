@@ -1,15 +1,15 @@
-import { createClientContext, detectClients, pathExists, SERVE_ARGS, setClientEntry } from '@usemcpkit/clients';
-import type { Program } from 'yargs-extended';
-import { applyToClients } from '../clients/apply-to-clients';
-import { selectClients } from '../clients/select-clients';
-import { BINARY_FLAG, EXIT_FAILURE, EXIT_SUCCESS } from '../const';
-import { printDetectedClientsMissing } from '../output/print-detected-clients-missing';
-import { printError } from '../output/print-error';
-import { printLine } from '../output/print-line';
-import { syncQuietly } from '../serve/sync-quietly';
-import { toAction } from '../to-action';
-import type { InstallOptions } from '../types/install-options';
-import { prepareLaunchBinary } from '../update/prepare-launch-binary';
+import { createClientContext, detectClients, pathExists, SERVE_ARGS, setClientEntry } from "@usemcpkit/clients";
+import type { Program } from "yargs-extended";
+import { applyToClients } from "../clients/apply-to-clients";
+import { selectClients } from "../clients/select-clients";
+import { BINARY_FLAG, EXIT_FAILURE, EXIT_SUCCESS } from "../const";
+import { printDetectedClientsMissing } from "../output/print-detected-clients-missing";
+import { printError } from "../output/print-error";
+import { printLine } from "../output/print-line";
+import { syncQuietly } from "../serve/sync-quietly";
+import { toAction } from "../to-action";
+import type { InstallOptions } from "../types/install-options";
+import { prepareLaunchBinary } from "../update/prepare-launch-binary";
 
 /** Copies the binary to ~/.mcpkit/bin (or uses the Homebrew/winget one in place) and points each chosen client's single `mcpkit` entry at it. */
 export const installCommand = async (options: InstallOptions) => {
@@ -23,9 +23,9 @@ export const installCommand = async (options: InstallOptions) => {
     printDetectedClientsMissing();
     return EXIT_FAILURE;
   }
-  const selected = await selectClients(detected, options, 'install');
+  const selected = await selectClients(detected, options, "install");
   if (!selected || selected.length === 0) {
-    printLine('Nothing selected, nothing changed.');
+    printLine("Nothing selected, nothing changed.");
     return EXIT_SUCCESS;
   }
   const binary = await prepareLaunchBinary(binaryPath);
@@ -39,10 +39,10 @@ export const installCommand = async (options: InstallOptions) => {
 
 export const registerInstallCommand = (program: Program) => {
   program
-    .command('install', 'Add mcpkit to the AI clients found on this computer (asks which)')
-    .addAlias('$0')
-    .option('--all', { description: 'Every detected client, no questions', default: false })
-    .option('--clients [string]', { description: 'Only these clients, comma-separated ids' })
-    .option('--binary [path]', { description: 'Install this mcpkit binary instead of downloading one' })
+    .command("install", "Add mcpkit to the AI clients found on this computer (asks which)")
+    .addAlias("$0")
+    .option("--all", { description: "Every detected client, no questions", default: false })
+    .option("--clients [string]", { description: "Only these clients, comma-separated ids" })
+    .option("--binary [path]", { description: "Install this mcpkit binary instead of downloading one" })
     .action(toAction(installCommand));
 };

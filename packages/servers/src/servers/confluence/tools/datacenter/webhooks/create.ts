@@ -1,65 +1,65 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterWebhooksCreate = defineTool({
-  name: 'datacenter:webhooks:create',
+  name: "datacenter:webhooks:create",
   description:
-    '[Data Center] Create webhook. Create a webhook via the URL. The authenticated user must be an administrator to call this resource.',
+    "[Data Center] Create webhook. Create a webhook via the URL. The authenticated user must be an administrator to call this resource.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       name: {
-        type: 'string',
+        type: "string",
       },
       configuration: {
-        type: 'object',
+        type: "object",
       },
       url: {
-        type: 'string',
+        type: "string",
       },
       credentials: {
-        type: 'object',
+        type: "object",
         properties: {
           password: {
-            type: 'string',
+            type: "string",
           },
           username: {
-            type: 'string',
+            type: "string",
           },
         },
       },
       statistics: {
-        type: 'object',
+        type: "object",
       },
       scopeType: {
-        type: 'string',
+        type: "string",
       },
       events: {
-        type: 'array',
+        type: "array",
         items: {
-          type: 'string',
+          type: "string",
         },
       },
       active: {
-        type: 'boolean',
+        type: "boolean",
       },
       sslVerificationRequired: {
-        type: 'boolean',
+        type: "boolean",
       },
     },
   },
   request: {
-    method: 'POST',
-    path: '/rest/api/webhooks',
+    method: "POST",
+    path: "/rest/api/webhooks",
     body: [
-      'name',
-      'configuration',
-      'url',
-      'credentials',
-      'statistics',
-      'scopeType',
-      'events',
-      'active',
-      'sslVerificationRequired',
+      "name",
+      "configuration",
+      "url",
+      "credentials",
+      "statistics",
+      "scopeType",
+      "events",
+      "active",
+      "sslVerificationRequired",
     ],
   },
 });

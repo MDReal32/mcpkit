@@ -1,24 +1,24 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesProjectsGetForUser = defineTool({
-  name: 'issues:projects:get_for_user',
-  description: 'Get project for user. Get a specific user-owned project.',
+  name: "issues:projects:get_for_user",
+  description: "Get project for user. Get a specific user-owned project.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       project_number: {
-        type: 'integer',
+        type: "integer",
         description: "The project's number.",
       },
       username: {
-        type: 'string',
-        description: 'The handle for the GitHub user account.',
+        type: "string",
+        description: "The handle for the GitHub user account.",
       },
     },
-    required: ['project_number', 'username'],
+    required: ["project_number", "username"],
   },
   request: {
-    method: 'GET',
-    path: '/users/{username}/projectsV2/{project_number}',
+    method: "GET",
+    path: "/users/{username}/projectsV2/{project_number}",
   },
 });

@@ -1,15 +1,15 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const aiOrbitListOrbitSkills = defineTool({
-  name: 'ai:orbit:list_orbit_skills',
+  name: "ai:orbit:list_orbit_skills",
   description:
-    'List deployed Orbit skills. Lists the Orbit skills deployed with the connected knowledge graph service.',
+    "List deployed Orbit skills. Lists the Orbit skills deployed with the connected knowledge graph service.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {},
   },
   request: {
-    method: 'GET',
-    path: '/orbit/skills',
+    method: "GET",
+    path: "/orbit/skills",
   },
 });

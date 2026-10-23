@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsProjectImportGetProjectsImport = defineTool({
-  name: 'projects:project_import:get_projects_import',
+  name: "projects:project_import:get_projects_import",
   description:
-    'Retrieve the status of a project import. Retrieves the status of the most recent import for a specified project.',
+    "Retrieve the status of a project import. Retrieves the status of the most recent import for a specified project.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/projects/{id}/import',
+    method: "GET",
+    path: "/projects/{id}/import",
   },
 });

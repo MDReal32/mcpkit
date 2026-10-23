@@ -1,24 +1,24 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsReleasesCreateProjectsReleasesEvidence = defineTool({
-  name: 'projects:releases:create_projects_releases_evidence',
-  description: 'Generate release evidence. Generates an evidence for an existing release.',
+  name: "projects:releases:create_projects_releases_evidence",
+  description: "Generate release evidence. Generates an evidence for an existing release.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       tag_name: {
-        type: 'string',
-        description: 'Git tag the release is associated with.',
+        type: "string",
+        description: "Git tag the release is associated with.",
       },
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
     },
-    required: ['tag_name', 'id'],
+    required: ["tag_name", "id"],
   },
   request: {
-    method: 'POST',
-    path: '/projects/{id}/releases/{tag_name}/evidence',
+    method: "POST",
+    path: "/projects/{id}/releases/{tag_name}/evidence",
   },
 });

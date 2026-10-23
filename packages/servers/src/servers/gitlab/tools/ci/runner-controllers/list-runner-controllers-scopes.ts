@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const ciRunnerControllersListRunnerControllersScopes = defineTool({
-  name: 'ci:runner_controllers:list_runner_controllers_scopes',
-  description: 'List all scopes for a runner controller. Lists all scopes for a runner controller.',
+  name: "ci:runner_controllers:list_runner_controllers_scopes",
+  description: "List all scopes for a runner controller. Lists all scopes for a runner controller.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'ID of the runner controller.',
+        type: "integer",
+        description: "ID of the runner controller.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/runner_controllers/{id}/scopes',
+    method: "GET",
+    path: "/runner_controllers/{id}/scopes",
   },
 });

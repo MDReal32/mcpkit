@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const orgsClassroomGetAssignmentGrades = defineTool({
-  name: 'orgs:classroom:get_assignment_grades',
+  name: "orgs:classroom:get_assignment_grades",
   description:
-    '[Deprecated] Closed - Get assignment grades. > [!WARNING] > **Closed notice:** This operation is no longer available as of August 28, 2026. > For more information, see the GitHub Classroom sunset notice.',
+    "[Deprecated] Closed - Get assignment grades. > [!WARNING] > **Closed notice:** This operation is no longer available as of August 28, 2026. > For more information, see the GitHub Classroom sunset notice.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       assignment_id: {
-        type: 'integer',
-        description: 'The unique identifier of the classroom assignment.',
+        type: "integer",
+        description: "The unique identifier of the classroom assignment.",
       },
     },
-    required: ['assignment_id'],
+    required: ["assignment_id"],
   },
   request: {
-    method: 'GET',
-    path: '/assignments/{assignment_id}/grades',
+    method: "GET",
+    path: "/assignments/{assignment_id}/grades",
   },
 });

@@ -1,13 +1,13 @@
-import { resourceArrayName } from '../naming/resource-array-name';
-import type { GeneratedTool } from '../types/generated-tool';
+import { resourceArrayName } from "../naming/resource-array-name";
+import type { GeneratedTool } from "../types/generated-tool";
 
 export const renderResourceIndexFile = (group: string, resourceFolder: string, tools: GeneratedTool[]) => {
   const imports = tools.map((tool) => `import { ${tool.identifier} } from './${tool.actionFile}';`);
   const identifiers = tools.map((tool) => `  ${tool.identifier},`);
-  return `${imports.join('\n')}
+  return `${imports.join("\n")}
 
 export const ${resourceArrayName(group, resourceFolder)} = [
-${identifiers.join('\n')}
+${identifiers.join("\n")}
 ];
 `;
 };

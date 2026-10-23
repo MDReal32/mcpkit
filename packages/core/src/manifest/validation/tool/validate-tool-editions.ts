@@ -1,5 +1,5 @@
-import { isJsonObject } from '../../../json';
-import { validateRequest } from './validate-request';
+import { isJsonObject } from "../../../json";
+import { validateRequest } from "./validate-request";
 
 export const validateToolEditions = (
   tool: Readonly<Record<string, unknown>>,

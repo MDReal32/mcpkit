@@ -1,5 +1,5 @@
-import type { IncomingMessage } from 'node:http';
-import { MAX_BODY_BYTES } from '../const';
+import type { IncomingMessage } from "node:http";
+import { MAX_BODY_BYTES } from "../const";
 
 export const readJsonBody = async (incoming: IncomingMessage) => {
   const chunks: Buffer[] = [];
@@ -8,10 +8,10 @@ export const readJsonBody = async (incoming: IncomingMessage) => {
     const buffer = Buffer.from(chunk);
     size += buffer.length;
     if (size > MAX_BODY_BYTES) {
-      throw new Error('request body is too large');
+      throw new Error("request body is too large");
     }
     chunks.push(buffer);
   }
-  const parsed: unknown = JSON.parse(Buffer.concat(chunks).toString('utf8'));
+  const parsed: unknown = JSON.parse(Buffer.concat(chunks).toString("utf8"));
   return parsed;
 };

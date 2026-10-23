@@ -1,25 +1,25 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterBackupRestoreCreateBackupSite = defineTool({
-  name: 'datacenter:backup_restore:create_backup_site',
-  description: '[Data Center] Create site backup job. Starts the new site backup job.',
+  name: "datacenter:backup_restore:create_backup_site",
+  description: "[Data Center] Create site backup job. Starts the new site backup job.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       skipAttachments: {
-        type: 'boolean',
+        type: "boolean",
       },
       keepPermanently: {
-        type: 'boolean',
+        type: "boolean",
       },
       fileNamePrefix: {
-        type: 'string',
+        type: "string",
       },
     },
   },
   request: {
-    method: 'POST',
-    path: '/rest/api/backup-restore/backup/site',
-    body: ['skipAttachments', 'keepPermanently', 'fileNamePrefix'],
+    method: "POST",
+    path: "/rest/api/backup-restore/backup/site",
+    body: ["skipAttachments", "keepPermanently", "fileNamePrefix"],
   },
 });

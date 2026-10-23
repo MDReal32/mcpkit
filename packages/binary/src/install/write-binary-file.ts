@@ -1,7 +1,7 @@
-import { chmod, mkdir, rename, rm, writeFile } from 'node:fs/promises';
-import { dirname } from 'node:path';
-import { isMissingFileError } from '@usemcpkit/core';
-import { EXECUTABLE_MODE, REPLACED_BINARY_SUFFIX } from '../const';
+import { chmod, mkdir, rename, rm, writeFile } from "node:fs/promises";
+import { dirname } from "node:path";
+import { isMissingFileError } from "@usemcpkit/core";
+import { EXECUTABLE_MODE, REPLACED_BINARY_SUFFIX } from "../const";
 
 /**
  * Replaces the binary atomically. Windows cannot overwrite a running .exe but can rename it,
@@ -13,7 +13,7 @@ export const writeBinaryFile = async (path: string, bytes: Uint8Array) => {
   try {
     await writeFile(temporaryPath, bytes, { mode: EXECUTABLE_MODE });
     await chmod(temporaryPath, EXECUTABLE_MODE);
-    if (process.platform === 'win32') {
+    if (process.platform === "win32") {
       const replacedPath = `${path}${REPLACED_BINARY_SUFFIX}`;
       await rm(replacedPath, { force: true });
       await rename(path, replacedPath).catch((error: unknown) => {

@@ -1,32 +1,32 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesIssuesGetChangeLogs = defineTool({
-  name: 'issues:issues:get_change_logs',
+  name: "issues:issues:get_change_logs",
   description:
-    'Get changelogs. Returns a paginated list of all changelogs for an issue sorted by date, starting from the oldest.',
+    "Get changelogs. Returns a paginated list of all changelogs for an issue sorted by date, starting from the oldest.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       issueIdOrKey: {
-        type: 'string',
-        description: 'The ID or key of the issue.',
+        type: "string",
+        description: "The ID or key of the issue.",
       },
       startAt: {
-        type: 'integer',
+        type: "integer",
         default: 0,
-        description: 'The index of the first item to return in a page of results (page offset).',
+        description: "The index of the first item to return in a page of results (page offset).",
       },
       maxResults: {
-        type: 'integer',
+        type: "integer",
         default: 100,
-        description: 'The maximum number of items to return per page.',
+        description: "The maximum number of items to return per page.",
       },
     },
-    required: ['issueIdOrKey'],
+    required: ["issueIdOrKey"],
   },
   request: {
-    method: 'GET',
-    path: '/rest/api/2/issue/{issueIdOrKey}/changelog',
-    query: ['startAt', 'maxResults'],
+    method: "GET",
+    path: "/rest/api/2/issue/{issueIdOrKey}/changelog",
+    query: ["startAt", "maxResults"],
   },
 });

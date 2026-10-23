@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const fieldsIssueFieldConfigurationsDeleteFieldConfigurationScheme = defineTool({
-  name: 'fields:issue_field_configurations:delete_field_configuration_scheme',
+  name: "fields:issue_field_configurations:delete_field_configuration_scheme",
   description:
-    '[Deprecated] Delete field configuration scheme. Deprecated, use Field schemes which supports field association schemes.',
+    "[Deprecated] Delete field configuration scheme. Deprecated, use Field schemes which supports field association schemes.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'The ID of the field configuration scheme.',
+        type: "integer",
+        description: "The ID of the field configuration scheme.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'DELETE',
-    path: '/rest/api/2/fieldconfigurationscheme/{id}',
+    method: "DELETE",
+    path: "/rest/api/2/fieldconfigurationscheme/{id}",
   },
 });

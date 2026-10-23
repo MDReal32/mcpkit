@@ -1,7 +1,7 @@
-import type { OpenApiDocument, OpenApiOperation, OpenApiParameter } from '../types/open-api-operation';
-import type { Operation } from '../types/operation';
-import type { OperationReader } from '../types/operation-reader';
-import { HTTP_METHODS } from './const';
+import type { OpenApiDocument, OpenApiOperation, OpenApiParameter } from "../types/open-api-operation";
+import type { Operation } from "../types/operation";
+import type { OperationReader } from "../types/operation-reader";
+import { HTTP_METHODS } from "./const";
 
 const isOperation = (candidate: OpenApiOperation | OpenApiParameter[] | undefined): candidate is OpenApiOperation =>
   candidate !== undefined && !Array.isArray(candidate);

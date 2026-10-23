@@ -1,15 +1,15 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const metaGitignoreGetAllTemplates = defineTool({
-  name: 'meta:gitignore:get_all_templates',
+  name: "meta:gitignore:get_all_templates",
   description:
-    'Get all gitignore templates. List all templates available to pass as an option when creating a repository.',
+    "Get all gitignore templates. List all templates available to pass as an option when creating a repository.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {},
   },
   request: {
-    method: 'GET',
-    path: '/gitignore/templates',
+    method: "GET",
+    path: "/gitignore/templates",
   },
 });

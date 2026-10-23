@@ -1,6 +1,6 @@
-import type { ArgSpec } from './arg-spec';
-import type { FixedValues } from './fixed-values';
-import type { HttpMethod } from './http-method';
+import type { ArgSpec } from "./arg-spec";
+import type { FixedValues } from "./fixed-values";
+import type { HttpMethod } from "./http-method";
 
 export interface RequestSpec {
   method: HttpMethod;

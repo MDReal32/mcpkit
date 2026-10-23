@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const workflowsWorkflowsDeleteInactiveWorkflow = defineTool({
-  name: 'workflows:workflows:delete_inactive_workflow',
-  description: 'Delete inactive workflow. Deletes a workflow.',
+  name: "workflows:workflows:delete_inactive_workflow",
+  description: "Delete inactive workflow. Deletes a workflow.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       entityId: {
-        type: 'string',
-        description: 'The entity ID of the workflow.',
+        type: "string",
+        description: "The entity ID of the workflow.",
       },
     },
-    required: ['entityId'],
+    required: ["entityId"],
   },
   request: {
-    method: 'DELETE',
-    path: '/rest/api/2/workflow/{entityId}',
+    method: "DELETE",
+    path: "/rest/api/2/workflow/{entityId}",
   },
 });

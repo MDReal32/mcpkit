@@ -1,8 +1,8 @@
-import { createBinaryContext, detectPackageManagerInstall, installBinary } from '@usemcpkit/binary';
-import { pathExists } from '@usemcpkit/clients';
-import { VERSION } from '../../version';
-import { printLine } from '../output/print-line';
-import type { LaunchBinary } from '../types/launch-binary';
+import { createBinaryContext, detectPackageManagerInstall, installBinary } from "@usemcpkit/binary";
+import { pathExists } from "@usemcpkit/clients";
+import { VERSION } from "../../version";
+import { printLine } from "../output/print-line";
+import type { LaunchBinary } from "../types/launch-binary";
 
 /** A Homebrew or winget binary is used where it is so its package manager keeps updating it; any other binary is copied to ~/.mcpkit/bin. */
 export const prepareLaunchBinary = async (binaryPath: string | undefined) => {
@@ -17,6 +17,6 @@ export const prepareLaunchBinary = async (binaryPath: string | undefined) => {
   }
   const installed = await installBinary(await createBinaryContext(), { path: binaryPath, version: VERSION });
   printLine(`mcpkit ${installed.version} installed at ${installed.path}`);
-  const binary: LaunchBinary = { path: installed.path, updateHint: 'It updates itself in the background.' };
+  const binary: LaunchBinary = { path: installed.path, updateHint: "It updates itself in the background." };
   return binary;
 };

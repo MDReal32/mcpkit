@@ -1,4 +1,4 @@
-import { validateUiAction } from './validate-ui-action';
+import { validateUiAction } from "./validate-ui-action";
 
 export const validateUiActions = (actions: unknown, location: string, hasDomain: boolean, allowsCli: boolean) => {
   if (actions === undefined) {

@@ -1,24 +1,24 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesJqlMigrateQueries = defineTool({
-  name: 'issues:jql:migrate_queries',
+  name: "issues:jql:migrate_queries",
   description:
-    'Convert user identifiers to account IDs in JQL queries. Converts one or more JQL queries with user identifiers (username or user key) to equivalent JQL queries with account IDs.',
+    "Convert user identifiers to account IDs in JQL queries. Converts one or more JQL queries with user identifiers (username or user key) to equivalent JQL queries with account IDs.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       queryStrings: {
-        type: 'array',
-        description: 'A list of queries with user identifiers. Maximum of 100 queries.',
+        type: "array",
+        description: "A list of queries with user identifiers. Maximum of 100 queries.",
         items: {
-          type: 'string',
+          type: "string",
         },
       },
     },
   },
   request: {
-    method: 'POST',
-    path: '/rest/api/2/jql/pdcleaner',
-    body: ['queryStrings'],
+    method: "POST",
+    path: "/rest/api/2/jql/pdcleaner",
+    body: ["queryStrings"],
   },
 });

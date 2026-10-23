@@ -1,38 +1,38 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesNotesUpdateProjectsSnippetsNotes = defineTool({
-  name: 'issues:notes:update_projects_snippets_notes',
-  description: 'Update a snippet note. Updates an existing note for a snippet.',
+  name: "issues:notes:update_projects_snippets_notes",
+  description: "Update a snippet note. Updates an existing note for a snippet.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
       noteable_id: {
-        type: 'integer',
-        description: 'ID of the resource the note is attached to.',
+        type: "integer",
+        description: "ID of the resource the note is attached to.",
       },
       note_id: {
-        type: 'integer',
-        description: 'ID of the note.',
+        type: "integer",
+        description: "ID of the note.",
       },
       body: {
-        type: 'string',
-        description: 'Content of the note. Limited to 1,000,000 characters.',
+        type: "string",
+        description: "Content of the note. Limited to 1,000,000 characters.",
       },
       confidential: {
-        type: 'boolean',
+        type: "boolean",
         description:
-          'If `true`, the note must already be confidential. If `false`, it must not be. Confidentiality cannot be changed after a note is created. Deprecated.',
+          "If `true`, the note must already be confidential. If `false`, it must not be. Confidentiality cannot be changed after a note is created. Deprecated.",
       },
     },
-    required: ['id', 'noteable_id', 'note_id'],
+    required: ["id", "noteable_id", "note_id"],
   },
   request: {
-    method: 'PUT',
-    path: '/projects/{id}/snippets/{noteable_id}/notes/{note_id}',
-    body: ['body', 'confidential'],
+    method: "PUT",
+    path: "/projects/{id}/snippets/{noteable_id}/notes/{note_id}",
+    body: ["body", "confidential"],
   },
 });

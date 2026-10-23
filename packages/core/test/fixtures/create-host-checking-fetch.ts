@@ -1,4 +1,4 @@
-import { createTokenCheckingFetch } from './create-token-checking-fetch';
+import { createTokenCheckingFetch } from "./create-token-checking-fetch";
 
 /** createTokenCheckingFetch that also records the host of every API request. */
 export const createHostCheckingFetch = (validToken: string, tokenRoutes: Readonly<Record<string, unknown>> = {}) => {

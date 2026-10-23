@@ -1,5 +1,5 @@
-import type { Manifest } from '@usemcpkit/core';
-import type { ManifestPart } from './manifest-part';
+import type { Manifest } from "@usemcpkit/core";
+import type { ManifestPart } from "./manifest-part";
 
 export interface WholeManifestFile {
   manifest: Manifest;

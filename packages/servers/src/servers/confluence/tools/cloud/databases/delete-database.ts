@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const cloudDatabasesDeleteDatabase = defineTool({
-  name: 'cloud:databases:delete_database',
-  description: '[Cloud] Delete database. Delete a database by id.',
+  name: "cloud:databases:delete_database",
+  description: "[Cloud] Delete database. Delete a database by id.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'The ID of the database to be deleted.',
+        type: "integer",
+        description: "The ID of the database to be deleted.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'DELETE',
-    path: '/wiki/api/v2/databases/{id}',
+    method: "DELETE",
+    path: "/wiki/api/v2/databases/{id}",
   },
 });

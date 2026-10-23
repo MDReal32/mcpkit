@@ -8,7 +8,7 @@
     value: string;
   }
 
-  let { id, label, hint = '', secret = false, placeholder = '', value = $bindable() }: Props = $props();
+  let { id, label, hint = "", secret = false, placeholder = "", value = $bindable() }: Props = $props();
 </script>
 
 <div class="field">

@@ -1,28 +1,28 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const actionsActionsDeleteWorkflowRun = defineTool({
-  name: 'actions:actions:delete_workflow_run',
-  description: 'Delete a workflow run. Deletes a specific workflow run.',
+  name: "actions:actions:delete_workflow_run",
+  description: "Delete a workflow run. Deletes a specific workflow run.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       owner: {
-        type: 'string',
-        description: 'The account owner of the repository. The name is not case sensitive.',
+        type: "string",
+        description: "The account owner of the repository. The name is not case sensitive.",
       },
       repo: {
-        type: 'string',
-        description: 'The name of the repository without the `.git` extension. The name is not case sensitive.',
+        type: "string",
+        description: "The name of the repository without the `.git` extension. The name is not case sensitive.",
       },
       run_id: {
-        type: 'integer',
-        description: 'The unique identifier of the workflow run.',
+        type: "integer",
+        description: "The unique identifier of the workflow run.",
       },
     },
-    required: ['owner', 'repo', 'run_id'],
+    required: ["owner", "repo", "run_id"],
   },
   request: {
-    method: 'DELETE',
-    path: '/repos/{owner}/{repo}/actions/runs/{run_id}',
+    method: "DELETE",
+    path: "/repos/{owner}/{repo}/actions/runs/{run_id}",
   },
 });

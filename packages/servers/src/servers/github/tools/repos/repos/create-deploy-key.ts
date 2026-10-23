@@ -1,38 +1,38 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const reposReposCreateDeployKey = defineTool({
-  name: 'repos:repos:create_deploy_key',
-  description: 'Create a deploy key. You can create a read-only deploy key.',
+  name: "repos:repos:create_deploy_key",
+  description: "Create a deploy key. You can create a read-only deploy key.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       owner: {
-        type: 'string',
-        description: 'The account owner of the repository. The name is not case sensitive.',
+        type: "string",
+        description: "The account owner of the repository. The name is not case sensitive.",
       },
       repo: {
-        type: 'string',
-        description: 'The name of the repository without the `.git` extension. The name is not case sensitive.',
+        type: "string",
+        description: "The name of the repository without the `.git` extension. The name is not case sensitive.",
       },
       title: {
-        type: 'string',
-        description: 'A name for the key.',
+        type: "string",
+        description: "A name for the key.",
       },
       key: {
-        type: 'string',
-        description: 'The contents of the key.',
+        type: "string",
+        description: "The contents of the key.",
       },
       read_only: {
-        type: 'boolean',
+        type: "boolean",
         description:
-          'If `true`, the key will only be able to read repository contents. Otherwise, the key will be able to read and write.',
+          "If `true`, the key will only be able to read repository contents. Otherwise, the key will be able to read and write.",
       },
     },
-    required: ['owner', 'repo', 'key'],
+    required: ["owner", "repo", "key"],
   },
   request: {
-    method: 'POST',
-    path: '/repos/{owner}/{repo}/keys',
-    body: ['title', 'key', 'read_only'],
+    method: "POST",
+    path: "/repos/{owner}/{repo}/keys",
+    body: ["title", "key", "read_only"],
   },
 });

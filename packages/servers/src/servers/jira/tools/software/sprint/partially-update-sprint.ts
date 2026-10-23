@@ -1,63 +1,63 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const softwareSprintPartiallyUpdateSprint = defineTool({
-  name: 'software:sprint:partially_update_sprint',
+  name: "software:sprint:partially_update_sprint",
   description:
-    'Partially update sprint. Performs a partial update of a sprint. A partial update means that fields not present in the request JSON will not be updated.',
+    "Partially update sprint. Performs a partial update of a sprint. A partial update means that fields not present in the request JSON will not be updated.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       sprintId: {
-        type: 'integer',
-        description: 'The ID of the sprint to update.',
+        type: "integer",
+        description: "The ID of the sprint to update.",
       },
       completeDate: {
-        type: 'string',
+        type: "string",
       },
       createdDate: {
-        type: 'string',
+        type: "string",
       },
       endDate: {
-        type: 'string',
+        type: "string",
       },
       goal: {
-        type: 'string',
+        type: "string",
       },
       id: {
-        type: 'integer',
+        type: "integer",
       },
       name: {
-        type: 'string',
+        type: "string",
       },
       originBoardId: {
-        type: 'integer',
+        type: "integer",
       },
       self: {
-        type: 'string',
+        type: "string",
       },
       startDate: {
-        type: 'string',
+        type: "string",
       },
       state: {
-        type: 'string',
+        type: "string",
       },
     },
-    required: ['sprintId'],
+    required: ["sprintId"],
   },
   request: {
-    method: 'POST',
-    path: '/rest/agile/1.0/sprint/{sprintId}',
+    method: "POST",
+    path: "/rest/agile/1.0/sprint/{sprintId}",
     body: [
-      'completeDate',
-      'createdDate',
-      'endDate',
-      'goal',
-      'id',
-      'name',
-      'originBoardId',
-      'self',
-      'startDate',
-      'state',
+      "completeDate",
+      "createdDate",
+      "endDate",
+      "goal",
+      "id",
+      "name",
+      "originBoardId",
+      "self",
+      "startDate",
+      "state",
     ],
   },
 });

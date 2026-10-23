@@ -1,279 +1,279 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterContentUpdateChildAttachment = defineTool({
-  name: 'datacenter:content:update_child_attachment',
+  name: "datacenter:content:update_child_attachment",
   description:
     "[Data Center] Update non-binary data of an Attachment. Update the non-binary data of an attachment.This resource can be used to update an attachment's filename, media-type, comment, and parent container.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       attachmentId: {
-        type: 'string',
-        description: 'the id of the attachment to update.',
+        type: "string",
+        description: "the id of the attachment to update.",
       },
       id: {
-        type: 'string',
-        description: 'The id of the content the attachment is on.',
+        type: "string",
+        description: "The id of the content the attachment is on.",
       },
       body_id: {
-        type: 'string',
+        type: "string",
       },
       type: {
-        type: 'string',
+        type: "string",
       },
       status: {
-        type: 'string',
+        type: "string",
       },
       title: {
-        type: 'string',
+        type: "string",
       },
       links: {
-        type: 'object',
+        type: "object",
       },
       space: {
-        type: 'object',
+        type: "object",
         properties: {
           id: {
-            type: 'integer',
+            type: "integer",
           },
           key: {
-            type: 'string',
+            type: "string",
           },
           name: {
-            type: 'string',
+            type: "string",
           },
           status: {
-            type: 'string',
+            type: "string",
           },
           icon: {
-            type: 'object',
+            type: "object",
           },
           description: {
-            type: 'object',
+            type: "object",
           },
           homepage: {
-            type: 'object',
+            type: "object",
           },
           links: {
-            type: 'object',
+            type: "object",
           },
           type: {
-            type: 'string',
+            type: "string",
           },
           creator: {
-            type: 'object',
+            type: "object",
           },
           creationDate: {
-            type: 'string',
+            type: "string",
           },
           lastModifier: {
-            type: 'object',
+            type: "object",
           },
           lastModificationDate: {
-            type: 'string',
+            type: "string",
           },
           metadata: {
-            type: 'object',
+            type: "object",
           },
           retentionPolicy: {
-            type: 'object',
+            type: "object",
           },
           permissions: {
-            type: 'object',
+            type: "object",
           },
         },
       },
       history: {
-        type: 'object',
+        type: "object",
         properties: {
           previousVersion: {
-            type: 'object',
+            type: "object",
           },
           nextVersion: {
-            type: 'object',
+            type: "object",
           },
           lastUpdated: {
-            type: 'object',
+            type: "object",
           },
           latest: {
-            type: 'boolean',
+            type: "boolean",
           },
           createdBy: {
-            type: 'object',
+            type: "object",
           },
           createdDate: {
-            type: 'string',
+            type: "string",
           },
           contributors: {
-            type: 'object',
+            type: "object",
           },
           lastUpdatedRef: {
-            type: 'object',
+            type: "object",
           },
           nextVersionRef: {
-            type: 'object',
+            type: "object",
           },
           previousVersionRef: {
-            type: 'object',
+            type: "object",
           },
           contentParentRef: {
-            type: 'object',
+            type: "object",
           },
         },
       },
       version: {
-        type: 'object',
+        type: "object",
         properties: {
           by: {
-            type: 'object',
+            type: "object",
           },
           when: {
-            type: 'string',
+            type: "string",
           },
           message: {
-            type: 'string',
+            type: "string",
           },
           number: {
-            type: 'integer',
+            type: "integer",
           },
           minorEdit: {
-            type: 'boolean',
+            type: "boolean",
           },
           hidden: {
-            type: 'boolean',
+            type: "boolean",
           },
           syncRev: {
-            type: 'string',
+            type: "string",
           },
           content: {
-            type: 'object',
+            type: "object",
           },
           contentRef: {
-            type: 'object',
+            type: "object",
           },
         },
       },
       ancestors: {
-        type: 'array',
+        type: "array",
         items: {},
       },
       position: {
-        type: 'integer',
+        type: "integer",
       },
       operations: {
-        type: 'array',
+        type: "array",
         items: {
-          type: 'object',
+          type: "object",
         },
       },
       children: {
-        type: 'object',
+        type: "object",
       },
       descendants: {
-        type: 'object',
+        type: "object",
       },
       container: {},
       body: {
-        type: 'object',
+        type: "object",
       },
       metadata: {
-        type: 'object',
+        type: "object",
       },
       extensions: {
-        type: 'object',
+        type: "object",
       },
       restrictions: {
-        type: 'object',
+        type: "object",
       },
       relevantViewRestrictions: {
-        type: 'object',
+        type: "object",
         properties: {
           idProperties: {
-            type: 'object',
+            type: "object",
           },
           expanded: {
-            type: 'boolean',
+            type: "boolean",
           },
         },
       },
       extractedTextLink: {
-        type: 'string',
+        type: "string",
       },
       historyRef: {
-        type: 'object',
+        type: "object",
         properties: {
           idProperties: {
-            type: 'object',
+            type: "object",
           },
           expanded: {
-            type: 'boolean',
+            type: "boolean",
           },
         },
       },
       spaceRef: {
-        type: 'object',
+        type: "object",
         properties: {
           idProperties: {
-            type: 'object',
+            type: "object",
           },
           expanded: {
-            type: 'boolean',
+            type: "boolean",
           },
         },
       },
       containerRef: {
-        type: 'object',
+        type: "object",
         properties: {
           idProperties: {
-            type: 'object',
+            type: "object",
           },
           expanded: {
-            type: 'boolean',
+            type: "boolean",
           },
         },
       },
       versionRef: {
-        type: 'object',
+        type: "object",
         properties: {
           idProperties: {
-            type: 'object',
+            type: "object",
           },
           expanded: {
-            type: 'boolean',
+            type: "boolean",
           },
         },
       },
     },
-    required: ['attachmentId', 'id'],
+    required: ["attachmentId", "id"],
   },
   request: {
-    method: 'PUT',
-    path: '/rest/api/content/{id}/child/attachment/{attachmentId}',
+    method: "PUT",
+    path: "/rest/api/content/{id}/child/attachment/{attachmentId}",
     body: {
-      id: 'body_id',
-      type: 'type',
-      status: 'status',
-      title: 'title',
-      links: 'links',
-      space: 'space',
-      history: 'history',
-      version: 'version',
-      ancestors: 'ancestors',
-      position: 'position',
-      operations: 'operations',
-      children: 'children',
-      descendants: 'descendants',
-      container: 'container',
-      body: 'body',
-      metadata: 'metadata',
-      extensions: 'extensions',
-      restrictions: 'restrictions',
-      relevantViewRestrictions: 'relevantViewRestrictions',
-      extractedTextLink: 'extractedTextLink',
-      historyRef: 'historyRef',
-      spaceRef: 'spaceRef',
-      containerRef: 'containerRef',
-      versionRef: 'versionRef',
+      id: "body_id",
+      type: "type",
+      status: "status",
+      title: "title",
+      links: "links",
+      space: "space",
+      history: "history",
+      version: "version",
+      ancestors: "ancestors",
+      position: "position",
+      operations: "operations",
+      children: "children",
+      descendants: "descendants",
+      container: "container",
+      body: "body",
+      metadata: "metadata",
+      extensions: "extensions",
+      restrictions: "restrictions",
+      relevantViewRestrictions: "relevantViewRestrictions",
+      extractedTextLink: "extractedTextLink",
+      historyRef: "historyRef",
+      spaceRef: "spaceRef",
+      containerRef: "containerRef",
+      versionRef: "versionRef",
     },
   },
 });

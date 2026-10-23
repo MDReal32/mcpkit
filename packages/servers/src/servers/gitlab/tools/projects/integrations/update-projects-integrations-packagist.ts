@@ -1,57 +1,57 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsIntegrationsUpdateProjectsIntegrationsPackagist = defineTool({
-  name: 'projects:integrations:update_projects_integrations_packagist',
-  description: 'Create or update the Packagist integration. Creates or updates the Packagist integration.',
+  name: "projects:integrations:update_projects_integrations_packagist",
+  description: "Create or update the Packagist integration. Creates or updates the Packagist integration.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
       username: {
-        type: 'string',
-        description: 'Username of a Packagist account.',
+        type: "string",
+        description: "Username of a Packagist account.",
       },
       token: {
-        type: 'string',
-        description: 'API token of the Packagist server.',
+        type: "string",
+        description: "API token of the Packagist server.",
       },
       server: {
-        type: 'string',
-        description: 'URL of the Packagist server. The default value is `https://packagist.org`.',
+        type: "string",
+        description: "URL of the Packagist server. The default value is `https://packagist.org`.",
       },
       push_events: {
-        type: 'boolean',
-        description: 'Trigger event for pushes to the repository.',
+        type: "boolean",
+        description: "Trigger event for pushes to the repository.",
       },
       merge_requests_events: {
-        type: 'boolean',
-        description: 'Trigger event when a merge request is created, updated, or merged.',
+        type: "boolean",
+        description: "Trigger event when a merge request is created, updated, or merged.",
       },
       tag_push_events: {
-        type: 'boolean',
-        description: 'Trigger event for new tags pushed to the repository.',
+        type: "boolean",
+        description: "Trigger event for new tags pushed to the repository.",
       },
       use_inherited_settings: {
-        type: 'boolean',
-        description: 'Indicates whether to inherit the default settings. Defaults to `false`.',
+        type: "boolean",
+        description: "Indicates whether to inherit the default settings. Defaults to `false`.",
       },
     },
-    required: ['id', 'username', 'token'],
+    required: ["id", "username", "token"],
   },
   request: {
-    method: 'PUT',
-    path: '/projects/{id}/integrations/packagist',
+    method: "PUT",
+    path: "/projects/{id}/integrations/packagist",
     body: [
-      'username',
-      'token',
-      'server',
-      'push_events',
-      'merge_requests_events',
-      'tag_push_events',
-      'use_inherited_settings',
+      "username",
+      "token",
+      "server",
+      "push_events",
+      "merge_requests_events",
+      "tag_push_events",
+      "use_inherited_settings",
     ],
   },
 });

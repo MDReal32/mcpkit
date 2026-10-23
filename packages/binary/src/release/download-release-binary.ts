@@ -1,10 +1,10 @@
-import { gunzipSync } from 'node:zlib';
-import { DOWNLOAD_TIMEOUT_MS, TARBALL_ROOT } from '../const';
-import type { Target } from '../platform';
-import { PLATFORM_PACKAGE_BIN_DIR, toBinaryFileName } from '../platform';
-import { extractTarFile } from '../tar/extract-tar-file';
-import type { PackageRelease } from '../types/package-release';
-import { verifyIntegrity } from './verify-integrity';
+import { gunzipSync } from "node:zlib";
+import { DOWNLOAD_TIMEOUT_MS, TARBALL_ROOT } from "../const";
+import type { Target } from "../platform";
+import { PLATFORM_PACKAGE_BIN_DIR, toBinaryFileName } from "../platform";
+import { extractTarFile } from "../tar/extract-tar-file";
+import type { PackageRelease } from "../types/package-release";
+import { verifyIntegrity } from "./verify-integrity";
 
 export const downloadReleaseBinary = async (release: PackageRelease, target: Target, fetchImpl: typeof fetch) => {
   const response = await fetchImpl(release.tarball, { signal: AbortSignal.timeout(DOWNLOAD_TIMEOUT_MS) });

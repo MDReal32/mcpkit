@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const actionsActionsGetSelfHostedRunnersPermissionsOrganization = defineTool({
-  name: 'actions:actions:get_self_hosted_runners_permissions_organization',
+  name: "actions:actions:get_self_hosted_runners_permissions_organization",
   description:
-    'Get self-hosted runners settings for an organization. Gets the settings for self-hosted runners for an organization.',
+    "Get self-hosted runners settings for an organization. Gets the settings for self-hosted runners for an organization.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       org: {
-        type: 'string',
-        description: 'The organization name. The name is not case sensitive.',
+        type: "string",
+        description: "The organization name. The name is not case sensitive.",
       },
     },
-    required: ['org'],
+    required: ["org"],
   },
   request: {
-    method: 'GET',
-    path: '/orgs/{org}/actions/permissions/self-hosted-runners',
+    method: "GET",
+    path: "/orgs/{org}/actions/permissions/self-hosted-runners",
   },
 });

@@ -1,42 +1,42 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesIssueRedactionRedact = defineTool({
-  name: 'issues:issue_redaction:redact',
+  name: "issues:issue_redaction:redact",
   description:
-    'Redact. Submit a job to redact issue field data. This will trigger the redaction of the data in the specified fields asynchronously.',
+    "Redact. Submit a job to redact issue field data. This will trigger the redaction of the data in the specified fields asynchronously.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       redactions: {
-        type: 'array',
+        type: "array",
         items: {
-          type: 'object',
+          type: "object",
           properties: {
             contentItem: {
-              type: 'object',
-              description: 'Represents the content to redact',
+              type: "object",
+              description: "Represents the content to redact",
             },
             externalId: {
-              type: 'string',
-              description: 'Unique id for the redaction request; ID format should be of UUID',
+              type: "string",
+              description: "Unique id for the redaction request; ID format should be of UUID",
             },
             reason: {
-              type: 'string',
-              description: 'The reason why the content is being redacted',
+              type: "string",
+              description: "The reason why the content is being redacted",
             },
             redactionPosition: {
-              type: 'object',
-              description: 'Represents the position of the redaction',
+              type: "object",
+              description: "Represents the position of the redaction",
             },
           },
-          required: ['contentItem', 'externalId', 'reason', 'redactionPosition'],
+          required: ["contentItem", "externalId", "reason", "redactionPosition"],
         },
       },
     },
   },
   request: {
-    method: 'POST',
-    path: '/rest/api/2/redact',
-    body: ['redactions'],
+    method: "POST",
+    path: "/rest/api/2/redact",
+    body: ["redactions"],
   },
 });

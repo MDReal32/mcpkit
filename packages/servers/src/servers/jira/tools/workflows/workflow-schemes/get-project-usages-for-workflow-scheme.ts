@@ -1,31 +1,31 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const workflowsWorkflowSchemesGetProjectUsagesForWorkflowScheme = defineTool({
-  name: 'workflows:workflow_schemes:get_project_usages_for_workflow_scheme',
+  name: "workflows:workflow_schemes:get_project_usages_for_workflow_scheme",
   description:
-    'Get projects which are using a given workflow scheme. Returns a page of projects using a given workflow scheme.',
+    "Get projects which are using a given workflow scheme. Returns a page of projects using a given workflow scheme.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       workflowSchemeId: {
-        type: 'string',
-        description: 'The workflow scheme ID',
+        type: "string",
+        description: "The workflow scheme ID",
       },
       nextPageToken: {
-        type: 'string',
-        description: 'The cursor for pagination',
+        type: "string",
+        description: "The cursor for pagination",
       },
       maxResults: {
-        type: 'integer',
+        type: "integer",
         default: 50,
-        description: 'The maximum number of results to return. Must be an integer between 1 and 200.',
+        description: "The maximum number of results to return. Must be an integer between 1 and 200.",
       },
     },
-    required: ['workflowSchemeId'],
+    required: ["workflowSchemeId"],
   },
   request: {
-    method: 'GET',
-    path: '/rest/api/2/workflowscheme/{workflowSchemeId}/projectUsages',
-    query: ['nextPageToken', 'maxResults'],
+    method: "GET",
+    path: "/rest/api/2/workflowscheme/{workflowSchemeId}/projectUsages",
+    query: ["nextPageToken", "maxResults"],
   },
 });

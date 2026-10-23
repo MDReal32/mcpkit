@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const securitySecretScanningListOrgPatternConfigs = defineTool({
-  name: 'security:secret_scanning:list_org_pattern_configs',
+  name: "security:secret_scanning:list_org_pattern_configs",
   description:
-    'List organization pattern configurations. Lists the secret scanning pattern configurations for an organization.',
+    "List organization pattern configurations. Lists the secret scanning pattern configurations for an organization.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       org: {
-        type: 'string',
-        description: 'The organization name. The name is not case sensitive.',
+        type: "string",
+        description: "The organization name. The name is not case sensitive.",
       },
     },
-    required: ['org'],
+    required: ["org"],
   },
   request: {
-    method: 'GET',
-    path: '/orgs/{org}/secret-scanning/pattern-configurations',
+    method: "GET",
+    path: "/orgs/{org}/secret-scanning/pattern-configurations",
   },
 });

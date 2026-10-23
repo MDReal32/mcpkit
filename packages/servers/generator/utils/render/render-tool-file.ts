@@ -1,4 +1,4 @@
-import type { GeneratedTool } from '../types/generated-tool';
+import type { GeneratedTool } from "../types/generated-tool";
 
 export const renderToolFile = ({ identifier, definition }: GeneratedTool) =>
   `import { defineTool } from '@usemcpkit/core';

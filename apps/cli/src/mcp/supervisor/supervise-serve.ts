@@ -1,17 +1,17 @@
-import { createInterface } from 'node:readline';
-import { describeError } from '@usemcpkit/core';
-import { printError } from '../../cli/output/print-error';
-import { TOOLS_LIST_CHANGED } from './const';
-import { recordHandshakeLine } from './record-handshake-line';
-import { replayHandshake } from './replay-handshake';
-import { retireWorker } from './retire-worker';
-import { spawnWorker } from './spawn-worker';
-import type { HandshakeRecord } from './types/handshake-record';
-import type { SuperviseOptions } from './types/supervise-options';
-import type { Supervisor } from './types/supervisor';
-import type { Worker } from './types/worker';
-import type { WorkerLaunch } from './types/worker-launch';
-import { watchBinaryFile } from './watch-binary-file';
+import { createInterface } from "node:readline";
+import { describeError } from "@usemcpkit/core";
+import { printError } from "../../cli/output/print-error";
+import { TOOLS_LIST_CHANGED } from "./const";
+import { recordHandshakeLine } from "./record-handshake-line";
+import { replayHandshake } from "./replay-handshake";
+import { retireWorker } from "./retire-worker";
+import { spawnWorker } from "./spawn-worker";
+import type { HandshakeRecord } from "./types/handshake-record";
+import type { SuperviseOptions } from "./types/supervise-options";
+import type { Supervisor } from "./types/supervisor";
+import type { Worker } from "./types/worker";
+import type { WorkerLaunch } from "./types/worker-launch";
+import { watchBinaryFile } from "./watch-binary-file";
 
 /**
  * Owns the client's stdio and runs the real server as a child. `reload` starts a replacement, replays the
@@ -74,11 +74,11 @@ export const superviseServe = async (
   const stopWatching = watchPath ? await watchBinaryFile(watchPath, () => void queueReload()) : () => undefined;
   let current: Worker = start();
   const lines = createInterface({ input, crlfDelay: Infinity });
-  lines.on('line', (line) => {
+  lines.on("line", (line) => {
     record = recordHandshakeLine(record, line);
     current.send(line);
   });
-  lines.once('close', () => {
+  lines.once("close", () => {
     closing = true;
     stopWatching();
     current.finish();

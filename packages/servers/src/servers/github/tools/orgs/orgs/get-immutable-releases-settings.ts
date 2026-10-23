@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const orgsOrgsGetImmutableReleasesSettings = defineTool({
-  name: 'orgs:orgs:get_immutable_releases_settings',
+  name: "orgs:orgs:get_immutable_releases_settings",
   description:
-    'Get immutable releases settings for an organization. Gets the immutable releases policy for repositories in an organization.',
+    "Get immutable releases settings for an organization. Gets the immutable releases policy for repositories in an organization.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       org: {
-        type: 'string',
-        description: 'The organization name. The name is not case sensitive.',
+        type: "string",
+        description: "The organization name. The name is not case sensitive.",
       },
     },
-    required: ['org'],
+    required: ["org"],
   },
   request: {
-    method: 'GET',
-    path: '/orgs/{org}/settings/immutable-releases',
+    method: "GET",
+    path: "/orgs/{org}/settings/immutable-releases",
   },
 });

@@ -1,4 +1,4 @@
-import type { SecretStore } from '../../src/main';
+import type { SecretStore } from "../../src/main";
 
 export const createMemorySecretStore = (initial: Readonly<Record<string, string>> = {}) => {
   const saved = new Map(Object.entries(initial));

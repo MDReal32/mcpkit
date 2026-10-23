@@ -1,13 +1,13 @@
-import { createHash } from 'node:crypto';
-import type { Manifest } from '@usemcpkit/core';
-import type { FakeRegistry } from './create-registry-fetch';
+import { createHash } from "node:crypto";
+import type { Manifest } from "@usemcpkit/core";
+import type { FakeRegistry } from "./create-registry-fetch";
 
-const sha256Of = (text: string) => createHash('sha256').update(text).digest('hex');
+const sha256Of = (text: string) => createHash("sha256").update(text).digest("hex");
 
 /** Serves a server whose tools are split by their first name segment: a shell with part checksums plus one file per part. */
 export const createSplitRegistryFetch = (registryUrl: string, manifest: Manifest) => {
   const routes = new Map<string, string>();
-  const groups = [...new Set(manifest.tools.map((tool) => tool.name.split(':')[0] ?? ''))];
+  const groups = [...new Set(manifest.tools.map((tool) => tool.name.split(":")[0] ?? ""))];
   const parts = groups.map((name) => {
     const text = `${JSON.stringify({ tools: manifest.tools.filter((tool) => tool.name.startsWith(`${name}:`)) })}\n`;
     const path = `${manifest.category}/${manifest.name}/${name}.json`;
@@ -30,7 +30,7 @@ export const createSplitRegistryFetch = (registryUrl: string, manifest: Manifest
     const url = request instanceof Request ? request.url : String(request);
     requests.push(url);
     const body = routes.get(url);
-    return new Response(body ?? 'Not Found', { status: body === undefined ? 404 : 200 });
+    return new Response(body ?? "Not Found", { status: body === undefined ? 404 : 200 });
   };
   const registry: FakeRegistry = { fetchImpl, requests };
   return registry;

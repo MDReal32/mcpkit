@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsSnippetsGetSnippetsUserAgentDetail = defineTool({
-  name: 'projects:snippets:get_snippets_user_agent_detail',
-  description: 'Retrieve user agent details for a snippet. Retrieves user agent details for a specified snippet.',
+  name: "projects:snippets:get_snippets_user_agent_detail",
+  description: "Retrieve user agent details for a snippet. Retrieves user agent details for a specified snippet.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'ID of the snippet.',
+        type: "integer",
+        description: "ID of the snippet.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/snippets/{id}/user_agent_detail',
+    method: "GET",
+    path: "/snippets/{id}/user_agent_detail",
   },
 });

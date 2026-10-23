@@ -1,42 +1,42 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const actionsActionsListEnvironmentVariables = defineTool({
-  name: 'actions:actions:list_environment_variables',
-  description: 'List environment variables. Lists all environment variables.',
+  name: "actions:actions:list_environment_variables",
+  description: "List environment variables. Lists all environment variables.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       owner: {
-        type: 'string',
-        description: 'The account owner of the repository. The name is not case sensitive.',
+        type: "string",
+        description: "The account owner of the repository. The name is not case sensitive.",
       },
       repo: {
-        type: 'string',
-        description: 'The name of the repository without the `.git` extension. The name is not case sensitive.',
+        type: "string",
+        description: "The name of the repository without the `.git` extension. The name is not case sensitive.",
       },
       environment_name: {
-        type: 'string',
+        type: "string",
         description:
-          'The name of the environment. The name must be URL encoded. For example, any slashes in the name must be replaced with `%2F`.',
+          "The name of the environment. The name must be URL encoded. For example, any slashes in the name must be replaced with `%2F`.",
       },
       per_page: {
-        type: 'integer',
+        type: "integer",
         default: 10,
         description:
           'The number of results per page (max 30). For more information, see "Using pagination in the REST API."',
       },
       page: {
-        type: 'integer',
+        type: "integer",
         default: 1,
         description:
           'The page number of the results to fetch. For more information, see "Using pagination in the REST API."',
       },
     },
-    required: ['owner', 'repo', 'environment_name'],
+    required: ["owner", "repo", "environment_name"],
   },
   request: {
-    method: 'GET',
-    path: '/repos/{owner}/{repo}/environments/{environment_name}/variables',
-    query: ['per_page', 'page'],
+    method: "GET",
+    path: "/repos/{owner}/{repo}/environments/{environment_name}/variables",
+    query: ["per_page", "page"],
   },
 });

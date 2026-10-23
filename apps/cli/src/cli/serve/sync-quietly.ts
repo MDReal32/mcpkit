@@ -1,6 +1,6 @@
-import { describeError } from '@usemcpkit/core';
-import { syncRegistry } from '../../registry';
-import { printError } from '../output/print-error';
+import { describeError } from "@usemcpkit/core";
+import { syncRegistry } from "../../registry";
+import { printError } from "../output/print-error";
 
 export const syncQuietly = async () => {
   try {

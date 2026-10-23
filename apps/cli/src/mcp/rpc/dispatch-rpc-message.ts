@@ -1,10 +1,10 @@
-import { describeError } from '@usemcpkit/core';
-import { RPC_ERROR_CODES } from '../const';
-import type { RpcMessage } from '../types/rpc-message';
-import type { RpcMethod } from '../types/rpc-method';
-import { createErrorResponse } from './create-error-response';
-import { createResultResponse } from './create-result-response';
-import { RpcError } from './rpc-error';
+import { describeError } from "@usemcpkit/core";
+import { RPC_ERROR_CODES } from "../const";
+import type { RpcMessage } from "../types/rpc-message";
+import type { RpcMethod } from "../types/rpc-method";
+import { createErrorResponse } from "./create-error-response";
+import { createResultResponse } from "./create-result-response";
+import { RpcError } from "./rpc-error";
 
 export const dispatchRpcMessage = async (methods: ReadonlyMap<string, RpcMethod>, message: RpcMessage) => {
   const id = message.id ?? null;

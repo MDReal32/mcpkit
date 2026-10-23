@@ -1,11 +1,11 @@
-import { existsSync } from 'node:fs';
-import { rename, utimes, writeFile } from 'node:fs/promises';
-import { join } from 'node:path';
-import { PassThrough } from 'node:stream';
-import { useTempDir } from '@usemcpkit/testing';
-import { describe, expect, it, vi } from 'vitest';
-import { superviseServe } from '../src/mcp';
-import { watchBinaryFile } from '../src/mcp/supervisor/watch-binary-file';
+import { existsSync } from "node:fs";
+import { rename, utimes, writeFile } from "node:fs/promises";
+import { join } from "node:path";
+import { PassThrough } from "node:stream";
+import { useTempDir } from "@usemcpkit/testing";
+import { describe, expect, it, vi } from "vitest";
+import { superviseServe } from "../src/mcp";
+import { watchBinaryFile } from "../src/mcp/supervisor/watch-binary-file";
 
 const FAKE_WORKER = `
 const fs = require('node:fs');
@@ -23,22 +23,22 @@ require('node:readline').createInterface({ input: process.stdin }).on('line', (l
 });
 `;
 
-const rpc = (message: object) => `${JSON.stringify({ jsonrpc: '2.0', ...message })}\n`;
+const rpc = (message: object) => `${JSON.stringify({ jsonrpc: "2.0", ...message })}\n`;
 
 const createHarness = async (directory: string) => {
-  await writeFile(join(directory, 'worker.cjs'), FAKE_WORKER);
-  await writeFile(join(directory, 'version.txt'), '1.0.0');
+  await writeFile(join(directory, "worker.cjs"), FAKE_WORKER);
+  await writeFile(join(directory, "version.txt"), "1.0.0");
   process.env.FAKE_DIR = directory;
   const input = new PassThrough();
   const output = new PassThrough();
   const received: Record<string, unknown>[] = [];
-  output.on('data', (chunk: Buffer) => {
-    for (const line of chunk.toString().split('\n').filter(Boolean)) {
+  output.on("data", (chunk: Buffer) => {
+    for (const line of chunk.toString().split("\n").filter(Boolean)) {
       received.push(JSON.parse(line));
     }
   });
   const supervisor = await superviseServe(
-    { command: process.execPath, args: [join(directory, 'worker.cjs')] },
+    { command: process.execPath, args: [join(directory, "worker.cjs")] },
     { input, output },
   );
   const waitFor = async (predicate: (messages: readonly Record<string, unknown>[]) => boolean) =>
@@ -46,59 +46,59 @@ const createHarness = async (directory: string) => {
   return { input, received, supervisor, waitFor };
 };
 
-describe('superviseServe', () => {
-  const directory = useTempDir('mcpkit-supervisor-');
+describe("superviseServe", () => {
+  const directory = useTempDir("mcpkit-supervisor-");
 
-  it('swaps in the new binary, replays the handshake and announces the changed tools', async () => {
+  it("swaps in the new binary, replays the handshake and announces the changed tools", async () => {
     const { input, received, supervisor, waitFor } = await createHarness(directory());
-    input.write(rpc({ id: 1, method: 'initialize', params: {} }));
-    input.write(rpc({ method: 'notifications/initialized' }));
-    input.write(rpc({ id: 2, method: 'tools/list' }));
+    input.write(rpc({ id: 1, method: "initialize", params: {} }));
+    input.write(rpc({ method: "notifications/initialized" }));
+    input.write(rpc({ id: 2, method: "tools/list" }));
     await waitFor((messages) => messages.some((message) => message.id === 2));
 
-    await writeFile(join(directory(), 'version.txt'), '2.0.0');
+    await writeFile(join(directory(), "version.txt"), "2.0.0");
     await supervisor.reload();
-    input.write(rpc({ id: 3, method: 'tools/list' }));
+    input.write(rpc({ id: 3, method: "tools/list" }));
     await waitFor((messages) => messages.some((message) => message.id === 3));
     input.end();
 
     expect(await supervisor.done).toBe(0);
-    expect(received.find((message) => message.id === 2)).toMatchObject({ result: { tools: [{ name: 'tool_1.0.0' }] } });
-    expect(received.find((message) => message.id === 3)).toMatchObject({ result: { tools: [{ name: 'tool_2.0.0' }] } });
-    expect(received.filter((message) => message.method === 'notifications/tools/list_changed')).toHaveLength(1);
-    expect(received.filter((message) => message.id === 'mcpkit-reload')).toEqual([]);
+    expect(received.find((message) => message.id === 2)).toMatchObject({ result: { tools: [{ name: "tool_1.0.0" }] } });
+    expect(received.find((message) => message.id === 3)).toMatchObject({ result: { tools: [{ name: "tool_2.0.0" }] } });
+    expect(received.filter((message) => message.method === "notifications/tools/list_changed")).toHaveLength(1);
+    expect(received.filter((message) => message.id === "mcpkit-reload")).toEqual([]);
     expect(received.filter((message) => message.id === 1)).toHaveLength(1);
   });
 
-  it('keeps the running server when the new one cannot start', async () => {
+  it("keeps the running server when the new one cannot start", async () => {
     const { input, received, supervisor, waitFor } = await createHarness(directory());
-    input.write(rpc({ id: 1, method: 'initialize', params: {} }));
+    input.write(rpc({ id: 1, method: "initialize", params: {} }));
     await waitFor((messages) => messages.some((message) => message.id === 1));
 
-    await writeFile(join(directory(), 'broken'), '');
+    await writeFile(join(directory(), "broken"), "");
     await supervisor.reload();
-    expect(existsSync(join(directory(), 'broken'))).toBe(true);
-    input.write(rpc({ id: 2, method: 'tools/list' }));
+    expect(existsSync(join(directory(), "broken"))).toBe(true);
+    input.write(rpc({ id: 2, method: "tools/list" }));
     await waitFor((messages) => messages.some((message) => message.id === 2));
     input.end();
 
     expect(await supervisor.done).toBe(0);
-    expect(received.find((message) => message.id === 2)).toMatchObject({ result: { tools: [{ name: 'tool_1.0.0' }] } });
-    expect(received.some((message) => message.method === 'notifications/tools/list_changed')).toBe(false);
+    expect(received.find((message) => message.id === 2)).toMatchObject({ result: { tools: [{ name: "tool_1.0.0" }] } });
+    expect(received.some((message) => message.method === "notifications/tools/list_changed")).toBe(false);
   });
 });
 
-describe('watchBinaryFile', () => {
-  const directory = useTempDir('mcpkit-watch-');
+describe("watchBinaryFile", () => {
+  const directory = useTempDir("mcpkit-watch-");
 
-  it('reports a replaced file once, after it stayed the same for two polls', async () => {
-    const path = join(directory(), 'mcpkit');
-    await writeFile(path, 'one');
+  it("reports a replaced file once, after it stayed the same for two polls", async () => {
+    const path = join(directory(), "mcpkit");
+    await writeFile(path, "one");
     const onChange = vi.fn();
     const stop = await watchBinaryFile(path, onChange, 10);
 
     const replacement = `${path}.next`;
-    await writeFile(replacement, 'version two');
+    await writeFile(replacement, "version two");
     await utimes(replacement, new Date(), new Date(Date.now() + 5000));
     await rename(replacement, path);
     await vi.waitFor(() => expect(onChange).toHaveBeenCalledTimes(1));

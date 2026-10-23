@@ -1,73 +1,73 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersApplicationsCreateApplications = defineTool({
-  name: 'users:applications:create_applications',
+  name: "users:applications:create_applications",
   description:
-    'Create a new application. This feature was introduced in GitLab 10.5. The granular_scopes parameter requires the granular_oauth_tokens feature flag.',
+    "Create a new application. This feature was introduced in GitLab 10.5. The granular_scopes parameter requires the granular_oauth_tokens feature flag.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       name: {
-        type: 'string',
-        description: 'Name of the application.',
+        type: "string",
+        description: "Name of the application.",
       },
       redirect_uri: {
-        type: 'string',
-        description: 'Redirect URI of the application.',
+        type: "string",
+        description: "Redirect URI of the application.",
       },
       scopes: {
-        type: 'string',
-        description: 'Scopes available to the application. Separate multiple scopes with a space.',
+        type: "string",
+        description: "Scopes available to the application. Separate multiple scopes with a space.",
       },
       confidential: {
-        type: 'boolean',
+        type: "boolean",
         description:
-          'If `true`, the application can securely store client credentials, such as the client secret. Non-confidential applications (such as native mobile apps and Single Page Apps) might expose client credentials.',
+          "If `true`, the application can securely store client credentials, such as the client secret. Non-confidential applications (such as native mobile apps and Single Page Apps) might expose client credentials.",
         default: true,
       },
       granular_scopes: {
-        type: 'array',
-        description: 'List of granular scopes to assign.',
+        type: "array",
+        description: "List of granular scopes to assign.",
         items: {
-          type: 'object',
+          type: "object",
           properties: {
             access: {
-              type: 'string',
-              description: 'Access to configure for the granular scope.',
-              enum: ['personal_projects', 'all_memberships', 'selected_memberships', 'user', 'instance'],
+              type: "string",
+              description: "Access to configure for the granular scope.",
+              enum: ["personal_projects", "all_memberships", "selected_memberships", "user", "instance"],
             },
             permissions: {
-              type: 'array',
-              description: 'List of permissions for the granular scope.',
+              type: "array",
+              description: "List of permissions for the granular scope.",
               items: {
-                type: 'string',
+                type: "string",
               },
             },
             project_ids: {
-              type: 'array',
+              type: "array",
               description:
-                'IDs of projects to associate with the granular scope, when access is `selected_memberships`.',
+                "IDs of projects to associate with the granular scope, when access is `selected_memberships`.",
               items: {
-                type: 'integer',
+                type: "integer",
               },
             },
             group_ids: {
-              type: 'array',
-              description: 'IDs of groups to associate with the granular scope, when access is `selected_memberships`.',
+              type: "array",
+              description: "IDs of groups to associate with the granular scope, when access is `selected_memberships`.",
               items: {
-                type: 'integer',
+                type: "integer",
               },
             },
           },
-          required: ['access', 'permissions'],
+          required: ["access", "permissions"],
         },
       },
     },
-    required: ['name', 'redirect_uri', 'scopes'],
+    required: ["name", "redirect_uri", "scopes"],
   },
   request: {
-    method: 'POST',
-    path: '/applications',
-    body: ['name', 'redirect_uri', 'scopes', 'confidential', 'granular_scopes'],
+    method: "POST",
+    path: "/applications",
+    body: ["name", "redirect_uri", "scopes", "confidential", "granular_scopes"],
   },
 });

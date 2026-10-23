@@ -1,5 +1,5 @@
-import type { ArgumentNaming } from '../types/argument-naming';
-import { prefixIfTaken } from './prefix-if-taken';
+import type { ArgumentNaming } from "../types/argument-naming";
+import { prefixIfTaken } from "./prefix-if-taken";
 
 export const verbatimArgumentNaming: ArgumentNaming = {
   dropsQueryShadowedByPath: true,

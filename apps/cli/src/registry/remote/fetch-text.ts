@@ -1,4 +1,4 @@
-import { FETCH_TIMEOUT_MS } from '../const';
+import { FETCH_TIMEOUT_MS } from "../const";
 
 export const fetchText = async (url: string, fetchImpl: typeof fetch) => {
   const response = await fetchImpl(url, { signal: AbortSignal.timeout(FETCH_TIMEOUT_MS) });

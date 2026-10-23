@@ -1,28 +1,28 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const actionsActionsDeleteRepoActionsPolicy = defineTool({
-  name: 'actions:actions:delete_repo_actions_policy',
-  description: 'Delete a repository Actions policy. Delete an Actions policy for a repository.',
+  name: "actions:actions:delete_repo_actions_policy",
+  description: "Delete a repository Actions policy. Delete an Actions policy for a repository.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       owner: {
-        type: 'string',
-        description: 'The account owner of the repository. The name is not case sensitive.',
+        type: "string",
+        description: "The account owner of the repository. The name is not case sensitive.",
       },
       repo: {
-        type: 'string',
-        description: 'The name of the repository without the `.git` extension. The name is not case sensitive.',
+        type: "string",
+        description: "The name of the repository without the `.git` extension. The name is not case sensitive.",
       },
       policy_id: {
-        type: 'integer',
-        description: 'The ID of the policy.',
+        type: "integer",
+        description: "The ID of the policy.",
       },
     },
-    required: ['owner', 'repo', 'policy_id'],
+    required: ["owner", "repo", "policy_id"],
   },
   request: {
-    method: 'DELETE',
-    path: '/repos/{owner}/{repo}/actions/policies/{policy_id}',
+    method: "DELETE",
+    path: "/repos/{owner}/{repo}/actions/policies/{policy_id}",
   },
 });

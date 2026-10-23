@@ -1,4 +1,4 @@
-import type { FieldSpec } from './field-spec';
+import type { FieldSpec } from "./field-spec";
 
 export interface ResponseSpec {
   root?: string;

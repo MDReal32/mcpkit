@@ -1,4 +1,4 @@
-import type { InputSchema, ToolArgs } from '../../manifest';
+import type { InputSchema, ToolArgs } from "../../manifest";
 
 export const applyInputDefaults = (input: InputSchema, args: ToolArgs) => {
   const defaults = Object.entries(input.properties ?? {})

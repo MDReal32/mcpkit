@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const securityLicensesCreateLicense = defineTool({
-  name: 'security:licenses:create_license',
-  description: 'Create a license. Creates a license.',
+  name: "security:licenses:create_license",
+  description: "Create a license. Creates a license.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       license: {
-        type: 'string',
-        description: 'License string.',
+        type: "string",
+        description: "License string.",
       },
     },
-    required: ['license'],
+    required: ["license"],
   },
   request: {
-    method: 'POST',
-    path: '/license',
-    body: ['license'],
+    method: "POST",
+    path: "/license",
+    body: ["license"],
   },
 });

@@ -1,28 +1,28 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const copilotAgentsRemoveSelectedRepoFromOrgSecret = defineTool({
-  name: 'copilot:agents:remove_selected_repo_from_org_secret',
+  name: "copilot:agents:remove_selected_repo_from_org_secret",
   description:
-    'Remove selected repository from an organization secret. Removes a repository from an organization secret when the `visibility` for repository access is set to `selected`. The visibility is set when you Create or update an organization secret.',
+    "Remove selected repository from an organization secret. Removes a repository from an organization secret when the `visibility` for repository access is set to `selected`. The visibility is set when you Create or update an organization secret.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       org: {
-        type: 'string',
-        description: 'The organization name. The name is not case sensitive.',
+        type: "string",
+        description: "The organization name. The name is not case sensitive.",
       },
       secret_name: {
-        type: 'string',
-        description: 'The name of the secret.',
+        type: "string",
+        description: "The name of the secret.",
       },
       repository_id: {
-        type: 'integer',
+        type: "integer",
       },
     },
-    required: ['org', 'secret_name', 'repository_id'],
+    required: ["org", "secret_name", "repository_id"],
   },
   request: {
-    method: 'DELETE',
-    path: '/orgs/{org}/agents/secrets/{secret_name}/repositories/{repository_id}',
+    method: "DELETE",
+    path: "/orgs/{org}/agents/secrets/{secret_name}/repositories/{repository_id}",
   },
 });

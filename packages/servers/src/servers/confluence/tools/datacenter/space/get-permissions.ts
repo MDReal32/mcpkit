@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterSpaceGetPermissions = defineTool({
-  name: 'datacenter:space:get_permissions',
+  name: "datacenter:space:get_permissions",
   description:
-    '[Data Center] Get all space permissions. Returns list of permissions granted to users and groups in the particular space.',
+    "[Data Center] Get all space permissions. Returns list of permissions granted to users and groups in the particular space.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       spaceKey: {
-        type: 'string',
+        type: "string",
       },
     },
-    required: ['spaceKey'],
+    required: ["spaceKey"],
   },
   request: {
-    method: 'GET',
-    path: '/rest/api/space/{spaceKey}/permissions',
+    method: "GET",
+    path: "/rest/api/space/{spaceKey}/permissions",
   },
 });

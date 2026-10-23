@@ -1,3 +1,3 @@
-import { securitySecurityScansCreateProjectsSecurityScansSast } from './create-projects-security-scans-sast';
+import { securitySecurityScansCreateProjectsSecurityScansSast } from "./create-projects-security-scans-sast";
 
 export const securitySecurityScansTools = [securitySecurityScansCreateProjectsSecurityScansSast];

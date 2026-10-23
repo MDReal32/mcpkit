@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsProjectCategoriesGetProjectCategoryById = defineTool({
-  name: 'projects:project_categories:get_project_category_by_id',
-  description: 'Get project category by ID. Returns a project category.',
+  name: "projects:project_categories:get_project_category_by_id",
+  description: "Get project category by ID. Returns a project category.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'The ID of the project category.',
+        type: "integer",
+        description: "The ID of the project category.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/rest/api/2/projectCategory/{id}',
+    method: "GET",
+    path: "/rest/api/2/projectCategory/{id}",
   },
 });

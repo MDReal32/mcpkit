@@ -1,6 +1,6 @@
-import type { Env } from '../../../env';
-import type { Manifest, UiTexts } from '../../../manifest';
-import type { DomainField } from '../../types/credentials/domain-field';
+import type { Env } from "../../../env";
+import type { Manifest, UiTexts } from "../../../manifest";
+import type { DomainField } from "../../types/credentials/domain-field";
 
 /** A domain set through its env var is not offered for editing. */
 export const buildDomainField = (manifest: Manifest, domain: string | undefined, env: Env, texts: UiTexts) => {
@@ -12,7 +12,7 @@ export const buildDomainField = (manifest: Manifest, domain: string | undefined,
     label: spec.label ?? texts.domainLabel,
     hint: spec.hint ?? texts.domainHint,
     placeholder: spec.placeholder ?? texts.domainPlaceholder,
-    value: domain ?? '',
+    value: domain ?? "",
   };
   return field;
 };

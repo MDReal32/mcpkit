@@ -1,16 +1,16 @@
-import { mkdir, writeFile } from 'node:fs/promises';
-import { join } from 'node:path';
-import { describeError } from '@usemcpkit/core';
-import { downloadManifest } from '../catalog/download-manifest';
-import { SYNC_MARKER_FILE_NAME } from '../const';
-import { createRegistryContext } from '../create-registry-context';
-import { hashText } from '../ids/hash-text';
-import { readCachedManifestText } from '../local/read-cached-manifest-text';
-import { writeCachedIndex } from '../local/write-cached-index';
-import { fetchRegistryIndex } from '../remote/fetch-registry-index';
-import type { RegistryOptions } from '../types/registry-options';
-import type { SyncFailure } from '../types/sync-failure';
-import type { SyncReport } from '../types/sync-report';
+import { mkdir, writeFile } from "node:fs/promises";
+import { join } from "node:path";
+import { describeError } from "@usemcpkit/core";
+import { downloadManifest } from "../catalog/download-manifest";
+import { SYNC_MARKER_FILE_NAME } from "../const";
+import { createRegistryContext } from "../create-registry-context";
+import { hashText } from "../ids/hash-text";
+import { readCachedManifestText } from "../local/read-cached-manifest-text";
+import { writeCachedIndex } from "../local/write-cached-index";
+import { fetchRegistryIndex } from "../remote/fetch-registry-index";
+import type { RegistryOptions } from "../types/registry-options";
+import type { SyncFailure } from "../types/sync-failure";
+import type { SyncReport } from "../types/sync-report";
 
 /**
  * Refreshes the cached index and re-downloads only manifests that are already cached and no longer match it;

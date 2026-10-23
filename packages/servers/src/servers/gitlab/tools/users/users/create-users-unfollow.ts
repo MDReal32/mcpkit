@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersUsersCreateUsersUnfollow = defineTool({
-  name: 'users:users:create_users_unfollow',
-  description: 'Unfollow a user. Unfollows a specified user account.',
+  name: "users:users:create_users_unfollow",
+  description: "Unfollow a user. Unfollows a specified user account.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'ID of the user.',
+        type: "integer",
+        description: "ID of the user.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'POST',
-    path: '/users/{id}/unfollow',
+    method: "POST",
+    path: "/users/{id}/unfollow",
   },
 });

@@ -1,1 +1,1 @@
-export const WEB_HOST_API_PREFIX = 'api.';
+export const WEB_HOST_API_PREFIX = "api.";

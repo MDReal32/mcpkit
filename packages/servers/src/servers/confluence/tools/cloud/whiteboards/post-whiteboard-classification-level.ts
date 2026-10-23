@@ -1,27 +1,27 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const cloudWhiteboardsPostWhiteboardClassificationLevel = defineTool({
-  name: 'cloud:whiteboards:post_whiteboard_classification_level',
+  name: "cloud:whiteboards:post_whiteboard_classification_level",
   description:
-    '[Cloud] Reset whiteboard classification level. Resets the classification level for a specific whiteboard for the space default classification level.',
+    "[Cloud] Reset whiteboard classification level. Resets the classification level for a specific whiteboard for the space default classification level.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'The ID of the whiteboard for which classification level should be updated.',
+        type: "integer",
+        description: "The ID of the whiteboard for which classification level should be updated.",
       },
       status: {
-        type: 'string',
-        description: 'Status of the content.',
-        enum: ['current'],
+        type: "string",
+        description: "Status of the content.",
+        enum: ["current"],
       },
     },
-    required: ['id', 'status'],
+    required: ["id", "status"],
   },
   request: {
-    method: 'POST',
-    path: '/wiki/api/v2/whiteboards/{id}/classification-level/reset',
-    body: ['status'],
+    method: "POST",
+    path: "/wiki/api/v2/whiteboards/{id}/classification-level/reset",
+    body: ["status"],
   },
 });

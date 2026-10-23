@@ -1,47 +1,47 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const fieldsIssueSecuritySchemesAssociateSchemesToProjects = defineTool({
-  name: 'fields:issue_security_schemes:associate_schemes_to_projects',
+  name: "fields:issue_security_schemes:associate_schemes_to_projects",
   description:
-    'Associate security scheme to project. Associates an issue security scheme with a project and remaps security levels of issues to the new levels, if provided.',
+    "Associate security scheme to project. Associates an issue security scheme with a project and remaps security levels of issues to the new levels, if provided.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       oldToNewSecurityLevelMappings: {
-        type: 'array',
-        description: 'The list of scheme levels which should be remapped to new levels of the issue security scheme.',
+        type: "array",
+        description: "The list of scheme levels which should be remapped to new levels of the issue security scheme.",
         items: {
-          type: 'object',
+          type: "object",
           properties: {
             newLevelId: {
-              type: 'string',
+              type: "string",
               description:
-                'The new issue security level ID. Providing null will clear the assigned old level from issues.',
+                "The new issue security level ID. Providing null will clear the assigned old level from issues.",
             },
             oldLevelId: {
-              type: 'string',
+              type: "string",
               description:
-                'The old issue security level ID. Providing null will remap all issues without any assigned levels.',
+                "The old issue security level ID. Providing null will remap all issues without any assigned levels.",
             },
           },
-          required: ['newLevelId', 'oldLevelId'],
+          required: ["newLevelId", "oldLevelId"],
         },
       },
       projectId: {
-        type: 'string',
-        description: 'The ID of the project.',
+        type: "string",
+        description: "The ID of the project.",
       },
       schemeId: {
-        type: 'string',
+        type: "string",
         description:
-          'The ID of the issue security scheme. Providing null will clear the association with the issue security scheme.',
+          "The ID of the issue security scheme. Providing null will clear the association with the issue security scheme.",
       },
     },
-    required: ['projectId', 'schemeId'],
+    required: ["projectId", "schemeId"],
   },
   request: {
-    method: 'PUT',
-    path: '/rest/api/2/issuesecurityschemes/project',
-    body: ['oldToNewSecurityLevelMappings', 'projectId', 'schemeId'],
+    method: "PUT",
+    path: "/rest/api/2/issuesecurityschemes/project",
+    body: ["oldToNewSecurityLevelMappings", "projectId", "schemeId"],
   },
 });

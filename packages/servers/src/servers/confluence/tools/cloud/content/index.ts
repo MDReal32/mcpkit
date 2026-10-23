@@ -1,3 +1,3 @@
-import { cloudContentConvertContentIdsToContentTypes } from './convert-content-ids-to-content-types';
+import { cloudContentConvertContentIdsToContentTypes } from "./convert-content-ids-to-content-types";
 
 export const cloudContentTools = [cloudContentConvertContentIdsToContentTypes];

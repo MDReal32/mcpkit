@@ -1,28 +1,28 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const cloudSpacesPutSpaceDefaultClassificationLevel = defineTool({
-  name: 'cloud:spaces:put_space_default_classification_level',
+  name: "cloud:spaces:put_space_default_classification_level",
   description:
-    '[Cloud] Update space default classification level. Update the default classification level for a specific space.',
+    "[Cloud] Update space default classification level. Update the default classification level for a specific space.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'The ID of the space for which default classification level should be updated.',
+        type: "integer",
+        description: "The ID of the space for which default classification level should be updated.",
       },
       body_id: {
-        type: 'string',
-        description: 'The ID of the classification level.',
+        type: "string",
+        description: "The ID of the classification level.",
       },
     },
-    required: ['id', 'body_id'],
+    required: ["id", "body_id"],
   },
   request: {
-    method: 'PUT',
-    path: '/wiki/api/v2/spaces/{id}/classification-level/default',
+    method: "PUT",
+    path: "/wiki/api/v2/spaces/{id}/classification-level/default",
     body: {
-      id: 'body_id',
+      id: "body_id",
     },
   },
 });

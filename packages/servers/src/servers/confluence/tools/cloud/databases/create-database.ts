@@ -1,35 +1,35 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const cloudDatabasesCreateDatabase = defineTool({
-  name: 'cloud:databases:create_database',
-  description: '[Cloud] Create database. Creates a database in the space.',
+  name: "cloud:databases:create_database",
+  description: "[Cloud] Create database. Creates a database in the space.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       private: {
-        type: 'boolean',
+        type: "boolean",
         description:
-          'The database will be private. Only the user who creates this database will have permission to view and edit one.',
+          "The database will be private. Only the user who creates this database will have permission to view and edit one.",
       },
       spaceId: {
-        type: 'string',
-        description: 'ID of the space.',
+        type: "string",
+        description: "ID of the space.",
       },
       title: {
-        type: 'string',
-        description: 'Title of the database.',
+        type: "string",
+        description: "Title of the database.",
       },
       parentId: {
-        type: 'string',
-        description: 'The parent content ID of the database.',
+        type: "string",
+        description: "The parent content ID of the database.",
       },
     },
-    required: ['spaceId'],
+    required: ["spaceId"],
   },
   request: {
-    method: 'POST',
-    path: '/wiki/api/v2/databases',
-    query: ['private'],
-    body: ['spaceId', 'title', 'parentId'],
+    method: "POST",
+    path: "/wiki/api/v2/databases",
+    query: ["private"],
+    body: ["spaceId", "title", "parentId"],
   },
 });

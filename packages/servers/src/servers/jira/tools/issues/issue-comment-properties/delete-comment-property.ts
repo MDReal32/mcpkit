@@ -1,24 +1,24 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesIssueCommentPropertiesDeleteCommentProperty = defineTool({
-  name: 'issues:issue_comment_properties:delete_comment_property',
-  description: 'Delete comment property. Deletes a comment property.',
+  name: "issues:issue_comment_properties:delete_comment_property",
+  description: "Delete comment property. Deletes a comment property.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       commentId: {
-        type: 'string',
-        description: 'The ID of the comment.',
+        type: "string",
+        description: "The ID of the comment.",
       },
       propertyKey: {
-        type: 'string',
-        description: 'The key of the property.',
+        type: "string",
+        description: "The key of the property.",
       },
     },
-    required: ['commentId', 'propertyKey'],
+    required: ["commentId", "propertyKey"],
   },
   request: {
-    method: 'DELETE',
-    path: '/rest/api/2/comment/{commentId}/properties/{propertyKey}',
+    method: "DELETE",
+    path: "/rest/api/2/comment/{commentId}/properties/{propertyKey}",
   },
 });

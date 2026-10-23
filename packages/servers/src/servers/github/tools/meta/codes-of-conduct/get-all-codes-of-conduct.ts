@@ -1,14 +1,14 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const metaCodesOfConductGetAllCodesOfConduct = defineTool({
-  name: 'meta:codes_of_conduct:get_all_codes_of_conduct',
+  name: "meta:codes_of_conduct:get_all_codes_of_conduct",
   description: "Get all codes of conduct. Returns array of all GitHub's codes of conduct.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {},
   },
   request: {
-    method: 'GET',
-    path: '/codes_of_conduct',
+    method: "GET",
+    path: "/codes_of_conduct",
   },
 });

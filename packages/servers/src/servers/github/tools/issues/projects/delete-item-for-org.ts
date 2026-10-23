@@ -1,28 +1,28 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesProjectsDeleteItemForOrg = defineTool({
-  name: 'issues:projects:delete_item_for_org',
-  description: 'Delete project item for organization. Delete a specific item from an organization-owned project.',
+  name: "issues:projects:delete_item_for_org",
+  description: "Delete project item for organization. Delete a specific item from an organization-owned project.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       project_number: {
-        type: 'integer',
+        type: "integer",
         description: "The project's number.",
       },
       org: {
-        type: 'string',
-        description: 'The organization name. The name is not case sensitive.',
+        type: "string",
+        description: "The organization name. The name is not case sensitive.",
       },
       item_id: {
-        type: 'integer',
-        description: 'The unique identifier of the project item.',
+        type: "integer",
+        description: "The unique identifier of the project item.",
       },
     },
-    required: ['project_number', 'org', 'item_id'],
+    required: ["project_number", "org", "item_id"],
   },
   request: {
-    method: 'DELETE',
-    path: '/orgs/{org}/projectsV2/{project_number}/items/{item_id}',
+    method: "DELETE",
+    path: "/orgs/{org}/projectsV2/{project_number}/items/{item_id}",
   },
 });

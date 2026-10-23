@@ -1,1 +1,1 @@
-export { defineGitlabServer } from './define-gitlab-server';
+export { defineGitlabServer } from "./define-gitlab-server";

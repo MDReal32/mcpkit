@@ -1,6 +1,6 @@
-import { join } from 'node:path';
-import { PART_NAME_PATTERN } from '../const';
-import { parseServerId } from '../ids/parse-server-id';
+import { join } from "node:path";
+import { PART_NAME_PATTERN } from "../const";
+import { parseServerId } from "../ids/parse-server-id";
 
 /** `<dir>/<category>/<name>/<part>.json`; both patterns admit no separators or dots, so it cannot leave `dir`. */
 export const resolvePartPath = (dir: string, id: string, partName: string) => {

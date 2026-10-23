@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const copilotCopilotCopilotContentExclusionForOrganization = defineTool({
-  name: 'copilot:copilot:copilot_content_exclusion_for_organization',
+  name: "copilot:copilot:copilot_content_exclusion_for_organization",
   description:
-    'Get Copilot content exclusion rules for an organization. > [!NOTE] > This endpoint is in public preview and is subject to change.',
+    "Get Copilot content exclusion rules for an organization. > [!NOTE] > This endpoint is in public preview and is subject to change.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       org: {
-        type: 'string',
-        description: 'The organization name. The name is not case sensitive.',
+        type: "string",
+        description: "The organization name. The name is not case sensitive.",
       },
     },
-    required: ['org'],
+    required: ["org"],
   },
   request: {
-    method: 'GET',
-    path: '/orgs/{org}/copilot/content_exclusion',
+    method: "GET",
+    path: "/orgs/{org}/copilot/content_exclusion",
   },
 });

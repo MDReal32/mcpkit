@@ -1,26 +1,26 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const aiOrbitGetOrbitSchema = defineTool({
-  name: 'ai:orbit:get_orbit_schema',
-  description: 'Retrieve the schema. Retrieves the Orbit schema.',
+  name: "ai:orbit:get_orbit_schema",
+  description: "Retrieve the schema. Retrieves the Orbit schema.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       expand: {
-        type: 'string',
-        description: 'Comma-separated node names to expand',
+        type: "string",
+        description: "Comma-separated node names to expand",
       },
       response_format: {
-        type: 'string',
-        default: 'raw',
-        enum: ['raw', 'llm'],
-        description: 'Response format: raw or llm',
+        type: "string",
+        default: "raw",
+        enum: ["raw", "llm"],
+        description: "Response format: raw or llm",
       },
     },
   },
   request: {
-    method: 'GET',
-    path: '/orbit/schema',
-    query: ['expand', 'response_format'],
+    method: "GET",
+    path: "/orbit/schema",
+    query: ["expand", "response_format"],
   },
 });

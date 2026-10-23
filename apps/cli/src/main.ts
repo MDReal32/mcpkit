@@ -1,5 +1,5 @@
-import { describeError } from '@usemcpkit/core';
-import { printError, runCli } from './cli';
+import { describeError } from "@usemcpkit/core";
+import { printError, runCli } from "./cli";
 
 try {
   await runCli(process.argv.slice(2));

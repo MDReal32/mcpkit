@@ -1,11 +1,11 @@
-import { relative, resolve } from 'node:path';
-import type { Plugin, ResolvedConfig } from 'vite';
-import { compileServers } from './compile-servers';
-import { DEFAULT_OUT_SUBDIR, DEFAULT_SERVERS_DIR, PLUGIN_NAME } from './const';
-import { formatBuildSummary } from './format-build-summary';
-import type { CompileResult } from './types/compile-result';
-import type { ManifestsPluginOptions } from './types/manifests-plugin-options';
-import { writeManifests } from './write-manifests';
+import { relative, resolve } from "node:path";
+import type { Plugin, ResolvedConfig } from "vite";
+import { compileServers } from "./compile-servers";
+import { DEFAULT_OUT_SUBDIR, DEFAULT_SERVERS_DIR, PLUGIN_NAME } from "./const";
+import { formatBuildSummary } from "./format-build-summary";
+import type { CompileResult } from "./types/compile-result";
+import type { ManifestsPluginOptions } from "./types/manifests-plugin-options";
+import { writeManifests } from "./write-manifests";
 
 /**
  * Compiles the server definitions in serversDir into JSON manifests at build time and writes them to `<outDir>/manifests`,
@@ -43,7 +43,7 @@ export const mcpkitManifests = ({
         this.addWatchFile(dependency);
       }
       if (errors.length > 0) {
-        this.error(`invalid server definition(s):\n  ${errors.join('\n  ')}`);
+        this.error(`invalid server definition(s):\n  ${errors.join("\n  ")}`);
       }
     },
     watchChange() {

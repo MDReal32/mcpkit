@@ -1,29 +1,29 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterGroupGetMember = defineTool({
-  name: 'datacenter:group:get_member',
+  name: "datacenter:group:get_member",
   description:
-    '[Data Center] Get members of group. You need admin permissions to use this endpoint. Get a paginated collection of users in the given group.',
+    "[Data Center] Get members of group. You need admin permissions to use this endpoint. Get a paginated collection of users in the given group.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       expand: {
-        type: 'string',
+        type: "string",
       },
       groupName: {
-        type: 'string',
+        type: "string",
       },
       limit: {
-        type: 'integer',
+        type: "integer",
       },
       start: {
-        type: 'integer',
+        type: "integer",
       },
     },
   },
   request: {
-    method: 'GET',
-    path: '/rest/api/group/member',
-    query: ['expand', 'groupName', 'limit', 'start'],
+    method: "GET",
+    path: "/rest/api/group/member",
+    query: ["expand", "groupName", "limit", "start"],
   },
 });

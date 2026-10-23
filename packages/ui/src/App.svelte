@@ -1,21 +1,21 @@
 <script lang="ts">
-  import CredentialsForm from './components/CredentialsForm.svelte';
-  import StatusPanel from './components/StatusPanel.svelte';
-  import { readInjectedRequest } from './form/read-injected-request';
-  import type { FormStatus } from './types/form-status';
+  import CredentialsForm from "./components/CredentialsForm.svelte";
+  import StatusPanel from "./components/StatusPanel.svelte";
+  import { readInjectedRequest } from "./form/read-injected-request";
+  import type { FormStatus } from "./types/form-status";
 
   const load = () => {
     try {
       const request = readInjectedRequest();
       document.title = request.texts.pageTitle;
-      return { request, error: '' };
+      return { request, error: "" };
     } catch (error) {
       return { request: undefined, error: error instanceof Error ? error.message : String(error) };
     }
   };
 
   const { request, error: loadError } = load();
-  let status = $state<FormStatus>('ready');
+  let status = $state<FormStatus>("ready");
 </script>
 
 <main class="card">

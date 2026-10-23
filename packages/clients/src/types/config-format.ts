@@ -1,1 +1,1 @@
-export type ConfigFormat = 'json' | 'toml';
+export type ConfigFormat = "json" | "toml";

@@ -1,27 +1,27 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const cloudDatabasesPostDatabaseClassificationLevel = defineTool({
-  name: 'cloud:databases:post_database_classification_level',
+  name: "cloud:databases:post_database_classification_level",
   description:
-    '[Cloud] Reset database classification level. Resets the classification level for a specific database for the space default classification level.',
+    "[Cloud] Reset database classification level. Resets the classification level for a specific database for the space default classification level.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'The ID of the database for which classification level should be updated.',
+        type: "integer",
+        description: "The ID of the database for which classification level should be updated.",
       },
       status: {
-        type: 'string',
-        description: 'Status of the content.',
-        enum: ['current'],
+        type: "string",
+        description: "Status of the content.",
+        enum: ["current"],
       },
     },
-    required: ['id', 'status'],
+    required: ["id", "status"],
   },
   request: {
-    method: 'POST',
-    path: '/wiki/api/v2/databases/{id}/classification-level/reset',
-    body: ['status'],
+    method: "POST",
+    path: "/wiki/api/v2/databases/{id}/classification-level/reset",
+    body: ["status"],
   },
 });

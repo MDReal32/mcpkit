@@ -1,32 +1,32 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const softwareIssueRankIssues = defineTool({
-  name: 'software:issue:rank_issues',
+  name: "software:issue:rank_issues",
   description:
-    'Rank issues. Moves (ranks) issues before or after a given issue. At most 50 issues may be ranked at once.',
+    "Rank issues. Moves (ranks) issues before or after a given issue. At most 50 issues may be ranked at once.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       issues: {
-        type: 'array',
+        type: "array",
         items: {
-          type: 'string',
+          type: "string",
         },
       },
       rankAfterIssue: {
-        type: 'string',
+        type: "string",
       },
       rankBeforeIssue: {
-        type: 'string',
+        type: "string",
       },
       rankCustomFieldId: {
-        type: 'integer',
+        type: "integer",
       },
     },
   },
   request: {
-    method: 'PUT',
-    path: '/rest/agile/1.0/issue/rank',
-    body: ['issues', 'rankAfterIssue', 'rankBeforeIssue', 'rankCustomFieldId'],
+    method: "PUT",
+    path: "/rest/agile/1.0/issue/rank",
+    body: ["issues", "rankAfterIssue", "rankBeforeIssue", "rankCustomFieldId"],
   },
 });

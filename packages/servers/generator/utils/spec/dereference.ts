@@ -1,5 +1,5 @@
-import { isRecord } from './is-record';
-import { resolveReference } from './resolve-reference';
+import { isRecord } from "./is-record";
+import { resolveReference } from "./resolve-reference";
 
 /**
  * Inlines every local `$ref` found under `node` (the whole `root` when omitted). A reference that points back into
@@ -17,7 +17,7 @@ export const dereference = (root: unknown, node: unknown = root) => {
       return current;
     }
     const reference = current.$ref;
-    if (typeof reference === 'string') {
+    if (typeof reference === "string") {
       return walkReference(reference, chain);
     }
     return Object.fromEntries(Object.entries(current).map(([key, value]) => [key, walk(value, chain)]));

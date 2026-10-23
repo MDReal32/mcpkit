@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterSpaceUpdateArchive = defineTool({
-  name: 'datacenter:space:update_archive',
+  name: "datacenter:space:update_archive",
   description:
-    '[Data Center] Archive space. Archive the given Space identified by spaceKey. This method is idempotent i.e., if the Space is already archived then no action will be taken.',
+    "[Data Center] Archive space. Archive the given Space identified by spaceKey. This method is idempotent i.e., if the Space is already archived then no action will be taken.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       spaceKey: {
-        type: 'string',
-        description: 'the key of the space to update.',
+        type: "string",
+        description: "the key of the space to update.",
       },
     },
-    required: ['spaceKey'],
+    required: ["spaceKey"],
   },
   request: {
-    method: 'PUT',
-    path: '/rest/api/space/{spaceKey}/archive',
+    method: "PUT",
+    path: "/rest/api/space/{spaceKey}/archive",
   },
 });

@@ -1,3 +1,3 @@
-import type { JsonSchema } from '../../manifest';
+import type { JsonSchema } from "../../manifest";
 
-export type ParamOptions = Pick<JsonSchema, 'default' | 'enum'>;
+export type ParamOptions = Pick<JsonSchema, "default" | "enum">;

@@ -1,22 +1,22 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const metaUsageDataCreateUsageDataIncrementUniqueUsers = defineTool({
-  name: 'meta:usage_data:create_usage_data_increment_unique_users',
+  name: "meta:usage_data:create_usage_data_increment_unique_users",
   description:
-    'Track usage data event for the current user. Tracks a unique-user event for the current user in Service Ping.',
+    "Track usage data event for the current user. Tracks a unique-user event for the current user in Service Ping.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       event: {
-        type: 'string',
-        description: 'Event name that should be tracked.',
+        type: "string",
+        description: "Event name that should be tracked.",
       },
     },
-    required: ['event'],
+    required: ["event"],
   },
   request: {
-    method: 'POST',
-    path: '/usage_data/increment_unique_users',
-    body: ['event'],
+    method: "POST",
+    path: "/usage_data/increment_unique_users",
+    body: ["event"],
   },
 });

@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const softwareSprintDeleteSprint = defineTool({
-  name: 'software:sprint:delete_sprint',
+  name: "software:sprint:delete_sprint",
   description:
-    'Delete sprint. Deletes a sprint. Once a sprint is deleted, all open issues in the sprint will be moved to the backlog.',
+    "Delete sprint. Deletes a sprint. Once a sprint is deleted, all open issues in the sprint will be moved to the backlog.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       sprintId: {
-        type: 'integer',
-        description: 'The ID of the sprint to delete.',
+        type: "integer",
+        description: "The ID of the sprint to delete.",
       },
     },
-    required: ['sprintId'],
+    required: ["sprintId"],
   },
   request: {
-    method: 'DELETE',
-    path: '/rest/agile/1.0/sprint/{sprintId}',
+    method: "DELETE",
+    path: "/rest/agile/1.0/sprint/{sprintId}",
   },
 });

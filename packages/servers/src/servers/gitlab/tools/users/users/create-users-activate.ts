@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersUsersCreateUsersActivate = defineTool({
-  name: 'users:users:create_users_activate',
+  name: "users:users:create_users_activate",
   description:
-    'Reactivate a user. Reactivates a specified user account that was previously deactivated. Administrators only.',
+    "Reactivate a user. Reactivates a specified user account that was previously deactivated. Administrators only.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'ID of the user.',
+        type: "integer",
+        description: "ID of the user.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'POST',
-    path: '/users/{id}/activate',
+    method: "POST",
+    path: "/users/{id}/activate",
   },
 });

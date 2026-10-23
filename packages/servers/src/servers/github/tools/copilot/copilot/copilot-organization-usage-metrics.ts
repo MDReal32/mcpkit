@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const copilotCopilotCopilotOrganizationUsageMetrics = defineTool({
-  name: 'copilot:copilot:copilot_organization_usage_metrics',
+  name: "copilot:copilot:copilot_organization_usage_metrics",
   description:
-    'Get Copilot organization usage metrics. Use this endpoint to retrieve download links for the latest 28-day organization Copilot usage metrics report. The report provides comprehensive usage data for Copilot features across the organization.',
+    "Get Copilot organization usage metrics. Use this endpoint to retrieve download links for the latest 28-day organization Copilot usage metrics report. The report provides comprehensive usage data for Copilot features across the organization.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       org: {
-        type: 'string',
-        description: 'The organization name. The name is not case sensitive.',
+        type: "string",
+        description: "The organization name. The name is not case sensitive.",
       },
     },
-    required: ['org'],
+    required: ["org"],
   },
   request: {
-    method: 'GET',
-    path: '/orgs/{org}/copilot/metrics/reports/organization-28-day/latest',
+    method: "GET",
+    path: "/orgs/{org}/copilot/metrics/reports/organization-28-day/latest",
   },
 });

@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsKeysDeleteUserGpgKeys = defineTool({
-  name: 'projects:keys:delete_user_gpg_keys',
-  description: 'Delete a GPG key. Deletes a GPG key from your user account.',
+  name: "projects:keys:delete_user_gpg_keys",
+  description: "Delete a GPG key. Deletes a GPG key from your user account.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       key_id: {
-        type: 'integer',
-        description: 'ID of the GPG key.',
+        type: "integer",
+        description: "ID of the GPG key.",
       },
     },
-    required: ['key_id'],
+    required: ["key_id"],
   },
   request: {
-    method: 'DELETE',
-    path: '/user/gpg_keys/{key_id}',
+    method: "DELETE",
+    path: "/user/gpg_keys/{key_id}",
   },
 });

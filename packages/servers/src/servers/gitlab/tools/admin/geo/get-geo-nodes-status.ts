@@ -1,25 +1,25 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const adminGeoGetGeoNodesStatus = defineTool({
-  name: 'admin:geo:get_geo_nodes_status',
-  description: 'Retrieve metrics for a Geo node. Retrieves metrics for a specified Geo node.',
+  name: "admin:geo:get_geo_nodes_status",
+  description: "Retrieve metrics for a Geo node. Retrieves metrics for a specified Geo node.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'The ID of the node',
+        type: "integer",
+        description: "The ID of the node",
       },
       refresh: {
-        type: 'boolean',
-        description: 'If `true`, fetches the latest status from the Geo node directly, ignoring the cache.',
+        type: "boolean",
+        description: "If `true`, fetches the latest status from the Geo node directly, ignoring the cache.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/geo_nodes/{id}/status',
-    query: ['refresh'],
+    method: "GET",
+    path: "/geo_nodes/{id}/status",
+    query: ["refresh"],
   },
 });

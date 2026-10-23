@@ -1,5 +1,5 @@
-import { join } from 'node:path';
-import { parseServerId } from './parse-server-id';
+import { join } from "node:path";
+import { parseServerId } from "./parse-server-id";
 
 /** The id pattern admits no separators or dots, so the result cannot leave `dir`. */
 export const resolveManifestPath = (dir: string, id: string) => {

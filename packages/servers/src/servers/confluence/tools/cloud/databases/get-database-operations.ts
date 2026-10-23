@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const cloudDatabasesGetDatabaseOperations = defineTool({
-  name: 'cloud:databases:get_database_operations',
+  name: "cloud:databases:get_database_operations",
   description:
-    '[Cloud] Get permitted operations for a database. Returns the permitted operations on specific database.',
+    "[Cloud] Get permitted operations for a database. Returns the permitted operations on specific database.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'The ID of the database for which operations should be returned.',
+        type: "integer",
+        description: "The ID of the database for which operations should be returned.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/wiki/api/v2/databases/{id}/operations',
+    method: "GET",
+    path: "/wiki/api/v2/databases/{id}/operations",
   },
 });

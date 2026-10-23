@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const securityCodeSecurityGetDefaultConfigurations = defineTool({
-  name: 'security:code_security:get_default_configurations',
+  name: "security:code_security:get_default_configurations",
   description:
-    'Get default code security configurations. Lists the default code security configurations for an organization.',
+    "Get default code security configurations. Lists the default code security configurations for an organization.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       org: {
-        type: 'string',
-        description: 'The organization name. The name is not case sensitive.',
+        type: "string",
+        description: "The organization name. The name is not case sensitive.",
       },
     },
-    required: ['org'],
+    required: ["org"],
   },
   request: {
-    method: 'GET',
-    path: '/orgs/{org}/code-security/configurations/defaults',
+    method: "GET",
+    path: "/orgs/{org}/code-security/configurations/defaults",
   },
 });

@@ -1,27 +1,27 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterSpaceGetWatchers = defineTool({
-  name: 'datacenter:space:get_watchers',
+  name: "datacenter:space:get_watchers",
   description:
-    '[Data Center] Fetch users watching space. Returns a paginated list of users watching the given Space identified by spaceKey. Only a Confluence Administrator or Space Administrator can perform this action.',
+    "[Data Center] Fetch users watching space. Returns a paginated list of users watching the given Space identified by spaceKey. Only a Confluence Administrator or Space Administrator can perform this action.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       spaceKey: {
-        type: 'string',
+        type: "string",
       },
       limit: {
-        type: 'integer',
+        type: "integer",
       },
       start: {
-        type: 'integer',
+        type: "integer",
       },
     },
-    required: ['spaceKey'],
+    required: ["spaceKey"],
   },
   request: {
-    method: 'GET',
-    path: '/rest/api/space/{spaceKey}/watchers',
-    query: ['limit', 'start'],
+    method: "GET",
+    path: "/rest/api/space/{spaceKey}/watchers",
+    query: ["limit", "start"],
   },
 });

@@ -1,95 +1,95 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const ciJobsCreateJobsRequest = defineTool({
-  name: 'ci:jobs:create_jobs_request',
-  description: 'Request a job. Requests a job for a runner to execute.',
+  name: "ci:jobs:create_jobs_request",
+  description: "Request a job. Requests a job for a runner to execute.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       token: {
-        type: 'string',
+        type: "string",
         description: "Runner's authentication token",
       },
       system_id: {
-        type: 'string',
+        type: "string",
         description: "Runner's system identifier",
       },
       last_update: {
-        type: 'string',
-        description: '`last_update` token of the runner queue.',
+        type: "string",
+        description: "`last_update` token of the runner queue.",
       },
       info: {
-        type: 'object',
+        type: "object",
         description: "Runner's metadata",
         properties: {
           name: {
-            type: 'string',
+            type: "string",
             description: "Runner's name",
           },
           version: {
-            type: 'string',
+            type: "string",
             description: "Runner's version",
           },
           revision: {
-            type: 'string',
+            type: "string",
             description: "Runner's revision",
           },
           platform: {
-            type: 'string',
+            type: "string",
             description: "Runner's platform",
           },
           architecture: {
-            type: 'string',
+            type: "string",
             description: "Runner's architecture",
           },
           executor: {
-            type: 'string',
+            type: "string",
             description: "Runner's executor",
           },
           features: {
-            type: 'object',
+            type: "object",
             description: "Runner's features",
           },
           config: {
-            type: 'object',
+            type: "object",
             description: "Runner's config",
             properties: {
               gpus: {
-                type: 'string',
-                description: 'GPUs enabled',
+                type: "string",
+                description: "GPUs enabled",
               },
             },
           },
           labels: {
-            type: 'object',
+            type: "object",
             description: "Runner's labels",
           },
         },
       },
       session: {
-        type: 'object',
-        description: 'Session data of the runner.',
+        type: "object",
+        description: "Session data of the runner.",
         properties: {
           url: {
-            type: 'string',
-            description: 'URL of the session.',
+            type: "string",
+            description: "URL of the session.",
           },
           certificate: {
-            type: 'string',
-            description: 'Certificate of the session.',
+            type: "string",
+            description: "Certificate of the session.",
           },
           authorization: {
-            type: 'string',
-            description: 'Authorization of the session.',
+            type: "string",
+            description: "Authorization of the session.",
           },
         },
       },
     },
-    required: ['token'],
+    required: ["token"],
   },
   request: {
-    method: 'POST',
-    path: '/jobs/request',
-    body: ['token', 'system_id', 'last_update', 'info', 'session'],
+    method: "POST",
+    path: "/jobs/request",
+    body: ["token", "system_id", "last_update", "info", "session"],
   },
 });

@@ -1,32 +1,32 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesMergeRequestsCreateProjectsMergeRequestsContextCommits = defineTool({
-  name: 'issues:merge_requests:create_projects_merge_requests_context_commits',
-  description: 'Create context commits for a merge request. Creates context commits for a specified merge request.',
+  name: "issues:merge_requests:create_projects_merge_requests_context_commits",
+  description: "Create context commits for a merge request. Creates context commits for a specified merge request.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
       merge_request_iid: {
-        type: 'integer',
-        description: 'Internal ID of the merge request.',
+        type: "integer",
+        description: "Internal ID of the merge request.",
       },
       commits: {
-        type: 'array',
+        type: "array",
         description: "Context commits' SHAs.",
         items: {
-          type: 'string',
+          type: "string",
         },
       },
     },
-    required: ['id', 'merge_request_iid', 'commits'],
+    required: ["id", "merge_request_iid", "commits"],
   },
   request: {
-    method: 'POST',
-    path: '/projects/{id}/merge_requests/{merge_request_iid}/context_commits',
-    body: ['commits'],
+    method: "POST",
+    path: "/projects/{id}/merge_requests/{merge_request_iid}/context_commits",
+    body: ["commits"],
   },
 });

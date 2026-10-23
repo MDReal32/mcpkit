@@ -1,5 +1,5 @@
-import { stat } from 'node:fs/promises';
-import { isMissingFileError } from '@usemcpkit/core';
+import { stat } from "node:fs/promises";
+import { isMissingFileError } from "@usemcpkit/core";
 
 export const readFileMode = async (path: string) => {
   try {

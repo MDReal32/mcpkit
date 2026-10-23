@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsBranchesDeleteProjectsRepositoryMergedBranches = defineTool({
-  name: 'projects:branches:delete_projects_repository_merged_branches',
+  name: "projects:branches:delete_projects_repository_merged_branches",
   description:
-    'Delete all merged branches. Deletes all branches that are merged into the default branch for a project.',
+    "Delete all merged branches. Deletes all branches that are merged into the default branch for a project.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'DELETE',
-    path: '/projects/{id}/repository/merged_branches',
+    method: "DELETE",
+    path: "/projects/{id}/repository/merged_branches",
   },
 });

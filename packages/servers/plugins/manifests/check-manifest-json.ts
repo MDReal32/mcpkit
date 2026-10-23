@@ -1,5 +1,5 @@
-import { isValidManifest, validateManifest } from '@usemcpkit/core';
-import { expectedServerName } from './expected-server-name';
+import { isValidManifest, validateManifest } from "@usemcpkit/core";
+import { expectedServerName } from "./expected-server-name";
 
 export const checkManifestJson = (json: string, dir: string) => {
   const data: unknown = JSON.parse(json);

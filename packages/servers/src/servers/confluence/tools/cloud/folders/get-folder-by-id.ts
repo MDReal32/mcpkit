@@ -1,44 +1,44 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const cloudFoldersGetFolderById = defineTool({
-  name: 'cloud:folders:get_folder_by_id',
-  description: '[Cloud] Get folder by id. Returns a specific folder.',
+  name: "cloud:folders:get_folder_by_id",
+  description: "[Cloud] Get folder by id. Returns a specific folder.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'The ID of the folder to be returned.',
+        type: "integer",
+        description: "The ID of the folder to be returned.",
       },
       include_collaborators: {
-        type: 'boolean',
-        description: 'Includes collaborators on the folder.',
+        type: "boolean",
+        description: "Includes collaborators on the folder.",
       },
       include_direct_children: {
-        type: 'boolean',
-        description: 'Includes direct children of the folder, as defined in the `ChildrenResponse` object.',
+        type: "boolean",
+        description: "Includes direct children of the folder, as defined in the `ChildrenResponse` object.",
       },
       include_operations: {
-        type: 'boolean',
+        type: "boolean",
         description:
-          'Includes operations associated with this folder in the response, as defined in the `Operation` object. The number of results will be limited to 50 and sorted in the default sort order. A `meta` and `_links` property will be present to indicate if more results are available and a link to retrieve the rest of the results.',
+          "Includes operations associated with this folder in the response, as defined in the `Operation` object. The number of results will be limited to 50 and sorted in the default sort order. A `meta` and `_links` property will be present to indicate if more results are available and a link to retrieve the rest of the results.",
       },
       include_properties: {
-        type: 'boolean',
+        type: "boolean",
         description:
-          'Includes content properties associated with this folder in the response. The number of results will be limited to 50 and sorted in the default sort order. A `meta` and `_links` property will be present to indicate if more results are available and a link to retrieve the rest of the results.',
+          "Includes content properties associated with this folder in the response. The number of results will be limited to 50 and sorted in the default sort order. A `meta` and `_links` property will be present to indicate if more results are available and a link to retrieve the rest of the results.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/wiki/api/v2/folders/{id}',
+    method: "GET",
+    path: "/wiki/api/v2/folders/{id}",
     query: {
-      'include-collaborators': 'include_collaborators',
-      'include-direct-children': 'include_direct_children',
-      'include-operations': 'include_operations',
-      'include-properties': 'include_properties',
+      "include-collaborators": "include_collaborators",
+      "include-direct-children": "include_direct_children",
+      "include-operations": "include_operations",
+      "include-properties": "include_properties",
     },
   },
 });

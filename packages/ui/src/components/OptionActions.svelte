@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { VisibleAction } from '../types/visible-action';
+  import type { VisibleAction } from "../types/visible-action";
 
   interface Props {
     actions: readonly VisibleAction[];

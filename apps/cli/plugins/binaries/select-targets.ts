@@ -1,4 +1,4 @@
-import { isTarget, TARGETS } from '@usemcpkit/binary';
+import { isTarget, TARGETS } from "@usemcpkit/binary";
 
 /** No requested names selects every target; unknown names fail fast. */
 export const selectTargets = (requested: readonly string[] = []) => {
@@ -7,7 +7,7 @@ export const selectTargets = (requested: readonly string[] = []) => {
   }
   const unknown = requested.filter((name) => !isTarget(name));
   if (unknown.length > 0) {
-    throw new Error(`unknown target(s): ${unknown.join(', ')}. Known: ${TARGETS.join(', ')}`);
+    throw new Error(`unknown target(s): ${unknown.join(", ")}. Known: ${TARGETS.join(", ")}`);
   }
   return requested.filter(isTarget);
 };

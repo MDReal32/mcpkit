@@ -1,4 +1,4 @@
-import type { ResolvedAuth } from '../auth';
+import type { ResolvedAuth } from "../auth";
 
 export const DEFAULT_TIMEOUT_MS = 30_000;
 

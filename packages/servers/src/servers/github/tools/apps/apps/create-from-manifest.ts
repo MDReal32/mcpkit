@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const appsAppsCreateFromManifest = defineTool({
-  name: 'apps:apps:create_from_manifest',
+  name: "apps:apps:create_from_manifest",
   description:
     "Create a GitHub App from a manifest. Use this endpoint to complete the handshake necessary when implementing the GitHub App Manifest flow. When you create a GitHub App with the manifest flow, you receive a temporary `code` used to retrieve the GitHub App's `id`, `pem` (private key), and `webhook_secret`.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       code: {
-        type: 'string',
+        type: "string",
       },
     },
-    required: ['code'],
+    required: ["code"],
   },
   request: {
-    method: 'POST',
-    path: '/app-manifests/{code}/conversions',
+    method: "POST",
+    path: "/app-manifests/{code}/conversions",
   },
 });

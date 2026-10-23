@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const ciRunnerControllersGetRunnerControllers = defineTool({
-  name: 'ci:runner_controllers:get_runner_controllers',
-  description: 'Retrieve a single runner controller. Retrieves details of a specified runner controller.',
+  name: "ci:runner_controllers:get_runner_controllers",
+  description: "Retrieve a single runner controller. Retrieves details of a specified runner controller.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'ID of the runner controller.',
+        type: "integer",
+        description: "ID of the runner controller.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/runner_controllers/{id}',
+    method: "GET",
+    path: "/runner_controllers/{id}",
   },
 });

@@ -1,8 +1,8 @@
-import type { InteractiveAuth } from '../../../manifest';
-import type { AuthContext } from '../../types/auth-context';
-import type { StoredToken } from '../../types/oauth/stored-token';
-import { isTokenExpired } from './is-token-expired';
-import { refreshOnce } from './refresh-once';
+import type { InteractiveAuth } from "../../../manifest";
+import type { AuthContext } from "../../types/auth-context";
+import type { StoredToken } from "../../types/oauth/stored-token";
+import { isTokenExpired } from "./is-token-expired";
+import { refreshOnce } from "./refresh-once";
 
 export const readFreshAccessToken = async (
   serverName: string,

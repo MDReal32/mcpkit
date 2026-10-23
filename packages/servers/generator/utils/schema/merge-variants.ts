@@ -1,4 +1,4 @@
-import type { OpenApiSchema } from '../types/open-api-schema';
+import type { OpenApiSchema } from "../types/open-api-schema";
 
 /**
  * Flattens allOf (all variants apply) and oneOf/anyOf (any variant may apply, so nothing beyond the

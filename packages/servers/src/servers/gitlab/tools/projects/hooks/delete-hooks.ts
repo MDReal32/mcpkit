@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsHooksDeleteHooks = defineTool({
-  name: 'projects:hooks:delete_hooks',
-  description: 'Delete a system hook. Deletes a specified system hook. Administrators only.',
+  name: "projects:hooks:delete_hooks",
+  description: "Delete a system hook. Deletes a specified system hook. Administrators only.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       hook_id: {
-        type: 'integer',
-        description: 'ID of the system hook.',
+        type: "integer",
+        description: "ID of the system hook.",
       },
     },
-    required: ['hook_id'],
+    required: ["hook_id"],
   },
   request: {
-    method: 'DELETE',
-    path: '/hooks/{hook_id}',
+    method: "DELETE",
+    path: "/hooks/{hook_id}",
   },
 });

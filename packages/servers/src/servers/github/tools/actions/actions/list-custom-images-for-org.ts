@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const actionsActionsListCustomImagesForOrg = defineTool({
-  name: 'actions:actions:list_custom_images_for_org',
-  description: 'List custom images for an organization. List custom images for an organization.',
+  name: "actions:actions:list_custom_images_for_org",
+  description: "List custom images for an organization. List custom images for an organization.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       org: {
-        type: 'string',
-        description: 'The organization name. The name is not case sensitive.',
+        type: "string",
+        description: "The organization name. The name is not case sensitive.",
       },
     },
-    required: ['org'],
+    required: ["org"],
   },
   request: {
-    method: 'GET',
-    path: '/orgs/{org}/actions/hosted-runners/images/custom',
+    method: "GET",
+    path: "/orgs/{org}/actions/hosted-runners/images/custom",
   },
 });

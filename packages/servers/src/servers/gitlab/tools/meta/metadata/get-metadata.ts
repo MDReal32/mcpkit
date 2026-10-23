@@ -1,15 +1,15 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const metaMetadataGetMetadata = defineTool({
-  name: 'meta:metadata:get_metadata',
+  name: "meta:metadata:get_metadata",
   description:
-    'Retrieve metadata information for this GitLab instance. Retrieves metadata information for the GitLab instance.',
+    "Retrieve metadata information for this GitLab instance. Retrieves metadata information for the GitLab instance.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {},
   },
   request: {
-    method: 'GET',
-    path: '/metadata',
+    method: "GET",
+    path: "/metadata",
   },
 });

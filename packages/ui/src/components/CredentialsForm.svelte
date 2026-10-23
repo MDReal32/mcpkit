@@ -1,18 +1,18 @@
 <script lang="ts">
-  import type { CredentialRequest } from '@usemcpkit/core';
-  import { untrack } from 'svelte';
-  import { cancelCredentials } from '../api/cancel-credentials';
-  import { importCliToken } from '../api/import-cli-token';
-  import { submitCredentials } from '../api/submit-credentials';
-  import { buildSignInResponse } from '../form/build-sign-in-response';
-  import { buildTokenImportRequest } from '../form/build-token-import-request';
-  import { buildTokenResponse } from '../form/build-token-response';
-  import { createFormDraft } from '../form/create-form-draft';
-  import { resolveVisibleActions } from '../form/resolve-visible-actions';
-  import type { FormStatus } from '../types/form-status';
-  import type { SubmitResult } from '../types/submit-result';
-  import FieldInput from './FieldInput.svelte';
-  import OptionActions from './OptionActions.svelte';
+  import type { CredentialRequest } from "@usemcpkit/core";
+  import { untrack } from "svelte";
+  import { cancelCredentials } from "../api/cancel-credentials";
+  import { importCliToken } from "../api/import-cli-token";
+  import { submitCredentials } from "../api/submit-credentials";
+  import { buildSignInResponse } from "../form/build-sign-in-response";
+  import { buildTokenImportRequest } from "../form/build-token-import-request";
+  import { buildTokenResponse } from "../form/build-token-response";
+  import { createFormDraft } from "../form/create-form-draft";
+  import { resolveVisibleActions } from "../form/resolve-visible-actions";
+  import type { FormStatus } from "../types/form-status";
+  import type { SubmitResult } from "../types/submit-result";
+  import FieldInput from "./FieldInput.svelte";
+  import OptionActions from "./OptionActions.svelte";
 
   interface Props {
     request: CredentialRequest;
@@ -45,18 +45,18 @@
 
   const saveToken = (event: SubmitEvent) => {
     event.preventDefault();
-    void send(() => submitCredentials(buildTokenResponse(request, draft), texts.requestFailed), 'saved');
+    void send(() => submitCredentials(buildTokenResponse(request, draft), texts.requestFailed), "saved");
   };
 
   const signIn = () =>
-    send(() => submitCredentials(buildSignInResponse(request, draft), texts.requestFailed), 'signing-in');
+    send(() => submitCredentials(buildSignInResponse(request, draft), texts.requestFailed), "signing-in");
 
   const runAction = (index: number) =>
-    send(() => importCliToken(buildTokenImportRequest(request, draft, index), texts.requestFailed), 'saved');
+    send(() => importCliToken(buildTokenImportRequest(request, draft, index), texts.requestFailed), "saved");
 
   const cancel = async () => {
     await cancelCredentials();
-    onstatus('cancelled');
+    onstatus("cancelled");
   };
 </script>
 

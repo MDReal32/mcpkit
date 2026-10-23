@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersGistsFork = defineTool({
-  name: 'users:gists:fork',
-  description: 'Fork a gist',
+  name: "users:gists:fork",
+  description: "Fork a gist",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       gist_id: {
-        type: 'string',
-        description: 'The unique identifier of the gist.',
+        type: "string",
+        description: "The unique identifier of the gist.",
       },
     },
-    required: ['gist_id'],
+    required: ["gist_id"],
   },
   request: {
-    method: 'POST',
-    path: '/gists/{gist_id}/forks',
+    method: "POST",
+    path: "/gists/{gist_id}/forks",
   },
 });

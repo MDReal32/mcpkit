@@ -1,29 +1,29 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsProjectsGetProjectsUploadsGet = defineTool({
-  name: 'projects:projects:get_projects_uploads_get',
+  name: "projects:projects:get_projects_uploads_get",
   description:
-    'Download an uploaded file by secret and filename. Downloads an uploaded file with a specified secret and filename. You must have the Guest, Planner, Reporter, Developer, Maintainer, or Owner role for the project.',
+    "Download an uploaded file by secret and filename. Downloads an uploaded file with a specified secret and filename. You must have the Guest, Planner, Reporter, Developer, Maintainer, or Owner role for the project.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
       secret: {
-        type: 'string',
-        description: 'Secret of the upload.',
+        type: "string",
+        description: "Secret of the upload.",
       },
       filename: {
-        type: 'string',
-        description: 'Filename of the upload.',
+        type: "string",
+        description: "Filename of the upload.",
       },
     },
-    required: ['id', 'secret', 'filename'],
+    required: ["id", "secret", "filename"],
   },
   request: {
-    method: 'GET',
-    path: '/projects/{id}/uploads/{secret}/{filename}',
+    method: "GET",
+    path: "/projects/{id}/uploads/{secret}/{filename}",
   },
 });

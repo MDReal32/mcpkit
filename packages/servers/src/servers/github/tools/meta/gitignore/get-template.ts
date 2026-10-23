@@ -1,19 +1,19 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const metaGitignoreGetTemplate = defineTool({
-  name: 'meta:gitignore:get_template',
-  description: 'Get a gitignore template. Get the content of a gitignore template.',
+  name: "meta:gitignore:get_template",
+  description: "Get a gitignore template. Get the content of a gitignore template.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       name: {
-        type: 'string',
+        type: "string",
       },
     },
-    required: ['name'],
+    required: ["name"],
   },
   request: {
-    method: 'GET',
-    path: '/gitignore/templates/{name}',
+    method: "GET",
+    path: "/gitignore/templates/{name}",
   },
 });

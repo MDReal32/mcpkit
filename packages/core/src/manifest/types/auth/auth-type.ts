@@ -1,3 +1,3 @@
-import type { AuthSpec } from './auth-spec';
+import type { AuthSpec } from "./auth-spec";
 
-export type AuthType = AuthSpec['type'];
+export type AuthType = AuthSpec["type"];

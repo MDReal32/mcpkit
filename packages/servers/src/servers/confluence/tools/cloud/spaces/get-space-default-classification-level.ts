@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const cloudSpacesGetSpaceDefaultClassificationLevel = defineTool({
-  name: 'cloud:spaces:get_space_default_classification_level',
+  name: "cloud:spaces:get_space_default_classification_level",
   description:
-    '[Cloud] Get space default classification level. Returns the default classification level for a specific space.',
+    "[Cloud] Get space default classification level. Returns the default classification level for a specific space.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'The ID of the space for which default classification level should be returned.',
+        type: "integer",
+        description: "The ID of the space for which default classification level should be returned.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/wiki/api/v2/spaces/{id}/classification-level/default',
+    method: "GET",
+    path: "/wiki/api/v2/spaces/{id}/classification-level/default",
   },
 });

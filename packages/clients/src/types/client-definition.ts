@@ -1,6 +1,6 @@
-import type { ClientContext } from './client-context';
-import type { ConfigFormat } from './config-format';
-import type { LaunchCommand } from './launch-command';
+import type { ClientContext } from "./client-context";
+import type { ConfigFormat } from "./config-format";
+import type { LaunchCommand } from "./launch-command";
 
 export interface ClientDefinition {
   id: string;

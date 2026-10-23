@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const adminGeoDeleteGeoSites = defineTool({
-  name: 'admin:geo:delete_geo_sites',
-  description: 'Delete a Geo site. Deletes a specified Geo site.',
+  name: "admin:geo:delete_geo_sites",
+  description: "Delete a Geo site. Deletes a specified Geo site.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'The ID of the site',
+        type: "integer",
+        description: "The ID of the site",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'DELETE',
-    path: '/geo_sites/{id}',
+    method: "DELETE",
+    path: "/geo_sites/{id}",
   },
 });

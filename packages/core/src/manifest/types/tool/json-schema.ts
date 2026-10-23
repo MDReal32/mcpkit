@@ -1,5 +1,5 @@
 export interface JsonSchema {
-  type?: 'string' | 'number' | 'integer' | 'boolean' | 'array' | 'object';
+  type?: "string" | "number" | "integer" | "boolean" | "array" | "object";
   description?: string;
   default?: unknown;
   enum?: readonly unknown[];

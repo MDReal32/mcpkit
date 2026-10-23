@@ -1,7 +1,7 @@
-import { findGroupName } from '../../utils/naming/find-group-name';
-import { SERVER_GROUPS } from './const';
-import { createNameAllocator } from './create-name-allocator';
-import type { GitlabOperation } from './types/gitlab-operation';
+import { findGroupName } from "../../utils/naming/find-group-name";
+import { SERVER_GROUPS } from "./const";
+import { createNameAllocator } from "./create-name-allocator";
+import type { GitlabOperation } from "./types/gitlab-operation";
 
 export const nameOperations = (operations: GitlabOperation[]) => {
   const allocateNames = createNameAllocator();
@@ -15,7 +15,7 @@ export const nameOperations = (operations: GitlabOperation[]) => {
     return [allocateNames(group, operation)];
   });
   if (ungrouped.size > 0) {
-    throw new Error(`categories that belong to no server group: ${[...ungrouped].join(', ')}`);
+    throw new Error(`categories that belong to no server group: ${[...ungrouped].join(", ")}`);
   }
   return names;
 };

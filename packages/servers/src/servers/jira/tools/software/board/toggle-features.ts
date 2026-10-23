@@ -1,33 +1,33 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const softwareBoardToggleFeatures = defineTool({
-  name: 'software:board:toggle_features',
-  description: 'Toggle features',
+  name: "software:board:toggle_features",
+  description: "Toggle features",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       boardId: {
-        type: 'integer',
+        type: "integer",
       },
       body_boardId: {
-        type: 'integer',
+        type: "integer",
       },
       enabling: {
-        type: 'boolean',
+        type: "boolean",
       },
       feature: {
-        type: 'string',
+        type: "string",
       },
     },
-    required: ['boardId'],
+    required: ["boardId"],
   },
   request: {
-    method: 'PUT',
-    path: '/rest/agile/1.0/board/{boardId}/features',
+    method: "PUT",
+    path: "/rest/agile/1.0/board/{boardId}/features",
     body: {
-      boardId: 'body_boardId',
-      enabling: 'enabling',
-      feature: 'feature',
+      boardId: "body_boardId",
+      enabling: "enabling",
+      feature: "feature",
     },
   },
 });

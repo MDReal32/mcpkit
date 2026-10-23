@@ -1,35 +1,35 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterUserCreateWatchContent = defineTool({
-  name: 'datacenter:user:create_watch_content',
+  name: "datacenter:user:create_watch_content",
   description:
-    '[Data Center] Add content watcher. Create a new watcher for the given user and content id. User is optional. If not specified, currently logged-in user will be used. Otherwise, it can be specified by either user key or username. When a user is specified and is different from the logged-in user, the logged-in user needs to be a Confluence administrator.',
+    "[Data Center] Add content watcher. Create a new watcher for the given user and content id. User is optional. If not specified, currently logged-in user will be used. Otherwise, it can be specified by either user key or username. When a user is specified and is different from the logged-in user, the logged-in user needs to be a Confluence administrator.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       contentId: {
-        type: 'string',
-        description: 'id of the content.',
+        type: "string",
+        description: "id of the content.",
       },
       key: {
-        type: 'object',
+        type: "object",
         properties: {
           userKey: {
-            type: 'string',
+            type: "string",
           },
         },
-        description: 'userkey of the user to check for watching state.',
+        description: "userkey of the user to check for watching state.",
       },
       username: {
-        type: 'string',
-        description: 'username of the user to check for watching state.',
+        type: "string",
+        description: "username of the user to check for watching state.",
       },
     },
-    required: ['contentId'],
+    required: ["contentId"],
   },
   request: {
-    method: 'POST',
-    path: '/rest/api/user/watch/content/{contentId}',
-    query: ['key', 'username'],
+    method: "POST",
+    path: "/rest/api/user/watch/content/{contentId}",
+    query: ["key", "username"],
   },
 });

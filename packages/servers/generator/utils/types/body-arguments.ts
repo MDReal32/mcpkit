@@ -1,4 +1,4 @@
-import type { JsonSchema } from '@usemcpkit/core';
+import type { JsonSchema } from "@usemcpkit/core";
 
 export interface BodyArguments {
   /** Outgoing key -> argument name. */

@@ -1,5 +1,5 @@
-import type { UiAction } from '../../../manifest';
-import type { CredentialField } from './credential-field';
+import type { UiAction } from "../../../manifest";
+import type { CredentialField } from "./credential-field";
 
 /** One fallback auth entry the user can fill in. */
 export interface CredentialOption {

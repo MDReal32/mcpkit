@@ -1,27 +1,27 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const workflowsWorkflowSchemeProjectAssociationsAssignSchemeToProject = defineTool({
-  name: 'workflows:workflow_scheme_project_associations:assign_scheme_to_project',
+  name: "workflows:workflow_scheme_project_associations:assign_scheme_to_project",
   description:
-    'Assign workflow scheme to project. Assigns a workflow scheme to a project. This operation is performed only when there are no issues in the project.',
+    "Assign workflow scheme to project. Assigns a workflow scheme to a project. This operation is performed only when there are no issues in the project.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       projectId: {
-        type: 'string',
-        description: 'The ID of the project.',
+        type: "string",
+        description: "The ID of the project.",
       },
       workflowSchemeId: {
-        type: 'string',
+        type: "string",
         description:
-          'The ID of the workflow scheme. If the workflow scheme ID is `null`, the operation assigns the default workflow scheme.',
+          "The ID of the workflow scheme. If the workflow scheme ID is `null`, the operation assigns the default workflow scheme.",
       },
     },
-    required: ['projectId'],
+    required: ["projectId"],
   },
   request: {
-    method: 'PUT',
-    path: '/rest/api/2/workflowscheme/project',
-    body: ['projectId', 'workflowSchemeId'],
+    method: "PUT",
+    path: "/rest/api/2/workflowscheme/project",
+    body: ["projectId", "workflowSchemeId"],
   },
 });

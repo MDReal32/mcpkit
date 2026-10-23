@@ -1,5 +1,5 @@
-import type { ArgSpec, ToolArgs } from '../../manifest';
-import { toNameMapping } from '../../manifest';
+import type { ArgSpec, ToolArgs } from "../../manifest";
+import { toNameMapping } from "../../manifest";
 
 export const collectArgs = (spec: ArgSpec | undefined, args: ToolArgs) => {
   if (!spec) {

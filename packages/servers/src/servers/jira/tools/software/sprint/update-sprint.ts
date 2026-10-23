@@ -1,63 +1,63 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const softwareSprintUpdateSprint = defineTool({
-  name: 'software:sprint:update_sprint',
+  name: "software:sprint:update_sprint",
   description:
-    'Update sprint. Performs a full update of a sprint. A full update means that the result will be exactly the same as the request body. Any fields not present in the request JSON will be set to null.',
+    "Update sprint. Performs a full update of a sprint. A full update means that the result will be exactly the same as the request body. Any fields not present in the request JSON will be set to null.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       sprintId: {
-        type: 'integer',
-        description: 'the ID of the sprint to update.',
+        type: "integer",
+        description: "the ID of the sprint to update.",
       },
       completeDate: {
-        type: 'string',
+        type: "string",
       },
       createdDate: {
-        type: 'string',
+        type: "string",
       },
       endDate: {
-        type: 'string',
+        type: "string",
       },
       goal: {
-        type: 'string',
+        type: "string",
       },
       id: {
-        type: 'integer',
+        type: "integer",
       },
       name: {
-        type: 'string',
+        type: "string",
       },
       originBoardId: {
-        type: 'integer',
+        type: "integer",
       },
       self: {
-        type: 'string',
+        type: "string",
       },
       startDate: {
-        type: 'string',
+        type: "string",
       },
       state: {
-        type: 'string',
+        type: "string",
       },
     },
-    required: ['sprintId'],
+    required: ["sprintId"],
   },
   request: {
-    method: 'PUT',
-    path: '/rest/agile/1.0/sprint/{sprintId}',
+    method: "PUT",
+    path: "/rest/agile/1.0/sprint/{sprintId}",
     body: [
-      'completeDate',
-      'createdDate',
-      'endDate',
-      'goal',
-      'id',
-      'name',
-      'originBoardId',
-      'self',
-      'startDate',
-      'state',
+      "completeDate",
+      "createdDate",
+      "endDate",
+      "goal",
+      "id",
+      "name",
+      "originBoardId",
+      "self",
+      "startDate",
+      "state",
     ],
   },
 });

@@ -1,12 +1,12 @@
-import { createHash } from 'node:crypto';
-import type { Manifest } from '@usemcpkit/core';
-import { TOOL_NAME_SEPARATOR } from './const';
-import type { ManifestPartFile } from './types/manifest-part-file';
-import type { SplitManifest } from './types/split-manifest';
+import { createHash } from "node:crypto";
+import type { Manifest } from "@usemcpkit/core";
+import { TOOL_NAME_SEPARATOR } from "./const";
+import type { ManifestPartFile } from "./types/manifest-part-file";
+import type { SplitManifest } from "./types/split-manifest";
 
 const MIN_SEGMENTS_TO_SPLIT = 3;
 
-const sha256Of = (text: string) => createHash('sha256').update(text).digest('hex');
+const sha256Of = (text: string) => createHash("sha256").update(text).digest("hex");
 
 const toJson = (value: unknown) => `${JSON.stringify(value, null, 2)}\n`;
 
@@ -14,9 +14,9 @@ const isSplittable = ({ tools }: Manifest) =>
   tools.length > 0 && tools.every((tool) => tool.name.split(TOOL_NAME_SEPARATOR).length >= MIN_SEGMENTS_TO_SPLIT);
 
 const groupByFirstSegment = ({ tools }: Manifest) => {
-  const groups = new Map<string, Manifest['tools']>();
+  const groups = new Map<string, Manifest["tools"]>();
   for (const tool of tools) {
-    const [group = ''] = tool.name.split(TOOL_NAME_SEPARATOR);
+    const [group = ""] = tool.name.split(TOOL_NAME_SEPARATOR);
     groups.set(group, [...(groups.get(group) ?? []), tool]);
   }
   return groups;
@@ -36,7 +36,7 @@ export const splitManifest = (manifest: Manifest, registryUrl?: string) => {
     const json = toJson({ tools });
     const path = `${manifest.category}/${manifest.name}/${name}.json`;
     files.push({ path, json });
-    return { name, url: registryUrl ? `${registryUrl.replace(/\/+$/, '')}/${path}` : path, sha256: sha256Of(json) };
+    return { name, url: registryUrl ? `${registryUrl.replace(/\/+$/, "")}/${path}` : path, sha256: sha256Of(json) };
   });
   const { tools: _tools, ...shell } = manifest;
   const split: SplitManifest = { shellJson: toJson({ ...shell, parts }), files };

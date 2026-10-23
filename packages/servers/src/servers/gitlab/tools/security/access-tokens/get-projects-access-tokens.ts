@@ -1,24 +1,24 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const securityAccessTokensGetProjectsAccessTokens = defineTool({
-  name: 'security:access_tokens:get_projects_access_tokens',
-  description: 'Retrieve details on a project access token. Retrieves details on a specified project access token.',
+  name: "security:access_tokens:get_projects_access_tokens",
+  description: "Retrieve details on a project access token. Retrieves details on a specified project access token.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
       token_id: {
-        type: 'string',
-        description: 'ID of the token.',
+        type: "string",
+        description: "ID of the token.",
       },
     },
-    required: ['id', 'token_id'],
+    required: ["id", "token_id"],
   },
   request: {
-    method: 'GET',
-    path: '/projects/{id}/access_tokens/{token_id}',
+    method: "GET",
+    path: "/projects/{id}/access_tokens/{token_id}",
   },
 });

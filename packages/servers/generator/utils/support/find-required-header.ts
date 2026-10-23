@@ -1,4 +1,4 @@
-import type { OpenApiOperation } from '../types/open-api-operation';
+import type { OpenApiOperation } from "../types/open-api-operation";
 
 export const findRequiredHeader = (spec: OpenApiOperation) =>
-  spec.parameters?.find((parameter) => parameter.in === 'header' && parameter.required);
+  spec.parameters?.find((parameter) => parameter.in === "header" && parameter.required);

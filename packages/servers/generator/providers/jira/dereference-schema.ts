@@ -1,7 +1,7 @@
-import type { OpenApiSchema } from '../../utils/types/open-api-schema';
-import { SCHEMA_OPTIONS } from './const';
+import type { OpenApiSchema } from "../../utils/types/open-api-schema";
+import { SCHEMA_OPTIONS } from "./const";
 
-const REF_PREFIX = '#/components/schemas/';
+const REF_PREFIX = "#/components/schemas/";
 
 /** convertSchema never reads properties below the schema depth, and array items only one level further. */
 const MAX_DEREFERENCE_DEPTH = SCHEMA_OPTIONS.maxDepth + 2;

@@ -1,162 +1,162 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterSpaceCreatePropertyByKey = defineTool({
-  name: 'datacenter:space:create_property_by_key',
+  name: "datacenter:space:create_property_by_key",
   description:
-    '[Data Center] Create a space property with a specific key. Create a space property with a specific key.',
+    "[Data Center] Create a space property with a specific key. Create a space property with a specific key.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       spaceKey: {
-        type: 'string',
+        type: "string",
       },
       key: {
-        type: 'string',
-        description: 'property key of the property to be created',
+        type: "string",
+        description: "property key of the property to be created",
       },
       body_key: {
-        type: 'string',
+        type: "string",
       },
       value: {
-        type: 'object',
+        type: "object",
         properties: {
           value: {
-            type: 'string',
+            type: "string",
           },
         },
       },
       version: {
-        type: 'object',
+        type: "object",
         properties: {
           by: {
-            type: 'object',
+            type: "object",
           },
           when: {
-            type: 'string',
+            type: "string",
           },
           message: {
-            type: 'string',
+            type: "string",
           },
           number: {
-            type: 'integer',
+            type: "integer",
           },
           minorEdit: {
-            type: 'boolean',
+            type: "boolean",
           },
           hidden: {
-            type: 'boolean',
+            type: "boolean",
           },
           syncRev: {
-            type: 'string',
+            type: "string",
           },
           content: {
-            type: 'object',
+            type: "object",
           },
           contentRef: {
-            type: 'object',
+            type: "object",
           },
         },
       },
       space: {
-        type: 'object',
+        type: "object",
         properties: {
           id: {
-            type: 'integer',
+            type: "integer",
           },
           key: {
-            type: 'string',
+            type: "string",
           },
           name: {
-            type: 'string',
+            type: "string",
           },
           status: {
-            type: 'string',
+            type: "string",
           },
           icon: {
-            type: 'object',
+            type: "object",
           },
           description: {
-            type: 'object',
+            type: "object",
           },
           homepage: {
-            type: 'object',
+            type: "object",
           },
           links: {
-            type: 'object',
+            type: "object",
           },
           type: {
-            type: 'string',
+            type: "string",
           },
           creator: {
-            type: 'object',
+            type: "object",
           },
           creationDate: {
-            type: 'string',
+            type: "string",
           },
           lastModifier: {
-            type: 'object',
+            type: "object",
           },
           lastModificationDate: {
-            type: 'string',
+            type: "string",
           },
           metadata: {
-            type: 'object',
+            type: "object",
           },
           retentionPolicy: {
-            type: 'object',
+            type: "object",
           },
           permissions: {
-            type: 'object',
+            type: "object",
           },
         },
       },
       spaceRef: {
-        type: 'object',
+        type: "object",
         properties: {
           idProperties: {
-            type: 'object',
+            type: "object",
           },
           expanded: {
-            type: 'boolean',
+            type: "boolean",
           },
         },
       },
       _links: {
-        type: 'object',
+        type: "object",
         properties: {
           base: {
-            type: 'string',
+            type: "string",
           },
           context: {
-            type: 'string',
+            type: "string",
           },
           self: {
-            type: 'string',
+            type: "string",
           },
         },
       },
       _expandable: {
-        type: 'object',
+        type: "object",
         properties: {
           attribute: {
-            type: 'string',
+            type: "string",
           },
         },
       },
     },
-    required: ['spaceKey', 'key'],
+    required: ["spaceKey", "key"],
   },
   request: {
-    method: 'POST',
-    path: '/rest/api/space/{spaceKey}/property/{key}',
+    method: "POST",
+    path: "/rest/api/space/{spaceKey}/property/{key}",
     body: {
-      key: 'body_key',
-      value: 'value',
-      version: 'version',
-      space: 'space',
-      spaceRef: 'spaceRef',
-      _links: '_links',
-      _expandable: '_expandable',
+      key: "body_key",
+      value: "value",
+      version: "version",
+      space: "space",
+      spaceRef: "spaceRef",
+      _links: "_links",
+      _expandable: "_expandable",
     },
   },
 });

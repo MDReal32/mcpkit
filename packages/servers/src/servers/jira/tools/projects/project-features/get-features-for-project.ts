@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsProjectFeaturesGetFeaturesForProject = defineTool({
-  name: 'projects:project_features:get_features_for_project',
-  description: 'Get project features. Returns the list of features for a project.',
+  name: "projects:project_features:get_features_for_project",
+  description: "Get project features. Returns the list of features for a project.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       projectIdOrKey: {
-        type: 'string',
-        description: 'The ID or (case-sensitive) key of the project.',
+        type: "string",
+        description: "The ID or (case-sensitive) key of the project.",
       },
     },
-    required: ['projectIdOrKey'],
+    required: ["projectIdOrKey"],
   },
   request: {
-    method: 'GET',
-    path: '/rest/api/2/project/{projectIdOrKey}/features',
+    method: "GET",
+    path: "/rest/api/2/project/{projectIdOrKey}/features",
   },
 });

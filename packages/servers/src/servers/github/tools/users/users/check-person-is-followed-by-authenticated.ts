@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersUsersCheckPersonIsFollowedByAuthenticated = defineTool({
-  name: 'users:users:check_person_is_followed_by_authenticated',
-  description: 'Check if a person is followed by the authenticated user',
+  name: "users:users:check_person_is_followed_by_authenticated",
+  description: "Check if a person is followed by the authenticated user",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       username: {
-        type: 'string',
-        description: 'The handle for the GitHub user account.',
+        type: "string",
+        description: "The handle for the GitHub user account.",
       },
     },
-    required: ['username'],
+    required: ["username"],
   },
   request: {
-    method: 'GET',
-    path: '/user/following/{username}',
+    method: "GET",
+    path: "/user/following/{username}",
   },
 });

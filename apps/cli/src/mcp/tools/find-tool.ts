@@ -1,6 +1,6 @@
-import type { Catalog } from '../types/catalog';
-import type { ToolLookup } from '../types/tool-lookup';
-import { parseToolId } from './parse-tool-id';
+import type { Catalog } from "../types/catalog";
+import type { ToolLookup } from "../types/tool-lookup";
+import { parseToolId } from "./parse-tool-id";
 
 /** Resolves a tool id against the catalog; the error text is written for the model to correct itself. */
 export const findTool = (catalog: Catalog, id: string): ToolLookup => {

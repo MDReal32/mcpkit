@@ -1,32 +1,32 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesIssuesRemoveLabel = defineTool({
-  name: 'issues:issues:remove_label',
+  name: "issues:issues:remove_label",
   description:
-    'Remove a label from an issue. Removes the specified label from the issue, and returns the remaining labels on the issue. This endpoint returns a `404 Not Found` status if the label does not exist.',
+    "Remove a label from an issue. Removes the specified label from the issue, and returns the remaining labels on the issue. This endpoint returns a `404 Not Found` status if the label does not exist.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       owner: {
-        type: 'string',
-        description: 'The account owner of the repository. The name is not case sensitive.',
+        type: "string",
+        description: "The account owner of the repository. The name is not case sensitive.",
       },
       repo: {
-        type: 'string',
-        description: 'The name of the repository without the `.git` extension. The name is not case sensitive.',
+        type: "string",
+        description: "The name of the repository without the `.git` extension. The name is not case sensitive.",
       },
       issue_number: {
-        type: 'integer',
-        description: 'The number that identifies the issue.',
+        type: "integer",
+        description: "The number that identifies the issue.",
       },
       name: {
-        type: 'string',
+        type: "string",
       },
     },
-    required: ['owner', 'repo', 'issue_number', 'name'],
+    required: ["owner", "repo", "issue_number", "name"],
   },
   request: {
-    method: 'DELETE',
-    path: '/repos/{owner}/{repo}/issues/{issue_number}/labels/{name}',
+    method: "DELETE",
+    path: "/repos/{owner}/{repo}/issues/{issue_number}/labels/{name}",
   },
 });

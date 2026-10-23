@@ -1,22 +1,22 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterWebhooksCreateTest = defineTool({
-  name: 'datacenter:webhooks:create_test',
+  name: "datacenter:webhooks:create_test",
   description:
-    '[Data Center] Test webhook. Test connectivity to a specific endpoint. The authenticated user must be an administrator to call this resource.',
+    "[Data Center] Test webhook. Test connectivity to a specific endpoint. The authenticated user must be an administrator to call this resource.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       url: {
-        type: 'string',
-        description: 'the url in which to connect to',
+        type: "string",
+        description: "the url in which to connect to",
       },
     },
-    required: ['url'],
+    required: ["url"],
   },
   request: {
-    method: 'POST',
-    path: '/rest/api/webhooks/test',
-    query: ['url'],
+    method: "POST",
+    path: "/rest/api/webhooks/test",
+    query: ["url"],
   },
 });

@@ -1,9 +1,9 @@
-import { isJsonObject } from '../../../json';
-import { HTTP_METHODS } from '../../const';
-import { isHttpMethod } from '../guards/is-http-method';
-import { validateArgSpec } from './validate-arg-spec';
-import { validateFixedValues } from './validate-fixed-values';
-import { validateRequestPath } from './validate-request-path';
+import { isJsonObject } from "../../../json";
+import { HTTP_METHODS } from "../../const";
+import { isHttpMethod } from "../guards/is-http-method";
+import { validateArgSpec } from "./validate-arg-spec";
+import { validateFixedValues } from "./validate-fixed-values";
+import { validateRequestPath } from "./validate-request-path";
 
 export const validateRequest = (request: unknown, declaredArgs: ReadonlySet<string>, location: string) => {
   if (!isJsonObject(request)) {
@@ -11,7 +11,7 @@ export const validateRequest = (request: unknown, declaredArgs: ReadonlySet<stri
   }
   const methodErrors = isHttpMethod(request.method)
     ? []
-    : [`${location}.request.method must be one of: ${HTTP_METHODS.join(', ')}`];
+    : [`${location}.request.method must be one of: ${HTTP_METHODS.join(", ")}`];
   return [
     ...methodErrors,
     ...validateRequestPath(request.path, declaredArgs, location),

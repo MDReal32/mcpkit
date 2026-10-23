@@ -1,26 +1,26 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterContentDelete = defineTool({
-  name: 'datacenter:content:delete',
+  name: "datacenter:content:delete",
   description:
-    '[Data Center] Delete content. Trashes or purges a piece of Content, based on its ContentType and ContentStatus.',
+    "[Data Center] Delete content. Trashes or purges a piece of Content, based on its ContentType and ContentStatus.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'the id of the content.',
+        type: "string",
+        description: "the id of the content.",
       },
       status: {
-        type: 'string',
-        description: 'the status of the content to be deleted.',
+        type: "string",
+        description: "the status of the content to be deleted.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'DELETE',
-    path: '/rest/api/content/{id}',
-    query: ['status'],
+    method: "DELETE",
+    path: "/rest/api/content/{id}",
+    query: ["status"],
   },
 });

@@ -1,4 +1,4 @@
-import type { CompiledManifest } from './compiled-manifest';
+import type { CompiledManifest } from "./compiled-manifest";
 
 export interface ServerOutcome {
   dir: string;

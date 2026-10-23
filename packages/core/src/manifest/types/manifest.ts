@@ -1,8 +1,8 @@
-import type { AuthSpec } from './auth/auth-spec';
-import type { DomainSpec } from './server/domain-spec';
-import type { EditionSpec } from './server/edition-spec';
-import type { ToolSpec } from './tool/tool-spec';
-import type { UiSpec } from './ui/ui-spec';
+import type { AuthSpec } from "./auth/auth-spec";
+import type { DomainSpec } from "./server/domain-spec";
+import type { EditionSpec } from "./server/edition-spec";
+import type { ToolSpec } from "./tool/tool-spec";
+import type { UiSpec } from "./ui/ui-spec";
 
 export interface Manifest {
   name: string;

@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsKeysGetKeys = defineTool({
-  name: 'projects:keys:get_keys',
-  description: 'Retrieve user by SSH key ID. Retrieves user by SSH key ID. Administrators only.',
+  name: "projects:keys:get_keys",
+  description: "Retrieve user by SSH key ID. Retrieves user by SSH key ID. Administrators only.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID of the SSH key.',
+        type: "string",
+        description: "ID of the SSH key.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/keys/{id}',
+    method: "GET",
+    path: "/keys/{id}",
   },
 });

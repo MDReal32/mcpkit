@@ -1,3 +1,3 @@
-import { administrationAuditRecordsGetAuditRecords } from './get-audit-records';
+import { administrationAuditRecordsGetAuditRecords } from "./get-audit-records";
 
 export const administrationAuditRecordsTools = [administrationAuditRecordsGetAuditRecords];

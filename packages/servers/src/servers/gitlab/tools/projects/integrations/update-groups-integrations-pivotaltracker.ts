@@ -1,37 +1,37 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsIntegrationsUpdateGroupsIntegrationsPivotaltracker = defineTool({
-  name: 'projects:integrations:update_groups_integrations_pivotaltracker',
-  description: 'Create or update the Pivotaltracker integration. Creates or updates the Pivotaltracker integration.',
+  name: "projects:integrations:update_groups_integrations_pivotaltracker",
+  description: "Create or update the Pivotaltracker integration. Creates or updates the Pivotaltracker integration.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the group.',
+        type: "string",
+        description: "ID or URL-encoded path of the group.",
       },
       token: {
-        type: 'string',
-        description: 'The Pivotal Tracker token.',
+        type: "string",
+        description: "The Pivotal Tracker token.",
       },
       restrict_to_branch: {
-        type: 'string',
-        description: 'Comma-separated list of branches to automatically inspect. Leave blank to include all branches.',
+        type: "string",
+        description: "Comma-separated list of branches to automatically inspect. Leave blank to include all branches.",
       },
       push_events: {
-        type: 'boolean',
-        description: 'Trigger event for pushes to the repository.',
+        type: "boolean",
+        description: "Trigger event for pushes to the repository.",
       },
       use_inherited_settings: {
-        type: 'boolean',
-        description: 'Indicates whether to inherit the default settings. Defaults to `false`.',
+        type: "boolean",
+        description: "Indicates whether to inherit the default settings. Defaults to `false`.",
       },
     },
-    required: ['id', 'token'],
+    required: ["id", "token"],
   },
   request: {
-    method: 'PUT',
-    path: '/groups/{id}/integrations/pivotaltracker',
-    body: ['token', 'restrict_to_branch', 'push_events', 'use_inherited_settings'],
+    method: "PUT",
+    path: "/groups/{id}/integrations/pivotaltracker",
+    body: ["token", "restrict_to_branch", "push_events", "use_inherited_settings"],
   },
 });

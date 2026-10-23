@@ -1,25 +1,25 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterWebhooksGet = defineTool({
-  name: 'datacenter:webhooks:get',
+  name: "datacenter:webhooks:get",
   description:
-    '[Data Center] Get webhook. Get a webhook by id. The authenticated user must be an administrator to call this resource.',
+    "[Data Center] Get webhook. Get a webhook by id. The authenticated user must be an administrator to call this resource.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       webhookId: {
-        type: 'integer',
-        description: 'id of the webhook',
+        type: "integer",
+        description: "id of the webhook",
       },
       statistics: {
-        type: 'boolean',
+        type: "boolean",
       },
     },
-    required: ['webhookId'],
+    required: ["webhookId"],
   },
   request: {
-    method: 'GET',
-    path: '/rest/api/webhooks/{webhookId}',
-    query: ['statistics'],
+    method: "GET",
+    path: "/rest/api/webhooks/{webhookId}",
+    query: ["statistics"],
   },
 });

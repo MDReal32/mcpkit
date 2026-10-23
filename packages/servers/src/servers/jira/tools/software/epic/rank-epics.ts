@@ -1,30 +1,30 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const softwareEpicRankEpics = defineTool({
-  name: 'software:epic:rank_epics',
-  description: 'Rank epics. Moves (ranks) an epic before or after a given epic.',
+  name: "software:epic:rank_epics",
+  description: "Rank epics. Moves (ranks) an epic before or after a given epic.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       epicIdOrKey: {
-        type: 'string',
-        description: 'The id or key of the epic to rank.',
+        type: "string",
+        description: "The id or key of the epic to rank.",
       },
       rankAfterEpic: {
-        type: 'string',
+        type: "string",
       },
       rankBeforeEpic: {
-        type: 'string',
+        type: "string",
       },
       rankCustomFieldId: {
-        type: 'integer',
+        type: "integer",
       },
     },
-    required: ['epicIdOrKey'],
+    required: ["epicIdOrKey"],
   },
   request: {
-    method: 'PUT',
-    path: '/rest/agile/1.0/epic/{epicIdOrKey}/rank',
-    body: ['rankAfterEpic', 'rankBeforeEpic', 'rankCustomFieldId'],
+    method: "PUT",
+    path: "/rest/agile/1.0/epic/{epicIdOrKey}/rank",
+    body: ["rankAfterEpic", "rankBeforeEpic", "rankCustomFieldId"],
   },
 });

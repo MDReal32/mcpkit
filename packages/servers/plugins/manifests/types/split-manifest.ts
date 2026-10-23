@@ -1,4 +1,4 @@
-import type { ManifestPartFile } from './manifest-part-file';
+import type { ManifestPartFile } from "./manifest-part-file";
 
 export interface SplitManifest {
   shellJson: string;

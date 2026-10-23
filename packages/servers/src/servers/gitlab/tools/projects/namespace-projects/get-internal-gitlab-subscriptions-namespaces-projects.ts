@@ -1,32 +1,32 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsNamespaceProjectsGetInternalGitlabSubscriptionsNamespacesProjects = defineTool({
-  name: 'projects:namespace_projects:get_internal_gitlab_subscriptions_namespaces_projects',
+  name: "projects:namespace_projects:get_internal_gitlab_subscriptions_namespaces_projects",
   description:
-    'Returns the projects of a namespace (including subgroups), with license data included. Used by CustomersDot to check OSS program compliance for a namespace, avoiding one API call per project to fetch license data.',
+    "Returns the projects of a namespace (including subgroups), with license data included. Used by CustomersDot to check OSS program compliance for a namespace, avoiding one API call per project to fetch license data.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'The ID or URL-encoded path of the namespace',
+        type: "string",
+        description: "The ID or URL-encoded path of the namespace",
       },
       page: {
-        type: 'integer',
+        type: "integer",
         default: 1,
-        description: 'Page number of results to retrieve.',
+        description: "Page number of results to retrieve.",
       },
       per_page: {
-        type: 'integer',
+        type: "integer",
         default: 20,
-        description: 'Number of items to list per page.',
+        description: "Number of items to list per page.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/internal/gitlab_subscriptions/namespaces/{id}/projects',
-    query: ['page', 'per_page'],
+    method: "GET",
+    path: "/internal/gitlab_subscriptions/namespaces/{id}/projects",
+    query: ["page", "per_page"],
   },
 });

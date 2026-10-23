@@ -1,8 +1,8 @@
-import type { InteractiveAuth } from '../../manifest';
-import { AuthError } from '../auth-error';
-import { signInOnce } from '../oauth/sign-in/sign-in-once';
-import type { AuthContext } from '../types/auth-context';
-import { createResolvedAuth } from './create-resolved-auth';
+import type { InteractiveAuth } from "../../manifest";
+import { AuthError } from "../auth-error";
+import { signInOnce } from "../oauth/sign-in/sign-in-once";
+import type { AuthContext } from "../types/auth-context";
+import { createResolvedAuth } from "./create-resolved-auth";
 
 /** Runs the browser sign-in for one OAuth2 entry and stores the token in `tokens.json`. */
 export const resolveSignedInAuth = async (serverName: string, auth: InteractiveAuth, context: AuthContext) => {

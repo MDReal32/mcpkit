@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersUsersUnblock = defineTool({
-  name: 'users:users:unblock',
-  description: 'Unblock a user. Unblocks the given user and returns a 204.',
+  name: "users:users:unblock",
+  description: "Unblock a user. Unblocks the given user and returns a 204.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       username: {
-        type: 'string',
-        description: 'The handle for the GitHub user account.',
+        type: "string",
+        description: "The handle for the GitHub user account.",
       },
     },
-    required: ['username'],
+    required: ["username"],
   },
   request: {
-    method: 'DELETE',
-    path: '/user/blocks/{username}',
+    method: "DELETE",
+    path: "/user/blocks/{username}",
   },
 });

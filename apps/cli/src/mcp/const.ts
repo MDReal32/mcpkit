@@ -1,6 +1,6 @@
-export const DEFAULT_PROTOCOL_VERSION = '2025-06-18';
+export const DEFAULT_PROTOCOL_VERSION = "2025-06-18";
 
-export const SERVER_NAME = 'mcpkit';
+export const SERVER_NAME = "mcpkit";
 
 export const RPC_ERROR_CODES = {
   parseError: -32700,

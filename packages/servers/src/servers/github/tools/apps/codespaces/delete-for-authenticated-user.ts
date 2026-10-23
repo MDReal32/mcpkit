@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const appsCodespacesDeleteForAuthenticatedUser = defineTool({
-  name: 'apps:codespaces:delete_for_authenticated_user',
+  name: "apps:codespaces:delete_for_authenticated_user",
   description: "Delete a codespace for the authenticated user. Deletes a user's codespace.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       codespace_name: {
-        type: 'string',
-        description: 'The name of the codespace.',
+        type: "string",
+        description: "The name of the codespace.",
       },
     },
-    required: ['codespace_name'],
+    required: ["codespace_name"],
   },
   request: {
-    method: 'DELETE',
-    path: '/user/codespaces/{codespace_name}',
+    method: "DELETE",
+    path: "/user/codespaces/{codespace_name}",
   },
 });

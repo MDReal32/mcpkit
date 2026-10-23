@@ -1,4 +1,4 @@
-import { parseVersion } from './parse-version';
+import { parseVersion } from "./parse-version";
 
 export const compareVersions = (left: string, right: string) => {
   const leftParts = parseVersion(left);

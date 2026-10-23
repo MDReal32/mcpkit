@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const collaborationDashboardsDeleteDashboard = defineTool({
-  name: 'collaboration:dashboards:delete_dashboard',
-  description: 'Delete dashboard. Deletes a dashboard.',
+  name: "collaboration:dashboards:delete_dashboard",
+  description: "Delete dashboard. Deletes a dashboard.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'The ID of the dashboard.',
+        type: "string",
+        description: "The ID of the dashboard.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'DELETE',
-    path: '/rest/api/2/dashboard/{id}',
+    method: "DELETE",
+    path: "/rest/api/2/dashboard/{id}",
   },
 });

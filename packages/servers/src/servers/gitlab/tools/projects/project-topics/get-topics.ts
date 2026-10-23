@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsProjectTopicsGetTopics = defineTool({
-  name: 'projects:project_topics:get_topics',
-  description: 'Retrieve a topic. Retrieves a specified project topic.',
+  name: "projects:project_topics:get_topics",
+  description: "Retrieve a topic. Retrieves a specified project topic.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'ID of the project topic.',
+        type: "integer",
+        description: "ID of the project topic.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/topics/{id}',
+    method: "GET",
+    path: "/topics/{id}",
   },
 });

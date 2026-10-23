@@ -1,5 +1,5 @@
-import type { ParseError } from 'jsonc-parser';
-import { parse, printParseErrorCode } from 'jsonc-parser';
+import type { ParseError } from "jsonc-parser";
+import { parse, printParseErrorCode } from "jsonc-parser";
 
 /** Parses JSON with comments and trailing commas; fails instead of editing a file it cannot read. */
 export const parseJsonConfig = (text: string, path: string) => {

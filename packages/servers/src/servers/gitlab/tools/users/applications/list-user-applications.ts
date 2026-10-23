@@ -1,14 +1,14 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersApplicationsListUserApplications = defineTool({
-  name: 'users:applications:list_user_applications',
-  description: 'List all applications. Lists all applications owned by the authenticated user.',
+  name: "users:applications:list_user_applications",
+  description: "List all applications. Lists all applications owned by the authenticated user.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {},
   },
   request: {
-    method: 'GET',
-    path: '/user/applications',
+    method: "GET",
+    path: "/user/applications",
   },
 });

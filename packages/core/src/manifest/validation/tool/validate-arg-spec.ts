@@ -1,4 +1,4 @@
-import { readArgNames } from './read-arg-names';
+import { readArgNames } from "./read-arg-names";
 
 export const validateArgSpec = (spec: unknown, declaredArgs: ReadonlySet<string>, location: string) => {
   if (spec === undefined) {

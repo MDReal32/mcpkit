@@ -1,12 +1,12 @@
-import { describeError } from '@usemcpkit/core';
-import { createJsonResult } from '../tools/create-json-result';
-import { createTextResult } from '../tools/create-text-result';
-import { findTool } from '../tools/find-tool';
-import type { Catalog } from '../types/catalog';
+import { describeError } from "@usemcpkit/core";
+import { createJsonResult } from "../tools/create-json-result";
+import { createTextResult } from "../tools/create-text-result";
+import { findTool } from "../tools/find-tool";
+import type { Catalog } from "../types/catalog";
 
 export const describeTool = async (catalog: Catalog, id: string) => {
   const found = findTool(catalog, id);
-  if ('error' in found) {
+  if ("error" in found) {
     return createTextResult(found.error, true);
   }
   try {

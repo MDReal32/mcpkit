@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const actionsActionsGetPrivateRepoForkPrWorkflowsSettingsOrganization = defineTool({
-  name: 'actions:actions:get_private_repo_fork_pr_workflows_settings_organization',
+  name: "actions:actions:get_private_repo_fork_pr_workflows_settings_organization",
   description:
-    'Get private repo fork PR workflow settings for an organization. Gets the settings for whether workflows from fork pull requests can run on private repositories in an organization.',
+    "Get private repo fork PR workflow settings for an organization. Gets the settings for whether workflows from fork pull requests can run on private repositories in an organization.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       org: {
-        type: 'string',
-        description: 'The organization name. The name is not case sensitive.',
+        type: "string",
+        description: "The organization name. The name is not case sensitive.",
       },
     },
-    required: ['org'],
+    required: ["org"],
   },
   request: {
-    method: 'GET',
-    path: '/orgs/{org}/actions/permissions/fork-pr-workflows-private-repos',
+    method: "GET",
+    path: "/orgs/{org}/actions/permissions/fork-pr-workflows-private-repos",
   },
 });

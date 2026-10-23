@@ -1,3 +1,3 @@
-import { securityCredentialsRevoke } from './revoke';
+import { securityCredentialsRevoke } from "./revoke";
 
 export const securityCredentialsTools = [securityCredentialsRevoke];

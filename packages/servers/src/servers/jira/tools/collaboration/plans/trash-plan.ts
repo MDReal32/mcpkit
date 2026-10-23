@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const collaborationPlansTrashPlan = defineTool({
-  name: 'collaboration:plans:trash_plan',
-  description: 'Trash plan. Moves a plan to trash.',
+  name: "collaboration:plans:trash_plan",
+  description: "Trash plan. Moves a plan to trash.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       planId: {
-        type: 'integer',
-        description: 'The ID of the plan.',
+        type: "integer",
+        description: "The ID of the plan.",
       },
     },
-    required: ['planId'],
+    required: ["planId"],
   },
   request: {
-    method: 'PUT',
-    path: '/rest/api/2/plans/plan/{planId}/trash',
+    method: "PUT",
+    path: "/rest/api/2/plans/plan/{planId}/trash",
   },
 });

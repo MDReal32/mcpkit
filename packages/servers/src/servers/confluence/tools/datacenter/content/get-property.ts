@@ -1,34 +1,34 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterContentGetProperty = defineTool({
-  name: 'datacenter:content:get_property',
+  name: "datacenter:content:get_property",
   description:
-    '[Data Center] Find all content properties. Returns a paginated list of content properties. Example request URI(s):',
+    "[Data Center] Find all content properties. Returns a paginated list of content properties. Example request URI(s):",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
+        type: "string",
       },
       expand: {
-        type: 'string',
+        type: "string",
         description:
-          'a comma separated list of properties to expand on the content properties. Default value: <code>version</code>.',
+          "a comma separated list of properties to expand on the content properties. Default value: <code>version</code>.",
       },
       limit: {
-        type: 'integer',
-        description: 'the limit of the number of labels to return, this may be restricted by fixed system limits',
+        type: "integer",
+        description: "the limit of the number of labels to return, this may be restricted by fixed system limits",
       },
       start: {
-        type: 'integer',
-        description: 'the start point of the collection to return.',
+        type: "integer",
+        description: "the start point of the collection to return.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/rest/api/content/{id}/property',
-    query: ['expand', 'limit', 'start'],
+    method: "GET",
+    path: "/rest/api/content/{id}/property",
+    query: ["expand", "limit", "start"],
   },
 });

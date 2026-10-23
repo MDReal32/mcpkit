@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesTasksCancelTask = defineTool({
-  name: 'issues:tasks:cancel_task',
-  description: 'Cancel task. Cancels a task.',
+  name: "issues:tasks:cancel_task",
+  description: "Cancel task. Cancels a task.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       taskId: {
-        type: 'string',
-        description: 'The ID of the task.',
+        type: "string",
+        description: "The ID of the task.",
       },
     },
-    required: ['taskId'],
+    required: ["taskId"],
   },
   request: {
-    method: 'POST',
-    path: '/rest/api/2/task/{taskId}/cancel',
+    method: "POST",
+    path: "/rest/api/2/task/{taskId}/cancel",
   },
 });

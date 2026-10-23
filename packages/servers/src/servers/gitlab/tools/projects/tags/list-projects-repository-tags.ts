@@ -1,53 +1,53 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsTagsListProjectsRepositoryTags = defineTool({
-  name: 'projects:tags:list_projects_repository_tags',
+  name: "projects:tags:list_projects_repository_tags",
   description:
-    'List all project repository tags. Lists all repository tags from a project, sorted by update date and time in descending order.',
+    "List all project repository tags. Lists all repository tags from a project, sorted by update date and time in descending order.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
       sort: {
-        type: 'string',
-        default: 'desc',
-        enum: ['asc', 'desc'],
-        description: 'Sort results in ascending or descending order.',
+        type: "string",
+        default: "desc",
+        enum: ["asc", "desc"],
+        description: "Sort results in ascending or descending order.",
       },
       order_by: {
-        type: 'string',
-        default: 'updated',
-        enum: ['name', 'updated', 'version'],
-        description: 'Sort results by the specified field. Sorting by version uses the semantic version number.',
+        type: "string",
+        default: "updated",
+        enum: ["name", "updated", "version"],
+        description: "Sort results by the specified field. Sorting by version uses the semantic version number.",
       },
       search: {
-        type: 'string',
+        type: "string",
         description:
-          'Return only tags matching the search criteria. Use `^term` to find tags that begin with `term`, and `term$` to find tags that end with `term`. No other regular expressions are supported.',
+          "Return only tags matching the search criteria. Use `^term` to find tags that begin with `term`, and `term$` to find tags that end with `term`. No other regular expressions are supported.",
       },
       page_token: {
-        type: 'string',
-        description: 'Name of the tag to start the pagination from. Used for keyset pagination.',
+        type: "string",
+        description: "Name of the tag to start the pagination from. Used for keyset pagination.",
       },
       page: {
-        type: 'integer',
+        type: "integer",
         default: 1,
-        description: 'Page number of results to retrieve.',
+        description: "Page number of results to retrieve.",
       },
       per_page: {
-        type: 'integer',
+        type: "integer",
         default: 20,
-        description: 'Number of items to list per page.',
+        description: "Number of items to list per page.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/projects/{id}/repository/tags',
-    query: ['sort', 'order_by', 'search', 'page_token', 'page', 'per_page'],
+    method: "GET",
+    path: "/projects/{id}/repository/tags",
+    query: ["sort", "order_by", "search", "page_token", "page", "per_page"],
   },
 });

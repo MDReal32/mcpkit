@@ -1,33 +1,33 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsProjectPermissionSchemesAssignPermissionScheme = defineTool({
-  name: 'projects:project_permission_schemes:assign_permission_scheme',
+  name: "projects:project_permission_schemes:assign_permission_scheme",
   description:
-    'Assign permission scheme. Assigns a permission scheme with a project. See Managing project permissions for more information about permission schemes.',
+    "Assign permission scheme. Assigns a permission scheme with a project. See Managing project permissions for more information about permission schemes.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       projectKeyOrId: {
-        type: 'string',
-        description: 'The project ID or project key (case sensitive).',
+        type: "string",
+        description: "The project ID or project key (case sensitive).",
       },
       expand: {
-        type: 'string',
+        type: "string",
         description:
-          'Use expand to include additional information in the response. This parameter accepts a comma-separated list. Note that permissions are included when you specify any value. Expand options include:',
+          "Use expand to include additional information in the response. This parameter accepts a comma-separated list. Note that permissions are included when you specify any value. Expand options include:",
       },
       id: {
-        type: 'integer',
+        type: "integer",
         description:
-          'The ID of the permission scheme to associate with the project. Use the Get all permission schemes resource to get a list of permission scheme IDs.',
+          "The ID of the permission scheme to associate with the project. Use the Get all permission schemes resource to get a list of permission scheme IDs.",
       },
     },
-    required: ['projectKeyOrId', 'id'],
+    required: ["projectKeyOrId", "id"],
   },
   request: {
-    method: 'PUT',
-    path: '/rest/api/2/project/{projectKeyOrId}/permissionscheme',
-    query: ['expand'],
-    body: ['id'],
+    method: "PUT",
+    path: "/rest/api/2/project/{projectKeyOrId}/permissionscheme",
+    query: ["expand"],
+    body: ["id"],
   },
 });

@@ -1,28 +1,28 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const ciTerraformDeleteProjectsTerraformStateVersions = defineTool({
-  name: 'ci:terraform:delete_projects_terraform_state_versions',
-  description: 'Delete a Terraform state version. Deletes a specified Terraform state version.',
+  name: "ci:terraform:delete_projects_terraform_state_versions",
+  description: "Delete a Terraform state version. Deletes a specified Terraform state version.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
       name: {
-        type: 'string',
-        description: 'Name of the Terraform state.',
+        type: "string",
+        description: "Name of the Terraform state.",
       },
       serial: {
-        type: 'integer',
-        description: 'Version number of the Terraform state.',
+        type: "integer",
+        description: "Version number of the Terraform state.",
       },
     },
-    required: ['id', 'name', 'serial'],
+    required: ["id", "name", "serial"],
   },
   request: {
-    method: 'DELETE',
-    path: '/projects/{id}/terraform/state/{name}/versions/{serial}',
+    method: "DELETE",
+    path: "/projects/{id}/terraform/state/{name}/versions/{serial}",
   },
 });

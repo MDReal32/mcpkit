@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const securityDependencyManagementGetOccurrencesVulnerabilities = defineTool({
-  name: 'security:dependency_management:get_occurrences_vulnerabilities',
-  description: 'Get vulnerabilities. Returns vulnerabilities related to an occurrence.',
+  name: "security:dependency_management:get_occurrences_vulnerabilities",
+  description: "Get vulnerabilities. Returns vulnerabilities related to an occurrence.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID of the occurrence.',
+        type: "string",
+        description: "ID of the occurrence.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/occurrences/vulnerabilities',
-    query: ['id'],
+    method: "GET",
+    path: "/occurrences/vulnerabilities",
+    query: ["id"],
   },
 });

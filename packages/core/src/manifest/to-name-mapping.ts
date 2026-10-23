@@ -1,6 +1,6 @@
-import { isNameList } from './is-name-list';
-import type { NameList } from './types/tool/name-list';
-import type { NameMapping } from './types/tool/name-mapping';
+import { isNameList } from "./is-name-list";
+import type { NameList } from "./types/tool/name-list";
+import type { NameMapping } from "./types/tool/name-mapping";
 
 export const toNameMapping = (spec: NameList | NameMapping) => {
   if (!isNameList(spec)) {

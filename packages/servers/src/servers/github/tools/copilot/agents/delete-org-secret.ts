@@ -1,24 +1,24 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const copilotAgentsDeleteOrgSecret = defineTool({
-  name: 'copilot:agents:delete_org_secret',
-  description: 'Delete an organization secret. Deletes a secret in an organization using the secret name.',
+  name: "copilot:agents:delete_org_secret",
+  description: "Delete an organization secret. Deletes a secret in an organization using the secret name.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       org: {
-        type: 'string',
-        description: 'The organization name. The name is not case sensitive.',
+        type: "string",
+        description: "The organization name. The name is not case sensitive.",
       },
       secret_name: {
-        type: 'string',
-        description: 'The name of the secret.',
+        type: "string",
+        description: "The name of the secret.",
       },
     },
-    required: ['org', 'secret_name'],
+    required: ["org", "secret_name"],
   },
   request: {
-    method: 'DELETE',
-    path: '/orgs/{org}/agents/secrets/{secret_name}',
+    method: "DELETE",
+    path: "/orgs/{org}/agents/secrets/{secret_name}",
   },
 });

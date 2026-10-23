@@ -1,33 +1,33 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const orgsOrgsListForUser = defineTool({
-  name: 'orgs:orgs:list_for_user',
-  description: 'List organizations for a user. List public organization memberships for the specified user.',
+  name: "orgs:orgs:list_for_user",
+  description: "List organizations for a user. List public organization memberships for the specified user.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       username: {
-        type: 'string',
-        description: 'The handle for the GitHub user account.',
+        type: "string",
+        description: "The handle for the GitHub user account.",
       },
       per_page: {
-        type: 'integer',
+        type: "integer",
         default: 30,
         description:
           'The number of results per page (max 100). For more information, see "Using pagination in the REST API."',
       },
       page: {
-        type: 'integer',
+        type: "integer",
         default: 1,
         description:
           'The page number of the results to fetch. For more information, see "Using pagination in the REST API."',
       },
     },
-    required: ['username'],
+    required: ["username"],
   },
   request: {
-    method: 'GET',
-    path: '/users/{username}/orgs',
-    query: ['per_page', 'page'],
+    method: "GET",
+    path: "/users/{username}/orgs",
+    query: ["per_page", "page"],
   },
 });

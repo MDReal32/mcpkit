@@ -1,5 +1,5 @@
 /** `operation-id` names actions after the spec's operationId, `path` derives them from the method and path. */
-export type OperationNaming = 'operation-id' | 'path';
+export type OperationNaming = "operation-id" | "path";
 
 export interface SpecSource {
   /** Kebab-case tool group, also the folder under `tools/`. */

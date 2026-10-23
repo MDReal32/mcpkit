@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const actionsActionsGetForkPrContributorApprovalPermissionsOrganization = defineTool({
-  name: 'actions:actions:get_fork_pr_contributor_approval_permissions_organization',
+  name: "actions:actions:get_fork_pr_contributor_approval_permissions_organization",
   description:
-    'Get fork PR contributor approval permissions for an organization. Gets the fork PR contributor approval policy for an organization.',
+    "Get fork PR contributor approval permissions for an organization. Gets the fork PR contributor approval policy for an organization.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       org: {
-        type: 'string',
-        description: 'The organization name. The name is not case sensitive.',
+        type: "string",
+        description: "The organization name. The name is not case sensitive.",
       },
     },
-    required: ['org'],
+    required: ["org"],
   },
   request: {
-    method: 'GET',
-    path: '/orgs/{org}/actions/permissions/fork-pr-contributor-approval',
+    method: "GET",
+    path: "/orgs/{org}/actions/permissions/fork-pr-contributor-approval",
   },
 });

@@ -1,6 +1,6 @@
-import { describeError } from '@usemcpkit/core';
-import { EXIT_FAILURE } from './const';
-import { printError } from './output/print-error';
+import { describeError } from "@usemcpkit/core";
+import { EXIT_FAILURE } from "./const";
+import { printError } from "./output/print-error";
 
 /** Adapts a command that resolves to an exit code into a yargs-extended action, printing failures as one line. */
 export const toAction =

@@ -1,9 +1,9 @@
-import { AUTO_UPDATE_ENV, NPM_REGISTRY_ENV } from '@usemcpkit/binary';
-import { CLIENT_DEFINITIONS } from '@usemcpkit/clients';
+import { AUTO_UPDATE_ENV, NPM_REGISTRY_ENV } from "@usemcpkit/binary";
+import { CLIENT_DEFINITIONS } from "@usemcpkit/clients";
 
 export const describeProgram = () => `mcpkit [command] — many MCP servers, one binary (no command means install)
 
-Clients: ${CLIENT_DEFINITIONS.map((definition) => definition.id).join(', ')}
+Clients: ${CLIENT_DEFINITIONS.map((definition) => definition.id).join(", ")}
 
 Environment:
 - MCPKIT_HOME: config dir with bin/, manifests/, tokens.json, config.json and secrets.json (default ~/.mcpkit)

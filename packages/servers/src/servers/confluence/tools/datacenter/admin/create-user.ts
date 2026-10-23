@@ -1,31 +1,31 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterAdminCreateUser = defineTool({
-  name: 'datacenter:admin:create_user',
-  description: '[Data Center] Create user. One of the following options could be used:',
+  name: "datacenter:admin:create_user",
+  description: "[Data Center] Create user. One of the following options could be used:",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       userName: {
-        type: 'string',
+        type: "string",
       },
       fullName: {
-        type: 'string',
+        type: "string",
       },
       email: {
-        type: 'string',
+        type: "string",
       },
       password: {
-        type: 'string',
+        type: "string",
       },
       notifyViaEmail: {
-        type: 'boolean',
+        type: "boolean",
       },
     },
   },
   request: {
-    method: 'POST',
-    path: '/rest/api/admin/user',
-    body: ['userName', 'fullName', 'email', 'password', 'notifyViaEmail'],
+    method: "POST",
+    path: "/rest/api/admin/user",
+    body: ["userName", "fullName", "email", "password", "notifyViaEmail"],
   },
 });

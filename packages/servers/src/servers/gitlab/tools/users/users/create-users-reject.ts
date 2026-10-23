@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersUsersCreateUsersReject = defineTool({
-  name: 'users:users:create_users_reject',
+  name: "users:users:create_users_reject",
   description:
-    'Reject access to a user. Rejects access to a specified user account that is pending approval. Administrators only.',
+    "Reject access to a user. Rejects access to a specified user account that is pending approval. Administrators only.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'ID of the user.',
+        type: "integer",
+        description: "ID of the user.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'POST',
-    path: '/users/{id}/reject',
+    method: "POST",
+    path: "/users/{id}/reject",
   },
 });

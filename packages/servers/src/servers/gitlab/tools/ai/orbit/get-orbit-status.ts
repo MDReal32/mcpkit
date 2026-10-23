@@ -1,23 +1,23 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const aiOrbitGetOrbitStatus = defineTool({
-  name: 'ai:orbit:get_orbit_status',
+  name: "ai:orbit:get_orbit_status",
   description:
-    'Retrieve access and cluster health. Returns whether the user can access Orbit, plus cluster health. Always returns 200, regardless of access.',
+    "Retrieve access and cluster health. Returns whether the user can access Orbit, plus cluster health. Always returns 200, regardless of access.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       response_format: {
-        type: 'string',
-        default: 'raw',
-        enum: ['raw', 'llm'],
-        description: 'Response format: raw or llm',
+        type: "string",
+        default: "raw",
+        enum: ["raw", "llm"],
+        description: "Response format: raw or llm",
       },
     },
   },
   request: {
-    method: 'GET',
-    path: '/orbit/status',
-    query: ['response_format'],
+    method: "GET",
+    path: "/orbit/status",
+    query: ["response_format"],
   },
 });

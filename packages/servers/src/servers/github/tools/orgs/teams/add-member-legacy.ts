@@ -1,25 +1,25 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const orgsTeamsAddMemberLegacy = defineTool({
-  name: 'orgs:teams:add_member_legacy',
+  name: "orgs:teams:add_member_legacy",
   description:
     '[Deprecated] Add team member (Legacy). The "Add team member" endpoint (described below) is closing down.',
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       team_id: {
-        type: 'integer',
-        description: 'The unique identifier of the team.',
+        type: "integer",
+        description: "The unique identifier of the team.",
       },
       username: {
-        type: 'string',
-        description: 'The handle for the GitHub user account.',
+        type: "string",
+        description: "The handle for the GitHub user account.",
       },
     },
-    required: ['team_id', 'username'],
+    required: ["team_id", "username"],
   },
   request: {
-    method: 'PUT',
-    path: '/teams/{team_id}/members/{username}',
+    method: "PUT",
+    path: "/teams/{team_id}/members/{username}",
   },
 });

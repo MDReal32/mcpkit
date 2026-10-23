@@ -1,10 +1,10 @@
-export const TOKENS_FILE_NAME = 'tokens.json';
+export const TOKENS_FILE_NAME = "tokens.json";
 
 export const DEFAULT_REDIRECT_PORT = 8976;
 
-export const LOOPBACK_HOST = '127.0.0.1';
+export const LOOPBACK_HOST = "127.0.0.1";
 
-export const CALLBACK_PATH = '/callback';
+export const CALLBACK_PATH = "/callback";
 
 export const SIGN_IN_TIMEOUT_MS = 5 * 60_000;
 
@@ -26,15 +26,15 @@ export const MS_PER_SECOND = 1000;
 
 /** HTTP contract between the CLI's loopback credentials form server and the page it serves. */
 export const CREDENTIALS_FORM_API = {
-  submit: '/api/submit',
-  cancel: '/api/cancel',
-  import: '/api/import',
+  submit: "/api/submit",
+  cancel: "/api/cancel",
+  import: "/api/import",
 } as const;
 
-export const CREDENTIALS_REQUEST_ELEMENT_ID = 'mcpkit-request';
+export const CREDENTIALS_REQUEST_ELEMENT_ID = "mcpkit-request";
 
-export const CREDENTIALS_FORM_SESSION_HEADER = 'X-Mcpkit-Session';
+export const CREDENTIALS_FORM_SESSION_HEADER = "X-Mcpkit-Session";
 
-export const CONFIG_FILE_NAME = 'config.json';
+export const CONFIG_FILE_NAME = "config.json";
 
-export const SECRETS_FILE_NAME = 'secrets.json';
+export const SECRETS_FILE_NAME = "secrets.json";

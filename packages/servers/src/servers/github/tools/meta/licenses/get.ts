@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const metaLicensesGet = defineTool({
-  name: 'meta:licenses:get',
+  name: "meta:licenses:get",
   description:
     'Get a license. Gets information about a specific license. For more information, see "Licensing a repository ."',
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       license: {
-        type: 'string',
+        type: "string",
       },
     },
-    required: ['license'],
+    required: ["license"],
   },
   request: {
-    method: 'GET',
-    path: '/licenses/{license}',
+    method: "GET",
+    path: "/licenses/{license}",
   },
 });

@@ -1,5 +1,5 @@
-import type { ArgumentNaming } from './argument-naming';
-import type { SchemaOptions } from './schema-options';
+import type { ArgumentNaming } from "./argument-naming";
+import type { SchemaOptions } from "./schema-options";
 
 export interface ToolDefinitionOptions {
   schema: SchemaOptions;

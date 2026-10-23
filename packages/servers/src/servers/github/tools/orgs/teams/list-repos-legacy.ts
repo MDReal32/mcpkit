@@ -1,34 +1,34 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const orgsTeamsListReposLegacy = defineTool({
-  name: 'orgs:teams:list_repos_legacy',
+  name: "orgs:teams:list_repos_legacy",
   description:
-    '[Deprecated] List team repositories (Legacy). > [!WARNING] > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new List team repositories endpoint.',
+    "[Deprecated] List team repositories (Legacy). > [!WARNING] > **Endpoint closing down notice:** This endpoint route is closing down and will be removed from the Teams API. We recommend migrating your existing code to use the new List team repositories endpoint.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       team_id: {
-        type: 'integer',
-        description: 'The unique identifier of the team.',
+        type: "integer",
+        description: "The unique identifier of the team.",
       },
       per_page: {
-        type: 'integer',
+        type: "integer",
         default: 30,
         description:
           'The number of results per page (max 100). For more information, see "Using pagination in the REST API."',
       },
       page: {
-        type: 'integer',
+        type: "integer",
         default: 1,
         description:
           'The page number of the results to fetch. For more information, see "Using pagination in the REST API."',
       },
     },
-    required: ['team_id'],
+    required: ["team_id"],
   },
   request: {
-    method: 'GET',
-    path: '/teams/{team_id}/repos',
-    query: ['per_page', 'page'],
+    method: "GET",
+    path: "/teams/{team_id}/repos",
+    query: ["per_page", "page"],
   },
 });

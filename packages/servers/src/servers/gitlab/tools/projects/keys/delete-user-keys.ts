@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsKeysDeleteUserKeys = defineTool({
-  name: 'projects:keys:delete_user_keys',
-  description: 'Delete an SSH key. Deletes a specified SSH key from the currently authenticated user.',
+  name: "projects:keys:delete_user_keys",
+  description: "Delete an SSH key. Deletes a specified SSH key from the currently authenticated user.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       key_id: {
-        type: 'integer',
-        description: 'ID of the SSH key.',
+        type: "integer",
+        description: "ID of the SSH key.",
       },
     },
-    required: ['key_id'],
+    required: ["key_id"],
   },
   request: {
-    method: 'DELETE',
-    path: '/user/keys/{key_id}',
+    method: "DELETE",
+    path: "/user/keys/{key_id}",
   },
 });

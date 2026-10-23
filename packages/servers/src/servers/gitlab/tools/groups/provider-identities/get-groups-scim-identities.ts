@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const groupsProviderIdentitiesGetGroupsScimIdentities = defineTool({
-  name: 'groups:provider_identities:get_groups_scim_identities',
-  description: 'Retrieve SCIM identities for a group. Retrieves SCIM identities for a group.',
+  name: "groups:provider_identities:get_groups_scim_identities",
+  description: "Retrieve SCIM identities for a group. Retrieves SCIM identities for a group.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the group.',
+        type: "string",
+        description: "ID or URL-encoded path of the group.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/groups/{id}/scim/identities',
+    method: "GET",
+    path: "/groups/{id}/scim/identities",
   },
 });

@@ -1,24 +1,24 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const collaborationDashboardsRemoveGadget = defineTool({
-  name: 'collaboration:dashboards:remove_gadget',
-  description: 'Remove gadget from dashboard. Removes a dashboard gadget from a dashboard.',
+  name: "collaboration:dashboards:remove_gadget",
+  description: "Remove gadget from dashboard. Removes a dashboard gadget from a dashboard.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       dashboardId: {
-        type: 'integer',
-        description: 'The ID of the dashboard.',
+        type: "integer",
+        description: "The ID of the dashboard.",
       },
       gadgetId: {
-        type: 'integer',
-        description: 'The ID of the gadget.',
+        type: "integer",
+        description: "The ID of the gadget.",
       },
     },
-    required: ['dashboardId', 'gadgetId'],
+    required: ["dashboardId", "gadgetId"],
   },
   request: {
-    method: 'DELETE',
-    path: '/rest/api/2/dashboard/{dashboardId}/gadget/{gadgetId}',
+    method: "DELETE",
+    path: "/rest/api/2/dashboard/{dashboardId}/gadget/{gadgetId}",
   },
 });

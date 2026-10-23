@@ -1,5 +1,5 @@
-import type { Manifest } from '../../manifest';
-import type { ResolvedAuth } from './resolved-auth';
+import type { Manifest } from "../../manifest";
+import type { ResolvedAuth } from "./resolved-auth";
 
 export interface AuthResolution {
   auth: ResolvedAuth;

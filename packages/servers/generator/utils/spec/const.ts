@@ -1,1 +1,1 @@
-export const HTTP_METHODS = ['get', 'post', 'put', 'patch', 'delete'];
+export const HTTP_METHODS = ["get", "post", "put", "patch", "delete"];

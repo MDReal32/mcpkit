@@ -1,7 +1,7 @@
-import type { OAuthAuth } from '../../../manifest';
-import type { AuthContext } from '../../types/auth-context';
-import type { CodeExchange } from '../../types/oauth/code-exchange';
-import { requestToken } from './request-token';
+import type { OAuthAuth } from "../../../manifest";
+import type { AuthContext } from "../../types/auth-context";
+import type { CodeExchange } from "../../types/oauth/code-exchange";
+import { requestToken } from "./request-token";
 
 export const exchangeAuthorizationCode = (
   auth: OAuthAuth,
@@ -12,7 +12,7 @@ export const exchangeAuthorizationCode = (
   requestToken(
     auth,
     {
-      grant_type: 'authorization_code',
+      grant_type: "authorization_code",
       code,
       redirect_uri: redirectUri,
       code_verifier: verifier,

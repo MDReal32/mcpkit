@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsIntegrationsCreateSlackTrigger = defineTool({
-  name: 'projects:integrations:create_slack_trigger',
-  description: 'Trigger a global slack command. Triggers a global slack command.',
+  name: "projects:integrations:create_slack_trigger",
+  description: "Trigger a global slack command. Triggers a global slack command.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       text: {
-        type: 'string',
-        description: 'Text of the Slack command.',
+        type: "string",
+        description: "Text of the Slack command.",
       },
     },
-    required: ['text'],
+    required: ["text"],
   },
   request: {
-    method: 'POST',
-    path: '/slack/trigger',
-    body: ['text'],
+    method: "POST",
+    path: "/slack/trigger",
+    body: ["text"],
   },
 });

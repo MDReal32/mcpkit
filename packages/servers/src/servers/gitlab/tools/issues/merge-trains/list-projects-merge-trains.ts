@@ -1,43 +1,43 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesMergeTrainsListProjectsMergeTrains = defineTool({
-  name: 'issues:merge_trains:list_projects_merge_trains',
-  description: 'List all merge trains for a project. Lists all merge trains for a specified project.',
+  name: "issues:merge_trains:list_projects_merge_trains",
+  description: "List all merge trains for a project. Lists all merge trains for a specified project.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
       scope: {
-        type: 'string',
-        enum: ['active', 'complete'],
-        description: 'Filter merge trains by scope.',
+        type: "string",
+        enum: ["active", "complete"],
+        description: "Filter merge trains by scope.",
       },
       sort: {
-        type: 'string',
-        default: 'desc',
-        enum: ['asc', 'desc'],
+        type: "string",
+        default: "desc",
+        enum: ["asc", "desc"],
         description:
-          'Sort results in ascending or descending order by `id`. A lower `id` value means the merge request was added to the train earlier.',
+          "Sort results in ascending or descending order by `id`. A lower `id` value means the merge request was added to the train earlier.",
       },
       page: {
-        type: 'integer',
+        type: "integer",
         default: 1,
-        description: 'Page number of results to retrieve.',
+        description: "Page number of results to retrieve.",
       },
       per_page: {
-        type: 'integer',
+        type: "integer",
         default: 20,
-        description: 'Number of items to list per page.',
+        description: "Number of items to list per page.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/projects/{id}/merge_trains',
-    query: ['scope', 'sort', 'page', 'per_page'],
+    method: "GET",
+    path: "/projects/{id}/merge_trains",
+    query: ["scope", "sort", "page", "per_page"],
   },
 });

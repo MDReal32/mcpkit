@@ -1,1 +1,1 @@
-export { compareVersions } from './compare-versions';
+export { compareVersions } from "./compare-versions";

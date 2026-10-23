@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersGistsUnstar = defineTool({
-  name: 'users:gists:unstar',
-  description: 'Unstar a gist',
+  name: "users:gists:unstar",
+  description: "Unstar a gist",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       gist_id: {
-        type: 'string',
-        description: 'The unique identifier of the gist.',
+        type: "string",
+        description: "The unique identifier of the gist.",
       },
     },
-    required: ['gist_id'],
+    required: ["gist_id"],
   },
   request: {
-    method: 'DELETE',
-    path: '/gists/{gist_id}/star',
+    method: "DELETE",
+    path: "/gists/{gist_id}/star",
   },
 });

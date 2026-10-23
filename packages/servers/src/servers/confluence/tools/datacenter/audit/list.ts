@@ -1,14 +1,14 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterAuditList = defineTool({
-  name: 'datacenter:audit:list',
-  description: '[Data Center] [Deprecated] ',
+  name: "datacenter:audit:list",
+  description: "[Data Center] [Deprecated] ",
   input: {
-    type: 'object',
+    type: "object",
     properties: {},
   },
   request: {
-    method: 'GET',
-    path: '/rest/api/audit',
+    method: "GET",
+    path: "/rest/api/audit",
   },
 });

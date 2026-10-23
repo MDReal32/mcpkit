@@ -1,57 +1,57 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsIntegrationsUpdateGroupsIntegrationsBamboo = defineTool({
-  name: 'projects:integrations:update_groups_integrations_bamboo',
-  description: 'Create or update the Bamboo integration. Creates or updates the Bamboo integration.',
+  name: "projects:integrations:update_groups_integrations_bamboo",
+  description: "Create or update the Bamboo integration. Creates or updates the Bamboo integration.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the group.',
+        type: "string",
+        description: "ID or URL-encoded path of the group.",
       },
       enable_ssl_verification: {
-        type: 'boolean',
-        description: 'Enable SSL verification. Defaults to `true` (enabled).',
+        type: "boolean",
+        description: "Enable SSL verification. Defaults to `true` (enabled).",
       },
       bamboo_url: {
-        type: 'string',
-        description: 'Bamboo root URL (for example, `https://bamboo.example.com`).',
+        type: "string",
+        description: "Bamboo root URL (for example, `https://bamboo.example.com`).",
       },
       build_key: {
-        type: 'string',
-        description: 'Bamboo build plan key (for example, `KEY`).',
+        type: "string",
+        description: "Bamboo build plan key (for example, `KEY`).",
       },
       username: {
-        type: 'string',
-        description: 'User with API access to the Bamboo server.',
+        type: "string",
+        description: "User with API access to the Bamboo server.",
       },
       password: {
-        type: 'string',
-        description: 'Password of the user.',
+        type: "string",
+        description: "Password of the user.",
       },
       push_events: {
-        type: 'boolean',
-        description: 'Trigger event for pushes to the repository.',
+        type: "boolean",
+        description: "Trigger event for pushes to the repository.",
       },
       use_inherited_settings: {
-        type: 'boolean',
-        description: 'Indicates whether to inherit the default settings. Defaults to `false`.',
+        type: "boolean",
+        description: "Indicates whether to inherit the default settings. Defaults to `false`.",
       },
     },
-    required: ['id', 'bamboo_url', 'build_key', 'username', 'password'],
+    required: ["id", "bamboo_url", "build_key", "username", "password"],
   },
   request: {
-    method: 'PUT',
-    path: '/groups/{id}/integrations/bamboo',
+    method: "PUT",
+    path: "/groups/{id}/integrations/bamboo",
     body: [
-      'enable_ssl_verification',
-      'bamboo_url',
-      'build_key',
-      'username',
-      'password',
-      'push_events',
-      'use_inherited_settings',
+      "enable_ssl_verification",
+      "bamboo_url",
+      "build_key",
+      "username",
+      "password",
+      "push_events",
+      "use_inherited_settings",
     ],
   },
 });

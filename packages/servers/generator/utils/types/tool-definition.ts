@@ -1,3 +1,3 @@
-import type { ToolSpec } from '@usemcpkit/core';
+import type { ToolSpec } from "@usemcpkit/core";
 
-export type ToolDefinition = Pick<ToolSpec, 'name' | 'description' | 'input' | 'request' | 'editions'>;
+export type ToolDefinition = Pick<ToolSpec, "name" | "description" | "input" | "request" | "editions">;

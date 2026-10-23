@@ -1,44 +1,44 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const ciPipelinesListProjectsPipelinesJobs = defineTool({
-  name: 'ci:pipelines:list_projects_pipelines_jobs',
-  description: 'List all jobs by pipeline. Lists all jobs for a specified pipeline.',
+  name: "ci:pipelines:list_projects_pipelines_jobs",
+  description: "List all jobs by pipeline. Lists all jobs for a specified pipeline.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
       pipeline_id: {
-        type: 'integer',
-        description: 'ID of the pipeline.',
+        type: "integer",
+        description: "ID of the pipeline.",
       },
       include_retried: {
-        type: 'boolean',
+        type: "boolean",
         default: false,
-        description: 'If `true`, includes retried jobs in the response.',
+        description: "If `true`, includes retried jobs in the response.",
       },
       scope: {
-        type: 'string',
-        description: 'The scope of builds to show',
+        type: "string",
+        description: "The scope of builds to show",
       },
       page: {
-        type: 'integer',
+        type: "integer",
         default: 1,
-        description: 'Page number of results to retrieve.',
+        description: "Page number of results to retrieve.",
       },
       per_page: {
-        type: 'integer',
+        type: "integer",
         default: 20,
-        description: 'Number of items to list per page.',
+        description: "Number of items to list per page.",
       },
     },
-    required: ['id', 'pipeline_id'],
+    required: ["id", "pipeline_id"],
   },
   request: {
-    method: 'GET',
-    path: '/projects/{id}/pipelines/{pipeline_id}/jobs',
-    query: ['include_retried', 'scope', 'page', 'per_page'],
+    method: "GET",
+    path: "/projects/{id}/pipelines/{pipeline_id}/jobs",
+    query: ["include_retried", "scope", "page", "per_page"],
   },
 });

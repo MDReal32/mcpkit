@@ -1,8 +1,8 @@
-import { readFile } from 'node:fs/promises';
+import { readFile } from "node:fs/promises";
 
 export const loadSpecText = async (url: string, localPath: string | undefined) => {
   if (localPath) {
-    return readFile(localPath, 'utf8');
+    return readFile(localPath, "utf8");
   }
   const response = await fetch(url);
   if (!response.ok) {

@@ -1,24 +1,24 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const orgsOrgsDeleteAttestationsBySubjectDigest = defineTool({
-  name: 'orgs:orgs:delete_attestations_by_subject_digest',
-  description: 'Delete attestations by subject digest. Delete an artifact attestation by subject digest.',
+  name: "orgs:orgs:delete_attestations_by_subject_digest",
+  description: "Delete attestations by subject digest. Delete an artifact attestation by subject digest.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       org: {
-        type: 'string',
-        description: 'The organization name. The name is not case sensitive.',
+        type: "string",
+        description: "The organization name. The name is not case sensitive.",
       },
       subject_digest: {
-        type: 'string',
-        description: 'Subject Digest',
+        type: "string",
+        description: "Subject Digest",
       },
     },
-    required: ['org', 'subject_digest'],
+    required: ["org", "subject_digest"],
   },
   request: {
-    method: 'DELETE',
-    path: '/orgs/{org}/attestations/digest/{subject_digest}',
+    method: "DELETE",
+    path: "/orgs/{org}/attestations/digest/{subject_digest}",
   },
 });

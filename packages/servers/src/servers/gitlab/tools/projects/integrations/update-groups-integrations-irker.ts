@@ -1,57 +1,57 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsIntegrationsUpdateGroupsIntegrationsIrker = defineTool({
-  name: 'projects:integrations:update_groups_integrations_irker',
-  description: 'Create or update the Irker integration. Creates or updates the Irker integration.',
+  name: "projects:integrations:update_groups_integrations_irker",
+  description: "Create or update the Irker integration. Creates or updates the Irker integration.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the group.',
+        type: "string",
+        description: "ID or URL-encoded path of the group.",
       },
       server_host: {
-        type: 'string',
-        description: 'irker daemon hostname. The default value is `localhost`.',
+        type: "string",
+        description: "irker daemon hostname. The default value is `localhost`.",
       },
       server_port: {
-        type: 'integer',
-        description: 'irker daemon port. The default value is `6659`.',
+        type: "integer",
+        description: "irker daemon port. The default value is `6659`.",
       },
       default_irc_uri: {
-        type: 'string',
-        description: 'URI to add before each recipient. The default value is `irc://irc.network.net:6697/`.',
+        type: "string",
+        description: "URI to add before each recipient. The default value is `irc://irc.network.net:6697/`.",
       },
       recipients: {
-        type: 'string',
-        description: 'Comma-separated list of channels or email addresses.',
+        type: "string",
+        description: "Comma-separated list of channels or email addresses.",
       },
       colorize_messages: {
-        type: 'boolean',
-        description: 'Colorize messages',
+        type: "boolean",
+        description: "Colorize messages",
       },
       push_events: {
-        type: 'boolean',
-        description: 'Trigger event for pushes to the repository.',
+        type: "boolean",
+        description: "Trigger event for pushes to the repository.",
       },
       use_inherited_settings: {
-        type: 'boolean',
-        description: 'Indicates whether to inherit the default settings. Defaults to `false`.',
+        type: "boolean",
+        description: "Indicates whether to inherit the default settings. Defaults to `false`.",
       },
     },
-    required: ['id', 'recipients'],
+    required: ["id", "recipients"],
   },
   request: {
-    method: 'PUT',
-    path: '/groups/{id}/integrations/irker',
+    method: "PUT",
+    path: "/groups/{id}/integrations/irker",
     body: [
-      'server_host',
-      'server_port',
-      'default_irc_uri',
-      'recipients',
-      'colorize_messages',
-      'push_events',
-      'use_inherited_settings',
+      "server_host",
+      "server_port",
+      "default_irc_uri",
+      "recipients",
+      "colorize_messages",
+      "push_events",
+      "use_inherited_settings",
     ],
   },
 });

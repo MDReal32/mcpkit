@@ -1,11 +1,11 @@
-import type { AuthSpec } from '../../manifest';
-import { isInteractiveAuth } from '../../manifest';
-import { AuthError } from '../auth-error';
-import { readFreshAccessToken } from '../oauth/refresh/read-fresh-access-token';
-import { readStoredToken } from '../token-store/read-stored-token';
-import type { AuthContext } from '../types/auth-context';
-import { createResolvedAuth } from './create-resolved-auth';
-import { findTokenAuth } from './find-token-auth';
+import type { AuthSpec } from "../../manifest";
+import { isInteractiveAuth } from "../../manifest";
+import { AuthError } from "../auth-error";
+import { readFreshAccessToken } from "../oauth/refresh/read-fresh-access-token";
+import { readStoredToken } from "../token-store/read-stored-token";
+import type { AuthContext } from "../types/auth-context";
+import { createResolvedAuth } from "./create-resolved-auth";
+import { findTokenAuth } from "./find-token-auth";
 
 /** The server's token from `tokens.json`, refreshed against the OAuth2 entry that issued it. */
 export const resolveStoredAuth = async (serverName: string, auth: readonly AuthSpec[], context: AuthContext) => {

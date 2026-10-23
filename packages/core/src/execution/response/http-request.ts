@@ -1,4 +1,4 @@
-import type { HttpMethod } from '../../manifest';
+import type { HttpMethod } from "../../manifest";
 
 export interface HttpRequest {
   url: string;

@@ -1,5 +1,5 @@
-import { METADATA_TIMEOUT_MS, NOT_FOUND_STATUS, NPM_METADATA_ACCEPT } from '../const';
-import { readPackageRelease } from './read-package-release';
+import { METADATA_TIMEOUT_MS, NOT_FOUND_STATUS, NPM_METADATA_ACCEPT } from "../const";
+import { readPackageRelease } from "./read-package-release";
 
 export const fetchPackageRelease = async (
   registry: string,
@@ -7,7 +7,7 @@ export const fetchPackageRelease = async (
   versionOrTag: string,
   fetchImpl: typeof fetch,
 ) => {
-  const url = `${registry}/${packageName.replace('/', '%2f')}`;
+  const url = `${registry}/${packageName.replace("/", "%2f")}`;
   const response = await fetchImpl(url, {
     headers: { Accept: NPM_METADATA_ACCEPT },
     signal: AbortSignal.timeout(METADATA_TIMEOUT_MS),

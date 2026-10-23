@@ -1,5 +1,5 @@
-import { isPort } from '../guards/is-port';
-import { isStringList } from '../guards/is-string-list';
+import { isPort } from "../guards/is-port";
+import { isStringList } from "../guards/is-string-list";
 
 /** Fields shared by every interactive auth type. */
 export const validateSignInFields = (auth: Readonly<Record<string, unknown>>, location: string) => {

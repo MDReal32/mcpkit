@@ -1,5 +1,5 @@
-import { isJsonObject } from '../../../json';
-import { UI_TEXT_KEYS } from '../../ui/const';
+import { isJsonObject } from "../../../json";
+import { UI_TEXT_KEYS } from "../../ui/const";
 
 const KNOWN_TEXT_KEYS: readonly string[] = UI_TEXT_KEYS;
 
@@ -12,8 +12,8 @@ export const validateUiTexts = (texts: unknown, location: string) => {
   }
   return Object.entries(texts).flatMap(([key, value]) => {
     if (!KNOWN_TEXT_KEYS.includes(key)) {
-      return [`${location}.${key} is not a text of the page, use one of: ${KNOWN_TEXT_KEYS.join(', ')}`];
+      return [`${location}.${key} is not a text of the page, use one of: ${KNOWN_TEXT_KEYS.join(", ")}`];
     }
-    return typeof value === 'string' ? [] : [`${location}.${key} must be a string`];
+    return typeof value === "string" ? [] : [`${location}.${key} must be a string`];
   });
 };

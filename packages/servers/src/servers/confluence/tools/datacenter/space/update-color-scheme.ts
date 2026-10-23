@@ -1,109 +1,109 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterSpaceUpdateColorScheme = defineTool({
-  name: 'datacenter:space:update_color_scheme',
-  description: '[Data Center] Update Space color scheme. Update the color scheme for a space',
+  name: "datacenter:space:update_color_scheme",
+  description: "[Data Center] Update Space color scheme. Update the color scheme for a space",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       spaceKey: {
-        type: 'string',
-        description: 'space key of the space to set color scheme for.',
+        type: "string",
+        description: "space key of the space to set color scheme for.",
       },
       colorSchemeModelLight: {
-        type: 'object',
+        type: "object",
         properties: {
           topBarColor: {
-            type: 'string',
+            type: "string",
           },
           topBarMenuSelectedBgColor: {
-            type: 'string',
+            type: "string",
           },
           topBarMenuSelectedTextColor: {
-            type: 'string',
+            type: "string",
           },
           breadcrumbsTextColor: {
-            type: 'string',
+            type: "string",
           },
           headerButtonBgColor: {
-            type: 'string',
+            type: "string",
           },
           headerButtonTextColor: {
-            type: 'string',
+            type: "string",
           },
           searchFieldTextColor: {
-            type: 'string',
+            type: "string",
           },
           searchFieldBgColor: {
-            type: 'string',
+            type: "string",
           },
           menuItemSelectedBgColor: {
-            type: 'string',
+            type: "string",
           },
           menuItemSelectedTextColor: {
-            type: 'string',
+            type: "string",
           },
           menuItemTextColor: {
-            type: 'string',
+            type: "string",
           },
           headingTextColor: {
-            type: 'string',
+            type: "string",
           },
           linkColor: {
-            type: 'string',
+            type: "string",
           },
         },
       },
       colorSchemeModelDark: {
-        type: 'object',
+        type: "object",
         properties: {
           topBarColor: {
-            type: 'string',
+            type: "string",
           },
           topBarMenuSelectedBgColor: {
-            type: 'string',
+            type: "string",
           },
           topBarMenuSelectedTextColor: {
-            type: 'string',
+            type: "string",
           },
           breadcrumbsTextColor: {
-            type: 'string',
+            type: "string",
           },
           headerButtonBgColor: {
-            type: 'string',
+            type: "string",
           },
           headerButtonTextColor: {
-            type: 'string',
+            type: "string",
           },
           searchFieldTextColor: {
-            type: 'string',
+            type: "string",
           },
           searchFieldBgColor: {
-            type: 'string',
+            type: "string",
           },
           menuItemSelectedBgColor: {
-            type: 'string',
+            type: "string",
           },
           menuItemSelectedTextColor: {
-            type: 'string',
+            type: "string",
           },
           menuItemTextColor: {
-            type: 'string',
+            type: "string",
           },
           headingTextColor: {
-            type: 'string',
+            type: "string",
           },
           linkColor: {
-            type: 'string',
+            type: "string",
           },
         },
       },
     },
-    required: ['spaceKey'],
+    required: ["spaceKey"],
   },
   request: {
-    method: 'PUT',
-    path: '/rest/api/space/{spaceKey}/color-scheme',
-    body: ['colorSchemeModelLight', 'colorSchemeModelDark'],
+    method: "PUT",
+    path: "/rest/api/space/{spaceKey}/color-scheme",
+    body: ["colorSchemeModelLight", "colorSchemeModelDark"],
   },
 });

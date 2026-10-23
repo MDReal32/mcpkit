@@ -1,4 +1,4 @@
 export interface PackageRepository {
-  type: 'git';
+  type: "git";
   url: string;
 }

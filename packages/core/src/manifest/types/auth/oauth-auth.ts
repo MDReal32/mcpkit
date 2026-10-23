@@ -1,6 +1,6 @@
 /** OAuth 2.0 authorization code flow with PKCE; the browser sign-in starts on the first tool call without a stored token. */
 export interface OAuthAuth {
-  type: 'oauth';
+  type: "oauth";
   authorizationUrl: string;
   tokenUrl: string;
   clientId: string;

@@ -1,24 +1,24 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesIssueRemoteLinksDeleteRemoteIssueLinkById = defineTool({
-  name: 'issues:issue_remote_links:delete_remote_issue_link_by_id',
-  description: 'Delete remote issue link by ID. Deletes a remote issue link from an issue.',
+  name: "issues:issue_remote_links:delete_remote_issue_link_by_id",
+  description: "Delete remote issue link by ID. Deletes a remote issue link from an issue.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       issueIdOrKey: {
-        type: 'string',
-        description: 'The ID or key of the issue.',
+        type: "string",
+        description: "The ID or key of the issue.",
       },
       linkId: {
-        type: 'string',
-        description: 'The ID of a remote issue link.',
+        type: "string",
+        description: "The ID of a remote issue link.",
       },
     },
-    required: ['issueIdOrKey', 'linkId'],
+    required: ["issueIdOrKey", "linkId"],
   },
   request: {
-    method: 'DELETE',
-    path: '/rest/api/2/issue/{issueIdOrKey}/remotelink/{linkId}',
+    method: "DELETE",
+    path: "/rest/api/2/issue/{issueIdOrKey}/remotelink/{linkId}",
   },
 });

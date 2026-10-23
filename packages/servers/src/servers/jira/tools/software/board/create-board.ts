@@ -1,38 +1,38 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const softwareBoardCreateBoard = defineTool({
-  name: 'software:board:create_board',
-  description: 'Create board. Creates a new board. Board name, type and filter ID is required.',
+  name: "software:board:create_board",
+  description: "Create board. Creates a new board. Board name, type and filter ID is required.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       filterId: {
-        type: 'integer',
+        type: "integer",
       },
       location: {
-        type: 'object',
+        type: "object",
         properties: {
           projectKeyOrId: {
-            type: 'string',
+            type: "string",
           },
           type: {
-            type: 'string',
-            enum: ['project', 'user'],
+            type: "string",
+            enum: ["project", "user"],
           },
         },
       },
       name: {
-        type: 'string',
+        type: "string",
       },
       type: {
-        type: 'string',
-        enum: ['kanban', 'scrum', 'agility'],
+        type: "string",
+        enum: ["kanban", "scrum", "agility"],
       },
     },
   },
   request: {
-    method: 'POST',
-    path: '/rest/agile/1.0/board',
-    body: ['filterId', 'location', 'name', 'type'],
+    method: "POST",
+    path: "/rest/agile/1.0/board",
+    body: ["filterId", "location", "name", "type"],
   },
 });

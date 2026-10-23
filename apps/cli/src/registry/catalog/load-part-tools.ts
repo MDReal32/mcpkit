@@ -1,12 +1,12 @@
-import { describeError, isJsonObject } from '@usemcpkit/core';
-import { hashText } from '../ids/hash-text';
-import { readCachedPartText } from '../local/read-cached-part-text';
-import { writeCachedPart } from '../local/write-cached-part';
-import { fetchText } from '../remote/fetch-text';
-import type { ManifestPart } from '../types/manifest-part';
-import type { RegistryContext } from '../types/registry-context';
-import type { RegistryServer } from '../types/registry-server';
-import { resolveRegistryLink } from './resolve-registry-link';
+import { describeError, isJsonObject } from "@usemcpkit/core";
+import { hashText } from "../ids/hash-text";
+import { readCachedPartText } from "../local/read-cached-part-text";
+import { writeCachedPart } from "../local/write-cached-part";
+import { fetchText } from "../remote/fetch-text";
+import type { ManifestPart } from "../types/manifest-part";
+import type { RegistryContext } from "../types/registry-context";
+import type { RegistryServer } from "../types/registry-server";
+import { resolveRegistryLink } from "./resolve-registry-link";
 
 const parseTools = (server: RegistryServer, part: ManifestPart, text: string) => {
   let data: unknown;

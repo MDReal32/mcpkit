@@ -1,25 +1,25 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const actionsActionsGetActionsCacheStorageLimitForRepository = defineTool({
-  name: 'actions:actions:get_actions_cache_storage_limit_for_repository',
+  name: "actions:actions:get_actions_cache_storage_limit_for_repository",
   description:
-    'Get GitHub Actions cache storage limit for a repository. Gets GitHub Actions cache storage limit for a repository. This determines the maximum size of caches that can be stored before eviction occurs.',
+    "Get GitHub Actions cache storage limit for a repository. Gets GitHub Actions cache storage limit for a repository. This determines the maximum size of caches that can be stored before eviction occurs.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       owner: {
-        type: 'string',
-        description: 'The account owner of the repository. The name is not case sensitive.',
+        type: "string",
+        description: "The account owner of the repository. The name is not case sensitive.",
       },
       repo: {
-        type: 'string',
-        description: 'The name of the repository without the `.git` extension. The name is not case sensitive.',
+        type: "string",
+        description: "The name of the repository without the `.git` extension. The name is not case sensitive.",
       },
     },
-    required: ['owner', 'repo'],
+    required: ["owner", "repo"],
   },
   request: {
-    method: 'GET',
-    path: '/repos/{owner}/{repo}/actions/cache/storage-limit',
+    method: "GET",
+    path: "/repos/{owner}/{repo}/actions/cache/storage-limit",
   },
 });

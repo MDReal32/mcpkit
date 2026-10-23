@@ -1,14 +1,14 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterPermissionsList = defineTool({
-  name: 'datacenter:permissions:list',
-  description: '[Data Center] Get global permissions. Returns list of permissions granted to users and groups.',
+  name: "datacenter:permissions:list",
+  description: "[Data Center] Get global permissions. Returns list of permissions granted to users and groups.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {},
   },
   request: {
-    method: 'GET',
-    path: '/rest/api/permissions',
+    method: "GET",
+    path: "/rest/api/permissions",
   },
 });

@@ -1,5 +1,5 @@
-import type { ToolArgs } from '../../manifest';
-import { ToolError } from '../tool-error';
+import type { ToolArgs } from "../../manifest";
+import { ToolError } from "../tool-error";
 
 export const fillPath = (template: string, args: ToolArgs) =>
   template.replace(/\{(\w+)\}/g, (_placeholder, name: string) => {

@@ -1,7 +1,7 @@
-import type { UiSpec } from '../ui/ui-spec';
+import type { UiSpec } from "../ui/ui-spec";
 
 export interface BearerAuth {
-  type: 'bearer';
+  type: "bearer";
   env: string;
   /** Shown for this option in the credentials form instead of its auth type and env vars. */
   label?: string;

@@ -1,14 +1,14 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const metaMetaRoot = defineTool({
-  name: 'meta:meta:root',
+  name: "meta:meta:root",
   description: "GitHub API Root. Get Hypermedia links to resources accessible in GitHub's REST API",
   input: {
-    type: 'object',
+    type: "object",
     properties: {},
   },
   request: {
-    method: 'GET',
-    path: '/',
+    method: "GET",
+    path: "/",
   },
 });

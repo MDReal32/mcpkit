@@ -1,25 +1,25 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const cloudCommentsGetCommentContentPropertiesById = defineTool({
-  name: 'cloud:comments:get_comment_content_properties_by_id',
+  name: "cloud:comments:get_comment_content_properties_by_id",
   description:
-    '[Cloud] Get content property for comment by id. Retrieves a specific Content Property by ID that is attached to a specified comment.',
+    "[Cloud] Get content property for comment by id. Retrieves a specific Content Property by ID that is attached to a specified comment.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       comment_id: {
-        type: 'integer',
-        description: 'The ID of the comment for which content properties should be returned.',
+        type: "integer",
+        description: "The ID of the comment for which content properties should be returned.",
       },
       property_id: {
-        type: 'integer',
-        description: 'The ID of the content property being requested.',
+        type: "integer",
+        description: "The ID of the content property being requested.",
       },
     },
-    required: ['comment_id', 'property_id'],
+    required: ["comment_id", "property_id"],
   },
   request: {
-    method: 'GET',
-    path: '/wiki/api/v2/comments/{comment_id}/properties/{property_id}',
+    method: "GET",
+    path: "/wiki/api/v2/comments/{comment_id}/properties/{property_id}",
   },
 });

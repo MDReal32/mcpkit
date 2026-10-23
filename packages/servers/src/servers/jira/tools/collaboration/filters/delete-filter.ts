@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const collaborationFiltersDeleteFilter = defineTool({
-  name: 'collaboration:filters:delete_filter',
-  description: 'Delete filter. Delete a filter.',
+  name: "collaboration:filters:delete_filter",
+  description: "Delete filter. Delete a filter.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'The ID of the filter to delete.',
+        type: "integer",
+        description: "The ID of the filter to delete.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'DELETE',
-    path: '/rest/api/2/filter/{id}',
+    method: "DELETE",
+    path: "/rest/api/2/filter/{id}",
   },
 });

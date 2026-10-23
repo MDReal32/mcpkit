@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const groupsGroupsCreateGroupsArchive = defineTool({
-  name: 'groups:groups:create_groups_archive',
+  name: "groups:groups:create_groups_archive",
   description:
-    'Archive a group. Archives a specified group. You must be an administrator or have the Owner role for the group.',
+    "Archive a group. Archives a specified group. You must be an administrator or have the Owner role for the group.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the group.',
+        type: "string",
+        description: "ID or URL-encoded path of the group.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'POST',
-    path: '/groups/{id}/archive',
+    method: "POST",
+    path: "/groups/{id}/archive",
   },
 });

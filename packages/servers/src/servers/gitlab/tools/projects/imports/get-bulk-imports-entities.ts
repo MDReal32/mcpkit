@@ -1,25 +1,25 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsImportsGetBulkImportsEntities = defineTool({
-  name: 'projects:imports:get_bulk_imports_entities',
+  name: "projects:imports:get_bulk_imports_entities",
   description:
-    'Retrieve a group or project migration entity. Retrieves details of a group or project migration entity.',
+    "Retrieve a group or project migration entity. Retrieves details of a group or project migration entity.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       import_id: {
-        type: 'integer',
-        description: 'ID of the GitLab Migration.',
+        type: "integer",
+        description: "ID of the GitLab Migration.",
       },
       entity_id: {
-        type: 'integer',
-        description: 'ID of the GitLab Migration entity.',
+        type: "integer",
+        description: "ID of the GitLab Migration entity.",
       },
     },
-    required: ['import_id', 'entity_id'],
+    required: ["import_id", "entity_id"],
   },
   request: {
-    method: 'GET',
-    path: '/bulk_imports/{import_id}/entities/{entity_id}',
+    method: "GET",
+    path: "/bulk_imports/{import_id}/entities/{entity_id}",
   },
 });

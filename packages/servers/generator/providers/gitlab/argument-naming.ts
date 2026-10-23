@@ -1,11 +1,11 @@
-import { prefixIfTaken } from '../../utils/tool/prefix-if-taken';
-import type { ArgumentNaming } from '../../utils/types/argument-naming';
-import { toArgumentName } from './to-argument-name';
+import { prefixIfTaken } from "../../utils/tool/prefix-if-taken";
+import type { ArgumentNaming } from "../../utils/types/argument-naming";
+import { toArgumentName } from "./to-argument-name";
 
 export const argumentNaming: ArgumentNaming = {
   dropsQueryShadowedByPath: false,
   parameter: (parameter, taken) => {
-    if (parameter.in === 'path') {
+    if (parameter.in === "path") {
       return parameter.name;
     }
     const base = toArgumentName(parameter.name);

@@ -1,30 +1,30 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const softwareIssueEstimateIssueForBoard = defineTool({
-  name: 'software:issue:estimate_issue_for_board',
+  name: "software:issue:estimate_issue_for_board",
   description:
-    'Estimate issue for board. Updates the estimation of the issue. boardId param is required. This param determines which field will be updated on a issue.',
+    "Estimate issue for board. Updates the estimation of the issue. boardId param is required. This param determines which field will be updated on a issue.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       issueIdOrKey: {
-        type: 'string',
-        description: 'The ID or key of the requested issue.',
+        type: "string",
+        description: "The ID or key of the requested issue.",
       },
       boardId: {
-        type: 'integer',
-        description: 'The ID of the board required to determine which field is used for estimation.',
+        type: "integer",
+        description: "The ID of the board required to determine which field is used for estimation.",
       },
       value: {
-        type: 'string',
+        type: "string",
       },
     },
-    required: ['issueIdOrKey'],
+    required: ["issueIdOrKey"],
   },
   request: {
-    method: 'PUT',
-    path: '/rest/agile/1.0/issue/{issueIdOrKey}/estimation',
-    query: ['boardId'],
-    body: ['value'],
+    method: "PUT",
+    path: "/rest/agile/1.0/issue/{issueIdOrKey}/estimation",
+    query: ["boardId"],
+    body: ["value"],
   },
 });

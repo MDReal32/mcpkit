@@ -1,7 +1,7 @@
-import type { FinalizedTools } from './finalized-tools';
-import type { Operation } from './operation';
-import type { PlannedTool } from './planned-tool';
-import type { SpecPlan } from './spec-plan';
+import type { FinalizedTools } from "./finalized-tools";
+import type { Operation } from "./operation";
+import type { PlannedTool } from "./planned-tool";
+import type { SpecPlan } from "./spec-plan";
 
 export interface GeneratorConfig<Result extends Operation> {
   serverName: string;

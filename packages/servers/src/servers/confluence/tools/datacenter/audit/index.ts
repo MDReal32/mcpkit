@@ -1,3 +1,3 @@
-import { datacenterAuditList } from './list';
+import { datacenterAuditList } from "./list";
 
 export const datacenterAuditTools = [datacenterAuditList];

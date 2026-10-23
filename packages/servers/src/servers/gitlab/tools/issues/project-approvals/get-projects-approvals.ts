@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesProjectApprovalsGetProjectsApprovals = defineTool({
-  name: 'issues:project_approvals:get_projects_approvals',
-  description: 'Retrieve approval configuration for a project. Retrieves the approval configuration for a project.',
+  name: "issues:project_approvals:get_projects_approvals",
+  description: "Retrieve approval configuration for a project. Retrieves the approval configuration for a project.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/projects/{id}/approvals',
+    method: "GET",
+    path: "/projects/{id}/approvals",
   },
 });

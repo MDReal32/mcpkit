@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const softwareBoardGetProjectsFull = defineTool({
-  name: 'software:board:get_projects_full',
+  name: "software:board:get_projects_full",
   description:
-    'Get projects full. Returns all projects that are statically associated with the board, for the given board ID. Returned projects are ordered by the name.',
+    "Get projects full. Returns all projects that are statically associated with the board, for the given board ID. Returned projects are ordered by the name.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       boardId: {
-        type: 'integer',
-        description: 'The ID of the board that contains returned projects.',
+        type: "integer",
+        description: "The ID of the board that contains returned projects.",
       },
     },
-    required: ['boardId'],
+    required: ["boardId"],
   },
   request: {
-    method: 'GET',
-    path: '/rest/agile/1.0/board/{boardId}/project/full',
+    method: "GET",
+    path: "/rest/agile/1.0/board/{boardId}/project/full",
   },
 });

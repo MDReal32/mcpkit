@@ -1,11 +1,11 @@
-import { findDuplicate } from '../../utils/pipeline/find-duplicate';
-import type { FinalizedTools } from '../../utils/types/finalized-tools';
-import type { GeneratedTool } from '../../utils/types/generated-tool';
-import type { PlannedTool } from '../../utils/types/planned-tool';
-import { EDITION_PAIRS } from './const';
-import { mergeEditionDefinitions } from './merge-edition-definitions';
-import { toEntryKey } from './to-entry-key';
-import type { JiraOperation } from './types/jira-operation';
+import { findDuplicate } from "../../utils/pipeline/find-duplicate";
+import type { FinalizedTools } from "../../utils/types/finalized-tools";
+import type { GeneratedTool } from "../../utils/types/generated-tool";
+import type { PlannedTool } from "../../utils/types/planned-tool";
+import { EDITION_PAIRS } from "./const";
+import { mergeEditionDefinitions } from "./merge-edition-definitions";
+import { toEntryKey } from "./to-entry-key";
+import type { JiraOperation } from "./types/jira-operation";
 
 export const mergeEditionPairs = (planned: PlannedTool<JiraOperation>[]) => {
   const entries = new Map<string, GeneratedTool>();
@@ -34,7 +34,7 @@ export const mergeEditionPairs = (planned: PlannedTool<JiraOperation>[]) => {
   }
   const tools = [...entries.values()];
   if (findDuplicate(tools.map((tool) => tool.definition.name)) !== undefined) {
-    throw new Error('two operations produced the same tool name');
+    throw new Error("two operations produced the same tool name");
   }
   const finalized: FinalizedTools = { tools, notes };
   return finalized;

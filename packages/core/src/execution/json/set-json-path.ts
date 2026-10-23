@@ -1,4 +1,4 @@
-import { isJsonObject } from '../../json';
+import { isJsonObject } from "../../json";
 
 /**
  * A copy of `target` with `value` at `segments`; numeric segments index arrays.

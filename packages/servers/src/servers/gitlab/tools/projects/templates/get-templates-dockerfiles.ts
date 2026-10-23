@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsTemplatesGetTemplatesDockerfiles = defineTool({
-  name: 'projects:templates:get_templates_dockerfiles',
-  description: 'Retrieve a Dockerfile template. Retrieves a specified Dockerfile template.',
+  name: "projects:templates:get_templates_dockerfiles",
+  description: "Retrieve a Dockerfile template. Retrieves a specified Dockerfile template.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       name: {
-        type: 'string',
-        description: 'The name of the Dockerfile template',
+        type: "string",
+        description: "The name of the Dockerfile template",
       },
     },
-    required: ['name'],
+    required: ["name"],
   },
   request: {
-    method: 'GET',
-    path: '/templates/dockerfiles/{name}',
+    method: "GET",
+    path: "/templates/dockerfiles/{name}",
   },
 });

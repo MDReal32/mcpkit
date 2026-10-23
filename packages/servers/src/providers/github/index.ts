@@ -1,1 +1,1 @@
-export { defineGithubServer } from './define-github-server';
+export { defineGithubServer } from "./define-github-server";

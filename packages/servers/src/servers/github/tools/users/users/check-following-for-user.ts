@@ -1,23 +1,23 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersUsersCheckFollowingForUser = defineTool({
-  name: 'users:users:check_following_for_user',
-  description: 'Check if a user follows another user',
+  name: "users:users:check_following_for_user",
+  description: "Check if a user follows another user",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       username: {
-        type: 'string',
-        description: 'The handle for the GitHub user account.',
+        type: "string",
+        description: "The handle for the GitHub user account.",
       },
       target_user: {
-        type: 'string',
+        type: "string",
       },
     },
-    required: ['username', 'target_user'],
+    required: ["username", "target_user"],
   },
   request: {
-    method: 'GET',
-    path: '/users/{username}/following/{target_user}',
+    method: "GET",
+    path: "/users/{username}/following/{target_user}",
   },
 });

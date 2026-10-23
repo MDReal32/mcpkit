@@ -1,141 +1,141 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterSpaceUpdate = defineTool({
-  name: 'datacenter:space:update',
+  name: "datacenter:space:update",
   description:
-    '[Data Center] Update Space. Updates a Space. The incoming Space must include a Key and Name, and should include a Description',
+    "[Data Center] Update Space. Updates a Space. The incoming Space must include a Key and Name, and should include a Description",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       spaceKey: {
-        type: 'string',
-        description: 'the key of the space to update.',
+        type: "string",
+        description: "the key of the space to update.",
       },
       id: {
-        type: 'integer',
+        type: "integer",
       },
       key: {
-        type: 'string',
+        type: "string",
       },
       name: {
-        type: 'string',
+        type: "string",
       },
       status: {
-        type: 'string',
+        type: "string",
       },
       icon: {
-        type: 'object',
+        type: "object",
         properties: {
           idProperties: {
-            type: 'object',
+            type: "object",
           },
           expanded: {
-            type: 'boolean',
+            type: "boolean",
           },
         },
       },
       description: {
-        type: 'object',
+        type: "object",
       },
       homepage: {
-        type: 'object',
+        type: "object",
         properties: {
           idProperties: {
-            type: 'object',
+            type: "object",
           },
           expanded: {
-            type: 'boolean',
+            type: "boolean",
           },
         },
       },
       links: {
-        type: 'object',
+        type: "object",
       },
       type: {
-        type: 'string',
+        type: "string",
       },
       creator: {
-        type: 'object',
+        type: "object",
         properties: {
           profilePicture: {
-            type: 'object',
+            type: "object",
           },
           displayName: {
-            type: 'string',
+            type: "string",
           },
           type: {
-            type: 'string',
+            type: "string",
           },
         },
       },
       creationDate: {
-        type: 'string',
+        type: "string",
       },
       lastModifier: {
-        type: 'object',
+        type: "object",
         properties: {
           profilePicture: {
-            type: 'object',
+            type: "object",
           },
           displayName: {
-            type: 'string',
+            type: "string",
           },
           type: {
-            type: 'string',
+            type: "string",
           },
         },
       },
       lastModificationDate: {
-        type: 'string',
+        type: "string",
       },
       metadata: {
-        type: 'object',
+        type: "object",
       },
       retentionPolicy: {
-        type: 'object',
+        type: "object",
         properties: {
           idProperties: {
-            type: 'object',
+            type: "object",
           },
           expanded: {
-            type: 'boolean',
+            type: "boolean",
           },
         },
       },
       permissions: {
-        type: 'object',
+        type: "object",
         properties: {
           idProperties: {
-            type: 'object',
+            type: "object",
           },
           expanded: {
-            type: 'boolean',
+            type: "boolean",
           },
         },
       },
     },
-    required: ['spaceKey'],
+    required: ["spaceKey"],
   },
   request: {
-    method: 'PUT',
-    path: '/rest/api/space/{spaceKey}',
+    method: "PUT",
+    path: "/rest/api/space/{spaceKey}",
     body: [
-      'id',
-      'key',
-      'name',
-      'status',
-      'icon',
-      'description',
-      'homepage',
-      'links',
-      'type',
-      'creator',
-      'creationDate',
-      'lastModifier',
-      'lastModificationDate',
-      'metadata',
-      'retentionPolicy',
-      'permissions',
+      "id",
+      "key",
+      "name",
+      "status",
+      "icon",
+      "description",
+      "homepage",
+      "links",
+      "type",
+      "creator",
+      "creationDate",
+      "lastModifier",
+      "lastModificationDate",
+      "metadata",
+      "retentionPolicy",
+      "permissions",
     ],
   },
 });

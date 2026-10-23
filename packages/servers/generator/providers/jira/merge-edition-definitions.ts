@@ -1,6 +1,6 @@
-import type { JsonSchema } from '@usemcpkit/core';
-import type { ToolDefinition } from '../../utils/types/tool-definition';
-import { CLOUD_EDITION, CLOUD_ONLY_SUFFIX, DATA_CENTER_ONLY_SUFFIX } from './const';
+import type { JsonSchema } from "@usemcpkit/core";
+import type { ToolDefinition } from "../../utils/types/tool-definition";
+import { CLOUD_EDITION, CLOUD_ONLY_SUFFIX, DATA_CENTER_ONLY_SUFFIX } from "./const";
 
 const annotate = (schema: JsonSchema, suffix: string) => ({
   ...schema,
@@ -28,7 +28,7 @@ export const mergeEditionDefinitions = (cloud: ToolDefinition, dataCenter: ToolD
   const merged: ToolDefinition = {
     name: cloud.name,
     description: cloud.description,
-    input: { type: 'object', properties, ...(required.length > 0 && { required }) },
+    input: { type: "object", properties, ...(required.length > 0 && { required }) },
     request: dataCenter.request,
     editions: { [CLOUD_EDITION]: { request: cloud.request } },
   };

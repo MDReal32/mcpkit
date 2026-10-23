@@ -1,34 +1,34 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const copilotAgentsListOrgSecrets = defineTool({
-  name: 'copilot:agents:list_org_secrets',
+  name: "copilot:agents:list_org_secrets",
   description:
-    'List organization secrets. Lists all secrets available in an organization without revealing their encrypted values.',
+    "List organization secrets. Lists all secrets available in an organization without revealing their encrypted values.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       org: {
-        type: 'string',
-        description: 'The organization name. The name is not case sensitive.',
+        type: "string",
+        description: "The organization name. The name is not case sensitive.",
       },
       per_page: {
-        type: 'integer',
+        type: "integer",
         default: 30,
         description:
           'The number of results per page (max 100). For more information, see "Using pagination in the REST API."',
       },
       page: {
-        type: 'integer',
+        type: "integer",
         default: 1,
         description:
           'The page number of the results to fetch. For more information, see "Using pagination in the REST API."',
       },
     },
-    required: ['org'],
+    required: ["org"],
   },
   request: {
-    method: 'GET',
-    path: '/orgs/{org}/agents/secrets',
-    query: ['per_page', 'page'],
+    method: "GET",
+    path: "/orgs/{org}/agents/secrets",
+    query: ["per_page", "page"],
   },
 });

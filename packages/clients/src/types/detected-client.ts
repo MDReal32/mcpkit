@@ -1,4 +1,4 @@
-import type { ClientDefinition } from './client-definition';
+import type { ClientDefinition } from "./client-definition";
 
 export interface DetectedClient {
   definition: ClientDefinition;

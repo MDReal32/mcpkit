@@ -1,4 +1,4 @@
-import { stat } from 'node:fs/promises';
+import { stat } from "node:fs/promises";
 
 /** Changes whenever the file is replaced or rewritten. */
 export const readFileSignature = async (path: string) => {

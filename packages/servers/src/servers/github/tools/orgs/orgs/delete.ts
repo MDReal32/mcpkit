@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const orgsOrgsDelete = defineTool({
-  name: 'orgs:orgs:delete',
-  description: 'Delete an organization. Deletes an organization and all its repositories.',
+  name: "orgs:orgs:delete",
+  description: "Delete an organization. Deletes an organization and all its repositories.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       org: {
-        type: 'string',
-        description: 'The organization name. The name is not case sensitive.',
+        type: "string",
+        description: "The organization name. The name is not case sensitive.",
       },
     },
-    required: ['org'],
+    required: ["org"],
   },
   request: {
-    method: 'DELETE',
-    path: '/orgs/{org}',
+    method: "DELETE",
+    path: "/orgs/{org}",
   },
 });

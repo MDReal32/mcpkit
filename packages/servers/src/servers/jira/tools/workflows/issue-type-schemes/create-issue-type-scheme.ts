@@ -1,39 +1,39 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const workflowsIssueTypeSchemesCreateIssueTypeScheme = defineTool({
-  name: 'workflows:issue_type_schemes:create_issue_type_scheme',
-  description: 'Create issue type scheme. Creates an issue type scheme.',
+  name: "workflows:issue_type_schemes:create_issue_type_scheme",
+  description: "Create issue type scheme. Creates an issue type scheme.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       defaultIssueTypeId: {
-        type: 'string',
+        type: "string",
         description:
-          'The ID of the default issue type of the issue type scheme. This ID must be included in `issueTypeIds`.',
+          "The ID of the default issue type of the issue type scheme. This ID must be included in `issueTypeIds`.",
       },
       description: {
-        type: 'string',
-        description: 'The description of the issue type scheme. The maximum length is 4000 characters.',
+        type: "string",
+        description: "The description of the issue type scheme. The maximum length is 4000 characters.",
       },
       issueTypeIds: {
-        type: 'array',
+        type: "array",
         description:
-          'The list of issue types IDs of the issue type scheme. At least one standard issue type ID is required.',
+          "The list of issue types IDs of the issue type scheme. At least one standard issue type ID is required.",
         items: {
-          type: 'string',
+          type: "string",
         },
       },
       name: {
-        type: 'string',
+        type: "string",
         description:
-          'The name of the issue type scheme. The name must be unique. The maximum length is 255 characters.',
+          "The name of the issue type scheme. The name must be unique. The maximum length is 255 characters.",
       },
     },
-    required: ['issueTypeIds', 'name'],
+    required: ["issueTypeIds", "name"],
   },
   request: {
-    method: 'POST',
-    path: '/rest/api/2/issuetypescheme',
-    body: ['defaultIssueTypeId', 'description', 'issueTypeIds', 'name'],
+    method: "POST",
+    path: "/rest/api/2/issuetypescheme",
+    body: ["defaultIssueTypeId", "description", "issueTypeIds", "name"],
   },
 });

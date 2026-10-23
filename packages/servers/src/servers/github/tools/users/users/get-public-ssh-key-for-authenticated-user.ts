@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersUsersGetPublicSshKeyForAuthenticatedUser = defineTool({
-  name: 'users:users:get_public_ssh_key_for_authenticated_user',
-  description: 'Get a public SSH key for the authenticated user. View extended details for a single public SSH key.',
+  name: "users:users:get_public_ssh_key_for_authenticated_user",
+  description: "Get a public SSH key for the authenticated user. View extended details for a single public SSH key.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       key_id: {
-        type: 'integer',
-        description: 'The unique identifier of the key.',
+        type: "integer",
+        description: "The unique identifier of the key.",
       },
     },
-    required: ['key_id'],
+    required: ["key_id"],
   },
   request: {
-    method: 'GET',
-    path: '/user/keys/{key_id}',
+    method: "GET",
+    path: "/user/keys/{key_id}",
   },
 });

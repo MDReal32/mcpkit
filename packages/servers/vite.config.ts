@@ -1,32 +1,32 @@
-import dts from 'vite-plugin-dts';
-import { defineConfig } from 'vitest/config';
-import { mcpkitManifests } from './plugins/manifests';
-import { DEFAULT_REGISTRY_URL } from './src/const';
+import dts from "vite-plugin-dts";
+import { defineConfig } from "vitest/config";
+import { mcpkitManifests } from "./plugins/manifests";
+import { DEFAULT_REGISTRY_URL } from "./src/const";
 
 const TEST_TIMEOUT_MS = 60_000;
 
 export default defineConfig({
   plugins: [
-    dts({ include: ['src/main.ts', 'src/const.ts'], bundleTypes: true }),
+    dts({ include: ["src/main.ts", "src/const.ts"], bundleTypes: true }),
     mcpkitManifests({ registryUrl: DEFAULT_REGISTRY_URL }),
   ],
   build: {
     ssr: true,
     lib: {
-      entry: 'src/main.ts',
-      formats: ['es'],
+      entry: "src/main.ts",
+      formats: ["es"],
     },
-    target: 'node20',
-    outDir: 'build',
+    target: "node20",
+    outDir: "build",
     emptyOutDir: true,
-    rollupOptions: {
+    rolldownOptions: {
       output: {
-        entryFileNames: 'mcpkit.servers.js',
+        entryFileNames: "mcpkit.servers.js",
       },
     },
   },
   test: {
-    include: ['test/**/*.test.ts'],
+    include: ["test/**/*.test.ts"],
     testTimeout: TEST_TIMEOUT_MS,
   },
 });

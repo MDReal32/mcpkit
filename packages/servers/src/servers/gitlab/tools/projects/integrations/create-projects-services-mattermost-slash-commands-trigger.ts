@@ -1,26 +1,26 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsIntegrationsCreateProjectsServicesMattermostSlashCommandsTrigger = defineTool({
-  name: 'projects:integrations:create_projects_services_mattermost_slash_commands_trigger',
+  name: "projects:integrations:create_projects_services_mattermost_slash_commands_trigger",
   description:
-    'Trigger a slash command for mattermost-slash-commands. Triggers a slash command for mattermost-slash-commands.',
+    "Trigger a slash command for mattermost-slash-commands. Triggers a slash command for mattermost-slash-commands.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
       token: {
-        type: 'string',
-        description: 'The Mattermost token.',
+        type: "string",
+        description: "The Mattermost token.",
       },
     },
-    required: ['id', 'token'],
+    required: ["id", "token"],
   },
   request: {
-    method: 'POST',
-    path: '/projects/{id}/services/mattermost_slash_commands/trigger',
-    body: ['token'],
+    method: "POST",
+    path: "/projects/{id}/services/mattermost_slash_commands/trigger",
+    body: ["token"],
   },
 });

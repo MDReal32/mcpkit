@@ -1,1 +1,1 @@
-export { defineJiraServer } from './define-jira-server';
+export { defineJiraServer } from "./define-jira-server";

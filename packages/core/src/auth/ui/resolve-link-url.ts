@@ -1,6 +1,6 @@
-import { fillTemplate, readPlaceholders } from '../../manifest';
-import { UI_DOMAIN_PLACEHOLDERS } from '../../manifest/ui/const';
-import { toWebHost } from './to-web-host';
+import { fillTemplate, readPlaceholders } from "../../manifest";
+import { UI_DOMAIN_PLACEHOLDERS } from "../../manifest/ui/const";
+import { toWebHost } from "./to-web-host";
 
 /** Undefined while the link needs a domain and there is none yet. */
 export const resolveLinkUrl = (url: string, domain: string | undefined) => {
@@ -8,5 +8,5 @@ export const resolveLinkUrl = (url: string, domain: string | undefined) => {
   if (needsDomain && !domain) {
     return undefined;
   }
-  return fillTemplate(url, { domain: domain ?? '', webHost: domain ? toWebHost(domain) : '' });
+  return fillTemplate(url, { domain: domain ?? "", webHost: domain ? toWebHost(domain) : "" });
 };

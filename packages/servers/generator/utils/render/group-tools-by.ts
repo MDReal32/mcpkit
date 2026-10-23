@@ -1,4 +1,4 @@
-import type { GeneratedTool } from '../types/generated-tool';
+import type { GeneratedTool } from "../types/generated-tool";
 
 export const groupToolsBy = <Key extends string>(tools: GeneratedTool[], keyOf: (tool: GeneratedTool) => Key) => {
   const groups = new Map<Key, GeneratedTool[]>();

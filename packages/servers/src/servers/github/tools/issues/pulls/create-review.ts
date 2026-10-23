@@ -1,81 +1,81 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesPullsCreateReview = defineTool({
-  name: 'issues:pulls:create_review',
-  description: 'Create a review for a pull request. Creates a review on a specified pull request.',
+  name: "issues:pulls:create_review",
+  description: "Create a review for a pull request. Creates a review on a specified pull request.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       owner: {
-        type: 'string',
-        description: 'The account owner of the repository. The name is not case sensitive.',
+        type: "string",
+        description: "The account owner of the repository. The name is not case sensitive.",
       },
       repo: {
-        type: 'string',
-        description: 'The name of the repository without the `.git` extension. The name is not case sensitive.',
+        type: "string",
+        description: "The name of the repository without the `.git` extension. The name is not case sensitive.",
       },
       pull_number: {
-        type: 'integer',
-        description: 'The number that identifies the pull request.',
+        type: "integer",
+        description: "The number that identifies the pull request.",
       },
       commit_id: {
-        type: 'string',
+        type: "string",
         description:
-          'The SHA of the commit that needs a review. Not using the latest commit SHA may render your review comment outdated if a subsequent commit modifies the line you specify as the `position`. Defaults to the most recent commit in the pull request when you do not specify a value.',
+          "The SHA of the commit that needs a review. Not using the latest commit SHA may render your review comment outdated if a subsequent commit modifies the line you specify as the `position`. Defaults to the most recent commit in the pull request when you do not specify a value.",
       },
       body: {
-        type: 'string',
+        type: "string",
         description:
-          '**Required** when using `REQUEST_CHANGES` or `COMMENT` for the `event` parameter. The body text of the pull request review.',
+          "**Required** when using `REQUEST_CHANGES` or `COMMENT` for the `event` parameter. The body text of the pull request review.",
       },
       event: {
-        type: 'string',
+        type: "string",
         description:
-          'The review action you want to perform. The review actions include: `APPROVE`, `REQUEST_CHANGES`, or `COMMENT`. By leaving this blank, you set the review action state to `PENDING`, which means you will need to submit the pull request review when you are ready.',
-        enum: ['APPROVE', 'REQUEST_CHANGES', 'COMMENT'],
+          "The review action you want to perform. The review actions include: `APPROVE`, `REQUEST_CHANGES`, or `COMMENT`. By leaving this blank, you set the review action state to `PENDING`, which means you will need to submit the pull request review when you are ready.",
+        enum: ["APPROVE", "REQUEST_CHANGES", "COMMENT"],
       },
       comments: {
-        type: 'array',
+        type: "array",
         description:
-          'Use the following table to specify the location, destination, and contents of the draft review comment.',
+          "Use the following table to specify the location, destination, and contents of the draft review comment.",
         items: {
-          type: 'object',
+          type: "object",
           properties: {
             path: {
-              type: 'string',
-              description: 'The relative path to the file that necessitates a review comment.',
+              type: "string",
+              description: "The relative path to the file that necessitates a review comment.",
             },
             position: {
-              type: 'integer',
+              type: "integer",
               description:
                 'The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. The `position` value equals the number of lines down from the first "@@" hunk header in the file you want to add a comment. The line just below the "@@" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through li…',
             },
             body: {
-              type: 'string',
-              description: 'Text of the review comment.',
+              type: "string",
+              description: "Text of the review comment.",
             },
             line: {
-              type: 'integer',
+              type: "integer",
             },
             side: {
-              type: 'string',
+              type: "string",
             },
             start_line: {
-              type: 'integer',
+              type: "integer",
             },
             start_side: {
-              type: 'string',
+              type: "string",
             },
           },
-          required: ['path', 'body'],
+          required: ["path", "body"],
         },
       },
     },
-    required: ['owner', 'repo', 'pull_number'],
+    required: ["owner", "repo", "pull_number"],
   },
   request: {
-    method: 'POST',
-    path: '/repos/{owner}/{repo}/pulls/{pull_number}/reviews',
-    body: ['commit_id', 'body', 'event', 'comments'],
+    method: "POST",
+    path: "/repos/{owner}/{repo}/pulls/{pull_number}/reviews",
+    body: ["commit_id", "body", "event", "comments"],
   },
 });

@@ -1,15 +1,15 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const copilotAgentAutomationsListAvailableAutomationTriggers = defineTool({
-  name: 'copilot:agent_automations:list_available_automation_triggers',
+  name: "copilot:agent_automations:list_available_automation_triggers",
   description:
-    'List available automation triggers. Returns the triggers available to the authenticated caller, including machine-readable schemas for their configurable fields.',
+    "List available automation triggers. Returns the triggers available to the authenticated caller, including machine-readable schemas for their configurable fields.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {},
   },
   request: {
-    method: 'GET',
-    path: '/agents/automations/available-triggers',
+    method: "GET",
+    path: "/agents/automations/available-triggers",
   },
 });

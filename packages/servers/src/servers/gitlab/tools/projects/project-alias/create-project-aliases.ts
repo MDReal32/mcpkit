@@ -1,25 +1,25 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsProjectAliasCreateProjectAliases = defineTool({
-  name: 'projects:project_alias:create_project_aliases',
-  description: 'Create a project alias. Creates a project alias.',
+  name: "projects:project_alias:create_project_aliases",
+  description: "Create a project alias. Creates a project alias.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       project_id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
       name: {
-        type: 'string',
-        description: 'Name of the alias. Must be unique.',
+        type: "string",
+        description: "Name of the alias. Must be unique.",
       },
     },
-    required: ['project_id', 'name'],
+    required: ["project_id", "name"],
   },
   request: {
-    method: 'POST',
-    path: '/project_aliases',
-    body: ['project_id', 'name'],
+    method: "POST",
+    path: "/project_aliases",
+    body: ["project_id", "name"],
   },
 });

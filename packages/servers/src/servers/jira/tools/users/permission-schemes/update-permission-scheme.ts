@@ -1,135 +1,135 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersPermissionSchemesUpdatePermissionScheme = defineTool({
-  name: 'users:permission_schemes:update_permission_scheme',
+  name: "users:permission_schemes:update_permission_scheme",
   description:
-    'Update permission scheme. Updates a permission scheme. Below are some important things to note when using this resource:',
+    "Update permission scheme. Updates a permission scheme. Below are some important things to note when using this resource:",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       schemeId: {
-        type: 'integer',
-        description: 'The ID of the permission scheme to update.',
+        type: "integer",
+        description: "The ID of the permission scheme to update.",
       },
       expand: {
-        type: 'string',
+        type: "string",
         description:
-          'Use expand to include additional information in the response. This parameter accepts a comma-separated list. Note that permissions are always included when you specify any value. Expand options include:',
+          "Use expand to include additional information in the response. This parameter accepts a comma-separated list. Note that permissions are always included when you specify any value. Expand options include:",
       },
       description: {
-        type: 'string',
-        description: 'A description for the permission scheme.',
+        type: "string",
+        description: "A description for the permission scheme.",
       },
       body_expand: {
-        type: 'string',
-        description: 'The expand options available for the permission scheme.',
+        type: "string",
+        description: "The expand options available for the permission scheme.",
       },
       id: {
-        type: 'integer',
-        description: 'The ID of the permission scheme.',
+        type: "integer",
+        description: "The ID of the permission scheme.",
       },
       name: {
-        type: 'string',
-        description: 'The name of the permission scheme. Must be unique.',
+        type: "string",
+        description: "The name of the permission scheme. Must be unique.",
       },
       permissions: {
-        type: 'array',
+        type: "array",
         description:
-          'The permission scheme to create or update. See About permission schemes and grants for more information.',
+          "The permission scheme to create or update. See About permission schemes and grants for more information.",
         items: {
-          type: 'object',
-          description: 'Details about a permission granted to a user or group.',
+          type: "object",
+          description: "Details about a permission granted to a user or group.",
           properties: {
             holder: {
-              type: 'object',
+              type: "object",
               description:
-                'The user or group being granted the permission. It consists of a `type`, a type-dependent `parameter` and a type-dependent `value`. See Holder object in *Get all permission schemes* for more information.',
+                "The user or group being granted the permission. It consists of a `type`, a type-dependent `parameter` and a type-dependent `value`. See Holder object in *Get all permission schemes* for more information.",
             },
             id: {
-              type: 'integer',
-              description: 'The ID of the permission granted details.',
+              type: "integer",
+              description: "The ID of the permission granted details.",
             },
             permission: {
-              type: 'string',
+              type: "string",
               description:
-                'The permission to grant. This permission can be one of the built-in permissions or a custom permission added by an app. See Built-in permissions in *Get all permission schemes* for more information about the built-in permissions. See the project permission and global permission module documentation for more information about custom permissions.',
+                "The permission to grant. This permission can be one of the built-in permissions or a custom permission added by an app. See Built-in permissions in *Get all permission schemes* for more information about the built-in permissions. See the project permission and global permission module documentation for more information about custom permissions.",
             },
             self: {
-              type: 'string',
-              description: 'The URL of the permission granted details.',
+              type: "string",
+              description: "The URL of the permission granted details.",
             },
           },
         },
       },
       scope: {
-        type: 'object',
-        description: 'The scope of the permission scheme.',
+        type: "object",
+        description: "The scope of the permission scheme.",
         properties: {
           project: {
-            type: 'object',
-            description: 'The project the item has scope in.',
+            type: "object",
+            description: "The project the item has scope in.",
             properties: {
               avatarUrls: {
-                type: 'object',
+                type: "object",
                 description: "The URLs of the project's avatars.",
               },
               id: {
-                type: 'string',
-                description: 'The ID of the project.',
+                type: "string",
+                description: "The ID of the project.",
               },
               key: {
-                type: 'string',
-                description: 'The key of the project.',
+                type: "string",
+                description: "The key of the project.",
               },
               name: {
-                type: 'string',
-                description: 'The name of the project.',
+                type: "string",
+                description: "The name of the project.",
               },
               projectCategory: {
-                type: 'object',
-                description: 'The category the project belongs to.',
+                type: "object",
+                description: "The category the project belongs to.",
               },
               projectTypeKey: {
-                type: 'string',
-                description: 'The project type of the project.',
-                enum: ['software', 'service_desk', 'business', 'product_discovery'],
+                type: "string",
+                description: "The project type of the project.",
+                enum: ["software", "service_desk", "business", "product_discovery"],
               },
               self: {
-                type: 'string',
-                description: 'The URL of the project details.',
+                type: "string",
+                description: "The URL of the project details.",
               },
               simplified: {
-                type: 'boolean',
-                description: 'Whether or not the project is simplified.',
+                type: "boolean",
+                description: "Whether or not the project is simplified.",
               },
             },
           },
           type: {
-            type: 'string',
-            description: 'The type of scope.',
-            enum: ['PROJECT', 'TEMPLATE'],
+            type: "string",
+            description: "The type of scope.",
+            enum: ["PROJECT", "TEMPLATE"],
           },
         },
       },
       self: {
-        type: 'string',
-        description: 'The URL of the permission scheme.',
+        type: "string",
+        description: "The URL of the permission scheme.",
       },
     },
-    required: ['schemeId', 'name'],
+    required: ["schemeId", "name"],
   },
   request: {
-    method: 'PUT',
-    path: '/rest/api/2/permissionscheme/{schemeId}',
-    query: ['expand'],
+    method: "PUT",
+    path: "/rest/api/2/permissionscheme/{schemeId}",
+    query: ["expand"],
     body: {
-      description: 'description',
-      expand: 'body_expand',
-      id: 'id',
-      name: 'name',
-      permissions: 'permissions',
-      scope: 'scope',
-      self: 'self',
+      description: "description",
+      expand: "body_expand",
+      id: "id",
+      name: "name",
+      permissions: "permissions",
+      scope: "scope",
+      self: "self",
     },
   },
 });

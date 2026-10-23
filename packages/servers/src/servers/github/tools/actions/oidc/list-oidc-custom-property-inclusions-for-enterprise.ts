@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const actionsOidcListOidcCustomPropertyInclusionsForEnterprise = defineTool({
-  name: 'actions:oidc:list_oidc_custom_property_inclusions_for_enterprise',
+  name: "actions:oidc:list_oidc_custom_property_inclusions_for_enterprise",
   description:
-    'List OIDC custom property inclusions for an enterprise. Lists the repository custom properties that are included in the OIDC token for repository actions in an enterprise.',
+    "List OIDC custom property inclusions for an enterprise. Lists the repository custom properties that are included in the OIDC token for repository actions in an enterprise.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       enterprise: {
-        type: 'string',
-        description: 'The slug version of the enterprise name.',
+        type: "string",
+        description: "The slug version of the enterprise name.",
       },
     },
-    required: ['enterprise'],
+    required: ["enterprise"],
   },
   request: {
-    method: 'GET',
-    path: '/enterprises/{enterprise}/actions/oidc/customization/properties/repo',
+    method: "GET",
+    path: "/enterprises/{enterprise}/actions/oidc/customization/properties/repo",
   },
 });

@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const collaborationDashboardsGetDashboard = defineTool({
-  name: 'collaboration:dashboards:get_dashboard',
-  description: 'Get dashboard. Returns a dashboard.',
+  name: "collaboration:dashboards:get_dashboard",
+  description: "Get dashboard. Returns a dashboard.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'The ID of the dashboard.',
+        type: "string",
+        description: "The ID of the dashboard.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/rest/api/2/dashboard/{id}',
+    method: "GET",
+    path: "/rest/api/2/dashboard/{id}",
   },
 });

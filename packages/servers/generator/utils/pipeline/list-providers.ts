@@ -1,5 +1,5 @@
-import { readdir } from 'node:fs/promises';
-import { PROVIDERS_DIR } from './const';
+import { readdir } from "node:fs/promises";
+import { PROVIDERS_DIR } from "./const";
 
 export const listProviders = async () => {
   const entries = await readdir(PROVIDERS_DIR, { withFileTypes: true });

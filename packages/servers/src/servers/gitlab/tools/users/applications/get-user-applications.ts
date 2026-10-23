@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersApplicationsGetUserApplications = defineTool({
-  name: 'users:applications:get_user_applications',
-  description: 'Retrieve an application. Retrieves details of a specific application owned by the authenticated user.',
+  name: "users:applications:get_user_applications",
+  description: "Retrieve an application. Retrieves details of a specific application owned by the authenticated user.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'ID of the application. Differs from `application_id`.',
+        type: "integer",
+        description: "ID of the application. Differs from `application_id`.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/user/applications/{id}',
+    method: "GET",
+    path: "/user/applications/{id}",
   },
 });

@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersUsersCreateUsersDeactivate = defineTool({
-  name: 'users:users:create_users_deactivate',
-  description: 'Deactivate a user. Deactivates a specified user account. Administrators only.',
+  name: "users:users:create_users_deactivate",
+  description: "Deactivate a user. Deactivates a specified user account. Administrators only.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'ID of the user.',
+        type: "integer",
+        description: "ID of the user.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'POST',
-    path: '/users/{id}/deactivate',
+    method: "POST",
+    path: "/users/{id}/deactivate",
   },
 });

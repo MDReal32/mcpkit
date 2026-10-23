@@ -1,22 +1,22 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersMyselfRemovePreference = defineTool({
-  name: 'users:myself:remove_preference',
+  name: "users:myself:remove_preference",
   description:
-    'Delete preference. Deletes a preference of the user, which restores the default value of system defined settings.',
+    "Delete preference. Deletes a preference of the user, which restores the default value of system defined settings.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       key: {
-        type: 'string',
-        description: 'The key of the preference.',
+        type: "string",
+        description: "The key of the preference.",
       },
     },
-    required: ['key'],
+    required: ["key"],
   },
   request: {
-    method: 'DELETE',
-    path: '/rest/api/2/mypreferences',
-    query: ['key'],
+    method: "DELETE",
+    path: "/rest/api/2/mypreferences",
+    query: ["key"],
   },
 });

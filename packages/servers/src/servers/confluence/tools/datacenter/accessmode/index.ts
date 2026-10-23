@@ -1,3 +1,3 @@
-import { datacenterAccessmodeList } from './list';
+import { datacenterAccessmodeList } from "./list";
 
 export const datacenterAccessmodeTools = [datacenterAccessmodeList];

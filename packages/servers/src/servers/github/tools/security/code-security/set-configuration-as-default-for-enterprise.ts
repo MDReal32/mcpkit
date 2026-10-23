@@ -1,31 +1,31 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const securityCodeSecuritySetConfigurationAsDefaultForEnterprise = defineTool({
-  name: 'security:code_security:set_configuration_as_default_for_enterprise',
+  name: "security:code_security:set_configuration_as_default_for_enterprise",
   description:
-    'Set a code security configuration as a default for an enterprise. Sets a code security configuration as a default to be applied to new repositories in your enterprise.',
+    "Set a code security configuration as a default for an enterprise. Sets a code security configuration as a default to be applied to new repositories in your enterprise.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       enterprise: {
-        type: 'string',
-        description: 'The slug version of the enterprise name.',
+        type: "string",
+        description: "The slug version of the enterprise name.",
       },
       configuration_id: {
-        type: 'integer',
-        description: 'The unique identifier of the code security configuration.',
+        type: "integer",
+        description: "The unique identifier of the code security configuration.",
       },
       default_for_new_repos: {
-        type: 'string',
-        description: 'Specify which types of repository this security configuration should be applied to by default.',
-        enum: ['all', 'none', 'private_and_internal', 'public'],
+        type: "string",
+        description: "Specify which types of repository this security configuration should be applied to by default.",
+        enum: ["all", "none", "private_and_internal", "public"],
       },
     },
-    required: ['enterprise', 'configuration_id'],
+    required: ["enterprise", "configuration_id"],
   },
   request: {
-    method: 'PUT',
-    path: '/enterprises/{enterprise}/code-security/configurations/{configuration_id}/defaults',
-    body: ['default_for_new_repos'],
+    method: "PUT",
+    path: "/enterprises/{enterprise}/code-security/configurations/{configuration_id}/defaults",
+    body: ["default_for_new_repos"],
   },
 });

@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsSnippetsGetSnippets = defineTool({
-  name: 'projects:snippets:get_snippets',
-  description: 'Retrieve a snippet. Retrieves a specified snippet.',
+  name: "projects:snippets:get_snippets",
+  description: "Retrieve a snippet. Retrieves a specified snippet.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'ID of the snippet.',
+        type: "integer",
+        description: "ID of the snippet.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/snippets/{id}',
+    method: "GET",
+    path: "/snippets/{id}",
   },
 });

@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const securityLicensesGetLicenseGet = defineTool({
-  name: 'security:licenses:get_license_get',
-  description: 'Retrieve a license. Retrieves information about a specified license.',
+  name: "security:licenses:get_license_get",
+  description: "Retrieve a license. Retrieves information about a specified license.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'ID of the GitLab license.',
+        type: "integer",
+        description: "ID of the GitLab license.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/license/{id}',
+    method: "GET",
+    path: "/license/{id}",
   },
 });

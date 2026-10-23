@@ -1,30 +1,30 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsProjectFeaturesToggleFeatureForProject = defineTool({
-  name: 'projects:project_features:toggle_feature_for_project',
-  description: 'Set project feature state. Sets the state of a project feature.',
+  name: "projects:project_features:toggle_feature_for_project",
+  description: "Set project feature state. Sets the state of a project feature.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       projectIdOrKey: {
-        type: 'string',
-        description: 'The ID or (case-sensitive) key of the project.',
+        type: "string",
+        description: "The ID or (case-sensitive) key of the project.",
       },
       featureKey: {
-        type: 'string',
-        description: 'The key of the feature.',
+        type: "string",
+        description: "The key of the feature.",
       },
       state: {
-        type: 'string',
-        description: 'The feature state.',
-        enum: ['ENABLED', 'DISABLED', 'COMING_SOON'],
+        type: "string",
+        description: "The feature state.",
+        enum: ["ENABLED", "DISABLED", "COMING_SOON"],
       },
     },
-    required: ['projectIdOrKey', 'featureKey'],
+    required: ["projectIdOrKey", "featureKey"],
   },
   request: {
-    method: 'PUT',
-    path: '/rest/api/2/project/{projectIdOrKey}/features/{featureKey}',
-    body: ['state'],
+    method: "PUT",
+    path: "/rest/api/2/project/{projectIdOrKey}/features/{featureKey}",
+    body: ["state"],
   },
 });

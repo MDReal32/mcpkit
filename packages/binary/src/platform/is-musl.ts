@@ -1,6 +1,6 @@
-import { readdir } from 'node:fs/promises';
-import { isMissingFileError } from '@usemcpkit/core';
-import { MUSL_LOADER_DIR, MUSL_LOADER_PREFIX } from './const';
+import { readdir } from "node:fs/promises";
+import { isMissingFileError } from "@usemcpkit/core";
+import { MUSL_LOADER_DIR, MUSL_LOADER_PREFIX } from "./const";
 
 /** musl systems ship their dynamic loader as `/lib/ld-musl-<arch>.so.1`. */
 export const isMusl = async () => {

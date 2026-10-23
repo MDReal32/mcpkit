@@ -1,14 +1,14 @@
-import type { JsonSchema } from '@usemcpkit/core';
-import type { OpenApiSchema } from '../types/open-api-schema';
-import type { SchemaOptions } from '../types/schema-options';
-import { cleanDescription } from './clean-description';
-import { mergeVariants } from './merge-variants';
-import { pickType } from './pick-type';
-import { sharedScalarType } from './shared-scalar-type';
+import type { JsonSchema } from "@usemcpkit/core";
+import type { OpenApiSchema } from "../types/open-api-schema";
+import type { SchemaOptions } from "../types/schema-options";
+import { cleanDescription } from "./clean-description";
+import { mergeVariants } from "./merge-variants";
+import { pickType } from "./pick-type";
+import { sharedScalarType } from "./shared-scalar-type";
 
-const isPrimitive = (value: unknown) => ['string', 'number', 'boolean'].includes(typeof value);
+const isPrimitive = (value: unknown) => ["string", "number", "boolean"].includes(typeof value);
 
-const isObjectLike = (schema: OpenApiSchema) => pickType(schema) === 'object' || Boolean(schema.properties);
+const isObjectLike = (schema: OpenApiSchema) => pickType(schema) === "object" || Boolean(schema.properties);
 
 const hasObjectVariants = (schema: OpenApiSchema) =>
   [...(schema.allOf ?? []), ...(schema.oneOf ?? []), ...(schema.anyOf ?? [])].some(isObjectLike);
@@ -16,9 +16,9 @@ const hasObjectVariants = (schema: OpenApiSchema) =>
 export const convertSchema = (source: OpenApiSchema, options: SchemaOptions, depth = 0): JsonSchema => {
   const schema = hasObjectVariants(source) ? mergeVariants(source) : source;
   const result: { -readonly [K in keyof JsonSchema]: JsonSchema[K] } = {};
-  const type = pickType(schema) ?? (schema.properties ? 'object' : sharedScalarType(schema, options));
+  const type = pickType(schema) ?? (schema.properties ? "object" : sharedScalarType(schema, options));
   if (type) {
-    result.type = type as JsonSchema['type'];
+    result.type = type as JsonSchema["type"];
   }
   const description = cleanDescription(schema.description, options.stripBold);
   if (description) {
@@ -31,11 +31,11 @@ export const convertSchema = (source: OpenApiSchema, options: SchemaOptions, dep
   if (values && values.length > 0) {
     result.enum = values;
   }
-  if (type === 'array' && schema.items) {
+  if (type === "array" && schema.items) {
     result.items = convertSchema(schema.items, options, depth + 1);
   }
   const sourceProperties = schema.properties ?? {};
-  if (type === 'object' && Object.keys(sourceProperties).length > 0 && depth < options.maxDepth) {
+  if (type === "object" && Object.keys(sourceProperties).length > 0 && depth < options.maxDepth) {
     result.properties = Object.fromEntries(
       Object.entries(sourceProperties).map(([name, property]) => [name, convertSchema(property, options, depth + 1)]),
     );

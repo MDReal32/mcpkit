@@ -1,4 +1,4 @@
-import type { SecretOwner } from './secret-owner';
+import type { SecretOwner } from "./secret-owner";
 
 /** Where credentials and domains entered in the credentials form are kept, per server and key. */
 export interface SecretStore {

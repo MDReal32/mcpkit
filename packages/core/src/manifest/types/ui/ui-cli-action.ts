@@ -3,7 +3,7 @@
  * and `args` may use `{domain}` and `{webHost}`.
  */
 export interface UiCliAction {
-  type: 'cli';
+  type: "cli";
   label: string;
   command: string;
   args: readonly string[];

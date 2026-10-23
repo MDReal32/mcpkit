@@ -1,25 +1,25 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesIssueWatchersGetIsWatchingIssueBulk = defineTool({
-  name: 'issues:issue_watchers:get_is_watching_issue_bulk',
+  name: "issues:issue_watchers:get_is_watching_issue_bulk",
   description:
-    'Get is watching issue bulk. Returns, for the user, details of the watched status of issues from a list. If an issue ID is invalid, the returned watched status is `false`.',
+    "Get is watching issue bulk. Returns, for the user, details of the watched status of issues from a list. If an issue ID is invalid, the returned watched status is `false`.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       issueIds: {
-        type: 'array',
-        description: 'The list of issue IDs.',
+        type: "array",
+        description: "The list of issue IDs.",
         items: {
-          type: 'string',
+          type: "string",
         },
       },
     },
-    required: ['issueIds'],
+    required: ["issueIds"],
   },
   request: {
-    method: 'POST',
-    path: '/rest/api/2/issue/watching',
-    body: ['issueIds'],
+    method: "POST",
+    path: "/rest/api/2/issue/watching",
+    body: ["issueIds"],
   },
 });

@@ -1,28 +1,28 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const copilotCopilotSetCopilotCodingAgentPermissionsOrganization = defineTool({
-  name: 'copilot:copilot:set_copilot_coding_agent_permissions_organization',
+  name: "copilot:copilot:set_copilot_coding_agent_permissions_organization",
   description:
-    'Set Copilot cloud agent permissions for an organization. > [!NOTE] > This endpoint is in public preview and is subject to change.',
+    "Set Copilot cloud agent permissions for an organization. > [!NOTE] > This endpoint is in public preview and is subject to change.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       org: {
-        type: 'string',
-        description: 'The organization name. The name is not case sensitive.',
+        type: "string",
+        description: "The organization name. The name is not case sensitive.",
       },
       enabled_repositories: {
-        type: 'string',
+        type: "string",
         description:
-          'The policy for which repositories can use Copilot cloud agent. Can be one of `all`, `selected`, or `none`.',
-        enum: ['all', 'selected', 'none'],
+          "The policy for which repositories can use Copilot cloud agent. Can be one of `all`, `selected`, or `none`.",
+        enum: ["all", "selected", "none"],
       },
     },
-    required: ['org', 'enabled_repositories'],
+    required: ["org", "enabled_repositories"],
   },
   request: {
-    method: 'PUT',
-    path: '/orgs/{org}/copilot/coding-agent/permissions',
-    body: ['enabled_repositories'],
+    method: "PUT",
+    path: "/orgs/{org}/copilot/coding-agent/permissions",
+    body: ["enabled_repositories"],
   },
 });

@@ -1,7 +1,7 @@
-import type { OpenApiDocument } from './open-api-operation';
-import type { Operation } from './operation';
-import type { OperationNames } from './operation-names';
-import type { ToolDefinition } from './tool-definition';
+import type { OpenApiDocument } from "./open-api-operation";
+import type { Operation } from "./operation";
+import type { OperationNames } from "./operation-names";
+import type { ToolDefinition } from "./tool-definition";
 
 export interface SpecPlan<Result extends Operation> {
   readDocument: (localPath: string | undefined) => Promise<OpenApiDocument>;

@@ -1,50 +1,50 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const ciJobArtifactsListProjectsJobsArtifactsTree = defineTool({
-  name: 'ci:job_artifacts:list_projects_jobs_artifacts_tree',
+  name: "ci:job_artifacts:list_projects_jobs_artifacts_tree",
   description:
-    'List all files in an artifacts archive. Lists all files in a specified artifacts archive without extracting them.',
+    "List all files in an artifacts archive. Lists all files in a specified artifacts archive without extracting them.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
       job_id: {
-        type: 'integer',
-        description: 'ID of the job.',
+        type: "integer",
+        description: "ID of the job.",
       },
       path: {
-        type: 'string',
-        default: '',
-        description: 'Path to browse in the artifacts archive. Defaults to the root directory.',
+        type: "string",
+        default: "",
+        description: "Path to browse in the artifacts archive. Defaults to the root directory.",
       },
       recursive: {
-        type: 'boolean',
+        type: "boolean",
         default: false,
-        description: 'If `true`, returns all entries recursively.',
+        description: "If `true`, returns all entries recursively.",
       },
       job_token: {
-        type: 'string',
-        description: 'CI/CD job token for multi-project pipelines. Premium and Ultimate only.',
+        type: "string",
+        description: "CI/CD job token for multi-project pipelines. Premium and Ultimate only.",
       },
       page: {
-        type: 'integer',
+        type: "integer",
         default: 1,
-        description: 'Page number of results to retrieve.',
+        description: "Page number of results to retrieve.",
       },
       per_page: {
-        type: 'integer',
+        type: "integer",
         default: 20,
-        description: 'Number of items to list per page.',
+        description: "Number of items to list per page.",
       },
     },
-    required: ['id', 'job_id'],
+    required: ["id", "job_id"],
   },
   request: {
-    method: 'GET',
-    path: '/projects/{id}/jobs/{job_id}/artifacts/tree',
-    query: ['path', 'recursive', 'job_token', 'page', 'per_page'],
+    method: "GET",
+    path: "/projects/{id}/jobs/{job_id}/artifacts/tree",
+    query: ["path", "recursive", "job_token", "page", "per_page"],
   },
 });

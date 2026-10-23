@@ -1,8 +1,8 @@
-import type { Manifest } from '../../../manifest';
-import { applyDomain } from '../../../manifest';
-import type { CallContext } from '../../types/call-context';
-import { listInteractiveCandidates } from './list-interactive-candidates';
-import { listProvidedCandidates } from './list-provided-candidates';
+import type { Manifest } from "../../../manifest";
+import { applyDomain } from "../../../manifest";
+import type { CallContext } from "../../types/call-context";
+import { listInteractiveCandidates } from "./list-interactive-candidates";
+import { listProvidedCandidates } from "./list-provided-candidates";
 
 /**
  * The `tokens.json` token first, then fallbacks whose credentials are set or saved,

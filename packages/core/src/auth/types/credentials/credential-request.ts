@@ -1,6 +1,6 @@
-import type { UiTexts } from '../../../manifest';
-import type { CredentialOption } from './credential-option';
-import type { DomainField } from './domain-field';
+import type { UiTexts } from "../../../manifest";
+import type { CredentialOption } from "./credential-option";
+import type { DomainField } from "./domain-field";
 
 /** Everything the credentials page shows, so the page itself holds no text. */
 export interface CredentialRequest {

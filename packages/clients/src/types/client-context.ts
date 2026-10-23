@@ -1,4 +1,4 @@
-import type { Env } from '@usemcpkit/core';
+import type { Env } from "@usemcpkit/core";
 
 export interface ClientContext {
   homeDir: string;

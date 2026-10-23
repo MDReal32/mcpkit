@@ -1,11 +1,11 @@
-import { fillTemplate } from '@usemcpkit/core';
-import type { SubmitResult } from '../types/submit-result';
-import { createSessionHeaders } from './create-session-headers';
-import { readErrorList } from './read-error-list';
+import { fillTemplate } from "@usemcpkit/core";
+import type { SubmitResult } from "../types/submit-result";
+import { createSessionHeaders } from "./create-session-headers";
+import { readErrorList } from "./read-error-list";
 
 export const postFormJson = async (path: string, body: unknown, requestFailed: string) => {
   const response = await fetch(path, {
-    method: 'POST',
+    method: "POST",
     headers: createSessionHeaders(),
     body: JSON.stringify(body),
   });

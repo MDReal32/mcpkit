@@ -1,31 +1,31 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersUsersGetUsers = defineTool({
-  name: 'users:users:get_users',
-  description: 'Retrieve a user as a regular user. Retrieves a specified user as a regular user.',
+  name: "users:users:get_users",
+  description: "Retrieve a user as a regular user. Retrieves a specified user as a regular user.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'ID of the user.',
+        type: "integer",
+        description: "ID of the user.",
       },
       with_custom_attributes: {
-        type: 'boolean',
+        type: "boolean",
         default: false,
-        description: 'If `true`, includes custom attributes in the response. Administrators only.',
+        description: "If `true`, includes custom attributes in the response. Administrators only.",
       },
       custom_attributes: {
-        type: 'object',
+        type: "object",
         description:
-          'Filter by custom attributes that match all of the specified key and value pairs. Administrators only.',
+          "Filter by custom attributes that match all of the specified key and value pairs. Administrators only.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/users/{id}',
-    query: ['with_custom_attributes', 'custom_attributes'],
+    method: "GET",
+    path: "/users/{id}",
+    query: ["with_custom_attributes", "custom_attributes"],
   },
 });

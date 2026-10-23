@@ -1,49 +1,49 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const fieldsIssueCustomFieldContextsCreateCustomFieldContext = defineTool({
-  name: 'fields:issue_custom_field_contexts:create_custom_field_context',
-  description: 'Create custom field context. Creates a custom field context.',
+  name: "fields:issue_custom_field_contexts:create_custom_field_context",
+  description: "Create custom field context. Creates a custom field context.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       fieldId: {
-        type: 'string',
-        description: 'The ID of the custom field.',
+        type: "string",
+        description: "The ID of the custom field.",
       },
       description: {
-        type: 'string',
-        description: 'The description of the context.',
+        type: "string",
+        description: "The description of the context.",
       },
       id: {
-        type: 'string',
-        description: 'The ID of the context.',
+        type: "string",
+        description: "The ID of the context.",
       },
       issueTypeIds: {
-        type: 'array',
+        type: "array",
         description:
-          'The list of issue types IDs for the context. If the list is empty, the context refers to all issue types.',
+          "The list of issue types IDs for the context. If the list is empty, the context refers to all issue types.",
         items: {
-          type: 'string',
+          type: "string",
         },
       },
       name: {
-        type: 'string',
-        description: 'The name of the context.',
+        type: "string",
+        description: "The name of the context.",
       },
       projectIds: {
-        type: 'array',
+        type: "array",
         description:
-          'The list of project IDs associated with the context. If the list is empty, the context is global.',
+          "The list of project IDs associated with the context. If the list is empty, the context is global.",
         items: {
-          type: 'string',
+          type: "string",
         },
       },
     },
-    required: ['fieldId', 'name'],
+    required: ["fieldId", "name"],
   },
   request: {
-    method: 'POST',
-    path: '/rest/api/2/field/{fieldId}/context',
-    body: ['description', 'id', 'issueTypeIds', 'name', 'projectIds'],
+    method: "POST",
+    path: "/rest/api/2/field/{fieldId}/context",
+    body: ["description", "id", "issueTypeIds", "name", "projectIds"],
   },
 });

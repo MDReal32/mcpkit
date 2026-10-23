@@ -1,24 +1,24 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const orgsCampaignsDeleteCampaign = defineTool({
-  name: 'orgs:campaigns:delete_campaign',
-  description: 'Delete a campaign for an organization. Deletes a campaign in an organization.',
+  name: "orgs:campaigns:delete_campaign",
+  description: "Delete a campaign for an organization. Deletes a campaign in an organization.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       org: {
-        type: 'string',
-        description: 'The organization name. The name is not case sensitive.',
+        type: "string",
+        description: "The organization name. The name is not case sensitive.",
       },
       campaign_number: {
-        type: 'integer',
-        description: 'The campaign number.',
+        type: "integer",
+        description: "The campaign number.",
       },
     },
-    required: ['org', 'campaign_number'],
+    required: ["org", "campaign_number"],
   },
   request: {
-    method: 'DELETE',
-    path: '/orgs/{org}/campaigns/{campaign_number}',
+    method: "DELETE",
+    path: "/orgs/{org}/campaigns/{campaign_number}",
   },
 });

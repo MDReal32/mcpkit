@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const securityCodeScanningGetAiScanEnablementForOrg = defineTool({
-  name: 'security:code_scanning:get_ai_scan_enablement_for_org',
-  description: 'Get the AI Scan setting for an organization. Gets the AI Scan setting stored on an organization.',
+  name: "security:code_scanning:get_ai_scan_enablement_for_org",
+  description: "Get the AI Scan setting for an organization. Gets the AI Scan setting stored on an organization.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       org: {
-        type: 'string',
-        description: 'The organization name. The name is not case sensitive.',
+        type: "string",
+        description: "The organization name. The name is not case sensitive.",
       },
     },
-    required: ['org'],
+    required: ["org"],
   },
   request: {
-    method: 'GET',
-    path: '/orgs/{org}/code-scanning/ai-scan',
+    method: "GET",
+    path: "/orgs/{org}/code-scanning/ai-scan",
   },
 });

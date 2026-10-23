@@ -1,4 +1,4 @@
-import type { StoredToken } from './stored-token';
+import type { StoredToken } from "./stored-token";
 
 export interface SignInResult {
   token: StoredToken;

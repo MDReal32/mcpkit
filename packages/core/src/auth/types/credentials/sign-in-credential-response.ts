@@ -1,4 +1,4 @@
 export interface SignInCredentialResponse {
-  method: 'sign-in';
+  method: "sign-in";
   domain?: string;
 }

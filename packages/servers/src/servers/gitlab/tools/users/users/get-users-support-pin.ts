@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersUsersGetUsersSupportPin = defineTool({
-  name: 'users:users:get_users_support_pin',
+  name: "users:users:get_users_support_pin",
   description:
-    'Retrieve a Support PIN for a user. Retrieves a Support PIN for a specified user. GitLab Support may ask for this PIN to validate your identity. Administrators only.',
+    "Retrieve a Support PIN for a user. Retrieves a Support PIN for a specified user. GitLab Support may ask for this PIN to validate your identity. Administrators only.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'ID of the user.',
+        type: "integer",
+        description: "ID of the user.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/users/{id}/support_pin',
+    method: "GET",
+    path: "/users/{id}/support_pin",
   },
 });

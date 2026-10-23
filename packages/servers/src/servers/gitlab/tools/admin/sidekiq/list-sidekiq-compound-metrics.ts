@@ -1,15 +1,15 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const adminSidekiqListSidekiqCompoundMetrics = defineTool({
-  name: 'admin:sidekiq:list_sidekiq_compound_metrics',
+  name: "admin:sidekiq:list_sidekiq_compound_metrics",
   description:
-    'List all Sidekiq metrics. Lists all Sidekiq metrics. Includes queue, process, and job completion metrics.',
+    "List all Sidekiq metrics. Lists all Sidekiq metrics. Includes queue, process, and job completion metrics.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {},
   },
   request: {
-    method: 'GET',
-    path: '/sidekiq/compound_metrics',
+    method: "GET",
+    path: "/sidekiq/compound_metrics",
   },
 });

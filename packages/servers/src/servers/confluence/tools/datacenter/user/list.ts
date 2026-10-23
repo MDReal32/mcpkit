@@ -1,29 +1,29 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterUserList = defineTool({
-  name: 'datacenter:user:list',
+  name: "datacenter:user:list",
   description:
-    '[Data Center] Get user. Get information about a user identified by either user key or username. Example request URI(s):',
+    "[Data Center] Get user. Get information about a user identified by either user key or username. Example request URI(s):",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       expand: {
-        type: 'string',
-        description: 'properties to expand on the user.',
+        type: "string",
+        description: "properties to expand on the user.",
       },
       key: {
-        type: 'string',
-        description: 'userkey of the user to request from this resource.',
+        type: "string",
+        description: "userkey of the user to request from this resource.",
       },
       username: {
-        type: 'string',
-        description: 'userName of the user to create the new watcher for.',
+        type: "string",
+        description: "userName of the user to create the new watcher for.",
       },
     },
   },
   request: {
-    method: 'GET',
-    path: '/rest/api/user',
-    query: ['expand', 'key', 'username'],
+    method: "GET",
+    path: "/rest/api/user",
+    query: ["expand", "key", "username"],
   },
 });

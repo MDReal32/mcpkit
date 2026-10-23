@@ -1,25 +1,25 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsProjectSnapshotsGetProjectsSnapshot = defineTool({
-  name: 'projects:project_snapshots:get_projects_snapshot',
-  description: 'Download snapshot of a Git repository. Downloads snapshot of a Git repository.',
+  name: "projects:project_snapshots:get_projects_snapshot",
+  description: "Download snapshot of a Git repository. Downloads snapshot of a Git repository.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
       wiki: {
-        type: 'boolean',
-        description: 'If `true`, downloads the wiki repository instead of the project repository.',
+        type: "boolean",
+        description: "If `true`, downloads the wiki repository instead of the project repository.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/projects/{id}/snapshot',
-    query: ['wiki'],
+    method: "GET",
+    path: "/projects/{id}/snapshot",
+    query: ["wiki"],
   },
 });

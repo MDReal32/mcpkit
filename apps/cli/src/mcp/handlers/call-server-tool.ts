@@ -1,9 +1,9 @@
-import type { ExecuteOptions, ToolArgs } from '@usemcpkit/core';
-import { describeError, executeTool } from '@usemcpkit/core';
-import { createJsonResult } from '../tools/create-json-result';
-import { createTextResult } from '../tools/create-text-result';
-import { findTool } from '../tools/find-tool';
-import type { Catalog } from '../types/catalog';
+import type { ExecuteOptions, ToolArgs } from "@usemcpkit/core";
+import { describeError, executeTool } from "@usemcpkit/core";
+import { createJsonResult } from "../tools/create-json-result";
+import { createTextResult } from "../tools/create-text-result";
+import { findTool } from "../tools/find-tool";
+import type { Catalog } from "../types/catalog";
 
 /** Failures are returned to the model as isError results, not protocol errors. */
 export const callServerTool = async (
@@ -13,7 +13,7 @@ export const callServerTool = async (
   options: ExecuteOptions,
 ) => {
   const found = findTool(catalog, id);
-  if ('error' in found) {
+  if ("error" in found) {
     return createTextResult(found.error, true);
   }
   try {

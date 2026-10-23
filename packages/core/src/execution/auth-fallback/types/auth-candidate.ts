@@ -1,5 +1,5 @@
-import type { AuthResolution } from '../../../auth';
-import type { AuthCandidateKind } from './auth-candidate-kind';
+import type { AuthResolution } from "../../../auth";
+import type { AuthCandidateKind } from "./auth-candidate-kind";
 
 export interface AuthCandidate {
   label: string;

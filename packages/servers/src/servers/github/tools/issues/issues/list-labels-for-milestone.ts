@@ -1,41 +1,41 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesIssuesListLabelsForMilestone = defineTool({
-  name: 'issues:issues:list_labels_for_milestone',
-  description: 'List labels for issues in a milestone. Lists labels for issues in a milestone.',
+  name: "issues:issues:list_labels_for_milestone",
+  description: "List labels for issues in a milestone. Lists labels for issues in a milestone.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       owner: {
-        type: 'string',
-        description: 'The account owner of the repository. The name is not case sensitive.',
+        type: "string",
+        description: "The account owner of the repository. The name is not case sensitive.",
       },
       repo: {
-        type: 'string',
-        description: 'The name of the repository without the `.git` extension. The name is not case sensitive.',
+        type: "string",
+        description: "The name of the repository without the `.git` extension. The name is not case sensitive.",
       },
       milestone_number: {
-        type: 'integer',
-        description: 'The number that identifies the milestone.',
+        type: "integer",
+        description: "The number that identifies the milestone.",
       },
       per_page: {
-        type: 'integer',
+        type: "integer",
         default: 30,
         description:
           'The number of results per page (max 100). For more information, see "Using pagination in the REST API."',
       },
       page: {
-        type: 'integer',
+        type: "integer",
         default: 1,
         description:
           'The page number of the results to fetch. For more information, see "Using pagination in the REST API."',
       },
     },
-    required: ['owner', 'repo', 'milestone_number'],
+    required: ["owner", "repo", "milestone_number"],
   },
   request: {
-    method: 'GET',
-    path: '/repos/{owner}/{repo}/milestones/{milestone_number}/labels',
-    query: ['per_page', 'page'],
+    method: "GET",
+    path: "/repos/{owner}/{repo}/milestones/{milestone_number}/labels",
+    query: ["per_page", "page"],
   },
 });

@@ -1,14 +1,14 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersPermissionsGetAllPermissions = defineTool({
-  name: 'users:permissions:get_all_permissions',
-  description: 'Get all permissions. Returns all permissions, including:',
+  name: "users:permissions:get_all_permissions",
+  description: "Get all permissions. Returns all permissions, including:",
   input: {
-    type: 'object',
+    type: "object",
     properties: {},
   },
   request: {
-    method: 'GET',
-    path: '/rest/api/2/permissions',
+    method: "GET",
+    path: "/rest/api/2/permissions",
   },
 });

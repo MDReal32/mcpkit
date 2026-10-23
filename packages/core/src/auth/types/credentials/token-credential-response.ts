@@ -1,5 +1,5 @@
 export interface TokenCredentialResponse {
-  method: 'token';
+  method: "token";
   /** `index` of the chosen credential option. */
   option: number;
   /** Values per field key. */

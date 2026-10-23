@@ -1,54 +1,54 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsIntegrationsUpdateProjectsServicesGoogleCloudPlatformWorkloadIdentityFederation = defineTool({
-  name: 'projects:integrations:update_projects_services_google_cloud_platform_workload_identity_federation',
+  name: "projects:integrations:update_projects_services_google_cloud_platform_workload_identity_federation",
   description:
-    'Create or update the Google Cloud Platform Workload Identity Federation integration. Creates or updates the Google Cloud Platform Workload Identity Federation integration.',
+    "Create or update the Google Cloud Platform Workload Identity Federation integration. Creates or updates the Google Cloud Platform Workload Identity Federation integration.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
       workload_identity_federation_project_id: {
-        type: 'string',
-        description: 'Google Cloud project ID for the Workload Identity Federation.',
+        type: "string",
+        description: "Google Cloud project ID for the Workload Identity Federation.",
       },
       workload_identity_federation_project_number: {
-        type: 'string',
-        description: 'Google Cloud project number for the Workload Identity Federation.',
+        type: "string",
+        description: "Google Cloud project number for the Workload Identity Federation.",
       },
       workload_identity_pool_id: {
-        type: 'string',
-        description: 'ID of the Workload Identity Pool.',
+        type: "string",
+        description: "ID of the Workload Identity Pool.",
       },
       workload_identity_pool_provider_id: {
-        type: 'string',
-        description: 'ID of the Workload Identity Pool provider.',
+        type: "string",
+        description: "ID of the Workload Identity Pool provider.",
       },
       use_inherited_settings: {
-        type: 'boolean',
-        description: 'Indicates whether to inherit the default settings. Defaults to `false`.',
+        type: "boolean",
+        description: "Indicates whether to inherit the default settings. Defaults to `false`.",
       },
     },
     required: [
-      'id',
-      'workload_identity_federation_project_id',
-      'workload_identity_federation_project_number',
-      'workload_identity_pool_id',
-      'workload_identity_pool_provider_id',
+      "id",
+      "workload_identity_federation_project_id",
+      "workload_identity_federation_project_number",
+      "workload_identity_pool_id",
+      "workload_identity_pool_provider_id",
     ],
   },
   request: {
-    method: 'PUT',
-    path: '/projects/{id}/services/google-cloud-platform-workload-identity-federation',
+    method: "PUT",
+    path: "/projects/{id}/services/google-cloud-platform-workload-identity-federation",
     body: [
-      'workload_identity_federation_project_id',
-      'workload_identity_federation_project_number',
-      'workload_identity_pool_id',
-      'workload_identity_pool_provider_id',
-      'use_inherited_settings',
+      "workload_identity_federation_project_id",
+      "workload_identity_federation_project_number",
+      "workload_identity_pool_id",
+      "workload_identity_pool_provider_id",
+      "use_inherited_settings",
     ],
   },
 });

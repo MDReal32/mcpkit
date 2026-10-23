@@ -1,187 +1,187 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterContentCreateProperty = defineTool({
-  name: 'datacenter:content:create_property',
-  description: '[Data Center] Create a content property. Creates a new content property.',
+  name: "datacenter:content:create_property",
+  description: "[Data Center] Create a content property. Creates a new content property.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
+        type: "string",
       },
       key: {
-        type: 'string',
+        type: "string",
       },
       value: {
-        type: 'object',
+        type: "object",
         properties: {
           value: {
-            type: 'string',
+            type: "string",
           },
         },
       },
       version: {
-        type: 'object',
+        type: "object",
         properties: {
           by: {
-            type: 'object',
+            type: "object",
           },
           when: {
-            type: 'string',
+            type: "string",
           },
           message: {
-            type: 'string',
+            type: "string",
           },
           number: {
-            type: 'integer',
+            type: "integer",
           },
           minorEdit: {
-            type: 'boolean',
+            type: "boolean",
           },
           hidden: {
-            type: 'boolean',
+            type: "boolean",
           },
           syncRev: {
-            type: 'string',
+            type: "string",
           },
           content: {
-            type: 'object',
+            type: "object",
           },
           contentRef: {
-            type: 'object',
+            type: "object",
           },
         },
       },
       body_id: {
-        type: 'string',
+        type: "string",
       },
       content: {
-        type: 'object',
+        type: "object",
         properties: {
           id: {
-            type: 'string',
+            type: "string",
           },
           type: {
-            type: 'string',
+            type: "string",
           },
           status: {
-            type: 'string',
+            type: "string",
           },
           title: {
-            type: 'string',
+            type: "string",
           },
           links: {
-            type: 'object',
+            type: "object",
           },
           space: {
-            type: 'object',
+            type: "object",
           },
           history: {
-            type: 'object',
+            type: "object",
           },
           version: {
-            type: 'object',
+            type: "object",
           },
           ancestors: {
-            type: 'array',
+            type: "array",
             items: {},
           },
           position: {
-            type: 'integer',
+            type: "integer",
           },
           operations: {
-            type: 'array',
+            type: "array",
             items: {
-              type: 'object',
+              type: "object",
             },
           },
           children: {
-            type: 'object',
+            type: "object",
           },
           descendants: {
-            type: 'object',
+            type: "object",
           },
           container: {},
           body: {
-            type: 'object',
+            type: "object",
           },
           metadata: {
-            type: 'object',
+            type: "object",
           },
           extensions: {
-            type: 'object',
+            type: "object",
           },
           restrictions: {
-            type: 'object',
+            type: "object",
           },
           relevantViewRestrictions: {
-            type: 'object',
+            type: "object",
           },
           extractedTextLink: {
-            type: 'string',
+            type: "string",
           },
           historyRef: {
-            type: 'object',
+            type: "object",
           },
           spaceRef: {
-            type: 'object',
+            type: "object",
           },
           containerRef: {
-            type: 'object',
+            type: "object",
           },
           versionRef: {
-            type: 'object',
+            type: "object",
           },
         },
       },
       contentRef: {
-        type: 'object',
+        type: "object",
         properties: {
           idProperties: {
-            type: 'object',
+            type: "object",
           },
           expanded: {
-            type: 'boolean',
+            type: "boolean",
           },
         },
       },
       _links: {
-        type: 'object',
+        type: "object",
         properties: {
           base: {
-            type: 'string',
+            type: "string",
           },
           context: {
-            type: 'string',
+            type: "string",
           },
           self: {
-            type: 'string',
+            type: "string",
           },
         },
       },
       _expandable: {
-        type: 'object',
+        type: "object",
         properties: {
           attribute: {
-            type: 'string',
+            type: "string",
           },
         },
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'POST',
-    path: '/rest/api/content/{id}/property',
+    method: "POST",
+    path: "/rest/api/content/{id}/property",
     body: {
-      key: 'key',
-      value: 'value',
-      version: 'version',
-      id: 'body_id',
-      content: 'content',
-      contentRef: 'contentRef',
-      _links: '_links',
-      _expandable: '_expandable',
+      key: "key",
+      value: "value",
+      version: "version",
+      id: "body_id",
+      content: "content",
+      contentRef: "contentRef",
+      _links: "_links",
+      _expandable: "_expandable",
     },
   },
 });

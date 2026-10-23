@@ -1,6 +1,6 @@
-import { TAR_BLOCK_SIZE, TAR_FILE_TYPES, TAR_TYPE_OFFSET } from '../const';
-import { readTarEntryPath } from './read-tar-entry-path';
-import { readTarEntrySize } from './read-tar-entry-size';
+import { TAR_BLOCK_SIZE, TAR_FILE_TYPES, TAR_TYPE_OFFSET } from "../const";
+import { readTarEntryPath } from "./read-tar-entry-path";
+import { readTarEntrySize } from "./read-tar-entry-size";
 
 /** Reads one regular file out of an uncompressed ustar archive, as produced by `npm pack`. */
 export const extractTarFile = (archive: Uint8Array, entryPath: string) => {

@@ -1,5 +1,5 @@
-import type { SecretOwner } from '../../types/store/secret-owner';
-import type { SecretStore } from '../../types/store/secret-store';
+import type { SecretOwner } from "../../types/store/secret-owner";
+import type { SecretStore } from "../../types/store/secret-store";
 
 export const saveCredentials = async (
   owner: SecretOwner,

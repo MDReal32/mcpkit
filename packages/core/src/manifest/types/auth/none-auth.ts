@@ -1,3 +1,3 @@
 export interface NoneAuth {
-  type: 'none';
+  type: "none";
 }

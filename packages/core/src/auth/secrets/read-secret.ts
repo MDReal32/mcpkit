@@ -1,5 +1,5 @@
-import type { Env } from '../../env';
-import { AuthError } from '../auth-error';
+import type { Env } from "../../env";
+import { AuthError } from "../auth-error";
 
 export const readSecret = (env: Env, envName: string, serverName: string) => {
   const value = env[envName];

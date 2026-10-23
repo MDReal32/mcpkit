@@ -1,6 +1,6 @@
-import { mkdir, rename, writeFile } from 'node:fs/promises';
-import { dirname } from 'node:path';
-import { PRIVATE_DIR_MODE, PRIVATE_FILE_MODE } from '../const';
+import { mkdir, rename, writeFile } from "node:fs/promises";
+import { dirname } from "node:path";
+import { PRIVATE_DIR_MODE, PRIVATE_FILE_MODE } from "../const";
 
 /** Writes through a temp file and rename so a crash never leaves a half-written file. */
 export const writeJsonFile = async (file: string, value: unknown) => {

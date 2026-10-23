@@ -1,10 +1,10 @@
-import { AuthError, resolveDomain } from '../../auth';
-import type { Manifest, ToolArgs, ToolSpec } from '../../manifest';
-import type { CallContext } from '../types/call-context';
-import { attemptAuth } from './attempt-auth';
-import { buildAuthCandidates } from './candidates/build-auth-candidates';
-import { orderAuthCandidates } from './candidates/order-auth-candidates';
-import { preferredAuthLabels } from './candidates/preferred-auth-labels';
+import { AuthError, resolveDomain } from "../../auth";
+import type { Manifest, ToolArgs, ToolSpec } from "../../manifest";
+import type { CallContext } from "../types/call-context";
+import { attemptAuth } from "./attempt-auth";
+import { buildAuthCandidates } from "./candidates/build-auth-candidates";
+import { orderAuthCandidates } from "./candidates/order-auth-candidates";
+import { preferredAuthLabels } from "./candidates/preferred-auth-labels";
 
 /** Tries the server's auth candidates in order and keeps the one the API accepts. */
 export const sendWithAuthFallback = async (
@@ -19,7 +19,7 @@ export const sendWithAuthFallback = async (
   for (const candidate of candidates) {
     const attempt = await attemptAuth(candidate, tool, args, context);
     if (attempt.accepted) {
-      if (candidate.kind === 'provided') {
+      if (candidate.kind === "provided") {
         preferredAuthLabels.set(manifest.name, candidate.label);
       }
       return attempt;
@@ -27,5 +27,5 @@ export const sendWithAuthFallback = async (
     failures.push(`${candidate.label}: ${attempt.reason}`);
   }
   preferredAuthLabels.delete(manifest.name);
-  throw new AuthError(`${manifest.name}: no auth option worked\n  ${failures.join('\n  ')}`);
+  throw new AuthError(`${manifest.name}: no auth option worked\n  ${failures.join("\n  ")}`);
 };

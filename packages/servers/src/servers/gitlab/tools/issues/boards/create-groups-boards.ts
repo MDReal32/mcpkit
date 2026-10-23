@@ -1,25 +1,25 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesBoardsCreateGroupsBoards = defineTool({
-  name: 'issues:boards:create_groups_boards',
-  description: 'Create a group issue board. Creates a group issue board for a specified group.',
+  name: "issues:boards:create_groups_boards",
+  description: "Create a group issue board. Creates a group issue board for a specified group.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the group.',
+        type: "string",
+        description: "ID or URL-encoded path of the group.",
       },
       name: {
-        type: 'string',
-        description: 'Name of the board.',
+        type: "string",
+        description: "Name of the board.",
       },
     },
-    required: ['id', 'name'],
+    required: ["id", "name"],
   },
   request: {
-    method: 'POST',
-    path: '/groups/{id}/boards',
-    body: ['name'],
+    method: "POST",
+    path: "/groups/{id}/boards",
+    body: ["name"],
   },
 });

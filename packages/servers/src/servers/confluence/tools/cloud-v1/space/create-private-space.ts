@@ -1,52 +1,52 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const cloudV1SpaceCreatePrivateSpace = defineTool({
-  name: 'cloud_v1:space:create_private_space',
+  name: "cloud_v1:space:create_private_space",
   description:
-    '[Cloud v1] Create private space. Creates a new space that is only visible to the creator. This method is the same as the Create space method with permissions set to the current user only. Note, currently you cannot set space labels when creating a space.',
+    "[Cloud v1] Create private space. Creates a new space that is only visible to the creator. This method is the same as the Create space method with permissions set to the current user only. Note, currently you cannot set space labels when creating a space.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       name: {
-        type: 'string',
-        description: 'The name of the new space.',
+        type: "string",
+        description: "The name of the new space.",
       },
       key: {
-        type: 'string',
-        description: 'The key for the new space. Format: See Space keys. If `alias` is not provided, this is required.',
+        type: "string",
+        description: "The key for the new space. Format: See Space keys. If `alias` is not provided, this is required.",
       },
       alias: {
-        type: 'string',
+        type: "string",
         description:
-          'This field will be used as the new identifier for the space in confluence page URLs. If the property is not provided the alias will be the provided key. This property is experimental and may be changed or removed in the future.',
+          "This field will be used as the new identifier for the space in confluence page URLs. If the property is not provided the alias will be the provided key. This property is experimental and may be changed or removed in the future.",
       },
       description: {
-        type: 'object',
+        type: "object",
         description:
           "The description of the new/updated space. Note, only the 'plain' representation can be used for the description when creating or updating a space.",
         properties: {
           plain: {
-            type: 'object',
+            type: "object",
           },
         },
-        required: ['plain'],
+        required: ["plain"],
       },
       permissions: {
-        type: 'array',
+        type: "array",
         description:
-          'The permissions for the new space. If no permissions are provided, the Confluence default space permissions are applied. Note that if permissions are provided, the space is created with only the provided set of permissions, not including the default space permissions. Space permissions can be modified after creation using the space permissions endpoints, and a private space can be created using t…',
+          "The permissions for the new space. If no permissions are provided, the Confluence default space permissions are applied. Note that if permissions are provided, the space is created with only the provided set of permissions, not including the default space permissions. Space permissions can be modified after creation using the space permissions endpoints, and a private space can be created using t…",
         items: {
-          type: 'object',
+          type: "object",
           description:
-            'This object represents a permission for given space. Permissions consist of at least one operation object with an accompanying subjects object.',
+            "This object represents a permission for given space. Permissions consist of at least one operation object with an accompanying subjects object.",
         },
       },
     },
-    required: ['name'],
+    required: ["name"],
   },
   request: {
-    method: 'POST',
-    path: '/wiki/rest/api/space/_private',
-    body: ['name', 'key', 'alias', 'description', 'permissions'],
+    method: "POST",
+    path: "/wiki/rest/api/space/_private",
+    body: ["name", "key", "alias", "description", "permissions"],
   },
 });

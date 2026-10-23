@@ -1,219 +1,219 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const collaborationPlansCreatePlan = defineTool({
-  name: 'collaboration:plans:create_plan',
-  description: 'Create plan. Creates a plan.',
+  name: "collaboration:plans:create_plan",
+  description: "Create plan. Creates a plan.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       useGroupId: {
-        type: 'boolean',
+        type: "boolean",
         default: false,
-        description: 'Whether to accept group IDs instead of group names. Group names are deprecated.',
+        description: "Whether to accept group IDs instead of group names. Group names are deprecated.",
       },
       crossProjectReleases: {
-        type: 'array',
-        description: 'The cross-project releases to include in the plan.',
+        type: "array",
+        description: "The cross-project releases to include in the plan.",
         items: {
-          type: 'object',
+          type: "object",
           properties: {
             name: {
-              type: 'string',
-              description: 'The cross-project release name.',
+              type: "string",
+              description: "The cross-project release name.",
             },
             releaseIds: {
-              type: 'array',
-              description: 'The IDs of the releases to include in the cross-project release.',
+              type: "array",
+              description: "The IDs of the releases to include in the cross-project release.",
               items: {
-                type: 'integer',
+                type: "integer",
               },
             },
           },
-          required: ['name'],
+          required: ["name"],
         },
       },
       customFields: {
-        type: 'array',
-        description: 'The custom fields for the plan.',
+        type: "array",
+        description: "The custom fields for the plan.",
         items: {
-          type: 'object',
+          type: "object",
           properties: {
             customFieldId: {
-              type: 'integer',
-              description: 'The custom field ID.',
+              type: "integer",
+              description: "The custom field ID.",
             },
             filter: {
-              type: 'boolean',
-              description: 'Allows filtering issues based on their values for the custom field.',
+              type: "boolean",
+              description: "Allows filtering issues based on their values for the custom field.",
             },
           },
-          required: ['customFieldId'],
+          required: ["customFieldId"],
         },
       },
       exclusionRules: {
-        type: 'object',
-        description: 'The exclusion rules for the plan.',
+        type: "object",
+        description: "The exclusion rules for the plan.",
         properties: {
           issueIds: {
-            type: 'array',
-            description: 'The IDs of the issues to exclude from the plan.',
+            type: "array",
+            description: "The IDs of the issues to exclude from the plan.",
             items: {
-              type: 'integer',
+              type: "integer",
             },
           },
           issueTypeIds: {
-            type: 'array',
-            description: 'The IDs of the issue types to exclude from the plan.',
+            type: "array",
+            description: "The IDs of the issue types to exclude from the plan.",
             items: {
-              type: 'integer',
+              type: "integer",
             },
           },
           numberOfDaysToShowCompletedIssues: {
-            type: 'integer',
-            description: 'Issues completed this number of days ago will be excluded from the plan.',
+            type: "integer",
+            description: "Issues completed this number of days ago will be excluded from the plan.",
           },
           releaseIds: {
-            type: 'array',
-            description: 'The IDs of the releases to exclude from the plan.',
+            type: "array",
+            description: "The IDs of the releases to exclude from the plan.",
             items: {
-              type: 'integer',
+              type: "integer",
             },
           },
           workStatusCategoryIds: {
-            type: 'array',
-            description: 'The IDs of the work status categories to exclude from the plan.',
+            type: "array",
+            description: "The IDs of the work status categories to exclude from the plan.",
             items: {
-              type: 'integer',
+              type: "integer",
             },
           },
           workStatusIds: {
-            type: 'array',
-            description: 'The IDs of the work statuses to exclude from the plan.',
+            type: "array",
+            description: "The IDs of the work statuses to exclude from the plan.",
             items: {
-              type: 'integer',
+              type: "integer",
             },
           },
         },
       },
       issueSources: {
-        type: 'array',
-        description: 'The issue sources to include in the plan.',
+        type: "array",
+        description: "The issue sources to include in the plan.",
         items: {
-          type: 'object',
+          type: "object",
           properties: {
             type: {
-              type: 'string',
+              type: "string",
               description: 'The issue source type. This must be "Board", "Project" or "Filter".',
-              enum: ['Board', 'Project', 'Filter'],
+              enum: ["Board", "Project", "Filter"],
             },
             value: {
-              type: 'integer',
+              type: "integer",
               description:
                 'The issue source value. This must be a board ID if the type is "Board", a project ID if the type is "Project" or a filter ID if the type is "Filter".',
             },
           },
-          required: ['type', 'value'],
+          required: ["type", "value"],
         },
       },
       leadAccountId: {
-        type: 'string',
-        description: 'The account ID of the plan lead.',
+        type: "string",
+        description: "The account ID of the plan lead.",
       },
       name: {
-        type: 'string',
-        description: 'The plan name.',
+        type: "string",
+        description: "The plan name.",
       },
       permissions: {
-        type: 'array',
-        description: 'The permissions for the plan.',
+        type: "array",
+        description: "The permissions for the plan.",
         items: {
-          type: 'object',
+          type: "object",
           properties: {
             holder: {
-              type: 'object',
-              description: 'The permission holder.',
+              type: "object",
+              description: "The permission holder.",
             },
             type: {
-              type: 'string',
+              type: "string",
               description: 'The permission type. This must be "View" or "Edit".',
-              enum: ['View', 'Edit'],
+              enum: ["View", "Edit"],
             },
           },
-          required: ['holder', 'type'],
+          required: ["holder", "type"],
         },
       },
       scheduling: {
-        type: 'object',
-        description: 'The scheduling settings for the plan.',
+        type: "object",
+        description: "The scheduling settings for the plan.",
         properties: {
           dependencies: {
-            type: 'string',
+            type: "string",
             description: 'The dependencies for the plan. This must be "Sequential" or "Concurrent".',
-            enum: ['Sequential', 'Concurrent'],
+            enum: ["Sequential", "Concurrent"],
           },
           endDate: {
-            type: 'object',
-            description: 'The end date field for the plan.',
+            type: "object",
+            description: "The end date field for the plan.",
             properties: {
               dateCustomFieldId: {
-                type: 'integer',
+                type: "integer",
                 description: 'A date custom field ID. This is required if the type is "DateCustomField".',
               },
               type: {
-                type: 'string',
+                type: "string",
                 description:
                   'The date field type. This must be "DueDate", "TargetStartDate", "TargetEndDate" or "DateCustomField".',
-                enum: ['DueDate', 'TargetStartDate', 'TargetEndDate', 'DateCustomField'],
+                enum: ["DueDate", "TargetStartDate", "TargetEndDate", "DateCustomField"],
               },
             },
-            required: ['type'],
+            required: ["type"],
           },
           estimation: {
-            type: 'string',
+            type: "string",
             description: 'The estimation unit for the plan. This must be "StoryPoints", "Days" or "Hours".',
-            enum: ['StoryPoints', 'Days', 'Hours'],
+            enum: ["StoryPoints", "Days", "Hours"],
           },
           inferredDates: {
-            type: 'string',
+            type: "string",
             description: 'The inferred dates for the plan. This must be "None", "SprintDates" or "ReleaseDates".',
-            enum: ['None', 'SprintDates', 'ReleaseDates'],
+            enum: ["None", "SprintDates", "ReleaseDates"],
           },
           startDate: {
-            type: 'object',
-            description: 'The start date field for the plan.',
+            type: "object",
+            description: "The start date field for the plan.",
             properties: {
               dateCustomFieldId: {
-                type: 'integer',
+                type: "integer",
                 description: 'A date custom field ID. This is required if the type is "DateCustomField".',
               },
               type: {
-                type: 'string',
+                type: "string",
                 description:
                   'The date field type. This must be "DueDate", "TargetStartDate", "TargetEndDate" or "DateCustomField".',
-                enum: ['DueDate', 'TargetStartDate', 'TargetEndDate', 'DateCustomField'],
+                enum: ["DueDate", "TargetStartDate", "TargetEndDate", "DateCustomField"],
               },
             },
-            required: ['type'],
+            required: ["type"],
           },
         },
-        required: ['estimation'],
+        required: ["estimation"],
       },
     },
-    required: ['issueSources', 'name', 'scheduling'],
+    required: ["issueSources", "name", "scheduling"],
   },
   request: {
-    method: 'POST',
-    path: '/rest/api/2/plans/plan',
-    query: ['useGroupId'],
+    method: "POST",
+    path: "/rest/api/2/plans/plan",
+    query: ["useGroupId"],
     body: [
-      'crossProjectReleases',
-      'customFields',
-      'exclusionRules',
-      'issueSources',
-      'leadAccountId',
-      'name',
-      'permissions',
-      'scheduling',
+      "crossProjectReleases",
+      "customFields",
+      "exclusionRules",
+      "issueSources",
+      "leadAccountId",
+      "name",
+      "permissions",
+      "scheduling",
     ],
   },
 });

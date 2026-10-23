@@ -1,7 +1,7 @@
-import { describeError, isMissingFileError } from '@usemcpkit/core';
-import { printError } from '../../cli/output/print-error';
-import { BINARY_POLL_INTERVAL_MS } from './const';
-import { readFileSignature } from './read-file-signature';
+import { describeError, isMissingFileError } from "@usemcpkit/core";
+import { printError } from "../../cli/output/print-error";
+import { BINARY_POLL_INTERVAL_MS } from "./const";
+import { readFileSignature } from "./read-file-signature";
 
 /**
  * Polls `path` and calls `onChange` once after it changed and stayed the same for two polls, so a download in

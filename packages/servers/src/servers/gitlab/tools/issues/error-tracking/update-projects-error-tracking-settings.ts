@@ -1,30 +1,30 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesErrorTrackingUpdateProjectsErrorTrackingSettings = defineTool({
-  name: 'issues:error_tracking:update_projects_error_tracking_settings',
+  name: "issues:error_tracking:update_projects_error_tracking_settings",
   description:
-    'Create Error Tracking settings for a project. Creates Error Tracking settings for a specified project. You must have the Maintainer or Owner role for the project.',
+    "Create Error Tracking settings for a project. Creates Error Tracking settings for a specified project. You must have the Maintainer or Owner role for the project.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
       active: {
-        type: 'boolean',
-        description: 'If `true`, enables the configured error tracking settings. If `false`, disables them.',
+        type: "boolean",
+        description: "If `true`, enables the configured error tracking settings. If `false`, disables them.",
       },
       integrated: {
-        type: 'boolean',
-        description: 'If `true`, enables the integrated error tracking backend.',
+        type: "boolean",
+        description: "If `true`, enables the integrated error tracking backend.",
       },
     },
-    required: ['id', 'active', 'integrated'],
+    required: ["id", "active", "integrated"],
   },
   request: {
-    method: 'PUT',
-    path: '/projects/{id}/error_tracking/settings',
-    body: ['active', 'integrated'],
+    method: "PUT",
+    path: "/projects/{id}/error_tracking/settings",
+    body: ["active", "integrated"],
   },
 });

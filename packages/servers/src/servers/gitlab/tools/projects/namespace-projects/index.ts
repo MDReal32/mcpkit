@@ -1,4 +1,4 @@
-import { projectsNamespaceProjectsGetInternalGitlabSubscriptionsNamespacesProjects } from './get-internal-gitlab-subscriptions-namespaces-projects';
+import { projectsNamespaceProjectsGetInternalGitlabSubscriptionsNamespacesProjects } from "./get-internal-gitlab-subscriptions-namespaces-projects";
 
 export const projectsNamespaceProjectsTools = [
   projectsNamespaceProjectsGetInternalGitlabSubscriptionsNamespacesProjects,

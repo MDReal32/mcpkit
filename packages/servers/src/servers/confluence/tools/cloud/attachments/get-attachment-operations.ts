@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const cloudAttachmentsGetAttachmentOperations = defineTool({
-  name: 'cloud:attachments:get_attachment_operations',
+  name: "cloud:attachments:get_attachment_operations",
   description:
-    '[Cloud] Get permitted operations for attachment. Returns the permitted operations on specific attachment.',
+    "[Cloud] Get permitted operations for attachment. Returns the permitted operations on specific attachment.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'The ID of the attachment for which operations should be returned.',
+        type: "string",
+        description: "The ID of the attachment for which operations should be returned.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/wiki/api/v2/attachments/{id}/operations',
+    method: "GET",
+    path: "/wiki/api/v2/attachments/{id}/operations",
   },
 });

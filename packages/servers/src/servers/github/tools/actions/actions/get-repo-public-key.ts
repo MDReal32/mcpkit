@@ -1,25 +1,25 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const actionsActionsGetRepoPublicKey = defineTool({
-  name: 'actions:actions:get_repo_public_key',
+  name: "actions:actions:get_repo_public_key",
   description:
-    'Get a repository public key. Gets your public key, which you need to encrypt secrets. You need to encrypt a secret before you can create or update secrets.',
+    "Get a repository public key. Gets your public key, which you need to encrypt secrets. You need to encrypt a secret before you can create or update secrets.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       owner: {
-        type: 'string',
-        description: 'The account owner of the repository. The name is not case sensitive.',
+        type: "string",
+        description: "The account owner of the repository. The name is not case sensitive.",
       },
       repo: {
-        type: 'string',
-        description: 'The name of the repository without the `.git` extension. The name is not case sensitive.',
+        type: "string",
+        description: "The name of the repository without the `.git` extension. The name is not case sensitive.",
       },
     },
-    required: ['owner', 'repo'],
+    required: ["owner", "repo"],
   },
   request: {
-    method: 'GET',
-    path: '/repos/{owner}/{repo}/actions/secrets/public-key',
+    method: "GET",
+    path: "/repos/{owner}/{repo}/actions/secrets/public-key",
   },
 });

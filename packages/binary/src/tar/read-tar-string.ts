@@ -1,4 +1,4 @@
-import type { TarField } from '../types/tar-field';
+import type { TarField } from "../types/tar-field";
 
 export const readTarString = (header: Uint8Array, field: TarField) => {
   const bytes = header.subarray(field.offset, field.offset + field.length);

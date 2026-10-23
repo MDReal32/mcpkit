@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsHooksCreateHooksPost = defineTool({
-  name: 'projects:hooks:create_hooks_post',
-  description: 'Create a test run. Creates a test run for a webhook. Executes the webhook with mock data.',
+  name: "projects:hooks:create_hooks_post",
+  description: "Create a test run. Creates a test run for a webhook. Executes the webhook with mock data.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       hook_id: {
-        type: 'integer',
-        description: 'ID of the system hook.',
+        type: "integer",
+        description: "ID of the system hook.",
       },
     },
-    required: ['hook_id'],
+    required: ["hook_id"],
   },
   request: {
-    method: 'POST',
-    path: '/hooks/{hook_id}',
+    method: "POST",
+    path: "/hooks/{hook_id}",
   },
 });

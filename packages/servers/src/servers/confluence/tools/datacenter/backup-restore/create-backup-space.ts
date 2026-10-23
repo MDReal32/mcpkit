@@ -1,28 +1,28 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterBackupRestoreCreateBackupSpace = defineTool({
-  name: 'datacenter:backup_restore:create_backup_space',
-  description: '[Data Center] Create space backup job. Creates new space backup job and adds it to the queue.',
+  name: "datacenter:backup_restore:create_backup_space",
+  description: "[Data Center] Create space backup job. Creates new space backup job and adds it to the queue.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       spaceKeys: {
-        type: 'array',
+        type: "array",
         items: {
-          type: 'string',
+          type: "string",
         },
       },
       keepPermanently: {
-        type: 'boolean',
+        type: "boolean",
       },
       fileNamePrefix: {
-        type: 'string',
+        type: "string",
       },
     },
   },
   request: {
-    method: 'POST',
-    path: '/rest/api/backup-restore/backup/space',
-    body: ['spaceKeys', 'keepPermanently', 'fileNamePrefix'],
+    method: "POST",
+    path: "/rest/api/backup-restore/backup/space",
+    body: ["spaceKeys", "keepPermanently", "fileNamePrefix"],
   },
 });

@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersGistsDelete = defineTool({
-  name: 'users:gists:delete',
-  description: 'Delete a gist',
+  name: "users:gists:delete",
+  description: "Delete a gist",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       gist_id: {
-        type: 'string',
-        description: 'The unique identifier of the gist.',
+        type: "string",
+        description: "The unique identifier of the gist.",
       },
     },
-    required: ['gist_id'],
+    required: ["gist_id"],
   },
   request: {
-    method: 'DELETE',
-    path: '/gists/{gist_id}',
+    method: "DELETE",
+    path: "/gists/{gist_id}",
   },
 });

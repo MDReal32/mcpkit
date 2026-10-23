@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const securityCodeSecurityGetDefaultConfigurationsForEnterprise = defineTool({
-  name: 'security:code_security:get_default_configurations_for_enterprise',
+  name: "security:code_security:get_default_configurations_for_enterprise",
   description:
-    'Get default code security configurations for an enterprise. Lists the default code security configurations for an enterprise.',
+    "Get default code security configurations for an enterprise. Lists the default code security configurations for an enterprise.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       enterprise: {
-        type: 'string',
-        description: 'The slug version of the enterprise name.',
+        type: "string",
+        description: "The slug version of the enterprise name.",
       },
     },
-    required: ['enterprise'],
+    required: ["enterprise"],
   },
   request: {
-    method: 'GET',
-    path: '/enterprises/{enterprise}/code-security/configurations/defaults',
+    method: "GET",
+    path: "/enterprises/{enterprise}/code-security/configurations/defaults",
   },
 });

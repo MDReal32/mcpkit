@@ -1,104 +1,104 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterColorSchemeUpdate = defineTool({
-  name: 'datacenter:color_scheme:update',
-  description: '[Data Center] Set global color scheme. Update the current color scheme of the instance',
+  name: "datacenter:color_scheme:update",
+  description: "[Data Center] Set global color scheme. Update the current color scheme of the instance",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       colorSchemeModelLight: {
-        type: 'object',
+        type: "object",
         properties: {
           topBarColor: {
-            type: 'string',
+            type: "string",
           },
           topBarMenuSelectedBgColor: {
-            type: 'string',
+            type: "string",
           },
           topBarMenuSelectedTextColor: {
-            type: 'string',
+            type: "string",
           },
           breadcrumbsTextColor: {
-            type: 'string',
+            type: "string",
           },
           headerButtonBgColor: {
-            type: 'string',
+            type: "string",
           },
           headerButtonTextColor: {
-            type: 'string',
+            type: "string",
           },
           searchFieldTextColor: {
-            type: 'string',
+            type: "string",
           },
           searchFieldBgColor: {
-            type: 'string',
+            type: "string",
           },
           menuItemSelectedBgColor: {
-            type: 'string',
+            type: "string",
           },
           menuItemSelectedTextColor: {
-            type: 'string',
+            type: "string",
           },
           menuItemTextColor: {
-            type: 'string',
+            type: "string",
           },
           headingTextColor: {
-            type: 'string',
+            type: "string",
           },
           linkColor: {
-            type: 'string',
+            type: "string",
           },
         },
       },
       colorSchemeModelDark: {
-        type: 'object',
+        type: "object",
         properties: {
           topBarColor: {
-            type: 'string',
+            type: "string",
           },
           topBarMenuSelectedBgColor: {
-            type: 'string',
+            type: "string",
           },
           topBarMenuSelectedTextColor: {
-            type: 'string',
+            type: "string",
           },
           breadcrumbsTextColor: {
-            type: 'string',
+            type: "string",
           },
           headerButtonBgColor: {
-            type: 'string',
+            type: "string",
           },
           headerButtonTextColor: {
-            type: 'string',
+            type: "string",
           },
           searchFieldTextColor: {
-            type: 'string',
+            type: "string",
           },
           searchFieldBgColor: {
-            type: 'string',
+            type: "string",
           },
           menuItemSelectedBgColor: {
-            type: 'string',
+            type: "string",
           },
           menuItemSelectedTextColor: {
-            type: 'string',
+            type: "string",
           },
           menuItemTextColor: {
-            type: 'string',
+            type: "string",
           },
           headingTextColor: {
-            type: 'string',
+            type: "string",
           },
           linkColor: {
-            type: 'string',
+            type: "string",
           },
         },
       },
     },
   },
   request: {
-    method: 'PUT',
-    path: '/rest/api/color-scheme',
-    body: ['colorSchemeModelLight', 'colorSchemeModelDark'],
+    method: "PUT",
+    path: "/rest/api/color-scheme",
+    body: ["colorSchemeModelLight", "colorSchemeModelDark"],
   },
 });

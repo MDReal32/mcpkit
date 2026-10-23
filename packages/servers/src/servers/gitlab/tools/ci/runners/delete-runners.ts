@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const ciRunnersDeleteRunners = defineTool({
-  name: 'ci:runners:delete_runners',
-  description: 'Delete a runner. Deletes a specified runner.',
+  name: "ci:runners:delete_runners",
+  description: "Delete a runner. Deletes a specified runner.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'ID of the runner.',
+        type: "integer",
+        description: "ID of the runner.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'DELETE',
-    path: '/runners/{id}',
+    method: "DELETE",
+    path: "/runners/{id}",
   },
 });

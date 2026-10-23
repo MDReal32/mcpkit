@@ -1,3 +1,3 @@
-import { metaRateLimitGet } from './get';
+import { metaRateLimitGet } from "./get";
 
 export const metaRateLimitTools = [metaRateLimitGet];

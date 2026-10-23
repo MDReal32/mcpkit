@@ -1,36 +1,36 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const softwareBoardMoveIssuesToBoard = defineTool({
-  name: 'software:board:move_issues_to_board',
+  name: "software:board:move_issues_to_board",
   description:
-    'Move issues to board. Move issues from the backog to the board (if they are already in the backlog of that board). This operation either moves an issue(s) onto a board from the backlog (by adding it to the issueList for the board) Or transitions the issue(s) to the first column for a kanban board with backlog. At most 50 issues may be moved at once.',
+    "Move issues to board. Move issues from the backog to the board (if they are already in the backlog of that board). This operation either moves an issue(s) onto a board from the backlog (by adding it to the issueList for the board) Or transitions the issue(s) to the first column for a kanban board with backlog. At most 50 issues may be moved at once.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       boardId: {
-        type: 'integer',
+        type: "integer",
       },
       issues: {
-        type: 'array',
+        type: "array",
         items: {
-          type: 'string',
+          type: "string",
         },
       },
       rankAfterIssue: {
-        type: 'string',
+        type: "string",
       },
       rankBeforeIssue: {
-        type: 'string',
+        type: "string",
       },
       rankCustomFieldId: {
-        type: 'integer',
+        type: "integer",
       },
     },
-    required: ['boardId'],
+    required: ["boardId"],
   },
   request: {
-    method: 'POST',
-    path: '/rest/agile/1.0/board/{boardId}/issue',
-    body: ['issues', 'rankAfterIssue', 'rankBeforeIssue', 'rankCustomFieldId'],
+    method: "POST",
+    path: "/rest/agile/1.0/board/{boardId}/issue",
+    body: ["issues", "rankAfterIssue", "rankBeforeIssue", "rankCustomFieldId"],
   },
 });

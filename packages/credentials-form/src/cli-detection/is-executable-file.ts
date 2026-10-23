@@ -1,7 +1,7 @@
-import { constants } from 'node:fs';
-import { access, stat } from 'node:fs/promises';
-import { isJsonObject } from '@usemcpkit/core';
-import { PATH_LOOKUP_MISS_CODES } from '../const';
+import { constants } from "node:fs";
+import { access, stat } from "node:fs/promises";
+import { isJsonObject } from "@usemcpkit/core";
+import { PATH_LOOKUP_MISS_CODES } from "../const";
 
 export const isExecutableFile = async (file: string) => {
   try {
@@ -11,7 +11,7 @@ export const isExecutableFile = async (file: string) => {
     await access(file, constants.X_OK);
     return true;
   } catch (error) {
-    if (isJsonObject(error) && typeof error.code === 'string' && PATH_LOOKUP_MISS_CODES.includes(error.code)) {
+    if (isJsonObject(error) && typeof error.code === "string" && PATH_LOOKUP_MISS_CODES.includes(error.code)) {
       return false;
     }
     throw error;

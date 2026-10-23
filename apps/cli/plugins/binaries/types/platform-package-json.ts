@@ -1,5 +1,5 @@
-import type { PackagePublishConfig } from './package-publish-config';
-import type { PackageRepository } from './package-repository';
+import type { PackagePublishConfig } from "./package-publish-config";
+import type { PackageRepository } from "./package-repository";
 
 export interface PlatformPackageJson {
   name: string;

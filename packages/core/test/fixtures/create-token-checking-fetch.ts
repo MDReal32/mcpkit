@@ -9,10 +9,10 @@ export const createTokenCheckingFetch = (validToken: string, tokenRoutes: Readon
     if (url in tokenRoutes) {
       return Response.json(tokenRoutes[url]);
     }
-    const authorization = new Headers(init?.headers).get('authorization') ?? '';
+    const authorization = new Headers(init?.headers).get("authorization") ?? "";
     sentAuthorizations.push(authorization);
     const accepted = authorization === `Bearer ${validToken}`;
-    return Response.json(accepted ? { pong: true } : { message: 'Bad credentials' }, { status: accepted ? 200 : 401 });
+    return Response.json(accepted ? { pong: true } : { message: "Bad credentials" }, { status: accepted ? 200 : 401 });
   };
   return { tokenCheckingFetch, sentAuthorizations };
 };

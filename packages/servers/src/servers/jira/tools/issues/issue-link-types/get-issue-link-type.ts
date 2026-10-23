@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesIssueLinkTypesGetIssueLinkType = defineTool({
-  name: 'issues:issue_link_types:get_issue_link_type',
-  description: 'Get issue link type. Returns an issue link type.',
+  name: "issues:issue_link_types:get_issue_link_type",
+  description: "Get issue link type. Returns an issue link type.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       issueLinkTypeId: {
-        type: 'string',
-        description: 'The ID of the issue link type.',
+        type: "string",
+        description: "The ID of the issue link type.",
       },
     },
-    required: ['issueLinkTypeId'],
+    required: ["issueLinkTypeId"],
   },
   request: {
-    method: 'GET',
-    path: '/rest/api/2/issueLinkType/{issueLinkTypeId}',
+    method: "GET",
+    path: "/rest/api/2/issueLinkType/{issueLinkTypeId}",
   },
 });

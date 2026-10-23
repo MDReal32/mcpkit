@@ -1,25 +1,25 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const orgsBillingGetBudgetOrg = defineTool({
-  name: 'orgs:billing:get_budget_org',
+  name: "orgs:billing:get_budget_org",
   description:
-    'Get a budget by ID for an organization. Gets a budget by ID. The authenticated user must be an organization admin or billing manager.',
+    "Get a budget by ID for an organization. Gets a budget by ID. The authenticated user must be an organization admin or billing manager.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       org: {
-        type: 'string',
-        description: 'The organization name. The name is not case sensitive.',
+        type: "string",
+        description: "The organization name. The name is not case sensitive.",
       },
       budget_id: {
-        type: 'string',
-        description: 'The ID corresponding to the budget.',
+        type: "string",
+        description: "The ID corresponding to the budget.",
       },
     },
-    required: ['org', 'budget_id'],
+    required: ["org", "budget_id"],
   },
   request: {
-    method: 'GET',
-    path: '/organizations/{org}/settings/billing/budgets/{budget_id}',
+    method: "GET",
+    path: "/organizations/{org}/settings/billing/budgets/{budget_id}",
   },
 });

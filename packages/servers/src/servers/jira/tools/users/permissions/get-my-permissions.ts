@@ -1,57 +1,57 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersPermissionsGetMyPermissions = defineTool({
-  name: 'users:permissions:get_my_permissions',
+  name: "users:permissions:get_my_permissions",
   description:
     "Get my permissions. Returns a list of permissions indicating which permissions the user has. Details of the user's permissions can be obtained in a global, project, issue or comment context.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       projectKey: {
-        type: 'string',
-        description: 'The key of project. Ignored if `projectId` is provided.',
+        type: "string",
+        description: "The key of project. Ignored if `projectId` is provided.",
       },
       projectId: {
-        type: 'string',
-        description: 'The ID of project.',
+        type: "string",
+        description: "The ID of project.",
       },
       issueKey: {
-        type: 'string',
-        description: 'The key of the issue. Ignored if `issueId` is provided.',
+        type: "string",
+        description: "The key of the issue. Ignored if `issueId` is provided.",
       },
       issueId: {
-        type: 'string',
-        description: 'The ID of the issue.',
+        type: "string",
+        description: "The ID of the issue.",
       },
       permissions: {
-        type: 'string',
+        type: "string",
         description:
-          'A list of permission keys. (Required) This parameter accepts a comma-separated list. To get the list of available permissions, use Get all permissions.',
+          "A list of permission keys. (Required) This parameter accepts a comma-separated list. To get the list of available permissions, use Get all permissions.",
       },
       projectUuid: {
-        type: 'string',
+        type: "string",
       },
       projectConfigurationUuid: {
-        type: 'string',
+        type: "string",
       },
       commentId: {
-        type: 'string',
-        description: 'The ID of the comment.',
+        type: "string",
+        description: "The ID of the comment.",
       },
     },
   },
   request: {
-    method: 'GET',
-    path: '/rest/api/2/mypermissions',
+    method: "GET",
+    path: "/rest/api/2/mypermissions",
     query: [
-      'projectKey',
-      'projectId',
-      'issueKey',
-      'issueId',
-      'permissions',
-      'projectUuid',
-      'projectConfigurationUuid',
-      'commentId',
+      "projectKey",
+      "projectId",
+      "issueKey",
+      "issueId",
+      "permissions",
+      "projectUuid",
+      "projectConfigurationUuid",
+      "commentId",
     ],
   },
 });

@@ -1,82 +1,82 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterContentbodyCreateConvert = defineTool({
-  name: 'datacenter:contentbody:create_convert',
+  name: "datacenter:contentbody:create_convert",
   description:
-    '[Data Center] Convert body representation. Converts between content body representations. Not all representations can be converted to/from other formats. Supported conversions:',
+    "[Data Center] Convert body representation. Converts between content body representations. Not all representations can be converted to/from other formats. Supported conversions:",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       to: {
-        type: 'string',
-        description: 'the representation to convert to.',
+        type: "string",
+        description: "the representation to convert to.",
       },
       expand: {
-        type: 'string',
+        type: "string",
         description:
-          'A comma separated list of properties to expand on the content. Default value: <code>body.storage,history,space,version,ancestors</code>',
+          "A comma separated list of properties to expand on the content. Default value: <code>body.storage,history,space,version,ancestors</code>",
       },
       representation: {
-        type: 'string',
+        type: "string",
       },
       value: {
-        type: 'string',
+        type: "string",
       },
       webresource: {
-        type: 'object',
+        type: "object",
         properties: {
           keys: {
-            type: 'array',
+            type: "array",
             items: {
-              type: 'string',
+              type: "string",
             },
           },
           contexts: {
-            type: 'array',
+            type: "array",
             items: {
-              type: 'string',
+              type: "string",
             },
           },
           uris: {
-            type: 'object',
+            type: "object",
           },
           tags: {
-            type: 'object',
+            type: "object",
           },
           superbatch: {
-            type: 'object',
+            type: "object",
           },
         },
       },
       content: {
-        type: 'object',
+        type: "object",
         properties: {
           idProperties: {
-            type: 'object',
+            type: "object",
           },
           expanded: {
-            type: 'boolean',
+            type: "boolean",
           },
         },
       },
       contentRef: {
-        type: 'object',
+        type: "object",
         properties: {
           idProperties: {
-            type: 'object',
+            type: "object",
           },
           expanded: {
-            type: 'boolean',
+            type: "boolean",
           },
         },
       },
     },
-    required: ['to'],
+    required: ["to"],
   },
   request: {
-    method: 'POST',
-    path: '/rest/api/contentbody/convert/{to}',
-    query: ['expand'],
-    body: ['representation', 'value', 'webresource', 'content', 'contentRef'],
+    method: "POST",
+    path: "/rest/api/contentbody/convert/{to}",
+    query: ["expand"],
+    body: ["representation", "value", "webresource", "content", "contentRef"],
   },
 });

@@ -1,4 +1,4 @@
-import type { ToolSpec } from '../types/tool/tool-spec';
+import type { ToolSpec } from "../types/tool/tool-spec";
 
 export const applyToolEdition = (tool: ToolSpec, editionName: string | undefined) => {
   const edition = editionName === undefined ? undefined : tool.editions?.[editionName];

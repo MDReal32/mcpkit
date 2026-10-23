@@ -1,83 +1,83 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesProjectsAddFieldForOrg = defineTool({
-  name: 'issues:projects:add_field_for_org',
-  description: 'Add a field to an organization-owned project. Add a field to an organization-owned project.',
+  name: "issues:projects:add_field_for_org",
+  description: "Add a field to an organization-owned project. Add a field to an organization-owned project.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       project_number: {
-        type: 'integer',
+        type: "integer",
         description: "The project's number.",
       },
       org: {
-        type: 'string',
-        description: 'The organization name. The name is not case sensitive.',
+        type: "string",
+        description: "The organization name. The name is not case sensitive.",
       },
       issue_field_id: {
-        type: 'integer',
-        description: 'The ID of the IssueField to create the field for.',
+        type: "integer",
+        description: "The ID of the IssueField to create the field for.",
       },
       name: {
-        type: 'string',
-        description: 'The name of the field.',
+        type: "string",
+        description: "The name of the field.",
       },
       data_type: {
-        type: 'string',
+        type: "string",
         description: "The field's data type.",
-        enum: ['iteration'],
+        enum: ["iteration"],
       },
       single_select_options: {
-        type: 'array',
+        type: "array",
         description:
-          'The options available for single select fields. At least one option must be provided when creating a single select field.',
+          "The options available for single select fields. At least one option must be provided when creating a single select field.",
         items: {
-          type: 'object',
+          type: "object",
           properties: {
             name: {
-              type: 'string',
-              description: 'The display name of the option.',
+              type: "string",
+              description: "The display name of the option.",
             },
             color: {
-              type: 'string',
-              description: 'The color associated with the option.',
-              enum: ['BLUE', 'GRAY', 'GREEN', 'ORANGE', 'PINK', 'PURPLE', 'RED', 'YELLOW'],
+              type: "string",
+              description: "The color associated with the option.",
+              enum: ["BLUE", "GRAY", "GREEN", "ORANGE", "PINK", "PURPLE", "RED", "YELLOW"],
             },
             description: {
-              type: 'string',
-              description: 'The description of the option.',
+              type: "string",
+              description: "The description of the option.",
             },
           },
         },
       },
       iteration_configuration: {
-        type: 'object',
-        description: 'The configuration for iteration fields.',
+        type: "object",
+        description: "The configuration for iteration fields.",
         properties: {
           start_date: {
-            type: 'string',
-            description: 'The start date of the first iteration.',
+            type: "string",
+            description: "The start date of the first iteration.",
           },
           duration: {
-            type: 'integer',
-            description: 'The default duration for iterations in days. Individual iterations can override this value.',
+            type: "integer",
+            description: "The default duration for iterations in days. Individual iterations can override this value.",
           },
           iterations: {
-            type: 'array',
-            description: 'Zero or more iterations for the field.',
+            type: "array",
+            description: "Zero or more iterations for the field.",
             items: {
-              type: 'object',
+              type: "object",
             },
           },
         },
-        required: ['start_date', 'duration'],
+        required: ["start_date", "duration"],
       },
     },
-    required: ['project_number', 'org'],
+    required: ["project_number", "org"],
   },
   request: {
-    method: 'POST',
-    path: '/orgs/{org}/projectsV2/{project_number}/fields',
-    body: ['issue_field_id', 'name', 'data_type', 'single_select_options', 'iteration_configuration'],
+    method: "POST",
+    path: "/orgs/{org}/projectsV2/{project_number}/fields",
+    body: ["issue_field_id", "name", "data_type", "single_select_options", "iteration_configuration"],
   },
 });

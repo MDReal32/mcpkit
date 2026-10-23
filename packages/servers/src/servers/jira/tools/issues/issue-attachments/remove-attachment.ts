@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesIssueAttachmentsRemoveAttachment = defineTool({
-  name: 'issues:issue_attachments:remove_attachment',
-  description: 'Delete attachment. Deletes an attachment from an issue.',
+  name: "issues:issue_attachments:remove_attachment",
+  description: "Delete attachment. Deletes an attachment from an issue.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'The ID of the attachment.',
+        type: "string",
+        description: "The ID of the attachment.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'DELETE',
-    path: '/rest/api/2/attachment/{id}',
+    method: "DELETE",
+    path: "/rest/api/2/attachment/{id}",
   },
 });

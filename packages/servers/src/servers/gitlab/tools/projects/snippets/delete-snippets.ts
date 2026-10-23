@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsSnippetsDeleteSnippets = defineTool({
-  name: 'projects:snippets:delete_snippets',
-  description: 'Delete snippet. Deletes a specified snippet.',
+  name: "projects:snippets:delete_snippets",
+  description: "Delete snippet. Deletes a specified snippet.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'ID of the snippet.',
+        type: "integer",
+        description: "ID of the snippet.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'DELETE',
-    path: '/snippets/{id}',
+    method: "DELETE",
+    path: "/snippets/{id}",
   },
 });

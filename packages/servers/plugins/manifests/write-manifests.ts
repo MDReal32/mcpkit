@@ -1,10 +1,10 @@
-import { createHash } from 'node:crypto';
-import { mkdir, writeFile } from 'node:fs/promises';
-import { dirname, join } from 'node:path';
-import { INDEX_FILE_NAME } from './const';
-import { splitManifest } from './split-manifest';
-import type { CompiledManifest } from './types/compiled-manifest';
-import type { SplitManifest } from './types/split-manifest';
+import { createHash } from "node:crypto";
+import { mkdir, writeFile } from "node:fs/promises";
+import { dirname, join } from "node:path";
+import { INDEX_FILE_NAME } from "./const";
+import { splitManifest } from "./split-manifest";
+import type { CompiledManifest } from "./types/compiled-manifest";
+import type { SplitManifest } from "./types/split-manifest";
 
 const toManifestPath = ({ manifest }: CompiledManifest) => `${manifest.category}/${manifest.name}.json`;
 
@@ -15,8 +15,8 @@ const toIndexEntry = (entry: CompiledManifest, shellJson: string, registryUrl: s
     version: entry.manifest.version,
     description: entry.manifest.description,
     tools: entry.manifest.tools.map((tool) => tool.name),
-    url: registryUrl ? `${registryUrl.replace(/\/+$/, '')}/${path}` : path,
-    sha256: createHash('sha256').update(shellJson).digest('hex'),
+    url: registryUrl ? `${registryUrl.replace(/\/+$/, "")}/${path}` : path,
+    sha256: createHash("sha256").update(shellJson).digest("hex"),
   };
 };
 

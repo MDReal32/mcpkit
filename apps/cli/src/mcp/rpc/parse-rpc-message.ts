@@ -1,9 +1,9 @@
-import { isJsonObject } from '@usemcpkit/core';
-import { RPC_ERROR_CODES } from '../const';
-import type { RpcMessage } from '../types/rpc-message';
-import { isRpcId } from './is-rpc-id';
-import { parseJsonLine } from './parse-json-line';
-import { RpcError } from './rpc-error';
+import { isJsonObject } from "@usemcpkit/core";
+import { RPC_ERROR_CODES } from "../const";
+import type { RpcMessage } from "../types/rpc-message";
+import { isRpcId } from "./is-rpc-id";
+import { parseJsonLine } from "./parse-json-line";
+import { RpcError } from "./rpc-error";
 
 /** Validates one untrusted stdio line; returns the RpcError to report instead of throwing. */
 export const parseRpcMessage = (line: string) => {
@@ -11,7 +11,7 @@ export const parseRpcMessage = (line: string) => {
   if (data instanceof RpcError) {
     return data;
   }
-  if (!isJsonObject(data) || typeof data.method !== 'string') {
+  if (!isJsonObject(data) || typeof data.method !== "string") {
     return new RpcError(RPC_ERROR_CODES.invalidRequest, 'invalid request: expected an object with a string "method"');
   }
   if (data.id !== undefined && !isRpcId(data.id)) {

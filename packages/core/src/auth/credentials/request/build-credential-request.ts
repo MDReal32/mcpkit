@@ -1,10 +1,10 @@
-import type { Env } from '../../../env';
-import type { Manifest } from '../../../manifest';
-import { isInteractiveAuth } from '../../../manifest';
-import type { CredentialRequest } from '../../types/credentials/credential-request';
-import { buildUiTexts } from '../../ui/build-ui-texts';
-import { buildDomainField } from './build-domain-field';
-import { toCredentialOptions } from './to-credential-options';
+import type { Env } from "../../../env";
+import type { Manifest } from "../../../manifest";
+import { isInteractiveAuth } from "../../../manifest";
+import type { CredentialRequest } from "../../types/credentials/credential-request";
+import { buildUiTexts } from "../../ui/build-ui-texts";
+import { buildDomainField } from "./build-domain-field";
+import { toCredentialOptions } from "./to-credential-options";
 
 export const buildCredentialRequest = (manifest: Manifest, domain: string | undefined, env: Env) => {
   const auth = manifest.auth ?? [];

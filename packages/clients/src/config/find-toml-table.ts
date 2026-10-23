@@ -1,6 +1,6 @@
-import type { TomlTableRange } from '../types/toml-table-range';
-import { isTomlTableStart } from './is-toml-table-start';
-import { readTomlHeader } from './read-toml-header';
+import type { TomlTableRange } from "../types/toml-table-range";
+import { isTomlTableStart } from "./is-toml-table-start";
+import { readTomlHeader } from "./read-toml-header";
 
 /** Finds `[tableKey]` with its key/value lines; with `withSubtables`, also the `[tableKey.*]` tables right after it. */
 export const findTomlTable = (lines: readonly string[], tableKey: string, withSubtables: boolean) => {
@@ -10,7 +10,7 @@ export const findTomlTable = (lines: readonly string[], tableKey: string, withSu
   }
   let end = start + 1;
   while (end < lines.length) {
-    const line = lines[end] ?? '';
+    const line = lines[end] ?? "";
     const isOwnSubtable = withSubtables && (readTomlHeader(line)?.startsWith(`${tableKey}.`) ?? false);
     if (isTomlTableStart(line) && !isOwnSubtable) {
       break;

@@ -1,29 +1,29 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const copilotCopilotCancelCopilotSeatAssignmentForTeams = defineTool({
-  name: 'copilot:copilot:cancel_copilot_seat_assignment_for_teams',
+  name: "copilot:copilot:cancel_copilot_seat_assignment_for_teams",
   description:
-    'Remove teams from the Copilot subscription for an organization. > [!NOTE] > This endpoint is in public preview and is subject to change.',
+    "Remove teams from the Copilot subscription for an organization. > [!NOTE] > This endpoint is in public preview and is subject to change.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       org: {
-        type: 'string',
-        description: 'The organization name. The name is not case sensitive.',
+        type: "string",
+        description: "The organization name. The name is not case sensitive.",
       },
       selected_teams: {
-        type: 'array',
-        description: 'The names of teams from which to revoke access to GitHub Copilot.',
+        type: "array",
+        description: "The names of teams from which to revoke access to GitHub Copilot.",
         items: {
-          type: 'string',
+          type: "string",
         },
       },
     },
-    required: ['org', 'selected_teams'],
+    required: ["org", "selected_teams"],
   },
   request: {
-    method: 'DELETE',
-    path: '/orgs/{org}/copilot/billing/selected_teams',
-    body: ['selected_teams'],
+    method: "DELETE",
+    path: "/orgs/{org}/copilot/billing/selected_teams",
+    body: ["selected_teams"],
   },
 });

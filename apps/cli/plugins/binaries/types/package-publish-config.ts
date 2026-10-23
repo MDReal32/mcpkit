@@ -1,3 +1,3 @@
 export interface PackagePublishConfig {
-  access: 'public';
+  access: "public";
 }

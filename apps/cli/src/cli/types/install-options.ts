@@ -1,4 +1,4 @@
-import type { ClientSelection } from './client-selection';
+import type { ClientSelection } from "./client-selection";
 
 export interface InstallOptions extends ClientSelection {
   binary?: string;

@@ -1,10 +1,10 @@
-import { hashText } from '../ids/hash-text';
-import { writeCachedManifest } from '../local/write-cached-manifest';
-import { fetchText } from '../remote/fetch-text';
-import type { RegistryContext } from '../types/registry-context';
-import type { RegistryServer } from '../types/registry-server';
-import { parseManifestText } from './parse-manifest-text';
-import { resolveRegistryLink } from './resolve-registry-link';
+import { hashText } from "../ids/hash-text";
+import { writeCachedManifest } from "../local/write-cached-manifest";
+import { fetchText } from "../remote/fetch-text";
+import type { RegistryContext } from "../types/registry-context";
+import type { RegistryServer } from "../types/registry-server";
+import { parseManifestText } from "./parse-manifest-text";
+import { resolveRegistryLink } from "./resolve-registry-link";
 
 /** Nothing is cached unless it matches the index hash and validates. */
 export const downloadManifest = async (server: RegistryServer, context: RegistryContext) => {

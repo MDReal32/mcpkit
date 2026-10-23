@@ -1,2 +1,2 @@
 export const isHttpsUrl = (value: unknown): value is string =>
-  typeof value === 'string' && value.startsWith('https://');
+  typeof value === "string" && value.startsWith("https://");

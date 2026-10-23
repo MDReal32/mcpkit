@@ -1,35 +1,35 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsProjectImportGetProjectsExportRelationsDownload = defineTool({
-  name: 'projects:project_import:get_projects_export_relations_download',
-  description: 'Download a relations export for a project. Downloads a project relations export file.',
+  name: "projects:project_import:get_projects_export_relations_download",
+  description: "Download a relations export for a project. Downloads a project relations export file.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
       relation: {
-        type: 'string',
-        description: 'Name of the project top-level relation to download or view.',
+        type: "string",
+        description: "Name of the project top-level relation to download or view.",
       },
       batched: {
-        type: 'boolean',
+        type: "boolean",
         description:
-          'If `true`, downloads the batch specified by `batch_number`. Set to `true` only for batched exports. All or none of `batched`, `batch_number` must be provided.',
+          "If `true`, downloads the batch specified by `batch_number`. Set to `true` only for batched exports. All or none of `batched`, `batch_number` must be provided.",
       },
       batch_number: {
-        type: 'integer',
+        type: "integer",
         description:
-          'Number of the export batch to download. All or none of `batched`, `batch_number` must be provided.',
+          "Number of the export batch to download. All or none of `batched`, `batch_number` must be provided.",
       },
     },
-    required: ['id', 'relation'],
+    required: ["id", "relation"],
   },
   request: {
-    method: 'GET',
-    path: '/projects/{id}/export_relations/download',
-    query: ['relation', 'batched', 'batch_number'],
+    method: "GET",
+    path: "/projects/{id}/export_relations/download",
+    query: ["relation", "batched", "batch_number"],
   },
 });

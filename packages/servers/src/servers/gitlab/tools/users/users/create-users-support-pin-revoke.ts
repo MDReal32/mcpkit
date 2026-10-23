@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersUsersCreateUsersSupportPinRevoke = defineTool({
-  name: 'users:users:create_users_support_pin_revoke',
+  name: "users:users:create_users_support_pin_revoke",
   description:
-    'Revoke a Support PIN for a user. Revokes a Support PIN for a specified user. This immediately expires and removes the PIN. Administrators only.',
+    "Revoke a Support PIN for a user. Revokes a Support PIN for a specified user. This immediately expires and removes the PIN. Administrators only.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'ID of the user.',
+        type: "integer",
+        description: "ID of the user.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'POST',
-    path: '/users/{id}/support_pin/revoke',
+    method: "POST",
+    path: "/users/{id}/support_pin/revoke",
   },
 });

@@ -1,7 +1,7 @@
-import { stat } from 'node:fs/promises';
-import { join } from 'node:path';
-import { isMissingFileError } from '@usemcpkit/core';
-import { MANIFEST_SYNC_INTERVAL_MS, SYNC_MARKER_FILE_NAME } from '../const';
+import { stat } from "node:fs/promises";
+import { join } from "node:path";
+import { isMissingFileError } from "@usemcpkit/core";
+import { MANIFEST_SYNC_INTERVAL_MS, SYNC_MARKER_FILE_NAME } from "../const";
 
 export const isSyncDue = async (dir: string, now = Date.now()) => {
   try {

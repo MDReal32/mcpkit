@@ -1,38 +1,38 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const orgsOrgsCreateIssueType = defineTool({
-  name: 'orgs:orgs:create_issue_type',
-  description: 'Create issue type for an organization. Create a new issue type for an organization.',
+  name: "orgs:orgs:create_issue_type",
+  description: "Create issue type for an organization. Create a new issue type for an organization.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       org: {
-        type: 'string',
-        description: 'The organization name. The name is not case sensitive.',
+        type: "string",
+        description: "The organization name. The name is not case sensitive.",
       },
       name: {
-        type: 'string',
-        description: 'Name of the issue type.',
+        type: "string",
+        description: "Name of the issue type.",
       },
       is_enabled: {
-        type: 'boolean',
-        description: 'Whether or not the issue type is enabled at the organization level.',
+        type: "boolean",
+        description: "Whether or not the issue type is enabled at the organization level.",
       },
       description: {
-        type: 'string',
-        description: 'Description of the issue type.',
+        type: "string",
+        description: "Description of the issue type.",
       },
       color: {
-        type: 'string',
-        description: 'Color for the issue type.',
-        enum: ['gray', 'blue', 'green', 'yellow', 'orange', 'red', 'pink', 'purple'],
+        type: "string",
+        description: "Color for the issue type.",
+        enum: ["gray", "blue", "green", "yellow", "orange", "red", "pink", "purple"],
       },
     },
-    required: ['org', 'name', 'is_enabled'],
+    required: ["org", "name", "is_enabled"],
   },
   request: {
-    method: 'POST',
-    path: '/orgs/{org}/issue-types',
-    body: ['name', 'is_enabled', 'description', 'color'],
+    method: "POST",
+    path: "/orgs/{org}/issue-types",
+    body: ["name", "is_enabled", "description", "color"],
   },
 });

@@ -1,24 +1,24 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const collaborationDashboardsGetDashboardItemPropertyKeys = defineTool({
-  name: 'collaboration:dashboards:get_dashboard_item_property_keys',
-  description: 'Get dashboard item property keys. Returns the keys of all properties for a dashboard item.',
+  name: "collaboration:dashboards:get_dashboard_item_property_keys",
+  description: "Get dashboard item property keys. Returns the keys of all properties for a dashboard item.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       dashboardId: {
-        type: 'string',
-        description: 'The ID of the dashboard.',
+        type: "string",
+        description: "The ID of the dashboard.",
       },
       itemId: {
-        type: 'string',
-        description: 'The ID of the dashboard item.',
+        type: "string",
+        description: "The ID of the dashboard item.",
       },
     },
-    required: ['dashboardId', 'itemId'],
+    required: ["dashboardId", "itemId"],
   },
   request: {
-    method: 'GET',
-    path: '/rest/api/2/dashboard/{dashboardId}/items/{itemId}/properties',
+    method: "GET",
+    path: "/rest/api/2/dashboard/{dashboardId}/items/{itemId}/properties",
   },
 });

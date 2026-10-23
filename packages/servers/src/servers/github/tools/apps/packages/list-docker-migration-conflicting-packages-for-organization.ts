@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const appsPackagesListDockerMigrationConflictingPackagesForOrganization = defineTool({
-  name: 'apps:packages:list_docker_migration_conflicting_packages_for_organization',
+  name: "apps:packages:list_docker_migration_conflicting_packages_for_organization",
   description:
-    'Get list of conflicting packages during Docker migration for organization. Lists all packages that are in a specific organization, are readable by the requesting user, and that encountered a conflict during a Docker migration.',
+    "Get list of conflicting packages during Docker migration for organization. Lists all packages that are in a specific organization, are readable by the requesting user, and that encountered a conflict during a Docker migration.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       org: {
-        type: 'string',
-        description: 'The organization name. The name is not case sensitive.',
+        type: "string",
+        description: "The organization name. The name is not case sensitive.",
       },
     },
-    required: ['org'],
+    required: ["org"],
   },
   request: {
-    method: 'GET',
-    path: '/orgs/{org}/docker/conflicts',
+    method: "GET",
+    path: "/orgs/{org}/docker/conflicts",
   },
 });

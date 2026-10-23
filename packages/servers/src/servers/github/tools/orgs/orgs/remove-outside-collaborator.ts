@@ -1,25 +1,25 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const orgsOrgsRemoveOutsideCollaborator = defineTool({
-  name: 'orgs:orgs:remove_outside_collaborator',
+  name: "orgs:orgs:remove_outside_collaborator",
   description:
     "Remove outside collaborator from an organization. Removing a user from this list will remove them from all the organization's repositories.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       org: {
-        type: 'string',
-        description: 'The organization name. The name is not case sensitive.',
+        type: "string",
+        description: "The organization name. The name is not case sensitive.",
       },
       username: {
-        type: 'string',
-        description: 'The handle for the GitHub user account.',
+        type: "string",
+        description: "The handle for the GitHub user account.",
       },
     },
-    required: ['org', 'username'],
+    required: ["org", "username"],
   },
   request: {
-    method: 'DELETE',
-    path: '/orgs/{org}/outside_collaborators/{username}',
+    method: "DELETE",
+    path: "/orgs/{org}/outside_collaborators/{username}",
   },
 });

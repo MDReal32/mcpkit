@@ -1,24 +1,24 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsTagsDeleteProjectsRepositoryTags = defineTool({
-  name: 'projects:tags:delete_projects_repository_tags',
-  description: 'Delete a tag. Deletes a specified repository tag.',
+  name: "projects:tags:delete_projects_repository_tags",
+  description: "Delete a tag. Deletes a specified repository tag.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
       tag_name: {
-        type: 'string',
-        description: 'Name of the tag.',
+        type: "string",
+        description: "Name of the tag.",
       },
     },
-    required: ['id', 'tag_name'],
+    required: ["id", "tag_name"],
   },
   request: {
-    method: 'DELETE',
-    path: '/projects/{id}/repository/tags/{tag_name}',
+    method: "DELETE",
+    path: "/projects/{id}/repository/tags/{tag_name}",
   },
 });

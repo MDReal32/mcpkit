@@ -1,39 +1,39 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const groupsServiceAccountsUpdateProjectsServiceAccounts = defineTool({
-  name: 'groups:service_accounts:update_projects_service_accounts',
-  description: 'Update a project service account. Update a specified project service account.',
+  name: "groups:service_accounts:update_projects_service_accounts",
+  description: "Update a project service account. Update a specified project service account.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
       user_id: {
-        type: 'integer',
-        description: 'ID of the service account.',
+        type: "integer",
+        description: "ID of the service account.",
       },
       name: {
-        type: 'string',
-        description: 'Name of the user. If omitted when creating a new service account, uses `Service account user`.',
+        type: "string",
+        description: "Name of the user. If omitted when creating a new service account, uses `Service account user`.",
       },
       username: {
-        type: 'string',
+        type: "string",
         description:
-          'Username of the user account. If omitted when creating a new service account, generates a name prefixed with `service_account_project_`.',
+          "Username of the user account. If omitted when creating a new service account, generates a name prefixed with `service_account_project_`.",
       },
       email: {
-        type: 'string',
+        type: "string",
         description:
-          'Email address of the user account. If omitted when creating a new service account, generates an email address prefixed with `service_account_project_`. Custom email addresses require confirmation, unless the group has a matching verified domain or email confirmation settings are turned off.',
+          "Email address of the user account. If omitted when creating a new service account, generates an email address prefixed with `service_account_project_`. Custom email addresses require confirmation, unless the group has a matching verified domain or email confirmation settings are turned off.",
       },
     },
-    required: ['id', 'user_id'],
+    required: ["id", "user_id"],
   },
   request: {
-    method: 'PATCH',
-    path: '/projects/{id}/service_accounts/{user_id}',
-    body: ['name', 'username', 'email'],
+    method: "PATCH",
+    path: "/projects/{id}/service_accounts/{user_id}",
+    body: ["name", "username", "email"],
   },
 });

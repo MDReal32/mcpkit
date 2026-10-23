@@ -1,9 +1,9 @@
-import { createInterface } from 'node:readline';
-import type { ExecuteOptions } from '@usemcpkit/core';
-import { createRpcHandler } from './rpc/create-rpc-handler';
-import { handleLine } from './rpc/handle-line';
-import type { Catalog } from './types/catalog';
-import type { StdioOptions } from './types/stdio-options';
+import { createInterface } from "node:readline";
+import type { ExecuteOptions } from "@usemcpkit/core";
+import { createRpcHandler } from "./rpc/create-rpc-handler";
+import { handleLine } from "./rpc/handle-line";
+import type { Catalog } from "./types/catalog";
+import type { StdioOptions } from "./types/stdio-options";
 
 /** Serves newline-delimited JSON-RPC until input closes; stdout carries protocol messages only. */
 export const serveStdio = (
@@ -13,7 +13,7 @@ export const serveStdio = (
 ) => {
   const handler = createRpcHandler(catalog, options);
   const lines = createInterface({ input, crlfDelay: Infinity });
-  lines.on('line', (line) => {
+  lines.on("line", (line) => {
     void handleLine(line, handler).then((response) => {
       if (response) {
         output.write(`${JSON.stringify(response)}\n`);
@@ -21,6 +21,6 @@ export const serveStdio = (
     });
   });
   return new Promise<void>((resolve) => {
-    lines.once('close', resolve);
+    lines.once("close", resolve);
   });
 };

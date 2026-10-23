@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const workflowsPrioritySchemesDeletePriorityScheme = defineTool({
-  name: 'workflows:priority_schemes:delete_priority_scheme',
-  description: 'Delete priority scheme. Deletes a priority scheme.',
+  name: "workflows:priority_schemes:delete_priority_scheme",
+  description: "Delete priority scheme. Deletes a priority scheme.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       schemeId: {
-        type: 'integer',
-        description: 'The priority scheme ID.',
+        type: "integer",
+        description: "The priority scheme ID.",
       },
     },
-    required: ['schemeId'],
+    required: ["schemeId"],
   },
   request: {
-    method: 'DELETE',
-    path: '/rest/api/2/priorityscheme/{schemeId}',
+    method: "DELETE",
+    path: "/rest/api/2/priorityscheme/{schemeId}",
   },
 });

@@ -1,9 +1,9 @@
-import { execFile } from 'node:child_process';
-import { promisify } from 'node:util';
-import type { CliTokenCommand } from '@usemcpkit/core';
-import { describeError } from '@usemcpkit/core';
-import { CLI_TOKEN_TIMEOUT_MS } from '../const';
-import { readCommandFailure } from './read-command-failure';
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
+import type { CliTokenCommand } from "@usemcpkit/core";
+import { describeError } from "@usemcpkit/core";
+import { CLI_TOKEN_TIMEOUT_MS } from "../const";
+import { readCommandFailure } from "./read-command-failure";
 
 const execFileAsync = promisify(execFile);
 

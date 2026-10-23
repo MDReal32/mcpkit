@@ -1,8 +1,8 @@
-import type { CredentialRequest } from '@usemcpkit/core';
-import { keepInstalledCliActions } from './cli-detection/keep-installed-cli-actions';
-import { CREDENTIALS_FORM_TIMEOUT_MS } from './const';
-import { startFormServer } from './server/start-form-server';
-import type { CredentialsFormOptions } from './types/credentials-form-options';
+import type { CredentialRequest } from "@usemcpkit/core";
+import { keepInstalledCliActions } from "./cli-detection/keep-installed-cli-actions";
+import { CREDENTIALS_FORM_TIMEOUT_MS } from "./const";
+import { startFormServer } from "./server/start-form-server";
+import type { CredentialsFormOptions } from "./types/credentials-form-options";
 
 /** Returns a `requestCredentials` hook that asks through a one-off local page. */
 export const createCredentialsForm =
@@ -11,7 +11,7 @@ export const createCredentialsForm =
     const formServer = await startFormServer(await keepInstalledCliActions(request), page);
     let timer: NodeJS.Timeout | undefined;
     const timeout = new Promise<never>((_, reject) => {
-      timer = setTimeout(() => reject(new Error('the credentials form timed out')), timeoutMs);
+      timer = setTimeout(() => reject(new Error("the credentials form timed out")), timeoutMs);
     });
     try {
       onUrl(formServer.url);

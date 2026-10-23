@@ -1,4 +1,4 @@
-import type { AuthContext } from '../auth-context';
+import type { AuthContext } from "../auth-context";
 
 export interface SignInOptions {
   context: AuthContext;

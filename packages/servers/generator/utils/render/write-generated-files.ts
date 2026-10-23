@@ -1,19 +1,19 @@
-import { rm } from 'node:fs/promises';
-import { join } from 'node:path';
-import type { GeneratedTool } from '../types/generated-tool';
-import type { ServerOutput } from '../types/server-output';
-import { groupToolsBy } from './group-tools-by';
-import { renderGroupIndexFile } from './render-group-index-file';
-import { renderResourceIndexFile } from './render-resource-index-file';
-import { renderServerFile } from './render-server-file';
-import { renderToolFile } from './render-tool-file';
-import { renderToolsIndexFile } from './render-tools-index-file';
-import { writeText } from './write-text';
+import { rm } from "node:fs/promises";
+import { join } from "node:path";
+import type { GeneratedTool } from "../types/generated-tool";
+import type { ServerOutput } from "../types/server-output";
+import { groupToolsBy } from "./group-tools-by";
+import { renderGroupIndexFile } from "./render-group-index-file";
+import { renderResourceIndexFile } from "./render-resource-index-file";
+import { renderServerFile } from "./render-server-file";
+import { renderToolFile } from "./render-tool-file";
+import { renderToolsIndexFile } from "./render-tools-index-file";
+import { writeText } from "./write-text";
 
 export const writeGeneratedFiles = async (serversDir: string, output: ServerOutput, tools: GeneratedTool[]) => {
   const { serverName, serverDescription, groups, groupArraySuffix } = output;
   const serverDir = join(serversDir, serverName);
-  const toolsDir = join(serverDir, 'tools');
+  const toolsDir = join(serverDir, "tools");
   await rm(serverDir, { recursive: true, force: true });
   await Promise.all(
     tools.map((tool) =>
@@ -26,18 +26,18 @@ export const writeGeneratedFiles = async (serversDir: string, output: ServerOutp
     await Promise.all(
       [...byResource].map(([resourceFolder, resourceTools]) =>
         writeText(
-          join(toolsDir, group, resourceFolder, 'index.ts'),
+          join(toolsDir, group, resourceFolder, "index.ts"),
           renderResourceIndexFile(group, resourceFolder, resourceTools),
         ),
       ),
     );
     await writeText(
-      join(toolsDir, group, 'index.ts'),
+      join(toolsDir, group, "index.ts"),
       renderGroupIndexFile(group, [...byResource.keys()], groupArraySuffix),
     );
   }
   await writeText(
-    join(toolsDir, 'index.ts'),
+    join(toolsDir, "index.ts"),
     renderToolsIndexFile(
       serverName,
       groups.filter((group) => byGroup.has(group)),

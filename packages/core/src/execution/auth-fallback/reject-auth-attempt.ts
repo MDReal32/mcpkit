@@ -1,4 +1,4 @@
-import type { AuthAttempt } from './types/auth-attempt';
+import type { AuthAttempt } from "./types/auth-attempt";
 
 export const rejectAuthAttempt = (reason: string) => {
   const attempt: AuthAttempt = { accepted: false, reason };

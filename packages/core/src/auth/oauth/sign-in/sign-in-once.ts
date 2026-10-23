@@ -1,8 +1,8 @@
-import type { InteractiveAuth } from '../../../manifest';
-import { toAuthKey } from '../../secrets/to-auth-key';
-import type { SignInOptions } from '../../types/oauth/sign-in-options';
-import { pendingSignIns } from './pending-sign-ins';
-import { signIn } from './sign-in';
+import type { InteractiveAuth } from "../../../manifest";
+import { toAuthKey } from "../../secrets/to-auth-key";
+import type { SignInOptions } from "../../types/oauth/sign-in-options";
+import { pendingSignIns } from "./pending-sign-ins";
+import { signIn } from "./sign-in";
 
 export const signInOnce = (serverName: string, auth: InteractiveAuth, options: SignInOptions) => {
   const key = `${serverName} ${toAuthKey(auth)}`;

@@ -1,70 +1,70 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterWebhooksUpdate = defineTool({
-  name: 'datacenter:webhooks:update',
+  name: "datacenter:webhooks:update",
   description:
-    '[Data Center]  Update webhook. Update an existing webhook. The authenticated user must be an administrator to call this resource.',
+    "[Data Center]  Update webhook. Update an existing webhook. The authenticated user must be an administrator to call this resource.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       webhookId: {
-        type: 'integer',
-        description: 'the existing webhook id',
+        type: "integer",
+        description: "the existing webhook id",
       },
       name: {
-        type: 'string',
+        type: "string",
       },
       configuration: {
-        type: 'object',
+        type: "object",
       },
       url: {
-        type: 'string',
+        type: "string",
       },
       credentials: {
-        type: 'object',
+        type: "object",
         properties: {
           password: {
-            type: 'string',
+            type: "string",
           },
           username: {
-            type: 'string',
+            type: "string",
           },
         },
       },
       statistics: {
-        type: 'object',
+        type: "object",
       },
       scopeType: {
-        type: 'string',
+        type: "string",
       },
       events: {
-        type: 'array',
+        type: "array",
         items: {
-          type: 'string',
+          type: "string",
         },
       },
       active: {
-        type: 'boolean',
+        type: "boolean",
       },
       sslVerificationRequired: {
-        type: 'boolean',
+        type: "boolean",
       },
     },
-    required: ['webhookId'],
+    required: ["webhookId"],
   },
   request: {
-    method: 'PUT',
-    path: '/rest/api/webhooks/{webhookId}',
+    method: "PUT",
+    path: "/rest/api/webhooks/{webhookId}",
     body: [
-      'name',
-      'configuration',
-      'url',
-      'credentials',
-      'statistics',
-      'scopeType',
-      'events',
-      'active',
-      'sslVerificationRequired',
+      "name",
+      "configuration",
+      "url",
+      "credentials",
+      "statistics",
+      "scopeType",
+      "events",
+      "active",
+      "sslVerificationRequired",
     ],
   },
 });

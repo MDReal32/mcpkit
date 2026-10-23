@@ -1,53 +1,53 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesNotesListProjectsIssuesNotes = defineTool({
-  name: 'issues:notes:list_projects_issues_notes',
-  description: 'List all issue notes. Lists all notes for a specified issue.',
+  name: "issues:notes:list_projects_issues_notes",
+  description: "List all issue notes. Lists all notes for a specified issue.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
       noteable_id: {
-        type: 'integer',
-        description: 'ID of the resource the note is attached to.',
+        type: "integer",
+        description: "ID of the resource the note is attached to.",
       },
       order_by: {
-        type: 'string',
-        default: 'created_at',
-        enum: ['created_at', 'updated_at'],
-        description: 'Sort results by the specified field.',
+        type: "string",
+        default: "created_at",
+        enum: ["created_at", "updated_at"],
+        description: "Sort results by the specified field.",
       },
       sort: {
-        type: 'string',
-        default: 'desc',
-        enum: ['asc', 'desc'],
-        description: 'Sort results in ascending or descending order.',
+        type: "string",
+        default: "desc",
+        enum: ["asc", "desc"],
+        description: "Sort results in ascending or descending order.",
       },
       activity_filter: {
-        type: 'string',
-        default: 'all_notes',
-        enum: ['all_notes', 'only_comments', 'only_activity'],
-        description: 'Filter notes by activity type.',
+        type: "string",
+        default: "all_notes",
+        enum: ["all_notes", "only_comments", "only_activity"],
+        description: "Filter notes by activity type.",
       },
       page: {
-        type: 'integer',
+        type: "integer",
         default: 1,
-        description: 'Page number of results to retrieve.',
+        description: "Page number of results to retrieve.",
       },
       per_page: {
-        type: 'integer',
+        type: "integer",
         default: 20,
-        description: 'Number of items to list per page.',
+        description: "Number of items to list per page.",
       },
     },
-    required: ['id', 'noteable_id'],
+    required: ["id", "noteable_id"],
   },
   request: {
-    method: 'GET',
-    path: '/projects/{id}/issues/{noteable_id}/notes',
-    query: ['order_by', 'sort', 'activity_filter', 'page', 'per_page'],
+    method: "GET",
+    path: "/projects/{id}/issues/{noteable_id}/notes",
+    query: ["order_by", "sort", "activity_filter", "page", "per_page"],
   },
 });

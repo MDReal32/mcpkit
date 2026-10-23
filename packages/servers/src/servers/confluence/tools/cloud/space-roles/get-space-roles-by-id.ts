@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const cloudSpaceRolesGetSpaceRolesById = defineTool({
-  name: 'cloud:space_roles:get_space_roles_by_id',
-  description: '[Cloud] Get space role by ID. Retrieves the space role by ID.',
+  name: "cloud:space_roles:get_space_roles_by_id",
+  description: "[Cloud] Get space role by ID. Retrieves the space role by ID.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'The ID of the space role to retrieve.',
+        type: "integer",
+        description: "The ID of the space role to retrieve.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/wiki/api/v2/space-roles/{id}',
+    method: "GET",
+    path: "/wiki/api/v2/space-roles/{id}",
   },
 });

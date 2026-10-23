@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsProjectsCreateProjectsCreateCiConfig = defineTool({
-  name: 'projects:projects:create_projects_create_ci_config',
+  name: "projects:projects:create_projects_create_ci_config",
   description:
-    'Create a CI configuration merge request. Creates a merge request to add CI configuration to a specified project.',
+    "Create a CI configuration merge request. Creates a merge request to add CI configuration to a specified project.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'POST',
-    path: '/projects/{id}/create_ci_config',
+    method: "POST",
+    path: "/projects/{id}/create_ci_config",
   },
 });

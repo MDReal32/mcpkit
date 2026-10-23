@@ -1,24 +1,24 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesProjectsGetForOrg = defineTool({
-  name: 'issues:projects:get_for_org',
-  description: 'Get project for organization. Get a specific organization-owned project.',
+  name: "issues:projects:get_for_org",
+  description: "Get project for organization. Get a specific organization-owned project.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       project_number: {
-        type: 'integer',
+        type: "integer",
         description: "The project's number.",
       },
       org: {
-        type: 'string',
-        description: 'The organization name. The name is not case sensitive.',
+        type: "string",
+        description: "The organization name. The name is not case sensitive.",
       },
     },
-    required: ['project_number', 'org'],
+    required: ["project_number", "org"],
   },
   request: {
-    method: 'GET',
-    path: '/orgs/{org}/projectsV2/{project_number}',
+    method: "GET",
+    path: "/orgs/{org}/projectsV2/{project_number}",
   },
 });

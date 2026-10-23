@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const ciRunnerControllersDeleteRunnerControllersScopesInstance = defineTool({
-  name: 'ci:runner_controllers:delete_runner_controllers_scopes_instance',
-  description: 'Remove instance scope. Removes an instance scope from a runner controller.',
+  name: "ci:runner_controllers:delete_runner_controllers_scopes_instance",
+  description: "Remove instance scope. Removes an instance scope from a runner controller.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'ID of the runner controller.',
+        type: "integer",
+        description: "ID of the runner controller.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'DELETE',
-    path: '/runner_controllers/{id}/scopes/instance',
+    method: "DELETE",
+    path: "/runner_controllers/{id}/scopes/instance",
   },
 });

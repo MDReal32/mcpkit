@@ -1,286 +1,286 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const datacenterContentUpdate = defineTool({
-  name: 'datacenter:content:update',
-  description: '[Data Center] Update content. Updates a piece of Content, including changes to content status.',
+  name: "datacenter:content:update",
+  description: "[Data Center] Update content. Updates a piece of Content, including changes to content status.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       contentId: {
-        type: 'string',
-        description: 'the id of the content.',
+        type: "string",
+        description: "the id of the content.",
       },
       asyncReconciliation: {
-        type: 'boolean',
+        type: "boolean",
       },
       conflictPolicy: {
-        type: 'string',
-        description: 'the conflict policy, default value: <code>abort<code>',
+        type: "string",
+        description: "the conflict policy, default value: <code>abort<code>",
       },
       status: {
-        type: 'string',
-        description: 'the existing status of the content to be updated.',
+        type: "string",
+        description: "the existing status of the content to be updated.",
       },
       id: {
-        type: 'string',
+        type: "string",
       },
       type: {
-        type: 'string',
+        type: "string",
       },
       body_status: {
-        type: 'string',
+        type: "string",
       },
       title: {
-        type: 'string',
+        type: "string",
       },
       links: {
-        type: 'object',
+        type: "object",
       },
       space: {
-        type: 'object',
+        type: "object",
         properties: {
           id: {
-            type: 'integer',
+            type: "integer",
           },
           key: {
-            type: 'string',
+            type: "string",
           },
           name: {
-            type: 'string',
+            type: "string",
           },
           status: {
-            type: 'string',
+            type: "string",
           },
           icon: {
-            type: 'object',
+            type: "object",
           },
           description: {
-            type: 'object',
+            type: "object",
           },
           homepage: {
-            type: 'object',
+            type: "object",
           },
           links: {
-            type: 'object',
+            type: "object",
           },
           type: {
-            type: 'string',
+            type: "string",
           },
           creator: {
-            type: 'object',
+            type: "object",
           },
           creationDate: {
-            type: 'string',
+            type: "string",
           },
           lastModifier: {
-            type: 'object',
+            type: "object",
           },
           lastModificationDate: {
-            type: 'string',
+            type: "string",
           },
           metadata: {
-            type: 'object',
+            type: "object",
           },
           retentionPolicy: {
-            type: 'object',
+            type: "object",
           },
           permissions: {
-            type: 'object',
+            type: "object",
           },
         },
       },
       history: {
-        type: 'object',
+        type: "object",
         properties: {
           previousVersion: {
-            type: 'object',
+            type: "object",
           },
           nextVersion: {
-            type: 'object',
+            type: "object",
           },
           lastUpdated: {
-            type: 'object',
+            type: "object",
           },
           latest: {
-            type: 'boolean',
+            type: "boolean",
           },
           createdBy: {
-            type: 'object',
+            type: "object",
           },
           createdDate: {
-            type: 'string',
+            type: "string",
           },
           contributors: {
-            type: 'object',
+            type: "object",
           },
           lastUpdatedRef: {
-            type: 'object',
+            type: "object",
           },
           nextVersionRef: {
-            type: 'object',
+            type: "object",
           },
           previousVersionRef: {
-            type: 'object',
+            type: "object",
           },
           contentParentRef: {
-            type: 'object',
+            type: "object",
           },
         },
       },
       version: {
-        type: 'object',
+        type: "object",
         properties: {
           by: {
-            type: 'object',
+            type: "object",
           },
           when: {
-            type: 'string',
+            type: "string",
           },
           message: {
-            type: 'string',
+            type: "string",
           },
           number: {
-            type: 'integer',
+            type: "integer",
           },
           minorEdit: {
-            type: 'boolean',
+            type: "boolean",
           },
           hidden: {
-            type: 'boolean',
+            type: "boolean",
           },
           syncRev: {
-            type: 'string',
+            type: "string",
           },
           content: {
-            type: 'object',
+            type: "object",
           },
           contentRef: {
-            type: 'object',
+            type: "object",
           },
         },
       },
       ancestors: {
-        type: 'array',
+        type: "array",
         items: {},
       },
       position: {
-        type: 'integer',
+        type: "integer",
       },
       operations: {
-        type: 'array',
+        type: "array",
         items: {
-          type: 'object',
+          type: "object",
         },
       },
       children: {
-        type: 'object',
+        type: "object",
       },
       descendants: {
-        type: 'object',
+        type: "object",
       },
       container: {},
       body: {
-        type: 'object',
+        type: "object",
       },
       metadata: {
-        type: 'object',
+        type: "object",
       },
       extensions: {
-        type: 'object',
+        type: "object",
       },
       restrictions: {
-        type: 'object',
+        type: "object",
       },
       relevantViewRestrictions: {
-        type: 'object',
+        type: "object",
         properties: {
           idProperties: {
-            type: 'object',
+            type: "object",
           },
           expanded: {
-            type: 'boolean',
+            type: "boolean",
           },
         },
       },
       extractedTextLink: {
-        type: 'string',
+        type: "string",
       },
       historyRef: {
-        type: 'object',
+        type: "object",
         properties: {
           idProperties: {
-            type: 'object',
+            type: "object",
           },
           expanded: {
-            type: 'boolean',
+            type: "boolean",
           },
         },
       },
       spaceRef: {
-        type: 'object',
+        type: "object",
         properties: {
           idProperties: {
-            type: 'object',
+            type: "object",
           },
           expanded: {
-            type: 'boolean',
+            type: "boolean",
           },
         },
       },
       containerRef: {
-        type: 'object',
+        type: "object",
         properties: {
           idProperties: {
-            type: 'object',
+            type: "object",
           },
           expanded: {
-            type: 'boolean',
+            type: "boolean",
           },
         },
       },
       versionRef: {
-        type: 'object',
+        type: "object",
         properties: {
           idProperties: {
-            type: 'object',
+            type: "object",
           },
           expanded: {
-            type: 'boolean',
+            type: "boolean",
           },
         },
       },
     },
-    required: ['contentId'],
+    required: ["contentId"],
   },
   request: {
-    method: 'PUT',
-    path: '/rest/api/content/{contentId}',
-    query: ['asyncReconciliation', 'conflictPolicy', 'status'],
+    method: "PUT",
+    path: "/rest/api/content/{contentId}",
+    query: ["asyncReconciliation", "conflictPolicy", "status"],
     body: {
-      id: 'id',
-      type: 'type',
-      status: 'body_status',
-      title: 'title',
-      links: 'links',
-      space: 'space',
-      history: 'history',
-      version: 'version',
-      ancestors: 'ancestors',
-      position: 'position',
-      operations: 'operations',
-      children: 'children',
-      descendants: 'descendants',
-      container: 'container',
-      body: 'body',
-      metadata: 'metadata',
-      extensions: 'extensions',
-      restrictions: 'restrictions',
-      relevantViewRestrictions: 'relevantViewRestrictions',
-      extractedTextLink: 'extractedTextLink',
-      historyRef: 'historyRef',
-      spaceRef: 'spaceRef',
-      containerRef: 'containerRef',
-      versionRef: 'versionRef',
+      id: "id",
+      type: "type",
+      status: "body_status",
+      title: "title",
+      links: "links",
+      space: "space",
+      history: "history",
+      version: "version",
+      ancestors: "ancestors",
+      position: "position",
+      operations: "operations",
+      children: "children",
+      descendants: "descendants",
+      container: "container",
+      body: "body",
+      metadata: "metadata",
+      extensions: "extensions",
+      restrictions: "restrictions",
+      relevantViewRestrictions: "relevantViewRestrictions",
+      extractedTextLink: "extractedTextLink",
+      historyRef: "historyRef",
+      spaceRef: "spaceRef",
+      containerRef: "containerRef",
+      versionRef: "versionRef",
     },
   },
 });

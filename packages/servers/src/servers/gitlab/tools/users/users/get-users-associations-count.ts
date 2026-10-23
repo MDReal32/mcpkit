@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersUsersGetUsersAssociationsCount = defineTool({
-  name: 'users:users:get_users_associations_count',
+  name: "users:users:get_users_associations_count",
   description:
-    'Retrieve association counts for a user. Retrieves the number of groups, projects, issues, and merge requests associated with a specified user.',
+    "Retrieve association counts for a user. Retrieves the number of groups, projects, issues, and merge requests associated with a specified user.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'ID of the user.',
+        type: "integer",
+        description: "ID of the user.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/users/{id}/associations_count',
+    method: "GET",
+    path: "/users/{id}/associations_count",
   },
 });

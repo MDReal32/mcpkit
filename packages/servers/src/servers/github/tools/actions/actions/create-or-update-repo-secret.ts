@@ -1,39 +1,39 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const actionsActionsCreateOrUpdateRepoSecret = defineTool({
-  name: 'actions:actions:create_or_update_repo_secret',
+  name: "actions:actions:create_or_update_repo_secret",
   description:
     'Create or update a repository secret. Creates or updates a repository secret with an encrypted value. Encrypt your secret using LibSodium. For more information, see "Encrypting secrets for the REST API."',
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       owner: {
-        type: 'string',
-        description: 'The account owner of the repository. The name is not case sensitive.',
+        type: "string",
+        description: "The account owner of the repository. The name is not case sensitive.",
       },
       repo: {
-        type: 'string',
-        description: 'The name of the repository without the `.git` extension. The name is not case sensitive.',
+        type: "string",
+        description: "The name of the repository without the `.git` extension. The name is not case sensitive.",
       },
       secret_name: {
-        type: 'string',
-        description: 'The name of the secret.',
+        type: "string",
+        description: "The name of the secret.",
       },
       encrypted_value: {
-        type: 'string',
+        type: "string",
         description:
-          'Value for your secret, encrypted with LibSodium using the public key retrieved from the Get a repository public key endpoint.',
+          "Value for your secret, encrypted with LibSodium using the public key retrieved from the Get a repository public key endpoint.",
       },
       key_id: {
-        type: 'string',
-        description: 'ID of the key you used to encrypt the secret.',
+        type: "string",
+        description: "ID of the key you used to encrypt the secret.",
       },
     },
-    required: ['owner', 'repo', 'secret_name', 'encrypted_value', 'key_id'],
+    required: ["owner", "repo", "secret_name", "encrypted_value", "key_id"],
   },
   request: {
-    method: 'PUT',
-    path: '/repos/{owner}/{repo}/actions/secrets/{secret_name}',
-    body: ['encrypted_value', 'key_id'],
+    method: "PUT",
+    path: "/repos/{owner}/{repo}/actions/secrets/{secret_name}",
+    body: ["encrypted_value", "key_id"],
   },
 });

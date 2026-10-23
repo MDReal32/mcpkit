@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersUsersBlock = defineTool({
-  name: 'users:users:block',
+  name: "users:users:block",
   description:
-    'Block a user. Blocks the given user and returns a 204. If the authenticated user cannot block the given user a 422 is returned.',
+    "Block a user. Blocks the given user and returns a 204. If the authenticated user cannot block the given user a 422 is returned.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       username: {
-        type: 'string',
-        description: 'The handle for the GitHub user account.',
+        type: "string",
+        description: "The handle for the GitHub user account.",
       },
     },
-    required: ['username'],
+    required: ["username"],
   },
   request: {
-    method: 'PUT',
-    path: '/user/blocks/{username}',
+    method: "PUT",
+    path: "/user/blocks/{username}",
   },
 });

@@ -1,7 +1,7 @@
-import type { Env } from '../../env';
-import type { CredentialRequest } from './credentials/credential-request';
-import type { CredentialResponse } from './credentials/credential-response';
-import type { SecretStore } from './store/secret-store';
+import type { Env } from "../../env";
+import type { CredentialRequest } from "./credentials/credential-request";
+import type { CredentialResponse } from "./credentials/credential-response";
+import type { SecretStore } from "./store/secret-store";
 
 export interface AuthContext {
   env: Env;

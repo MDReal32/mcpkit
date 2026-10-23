@@ -1,24 +1,24 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesApprovalRulesDeleteProjectsApprovalRules = defineTool({
-  name: 'issues:approval_rules:delete_projects_approval_rules',
-  description: 'Delete an approval rule for a project. Deletes an approval rule for a specified project.',
+  name: "issues:approval_rules:delete_projects_approval_rules",
+  description: "Delete an approval rule for a project. Deletes an approval rule for a specified project.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
       approval_rule_id: {
-        type: 'integer',
-        description: 'ID of the approval rule.',
+        type: "integer",
+        description: "ID of the approval rule.",
       },
     },
-    required: ['id', 'approval_rule_id'],
+    required: ["id", "approval_rule_id"],
   },
   request: {
-    method: 'DELETE',
-    path: '/projects/{id}/approval_rules/{approval_rule_id}',
+    method: "DELETE",
+    path: "/projects/{id}/approval_rules/{approval_rule_id}",
   },
 });

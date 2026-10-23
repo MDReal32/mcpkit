@@ -1,4 +1,4 @@
-import type { Worker } from './types/worker';
+import type { Worker } from "./types/worker";
 
 export const awaitHandshake = async (worker: Worker, timeoutMs: number) => {
   let timer: NodeJS.Timeout | undefined;

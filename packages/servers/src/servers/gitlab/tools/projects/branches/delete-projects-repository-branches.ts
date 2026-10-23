@@ -1,24 +1,24 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsBranchesDeleteProjectsRepositoryBranches = defineTool({
-  name: 'projects:branches:delete_projects_repository_branches',
-  description: 'Delete a repository branch. Deletes a specified branch from the repository.',
+  name: "projects:branches:delete_projects_repository_branches",
+  description: "Delete a repository branch. Deletes a specified branch from the repository.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
       branch: {
-        type: 'string',
-        description: 'Name of the branch.',
+        type: "string",
+        description: "Name of the branch.",
       },
     },
-    required: ['id', 'branch'],
+    required: ["id", "branch"],
   },
   request: {
-    method: 'DELETE',
-    path: '/projects/{id}/repository/branches/{branch}',
+    method: "DELETE",
+    path: "/projects/{id}/repository/branches/{branch}",
   },
 });

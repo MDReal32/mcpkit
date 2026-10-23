@@ -1,24 +1,24 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesIssueCommentPropertiesGetCommentProperty = defineTool({
-  name: 'issues:issue_comment_properties:get_comment_property',
-  description: 'Get comment property. Returns the value of a comment property.',
+  name: "issues:issue_comment_properties:get_comment_property",
+  description: "Get comment property. Returns the value of a comment property.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       commentId: {
-        type: 'string',
-        description: 'The ID of the comment.',
+        type: "string",
+        description: "The ID of the comment.",
       },
       propertyKey: {
-        type: 'string',
-        description: 'The key of the property.',
+        type: "string",
+        description: "The key of the property.",
       },
     },
-    required: ['commentId', 'propertyKey'],
+    required: ["commentId", "propertyKey"],
   },
   request: {
-    method: 'GET',
-    path: '/rest/api/2/comment/{commentId}/properties/{propertyKey}',
+    method: "GET",
+    path: "/rest/api/2/comment/{commentId}/properties/{propertyKey}",
   },
 });

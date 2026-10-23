@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { CredentialRequest } from '@usemcpkit/core';
-  import { AUTO_CLOSE_DELAY_MS } from '../const';
-  import type { FormStatus } from '../types/form-status';
+  import type { CredentialRequest } from "@usemcpkit/core";
+  import { AUTO_CLOSE_DELAY_MS } from "../const";
+  import type { FormStatus } from "../types/form-status";
 
   interface Props {
     status: FormStatus;
@@ -12,7 +12,7 @@
   const texts = $derived(request.texts);
 
   $effect(() => {
-    if (status !== 'saved' && status !== 'signing-in') {
+    if (status !== "saved" && status !== "signing-in") {
       return;
     }
     const timer = setTimeout(() => window.close(), AUTO_CLOSE_DELAY_MS);

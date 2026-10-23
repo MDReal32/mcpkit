@@ -1,3 +1,3 @@
-import type { DetectedClient } from '@usemcpkit/clients';
+import type { DetectedClient } from "@usemcpkit/clients";
 
 export type ClientAction = (client: DetectedClient) => Promise<unknown>;

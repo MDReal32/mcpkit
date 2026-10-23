@@ -1,43 +1,43 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const projectsProjectsGetProjects = defineTool({
-  name: 'projects:projects:get_projects',
+  name: "projects:projects:get_projects",
   description:
-    'Retrieve a project. Retrieves details on a specified project. This endpoint can be accessed without authentication if the project is publicly accessible.',
+    "Retrieve a project. Retrieves details on a specified project. This endpoint can be accessed without authentication if the project is publicly accessible.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID or URL-encoded path of the project.',
+        type: "string",
+        description: "ID or URL-encoded path of the project.",
       },
       statistics: {
-        type: 'boolean',
+        type: "boolean",
         default: false,
         description:
-          'If `true`, includes project statistics. Available only to users with the Reporter, Developer, Maintainer, or Owner role.',
+          "If `true`, includes project statistics. Available only to users with the Reporter, Developer, Maintainer, or Owner role.",
       },
       with_custom_attributes: {
-        type: 'boolean',
+        type: "boolean",
         default: false,
-        description: 'If `true`, includes custom attributes in the response. Administrators only.',
+        description: "If `true`, includes custom attributes in the response. Administrators only.",
       },
       custom_attributes: {
-        type: 'object',
+        type: "object",
         description:
-          'Filter by custom attributes that match all of the specified key and value pairs. Administrators only.',
+          "Filter by custom attributes that match all of the specified key and value pairs. Administrators only.",
       },
       license: {
-        type: 'boolean',
+        type: "boolean",
         default: false,
-        description: 'If `true`, includes the project license data in the response.',
+        description: "If `true`, includes the project license data in the response.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/projects/{id}',
-    query: ['statistics', 'with_custom_attributes', 'custom_attributes', 'license'],
+    method: "GET",
+    path: "/projects/{id}",
+    query: ["statistics", "with_custom_attributes", "custom_attributes", "license"],
   },
 });

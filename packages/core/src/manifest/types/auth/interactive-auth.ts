@@ -1,3 +1,3 @@
-import type { OAuthAuth } from './oauth-auth';
+import type { OAuthAuth } from "./oauth-auth";
 
 export type InteractiveAuth = OAuthAuth;

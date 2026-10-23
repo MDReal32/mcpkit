@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const usersUsersCreateUsersApprove = defineTool({
-  name: 'users:users:create_users_approve',
+  name: "users:users:create_users_approve",
   description:
-    'Approve access to a user. Approves access to a specified user account that is pending approval. Administrators only.',
+    "Approve access to a user. Approves access to a specified user account that is pending approval. Administrators only.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'ID of the user.',
+        type: "integer",
+        description: "ID of the user.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'POST',
-    path: '/users/{id}/approve',
+    method: "POST",
+    path: "/users/{id}/approve",
   },
 });

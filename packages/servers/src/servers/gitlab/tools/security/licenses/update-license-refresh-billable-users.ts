@@ -1,21 +1,21 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const securityLicensesUpdateLicenseRefreshBillableUsers = defineTool({
-  name: 'security:licenses:update_license_refresh_billable_users',
+  name: "security:licenses:update_license_refresh_billable_users",
   description:
-    'Trigger recalculation of billable users. Triggers recalculation of billable users for a specified license.',
+    "Trigger recalculation of billable users. Triggers recalculation of billable users for a specified license.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'integer',
-        description: 'ID of the GitLab license.',
+        type: "integer",
+        description: "ID of the GitLab license.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'PUT',
-    path: '/license/{id}/refresh_billable_users',
+    method: "PUT",
+    path: "/license/{id}/refresh_billable_users",
   },
 });

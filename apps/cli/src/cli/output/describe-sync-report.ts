@@ -1,4 +1,4 @@
-import type { SyncReport } from '../../registry';
+import type { SyncReport } from "../../registry";
 
 export const describeSyncReport = ({ servers, refreshed, failed }: SyncReport) => [
   `${servers} server(s) in the registry`,

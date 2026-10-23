@@ -1,20 +1,20 @@
-import { defineTool } from '@usemcpkit/core';
+import { defineTool } from "@usemcpkit/core";
 
 export const issuesIssuesGetIssues = defineTool({
-  name: 'issues:issues:get_issues',
-  description: 'Retrieve an issue. Retrieves a specified issue. Administrators only.',
+  name: "issues:issues:get_issues",
+  description: "Retrieve an issue. Retrieves a specified issue. Administrators only.",
   input: {
-    type: 'object',
+    type: "object",
     properties: {
       id: {
-        type: 'string',
-        description: 'ID of the issue.',
+        type: "string",
+        description: "ID of the issue.",
       },
     },
-    required: ['id'],
+    required: ["id"],
   },
   request: {
-    method: 'GET',
-    path: '/issues/{id}',
+    method: "GET",
+    path: "/issues/{id}",
   },
 });
