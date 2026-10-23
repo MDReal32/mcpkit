@@ -2,9 +2,6 @@ export const MANIFESTS_DIR_NAME = 'manifests';
 
 export const FETCH_TIMEOUT_MS = 30_000;
 
-/** Where CI publishes the compiled manifests (GitHub Pages of the repository). */
-export const DEFAULT_REGISTRY_URL = 'https://mdreal32.github.io/mcpkit';
-
 export const REGISTRY_ENV = 'MCPKIT_REGISTRY';
 
 export const INDEX_FILE_NAME = 'index.json';

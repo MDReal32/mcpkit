@@ -1,5 +1,6 @@
 import { readFile, stat, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { DEFAULT_REGISTRY_URL } from '@usemcpkit/servers';
 import { createPingManifest, useTempDir } from '@usemcpkit/testing';
 import { describe, expect, it } from 'vitest';
 import {
@@ -10,7 +11,7 @@ import {
   resolveRegistryUrl,
   syncRegistry,
 } from '../src/registry';
-import { DEFAULT_REGISTRY_URL, MANIFEST_SYNC_INTERVAL_MS } from '../src/registry/const';
+import { MANIFEST_SYNC_INTERVAL_MS } from '../src/registry/const';
 import { isSyncDue } from '../src/registry/sync/is-sync-due';
 import { createRegistryFetch } from './fixtures/create-registry-fetch';
 

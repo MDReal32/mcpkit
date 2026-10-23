@@ -17,7 +17,7 @@ Yarn 4 workspaces and Nx, Node 22.18+. Every command below runs from the reposit
 
 ```bash
 yarn install
-yarn build          # every package; apps/cli/build/mcpkit.cli.js + apps/cli/build/manifests/
+yarn build          # every package; apps/cli/build/mcpkit.cli.js + packages/servers/build/manifests/
 yarn test
 yarn typecheck
 yarn lint           # Biome: lint + format + import order check per project
@@ -88,7 +88,7 @@ command instead. The Homebrew formula's `caveats` and the winget manifest's `Ins
 
 ```
 packages/servers/src/servers/gitlab/gitlab.ts   author servers in TypeScript (one folder per server, one tool per file)
-  └─ vite build                          plugins/manifests/ compiles + validates packages/servers/src/*, then:
+  └─ vite build                          packages/servers: plugins/manifests/ compiles + validates src/servers/*, then:
        ├─ build/mcpkit.cli.js             the CLI, no manifests inside
        └─ build/manifests/*.json          compiled manifests + index.json (the registry; CI publishes it to GitHub Pages)
             └─ yarn package              plugins/binaries/ runs bun compile → build/bin/mcpkit-<os>-<arch>
@@ -338,7 +338,7 @@ the first time a tool of that server is described or called, checked against the
 - `mcpkit update [--registry <url>]` syncs now: it refreshes the index and re-downloads cached manifests whose
   checksum changed, so an edit published without a version bump still lands. The URL comes from the flag,
   `MCPKIT_REGISTRY`, then the default.
-- Self-hosting a registry is hosting the `apps/cli/build/manifests/` folder (links in `index.json` are built from the
+- Self-hosting a registry is hosting the `packages/servers/build/manifests/` folder (links in `index.json` are built from the
   registry URL in `apps/cli/vite.config.ts`).
 
 ### What the AI client sees

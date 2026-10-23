@@ -1,8 +1,8 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "types": ["node"],
+    "types": ["node", "vite/client"],
     "allowImportingTsExtensions": true
   },
-  "include": ["src", "test", "generator"]
+  "include": ["src", "test", "generator", "plugins", "vite.config.ts"]
 }

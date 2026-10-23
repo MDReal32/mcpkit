@@ -5,8 +5,7 @@ on:
     branches:
       - master
     paths:
-      - packages/servers/src/**
-      - apps/cli/plugins/manifests/**
+      - packages/servers/**
       - packages/core/src/**
       - .github/workflows/registry.yml
   workflow_dispatch:
@@ -49,7 +48,7 @@ jobs:
       - name: Upload registry
         uses: actions/upload-pages-artifact@v5
         with:
-          path: apps/cli/build/manifests
+          path: packages/servers/build/manifests
 
       - name: Deploy
         id: deployment
