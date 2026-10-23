@@ -3,6 +3,7 @@ import { HTTP_METHODS } from "../../const";
 import { isHttpMethod } from "../guards/is-http-method";
 import { validateArgSpec } from "./validate-arg-spec";
 import { validateBodyArg } from "./validate-body-arg";
+import { validateFixedHeaders } from "./validate-fixed-headers";
 import { validateFixedValues } from "./validate-fixed-values";
 import { validateRequestPath } from "./validate-request-path";
 
@@ -20,6 +21,7 @@ export const validateRequest = (request: unknown, declaredArgs: ReadonlySet<stri
     ...validateArgSpec(request.body, declaredArgs, `${location}.request.body`),
     ...validateBodyArg(request, declaredArgs, location),
     ...validateFixedValues(request.fixedQuery, `${location}.request.fixedQuery`),
+    ...validateFixedHeaders(request.fixedHeaders, `${location}.request.fixedHeaders`),
     ...validateFixedValues(request.fixedBody, `${location}.request.fixedBody`),
   ];
 };

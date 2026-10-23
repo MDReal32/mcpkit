@@ -27,6 +27,17 @@ describe("buildRequest", () => {
     expect(request.headers["Content-Type"]).toBe("application/json");
   });
 
+  it("sends fixed headers under the auth headers", () => {
+    const tool = {
+      ...listItemsTool,
+      request: { ...listItemsTool.request, fixedHeaders: { "X-Atlassian-Token": "no-check", Authorization: "x" } },
+    };
+
+    const request = buildRequest(demoManifest, tool, prepareToolArgs(tool, { owner: "o" }), BEARER_AUTH);
+
+    expect(request.headers).toMatchObject({ "X-Atlassian-Token": "no-check", Authorization: "Bearer secret" });
+  });
+
   it("sends the body argument unchanged as the whole JSON body", () => {
     const tool = {
       ...createItemTool,

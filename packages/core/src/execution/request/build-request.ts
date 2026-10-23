@@ -8,7 +8,7 @@ import { fillPath } from "./fill-path";
 
 /** Expects args already passed through prepareToolArgs. */
 export const buildRequest = (manifest: Manifest, tool: ToolSpec, args: ToolArgs, auth: ResolvedAuth) => {
-  const { method, path, query, fixedQuery } = tool.request;
+  const { method, path, query, fixedQuery, fixedHeaders } = tool.request;
   const payload = buildBodyPayload(tool.request, args);
   const hasBody = method !== "GET" && payload !== undefined;
   const contentHeaders: HttpRequest["headers"] = hasBody ? { "Content-Type": "application/json" } : {};
@@ -16,7 +16,7 @@ export const buildRequest = (manifest: Manifest, tool: ToolSpec, args: ToolArgs,
   const request: HttpRequest = {
     url: buildRequestUrl(manifest.baseUrl, fillPath(path, args), params),
     method,
-    headers: { ...manifest.headers, ...auth.headers, ...contentHeaders },
+    headers: { ...manifest.headers, ...fixedHeaders, ...auth.headers, ...contentHeaders },
     ...(hasBody ? { body: JSON.stringify(payload) } : {}),
   };
   return request;

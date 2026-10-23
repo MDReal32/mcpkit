@@ -12,6 +12,8 @@ export interface RequestSpec {
   /** Names the argument sent unchanged as the whole JSON body (an array, string or free-form object); excludes `body` and `fixedBody`. */
   bodyArg?: string;
   fixedQuery?: FixedValues;
+  /** Header values sent on every call; auth headers win over them. */
+  fixedHeaders?: Readonly<Record<string, string>>;
   /** Dotted paths like `body`; an argument with the same key wins. */
   fixedBody?: FixedValues;
 }
