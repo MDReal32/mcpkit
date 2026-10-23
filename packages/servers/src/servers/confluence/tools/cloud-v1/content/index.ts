@@ -6,6 +6,8 @@ import { cloudV1ContentArchivePages } from "./archive-pages";
 import { cloudV1ContentCheckContentPermission } from "./check-content-permission";
 import { cloudV1ContentCopyPage } from "./copy-page";
 import { cloudV1ContentCopyPageHierarchy } from "./copy-page-hierarchy";
+import { cloudV1ContentCreateAttachment } from "./create-attachment";
+import { cloudV1ContentCreateOrUpdateAttachments } from "./create-or-update-attachments";
 import { cloudV1ContentDeleteContentVersion } from "./delete-content-version";
 import { cloudV1ContentDeletePageTree } from "./delete-page-tree";
 import { cloudV1ContentDeleteRestrictions } from "./delete-restrictions";
@@ -35,6 +37,7 @@ import { cloudV1ContentRemoveUserFromContentRestriction } from "./remove-user-fr
 import { cloudV1ContentRestoreContentVersion } from "./restore-content-version";
 import { cloudV1ContentSearchContentByCql } from "./search-content-by-cql";
 import { cloudV1ContentSetContentState } from "./set-content-state";
+import { cloudV1ContentUpdateAttachmentData } from "./update-attachment-data";
 import { cloudV1ContentUpdateAttachmentProperties } from "./update-attachment-properties";
 import { cloudV1ContentUpdateRestrictions } from "./update-restrictions";
 
@@ -47,6 +50,8 @@ export const cloudV1ContentTools = [
   cloudV1ContentCheckContentPermission,
   cloudV1ContentCopyPage,
   cloudV1ContentCopyPageHierarchy,
+  cloudV1ContentCreateAttachment,
+  cloudV1ContentCreateOrUpdateAttachments,
   cloudV1ContentDeleteContentVersion,
   cloudV1ContentDeletePageTree,
   cloudV1ContentDeleteRestrictions,
@@ -76,6 +81,7 @@ export const cloudV1ContentTools = [
   cloudV1ContentRestoreContentVersion,
   cloudV1ContentSearchContentByCql,
   cloudV1ContentSetContentState,
+  cloudV1ContentUpdateAttachmentData,
   cloudV1ContentUpdateAttachmentProperties,
   cloudV1ContentUpdateRestrictions,
 ];

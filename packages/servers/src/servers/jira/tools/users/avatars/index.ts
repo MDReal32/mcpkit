@@ -4,6 +4,7 @@ import { usersAvatarsGetAvatarImageById } from "./get-avatar-image-by-id";
 import { usersAvatarsGetAvatarImageByOwner } from "./get-avatar-image-by-owner";
 import { usersAvatarsGetAvatarImageByType } from "./get-avatar-image-by-type";
 import { usersAvatarsGetAvatars } from "./get-avatars";
+import { usersAvatarsStoreAvatar } from "./store-avatar";
 
 export const usersAvatarsTools = [
   usersAvatarsDeleteAvatar,
@@ -12,4 +13,5 @@ export const usersAvatarsTools = [
   usersAvatarsGetAvatarImageByOwner,
   usersAvatarsGetAvatarImageByType,
   usersAvatarsGetAvatars,
+  usersAvatarsStoreAvatar,
 ];

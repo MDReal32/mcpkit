@@ -1,3 +1,4 @@
+import { ciTerraformCreateProjectsTerraformState } from "./create-projects-terraform-state";
 import { ciTerraformCreateProjectsTerraformStateAuthorize } from "./create-projects-terraform-state-authorize";
 import { ciTerraformCreateProjectsTerraformStateLock } from "./create-projects-terraform-state-lock";
 import { ciTerraformDeleteProjectsTerraformState } from "./delete-projects-terraform-state";
@@ -13,9 +14,11 @@ import { ciTerraformGetProjectsPackagesTerraformModulesGet } from "./get-project
 import { ciTerraformGetProjectsTerraformState } from "./get-projects-terraform-state";
 import { ciTerraformGetProjectsTerraformStateVersions } from "./get-projects-terraform-state-versions";
 import { ciTerraformListPackagesTerraformModulesV1Versions } from "./list-packages-terraform-modules-v1-versions";
+import { ciTerraformUpdateProjectsPackagesTerraformModulesFile } from "./update-projects-packages-terraform-modules-file";
 import { ciTerraformUpdateProjectsPackagesTerraformModulesFileAuthorize } from "./update-projects-packages-terraform-modules-file-authorize";
 
 export const ciTerraformTools = [
+  ciTerraformCreateProjectsTerraformState,
   ciTerraformCreateProjectsTerraformStateAuthorize,
   ciTerraformCreateProjectsTerraformStateLock,
   ciTerraformDeleteProjectsTerraformState,
@@ -31,5 +34,6 @@ export const ciTerraformTools = [
   ciTerraformGetProjectsTerraformState,
   ciTerraformGetProjectsTerraformStateVersions,
   ciTerraformListPackagesTerraformModulesV1Versions,
+  ciTerraformUpdateProjectsPackagesTerraformModulesFile,
   ciTerraformUpdateProjectsPackagesTerraformModulesFileAuthorize,
 ];

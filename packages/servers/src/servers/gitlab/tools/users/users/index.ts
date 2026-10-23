@@ -1,6 +1,7 @@
 import { usersUsersCreateUserEmails } from "./create-user-emails";
 import { usersUsersCreateUserRunners } from "./create-user-runners";
 import { usersUsersCreateUserSupportPin } from "./create-user-support-pin";
+import { usersUsersCreateUsers } from "./create-users";
 import { usersUsersCreateUsersActivate } from "./create-users-activate";
 import { usersUsersCreateUsersApprove } from "./create-users-approve";
 import { usersUsersCreateUsersBan } from "./create-users-ban";
@@ -38,12 +39,14 @@ import { usersUsersUpdateUserCreditCardValidation } from "./update-user-credit-c
 import { usersUsersUpdateUserPreferences } from "./update-user-preferences";
 import { usersUsersUpdateUserStatus } from "./update-user-status";
 import { usersUsersUpdateUserStatusPatch } from "./update-user-status-patch";
+import { usersUsersUpdateUsers } from "./update-users";
 import { usersUsersUpdateUsersDisableTwoFactor } from "./update-users-disable-two-factor";
 
 export const usersUsersTools = [
   usersUsersCreateUserEmails,
   usersUsersCreateUserRunners,
   usersUsersCreateUserSupportPin,
+  usersUsersCreateUsers,
   usersUsersCreateUsersActivate,
   usersUsersCreateUsersApprove,
   usersUsersCreateUsersBan,
@@ -81,5 +84,6 @@ export const usersUsersTools = [
   usersUsersUpdateUserPreferences,
   usersUsersUpdateUserStatus,
   usersUsersUpdateUserStatusPatch,
+  usersUsersUpdateUsers,
   usersUsersUpdateUsersDisableTwoFactor,
 ];

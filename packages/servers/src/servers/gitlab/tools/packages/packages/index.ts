@@ -15,8 +15,11 @@ import { packagesPackagesListProjectsPackages } from "./list-projects-packages";
 import { packagesPackagesListProjectsPackagesGoVList } from "./list-projects-packages-go-v-list";
 import { packagesPackagesListProjectsPackagesPackageFiles } from "./list-projects-packages-package-files";
 import { packagesPackagesListProjectsPackagesPipelines } from "./list-projects-packages-pipelines";
+import { packagesPackagesUpdateProjectsPackagesGeneric } from "./update-projects-packages-generic";
 import { packagesPackagesUpdateProjectsPackagesGenericAuthorize } from "./update-projects-packages-generic-authorize";
 import { packagesPackagesUpdateProjectsPackagesGenericAuthorizePut } from "./update-projects-packages-generic-authorize-put";
+import { packagesPackagesUpdateProjectsPackagesGenericPut } from "./update-projects-packages-generic-put";
+import { packagesPackagesUpdateProjectsPackagesMaven } from "./update-projects-packages-maven";
 import { packagesPackagesUpdateProjectsPackagesMavenAuthorize } from "./update-projects-packages-maven-authorize";
 
 export const packagesPackagesTools = [
@@ -37,7 +40,10 @@ export const packagesPackagesTools = [
   packagesPackagesListProjectsPackagesGoVList,
   packagesPackagesListProjectsPackagesPackageFiles,
   packagesPackagesListProjectsPackagesPipelines,
+  packagesPackagesUpdateProjectsPackagesGeneric,
   packagesPackagesUpdateProjectsPackagesGenericAuthorize,
   packagesPackagesUpdateProjectsPackagesGenericAuthorizePut,
+  packagesPackagesUpdateProjectsPackagesGenericPut,
+  packagesPackagesUpdateProjectsPackagesMaven,
   packagesPackagesUpdateProjectsPackagesMavenAuthorize,
 ];

@@ -2,8 +2,7 @@ import { defineTool } from "@usemcpkit/core";
 
 export const securitySoftwareCompositionAnalysisCreateJobsSbomScans = defineTool({
   name: "security:software_composition_analysis:create_jobs_sbom_scans",
-  description:
-    "Reuse SBOM scan results. Reuses existing SBOM scan results if scans for the specified digest already exist.",
+  description: "Upload an SBOM file. Uploads an SBOM file to be scanned for a specified job.",
   input: {
     type: "object",
     properties: {
@@ -11,20 +10,22 @@ export const securitySoftwareCompositionAnalysisCreateJobsSbomScans = defineTool
         type: "integer",
         description: "ID of the job.",
       },
+      file: {
+        type: "string",
+        description: "Path of a local file to upload.",
+      },
       sbom_digest: {
         type: "string",
-        description: "SBOM digest that identifies an SBOM scan uniquely.",
-      },
-      purl_types: {
-        type: "array",
-        description: "List of package URL (purl) types valid for the given SBOM digest.",
+        description: "Digest corresponding to uploaded SBOM",
       },
     },
-    required: ["id", "sbom_digest", "purl_types"],
+    required: ["id", "file"],
   },
   request: {
     method: "POST",
-    path: "/jobs/{id}/sbom_scans/{sbom_digest}",
-    body: ["purl_types"],
+    path: "/jobs/{id}/sbom_scans",
+    body: ["file", "sbom_digest"],
+    contentType: "multipart/form-data",
+    fileArgs: ["file"],
   },
 });

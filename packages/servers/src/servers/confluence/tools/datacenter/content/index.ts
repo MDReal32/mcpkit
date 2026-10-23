@@ -3,6 +3,8 @@ import { datacenterContentCreateBlueprintInstance } from "./create-blueprint-ins
 import { datacenterContentCreateBulkPageDelete } from "./create-bulk-page-delete";
 import { datacenterContentCreateBulkPageDeleteDeletableDescendantCounts } from "./create-bulk-page-delete-deletable-descendant-counts";
 import { datacenterContentCreateBulkPageDeletePreview } from "./create-bulk-page-delete-preview";
+import { datacenterContentCreateChildAttachment } from "./create-child-attachment";
+import { datacenterContentCreateChildAttachmentData } from "./create-child-attachment-data";
 import { datacenterContentCreateChildAttachmentMove } from "./create-child-attachment-move";
 import { datacenterContentCreateLabel } from "./create-label";
 import { datacenterContentCreateProperty } from "./create-property";
@@ -51,6 +53,8 @@ export const datacenterContentTools = [
   datacenterContentCreateBulkPageDelete,
   datacenterContentCreateBulkPageDeleteDeletableDescendantCounts,
   datacenterContentCreateBulkPageDeletePreview,
+  datacenterContentCreateChildAttachment,
+  datacenterContentCreateChildAttachmentData,
   datacenterContentCreateChildAttachmentMove,
   datacenterContentCreateLabel,
   datacenterContentCreateProperty,

@@ -10,6 +10,7 @@ import { usersUsersGetUserEmailBulk } from "./get-user-email-bulk";
 import { usersUsersGetUserGroups } from "./get-user-groups";
 import { usersUsersRemoveUser } from "./remove-user";
 import { usersUsersResetUserColumns } from "./reset-user-columns";
+import { usersUsersSetUserColumns } from "./set-user-columns";
 
 export const usersUsersTools = [
   usersUsersBulkGetUsers,
@@ -24,4 +25,5 @@ export const usersUsersTools = [
   usersUsersGetUserGroups,
   usersUsersRemoveUser,
   usersUsersResetUserColumns,
+  usersUsersSetUserColumns,
 ];

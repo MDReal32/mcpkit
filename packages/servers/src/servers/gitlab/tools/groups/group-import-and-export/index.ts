@@ -1,5 +1,6 @@
 import { groupsGroupImportAndExportCreateGroupsExport } from "./create-groups-export";
 import { groupsGroupImportAndExportCreateGroupsExportRelations } from "./create-groups-export-relations";
+import { groupsGroupImportAndExportCreateGroupsImport } from "./create-groups-import";
 import { groupsGroupImportAndExportCreateGroupsImportAuthorize } from "./create-groups-import-authorize";
 import { groupsGroupImportAndExportGetGroupsExportDownload } from "./get-groups-export-download";
 import { groupsGroupImportAndExportGetGroupsExportRelationsDownload } from "./get-groups-export-relations-download";
@@ -8,6 +9,7 @@ import { groupsGroupImportAndExportListGroupsExportRelationsStatus } from "./lis
 export const groupsGroupImportAndExportTools = [
   groupsGroupImportAndExportCreateGroupsExport,
   groupsGroupImportAndExportCreateGroupsExportRelations,
+  groupsGroupImportAndExportCreateGroupsImport,
   groupsGroupImportAndExportCreateGroupsImportAuthorize,
   groupsGroupImportAndExportGetGroupsExportDownload,
   groupsGroupImportAndExportGetGroupsExportRelationsDownload,

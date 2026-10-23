@@ -1,3 +1,4 @@
+import { projectsCommitsCreateProjectsRepositoryCommits } from "./create-projects-repository-commits";
 import { projectsCommitsCreateProjectsRepositoryCommitsCherryPick } from "./create-projects-repository-commits-cherry-pick";
 import { projectsCommitsCreateProjectsRepositoryCommitsComments } from "./create-projects-repository-commits-comments";
 import { projectsCommitsCreateProjectsRepositoryCommitsRevert } from "./create-projects-repository-commits-revert";
@@ -11,6 +12,7 @@ import { projectsCommitsListProjectsRepositoryCommitsMergeRequests } from "./lis
 import { projectsCommitsListProjectsRepositoryCommitsRefs } from "./list-projects-repository-commits-refs";
 
 export const projectsCommitsTools = [
+  projectsCommitsCreateProjectsRepositoryCommits,
   projectsCommitsCreateProjectsRepositoryCommitsCherryPick,
   projectsCommitsCreateProjectsRepositoryCommitsComments,
   projectsCommitsCreateProjectsRepositoryCommitsRevert,

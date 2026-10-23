@@ -1,5 +1,11 @@
 import { usersAvatarsGetAvatar } from "./get-avatar";
 import { usersAvatarsGetGroupsAvatar } from "./get-groups-avatar";
 import { usersAvatarsGetProjectsAvatar } from "./get-projects-avatar";
+import { usersAvatarsUpdateUserAvatar } from "./update-user-avatar";
 
-export const usersAvatarsTools = [usersAvatarsGetAvatar, usersAvatarsGetGroupsAvatar, usersAvatarsGetProjectsAvatar];
+export const usersAvatarsTools = [
+  usersAvatarsGetAvatar,
+  usersAvatarsGetGroupsAvatar,
+  usersAvatarsGetProjectsAvatar,
+  usersAvatarsUpdateUserAvatar,
+];

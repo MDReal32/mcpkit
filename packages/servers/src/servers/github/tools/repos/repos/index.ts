@@ -193,6 +193,7 @@ import { reposReposUpdateRepoRuleset } from "./update-repo-ruleset";
 import { reposReposUpdateStatusCheckProtection } from "./update-status-check-protection";
 import { reposReposUpdateWebhook } from "./update-webhook";
 import { reposReposUpdateWebhookConfigForRepo } from "./update-webhook-config-for-repo";
+import { reposReposUploadReleaseAsset } from "./upload-release-asset";
 
 export const reposReposTools = [
   reposReposAcceptInvitationForAuthenticatedUser,
@@ -390,4 +391,5 @@ export const reposReposTools = [
   reposReposUpdateStatusCheckProtection,
   reposReposUpdateWebhook,
   reposReposUpdateWebhookConfigForRepo,
+  reposReposUploadReleaseAsset,
 ];

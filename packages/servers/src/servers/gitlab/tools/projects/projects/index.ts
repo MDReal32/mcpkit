@@ -1,3 +1,4 @@
+import { projectsProjectsCreateProjects } from "./create-projects";
 import { projectsProjectsCreateProjectsAiAgentAuditEvents } from "./create-projects-ai-agent-audit-events";
 import { projectsProjectsCreateProjectsAiAgentIdentities } from "./create-projects-ai-agent-identities";
 import { projectsProjectsCreateProjectsAiAgentSessions } from "./create-projects-ai-agent-sessions";
@@ -20,7 +21,9 @@ import { projectsProjectsCreateProjectsStar } from "./create-projects-star";
 import { projectsProjectsCreateProjectsTerraformStateProtectionRules } from "./create-projects-terraform-state-protection-rules";
 import { projectsProjectsCreateProjectsUnarchive } from "./create-projects-unarchive";
 import { projectsProjectsCreateProjectsUnstar } from "./create-projects-unstar";
+import { projectsProjectsCreateProjectsUploads } from "./create-projects-uploads";
 import { projectsProjectsCreateProjectsUploadsAuthorize } from "./create-projects-uploads-authorize";
+import { projectsProjectsCreateProjectsUser } from "./create-projects-user";
 import { projectsProjectsDeleteProjects } from "./delete-projects";
 import { projectsProjectsDeleteProjectsFork } from "./delete-projects-fork";
 import { projectsProjectsDeleteProjectsIssues } from "./delete-projects-issues";
@@ -62,6 +65,7 @@ import { projectsProjectsListProjectsUsers } from "./list-projects-users";
 import { projectsProjectsListUsersContributedProjects } from "./list-users-contributed-projects";
 import { projectsProjectsListUsersProjects } from "./list-users-projects";
 import { projectsProjectsListUsersStarredProjects } from "./list-users-starred-projects";
+import { projectsProjectsUpdateProjects } from "./update-projects";
 import { projectsProjectsUpdateProjectsAiAgentSessions } from "./update-projects-ai-agent-sessions";
 import { projectsProjectsUpdateProjectsIssues } from "./update-projects-issues";
 import { projectsProjectsUpdateProjectsIssuesReorder } from "./update-projects-issues-reorder";
@@ -73,6 +77,7 @@ import { projectsProjectsUpdateProjectsTerraformStateProtectionRules } from "./u
 import { projectsProjectsUpdateProjectsTransfer } from "./update-projects-transfer";
 
 export const projectsProjectsTools = [
+  projectsProjectsCreateProjects,
   projectsProjectsCreateProjectsAiAgentAuditEvents,
   projectsProjectsCreateProjectsAiAgentIdentities,
   projectsProjectsCreateProjectsAiAgentSessions,
@@ -95,7 +100,9 @@ export const projectsProjectsTools = [
   projectsProjectsCreateProjectsTerraformStateProtectionRules,
   projectsProjectsCreateProjectsUnarchive,
   projectsProjectsCreateProjectsUnstar,
+  projectsProjectsCreateProjectsUploads,
   projectsProjectsCreateProjectsUploadsAuthorize,
+  projectsProjectsCreateProjectsUser,
   projectsProjectsDeleteProjects,
   projectsProjectsDeleteProjectsFork,
   projectsProjectsDeleteProjectsIssues,
@@ -137,6 +144,7 @@ export const projectsProjectsTools = [
   projectsProjectsListUsersContributedProjects,
   projectsProjectsListUsersProjects,
   projectsProjectsListUsersStarredProjects,
+  projectsProjectsUpdateProjects,
   projectsProjectsUpdateProjectsAiAgentSessions,
   projectsProjectsUpdateProjectsIssues,
   projectsProjectsUpdateProjectsIssuesReorder,

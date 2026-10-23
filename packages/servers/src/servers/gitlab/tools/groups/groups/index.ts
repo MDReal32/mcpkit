@@ -1,4 +1,6 @@
+import { groupsGroupsCreateGroups } from "./create-groups";
 import { groupsGroupsCreateGroupsArchive } from "./create-groups-archive";
+import { groupsGroupsCreateGroupsPlaceholderReassignments } from "./create-groups-placeholder-reassignments";
 import { groupsGroupsCreateGroupsPlaceholderReassignmentsAuthorize } from "./create-groups-placeholder-reassignments-authorize";
 import { groupsGroupsCreateGroupsProjects } from "./create-groups-projects";
 import { groupsGroupsCreateGroupsRestore } from "./create-groups-restore";
@@ -6,6 +8,7 @@ import { groupsGroupsCreateGroupsShare } from "./create-groups-share";
 import { groupsGroupsCreateGroupsTransfer } from "./create-groups-transfer";
 import { groupsGroupsCreateGroupsTransferToOrganization } from "./create-groups-transfer-to-organization";
 import { groupsGroupsCreateGroupsUnarchive } from "./create-groups-unarchive";
+import { groupsGroupsCreateGroupsUploads } from "./create-groups-uploads";
 import { groupsGroupsCreateGroupsUploadsAuthorize } from "./create-groups-uploads-authorize";
 import { groupsGroupsDeleteGroups } from "./delete-groups";
 import { groupsGroupsDeleteGroupsShare } from "./delete-groups-share";
@@ -31,10 +34,13 @@ import { groupsGroupsListGroupsSamlUsers } from "./list-groups-saml-users";
 import { groupsGroupsListGroupsSubgroups } from "./list-groups-subgroups";
 import { groupsGroupsListGroupsTransferLocations } from "./list-groups-transfer-locations";
 import { groupsGroupsListGroupsUploads } from "./list-groups-uploads";
+import { groupsGroupsUpdateGroups } from "./update-groups";
 import { groupsGroupsUpdateGroupsSecuritySettings } from "./update-groups-security-settings";
 
 export const groupsGroupsTools = [
+  groupsGroupsCreateGroups,
   groupsGroupsCreateGroupsArchive,
+  groupsGroupsCreateGroupsPlaceholderReassignments,
   groupsGroupsCreateGroupsPlaceholderReassignmentsAuthorize,
   groupsGroupsCreateGroupsProjects,
   groupsGroupsCreateGroupsRestore,
@@ -42,6 +48,7 @@ export const groupsGroupsTools = [
   groupsGroupsCreateGroupsTransfer,
   groupsGroupsCreateGroupsTransferToOrganization,
   groupsGroupsCreateGroupsUnarchive,
+  groupsGroupsCreateGroupsUploads,
   groupsGroupsCreateGroupsUploadsAuthorize,
   groupsGroupsDeleteGroups,
   groupsGroupsDeleteGroupsShare,
@@ -67,5 +74,6 @@ export const groupsGroupsTools = [
   groupsGroupsListGroupsSubgroups,
   groupsGroupsListGroupsTransferLocations,
   groupsGroupsListGroupsUploads,
+  groupsGroupsUpdateGroups,
   groupsGroupsUpdateGroupsSecuritySettings,
 ];
