@@ -105,31 +105,61 @@ describe('gitlab', () => {
 });
 
 describe('jira', () => {
+  const SEARCH = 'issues:issue_search:search_and_reconsile_issues_using_jql';
+
   it('searches with the endpoint of each edition', async () => {
-    const args = { jql: 'project = A' };
+    const args = { jql: 'project = A', maxResults: 10 };
 
-    const [cloud] = await sendTool(jira, 'issue:search', args, JIRA_CLOUD);
-    const [dataCenter] = await sendTool(jira, 'issue:search', args, JIRA_DATA_CENTER);
+    const [cloud] = await sendTool(jira, SEARCH, { ...args, nextPageToken: 'abc' }, JIRA_CLOUD);
+    const [dataCenter] = await sendTool(jira, SEARCH, { ...args, startAt: 5 }, JIRA_DATA_CENTER);
 
-    expect(cloud?.url).toMatch(/^https:\/\/acme\.atlassian\.net\/rest\/api\/2\/search\/jql\?/);
-    expect(dataCenter?.url).toMatch(/^https:\/\/jira\.acme\.com\/jira\/rest\/api\/2\/search\?/);
-    expect(new URL(dataCenter?.url ?? '').searchParams.get('fields')).toBe(
-      'summary,status,assignee,issuetype,priority,updated',
-    );
+    const cloudUrl = new URL(cloud?.url ?? '');
+    const dataCenterUrl = new URL(dataCenter?.url ?? '');
+    expect(cloudUrl.origin + cloudUrl.pathname).toBe('https://acme.atlassian.net/rest/api/2/search/jql');
+    expect(cloudUrl.searchParams.get('jql')).toBe('project = A');
+    expect(cloudUrl.searchParams.get('nextPageToken')).toBe('abc');
+    expect(cloudUrl.searchParams.has('startAt')).toBe(false);
+    expect(dataCenterUrl.origin + dataCenterUrl.pathname).toBe('https://jira.acme.com/jira/rest/api/2/search');
+    expect(dataCenterUrl.searchParams.get('startAt')).toBe('5');
+    expect(dataCenterUrl.searchParams.has('nextPageToken')).toBe(false);
   });
 
-  it('nests the create_issue fields', async () => {
-    const [request] = await sendTool(jira, 'issue:create', { project_key: 'A', summary: 'Broken' }, JIRA_DATA_CENTER);
+  it('posts the search body to the endpoint of each edition', async () => {
+    const name = 'issues:issue_search:search_and_reconsile_issues_using_jql_post';
 
-    expect(request?.body).toEqual({
-      fields: { project: { key: 'A' }, summary: 'Broken', issuetype: { name: 'Task' } },
-    });
+    const [cloud] = await sendTool(jira, name, { jql: 'project = A' }, JIRA_CLOUD);
+    const [dataCenter] = await sendTool(jira, name, { jql: 'project = A' }, JIRA_DATA_CENTER);
+
+    expect(cloud).toMatchObject({ method: 'POST', url: 'https://acme.atlassian.net/rest/api/2/search/jql' });
+    expect(dataCenter).toMatchObject({ method: 'POST', url: 'https://jira.acme.com/jira/rest/api/2/search' });
+    expect(dataCenter?.body).toMatchObject({ jql: 'project = A' });
+  });
+
+  it('sends the create_issue fields object as the nested body', async () => {
+    const fields = { project: { key: 'A' }, summary: 'Broken', issuetype: { name: 'Task' } };
+
+    const [request] = await sendTool(jira, 'issues:issues:create_issue', { fields }, JIRA_DATA_CENTER);
+
+    expect(request?.method).toBe('POST');
+    expect(request?.url).toMatch(/^https:\/\/jira\.acme\.com\/jira\/rest\/api\/2\/issue\?/);
+    expect(request?.body).toEqual({ fields });
+  });
+
+  it('lists agile boards from the agile endpoint', async () => {
+    const [request] = await sendTool(jira, 'software:board:get_all_boards', {}, JIRA_CLOUD);
+
+    expect(request?.url).toMatch(/^https:\/\/acme\.atlassian\.net\/rest\/agile\/1\.0\/board\?/);
   });
 });
 
 describe('jira comments', () => {
   it('deletes a comment by issue key and comment id', async () => {
-    const [request] = await sendTool(jira, 'comment:delete', { issue_key: 'A-1', comment_id: '10' }, JIRA_DATA_CENTER);
+    const [request] = await sendTool(
+      jira,
+      'issues:issue_comments:delete_comment',
+      { issueIdOrKey: 'A-1', id: '10' },
+      JIRA_DATA_CENTER,
+    );
 
     expect(request).toMatchObject({
       method: 'DELETE',
