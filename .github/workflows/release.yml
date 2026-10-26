@@ -66,11 +66,12 @@ jobs:
     permissions:
       contents: write
 
-#  winget:
-#    name: winget
-#    needs: github
-#    uses: ./.github/workflows/release-winget.yml
-#    secrets:
-#      WINGET_TOKEN: ${{ secrets.WINGET_TOKEN }}
-#    permissions:
-#      contents: read
+  # winget is disabled for now; re-enable once the first MDReal32.UseMCPKit version is merged in winget-pkgs
+  # winget:
+  #   name: winget
+  #   needs: github
+  #   uses: ./.github/workflows/release-winget.yml
+  #   secrets:
+  #     WINGET_TOKEN: ${{ secrets.WINGET_TOKEN }}
+  #   permissions:
+  #     contents: read
