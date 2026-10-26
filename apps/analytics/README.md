@@ -10,21 +10,23 @@ Users turn it off with `USEMCPKIT_TELEMETRY=0` or `DO_NOT_TRACK=1`; `usemcpkit s
 
 ## Deploy
 
+Run once, after `yarn workspace @usemcpkit/analytics exec wrangler login`:
+
 ```bash
-npx wrangler d1 create usemcpkit-analytics
+yarn nx run @usemcpkit/analytics:init
 ```
 
 Put the printed `database_id` into `wrangler.toml`, then:
 
 ```bash
-npx wrangler d1 execute usemcpkit-analytics --remote --file schema.sql
-npx wrangler deploy
+yarn nx run @usemcpkit/analytics:db:schema
+yarn nx run @usemcpkit/analytics:deploy
 ```
 
-Route the Worker to the host in `DEFAULT_ANALYTICS_URL` (`apps/cli/src/analytics/const.ts`).
+Route the Worker to the host in `DEFAULT_ANALYTICS_URL` (`apps/cli/src/analytics/const.ts`). With Cloudflare's git integration leave the build command empty and use `npx wrangler deploy --config apps/analytics/wrangler.toml` as the deploy command.
 
 ## Read the numbers
 
 ```bash
-npx wrangler d1 execute usemcpkit-analytics --remote --command "SELECT tool, SUM(count) AS uses FROM usage GROUP BY tool ORDER BY uses DESC LIMIT 20"
+yarn nx run @usemcpkit/analytics:db:top
 ```

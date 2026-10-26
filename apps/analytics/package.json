@@ -8,11 +8,16 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run --configLoader native",
     "lint": "biome check .",
+    "dev": "wrangler dev",
+    "init": "wrangler d1 create usemcpkit-analytics",
+    "db:schema": "wrangler d1 execute usemcpkit-analytics --remote --file schema.sql",
+    "db:top": "wrangler d1 execute usemcpkit-analytics --remote --command \"SELECT tool, SUM(count) AS uses FROM usage GROUP BY tool ORDER BY uses DESC LIMIT 20\"",
     "deploy": "wrangler deploy"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.15",
     "typescript": "^5.9.0",
-    "vitest": "^4.0.0"
+    "vitest": "^4.0.0",
+    "wrangler": "4.152.0"
   }
 }
