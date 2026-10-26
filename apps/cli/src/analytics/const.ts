@@ -1,4 +1,4 @@
-export const DEFAULT_ANALYTICS_URL = "https://usage.usemcpkit.dev/v1/use";
+export const DEFAULT_ANALYTICS_URL = "https://mcpkit.mdreal.org/v1/use";
 
 export const ANALYTICS_URL_ENV = "USEMCPKIT_ANALYTICS_URL";
 
