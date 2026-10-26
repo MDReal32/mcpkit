@@ -2,7 +2,9 @@ name = "mcpkit"
 main = "src/main.ts"
 compatibility_date = "2026-01-01"
 
-routes = [{ pattern = "mcpkit.mdreal.org", custom_domain = true }]
+[[routes]]
+pattern = "mcpkit.mdreal.org"
+custom_domain = true
 
 [[d1_databases]]
 binding = "DB"
