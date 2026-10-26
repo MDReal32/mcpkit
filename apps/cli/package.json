@@ -12,7 +12,7 @@
     ".": "./build/mcpkit.cli.js"
   },
   "bin": {
-    "mcpkit": "build/mcpkit.cli.js"
+    "usemcpkit": "build/mcpkit.cli.js"
   },
   "publishConfig": {
     "access": "public"

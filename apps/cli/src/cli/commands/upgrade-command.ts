@@ -22,7 +22,7 @@ export const upgradeCommand = async () => {
   const context = await createBinaryContext();
   const path = resolveInstalledBinaryPath(context.target, context.env);
   if (!(await pathExists(path))) {
-    printError(`mcpkit is not installed at ${path}: run "mcpkit install" first`);
+    printError(`mcpkit is not installed at ${path}: run "usemcpkit install" first`);
     return EXIT_FAILURE;
   }
   const result = await updateBinary(context, path, await readBinaryVersion(path));

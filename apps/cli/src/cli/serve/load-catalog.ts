@@ -10,7 +10,7 @@ export const loadCatalog = async (selection: readonly string[]) => {
   const context = createRegistryContext();
   const index = await readCachedIndex(context.dir);
   if (!index) {
-    throw new Error("no registry index found; run `mcpkit update` to download it");
+    throw new Error("no registry index found; run `usemcpkit update` to download it");
   }
   const unknown = selection.filter((name) => !index.servers.some((server) => matchesSelection(server.id, name)));
   if (unknown.length > 0) {

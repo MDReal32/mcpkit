@@ -6,7 +6,7 @@ import { updateBinary } from "./update-binary";
 import { writeUpdateState } from "./write-update-state";
 
 /**
- * Runs at most once per UPDATE_CHECK_INTERVAL_MS and only for the binary that `mcpkit install` placed.
+ * Runs at most once per UPDATE_CHECK_INTERVAL_MS and only for the binary that `usemcpkit install` placed.
  * The new binary takes effect the next time the client starts the server. Resolves undefined when skipped.
  */
 export const autoUpdateBinary = async (context: BinaryContext, currentVersion: string, now = Date.now()) => {

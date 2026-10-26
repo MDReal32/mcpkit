@@ -11,7 +11,7 @@ import { describeProgram } from "./output/describe-program";
 
 /** Every command registers itself; a new command is one file in `commands/` and one line here. */
 export const createProgram = (argv: string[]) => {
-  const program = Program.createProgram(argv).name("mcpkit").description(describeProgram()).version(VERSION);
+  const program = Program.createProgram(argv).name("usemcpkit").description(describeProgram()).version(VERSION);
   registerInstallCommand(program);
   registerUninstallCommand(program);
   registerUpgradeCommand(program);

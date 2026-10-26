@@ -9,7 +9,7 @@ export const prepareLaunchBinary = async (binaryPath: string | undefined) => {
   const managed = binaryPath === undefined ? await detectPackageManagerInstall() : undefined;
   if (managed) {
     if (!(await pathExists(managed.path))) {
-      throw new Error(`${managed.path} does not exist; relink mcpkit with ${managed.manager} and run "mcpkit" again`);
+      throw new Error(`${managed.path} does not exist; relink mcpkit with ${managed.manager} and run "usemcpkit" again`);
     }
     printLine(`Using mcpkit ${VERSION} from ${managed.manager} at ${managed.path}`);
     const binary: LaunchBinary = { path: managed.path, updateHint: `Update it with "${managed.upgradeCommand}".` };
