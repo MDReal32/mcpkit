@@ -8,6 +8,7 @@ on:
       - packages/servers/**
       - packages/core/src/**
       - .github/workflows/registry.yml
+      - "!**/*.md"
   workflow_dispatch:
 
 permissions:
