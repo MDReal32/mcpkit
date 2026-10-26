@@ -865,6 +865,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@usemcpkit/analytics@workspace:apps/analytics":
+  version: 0.0.0-use.local
+  resolution: "@usemcpkit/analytics@workspace:apps/analytics"
+  dependencies:
+    "@biomejs/biome": "npm:2.5.15"
+    typescript: "npm:^5.9.0"
+    vitest: "npm:^4.0.0"
+  languageName: unknown
+  linkType: soft
+
 "@usemcpkit/binary@workspace:*, @usemcpkit/binary@workspace:packages/binary":
   version: 0.0.0-use.local
   resolution: "@usemcpkit/binary@workspace:packages/binary"

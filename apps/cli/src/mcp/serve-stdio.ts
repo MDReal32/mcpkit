@@ -1,15 +1,15 @@
 import { createInterface } from "node:readline";
-import type { ExecuteOptions } from "@usemcpkit/core";
 import { createRpcHandler } from "./rpc/create-rpc-handler";
 import { handleLine } from "./rpc/handle-line";
 import type { Catalog } from "./types/catalog";
+import type { McpOptions } from "./types/mcp-options";
 import type { StdioOptions } from "./types/stdio-options";
 
 /** Serves newline-delimited JSON-RPC until input closes; stdout carries protocol messages only. */
 export const serveStdio = (
   catalog: Catalog,
   { input = process.stdin, output = process.stdout }: StdioOptions = {},
-  options: ExecuteOptions = {},
+  options: McpOptions = {},
 ) => {
   const handler = createRpcHandler(catalog, options);
   const lines = createInterface({ input, crlfDelay: Infinity });

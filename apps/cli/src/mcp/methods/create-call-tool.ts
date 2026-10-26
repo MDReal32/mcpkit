@@ -1,4 +1,3 @@
-import type { ExecuteOptions } from "@usemcpkit/core";
 import { isJsonObject } from "@usemcpkit/core";
 import { RPC_ERROR_CODES } from "../const";
 import { callServerTool } from "../handlers/call-server-tool";
@@ -10,6 +9,7 @@ import { CALL_TOOL_TOOL, DESCRIBE_TOOL_TOOL, LIST_SERVERS_TOOL, LIST_TOOLS_TOOL 
 import { readStringArgument } from "../tools/read-string-argument";
 import { readToolArguments } from "../tools/read-tool-arguments";
 import type { Catalog } from "../types/catalog";
+import type { McpOptions } from "../types/mcp-options";
 import type { RpcParams } from "../types/rpc-params";
 
 const readNestedArguments = (params: RpcParams | undefined) => {
@@ -23,7 +23,7 @@ const readNestedArguments = (params: RpcParams | undefined) => {
   return nested;
 };
 
-export const createCallTool = (catalog: Catalog, options: ExecuteOptions) => async (params: RpcParams | undefined) => {
+export const createCallTool = (catalog: Catalog, options: McpOptions) => async (params: RpcParams | undefined) => {
   switch (params?.name) {
     case LIST_SERVERS_TOOL:
       return listServers(catalog);

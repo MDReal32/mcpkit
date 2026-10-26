@@ -4,5 +4,6 @@ export type { WorkerLaunch } from "./supervisor";
 export { superviseServe, WORKER_FLAG } from "./supervisor";
 export type { Catalog } from "./types/catalog";
 export type { CatalogServer } from "./types/catalog-server";
+export type { McpOptions } from "./types/mcp-options";
 export type { RpcMessage } from "./types/rpc-message";
 export type { RpcResponse } from "./types/rpc-response";

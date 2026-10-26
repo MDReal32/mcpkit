@@ -1,5 +1,6 @@
 import { isCompiledBinary } from "@usemcpkit/binary";
 import type { Program } from "yargs-extended";
+import { ANALYTICS_NOTICE } from "../../analytics";
 import { serveStdio } from "../../mcp";
 import { VERSION } from "../../version";
 import { EXIT_SUCCESS } from "../const";
@@ -17,7 +18,11 @@ export const serveCommand = async (options: ServeOptions) => {
   }
   const catalog = await loadCatalog(names);
   printError(`mcpkit ${VERSION}: serving ${catalog.servers.map((server) => server.id).join(", ")}`);
-  await serveStdio(catalog, {}, createServeOptions());
+  const serveOptions = createServeOptions();
+  if (serveOptions.onToolUse) {
+    printError(ANALYTICS_NOTICE);
+  }
+  await serveStdio(catalog, {}, serveOptions);
   return EXIT_SUCCESS;
 };
 
