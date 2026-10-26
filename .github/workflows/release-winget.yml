@@ -1,0 +1,44 @@
+name: Release winget
+
+on:
+  workflow_call:
+    inputs:
+      tag:
+        description: Release tag to publish, for example v1.2.3; the latest release when empty
+        type: string
+        required: false
+        default: ""
+    secrets:
+      WINGET_TOKEN:
+        description: Classic personal access token with the public_repo scope, owner of the winget-pkgs fork
+        required: false
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to publish, for example v1.2.3; the latest release when empty
+        type: string
+        required: false
+        default: ""
+
+jobs:
+  winget:
+    name: winget-pkgs pull request
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      WINGET_TOKEN: ${{ secrets.WINGET_TOKEN }}
+
+    steps:
+      - name: Skip without a token
+        if: env.WINGET_TOKEN == ''
+        run: echo "::notice::WINGET_TOKEN is not set, skipping the winget submission"
+
+      - name: Open the winget-pkgs pull request
+        if: env.WINGET_TOKEN != ''
+        uses: vedantmgoyal9/winget-releaser@v2
+        with:
+          identifier: MDReal32.UseMCPKit
+          installers-regex: 'mcpkit-windows-x64\.exe$'
+          release-tag: ${{ inputs.tag }}
+          token: ${{ env.WINGET_TOKEN }}
