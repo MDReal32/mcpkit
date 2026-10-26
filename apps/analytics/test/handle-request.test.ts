@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
-import { handleRequest } from "../src/handle-request";
-import type { WorkerEnv } from "../src/types";
+import { handleRequest } from "../src/http";
+import type { WorkerEnv } from "../src/types/worker-env";
 
 const createEnv = () => {
   const run = vi.fn(async () => undefined);

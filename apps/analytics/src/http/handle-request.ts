@@ -1,12 +1,11 @@
-import { INCREMENT_USAGE_SQL, MAX_BODY_BYTES } from "./const";
-import { parseUsageEvent } from "./parse-usage-event";
-import type { WorkerEnv } from "./types";
-
-const respond = (status: number) => new Response(null, { status });
+import type { WorkerEnv } from "../types/worker-env";
+import { parseUsageEvent } from "../usage";
+import { INCREMENT_USAGE_SQL, MAX_BODY_BYTES, USAGE_PATH } from "./const";
+import { respond } from "./respond";
 
 /** Stores a per-day count only; the request IP and headers are never read or kept. */
 export const handleRequest = async (request: Request, env: WorkerEnv) => {
-  if (request.method !== "POST" || new URL(request.url).pathname !== "/v1/use") {
+  if (request.method !== "POST" || new URL(request.url).pathname !== USAGE_PATH) {
     return respond(404);
   }
   const text = await request.text();
