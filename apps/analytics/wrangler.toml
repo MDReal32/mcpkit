@@ -5,4 +5,4 @@ compatibility_date = "2026-01-01"
 [[d1_databases]]
 binding = "DB"
 database_name = "usemcpkit-analytics"
-database_id = "replace-with-the-id-from-wrangler-d1-create"
+database_id = "29f5965b-6d0b-41b7-abb4-09202dd54230"
