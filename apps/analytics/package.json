@@ -5,14 +5,16 @@
   "description": "Cloudflare Worker that counts anonymous tool use reported by the CLI.",
   "type": "module",
   "scripts": {
+    "build": "wrangler deploy --dry-run --outdir build",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --configLoader native",
     "lint": "biome check .",
     "dev": "wrangler dev",
     "init": "wrangler d1 create usemcpkit-analytics",
-    "db:schema": "wrangler d1 execute usemcpkit-analytics --remote --file schema.sql",
+    "db:schema": "wrangler d1 execute usemcpkit-analytics --remote --file schema.sql --yes",
     "db:top": "wrangler d1 execute usemcpkit-analytics --remote --command \"SELECT tool, SUM(count) AS uses FROM usage GROUP BY tool ORDER BY uses DESC LIMIT 20\"",
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy",
+    "preview": "wrangler versions upload"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.15",
