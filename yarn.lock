@@ -895,7 +895,7 @@ __metadata:
     vitest: "npm:^4.0.0"
     yargs-extended: "npm:1.1.0"
   bin:
-    mcpkit: build/mcpkit.cli.js
+    usemcpkit: build/mcpkit.cli.js
   languageName: unknown
   linkType: soft
 
