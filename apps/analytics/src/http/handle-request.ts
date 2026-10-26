@@ -1,4 +1,4 @@
-import type { WorkerEnv } from "../types/worker-env";
+import type { WorkerEnv } from "../types";
 import { parseUsageEvent } from "../usage";
 import { INCREMENT_USAGE_SQL, MAX_BODY_BYTES, USAGE_PATH } from "./const";
 import { respond } from "./respond";

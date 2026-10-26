@@ -1,4 +1,4 @@
-import type { UsageEvent } from "../types/usage-event";
+import type { UsageEvent } from "../types";
 import { MAX_TOOL_LENGTH, OS_NAMES, TOOL_ID_PATTERN, VERSION_PATTERN } from "./const";
 
 export const parseUsageEvent = (value: unknown) => {
