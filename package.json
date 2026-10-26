@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "build": "nx run-many -t build",
+    "deploy": "nx run-many -t deploy",
     "test": "nx run-many -t test",
     "typecheck": "nx run-many -t typecheck",
     "lint": "nx run-many -t lint",
