@@ -1,13 +1,14 @@
 import type { Env } from "../../env";
-import { hasLegacySecrets, migrateLegacySecrets } from "./migrate-legacy-secrets";
+import { migrateConfig } from "./migrate-config";
+import { needsMigration } from "./needs-migration";
 import { readConfig } from "./read-config";
 import { resolveConfigFile } from "./resolve-config-file";
 import { runConfigExclusive } from "./run-config-exclusive";
 
-/** Reads the config, first folding in an old `secrets.json` when one is still there. */
+/** Reads the config, first migrating an older file or an old `secrets.json` to the current version. */
 export const loadConfig = async (env: Env) => {
-  if (await hasLegacySecrets(env)) {
-    await runConfigExclusive(() => migrateLegacySecrets(env));
+  if (await needsMigration(env)) {
+    await runConfigExclusive(() => migrateConfig(env));
   }
   return readConfig(resolveConfigFile(env));
 };

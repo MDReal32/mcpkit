@@ -43,3 +43,8 @@ export const SECRETS_FILE_NAME = "secrets.json";
 export const DEFAULT_HOST_KEY = "default";
 
 export const GIT_COMMAND_TIMEOUT_MS = 3000;
+
+/** What the config file written by this version looks like; a file without a `version` is version 1. */
+export const CONFIG_VERSION = 2;
+
+export const FIRST_CONFIG_VERSION = 1;

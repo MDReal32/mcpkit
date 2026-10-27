@@ -29,7 +29,8 @@ const createRepo = async (name: string, remote: string) => {
   return dir;
 };
 
-const saveConfig = (servers: unknown) => writeFile(join(readHome(), "config.json"), JSON.stringify({ servers }));
+const saveConfig = (servers: unknown) =>
+  writeFile(join(readHome(), "config.json"), JSON.stringify({ version: 2, servers }));
 
 const twoHosts = {
   gitlab: {

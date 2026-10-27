@@ -1,4 +1,5 @@
 import { isJsonObject } from "../../json";
+import { CONFIG_VERSION } from "../const";
 import type { McpkitConfig } from "../types/mcpkit-config";
 
 const isStringRecord = (value: unknown) =>
@@ -15,4 +16,5 @@ const isServerConfig = (value: unknown) =>
 
 export const isMcpkitConfig = (value: unknown): value is McpkitConfig =>
   isJsonObject(value) &&
+  value.version === CONFIG_VERSION &&
   (value.servers === undefined || (isJsonObject(value.servers) && Object.values(value.servers).every(isServerConfig)));
