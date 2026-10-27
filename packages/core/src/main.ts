@@ -25,12 +25,13 @@ export {
   resolveLinkUrl,
   resolveStaticAuth,
   signIn,
+  UnauthorizedError,
   validateCredentialResponse,
 } from "./auth";
 export type { Env } from "./env";
 export { describeError, isMissingFileError } from "./errors";
-export type { ExecuteOptions, HttpRequest } from "./execution";
-export { buildRequest, executeTool, prepareToolArgs, ToolError } from "./execution";
+export type { ExecuteOptions, HttpRequest, UpstreamAccess } from "./execution";
+export { buildRequest, executeTool, prepareToolArgs, ToolError, withUpstreamAccess } from "./execution";
 export { resolveHomeDir } from "./home";
 export { isJsonObject } from "./json";
 export type {

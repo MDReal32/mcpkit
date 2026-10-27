@@ -13,6 +13,10 @@ export const applyDomain = (manifest: Manifest, domain: string | undefined) => {
   const resolved: Manifest = {
     ...manifest,
     baseUrl: fillDomain(manifest.baseUrl, domain),
+    upstream:
+      manifest.upstream?.type === "http"
+        ? { ...manifest.upstream, url: fillDomain(manifest.upstream.url, domain) }
+        : manifest.upstream,
     auth: manifest.auth?.map((auth) => applyAuthDomain(auth, domain)),
     tools: manifest.tools.map((tool) => applyToolEdition(tool, editionName)),
   };

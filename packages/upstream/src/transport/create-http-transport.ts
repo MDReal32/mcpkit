@@ -1,5 +1,6 @@
 import type { HttpUpstream } from "@usemcpkit/core";
-import { MCP_PROTOCOL_VERSION, PROTOCOL_HEADER, REQUEST_TIMEOUT_MS, SESSION_HEADER } from "../const";
+import { UnauthorizedError } from "@usemcpkit/core";
+import { HTTP_UNAUTHORIZED, MCP_PROTOCOL_VERSION, PROTOCOL_HEADER, REQUEST_TIMEOUT_MS, SESSION_HEADER } from "../const";
 import type { JsonRpcMessage } from "../types/json-rpc-message";
 import type { McpTransport } from "../types/mcp-transport";
 import type { UpstreamOptions } from "../types/upstream-options";
@@ -23,6 +24,9 @@ export const createHttpTransport = ({ url }: HttpUpstream, { headers, fetchImpl 
       signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
     });
     sessionId = response.headers.get(SESSION_HEADER) ?? sessionId;
+    if (response.status === HTTP_UNAUTHORIZED) {
+      throw new UnauthorizedError(`${url} answered ${HTTP_UNAUTHORIZED}`);
+    }
     if (!response.ok) {
       throw new UpstreamError(`${url} answered ${response.status}`);
     }

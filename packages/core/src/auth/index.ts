@@ -27,3 +27,4 @@ export type { SecretOwner } from "./types/store/secret-owner";
 export type { SecretStore } from "./types/store/secret-store";
 export { resolveCliCommand } from "./ui/resolve-cli-command";
 export { resolveLinkUrl } from "./ui/resolve-link-url";
+export { UnauthorizedError } from "./unauthorized-error";
