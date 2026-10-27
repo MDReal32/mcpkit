@@ -223,7 +223,7 @@ The edition follows the domain in use, including one typed in the credentials fo
 Every tool call tries, in this order, and uses the first that works:
 
 1. the server's OAuth2 token in `tokens.json`, refreshed if it expired (only when `auth` has `oauth` entries);
-2. each fallback whose value is set, top to bottom. A value comes from its env var, or else from `secrets.json`;
+2. each fallback whose value is set, top to bottom. A value comes from its env var, or else from `config.json`;
 3. the **credentials form**: a local page opened in the browser that asks for the missing values (and the domain,
    see below), or offers "Sign in with OAuth2" when the server has `oauth` entries.
 
@@ -240,12 +240,12 @@ Env vars always win, so CI keeps working without a browser.
 stderr and opens the browser. Only the page that was opened can answer: the URL carries a session token in its
 `#fragment` and the server checks it and the `Host` header. Concurrent calls share one form; it closes after
 an answer, on Cancel, or after 5 minutes. Secrets are saved **only after the API accepts them**, so a typo is never
-stored. The domain is not a secret: it is saved to `~/.mcpkit/config.json`
-(`{ "servers": { "gitlab": { "domain": "git.acme.com" } } }`), which you can edit by hand.
+stored.
 
-**Secrets file.** Saved credentials are plain text in `~/.mcpkit/secrets.json`, by server and key
-(`{ "github": { "GITHUB_TOKEN": "ghp_…" } }`), with file mode `0600` in a `0700` directory, the way `gh` and `glab` keep
-their tokens. There is no password and nothing to unlock. Any program running as your user can read the file, so
+**Config file.** The domain and the saved credentials live together in `~/.mcpkit/config.json`, by server
+(`{ "servers": { "gitlab": { "domain": "git.acme.com", "secrets": { "GITLAB_TOKEN": "glpat-…" } } } }`), which you
+can edit by hand. Credentials are plain text, with file mode `0600` in a `0700` directory, the way `gh` and `glab` keep
+their tokens. An older `secrets.json` is merged into it on first use. There is no password and nothing to unlock. Any program running as your user can read the file, so
 protect your account and disk; to forget a credential, delete its entry or the file. Environment variables always win
 over the file.
 

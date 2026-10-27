@@ -11,7 +11,9 @@ const github: SecretOwner = { name: "github", category: "git" };
 
 const jira: SecretOwner = { name: "jira", category: "issues" };
 
-const readSecretsFile = () => join(readHome(), "secrets.json");
+const readSecretsFile = () => join(readHome(), "config.json");
+
+const readLegacyFile = () => join(readHome(), "secrets.json");
 
 describe("createFileSecretStore", () => {
   it("returns undefined when nothing is saved", async () => {
@@ -27,7 +29,9 @@ describe("createFileSecretStore", () => {
     await store.set(jira, "JIRA_TOKEN", "jt");
 
     const data: unknown = JSON.parse(await readFile(readSecretsFile(), "utf8"));
-    expect(data).toEqual({ github: { GITHUB_TOKEN: "ghp_1" }, jira: { JIRA_TOKEN: "jt" } });
+    expect(data).toEqual({
+      servers: { github: { secrets: { GITHUB_TOKEN: "ghp_1" } }, jira: { secrets: { JIRA_TOKEN: "jt" } } },
+    });
     expect((await stat(readSecretsFile())).mode & 0o777).toBe(0o600);
   });
 
@@ -42,9 +46,31 @@ describe("createFileSecretStore", () => {
   });
 
   it("fails on a malformed file instead of overwriting it", async () => {
-    await writeFile(readSecretsFile(), JSON.stringify({ github: { GITHUB_TOKEN: 1 } }));
+    await writeFile(readSecretsFile(), JSON.stringify({ servers: { github: { secrets: { GITHUB_TOKEN: 1 } } } }));
     const store = createFileSecretStore({ MCPKIT_HOME: readHome() });
 
-    await expect(store.set(github, "GITHUB_TOKEN", "x")).rejects.toThrow("not a valid mcpkit secrets file");
+    await expect(store.set(github, "GITHUB_TOKEN", "x")).rejects.toThrow("not a valid mcpkit config file");
+  });
+
+  it("keeps the domain next to the secrets of a server", async () => {
+    await writeFile(readSecretsFile(), JSON.stringify({ servers: { github: { domain: "ghe.example.com" } } }));
+    const store = createFileSecretStore({ MCPKIT_HOME: readHome() });
+
+    await store.set(github, "GITHUB_TOKEN", "ghp_1");
+
+    const data: unknown = JSON.parse(await readFile(readSecretsFile(), "utf8"));
+    expect(data).toEqual({ servers: { github: { domain: "ghe.example.com", secrets: { GITHUB_TOKEN: "ghp_1" } } } });
+  });
+
+  it("moves an old secrets.json into the config file and removes it", async () => {
+    await writeFile(readLegacyFile(), JSON.stringify({ github: { GITHUB_TOKEN: "old" } }));
+    await writeFile(readSecretsFile(), JSON.stringify({ servers: { github: { domain: "ghe.example.com" } } }));
+    const store = createFileSecretStore({ MCPKIT_HOME: readHome() });
+
+    await expect(store.get(github, "GITHUB_TOKEN")).resolves.toBe("old");
+
+    const data: unknown = JSON.parse(await readFile(readSecretsFile(), "utf8"));
+    expect(data).toEqual({ servers: { github: { domain: "ghe.example.com", secrets: { GITHUB_TOKEN: "old" } } } });
+    await expect(stat(readLegacyFile())).rejects.toThrow();
   });
 });

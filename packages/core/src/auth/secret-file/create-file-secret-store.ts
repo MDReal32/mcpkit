@@ -1,26 +1,18 @@
 import type { Env } from "../../env";
-import { writeJsonFile } from "../secrets/write-json-file";
+import { loadConfig } from "../config/load-config";
+import { updateServerConfig } from "../config/update-server-config";
 import type { SecretStore } from "../types/store/secret-store";
-import type { StoredSecrets } from "../types/store/stored-secrets";
-import { createExclusiveRunner } from "./create-exclusive-runner";
-import { readStoredSecrets } from "./read-stored-secrets";
-import { resolveSecretsFile } from "./resolve-secrets-file";
 
-/** Plain text in a 0600 file under the mcpkit home, read on every call so all running servers see each other's saves. */
+/** Plain text in the 0600 config file under the mcpkit home, read on every call so all running servers see each other's saves. */
 export const createFileSecretStore = (env: Env = process.env) => {
-  const file = resolveSecretsFile(env);
-  const runExclusive = createExclusiveRunner();
   const store: SecretStore = {
-    get: async (owner, key) => (await readStoredSecrets(file))[owner.name]?.[key],
-    set: (owner, key, value) =>
-      runExclusive(async () => {
-        const secrets = await readStoredSecrets(file);
-        const updated: StoredSecrets = {
-          ...secrets,
-          [owner.name]: { ...secrets[owner.name], [key]: value },
-        };
-        await writeJsonFile(file, updated);
-      }),
+    get: async (owner, key) => (await loadConfig(env)).servers?.[owner.name]?.secrets?.[key],
+    set: async (owner, key, value) => {
+      await updateServerConfig(env, owner.name, (current) => ({
+        ...current,
+        secrets: { ...current.secrets, [key]: value },
+      }));
+    },
   };
   return store;
 };
