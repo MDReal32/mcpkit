@@ -3,6 +3,9 @@ import type { AuthorizationRequest } from "../../types/oauth/authorization-reque
 
 export const buildAuthorizationUrl = (auth: OAuthAuth, { redirectUri, challenge, state }: AuthorizationRequest) => {
   const url = new URL(auth.authorizationUrl);
+  for (const [name, value] of Object.entries(auth.authorizationParams ?? {})) {
+    url.searchParams.set(name, value);
+  }
   url.searchParams.set("response_type", "code");
   url.searchParams.set("client_id", auth.clientId);
   url.searchParams.set("redirect_uri", redirectUri);

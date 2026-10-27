@@ -38,6 +38,40 @@ describe("oauth manifest validation", () => {
   });
 });
 
+describe("signIn with provider-specific client handling", () => {
+  it("adds authorization params and sends the client over HTTP Basic with token headers", async () => {
+    const { recordingFetch, requests } = createRecordingFetch({
+      [DEMO_TOKEN_URL]: { access_token: "at-1", token_type: "bearer", refresh_token: "rt-1", expires_in: 3600 },
+    });
+    const auth = {
+      ...demoOAuth,
+      authorizationParams: { duration: "permanent" },
+      clientAuthentication: "basic",
+      tokenHeaders: { "User-Agent": "mcpkit-test" },
+    } as const;
+    const authorizationUrls: URL[] = [];
+    const callbacks: Promise<Response>[] = [];
+
+    await signIn("demo", auth, {
+      context: { env: { MCPKIT_HOME: readHome() }, fetchImpl: recordingFetch },
+      onAuthorizationUrl: (url) => {
+        const authorizationUrl = new URL(url);
+        authorizationUrls.push(authorizationUrl);
+        const redirectUri = authorizationUrl.searchParams.get("redirect_uri") ?? "";
+        const state = authorizationUrl.searchParams.get("state") ?? "";
+        callbacks.push(fetch(`${redirectUri}?code=code-1&state=${state}`));
+      },
+    });
+
+    await callbacks[0];
+    expect(authorizationUrls[0]?.searchParams.get("duration")).toBe("permanent");
+    const [request] = requests;
+    expect(request?.headers.get("authorization")).toBe(`Basic ${Buffer.from("client-1:").toString("base64")}`);
+    expect(request?.headers.get("user-agent")).toBe("mcpkit-test");
+    expect(new URLSearchParams(request?.body).has("client_id")).toBe(false);
+  });
+});
+
 describe("signIn", () => {
   it("runs the PKCE flow through the loopback callback and stores the token", async () => {
     const { recordingFetch, requests } = createRecordingFetch({

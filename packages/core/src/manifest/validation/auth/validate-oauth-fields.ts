@@ -12,5 +12,12 @@ export const validateOAuthFields = (auth: Readonly<Record<string, unknown>>, loc
   if (auth.clientSecretEnv !== undefined && typeof auth.clientSecretEnv !== "string") {
     errors.push(`${location}.clientSecretEnv must be a string`);
   }
+  if (
+    auth.clientAuthentication !== undefined &&
+    auth.clientAuthentication !== "body" &&
+    auth.clientAuthentication !== "basic"
+  ) {
+    errors.push(`${location}.clientAuthentication must be "body" or "basic"`);
+  }
   return [...errors, ...validateSignInFields(auth, location)];
 };
