@@ -3,6 +3,7 @@ import type { DomainSpec } from "./server/domain-spec";
 import type { EditionSpec } from "./server/edition-spec";
 import type { ToolSpec } from "./tool/tool-spec";
 import type { UiSpec } from "./ui/ui-spec";
+import type { UpstreamSpec } from "./upstream/upstream-spec";
 
 export interface Manifest {
   name: string;
@@ -10,7 +11,7 @@ export interface Manifest {
   category: string;
   version: string;
   description?: string;
-  /** May contain `{domain}`, as may the oauth URLs; `domain` then says where the value comes from. */
+  /** May contain `{domain}`, as may the oauth URLs; `domain` then says where the value comes from. An `upstream` manifest never requests it, so it only names the service's https home. */
   baseUrl: string;
   domain?: DomainSpec;
   /** Deployments picked by the domain's host; a domain matching none uses the tools' own requests. */
@@ -20,5 +21,7 @@ export interface Manifest {
   auth?: readonly AuthSpec[];
   /** Page-wide texts of the credentials page, replacing mcpkit's defaults. */
   ui?: UiSpec;
+  /** Another MCP server this one fronts: its tools are discovered at runtime, so `tools` stays empty. */
+  upstream?: UpstreamSpec;
   tools: readonly ToolSpec[];
 }

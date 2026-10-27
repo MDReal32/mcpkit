@@ -1,3 +1,4 @@
+import { createPingManifest } from "@usemcpkit/testing";
 import { describe, expect, it } from "vitest";
 import { validateManifest } from "../src/main";
 import { createItemTool, demoManifest, listItemsTool } from "./fixtures/demo-manifest";
@@ -61,5 +62,28 @@ describe("validateManifest", () => {
 
   it("rejects non-object input", () => {
     expect(validateManifest(null)).toEqual(["manifest must be a JSON object"]);
+  });
+});
+
+describe("upstream manifests", () => {
+  const base = { ...createPingManifest("1.0.0"), tools: [] };
+
+  it("accepts an HTTP and a stdio upstream with no tools", () => {
+    expect(validateManifest({ ...base, upstream: { type: "http", url: "https://mcp.example.com/mcp" } })).toEqual([]);
+    expect(
+      validateManifest({ ...base, upstream: { type: "stdio", command: "npx", args: ["-y", "demo-mcp"] } }),
+    ).toEqual([]);
+  });
+
+  it("rejects tools next to an upstream, a path as command and a plain http url", () => {
+    const manifest = createPingManifest("1.0.0");
+
+    expect(validateManifest({ ...manifest, upstream: { type: "stdio", command: "/bin/sh" } })).toEqual([
+      "upstream.command must be a program name on PATH, not a path",
+      "tools must be empty when the manifest has an upstream",
+    ]);
+    expect(validateManifest({ ...base, upstream: { type: "http", url: "http://mcp.example.com" } })).toEqual([
+      "upstream.url must be an https:// URL",
+    ]);
   });
 });

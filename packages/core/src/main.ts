@@ -43,6 +43,7 @@ export type {
   FixedValue,
   FixedValues,
   HttpMethod,
+  HttpUpstream,
   InputSchema,
   InteractiveAuth,
   JsonSchema,
@@ -50,6 +51,7 @@ export type {
   NameMapping,
   OAuthAuth,
   ResponseSpec,
+  StdioUpstream,
   ToolArgs,
   ToolEdition,
   ToolSpec,
@@ -59,6 +61,7 @@ export type {
   UiLinkAction,
   UiSpec,
   UiTexts,
+  UpstreamSpec,
 } from "./manifest";
 export {
   applyDomain,
