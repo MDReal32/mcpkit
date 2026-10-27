@@ -6,10 +6,15 @@ import { buildUiTexts } from "../../ui/build-ui-texts";
 import { buildDomainField } from "./build-domain-field";
 import { toCredentialOptions } from "./to-credential-options";
 
-export const buildCredentialRequest = (manifest: Manifest, domain: string | undefined, env: Env) => {
+export const buildCredentialRequest = (
+  manifest: Manifest,
+  domain: string | undefined,
+  knownHosts: readonly string[],
+  env: Env,
+) => {
   const auth = manifest.auth ?? [];
   const texts = buildUiTexts(manifest);
-  const domainField = buildDomainField(manifest, domain, env, texts);
+  const domainField = buildDomainField(manifest, domain, knownHosts, env, texts);
   const request: CredentialRequest = {
     serverName: manifest.name,
     texts,

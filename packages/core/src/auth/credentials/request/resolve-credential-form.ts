@@ -1,6 +1,8 @@
 import type { Manifest } from "../../../manifest";
 import { applyDomain } from "../../../manifest";
 import { AuthError } from "../../auth-error";
+import { listKnownHosts } from "../../config/list-known-hosts";
+import { loadConfig } from "../../config/load-config";
 import type { AuthContext } from "../../types/auth-context";
 import { resolveFormSignIn } from "../resolve/resolve-form-sign-in";
 import { resolveFormToken } from "../resolve/resolve-form-token";
@@ -14,8 +16,14 @@ export const resolveCredentialForm = async (manifest: Manifest, domain: string |
   if (!requestCredentials) {
     throw new AuthError(`${manifest.name}: asking for credentials needs a form, which this caller does not provide`);
   }
-  const request = buildCredentialRequest(manifest, domain, context.env);
-  const response = await requestCredentialsOnce(request, requestCredentials);
+  const { request, response } = await requestCredentialsOnce(
+    manifest.name,
+    async () => {
+      const knownHosts = listKnownHosts((await loadConfig(context.env)).servers?.[manifest.name]);
+      return buildCredentialRequest(manifest, domain, knownHosts, context.env);
+    },
+    requestCredentials,
+  );
   const errors = validateCredentialResponse(request, response);
   if (errors.length > 0) {
     throw new AuthError(`${manifest.name}: invalid credentials form answer: ${errors.join("; ")}`);

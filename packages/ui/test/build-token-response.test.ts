@@ -12,7 +12,7 @@ const field = { label: "Access token", hint: "", placeholder: "", secret: true }
 const request: CredentialRequest = {
   serverName: "github",
   texts: DEFAULT_UI_TEXTS,
-  domain: { label: "API host", hint: "", placeholder: "", value: "api.github.com" },
+  domain: { label: "API host", hint: "", placeholder: "", value: "api.github.com", knownHosts: [] },
   domainInUse: "api.github.com",
   options: [
     { index: 0, label: "bearer GITHUB_TOKEN", fields: [{ ...field, key: "GITHUB_TOKEN" }], actions: [] },

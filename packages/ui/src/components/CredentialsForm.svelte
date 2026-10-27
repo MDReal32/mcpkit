@@ -11,6 +11,7 @@
   import { resolveVisibleActions } from "../form/resolve-visible-actions";
   import type { FormStatus } from "../types/form-status";
   import type { SubmitResult } from "../types/submit-result";
+  import DomainSelect from "./DomainSelect.svelte";
   import FieldInput from "./FieldInput.svelte";
   import OptionActions from "./OptionActions.svelte";
 
@@ -65,11 +66,12 @@
 
 <form onsubmit={saveToken}>
   {#if request.domain}
-    <FieldInput
+    <DomainSelect
       id="domain"
       label={request.domain.label}
       hint={request.domain.hint}
       placeholder={request.domain.placeholder}
+      knownHosts={request.domain.knownHosts}
       bind:value={draft.domain}
     />
   {/if}

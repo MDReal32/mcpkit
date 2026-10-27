@@ -163,6 +163,7 @@ describe("credentials form", () => {
       hint: DEFAULT_UI_TEXTS.domainHint,
       placeholder: DEFAULT_UI_TEXTS.domainPlaceholder,
       value: "api.example.com",
+      knownHosts: [],
     });
     expect(requests).toHaveLength(1);
     expect(sentHosts).toEqual(["ghe.example.com", "ghe.example.com"]);
@@ -222,7 +223,7 @@ describe("validateCredentialResponse", () => {
   const request: CredentialRequest = {
     serverName: "demo",
     texts: DEFAULT_UI_TEXTS,
-    domain: { label: "API host", hint: "", placeholder: "", value: "" },
+    domain: { label: "API host", hint: "", placeholder: "", value: "", knownHosts: [] },
     options: [
       {
         index: 1,

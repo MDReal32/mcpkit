@@ -4,4 +4,6 @@ export interface DomainField {
   placeholder: string;
   /** The domain in use, prefilled in the form; empty when there is none yet. */
   value: string;
+  /** Hosts already used with this server, offered for picking; the user can still type a new one. */
+  knownHosts: readonly string[];
 }
