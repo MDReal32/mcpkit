@@ -1,6 +1,6 @@
 import { isJsonObject } from "../../json";
-import { CONFIG_VERSION } from "../const";
 import type { McpkitConfig } from "../types/mcpkit-config";
+import { CONFIG_VERSION } from "./config-migrations";
 
 const isStringRecord = (value: unknown) =>
   isJsonObject(value) && Object.values(value).every((entry) => typeof entry === "string");
