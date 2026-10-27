@@ -1352,6 +1352,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@usemcpkit/upstream@workspace:packages/upstream":
+  version: 0.0.0-use.local
+  resolution: "@usemcpkit/upstream@workspace:packages/upstream"
+  dependencies:
+    "@biomejs/biome": "npm:2.5.15"
+    "@usemcpkit/core": "workspace:*"
+    typescript: "npm:^5.9.0"
+    vitest: "npm:^4.0.0"
+  languageName: unknown
+  linkType: soft
+
 "@vitest/expect@npm:4.1.12":
   version: 4.1.12
   resolution: "@vitest/expect@npm:4.1.12"
