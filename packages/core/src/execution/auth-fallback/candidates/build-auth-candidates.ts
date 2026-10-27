@@ -10,6 +10,6 @@ import { listProvidedCandidates } from "./list-provided-candidates";
  */
 export const buildAuthCandidates = (manifest: Manifest, domain: string | undefined, context: CallContext) => {
   const target = manifest.domain && domain === undefined ? undefined : applyDomain(manifest, domain);
-  const provided = target ? listProvidedCandidates(target, context) : [];
+  const provided = target ? listProvidedCandidates(target, domain, context) : [];
   return [...provided, ...listInteractiveCandidates(manifest, target, domain, context)];
 };

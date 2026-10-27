@@ -9,6 +9,7 @@ export const GITLAB_BASE: Omit<Manifest, "name" | "description" | "tools"> = {
     label: "GitLab host (self-managed: <host>[/<relative url root>])",
     default: "gitlab.com",
     env: "GITLAB_HOST",
+    matchGitRemote: true,
   },
   headers: { Accept: "application/json" },
   auth: [

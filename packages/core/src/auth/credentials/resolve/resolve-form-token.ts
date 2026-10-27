@@ -8,7 +8,12 @@ import type { TokenCredentialResponse } from "../../types/credentials/token-cred
 import { trimValues } from "../response/trim-values";
 import { saveFormAnswer } from "./save-form-answer";
 
-export const resolveFormToken = (manifest: Manifest, response: TokenCredentialResponse, context: AuthContext) => {
+export const resolveFormToken = (
+  manifest: Manifest,
+  response: TokenCredentialResponse,
+  domain: string | undefined,
+  context: AuthContext,
+) => {
   const auth = manifest.auth?.[response.option];
   if (!auth || isInteractiveAuth(auth)) {
     throw new AuthError(`${manifest.name}: auth[${response.option}] does not take credentials`);
@@ -17,7 +22,7 @@ export const resolveFormToken = (manifest: Manifest, response: TokenCredentialRe
   const resolution: AuthResolution = {
     auth: resolveStaticAuth(auth, manifest.name, values),
     manifest,
-    commit: () => saveFormAnswer(manifest, values, response.domain, context),
+    commit: () => saveFormAnswer(manifest, values, domain, context),
   };
   return resolution;
 };

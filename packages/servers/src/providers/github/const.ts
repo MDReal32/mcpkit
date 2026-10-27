@@ -34,6 +34,7 @@ export const GITHUB_BASE: Omit<Manifest, "name" | "description" | "tools"> = {
     label: "GitHub API host (GitHub Enterprise: <host>/api/v3)",
     default: "api.github.com",
     env: "GITHUB_API_HOST",
+    matchGitRemote: true,
   },
   headers: {
     Accept: "application/vnd.github+json",

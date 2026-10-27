@@ -38,3 +38,8 @@ export const CREDENTIALS_FORM_SESSION_HEADER = "X-Mcpkit-Session";
 export const CONFIG_FILE_NAME = "config.json";
 
 export const SECRETS_FILE_NAME = "secrets.json";
+
+/** The host key of a server that has no domain, so its credentials still live under `hosts`. */
+export const DEFAULT_HOST_KEY = "default";
+
+export const GIT_COMMAND_TIMEOUT_MS = 3000;

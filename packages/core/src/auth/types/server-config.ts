@@ -1,5 +1,14 @@
-/** Settings of one server kept in the config file: its host and the credentials saved for it, by key. */
+/** What is saved for one host of a server. */
+export interface HostConfig {
+  secrets?: Readonly<Record<string, string>>;
+}
+
+/**
+ * Settings of one server. `hosts` holds the credentials per host, so two hosts never share a token;
+ * `projects` remembers which host a project (its git root) uses; `domain` is the host used last.
+ */
 export interface ServerConfig {
   domain?: string;
-  secrets?: Readonly<Record<string, string>>;
+  hosts?: Readonly<Record<string, HostConfig>>;
+  projects?: Readonly<Record<string, string>>;
 }

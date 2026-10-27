@@ -6,14 +6,14 @@ import { createStoredCandidate } from "./create-stored-candidate";
 import { toFallbackCandidate } from "./to-fallback-candidate";
 
 /** Auth that needs nothing from the user: the `tokens.json` token and fallbacks whose credentials are set or saved. */
-export const listProvidedCandidates = (manifest: Manifest, context: CallContext) => {
+export const listProvidedCandidates = (manifest: Manifest, domain: string | undefined, context: CallContext) => {
   const auth = manifest.auth ?? [];
   if (auth.length === 0) {
     return [createNoAuthCandidate(manifest)];
   }
   const stored = auth.some(isInteractiveAuth) ? [createStoredCandidate(manifest, context)] : [];
   const fallbacks = auth.flatMap((entry, index) =>
-    isInteractiveAuth(entry) ? [] : [toFallbackCandidate(entry, index, manifest, context)],
+    isInteractiveAuth(entry) ? [] : [toFallbackCandidate(entry, index, manifest, domain, context)],
   );
   return [...stored, ...fallbacks];
 };

@@ -20,9 +20,10 @@ export const resolveCredentialForm = async (manifest: Manifest, domain: string |
   if (errors.length > 0) {
     throw new AuthError(`${manifest.name}: invalid credentials form answer: ${errors.join("; ")}`);
   }
-  const target = applyDomain(manifest, response.domain ?? domain);
+  const chosen = response.domain ?? domain;
+  const target = applyDomain(manifest, chosen);
   if (response.method === "sign-in") {
-    return resolveFormSignIn(target, response, context);
+    return resolveFormSignIn(target, response, chosen, context);
   }
-  return resolveFormToken(target, response, context);
+  return resolveFormToken(target, response, chosen, context);
 };

@@ -11,6 +11,7 @@ export const createServeOptions = () => {
   const requestCredentials = createCredentialsForm({ page: credentialsFormPage, onUrl: announceCredentialsFormUrl });
   const options: McpOptions = {
     onAuthorizationUrl: announceAuthorizationUrl,
+    projectDir: process.cwd(),
     secretStore: createFileSecretStore(),
     requestCredentials,
     onToolUse: createUsageReporter({ env: process.env, version: VERSION, os: process.platform }),

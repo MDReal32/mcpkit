@@ -6,6 +6,7 @@ export interface ExecuteOptions {
   timeoutMs?: number;
   env?: Env;
   onAuthorizationUrl?: AuthContext["onAuthorizationUrl"];
+  projectDir?: AuthContext["projectDir"];
   secretStore?: AuthContext["secretStore"];
   requestCredentials?: AuthContext["requestCredentials"];
 }

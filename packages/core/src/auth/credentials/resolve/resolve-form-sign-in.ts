@@ -10,6 +10,7 @@ import { saveFormAnswer } from "./save-form-answer";
 export const resolveFormSignIn = async (
   manifest: Manifest,
   response: SignInCredentialResponse,
+  domain: string | undefined,
   context: AuthContext,
 ) => {
   const oauth = manifest.auth?.find(isInteractiveAuth);
@@ -19,7 +20,7 @@ export const resolveFormSignIn = async (
   const resolution: AuthResolution = {
     auth: await resolveSignedInAuth(manifest.name, oauth, context),
     manifest,
-    commit: () => saveFormAnswer(manifest, {}, response.domain, context),
+    commit: () => saveFormAnswer(manifest, {}, domain, context),
   };
   return resolution;
 };

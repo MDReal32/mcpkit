@@ -242,9 +242,12 @@ stderr and opens the browser. Only the page that was opened can answer: the URL 
 an answer, on Cancel, or after 5 minutes. Secrets are saved **only after the API accepts them**, so a typo is never
 stored.
 
-**Config file.** The domain and the saved credentials live together in `~/.mcpkit/config.json`, by server
-(`{ "servers": { "gitlab": { "domain": "git.acme.com", "secrets": { "GITLAB_TOKEN": "glpat-…" } } } }`), which you
-can edit by hand. Credentials are plain text, with file mode `0600` in a `0700` directory, the way `gh` and `glab` keep
+**Config file.** The hosts and the saved credentials live together in `~/.mcpkit/config.json`, by server and host
+(`{ "servers": { "gitlab": { "domain": "git.acme.com", "hosts": { "git.acme.com": { "secrets": { "GITLAB_TOKEN": "glpat-…" } } }, "projects": { "/work/app": "git.acme.com" } } } }`),
+which you can edit by hand. Credentials never cross hosts. With several hosts for one server, the host of a call is, in order:
+its env var; the host its project (git root) was bound to the first time you answered the form; the saved host the
+project's `origin` remote points at (servers whose manifest sets `domain.matchGitRemote`, such as GitHub and GitLab);
+otherwise the form asks, and the answer is remembered for that project. Credentials are plain text, with file mode `0600` in a `0700` directory, the way `gh` and `glab` keep
 their tokens. An older `secrets.json` is merged into it on first use. There is no password and nothing to unlock. Any program running as your user can read the file, so
 protect your account and disk; to forget a credential, delete its entry or the file. Environment variables always win
 over the file.

@@ -6,6 +6,8 @@ import type { SecretStore } from "./store/secret-store";
 export interface AuthContext {
   env: Env;
   fetchImpl: typeof fetch;
+  /** The directory the calling client works in; it picks the host of a server used on several hosts. */
+  projectDir?: string;
   /** Shows the user the URL that starts a browser sign-in; without it a call never signs in. */
   onAuthorizationUrl?: (url: string) => void;
   /** Credentials saved from the credentials form; env vars win over them. */

@@ -168,7 +168,7 @@ describe("credentials form", () => {
     expect(sentHosts).toEqual(["ghe.example.com", "ghe.example.com"]);
     expect(saved.size).toBe(1);
     expect(JSON.parse(await readFile(join(readHome(), "config.json"), "utf8"))).toEqual({
-      servers: { custom_domain: { domain: "ghe.example.com" } },
+      servers: { custom_domain: { domain: "ghe.example.com", hosts: { "ghe.example.com": {} } } },
     });
   });
 

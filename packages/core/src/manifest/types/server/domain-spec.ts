@@ -8,4 +8,6 @@ export interface DomainSpec {
   default?: string;
   /** Env var that sets the domain; when it is set the form does not ask for one. */
   env?: string;
+  /** Picks the saved host the git remote of the working directory points at, so a repository needs no question. */
+  matchGitRemote?: boolean;
 }

@@ -24,5 +24,8 @@ export const validateDomainSpec = (manifest: Readonly<Record<string, unknown>>) 
       errors.push(`domain.${key} must be a string`);
     }
   }
+  if (domain.matchGitRemote !== undefined && typeof domain.matchGitRemote !== "boolean") {
+    errors.push("domain.matchGitRemote must be a boolean");
+  }
   return errors;
 };
