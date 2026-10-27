@@ -1,10 +1,12 @@
 import type { MetaTool } from "../types/meta-tool";
+import { createToolAnnotations } from "./create-tool-annotations";
 import type { ToolRow } from "./tool-row";
 
-export const createRowToolDefinition = ({ name, description }: ToolRow) =>
+export const createRowToolDefinition = ({ name, description, verb }: ToolRow) =>
   ({
     name,
     description,
+    annotations: createToolAnnotations(verb),
     inputSchema: {
       type: "object",
       properties: {

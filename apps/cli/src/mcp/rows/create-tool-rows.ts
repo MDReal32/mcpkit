@@ -24,6 +24,7 @@ export const createToolRows = (catalog: Catalog) => {
       const row = rows.get(name) ?? {
         name,
         description: `Runs one ${server.id}${group.map((part) => ` ${part}`).join("")} tool whose action starts with "${verb}". Pass its "<resource>:<action>" as "tool" (see list_tools) and its arguments as "arguments".`,
+        verb,
         serverId: server.id,
         group,
         operations: [],
