@@ -1,4 +1,3 @@
-export { listExposedTools } from "./expose";
 export { createRpcHandler } from "./rpc/create-rpc-handler";
 export { serveStdio } from "./serve-stdio";
 export type { WorkerLaunch } from "./supervisor";

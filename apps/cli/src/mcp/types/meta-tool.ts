@@ -1,5 +1,5 @@
 export interface MetaTool {
   name: string;
   description: string;
-  inputSchema: object;
+  inputSchema: Readonly<Record<string, unknown>>;
 }

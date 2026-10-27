@@ -1,6 +1,5 @@
 import { Program } from "yargs-extended";
 import { VERSION } from "../version";
-import { registerExposeCommand } from "./commands/expose-command";
 import { registerInstallCommand } from "./commands/install-command";
 import { registerListCommand } from "./commands/list-command";
 import { registerServeCommand } from "./commands/serve-command";
@@ -18,7 +17,6 @@ export const createProgram = (argv: string[]) => {
   registerUpgradeCommand(program);
   registerServeCommand(program);
   registerListCommand(program);
-  registerExposeCommand(program);
   registerUpdateCommand(program);
   registerValidateCommand(program);
   return program;
