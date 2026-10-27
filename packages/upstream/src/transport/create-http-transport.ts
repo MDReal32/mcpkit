@@ -50,6 +50,7 @@ export const createHttpTransport = ({ url }: HttpUpstream, { headers, fetchImpl 
     notify: async (method, params) => {
       await post({ method, params });
     },
+    isOpen: () => true,
     close: async () => {
       if (!sessionId) {
         return;

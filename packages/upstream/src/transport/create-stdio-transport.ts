@@ -24,7 +24,11 @@ export const createStdioTransport = ({ command, args }: StdioUpstream, { env }: 
     shell: false,
   });
   const pending = new PendingRequests();
-  const closedWith = (reason: string) => pending.rejectAll(new UpstreamError(reason));
+  let open = true;
+  const closedWith = (reason: string) => {
+    open = false;
+    pending.rejectAll(new UpstreamError(reason));
+  };
   child.on("error", (error) => closedWith(`could not start "${command}": ${error.message}`));
   child.on("exit", (code) => closedWith(`"${command}" exited with code ${code ?? "unknown"}`));
   createInterface({ input: child.stdout }).on("line", (line) => {
@@ -51,6 +55,7 @@ export const createStdioTransport = ({ command, args }: StdioUpstream, { env }: 
       return reply;
     },
     notify: (method, params) => send({ method, params }),
+    isOpen: () => open,
     close: async () => {
       child.stdin.end();
       child.kill();

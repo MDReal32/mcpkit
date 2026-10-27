@@ -13,7 +13,14 @@ export const callServerTool = async (catalog: Catalog, id: string, args: ToolArg
     return createTextResult(found.error, true);
   }
   options.onToolUse?.(id);
+  const upstream = catalog.upstreams?.get(found.serverId);
   try {
+    if (upstream) {
+      const discovered = upstream.tools.get(found.tool);
+      return discovered
+        ? await upstream.call(discovered, args, options)
+        : createTextResult(`"${id}" is not on ${found.serverId}`, true);
+    }
     const manifest = await catalog.loadManifest(found.serverId, found.tool);
     const tool = manifest.tools.find((candidate) => candidate.name === found.tool);
     if (!tool) {

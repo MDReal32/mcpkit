@@ -16,9 +16,9 @@ export const serveCommand = async (options: ServeOptions) => {
   if (isCompiledBinary() && !options.worker) {
     return serveSupervised(names);
   }
-  const catalog = await loadCatalog(names);
-  printError(`mcpkit ${VERSION}: serving ${catalog.servers.map((server) => server.id).join(", ")}`);
   const serveOptions = createServeOptions();
+  const catalog = await loadCatalog(names, serveOptions);
+  printError(`mcpkit ${VERSION}: serving ${catalog.servers.map((server) => server.id).join(", ")}`);
   if (serveOptions.onToolUse) {
     printError(ANALYTICS_NOTICE);
   }

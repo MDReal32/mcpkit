@@ -9,6 +9,10 @@ export const describeTool = async (catalog: Catalog, id: string) => {
   if ("error" in found) {
     return createTextResult(found.error, true);
   }
+  const discovered = catalog.upstreams?.get(found.serverId)?.tools.get(found.tool);
+  if (discovered) {
+    return createJsonResult({ id, description: discovered.description, inputSchema: discovered.inputSchema });
+  }
   try {
     const manifest = await catalog.loadManifest(found.serverId, found.tool);
     const tool = manifest.tools.find((candidate) => candidate.name === found.tool);

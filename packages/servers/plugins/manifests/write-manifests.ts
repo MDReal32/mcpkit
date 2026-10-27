@@ -15,6 +15,7 @@ const toIndexEntry = (entry: CompiledManifest, shellJson: string, registryUrl: s
     version: entry.manifest.version,
     description: entry.manifest.description,
     tools: entry.manifest.tools.map((tool) => tool.name),
+    ...(entry.manifest.upstream ? { upstream: true } : {}),
     url: registryUrl ? `${registryUrl.replace(/\/+$/, "")}/${path}` : path,
     sha256: createHash("sha256").update(shellJson).digest("hex"),
   };

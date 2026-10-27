@@ -24,6 +24,7 @@ export const connectUpstream = async (spec: UpstreamSpec, options: UpstreamOptio
     listTools: () => listAllTools(transport),
     callTool: async (name, args) =>
       (await transport.request("tools/call", { name, arguments: args ?? {} })) as UpstreamResult,
+    isOpen: () => transport.isOpen(),
     close: () => transport.close(),
   };
   return connection;

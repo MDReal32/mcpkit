@@ -38,6 +38,7 @@
     "@usemcpkit/servers": "workspace:*",
     "@usemcpkit/testing": "workspace:*",
     "@usemcpkit/ui": "workspace:*",
+    "@usemcpkit/upstream": "workspace:*",
     "typescript": "^5.9.0",
     "vite": "^8.0.0",
     "vitest": "^4.0.0",

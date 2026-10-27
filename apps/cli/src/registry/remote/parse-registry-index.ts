@@ -8,7 +8,7 @@ const parseServer = (entry: unknown, position: number) => {
   if (!isJsonObject(entry)) {
     throw new Error(`${label} must be an object`);
   }
-  const { id, version, description, tools, url, sha256 } = entry;
+  const { id, version, description, tools, url, sha256, upstream } = entry;
   if (typeof id !== "string" || !SERVER_ID_PATTERN.test(id)) {
     throw new Error(`${label}.id must match ${SERVER_ID_PATTERN}`);
   }
@@ -24,6 +24,9 @@ const parseServer = (entry: unknown, position: number) => {
   if (description !== undefined && typeof description !== "string") {
     throw new Error(`${label} (${id}).description must be a string`);
   }
+  if (upstream !== undefined && typeof upstream !== "boolean") {
+    throw new Error(`${label} (${id}).upstream must be a boolean`);
+  }
   const server: RegistryServer = {
     id,
     version,
@@ -31,6 +34,7 @@ const parseServer = (entry: unknown, position: number) => {
     sha256,
     tools,
     ...(description === undefined ? {} : { description }),
+    ...(upstream ? { upstream } : {}),
   };
   return server;
 };
