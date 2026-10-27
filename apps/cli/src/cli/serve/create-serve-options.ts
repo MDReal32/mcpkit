@@ -1,4 +1,4 @@
-import { createFileSecretStore } from "@usemcpkit/core";
+import { createFileSecretStore, loadExposedTools } from "@usemcpkit/core";
 import { createCredentialsForm } from "@usemcpkit/credentials-form";
 import { createUsageReporter } from "../../analytics";
 import type { McpOptions } from "../../mcp";
@@ -6,6 +6,7 @@ import { VERSION } from "../../version";
 import { credentialsFormPage } from "../browser/credentials-form-page";
 import { announceAuthorizationUrl } from "../output/announce-authorization-url";
 import { announceCredentialsFormUrl } from "../output/announce-credentials-form-url";
+import { printError } from "../output/print-error";
 
 export const createServeOptions = () => {
   const requestCredentials = createCredentialsForm({ page: credentialsFormPage, onUrl: announceCredentialsFormUrl });
@@ -14,6 +15,8 @@ export const createServeOptions = () => {
     projectDir: process.cwd(),
     secretStore: createFileSecretStore(),
     requestCredentials,
+    exposedTools: () => loadExposedTools(process.env),
+    onWarning: (message) => printError(`mcpkit: ${message}`),
     onToolUse: createUsageReporter({ env: process.env, version: VERSION, os: process.platform }),
   };
   return options;

@@ -21,9 +21,11 @@ export {
   CREDENTIALS_REQUEST_ELEMENT_ID,
   createFileSecretStore,
   isValidCredentialResponse,
+  loadExposedTools,
   resolveCliCommand,
   resolveLinkUrl,
   resolveStaticAuth,
+  saveExposedTools,
   signIn,
   validateCredentialResponse,
 } from "./auth";

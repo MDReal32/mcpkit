@@ -1,4 +1,5 @@
 export { AuthError } from "./auth-error";
+export { loadExposedTools, saveExposedTools } from "./config/exposed-tools";
 export { CREDENTIALS_FORM_API, CREDENTIALS_FORM_SESSION_HEADER, CREDENTIALS_REQUEST_ELEMENT_ID } from "./const";
 export { resolveCredentialForm } from "./credentials/request/resolve-credential-form";
 export { resolveDomain } from "./credentials/resolve/resolve-domain";

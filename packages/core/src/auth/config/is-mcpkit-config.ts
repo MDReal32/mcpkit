@@ -17,4 +17,6 @@ const isServerConfig = (value: unknown) =>
 export const isMcpkitConfig = (value: unknown): value is McpkitConfig =>
   isJsonObject(value) &&
   value.version === CONFIG_VERSION &&
+  (value.expose === undefined ||
+    (Array.isArray(value.expose) && value.expose.every((entry) => typeof entry === "string"))) &&
   (value.servers === undefined || (isJsonObject(value.servers) && Object.values(value.servers).every(isServerConfig)));

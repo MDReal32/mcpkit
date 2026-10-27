@@ -1,5 +1,6 @@
 import { isJsonObject } from "@usemcpkit/core";
 import { RPC_ERROR_CODES } from "../const";
+import { findExposedTool } from "../expose";
 import { callServerTool } from "../handlers/call-server-tool";
 import { describeTool } from "../handlers/describe-tool";
 import { listServerTools } from "../handlers/list-server-tools";
@@ -33,7 +34,12 @@ export const createCallTool = (catalog: Catalog, options: McpOptions) => async (
       return describeTool(catalog, readStringArgument(params, "id"));
     case CALL_TOOL_TOOL:
       return callServerTool(catalog, readStringArgument(params, "id"), readNestedArguments(params), options);
-    default:
+    default: {
+      const exposed = await findExposedTool(catalog, options, params?.name);
+      if (exposed) {
+        return callServerTool(catalog, exposed.id, readToolArguments(params), options);
+      }
       throw new RpcError(RPC_ERROR_CODES.invalidParams, `unknown tool: ${String(params?.name)}`);
+    }
   }
 };
