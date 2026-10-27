@@ -1,4 +1,4 @@
-import { slugify } from "./slugify";
+import { slugify } from "../../utils/naming/slugify";
 import type { GitlabOperation } from "./types/gitlab-operation";
 
 const READ_VERB = "get";

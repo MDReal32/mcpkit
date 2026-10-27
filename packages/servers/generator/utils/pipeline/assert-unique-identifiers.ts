@@ -1,7 +1,7 @@
-import { findDuplicate } from "../../utils/pipeline/find-duplicate";
-import { keepAllTools } from "../../utils/pipeline/keep-all-tools";
-import type { Operation } from "../../utils/types/operation";
-import type { PlannedTool } from "../../utils/types/planned-tool";
+import type { Operation } from "../types/operation";
+import type { PlannedTool } from "../types/planned-tool";
+import { findDuplicate } from "./find-duplicate";
+import { keepAllTools } from "./keep-all-tools";
 
 export const assertUniqueIdentifiers = (planned: PlannedTool<Operation>[]) => {
   const duplicate = findDuplicate(planned.map(({ tool }) => tool.identifier));

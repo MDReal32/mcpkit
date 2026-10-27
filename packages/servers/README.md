@@ -6,7 +6,7 @@ The server definitions mcpkit ships, and the generators that write most of them.
 ```
 src/servers/<name>/<name>.ts            one defineServer export per server
 src/servers/<name>/tools/<resource>/<action>.ts      one tool per file
-src/servers/<name>/tools/<group>/<resource>/<action>.ts   grouped servers (github, gitlab, jira, confluence)
+src/servers/<name>/tools/<group>/<resource>/<action>.ts   grouped servers (github, gitlab, jira, confluence, clickup)
 src/providers/<name>/                   manifest base shared by a provider's tools (host, headers, auth, editions)
 generator/                              OpenAPI → server definitions
 plugins/manifests/                      Vite plugin: compiles and validates src/servers, writes build/manifests
@@ -33,6 +33,7 @@ params in `const.ts`. Servers that live in a category folder (`servers/<category
 | `gitlab` | `git` | gitlab.com, self-managed GitLab (`<host>[/<relative url root>]`) | the GitLab REST API (1,686 operations), for example `projects:projects:list_projects_issues`, `issues:notes:create_projects_merge_requests_notes` |
 | `jira` | `atlassian` | Jira Cloud (`<site>.atlassian.net`), Jira Data Center | the Jira platform REST API (`/rest/api/2`) and Jira Software boards and sprints (`software:`), 649 tools, for example `issues:issues:create_issue`, `software:board:get_all_boards`; the JQL search picks the Cloud or Data Center endpoint from the host (editions) |
 | `confluence` | `atlassian` | Confluence Cloud, Confluence Data Center | 562 operations in three groups: `cloud` (REST v2, `cloud:pages:create_page`), `cloud_v1` (REST v1, `cloud_v1:search:search_by_cql`) and `datacenter` (`datacenter:content:create`); call the group that matches the host |
+| `clickup` | `productivity` | ClickUp (`api.clickup.com`) | the ClickUp REST API v2 and v3 (171 operations) in eight groups, for example `tasks:tasks:get_tasks`, `hierarchy:lists:create_list`, `docs:docs:search_for_docs` |
 
 GitLab reads `GITLAB_HOST` (default `gitlab.com`) and a personal access token in `GITLAB_TOKEN`. Tools take a project
 id or its full path (`group/subgroup/project`) as `id`; issue and merge request numbers are the per-project `iid`.
@@ -43,9 +44,12 @@ Jira and Confluence ask for the host first (`JIRA_HOST` / `CONFLUENCE_HOST`, for
 `CONFLUENCE_PERSONAL_TOKEN`). On Jira Cloud, `search_issues` returns the first `max_results` issues only (`start_at` is
 Data Center only); Confluence Cloud v2 tools take a space id instead of a space key.
 
+ClickUp reads a personal API token in `CLICKUP_API_TOKEN` and sends it unprefixed as `Authorization`. The v2 tools call
+the Workspace id `team_id`; array filters (`statuses`, `assignees`, `tags`…) are sent as `<name>[]`, one per item.
+
 ## Generators
 
-`github`, `gitlab`, `jira` and `confluence` are generated from the providers' OpenAPI descriptions. Never edit the
+`github`, `gitlab`, `jira`, `confluence` and `clickup` are generated from the providers' OpenAPI descriptions. Never edit the
 generated files by hand; change the generator and run it again. The generator formats its own output with Biome.
 
 ```bash
@@ -54,10 +58,11 @@ yarn workspace @usemcpkit/servers generate github             # one provider
 yarn workspace @usemcpkit/servers generate github spec.json   # one provider from a local spec
 yarn workspace @usemcpkit/servers generate confluence cloud-v2.json cloud-v1.json datacenter.json
 yarn workspace @usemcpkit/servers generate jira platform.json software.json
+yarn workspace @usemcpkit/servers generate clickup v2.json v3.yaml
 ```
 
 Local spec paths are matched, in order, to the provider's specs: `github` one OpenAPI JSON, `gitlab` one OpenAPI YAML,
-`jira` the platform and software documents, `confluence` Cloud v2, Cloud v1 and Data Center. Without paths the
+`jira` the platform and software documents, `confluence` Cloud v2, Cloud v1 and Data Center, `clickup` the v2 and v3 documents. Without paths the
 generator downloads them (URLs in each provider's `const.ts`).
 
 Layout:
