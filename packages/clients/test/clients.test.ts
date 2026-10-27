@@ -39,6 +39,29 @@ describe("detectClients", () => {
     ]);
   });
 
+  it("tells the Windows Store build of Claude Desktop from the classic one by where each keeps its data", async () => {
+    const appDataDir = join(readHome(), "AppData", "Roaming");
+    const localAppDataDir = join(readHome(), "AppData", "Local");
+    const context = createClientContext({ APPDATA: appDataDir, LOCALAPPDATA: localAppDataDir }, "win32", readHome());
+    const storeDir = join(localAppDataDir, "Claude-Data", "anthropicpbc.claude_fnn82j28hfe8t");
+    await mkdir(storeDir, { recursive: true });
+    await mkdir(join(appDataDir, "Claude"), { recursive: true });
+    await writeFile(join(appDataDir, "Claude", ".user-data-left.anthropicpbc.claude_fnn82j28hfe8t"), "{}");
+    const claudeDefinitions = [findDefinition("claude-desktop"), findDefinition("claude-desktop-store")];
+
+    const storeOnly = await detectClients(context, claudeDefinitions);
+    await writeFile(join(appDataDir, "Claude", "config.json"), "{}");
+    const both = await detectClients(context, claudeDefinitions);
+
+    expect(storeOnly.map((client) => [client.definition.id, client.configPath])).toEqual([
+      ["claude-desktop-store", join(storeDir, "claude_desktop_config.json")],
+    ]);
+    expect(both.map((client) => [client.definition.id, client.configPath])).toEqual([
+      ["claude-desktop", join(appDataDir, "Claude", "claude_desktop_config.json")],
+      ["claude-desktop-store", join(storeDir, "claude_desktop_config.json")],
+    ]);
+  });
+
   it("reports unreadable configs as a problem instead of failing", async () => {
     await writeConfig(findDefinition("cursor"), "{ broken");
 

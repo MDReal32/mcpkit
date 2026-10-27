@@ -1,5 +1,6 @@
 import { claudeCode } from "./definitions/claude-code";
 import { claudeDesktop } from "./definitions/claude-desktop";
+import { claudeDesktopStore } from "./definitions/claude-desktop-store";
 import { cline } from "./definitions/cline";
 import { codex } from "./definitions/codex";
 import { copilotCli } from "./definitions/copilot-cli";
@@ -20,6 +21,7 @@ import type { ClientDefinition } from "./types/client-definition";
 
 export const CLIENT_DEFINITIONS: readonly ClientDefinition[] = [
   claudeDesktop,
+  claudeDesktopStore,
   claudeCode,
   cursor,
   vscode,
