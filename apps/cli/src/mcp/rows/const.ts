@@ -6,22 +6,38 @@ export const ACTION_WORD_SEPARATOR = "_";
 /** A tool name is `<group>:<resource>:<action>`; the group is everything before the last two parts. */
 export const RESOURCE_AND_ACTION_PARTS = 2;
 
-export const READ_VERBS: readonly string[] = ["get", "list", "search", "find", "count", "read", "check"];
-
-export const DESTRUCTIVE_VERBS: readonly string[] = ["delete", "remove", "revoke", "trash", "purge"];
-
-export const WRITE_VERBS: readonly string[] = [
-  "create",
-  "add",
-  "update",
-  "set",
-  "edit",
-  "put",
-  "post",
-  "move",
-  "assign",
-  "archive",
-  "restore",
-  "copy",
-  "merge",
+export const READ_VERBS: readonly string[] = [
+  "get",
+  "list",
+  "search",
+  "find",
+  "count",
+  "read",
+  "check",
+  "download",
+  "export",
+  "validate",
+  "compare",
+  "diff",
+  "fetch",
+  "parse",
+  "render",
+  "analyse",
+  "evaluate",
+  "match",
+  "expand",
+  "suggested",
+  "codeowners",
+  "ping",
+  "root",
+  "is",
+  "code",
+  "commits",
+  "issues",
+  "labels",
+  "repos",
+  "topics",
+  "users",
 ];
+
+export const DESTRUCTIVE_VERBS: readonly string[] = ["delete", "remove", "revoke", "trash", "purge", "cancel"];

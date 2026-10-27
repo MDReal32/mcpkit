@@ -60,23 +60,23 @@ describe("tool rows", () => {
     expect(textOf(response?.result)).toContain("does not cover");
   });
 
-  it("marks reads as read-only and deletes as destructive, and leaves unknown verbs unmarked", async () => {
+  it("marks reads as read-only and deletes as destructive, and any other verb as a write", async () => {
     const response = await handle({ id: 4, method: "tools/list" });
 
     const result = response?.result as { tools: { name: string; annotations?: unknown }[] } | undefined;
     const annotations = Object.fromEntries(result?.tools.map((tool) => [tool.name, tool.annotations]) ?? []);
     expect(annotations.test_demo_issues_get).toEqual({ readOnlyHint: true });
     expect(annotations.test_demo_issues_delete).toEqual({ readOnlyHint: false, destructiveHint: true });
-    expect(annotations.test_demo_run).toBeUndefined();
+    expect(annotations.test_demo_run).toEqual({ readOnlyHint: false });
   });
 
-  it("marks reads as read-only and deletes as destructive, and leaves unknown verbs unmarked", async () => {
+  it("marks reads as read-only and deletes as destructive, and any other verb as a write", async () => {
     const response = await handle({ id: 4, method: "tools/list" });
 
     const result = response?.result as { tools: { name: string; annotations?: unknown }[] } | undefined;
     const annotations = Object.fromEntries(result?.tools.map((tool) => [tool.name, tool.annotations]) ?? []);
     expect(annotations.test_demo_issues_get).toEqual({ readOnlyHint: true });
     expect(annotations.test_demo_issues_delete).toEqual({ readOnlyHint: false, destructiveHint: true });
-    expect(annotations.test_demo_run).toBeUndefined();
+    expect(annotations.test_demo_run).toEqual({ readOnlyHint: false });
   });
 });
