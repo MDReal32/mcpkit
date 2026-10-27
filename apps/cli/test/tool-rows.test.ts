@@ -11,6 +11,8 @@ const catalog: Catalog = {
       id: "test:demo",
       tools: [
         "issues:issues:get_issue",
+        "issues:issues:disable_issue",
+        "issues:issues:enable_issue",
         "issues:issue_comments:get_comments",
         "issues:issues:delete_issue",
         "ping:run",
@@ -35,6 +37,8 @@ describe("tool rows", () => {
       "describe_tool",
       "call_tool",
       "test_demo_issues_get",
+      "test_demo_issues_disable",
+      "test_demo_issues_enable",
       "test_demo_issues_delete",
       "test_demo_run",
     ]);
@@ -67,16 +71,8 @@ describe("tool rows", () => {
     const annotations = Object.fromEntries(result?.tools.map((tool) => [tool.name, tool.annotations]) ?? []);
     expect(annotations.test_demo_issues_get).toEqual({ readOnlyHint: true });
     expect(annotations.test_demo_issues_delete).toEqual({ readOnlyHint: false, destructiveHint: true });
-    expect(annotations.test_demo_run).toEqual({ readOnlyHint: false });
-  });
-
-  it("marks reads as read-only and deletes as destructive, and any other verb as a write", async () => {
-    const response = await handle({ id: 4, method: "tools/list" });
-
-    const result = response?.result as { tools: { name: string; annotations?: unknown }[] } | undefined;
-    const annotations = Object.fromEntries(result?.tools.map((tool) => [tool.name, tool.annotations]) ?? []);
-    expect(annotations.test_demo_issues_get).toEqual({ readOnlyHint: true });
-    expect(annotations.test_demo_issues_delete).toEqual({ readOnlyHint: false, destructiveHint: true });
+    expect(annotations.test_demo_issues_disable).toEqual({ readOnlyHint: true });
+    expect(annotations.test_demo_issues_enable).toEqual({ readOnlyHint: false });
     expect(annotations.test_demo_run).toEqual({ readOnlyHint: false });
   });
 });

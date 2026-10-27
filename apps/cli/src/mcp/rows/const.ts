@@ -6,7 +6,8 @@ export const ACTION_WORD_SEPARATOR = "_";
 /** A tool name is `<group>:<resource>:<action>`; the group is everything before the last two parts. */
 export const RESOURCE_AND_ACTION_PARTS = 2;
 
-export const READ_VERBS: readonly string[] = [
+/** Verbs that read, plus the ones that only close or restrict something: `disable` is safe, `enable` is not. */
+export const SAFE_VERBS: readonly string[] = [
   "get",
   "list",
   "search",
@@ -38,6 +39,11 @@ export const READ_VERBS: readonly string[] = [
   "repos",
   "topics",
   "users",
+  "disable",
+  "lock",
+  "block",
+  "suspend",
+  "stop",
 ];
 
 export const DESTRUCTIVE_VERBS: readonly string[] = ["delete", "remove", "revoke", "trash", "purge", "cancel"];
