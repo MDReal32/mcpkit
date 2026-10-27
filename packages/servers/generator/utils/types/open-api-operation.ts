@@ -28,6 +28,8 @@ export interface OpenApiOperation {
   parameters?: OpenApiParameter[];
   requestBody?: OpenApiRequestBody;
   responses?: Record<string, OpenApiResponse>;
+  /** Each entry is one way to authenticate, mapping security scheme names to scopes; `{}` means none is needed. */
+  security?: Record<string, string[]>[];
 }
 
 export type OpenApiPathItem = Record<string, OpenApiOperation | OpenApiParameter[] | undefined>;

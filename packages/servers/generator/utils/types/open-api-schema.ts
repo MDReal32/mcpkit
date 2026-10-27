@@ -3,6 +3,8 @@ export interface OpenApiSchema {
   type?: string | string[];
   description?: string;
   format?: string;
+  /** OpenAPI 3.1 marks an uploaded file with `contentEncoding: binary` instead of `format: binary`. */
+  contentEncoding?: string;
   default?: unknown;
   enum?: unknown[];
   items?: OpenApiSchema;

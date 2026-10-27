@@ -1,4 +1,5 @@
 import { collectOperations } from "../../utils/spec/collect-operations";
+import { parseDereferencedJsonSpec } from "../../utils/spec/parse-dereferenced-json-spec";
 import { readSpec } from "../../utils/spec/read-spec";
 import { buildToolDefinition } from "../../utils/tool/build-tool-definition";
 import type { Operation } from "../../utils/types/operation";
@@ -7,13 +8,12 @@ import { argumentNaming } from "./argument-naming";
 import { DOWNLOAD_PATHS, SCHEMA_OPTIONS } from "./const";
 import { findUnsupportedReason } from "./find-unsupported-reason";
 import { nameOperations } from "./name-operations";
-import { parseSpec } from "./parse-spec";
 import { toOperation } from "./to-operation";
 import type { SpecSource } from "./types/spec-source";
 
 export const createSpecPlan = (source: SpecSource) => {
   const plan: SpecPlan<Operation> = {
-    readDocument: (localPath) => readSpec(source.url, localPath, parseSpec),
+    readDocument: (localPath) => readSpec(source.url, localPath, parseDereferencedJsonSpec),
     collectOperations: (document) =>
       collectOperations(document, { toOperation: (candidate) => toOperation(candidate, source) }),
     describeOperation: ({ spec }) => `${source.group} ${spec.operationId}`,
