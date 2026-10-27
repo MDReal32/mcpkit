@@ -38,7 +38,7 @@ describe("createRpcHandler", () => {
     });
   });
 
-  it("lists the four meta-tools whatever the registry holds", async () => {
+  it("lists the four meta-tools, then one row per group and verb", async () => {
     const response = await handle({ id: 2, method: "tools/list" });
 
     const result = response?.result as { tools: { name: string }[] } | undefined;
@@ -47,6 +47,7 @@ describe("createRpcHandler", () => {
       "list_tools",
       "describe_tool",
       "call_tool",
+      "test_demo_run",
     ]);
   });
 

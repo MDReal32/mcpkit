@@ -4,6 +4,7 @@ import { callServerTool } from "../handlers/call-server-tool";
 import { describeTool } from "../handlers/describe-tool";
 import { listServerTools } from "../handlers/list-server-tools";
 import { listServers } from "../handlers/list-servers";
+import { callRowTool, createToolRows } from "../rows";
 import { RpcError } from "../rpc/rpc-error";
 import { CALL_TOOL_TOOL, DESCRIBE_TOOL_TOOL, LIST_SERVERS_TOOL, LIST_TOOLS_TOOL } from "../tools/const";
 import { readStringArgument } from "../tools/read-string-argument";
@@ -33,7 +34,12 @@ export const createCallTool = (catalog: Catalog, options: McpOptions) => async (
       return describeTool(catalog, readStringArgument(params, "id"));
     case CALL_TOOL_TOOL:
       return callServerTool(catalog, readStringArgument(params, "id"), readNestedArguments(params), options);
-    default:
+    default: {
+      const row = createToolRows(catalog).find((candidate) => candidate.name === params?.name);
+      if (row) {
+        return callRowTool(catalog, row, readStringArgument(params, "tool"), readNestedArguments(params), options);
+      }
       throw new RpcError(RPC_ERROR_CODES.invalidParams, `unknown tool: ${String(params?.name)}`);
+    }
   }
 };
