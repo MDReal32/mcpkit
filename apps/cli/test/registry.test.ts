@@ -102,11 +102,24 @@ describe("loadManifest", () => {
     const server = await readIndexServer();
     const tampered = createRegistryContext({
       ...context,
-      fetchImpl: async () => new Response('{"name":"demo"}'),
+      fetchImpl: async (input) =>
+        String(input).endsWith("demo.json") ? new Response('{"name":"demo"}') : context.fetchImpl(input),
     });
 
     await expect(loadManifest(server, tampered, "ping:run")).rejects.toThrow(/checksum/);
     await expect(stat(join(readDir(), "test", "demo.json"))).rejects.toThrow();
+  });
+
+  it("refreshes an index older than the registry and loads the new manifest", async () => {
+    const first = setup("one");
+    await syncRegistry(first.context);
+    const staleServer = await readIndexServer();
+
+    const second = setup("two");
+    const manifest = await loadManifest(staleServer, second.context, "ping:run");
+
+    expect(manifest.description).toBe("two");
+    expect((await readIndexServer()).sha256).not.toBe(staleServer.sha256);
   });
 
   it("re-downloads a cached copy that no longer matches the index", async () => {
