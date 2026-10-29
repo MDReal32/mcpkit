@@ -23,10 +23,11 @@ export const DEFAULT_UI_TEXTS: Readonly<UiTexts> = {
   actionsDivider: "or get a token",
   cancel: "Cancel",
   submit: "Save and continue",
+  checking: "Checking with {server}…",
   requiredField: "{label} is required",
   savedTitle: "{server} is connected",
   savedBody:
-    "The credentials are saved in ~/.mcpkit/config.json. This tab closes by itself in a few seconds; you can also close it and go back to your MCP client.",
+    "The credentials are saved in ~/.mcpkit/config.json. This window closes by itself in a few seconds; you can also close it and go back to your MCP client.",
   signingInTitle: "Continue in the new tab",
   signingInBody: "Approve access to {server} in the sign-in tab that just opened. You can close this one.",
   cancelledTitle: "Cancelled",

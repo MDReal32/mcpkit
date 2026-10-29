@@ -24,6 +24,7 @@ export interface UiTexts {
   actionsDivider: string;
   cancel: string;
   submit: string;
+  checking: string;
   requiredField: string;
   savedTitle: string;
   savedBody: string;

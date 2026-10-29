@@ -76,6 +76,7 @@ describe("credentials form", () => {
           ...DEFAULT_UI_TEXTS,
           title: "Connect asks",
           savedTitle: "asks is connected",
+          checking: "Checking with asks…",
           signingInBody: expect.stringContaining("access to asks"),
           intro: expect.stringContaining("asks"),
         },

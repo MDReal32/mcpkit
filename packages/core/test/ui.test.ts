@@ -182,6 +182,7 @@ describe("credentials request from the manifest", () => {
       cancel: "Back",
       title: "Link demo",
       savedTitle: "demo is connected",
+      checking: "Checking with demo…",
       signingInBody: expect.stringContaining("access to demo"),
       intro: expect.any(String),
     });

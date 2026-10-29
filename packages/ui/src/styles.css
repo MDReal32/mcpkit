@@ -1,29 +1,25 @@
 :root {
-  color-scheme: light dark;
-  --bg: #f6f7f9;
-  --card: #ffffff;
-  --text: #16181d;
-  --muted: #5d6470;
-  --border: #d9dde3;
-  --accent: #2f5bea;
-  --accent-text: #ffffff;
-  --error: #c4312b;
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: dark;
+  --bg: #08090b;
+  --card: #0f1114;
+  --field: #0a0b0d;
+  --raised: #14171c;
+  --text: #eef0f4;
+  --muted: #8b92a0;
+  --faint: #555c69;
+  --border: #22262e;
+  --border-strong: #30353f;
+  --accent: #6b8cff;
+  --accent-text: #08090b;
+  --accent-soft: rgba(107, 140, 255, 0.14);
+  --accent-glow: rgba(107, 140, 255, 0.35);
+  --error: #ff7a73;
+  --sans: "Geist", "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "Geist Mono", ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  font-family: var(--sans);
   font-size: 15px;
   line-height: 1.5;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0f1115;
-    --card: #181b21;
-    --text: #e8eaee;
-    --muted: #9aa1ad;
-    --border: #2c313a;
-    --accent: #6b8cff;
-    --accent-text: #0f1115;
-    --error: #ff7a73;
-  }
+  -webkit-font-smoothing: antialiased;
 }
 
 * {
@@ -35,32 +31,39 @@ body {
   min-height: 100vh;
   display: grid;
   place-items: center;
-  padding: 24px 16px;
-  background: var(--bg);
+  padding: 20px 16px;
+  background: radial-gradient(1200px 600px at 20% -10%, rgba(107, 140, 255, 0.08), transparent 60%), var(--bg);
   color: var(--text);
 }
 
 .card {
   width: 100%;
-  max-width: 440px;
-  padding: 28px;
+  max-width: 460px;
+  padding: 32px 32px 28px;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 16px;
   background: var(--card);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.04) inset,
+    0 30px 80px rgba(0, 0, 0, 0.55);
 }
 
 .brand {
-  margin: 0 0 8px;
+  margin: 0 0 10px;
+  font-family: var(--mono);
   font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-weight: 500;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted);
 }
 
 h1 {
-  margin: 0 0 8px;
-  font-size: 20px;
+  margin: 0 0 6px;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
 }
 
 .muted,
@@ -68,41 +71,66 @@ h1 {
   color: var(--muted);
 }
 
+.muted {
+  margin: 0;
+}
+
 .hint {
-  margin: 4px 0 0;
-  font-size: 13px;
+  margin: 6px 0 0;
+  font-size: 12.5px;
+  color: var(--faint);
 }
 
 form {
   display: grid;
-  gap: 16px;
-  margin-top: 20px;
+  gap: 18px;
+  margin-top: 24px;
 }
 
 .field label,
 legend {
   display: block;
-  margin-bottom: 4px;
-  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 13.5px;
+  font-weight: 500;
 }
 
 select,
 input[type="text"],
 input[type="password"] {
   width: 100%;
-  padding: 9px 11px;
+  height: 44px;
+  padding: 0 14px;
   border: 1px solid var(--border);
-  border-radius: 8px;
-  background: transparent;
+  border-radius: 10px;
+  background: var(--field);
   color: inherit;
-  font: inherit;
+  font-family: var(--mono);
+  font-size: 14px;
+  transition:
+    border-color 120ms ease,
+    box-shadow 120ms ease;
+}
+
+input::placeholder {
+  color: var(--faint);
+}
+
+input[type="password"] {
+  letter-spacing: 0.18em;
 }
 
 select:focus-visible,
-input:focus-visible,
-button:focus-visible {
+input:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+button:focus-visible,
+a.button:focus-visible {
   outline: 2px solid var(--accent);
-  outline-offset: 1px;
+  outline-offset: 2px;
 }
 
 .options {
@@ -113,9 +141,14 @@ button:focus-visible {
 
 .option {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   align-items: center;
   padding: 4px 0;
+  color: var(--muted);
+}
+
+.option input {
+  accent-color: var(--accent);
 }
 
 .divider {
@@ -123,8 +156,8 @@ button:focus-visible {
   align-items: center;
   gap: 12px;
   margin: 0;
-  font-size: 13px;
-  color: var(--muted);
+  font-size: 12.5px;
+  color: var(--faint);
 }
 
 .divider::before,
@@ -142,66 +175,126 @@ button:focus-visible {
 }
 
 a.button {
-  padding: 9px 16px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  padding: 0 16px;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 10px;
+  background: var(--raised);
   color: inherit;
-  font-weight: 600;
-  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
   text-decoration: none;
 }
 
 a.button:hover,
 .token-source button:not(:disabled):hover {
-  border-color: var(--accent);
-}
-
-a.button:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 1px;
+  border-color: var(--border-strong);
+  background: #191c22;
 }
 
 .actions {
   display: flex;
   justify-content: flex-end;
-  gap: 8px;
+  align-items: center;
+  gap: 12px;
+  margin-top: 6px;
 }
 
 button {
-  padding: 9px 16px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 16px;
   border: 1px solid var(--border);
-  border-radius: 8px;
-  background: transparent;
+  border-radius: 10px;
+  background: var(--raised);
   color: inherit;
   font: inherit;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
+  transition:
+    transform 80ms ease,
+    background 120ms ease,
+    box-shadow 120ms ease;
+}
+
+button:active:not(:disabled) {
+  transform: scale(0.97);
 }
 
 button:disabled {
-  opacity: 0.6;
   cursor: progress;
 }
 
 button.primary {
-  border-color: var(--accent);
+  height: 44px;
+  padding: 0 20px;
+  border-color: transparent;
   background: var(--accent);
   color: var(--accent-text);
+  font-weight: 600;
+  box-shadow: 0 8px 30px var(--accent-glow);
+}
+
+button.primary:hover:not(:disabled) {
+  background: #7d9aff;
+}
+
+button.primary:disabled {
+  opacity: 0.85;
+}
+
+button.secondary {
+  height: 44px;
 }
 
 button.ghost {
   border-color: transparent;
+  background: transparent;
   color: var(--muted);
+}
+
+button.ghost:hover:not(:disabled) {
+  color: var(--text);
+}
+
+.spinner {
+  width: 15px;
+  height: 15px;
+  flex: none;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 700ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .error {
   margin: 0;
-  padding-left: 18px;
+  padding: 10px 12px 10px 28px;
+  border: 1px solid rgba(255, 122, 115, 0.25);
+  border-radius: 10px;
+  background: rgba(255, 122, 115, 0.08);
   color: var(--error);
+  font-size: 13.5px;
 }
 
 .combobox-control {
   position: relative;
+}
+
+.combobox-control input {
+  padding-right: 42px;
 }
 
 .combobox-toggle {
@@ -209,40 +302,49 @@ button.ghost {
   top: 0;
   right: 0;
   bottom: 0;
-  padding: 0 12px;
+  height: auto;
+  padding: 0 14px;
   border: 0;
   background: transparent;
   color: var(--muted);
-  cursor: pointer;
 }
 
 .combobox-list {
   position: absolute;
   z-index: 1;
-  top: calc(100% + 4px);
+  top: calc(100% + 6px);
   right: 0;
   left: 0;
   margin: 0;
-  padding: 4px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--card);
+  padding: 6px;
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  background: var(--raised);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
   list-style: none;
 }
 
 .combobox-list button {
   width: 100%;
-  padding: 7px 8px;
+  height: 38px;
+  justify-content: flex-start;
+  padding: 0 10px;
   border: 0;
-  border-radius: 6px;
+  border-radius: 8px;
   background: transparent;
-  color: inherit;
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 14px;
 }
 
 .combobox-list button:hover,
 .combobox-list button[aria-selected="true"] {
-  background: var(--border);
+  background: var(--accent-soft);
+  color: var(--text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 2s;
+  }
 }

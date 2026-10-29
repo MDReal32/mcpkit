@@ -25,6 +25,7 @@
   let draft = $state(createFormDraft(untrack(() => request)));
   let errors = $state<readonly string[]>([]);
   let busy = $state(false);
+  let saving = $state(false);
   const chosen = $derived(request.options.find((option) => option.index === draft.option));
   const actions = $derived(resolveVisibleActions(request, draft, chosen));
   const texts = $derived(request.texts);
@@ -44,9 +45,11 @@
     }
   };
 
-  const saveToken = (event: SubmitEvent) => {
+  const saveToken = async (event: SubmitEvent) => {
     event.preventDefault();
-    void send(() => submitCredentials(buildTokenResponse(request, draft), texts.requestFailed), "saved");
+    saving = true;
+    await send(() => submitCredentials(buildTokenResponse(request, draft), texts.requestFailed), "saved");
+    saving = false;
   };
 
   const signIn = () =>
@@ -122,7 +125,14 @@
   <div class="actions">
     <button type="button" class="ghost" disabled={busy} onclick={cancel}>{texts.cancel}</button>
     {#if chosen}
-      <button type="submit" class={request.signIn ? 'secondary' : 'primary'} disabled={busy}>{texts.submit}</button>
+      <button type="submit" class={request.signIn ? 'secondary' : 'primary'} disabled={busy}>
+        {#if saving}
+          <span class="spinner" aria-hidden="true"></span>
+          {texts.checking}
+        {:else}
+          {texts.submit}
+        {/if}
+      </button>
     {/if}
   </div>
 </form>
