@@ -30,11 +30,10 @@ const createRepo = async (name: string, remote: string) => {
 };
 
 const saveConfig = (servers: unknown) =>
-  writeFile(join(readHome(), "config.json"), JSON.stringify({ version: 2, servers }));
+  writeFile(join(readHome(), "config.json"), JSON.stringify({ version: 4, servers: { git: servers } }));
 
 const twoHosts = {
   gitlab: {
-    domain: "gitlab.a.example",
     hosts: { "gitlab.a.example": {}, "gitlab.b.example": {} },
   },
 };
@@ -79,7 +78,7 @@ describe("resolveDomain with several hosts", () => {
     expect(domain).toBe("gitlab.b.example");
   });
 
-  it("lets the env var win and keeps the last host without a project", async () => {
+  it("lets the env var win and asks which host without a project", async () => {
     await saveConfig(twoHosts);
 
     const fromEnv = await resolveDomain(createManifest(true), {
@@ -93,7 +92,7 @@ describe("resolveDomain with several hosts", () => {
     });
 
     expect(fromEnv).toBe("env.example");
-    expect(withoutProject).toBe("gitlab.a.example");
+    expect(withoutProject).toBeUndefined();
   });
 });
 

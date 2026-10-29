@@ -43,3 +43,13 @@ export const SECRETS_FILE_NAME = "secrets.json";
 export const DEFAULT_HOST_KEY = "default";
 
 export const GIT_COMMAND_TIMEOUT_MS = 3000;
+
+/** The category of the servers that existed before the config grouped them by category. */
+export const LEGACY_SERVER_CATEGORIES: Readonly<Record<string, string>> = {
+  confluence: "atlassian",
+  jira: "atlassian",
+  github: "git",
+  gitlab: "git",
+};
+
+export const UNKNOWN_CATEGORY = "other";

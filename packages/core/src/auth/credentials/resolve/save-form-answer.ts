@@ -16,5 +16,5 @@ export const saveFormAnswer = async (
     return;
   }
   const project = context.projectDir === undefined ? undefined : await resolveProject(context.projectDir);
-  await saveServerDomain(context.env, manifest.name, domain, project?.key);
+  await saveServerDomain(context.env, manifest, domain, project?.key);
 };

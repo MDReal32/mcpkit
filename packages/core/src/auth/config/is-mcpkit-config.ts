@@ -10,11 +10,14 @@ const isHostConfig = (value: unknown) =>
 
 const isServerConfig = (value: unknown) =>
   isJsonObject(value) &&
-  (value.domain === undefined || typeof value.domain === "string") &&
   (value.hosts === undefined || (isJsonObject(value.hosts) && Object.values(value.hosts).every(isHostConfig))) &&
   (value.projects === undefined || isStringRecord(value.projects));
 
 export const isMcpkitConfig = (value: unknown): value is McpkitConfig =>
   isJsonObject(value) &&
   value.version === CONFIG_VERSION &&
-  (value.servers === undefined || (isJsonObject(value.servers) && Object.values(value.servers).every(isServerConfig)));
+  (value.servers === undefined ||
+    (isJsonObject(value.servers) &&
+      Object.values(value.servers).every(
+        (group) => isJsonObject(group) && Object.values(group).every(isServerConfig),
+      )));

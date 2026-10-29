@@ -9,7 +9,7 @@ const readHome = useTempDir("mcpkit-secret-file-");
 
 const github: SecretOwner = { name: "github", category: "git" };
 
-const jira: SecretOwner = { name: "jira", category: "issues" };
+const jira: SecretOwner = { name: "jira", category: "atlassian" };
 
 const readSecretsFile = () => join(readHome(), "config.json");
 
@@ -30,10 +30,10 @@ describe("createFileSecretStore", () => {
 
     const data: unknown = JSON.parse(await readFile(readSecretsFile(), "utf8"));
     expect(data).toEqual({
-      version: 2,
+      version: 4,
       servers: {
-        github: { hosts: { default: { secrets: { GITHUB_TOKEN: "ghp_1" } } } },
-        jira: { hosts: { default: { secrets: { JIRA_TOKEN: "jt" } } } },
+        git: { github: { hosts: { default: { secrets: { GITHUB_TOKEN: "ghp_1" } } } } },
+        atlassian: { jira: { hosts: { default: { secrets: { JIRA_TOKEN: "jt" } } } } },
       },
     });
     expect((await stat(readSecretsFile())).mode & 0o777).toBe(0o600);
@@ -52,7 +52,10 @@ describe("createFileSecretStore", () => {
   it("fails on a malformed file instead of overwriting it", async () => {
     await writeFile(
       readSecretsFile(),
-      JSON.stringify({ version: 2, servers: { github: { hosts: { default: { secrets: { GITHUB_TOKEN: 1 } } } } } }),
+      JSON.stringify({
+        version: 4,
+        servers: { git: { github: { hosts: { default: { secrets: { GITHUB_TOKEN: 1 } } } } } },
+      }),
     );
     const store = createFileSecretStore({ MCPKIT_HOME: readHome() });
 
@@ -70,10 +73,10 @@ describe("createFileSecretStore", () => {
     await expect(store.get(github, "GITHUB_TOKEN")).resolves.toBeUndefined();
   });
 
-  it("keeps the domain next to the secrets of a server", async () => {
+  it("keeps the secrets under the host of a server", async () => {
     await writeFile(
       readSecretsFile(),
-      JSON.stringify({ version: 2, servers: { github: { domain: "ghe.example.com" } } }),
+      JSON.stringify({ version: 4, servers: { git: { github: { hosts: { "ghe.example.com": {} } } } } }),
     );
     const store = createFileSecretStore({ MCPKIT_HOME: readHome() });
 
@@ -81,10 +84,8 @@ describe("createFileSecretStore", () => {
 
     const data: unknown = JSON.parse(await readFile(readSecretsFile(), "utf8"));
     expect(data).toEqual({
-      version: 2,
-      servers: {
-        github: { domain: "ghe.example.com", hosts: { "ghe.example.com": { secrets: { GITHUB_TOKEN: "ghp_1" } } } },
-      },
+      version: 4,
+      servers: { git: { github: { hosts: { "ghe.example.com": { secrets: { GITHUB_TOKEN: "ghp_1" } } } } } },
     });
   });
 
@@ -92,7 +93,7 @@ describe("createFileSecretStore", () => {
     await writeFile(readLegacyFile(), JSON.stringify({ github: { GITHUB_TOKEN: "old" } }));
     await writeFile(
       readSecretsFile(),
-      JSON.stringify({ version: 2, servers: { github: { domain: "ghe.example.com" } } }),
+      JSON.stringify({ version: 4, servers: { git: { github: { hosts: { "ghe.example.com": {} } } } } }),
     );
     const store = createFileSecretStore({ MCPKIT_HOME: readHome() });
 
@@ -100,15 +101,13 @@ describe("createFileSecretStore", () => {
 
     const data: unknown = JSON.parse(await readFile(readSecretsFile(), "utf8"));
     expect(data).toEqual({
-      version: 2,
-      servers: {
-        github: { domain: "ghe.example.com", hosts: { "ghe.example.com": { secrets: { GITHUB_TOKEN: "old" } } } },
-      },
+      version: 4,
+      servers: { git: { github: { hosts: { "ghe.example.com": { secrets: { GITHUB_TOKEN: "old" } } } } } },
     });
     await expect(stat(readLegacyFile())).rejects.toThrow();
   });
 
-  it("upgrades a config without a version, and its old secrets.json, to version 2", async () => {
+  it("upgrades a config without a version, and its old secrets.json, to version 4", async () => {
     await writeFile(
       readSecretsFile(),
       JSON.stringify({ servers: { github: { domain: "ghe.example.com" }, jira: {} } }),
@@ -120,10 +119,10 @@ describe("createFileSecretStore", () => {
 
     const data: unknown = JSON.parse(await readFile(readSecretsFile(), "utf8"));
     expect(data).toEqual({
-      version: 2,
+      version: 4,
       servers: {
-        github: { domain: "ghe.example.com", hosts: { "ghe.example.com": { secrets: { GITHUB_TOKEN: "old" } } } },
-        jira: { hosts: { default: { secrets: { JIRA_TOKEN: "jt" } } } },
+        git: { github: { hosts: { "ghe.example.com": { secrets: { GITHUB_TOKEN: "old" } } } } },
+        atlassian: { jira: { hosts: { default: { secrets: { JIRA_TOKEN: "jt" } } } } },
       },
     });
   });
@@ -139,18 +138,42 @@ describe("createFileSecretStore", () => {
 
     const data: unknown = JSON.parse(await readFile(readSecretsFile(), "utf8"));
     expect(data).toEqual({
-      version: 2,
+      version: 4,
       servers: {
-        github: {
-          domain: "ghe.example.com",
-          hosts: { "ghe.example.com": { secrets: { GITHUB_TOKEN: "t", OTHER: "o" } } },
+        git: { github: { hosts: { "ghe.example.com": { secrets: { GITHUB_TOKEN: "t", OTHER: "o" } } } } },
+      },
+    });
+  });
+
+  it("upgrades a version 2 config by dropping the last used domain and grouping servers by category", async () => {
+    await writeFile(
+      readSecretsFile(),
+      JSON.stringify({
+        version: 2,
+        servers: {
+          github: { domain: "ghe.example.com", hosts: { "ghe.example.com": { secrets: { GITHUB_TOKEN: "t" } } } },
+          jira: { domain: "jira.example.com" },
+          custom: { hosts: { default: { secrets: { CUSTOM_TOKEN: "c" } } } },
         },
+      }),
+    );
+    const store = createFileSecretStore({ MCPKIT_HOME: readHome() });
+
+    await expect(store.get({ ...github, domain: "ghe.example.com" }, "GITHUB_TOKEN")).resolves.toBe("t");
+
+    const data: unknown = JSON.parse(await readFile(readSecretsFile(), "utf8"));
+    expect(data).toEqual({
+      version: 4,
+      servers: {
+        git: { github: { hosts: { "ghe.example.com": { secrets: { GITHUB_TOKEN: "t" } } } } },
+        atlassian: { jira: { hosts: { "jira.example.com": {} } } },
+        other: { custom: { hosts: { default: { secrets: { CUSTOM_TOKEN: "c" } } } } },
       },
     });
   });
 
   it("refuses a config from a newer mcpkit instead of overwriting it", async () => {
-    await writeFile(readSecretsFile(), JSON.stringify({ version: 3, servers: {} }));
+    await writeFile(readSecretsFile(), JSON.stringify({ version: 5, servers: {} }));
     const store = createFileSecretStore({ MCPKIT_HOME: readHome() });
 
     await expect(store.set(github, "GITHUB_TOKEN", "x")).rejects.toThrow("update mcpkit");
@@ -172,6 +195,9 @@ describe("createFileSecretStore", () => {
     ).resolves.toBe("t");
 
     const data: unknown = JSON.parse(await readFile(readSecretsFile(), "utf8"));
-    expect(data).toEqual({ version: 2, servers });
+    expect(data).toEqual({
+      version: 4,
+      servers: { git: { gitlab: { hosts: servers.gitlab.hosts, projects: servers.gitlab.projects } } },
+    });
   });
 });

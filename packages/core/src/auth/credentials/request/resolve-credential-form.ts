@@ -3,6 +3,7 @@ import { applyDomain } from "../../../manifest";
 import { AuthError } from "../../auth-error";
 import { listKnownHosts } from "../../config/list-known-hosts";
 import { loadConfig } from "../../config/load-config";
+import { readServerConfig } from "../../config/read-server-config";
 import type { AuthContext } from "../../types/auth-context";
 import { resolveFormSignIn } from "../resolve/resolve-form-sign-in";
 import { resolveFormToken } from "../resolve/resolve-form-token";
@@ -19,7 +20,7 @@ export const resolveCredentialForm = async (manifest: Manifest, domain: string |
   const { request, response } = await requestCredentialsOnce(
     manifest.name,
     async () => {
-      const knownHosts = listKnownHosts((await loadConfig(context.env)).servers?.[manifest.name]);
+      const knownHosts = listKnownHosts(readServerConfig(await loadConfig(context.env), manifest));
       return buildCredentialRequest(manifest, domain, knownHosts, context.env);
     },
     requestCredentials,

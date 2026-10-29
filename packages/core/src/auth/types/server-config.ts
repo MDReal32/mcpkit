@@ -5,10 +5,9 @@ export interface HostConfig {
 
 /**
  * Settings of one server. `hosts` holds the credentials per host, so two hosts never share a token;
- * `projects` remembers which host a project (its git root) uses; `domain` is the host used last.
+ * `projects` remembers which host a project (its git root) uses.
  */
 export interface ServerConfig {
-  domain?: string;
   hosts?: Readonly<Record<string, HostConfig>>;
   projects?: Readonly<Record<string, string>>;
 }
