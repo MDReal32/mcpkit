@@ -3,7 +3,6 @@ import type { Catalog } from "../../mcp";
 import { createRegistryContext, loadGroupManifest, loadGroups, loadManifest, readCachedIndex } from "../../registry";
 import type { UpstreamServer } from "../../upstream";
 import { autoSyncManifests } from "./auto-sync-manifests";
-import type { HydratedServer } from "./hydrate-upstream-server";
 import { hydrateUpstreamServer } from "./hydrate-upstream-server";
 
 /** Ids are `category:name`; a bare `github` also selects `git:github`. */
@@ -25,14 +24,21 @@ export const loadCatalog = async (selection: readonly string[], options: Execute
   const servers = index.servers.filter(
     (server) => selection.length === 0 || selection.some((name) => matchesSelection(server.id, name)),
   );
-  const hydrated = await Promise.all(
-    servers.map((server) =>
-      server.upstream ? hydrateUpstreamServer(server, context, options) : ({ server } as HydratedServer),
-    ),
-  );
-  const upstreams = new Map<string, UpstreamServer>(
-    hydrated.flatMap(({ server, upstream }) => (upstream ? [[server.id, upstream] as const] : [])),
-  );
+  const upstreams = new Map<string, Promise<UpstreamServer>>();
+  const loadUpstream = async (id: string) => {
+    const server = servers.find((candidate) => candidate.id === id);
+    if (!server?.upstream) {
+      return undefined;
+    }
+    const pending = upstreams.get(id) ?? hydrateUpstreamServer(server, context, options);
+    upstreams.set(id, pending);
+    try {
+      return await pending;
+    } catch (error) {
+      upstreams.delete(id);
+      throw error;
+    }
+  };
   const findServer = (id: string) => {
     const server = servers.find((candidate) => candidate.id === id);
     if (!server) {
@@ -41,8 +47,8 @@ export const loadCatalog = async (selection: readonly string[], options: Execute
     return server;
   };
   const catalog: Catalog = {
-    servers: hydrated.map(({ server }) => server),
-    upstreams,
+    servers,
+    loadUpstream,
     loadManifest: async (id, tool) => loadManifest(findServer(id), context, tool),
     loadGroups: async (id) => loadGroups(findServer(id), context),
     loadGroupManifest: async (id, group) => loadGroupManifest(findServer(id), context, group),

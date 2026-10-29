@@ -13,8 +13,8 @@ export const callServerTool = async (catalog: Catalog, id: string, args: ToolArg
     return createTextResult(found.error, true);
   }
   options.onToolUse?.(id);
-  const upstream = catalog.upstreams?.get(found.serverId);
   try {
+    const upstream = await catalog.loadUpstream?.(found.serverId);
     if (upstream) {
       const discovered = upstream.tools.get(found.tool);
       return discovered

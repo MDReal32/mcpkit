@@ -1,14 +1,16 @@
 import type { UpstreamSpec } from "@usemcpkit/core";
 import { CLIENT_NAME, MCP_PROTOCOL_VERSION } from "./const";
+import { prepareRepo } from "./repo/prepare-repo";
 import { listAllTools } from "./session/list-all-tools";
 import { createTransport } from "./transport/create-transport";
 import type { UpstreamConnection } from "./types/upstream-connection";
 import type { UpstreamOptions } from "./types/upstream-options";
 import type { UpstreamResult } from "./types/upstream-result";
 
-/** Starts the transport and runs the initialize handshake; the connection is ready for tools/list and tools/call. */
+/** Clones the repository of a stdio upstream if it has one and needs it, starts the transport and runs the initialize handshake; the connection is ready for tools/list and tools/call. */
 export const connectUpstream = async (spec: UpstreamSpec, options: UpstreamOptions = {}) => {
-  const transport = createTransport(spec, options);
+  const ready = spec.type === "stdio" ? await prepareRepo(spec, options.repoDir) : spec;
+  const transport = createTransport(ready, options);
   try {
     await transport.request("initialize", {
       protocolVersion: MCP_PROTOCOL_VERSION,

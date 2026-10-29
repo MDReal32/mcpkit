@@ -3,6 +3,7 @@ import { withUpstreamAccess } from "@usemcpkit/core";
 import type { UpstreamConnection } from "@usemcpkit/upstream";
 import { connectUpstream } from "@usemcpkit/upstream";
 import { VERSION } from "../version";
+import { resolveRepoDir } from "./resolve-repo-dir";
 
 export interface OpenedUpstream<T> {
   connection: UpstreamConnection;
@@ -24,6 +25,7 @@ export const openUpstream = <T>(
       const connection = await connectUpstream(upstream, {
         headers,
         env,
+        repoDir: resolveRepoDir(manifest),
         fetchImpl: options.fetchImpl,
         clientVersion: VERSION,
       });

@@ -51,6 +51,7 @@ export type {
   Manifest,
   NameMapping,
   OAuthAuth,
+  RepoSetupStep,
   ResponseSpec,
   StdioUpstream,
   ToolArgs,
@@ -62,6 +63,7 @@ export type {
   UiLinkAction,
   UiSpec,
   UiTexts,
+  UpstreamRepo,
   UpstreamSpec,
 } from "./manifest";
 export {

@@ -58,8 +58,7 @@ export const createToolExposure = (catalog: Catalog, options: McpOptions) => {
     if (!server) {
       throw new Error(`unknown server "${section.serverId}"`);
     }
-    const groups =
-      section.group === undefined && !catalog.upstreams?.has(server.id) ? await catalog.loadGroups(server.id) : [];
+    const groups = section.group === undefined && !server.upstream ? await catalog.loadGroups(server.id) : [];
     if (groups.length > 0) {
       return groups.map((group) => createSection(server, group));
     }

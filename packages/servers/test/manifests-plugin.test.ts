@@ -26,6 +26,7 @@ describe("compileServers", () => {
 
     expect(errors).toEqual([]);
     expect(compiled.map(({ manifest }) => manifest.name)).toEqual([
+      "bitwarden",
       "clickup",
       "confluence",
       "discord",

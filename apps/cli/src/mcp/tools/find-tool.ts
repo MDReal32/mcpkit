@@ -12,8 +12,5 @@ export const findTool = (catalog: Catalog, id: string): ToolLookup => {
   if (!server) {
     return { error: `unknown server "${parsed.serverId}"` };
   }
-  if (server.tools && !server.tools.includes(parsed.tool)) {
-    return { error: `server "${server.id}" has no tool "${parsed.tool}"; see list_tools` };
-  }
   return { serverId: server.id, tool: parsed.tool };
 };

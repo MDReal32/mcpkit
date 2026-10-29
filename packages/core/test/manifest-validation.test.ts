@@ -75,6 +75,30 @@ describe("upstream manifests", () => {
     ).toEqual([]);
   });
 
+  it("accepts a stdio upstream run from a pinned repository and rejects a malformed one", () => {
+    const stdio = { type: "stdio", command: "node", args: ["{repo}/dist/index.js"] };
+    const repo = {
+      url: "https://github.com/acme/demo-mcp.git",
+      ref: "v1.2.3",
+      setup: [{ command: "npm", args: ["ci"] }],
+    };
+
+    expect(validateManifest({ ...base, upstream: { ...stdio, repo } })).toEqual([]);
+    expect(
+      validateManifest({
+        ...base,
+        upstream: {
+          ...stdio,
+          repo: { url: "git@github.com:acme/demo.git", ref: "--upload-pack=x", setup: [{ command: "./run" }] },
+        },
+      }),
+    ).toEqual([
+      "upstream.repo.url must be an https:// URL",
+      "upstream.repo.ref must be a tag or commit, not starting with '-'",
+      "upstream.repo.setup[0].command must be a program name on PATH, not a path",
+    ]);
+  });
+
   it("rejects tools next to an upstream, a path as command and a plain http url", () => {
     const manifest = createPingManifest("1.0.0");
 

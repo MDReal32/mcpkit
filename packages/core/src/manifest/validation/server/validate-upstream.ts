@@ -1,6 +1,7 @@
 import { isJsonObject } from "../../../json";
 import { isHttpsUrl } from "../guards/is-https-url";
 import { isStringList } from "../guards/is-string-list";
+import { validateUpstreamRepo } from "./validate-upstream-repo";
 
 const PROGRAM_NAME_PATTERN = /^[A-Za-z0-9._-]+$/;
 
@@ -23,6 +24,9 @@ export const validateUpstream = (upstream: unknown) => {
   }
   if (upstream.forwardEnv !== undefined && !isStringList(upstream.forwardEnv)) {
     errors.push("upstream.forwardEnv must be a list of strings");
+  }
+  if (upstream.repo !== undefined) {
+    errors.push(...validateUpstreamRepo(upstream.repo));
   }
   return errors;
 };

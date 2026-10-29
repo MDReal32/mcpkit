@@ -5,8 +5,8 @@ import type { CatalogServer } from "./catalog-server";
 /** What the server knows without downloading anything, plus a way to get one server's manifest. */
 export interface Catalog {
   servers: readonly CatalogServer[];
-  /** Servers backed by another MCP server, by id; their tools are not in a manifest. */
-  upstreams?: ReadonlyMap<string, UpstreamServer>;
+  /** The server behind an upstream catalog server, started and asked for its tools on first use; undefined for the others. */
+  loadUpstream?: (id: string) => Promise<UpstreamServer | undefined>;
   /** The manifest holding `tool`, a tool name without the server id. */
   loadManifest: (id: string, tool: string) => Promise<Manifest>;
   /** The group names of a server split into parts; empty when its tools are in one manifest. */

@@ -1,20 +1,14 @@
 import type { ExecuteOptions } from "@usemcpkit/core";
 import { describeError } from "@usemcpkit/core";
-import type { Catalog } from "../../mcp";
 import type { RegistryContext, RegistryServer } from "../../registry";
 import { loadManifest } from "../../registry";
-import type { UpstreamServer } from "../../upstream";
 import { createUpstreamServer, discoverTools } from "../../upstream";
 import { printError } from "../output/print-error";
 
-export interface HydratedServer {
-  server: Catalog["servers"][number];
-  upstream?: UpstreamServer;
-}
-
 /**
- * The catalog entry of an upstream server, its tools discovered from the upstream. A server that cannot be reached
- * stays listed without tools and says why in its description, so one broken upstream never stops the others.
+ * The upstream server behind a catalog entry, with its tools discovered: from the cache when there is one, otherwise by
+ * starting it (which clones and sets up its repository the first time). Called when the server is first opened, never at
+ * start, so a server nobody uses costs nothing.
  */
 export const hydrateUpstreamServer = async (
   server: RegistryServer,
@@ -26,15 +20,8 @@ export const hydrateUpstreamServer = async (
     const tools = await discoverTools(context.dir, server.id, load, options, (error) =>
       printError(`${server.id}: could not refresh its tools: ${describeError(error)}`),
     );
-    const hydrated: HydratedServer = {
-      server: { ...server, tools: tools.map((tool) => tool.name) },
-      upstream: createUpstreamServer(load, tools),
-    };
-    return hydrated;
+    return createUpstreamServer(load, tools);
   } catch (error) {
-    const unavailable: HydratedServer = {
-      server: { ...server, description: `${server.description ?? server.id} (unavailable: ${describeError(error)})` },
-    };
-    return unavailable;
+    throw new Error(`${server.id} is unavailable: ${describeError(error)}`);
   }
 };
