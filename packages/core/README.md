@@ -104,8 +104,8 @@ stderr and opens the browser. Only the page that was opened can answer: the URL 
 an answer, on Cancel, or after 5 minutes. Secrets are saved **only after the API accepts them**, so a typo is never
 stored.
 
-**Config file.** The hosts and the saved credentials live together in `~/.mcpkit/config.json`, by server and host
-(`{ "servers": { "gitlab": { "domain": "git.acme.com", "hosts": { "git.acme.com": { "secrets": { "GITLAB_TOKEN": "glpat-…" } } }, "projects": { "/work/app": "git.acme.com" } } } }`),
+**Config file.** The hosts and the saved credentials live together in `~/.mcpkit/config.json`, by category, server and host
+(`{ "servers": { "git": { "gitlab": { "hosts": { "git.acme.com": { "secrets": { "GITLAB_TOKEN": "glpat-…" } } }, "projects": { "/work/app": "git.acme.com" } } } } }`),
 which you can edit by hand. Credentials never cross hosts. With several hosts for one server, the host of a call is, in order:
 its env var; the host its project (git root) was bound to the first time you answered the form; the saved host the
 project's `origin` remote points at (servers whose manifest sets `domain.matchGitRemote`, such as GitHub and GitLab);
