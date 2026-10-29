@@ -20,11 +20,6 @@ const createCatalog = () => {
 
 const call = (name: string, args?: unknown) => ({ method: "tools/call", params: { name, arguments: args } });
 
-const textOf = (result: unknown) => {
-  const content = (result as { content: { text: string }[] }).content;
-  return content[0]?.text ?? "";
-};
-
 describe("createRpcHandler", () => {
   const { catalog, loaded } = createCatalog();
   const handle = createRpcHandler(catalog, { fetchImpl: createFakeFetch(200, { pong: true }) });
@@ -38,41 +33,23 @@ describe("createRpcHandler", () => {
     });
   });
 
-  it("lists the four meta-tools, then one row per group and verb", async () => {
+  it("lists every tool as its own MCP tool with its schema", async () => {
     const response = await handle({ id: 2, method: "tools/list" });
 
-    const result = response?.result as { tools: { name: string }[] } | undefined;
-    expect(result?.tools.map((tool) => tool.name)).toEqual([
-      "list_servers",
-      "list_tools",
-      "describe_tool",
-      "call_tool",
-      "test_demo_run",
-    ]);
-  });
-
-  it("lists servers and tool ids from the catalog without loading a manifest", async () => {
-    const servers = await handle({ id: 3, ...call("list_servers") });
-    const tools = await handle({ id: 4, ...call("list_tools", { server: "test:demo" }) });
-
-    expect(JSON.parse(textOf(servers?.result))).toEqual(["test:demo"]);
-    expect(JSON.parse(textOf(tools?.result))).toEqual(["test:demo:ping:run"]);
-    expect(loaded).toEqual([]);
-  });
-
-  it("describes a tool by loading its manifest", async () => {
-    const response = await handle({ id: 5, ...call("describe_tool", { id: "test:demo:ping:run" }) });
-
-    expect(JSON.parse(textOf(response?.result))).toEqual({
-      id: "test:demo:ping:run",
-      description: "Ping",
-      inputSchema: { type: "object", properties: {} },
+    expect(response?.result).toEqual({
+      tools: [
+        {
+          name: "test_demo_ping_run",
+          description: "Ping",
+          inputSchema: { type: "object", properties: {} },
+        },
+      ],
     });
     expect(loaded).toEqual(["test:demo"]);
   });
 
-  it("calls a tool and returns JSON text content", async () => {
-    const response = await handle({ id: 6, ...call("call_tool", { id: "test:demo:ping:run", arguments: {} }) });
+  it("calls a tool by its name and returns JSON text content", async () => {
+    const response = await handle({ id: 3, ...call("test_demo_ping_run", {}) });
 
     expect(response?.result).toEqual({ content: [{ type: "text", text: '{\n  "pong": true\n}' }] });
   });
@@ -80,24 +57,32 @@ describe("createRpcHandler", () => {
   it("reports tool failures as isError results", async () => {
     const failing = createRpcHandler(createCatalog().catalog, { fetchImpl: createFakeFetch(500, "boom") });
 
-    const response = await failing({ id: 7, ...call("call_tool", { id: "test:demo:ping:run" }) });
+    const response = await failing({ id: 4, ...call("test_demo_ping_run") });
 
     expect(response?.result).toEqual({ content: [{ type: "text", text: "demo API 500: boom" }], isError: true });
   });
 
-  it("reports unknown servers, tools and malformed ids as isError results", async () => {
-    const ids = ["test:nope:ping:run", "test:demo:nope:run", "ping"];
+  it("leaves out a server whose tools cannot be loaded and warns", async () => {
+    const warnings: string[] = [];
+    const broken: Catalog = {
+      servers: [{ id: "test:demo", tools: ["ping:run"] }],
+      loadManifest: async () => {
+        throw new Error("offline");
+      },
+    };
 
-    for (const id of ids) {
-      const response = await handle({ id: 8, ...call("call_tool", { id }) });
-      expect(response?.result).toMatchObject({ isError: true });
-    }
+    const response = await createRpcHandler(broken, { onWarning: (message) => warnings.push(message) })({
+      id: 5,
+      method: "tools/list",
+    });
+
+    expect(response?.result).toEqual({ tools: [] });
+    expect(warnings).toEqual(["test:demo: its tools are not listed: offline"]);
   });
 
-  it("returns protocol errors for unknown meta-tools, bad arguments and unknown methods", async () => {
+  it("returns protocol errors for unknown tools, bad arguments and unknown methods", async () => {
     expect((await handle({ id: 9, ...call("nope") }))?.error?.code).toBe(-32602);
-    expect((await handle({ id: 10, ...call("call_tool", []) }))?.error?.code).toBe(-32602);
-    expect((await handle({ id: 11, ...call("call_tool", {}) }))?.error?.code).toBe(-32602);
+    expect((await handle({ id: 10, ...call("test_demo_ping_run", []) }))?.error?.code).toBe(-32602);
     expect((await handle({ id: 12, method: "nope" }))?.error?.code).toBe(-32601);
   });
 

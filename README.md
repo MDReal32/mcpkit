@@ -353,14 +353,16 @@ the first time a tool of that server is described or called, checked against the
 
 ### What the AI client sees
 
-Tool names cannot contain `:`, so the server exposes four fixed tools and the tool id is an argument:
+Every tool of every served server is its own MCP tool, with its description and input schema, so the client's permission
+rules apply per tool: `git:github` with `issues:issues:get_issue` is `git_github_issues_issues_get_issue`
+(`mcp__mcpkit__git_github_issues_issues_get_issue` in Claude Code). There are no meta-tools. Tool names cannot contain
+`:` and the API caps a name at 64 characters, 13 of which the client spends on `mcp__mcpkit__`, so a name longer than 51
+characters is cut at a word boundary and ends in a 6-character hash of its full id (`..._comments_create_d9463b`). The
+hash depends only on the id, so a name and the permission rule written for it stay the same from run to run.
 
-| Tool            | Arguments              | Returns                                                         |
-| --------------- | ---------------------- | --------------------------------------------------------------- |
-| `list_servers`  | none                   | server ids, for example `["git:github", "git:gitlab"]`          |
-| `list_tools`    | `server`               | tool ids, for example `["git:github:issues:pulls:list"]`        |
-| `describe_tool` | `id`                   | description and input schema (loads the manifest)               |
-| `call_tool`     | `id`, `arguments`      | the tool result (loads the manifest)                            |
+Names come from the catalog, which is why `tools/list` loads the manifests of the served servers once at start (cached
+under `~/.mcpkit/manifests`). A server that cannot be loaded is left out and a warning goes to stderr. Reads are marked
+read-only, deletes destructive and known writes as writes; any other verb is left unannotated.
 
-Ids come straight from `index.json`; `<category>:<server>:<resource>:<action>` selects `<category>/<server>.json`, for example `git:github:issues:pulls:list`.
+Ids still come from `index.json`: `<category>:<server>:<resource>:<action>` selects `<category>/<server>.json`.
 `mcpkit serve [servers…]` limits the catalog to the given ids or bare names.

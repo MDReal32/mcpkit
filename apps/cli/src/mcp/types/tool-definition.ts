@@ -1,4 +1,4 @@
-export interface MetaTool {
+export interface ToolDefinition {
   name: string;
   description: string;
   inputSchema: Readonly<Record<string, unknown>>;

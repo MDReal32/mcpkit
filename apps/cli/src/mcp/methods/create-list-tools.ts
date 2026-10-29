@@ -1,7 +1,10 @@
-import { createRowToolDefinition, createToolRows } from "../rows";
-import { META_TOOLS } from "../tools/const";
-import type { Catalog } from "../types/catalog";
+import type { ExposedToolsLoader } from "../types/exposed-tools-loader";
 
-export const createListTools = (catalog: Catalog) => () => ({
-  tools: [...META_TOOLS, ...createToolRows(catalog).map(createRowToolDefinition)],
+export const createListTools = (loadTools: ExposedToolsLoader) => async () => ({
+  tools: (await loadTools()).map(({ name, description, inputSchema, annotations }) => ({
+    name,
+    description,
+    inputSchema,
+    annotations,
+  })),
 });

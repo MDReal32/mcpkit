@@ -1,4 +1,4 @@
-import type { ToolAnnotations } from "../types/meta-tool";
+import type { ToolAnnotations } from "../types/tool-definition";
 import { DESTRUCTIVE_VERBS, SAFE_VERBS, WRITE_VERBS } from "./const";
 
 /** A verb in none of the lists gets no annotations, so the client files it under "Other tools". */

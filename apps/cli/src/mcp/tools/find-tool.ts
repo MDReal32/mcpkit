@@ -6,11 +6,11 @@ import { parseToolId } from "./parse-tool-id";
 export const findTool = (catalog: Catalog, id: string): ToolLookup => {
   const parsed = parseToolId(id);
   if (!parsed) {
-    return { error: `invalid tool id "${id}"; expected <category>:<server>:<resource>:<action>, see list_tools` };
+    return { error: `invalid tool id "${id}"; expected <category>:<server>:<resource>:<action>` };
   }
   const server = catalog.servers.find((candidate) => candidate.id === parsed.serverId);
   if (!server) {
-    return { error: `unknown server "${parsed.serverId}"; see list_servers` };
+    return { error: `unknown server "${parsed.serverId}"` };
   }
   if (!server.tools.includes(parsed.tool)) {
     return { error: `server "${server.id}" has no tool "${parsed.tool}"; see list_tools` };
