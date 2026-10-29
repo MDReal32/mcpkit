@@ -9,4 +9,8 @@ export interface Catalog {
   upstreams?: ReadonlyMap<string, UpstreamServer>;
   /** The manifest holding `tool`, a tool name without the server id. */
   loadManifest: (id: string, tool: string) => Promise<Manifest>;
+  /** The group names of a server split into parts; empty when its tools are in one manifest. */
+  loadGroups: (id: string) => Promise<readonly string[]>;
+  /** The manifest holding the tools of `group`; the whole manifest for a server that is not split. */
+  loadGroupManifest: (id: string, group?: string) => Promise<Manifest>;
 }

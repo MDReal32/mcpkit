@@ -14,7 +14,6 @@ const toIndexEntry = (entry: CompiledManifest, shellJson: string, registryUrl: s
     id: `${entry.manifest.category}:${entry.manifest.name}`,
     version: entry.manifest.version,
     description: entry.manifest.description,
-    tools: entry.manifest.tools.map((tool) => tool.name),
     ...(entry.manifest.upstream ? { upstream: true } : {}),
     url: registryUrl ? `${registryUrl.replace(/\/+$/, "")}/${path}` : path,
     sha256: createHash("sha256").update(shellJson).digest("hex"),
@@ -32,7 +31,7 @@ const writeEntry = async (entry: CompiledManifest, outDir: string, split: SplitM
 };
 
 /**
- * Writes `<category>/<name>.json` per manifest plus the index.json the CLI syncs; tools are listed by name only.
+ * Writes `<category>/<name>.json` per manifest plus the index.json the CLI syncs; the index lists servers only, their parts and tools live in their own files.
  * A server with grouped tool names is written as a shell plus one file per group (see splitManifest).
  */
 export const writeManifests = async (compiled: readonly CompiledManifest[], outDir: string, registryUrl?: string) => {

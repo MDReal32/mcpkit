@@ -8,7 +8,7 @@ const parseServer = (entry: unknown, position: number) => {
   if (!isJsonObject(entry)) {
     throw new Error(`${label} must be an object`);
   }
-  const { id, version, description, tools, url, sha256, upstream } = entry;
+  const { id, version, description, url, sha256, upstream } = entry;
   if (typeof id !== "string" || !SERVER_ID_PATTERN.test(id)) {
     throw new Error(`${label}.id must match ${SERVER_ID_PATTERN}`);
   }
@@ -17,9 +17,6 @@ const parseServer = (entry: unknown, position: number) => {
   }
   if (typeof sha256 !== "string" || !SHA256_PATTERN.test(sha256)) {
     throw new Error(`${label} (${id}).sha256 must be a hex SHA-256`);
-  }
-  if (!Array.isArray(tools) || !tools.every((tool) => typeof tool === "string")) {
-    throw new Error(`${label} (${id}).tools must be an array of tool names`);
   }
   if (description !== undefined && typeof description !== "string") {
     throw new Error(`${label} (${id}).description must be a string`);
@@ -32,7 +29,6 @@ const parseServer = (entry: unknown, position: number) => {
     version,
     url,
     sha256,
-    tools,
     ...(description === undefined ? {} : { description }),
     ...(upstream ? { upstream } : {}),
   };

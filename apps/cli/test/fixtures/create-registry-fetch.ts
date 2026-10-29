@@ -17,7 +17,6 @@ export const createRegistryFetch = (registryUrl: string, manifests: readonly Man
       id: `${manifest.category}:${manifest.name}`,
       version: manifest.version,
       description: manifest.description,
-      tools: manifest.tools.map((tool) => tool.name),
       url,
       sha256: createHash("sha256").update(text).digest("hex"),
     };

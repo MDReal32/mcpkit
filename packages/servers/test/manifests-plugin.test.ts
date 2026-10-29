@@ -73,7 +73,7 @@ describe("compileServers", () => {
 });
 
 describe("writeManifests", () => {
-  it("writes <category>/<name>.json and an index of ids, tool names, links and checksums", async () => {
+  it("writes <category>/<name>.json and a light index of ids, links and checksums, without tools", async () => {
     const { compiled } = await compileServers(resolve("src/servers"));
 
     await writeManifests(compiled, join(readDir(), "linked"), "https://reg.example/mcpkit/");
@@ -85,7 +85,7 @@ describe("writeManifests", () => {
     const file = await readFile(join(readDir(), "linked", "git", "github.json"), "utf8");
     expect(linked.url).toBe("https://reg.example/mcpkit/git/github.json");
     expect(plain.url).toBe("git/github.json");
-    expect(linked.tools).toContain("issues:issues:create");
+    expect(linked.tools).toBeUndefined();
     const shell = JSON.parse(file);
     expect(shell.tools).toBeUndefined();
     const issues = shell.parts.find((part: { name: string }) => part.name === "issues");

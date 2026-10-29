@@ -1,6 +1,6 @@
 import type { ExecuteOptions } from "@usemcpkit/core";
 import type { Catalog } from "../../mcp";
-import { createRegistryContext, loadManifest, readCachedIndex } from "../../registry";
+import { createRegistryContext, loadGroupManifest, loadGroups, loadManifest, readCachedIndex } from "../../registry";
 import type { UpstreamServer } from "../../upstream";
 import { autoSyncManifests } from "./auto-sync-manifests";
 import type { HydratedServer } from "./hydrate-upstream-server";
@@ -33,16 +33,19 @@ export const loadCatalog = async (selection: readonly string[], options: Execute
   const upstreams = new Map<string, UpstreamServer>(
     hydrated.flatMap(({ server, upstream }) => (upstream ? [[server.id, upstream] as const] : [])),
   );
+  const findServer = (id: string) => {
+    const server = servers.find((candidate) => candidate.id === id);
+    if (!server) {
+      throw new Error(`unknown server "${id}"`);
+    }
+    return server;
+  };
   const catalog: Catalog = {
     servers: hydrated.map(({ server }) => server),
     upstreams,
-    loadManifest: async (id, tool) => {
-      const server = servers.find((candidate) => candidate.id === id);
-      if (!server) {
-        throw new Error(`unknown server "${id}"`);
-      }
-      return loadManifest(server, context, tool);
-    },
+    loadManifest: async (id, tool) => loadManifest(findServer(id), context, tool),
+    loadGroups: async (id) => loadGroups(findServer(id), context),
+    loadGroupManifest: async (id, group) => loadGroupManifest(findServer(id), context, group),
   };
   return catalog;
 };

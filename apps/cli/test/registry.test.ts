@@ -5,6 +5,8 @@ import { createPingManifest, useTempDir } from "@usemcpkit/testing";
 import { describe, expect, it } from "vitest";
 import {
   createRegistryContext,
+  loadGroupManifest,
+  loadGroups,
   loadManifest,
   readCachedIndex,
   readSyncStatus,
@@ -43,7 +45,7 @@ describe("syncRegistry", () => {
 
     expect(report).toEqual({ servers: 1, refreshed: [], failed: [] });
     expect(registry.requests).toEqual([`${REGISTRY}/index.json`]);
-    expect((await readIndexServer()).tools).toEqual(["ping:run"]);
+    expect((await readIndexServer()).id).toBe("test:demo");
   });
 
   it("re-downloads a cached manifest whose content changed under the same version", async () => {
@@ -179,6 +181,27 @@ describe("loadManifest of a server split into parts", () => {
       `${REGISTRY}/test/demo.json`,
       `${REGISTRY}/test/demo/a.json`,
     ]);
+  });
+
+  it("lists the groups from the shell alone, without downloading any part", async () => {
+    const registry = createSplitRegistryFetch(REGISTRY, split);
+    const context = createRegistryContext({ dir: readDir(), registryUrl: REGISTRY, fetchImpl: registry.fetchImpl });
+    await syncRegistry(context);
+
+    const groups = await loadGroups(await readIndexServer(), context);
+
+    expect(groups).toEqual(["a", "b"]);
+    expect(registry.requests).toEqual([`${REGISTRY}/index.json`, `${REGISTRY}/test/demo.json`]);
+  });
+
+  it("loads the tools of one group by its name", async () => {
+    const registry = createSplitRegistryFetch(REGISTRY, split);
+    const context = createRegistryContext({ dir: readDir(), registryUrl: REGISTRY, fetchImpl: registry.fetchImpl });
+    await syncRegistry(context);
+
+    const manifest = await loadGroupManifest(await readIndexServer(), context, "b");
+
+    expect(manifest.tools.map((candidate) => candidate.name)).toEqual(["b:x:run"]);
   });
 
   it("rejects a tool group the shell does not list", async () => {

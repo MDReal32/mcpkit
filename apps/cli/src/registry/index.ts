@@ -1,3 +1,5 @@
+export { loadGroupManifest } from "./catalog/load-group-manifest";
+export { loadGroups } from "./catalog/load-groups";
 export { loadManifest } from "./catalog/load-manifest";
 export { createRegistryContext } from "./create-registry-context";
 export { readCachedIndex } from "./local/read-cached-index";

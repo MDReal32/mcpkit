@@ -345,7 +345,7 @@ No manifest ships inside the binary. They live in a registry (by default the rep
 `.github/workflows/registry.yml` whenever `packages/servers/src` or the manifest compiler changes):
 
 ```
-index.json                  every server: id, version, description, tool names, link, sha256
+index.json                  every server: id, version, description, link, sha256 (no tools, so it stays small)
 <category>/<server>.json    one manifest, for example git/gitlab.json
 <category>/<server>/<group>.json  with grouped tool names (git/github.json is a shell listing git/github/<group>.json)
 ```
@@ -364,15 +364,20 @@ the first time a tool of that server is described or called, checked against the
 
 ### What the AI client sees
 
-Every tool of every served server is its own MCP tool, with its description and input schema, so the client's permission
-rules apply per tool: `git:github` with `issues:issues:get_issue` is `git_github_issues_issues_get_issue`
-(`mcp__mcpkit__git_github_issues_issues_get_issue` in Claude Code). There are no meta-tools. Tool names cannot contain
+The tool list starts as one **section** per served server (`git_github`, `git_gitlab`, ...). A section is not a tool: its
+description says so, it takes no arguments, and calling it opens it. A server split into groups answers with its groups,
+each one another section (`git_github_issues`); calling a group, or a server that has no groups, puts its tools into the
+list and mcpkit sends `tools/list_changed`. Only what the model opens is downloaded: the index first, then the server's
+shell, then the one group file. Every real tool is its own MCP tool, with its description and input schema, so the
+client's permission rules apply per tool: `git:github` with `issues:issues:get_issue` is `git_github_issues_issues_get_issue`
+(`mcp__mcpkit__git_github_issues_issues_get_issue` in Claude Code). There are no `call_tool` or `describe_tool` meta-tools,
+and opened sections are forgotten when the server restarts. Tool names cannot contain
 `:` and the API caps a name at 64 characters, 13 of which the client spends on `mcp__mcpkit__`, so a name longer than 51
 characters is cut at a word boundary and ends in a 6-character hash of its full id (`..._comments_create_d9463b`). The
 hash depends only on the id, so a name and the permission rule written for it stay the same from run to run.
 
-Names come from the catalog, which is why `tools/list` loads the manifests of the served servers once at start (cached
-under `~/.mcpkit/manifests`). A server that cannot be loaded is left out and a warning goes to stderr. Reads are marked
+Opening a section downloads its file once (cached under `~/.mcpkit/manifests`). A section that cannot be opened stays
+closed and the call returns an error saying why. Reads are marked
 read-only, deletes destructive and known writes as writes; any other verb is left unannotated.
 
 Ids still come from `index.json`: `<category>:<server>:<resource>:<action>` selects `<category>/<server>.json`.

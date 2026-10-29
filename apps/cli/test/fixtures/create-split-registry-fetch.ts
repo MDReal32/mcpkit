@@ -20,7 +20,6 @@ export const createSplitRegistryFetch = (registryUrl: string, manifest: Manifest
   const server = {
     id: `${manifest.category}:${manifest.name}`,
     version: manifest.version,
-    tools: tools.map((tool) => tool.name),
     url: `${manifest.category}/${manifest.name}.json`,
     sha256: sha256Of(shellText),
   };

@@ -5,14 +5,28 @@ import type { Catalog } from "../src/mcp";
 import { createRpcHandler, serveStdio } from "../src/mcp";
 
 const manifest = createPingManifest("1.0.0", "", "demo");
+const groupedTools = ["a", "b"].flatMap((group) => manifest.tools.map((tool) => ({ ...tool, name: `${group}:x:run` })));
 
 const createCatalog = () => {
   const loaded: string[] = [];
   const catalog: Catalog = {
-    servers: [{ id: "test:demo", description: "Demo", tools: ["ping:run"] }],
+    servers: [
+      { id: "test:demo", description: "Demo" },
+      { id: "test:grouped", description: "Grouped" },
+    ],
     loadManifest: async (id) => {
       loaded.push(id);
       return manifest;
+    },
+    loadGroups: async (id) => {
+      loaded.push(`${id}/groups`);
+      return id === "test:grouped" ? ["a", "b"] : [];
+    },
+    loadGroupManifest: async (id, group) => {
+      loaded.push(`${id}/${group ?? ""}`);
+      return id === "test:grouped"
+        ? { ...manifest, name: "grouped", tools: groupedTools.filter((tool) => tool.name.startsWith(`${group}:`)) }
+        : manifest;
     },
   };
   return { catalog, loaded };
@@ -20,11 +34,16 @@ const createCatalog = () => {
 
 const call = (name: string, args?: unknown) => ({ method: "tools/call", params: { name, arguments: args } });
 
-describe("createRpcHandler", () => {
-  const { catalog, loaded } = createCatalog();
-  const handle = createRpcHandler(catalog, { fetchImpl: createFakeFetch(200, { pong: true }) });
+const listNames = async (handle: ReturnType<typeof createRpcHandler>) => {
+  const response = await handle({ id: 100, method: "tools/list" });
+  const { tools } = (response?.result ?? { tools: [] }) as { tools: { name: string }[] };
+  return tools.map((tool) => tool.name);
+};
 
+describe("createRpcHandler", () => {
   it("answers initialize with the client protocol version", async () => {
+    const handle = createRpcHandler(createCatalog().catalog);
+
     const response = await handle({ id: 1, method: "initialize", params: { protocolVersion: "2025-03-26" } });
 
     expect(response?.result).toMatchObject({
@@ -33,84 +52,148 @@ describe("createRpcHandler", () => {
     });
   });
 
-  it("lists every tool as its own MCP tool with its schema", async () => {
-    const response = await handle({ id: 2, method: "tools/list" });
+  it("lists one section per server, marked as not a tool, without loading anything", async () => {
+    const { catalog, loaded } = createCatalog();
+
+    const response = await createRpcHandler(catalog)({ id: 2, method: "tools/list" });
 
     expect(response?.result).toEqual({
       tools: [
         {
-          name: "test_demo_ping_run",
-          description: "Ping",
+          name: "test_demo",
+          description: expect.stringContaining("SECTION of mcpkit, not a callable tool"),
           inputSchema: { type: "object", properties: {} },
+          annotations: { readOnlyHint: true },
+        },
+        {
+          name: "test_grouped",
+          description: expect.stringContaining("SECTION of mcpkit, not a callable tool"),
+          inputSchema: { type: "object", properties: {} },
+          annotations: { readOnlyHint: true },
         },
       ],
     });
-    expect(loaded).toEqual(["test:demo"]);
+    expect(loaded).toEqual([]);
   });
 
-  it("calls a tool by its name and returns JSON text content", async () => {
-    const response = await handle({ id: 3, ...call("test_demo_ping_run", {}) });
+  it("opens a server that is not split and puts its tools in the list", async () => {
+    const { catalog, loaded } = createCatalog();
+    let changes = 0;
+    const handle = createRpcHandler(catalog, { onToolsChanged: () => (changes += 1) });
+
+    const opened = await handle({ id: 3, ...call("test_demo") });
+    await handle({ id: 4, ...call("test_demo") });
+
+    expect(JSON.stringify(opened?.result)).toContain("test_demo_ping_run");
+    expect(await listNames(handle)).toEqual(["test_demo", "test_demo_ping_run", "test_grouped"]);
+    expect(changes).toBe(1);
+    expect(loaded).toEqual(["test:demo/groups", "test:demo/"]);
+  });
+
+  it("opens a split server group by group, loading only the group that is opened", async () => {
+    const { catalog, loaded } = createCatalog();
+    const handle = createRpcHandler(catalog);
+
+    await handle({ id: 5, ...call("test_grouped") });
+    expect(await listNames(handle)).toEqual(["test_demo", "test_grouped", "test_grouped_a", "test_grouped_b"]);
+    await handle({ id: 6, ...call("test_grouped_b") });
+
+    expect(await listNames(handle)).toEqual([
+      "test_demo",
+      "test_grouped",
+      "test_grouped_a",
+      "test_grouped_b",
+      "test_grouped_b_x_run",
+    ]);
+    expect(loaded).toEqual(["test:grouped/groups", "test:grouped/b"]);
+  });
+
+  it("calls a tool by its name once its section is open and returns JSON text content", async () => {
+    const handle = createRpcHandler(createCatalog().catalog, { fetchImpl: createFakeFetch(200, { pong: true }) });
+    await handle({ id: 7, ...call("test_demo") });
+
+    const response = await handle({ id: 8, ...call("test_demo_ping_run", {}) });
 
     expect(response?.result).toEqual({ content: [{ type: "text", text: '{\n  "pong": true\n}' }] });
   });
 
   it("reports tool failures as isError results", async () => {
     const failing = createRpcHandler(createCatalog().catalog, { fetchImpl: createFakeFetch(500, "boom") });
+    await failing({ id: 9, ...call("test_demo") });
 
-    const response = await failing({ id: 4, ...call("test_demo_ping_run") });
+    const response = await failing({ id: 10, ...call("test_demo_ping_run") });
 
     expect(response?.result).toEqual({ content: [{ type: "text", text: "demo API 500: boom" }], isError: true });
   });
 
-  it("leaves out a server whose tools cannot be loaded and warns", async () => {
-    const warnings: string[] = [];
+  it("reports a section that cannot be opened as an isError result and keeps it closed", async () => {
+    const { catalog } = createCatalog();
     const broken: Catalog = {
-      servers: [{ id: "test:demo", tools: ["ping:run"] }],
-      loadManifest: async () => {
+      ...catalog,
+      loadGroups: async () => {
         throw new Error("offline");
       },
     };
+    const handle = createRpcHandler(broken);
 
-    const response = await createRpcHandler(broken, { onWarning: (message) => warnings.push(message) })({
-      id: 5,
-      method: "tools/list",
+    const response = await handle({ id: 11, ...call("test_grouped") });
+
+    expect(response?.result).toEqual({
+      content: [{ type: "text", text: "could not open test_grouped: offline" }],
+      isError: true,
     });
-
-    expect(response?.result).toEqual({ tools: [] });
-    expect(warnings).toEqual(["test:demo: its tools are not listed: offline"]);
+    expect(await listNames(handle)).toEqual(["test_demo", "test_grouped"]);
   });
 
-  it("returns protocol errors for unknown tools, bad arguments and unknown methods", async () => {
-    expect((await handle({ id: 9, ...call("nope") }))?.error?.code).toBe(-32602);
-    expect((await handle({ id: 10, ...call("test_demo_ping_run", []) }))?.error?.code).toBe(-32602);
-    expect((await handle({ id: 12, method: "nope" }))?.error?.code).toBe(-32601);
+  it("returns protocol errors for unknown or still closed tools, bad arguments and unknown methods", async () => {
+    const handle = createRpcHandler(createCatalog().catalog);
+
+    expect((await handle({ id: 12, ...call("nope") }))?.error?.code).toBe(-32602);
+    expect((await handle({ id: 13, ...call("test_demo_ping_run") }))?.error?.code).toBe(-32602);
+    await handle({ id: 14, ...call("test_demo") });
+    expect((await handle({ id: 15, ...call("test_demo_ping_run", []) }))?.error?.code).toBe(-32602);
+    expect((await handle({ id: 16, method: "nope" }))?.error?.code).toBe(-32601);
   });
 
   it("returns nothing for notifications", async () => {
-    expect(await handle({ method: "notifications/initialized" })).toBeNull();
+    expect(await createRpcHandler(createCatalog().catalog)({ method: "notifications/initialized" })).toBeNull();
   });
 });
 
 describe("serveStdio", () => {
-  it("answers parse and invalid request errors with a null id", async () => {
+  const collect = async (lines: string) => {
     const input = new PassThrough();
     const output = new PassThrough();
     const chunks: string[] = [];
     output.on("data", (chunk: Buffer) => chunks.push(chunk.toString()));
 
     const serving = serveStdio(createCatalog().catalog, { input, output });
-    input.end('garbage\n{"id":1}\n');
+    input.end(lines);
     await serving;
-    await new Promise((resolve) => setImmediate(resolve));
+    await new Promise((resolve) => setTimeout(resolve, 10));
 
-    const responses: unknown = chunks
+    return chunks
       .join("")
       .trim()
       .split("\n")
-      .map((line) => JSON.parse(line));
-    expect(responses).toEqual([
+      .map((line): unknown => JSON.parse(line));
+  };
+
+  it("answers parse and invalid request errors with a null id", async () => {
+    expect(await collect('garbage\n{"id":1}\n')).toEqual([
       { jsonrpc: "2.0", id: null, error: { code: -32700, message: expect.stringMatching(/^parse error/) } },
       { jsonrpc: "2.0", id: null, error: { code: -32600, message: expect.stringMatching(/^invalid request/) } },
+    ]);
+  });
+
+  it("announces tools/list_changed after the response that opened a section", async () => {
+    const lines = `${JSON.stringify({ jsonrpc: "2.0", id: 1, ...call("test_demo") })}\n`;
+
+    const messages = await collect(lines);
+
+    expect(messages).toEqual([
+      { jsonrpc: "2.0", id: 1, result: expect.anything() },
+      { jsonrpc: "2.0", method: "notifications/tools/list_changed" },
     ]);
   });
 });

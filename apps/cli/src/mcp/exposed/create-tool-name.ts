@@ -15,11 +15,15 @@ const cutAtWordBoundary = (name: string, length: number) => {
 /**
  * `git:github` with `issues:issues:get_issue` is `git_github_issues_issues_get_issue`. A name that does not fit is cut
  * at a word boundary and ends in a hash of the full id, so it stays the same from run to run and the client's
- * permission rules keep matching. `attempt` is bumped by the caller when two tools land on the same name.
+ * permission rules keep matching. An empty `tool` names a server section: `git:github` is `git_github`. `attempt` is bumped by the caller when two tools land on the same name.
  */
 export const createToolName = (serverId: string, tool: string, attempt = 0) => {
   const id = `${serverId}${TOOL_ID_SEPARATOR}${tool}`;
-  const name = id.split(TOOL_ID_SEPARATOR).join(NAME_PART_SEPARATOR).replace(INVALID_NAME_CHARACTERS, "_");
+  const name = id
+    .split(TOOL_ID_SEPARATOR)
+    .filter((part) => part !== "")
+    .join(NAME_PART_SEPARATOR)
+    .replace(INVALID_NAME_CHARACTERS, "_");
   if (attempt === 0 && name.length <= MAX_TOOL_NAME_LENGTH) {
     return name;
   }

@@ -2,6 +2,7 @@ import type { ToolAnnotations } from "../types/tool-definition";
 
 /** One catalog tool as the client sees it: its own MCP tool, with its schema. */
 export interface ExposedTool {
+  kind: "tool";
   /** The MCP tool name; the client's permission rules match on it. */
   name: string;
   serverId: string;

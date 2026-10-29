@@ -8,7 +8,7 @@ export const listCommand = async () => {
   const catalog = await loadCatalog([]);
   for (const server of catalog.servers) {
     printLine(`${server.id} — ${server.description ?? ""}`);
-    for (const tool of server.tools) {
+    for (const tool of server.tools ?? []) {
       printLine(`  ${server.id}:${tool}`);
     }
   }
@@ -16,5 +16,7 @@ export const listCommand = async () => {
 };
 
 export const registerListCommand = (program: Program) => {
-  program.command("list", "List available servers and their tools").action(toAction(listCommand));
+  program
+    .command("list", "List available servers (and the tools of the ones that report them)")
+    .action(toAction(listCommand));
 };
