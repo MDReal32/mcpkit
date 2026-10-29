@@ -7,6 +7,7 @@ on:
     paths:
       - packages/servers/**
       - packages/core/src/**
+      - apps/video/**
       - .github/workflows/registry.yml
       - "!**/*.md"
   workflow_dispatch:
@@ -22,7 +23,7 @@ concurrency:
 
 jobs:
   deploy:
-    name: Publish manifests to GitHub Pages
+    name: Publish manifests and the promo video to GitHub Pages
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -45,6 +46,29 @@ jobs:
 
       - name: Build
         run: yarn build
+
+      - name: Restore promo video
+        id: video-cache
+        uses: actions/cache@v6
+        with:
+          path: apps/video/build/pages
+          key: video-${{ hashFiles('apps/video/src/**', 'apps/video/scripts/**', 'apps/video/public/sfx/**', 'apps/video/public/voiceover/**', 'apps/video/site/**', 'apps/video/package.json', 'apps/video/remotion.config.ts', 'yarn.lock') }}
+
+      - name: Install Chrome Headless Shell dependencies
+        if: steps.video-cache.outputs.cache-hit != 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libnss3 libdbus-1-3 libatk1.0-0 libasound2t64 libxrandr2 libxkbcommon-dev \
+            libxfixes3 libxcomposite1 libxdamage1 libgbm-dev libcups2 libcairo2 libpango-1.0-0 libatk-bridge2.0-0
+
+      - name: Render promo video
+        if: steps.video-cache.outputs.cache-hit != 'true'
+        run: |
+          yarn workspace @usemcpkit/video remotion browser ensure
+          yarn workspace @usemcpkit/video pages
+
+      - name: Add promo video to the site
+        run: cp -R apps/video/build/pages packages/servers/build/manifests/video
 
       - name: Upload registry
         uses: actions/upload-pages-artifact@v5

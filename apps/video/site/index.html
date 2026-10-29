@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>mcpkit · Every API. One MCP server.</title>
+    <meta name="description" content="mcpkit puts thousands of API tools behind one MCP server. Install with npx usemcpkit." />
+    <meta property="og:title" content="mcpkit · Every API. One MCP server." />
+    <meta property="og:type" content="video.other" />
+    <meta property="og:image" content="poster.jpg" />
+    <meta property="og:video" content="mcpkit.mp4" />
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #08090b;
+        --surface: #0f1114;
+        --border: #22262e;
+        --text: #eef0f4;
+        --muted: #8b92a0;
+        --accent: #6b8cff;
+        --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+        --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 48px 16px;
+        background: radial-gradient(ellipse 60% 50% at 50% 30%, rgba(107, 140, 255, 0.12), transparent 70%), var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+      }
+
+      main {
+        width: 100%;
+        max-width: 1120px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 32px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(32px, 6vw, 56px);
+        font-weight: 600;
+        letter-spacing: -0.04em;
+        text-align: center;
+      }
+
+      h1 span {
+        color: var(--accent);
+      }
+
+      video {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        box-shadow: 0 40px 120px rgba(0, 0, 0, 0.55);
+      }
+
+      .install {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 16px 14px 24px;
+        border-radius: 999px;
+        border: 1px solid rgba(107, 140, 255, 0.45);
+        background: var(--surface);
+        font-family: var(--mono);
+        font-size: 20px;
+      }
+
+      .install b {
+        color: var(--accent);
+        font-weight: 400;
+      }
+
+      button {
+        font: 14px var(--sans);
+        color: var(--muted);
+        background: transparent;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 8px 14px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        color: var(--text);
+      }
+
+      a {
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 15px;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: var(--text);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Every API. <span>One</span> MCP server.</h1>
+      <video src="mcpkit.mp4" poster="poster.jpg" autoplay muted loop playsinline controls preload="metadata"></video>
+      <div class="install">
+        <span><b>$</b> npx usemcpkit</span>
+        <button type="button" id="copy">Copy</button>
+      </div>
+      <a href="https://github.com/MDReal32/mcpkit">github.com/MDReal32/mcpkit</a>
+    </main>
+    <script>
+      const copy = document.getElementById("copy");
+      copy.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText("npx usemcpkit");
+          copy.textContent = "Copied";
+        } catch (error) {
+          copy.textContent = "Copy failed";
+          copy.title = String(error);
+        }
+      });
+    </script>
+  </body>
+</html>

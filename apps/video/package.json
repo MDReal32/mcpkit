@@ -1,0 +1,32 @@
+{
+  "name": "@usemcpkit/video",
+  "version": "0.5.0",
+  "private": true,
+  "description": "The 30-second mcpkit promo, made with Remotion.",
+  "type": "module",
+  "scripts": {
+    "audio": "node scripts/audio/generate-audio.ts",
+    "voiceover": "node --env-file-if-exists=.env scripts/voiceover/generate-voiceover.ts",
+    "studio": "yarn audio && remotion studio",
+    "render": "yarn audio && remotion render Promo build/mcpkit.video.mp4",
+    "pages": "yarn audio && rm -rf build/pages && remotion render Promo build/pages/mcpkit.mp4 && remotion still Promo build/pages/poster.jpg --frame=1900 --image-format=jpeg --jpeg-quality=90 && cp site/index.html build/pages/index.html",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check ."
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.539",
+    "@remotion/google-fonts": "4.0.539",
+    "@remotion/media": "4.0.539",
+    "@remotion/studio": "4.0.539",
+    "@remotion/transitions": "4.0.539",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "remotion": "4.0.539"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.15",
+    "@types/react": "19.3.0",
+    "typescript": "^5.9.0"
+  },
+  "license": "MIT"
+}
