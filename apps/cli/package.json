@@ -1,6 +1,6 @@
 {
   "name": "@usemcpkit/cli",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Many MCP servers in one tool. Each server is a JSON manifest; @usemcpkit/core executes it.",
   "repository": {
     "type": "git",
