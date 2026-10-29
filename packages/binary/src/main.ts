@@ -4,6 +4,7 @@ export { detectPackageManagerInstall } from "./install/detect-package-manager-in
 export { findPackageManagerInstall } from "./install/find-package-manager-install";
 export { installBinary } from "./install/install-binary";
 export { isCompiledBinary } from "./install/is-compiled-binary";
+export { isInstalledBinary } from "./install/is-installed-binary";
 export { resolveInstalledBinaryPath } from "./install/resolve-installed-binary-path";
 export type { NpmPlatform, Target } from "./platform";
 export {
@@ -18,6 +19,8 @@ export {
 } from "./platform";
 export { readPackageRelease } from "./release/read-package-release";
 export { verifyIntegrity } from "./release/verify-integrity";
+export { ensureUpgradeSchedule } from "./schedule/ensure-upgrade-schedule";
+export { removeUpgradeSchedule } from "./schedule/remove-upgrade-schedule";
 export { extractTarFile } from "./tar/extract-tar-file";
 export type { BinaryContext } from "./types/binary-context";
 export type { BinaryUpdateResult } from "./types/binary-update-result";

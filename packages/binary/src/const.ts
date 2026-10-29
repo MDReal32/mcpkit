@@ -8,7 +8,7 @@ export const DEFAULT_NPM_REGISTRY = "https://registry.npmjs.org";
 
 export const NPM_REGISTRY_ENV = "MCPKIT_NPM_REGISTRY";
 
-/** Set to `0` to stop `serve` from replacing the installed binary with newer releases. */
+/** Set to `0` to stop `serve` from replacing the installed binary with newer releases and from scheduling `mcpkit upgrade`. */
 export const AUTO_UPDATE_ENV = "MCPKIT_AUTO_UPDATE";
 
 export const LATEST_TAG = "latest";

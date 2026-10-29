@@ -14,11 +14,19 @@ export const prepareLaunchBinary = async (binaryPath: string | undefined) => {
       );
     }
     printLine(`Using mcpkit ${VERSION} from ${managed.manager} at ${managed.path}`);
-    const binary: LaunchBinary = { path: managed.path, updateHint: `Update it with "${managed.upgradeCommand}".` };
+    const binary: LaunchBinary = {
+      path: managed.path,
+      updateHint: `Update it with "${managed.upgradeCommand}".`,
+      managed: true,
+    };
     return binary;
   }
   const installed = await installBinary(await createBinaryContext(), { path: binaryPath, version: VERSION });
   printLine(`mcpkit ${installed.version} installed at ${installed.path}`);
-  const binary: LaunchBinary = { path: installed.path, updateHint: "It updates itself in the background." };
+  const binary: LaunchBinary = {
+    path: installed.path,
+    updateHint: "It updates itself in the background.",
+    managed: false,
+  };
   return binary;
 };

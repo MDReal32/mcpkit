@@ -9,6 +9,7 @@ import { printLine } from "../output/print-line";
 import { syncQuietly } from "../serve/sync-quietly";
 import { toAction } from "../to-action";
 import type { InstallOptions } from "../types/install-options";
+import { announceUpgradeSchedule } from "../update/announce-upgrade-schedule";
 import { prepareLaunchBinary } from "../update/prepare-launch-binary";
 
 /** Copies the binary to ~/.mcpkit/bin (or uses the Homebrew/winget one in place) and points each chosen client's single `mcpkit` entry at it. */
@@ -32,6 +33,9 @@ export const installCommand = async (options: InstallOptions) => {
   const failed = await applyToClients(selected, (client) =>
     setClientEntry(client.definition, client.configPath, { command: binary.path, args: SERVE_ARGS }),
   );
+  if (!binary.managed) {
+    await announceUpgradeSchedule();
+  }
   await syncQuietly();
   printLine(`Restart the clients to load mcpkit. ${binary.updateHint}`);
   return failed === 0 ? EXIT_SUCCESS : EXIT_FAILURE;

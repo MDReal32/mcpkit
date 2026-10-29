@@ -1,4 +1,4 @@
-import { createBinaryContext, resolveInstalledBinaryPath } from "@usemcpkit/binary";
+import { createBinaryContext, removeUpgradeSchedule, resolveInstalledBinaryPath } from "@usemcpkit/binary";
 import { createClientContext, detectClients, removeClientEntry } from "@usemcpkit/clients";
 import type { Program } from "yargs-extended";
 import { applyToClients } from "../clients/apply-to-clients";
@@ -23,6 +23,10 @@ export const uninstallCommand = async (selection: ClientSelection) => {
   }
   const failed = await applyToClients(selected, (client) => removeClientEntry(client.definition, client.configPath));
   const context = await createBinaryContext();
+  const remaining = await detectClients(createClientContext());
+  if (!remaining.some((client) => client.hasEntry) && (await removeUpgradeSchedule(context))) {
+    printLine('No client uses mcpkit now; removed the scheduled "mcpkit upgrade".');
+  }
   printLine(`The binary stays at ${resolveInstalledBinaryPath(context.target, context.env)}; delete it if unused.`);
   return failed === 0 ? EXIT_SUCCESS : EXIT_FAILURE;
 };
