@@ -1,6 +1,6 @@
 {
   "name": "usemcpkit",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "npx usemcpkit: adds mcpkit to every AI client on this computer. Runs @usemcpkit/cli.",
   "repository": {
     "type": "git",

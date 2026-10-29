@@ -1,6 +1,6 @@
 {
   "name": "@usemcpkit/video",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "private": true,
   "description": "The 30-second mcpkit promo, made with Remotion.",
   "type": "module",
