@@ -20,6 +20,7 @@ export {
   CREDENTIALS_FORM_SESSION_HEADER,
   CREDENTIALS_REQUEST_ELEMENT_ID,
   createFileSecretStore,
+  FORM_WINDOW_BINDINGS,
   isValidCredentialResponse,
   resolveCliCommand,
   resolveLinkUrl,

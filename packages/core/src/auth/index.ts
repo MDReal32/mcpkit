@@ -1,5 +1,10 @@
 export { AuthError } from "./auth-error";
-export { CREDENTIALS_FORM_API, CREDENTIALS_FORM_SESSION_HEADER, CREDENTIALS_REQUEST_ELEMENT_ID } from "./const";
+export {
+  CREDENTIALS_FORM_API,
+  CREDENTIALS_FORM_SESSION_HEADER,
+  CREDENTIALS_REQUEST_ELEMENT_ID,
+  FORM_WINDOW_BINDINGS,
+} from "./const";
 export { resolveCredentialForm } from "./credentials/request/resolve-credential-form";
 export { resolveDomain } from "./credentials/resolve/resolve-domain";
 export { isValidCredentialResponse } from "./credentials/response/is-valid-credential-response";

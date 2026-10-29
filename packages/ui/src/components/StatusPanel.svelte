@@ -2,6 +2,7 @@
   import type { CredentialRequest } from "@usemcpkit/core";
   import { AUTO_CLOSE_DELAY_MS } from "../const";
   import type { FormStatus } from "../types/form-status";
+  import { closeAppWindow } from "../window/close-app-window";
 
   interface Props {
     status: FormStatus;
@@ -15,7 +16,7 @@
     if (status !== "saved" && status !== "signing-in") {
       return;
     }
-    const timer = setTimeout(() => window.close(), AUTO_CLOSE_DELAY_MS);
+    const timer = setTimeout(closeAppWindow, AUTO_CLOSE_DELAY_MS);
     return () => clearTimeout(timer);
   });
 </script>

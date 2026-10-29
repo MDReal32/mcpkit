@@ -3,6 +3,7 @@
   import StatusPanel from "./components/StatusPanel.svelte";
   import { readInjectedRequest } from "./form/read-injected-request";
   import type { FormStatus } from "./types/form-status";
+  import { fitAppWindow } from "./window/fit-app-window";
 
   const load = () => {
     try {
@@ -16,6 +17,11 @@
 
   const { request, error: loadError } = load();
   let status = $state<FormStatus>("ready");
+
+  $effect(() => {
+    void status;
+    requestAnimationFrame(fitAppWindow);
+  });
 </script>
 
 <main class="card">

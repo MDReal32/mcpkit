@@ -17,6 +17,7 @@ export default defineConfig(({ mode }) => ({
     emptyOutDir: true,
     minify: true,
     rolldownOptions: {
+      external: ["bun:ffi", /^webview-bun\//],
       output: {
         entryFileNames: "mcpkit.cli.js",
         banner: "#!/usr/bin/env node",

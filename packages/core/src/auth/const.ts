@@ -33,6 +33,9 @@ export const CREDENTIALS_FORM_API = {
 
 export const CREDENTIALS_REQUEST_ELEMENT_ID = "mcpkit-request";
 
+/** Functions the CLI's native form window binds into the page: close it, and fit it to `{ width, height }`. */
+export const FORM_WINDOW_BINDINGS = { close: "mcpkitCloseWindow", fit: "mcpkitFitWindow" } as const;
+
 export const CREDENTIALS_FORM_SESSION_HEADER = "X-Mcpkit-Session";
 
 export const CONFIG_FILE_NAME = "config.json";

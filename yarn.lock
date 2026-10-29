@@ -1265,6 +1265,7 @@ __metadata:
     typescript: "npm:^5.9.0"
     vite: "npm:^8.0.0"
     vitest: "npm:^4.0.0"
+    webview-bun: "npm:2.4.0"
     yargs-extended: "npm:1.1.0"
   bin:
     usemcpkit: build/mcpkit.cli.js
@@ -4100,6 +4101,13 @@ __metadata:
   version: 0.6.2
   resolution: "webpack-virtual-modules@npm:0.6.2"
   checksum: 10c0/5ffbddf0e84bf1562ff86cf6fcf039c74edf09d78358a6904a09bbd4484e8bb6812dc385fe14330b715031892dcd8423f7a88278b57c9f5002c84c2860179add
+  languageName: node
+  linkType: hard
+
+"webview-bun@npm:2.4.0":
+  version: 2.4.0
+  resolution: "webview-bun@npm:2.4.0"
+  checksum: 10c0/51a8e8994fd2296086ba0059c71aefd95d2febd4eef7fc842d5798a59aa7bec7328c13bd8e4668bd526343e26bbedbf98ea4be526f151b64e59281e25ff7cac4
   languageName: node
   linkType: hard
 

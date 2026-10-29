@@ -7,6 +7,7 @@ import { registerUninstallCommand } from "./commands/uninstall-command";
 import { registerUpdateCommand } from "./commands/update-command";
 import { registerUpgradeCommand } from "./commands/upgrade-command";
 import { registerValidateCommand } from "./commands/validate-command";
+import { registerWindowCommand } from "./commands/window-command";
 import { describeProgram } from "./output/describe-program";
 
 /** Every command registers itself; a new command is one file in `commands/` and one line here. */
@@ -19,5 +20,6 @@ export const createProgram = (argv: string[]) => {
   registerListCommand(program);
   registerUpdateCommand(program);
   registerValidateCommand(program);
+  registerWindowCommand(program);
   return program;
 };
