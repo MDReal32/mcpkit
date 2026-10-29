@@ -108,6 +108,37 @@ describe("createRpcHandler", () => {
     expect(loaded).toEqual(["test:grouped/groups", "test:grouped/b"]);
   });
 
+  it("opens an upstream whose tools are named group:resource:action by group, and a flat one at once", async () => {
+    const upstreamTool = (name: string) => [name, { name, upstreamName: name, description: name }] as const;
+    const upstream = (names: string[]) => ({
+      tools: new Map(names.map(upstreamTool)),
+      call: async () => ({ content: [] }),
+    });
+    const { catalog } = createCatalog();
+    const grouped: Catalog = {
+      ...catalog,
+      servers: [
+        { id: "test:up", upstream: true },
+        { id: "test:flat", upstream: true },
+      ],
+      loadUpstream: async (id) => (id === "test:up" ? upstream(["a:x:run", "b:x:run"]) : upstream(["tools:ping"])),
+    };
+    const handle = createRpcHandler(grouped);
+
+    await handle({ id: 20, ...call("test_up") });
+    await handle({ id: 21, ...call("test_flat") });
+    await handle({ id: 22, ...call("test_up_a") });
+
+    expect(await listNames(handle)).toEqual([
+      "test_up",
+      "test_up_a",
+      "test_up_a_x_run",
+      "test_up_b",
+      "test_flat",
+      "test_flat_tools_ping",
+    ]);
+  });
+
   it("calls a tool by its name once its section is open and returns JSON text content", async () => {
     const handle = createRpcHandler(createCatalog().catalog, { fetchImpl: createFakeFetch(200, { pong: true }) });
     await handle({ id: 7, ...call("test_demo") });

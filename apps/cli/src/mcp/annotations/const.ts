@@ -39,9 +39,10 @@ export const SAFE_VERBS: readonly string[] = [
   "block",
   "suspend",
   "stop",
+  "status",
 ];
 
-export const DESTRUCTIVE_VERBS: readonly string[] = ["delete", "remove", "revoke", "trash", "purge", "cancel"];
+export const DESTRUCTIVE_VERBS: readonly string[] = ["delete", "remove", "revoke", "trash", "purge", "cancel", "deny"];
 
 export const WRITE_VERBS: readonly string[] = [
   "create",
@@ -97,4 +98,8 @@ export const WRITE_VERBS: readonly string[] = [
   "save",
   "accept",
   "decline",
+  "sync",
+  "confirm",
+  "reinvite",
+  "import",
 ];

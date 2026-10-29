@@ -99,6 +99,18 @@ describe("upstream manifests", () => {
     ]);
   });
 
+  it("accepts naming rules and rejects a broken regular expression or a name without three parts", () => {
+    const stdio = { type: "stdio", command: "node" };
+
+    expect(
+      validateManifest({ ...base, upstream: { ...stdio, naming: [{ match: "^get_(.+)$", name: "org:$1:get" }] } }),
+    ).toEqual([]);
+    expect(validateManifest({ ...base, upstream: { ...stdio, naming: [{ match: "(", name: "tools:get" }] } })).toEqual([
+      expect.stringMatching(/^upstream\.naming\[0\]\.match is not a valid regular expression/),
+      "upstream.naming[0].name must be <group>:<resource>:<action> with $1… or $& for the upstream name",
+    ]);
+  });
+
   it("rejects tools next to an upstream, a path as command and a plain http url", () => {
     const manifest = createPingManifest("1.0.0");
 

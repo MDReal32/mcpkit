@@ -1,3 +1,5 @@
+import type { UpstreamNameRule } from "@usemcpkit/core";
+import { nameUpstreamTool } from "@usemcpkit/core";
 import { UPSTREAM_TOOL_GROUP } from "./const";
 
 const toSnakeCase = (name: string) =>
@@ -12,16 +14,19 @@ const toSegment = (name: string) => {
   return /^[a-z]/.test(snake) ? snake : `t_${snake}`;
 };
 
-/** Catalog names for upstream tool names: `searchIssues` and `search-issues` become `tools:search_issues`, clashes get a number. */
-export const toCatalogToolNames = (upstreamNames: readonly string[]) => {
+/**
+ * Catalog names for upstream tool names. A tool a naming rule matches gets the rule's `<group>:<resource>:<action>`;
+ * any other, such as `searchIssues` or `search-issues`, becomes `tools:search_issues`. Clashes get a number.
+ */
+export const toCatalogToolNames = (upstreamNames: readonly string[], naming?: readonly UpstreamNameRule[]) => {
   const taken = new Set<string>();
   return upstreamNames.map((upstreamName) => {
-    const segment = toSegment(upstreamName);
-    let candidate = segment;
+    const base = nameUpstreamTool(naming, upstreamName) ?? `${UPSTREAM_TOOL_GROUP}:${toSegment(upstreamName)}`;
+    let candidate = base;
     for (let copy = 2; taken.has(candidate); copy += 1) {
-      candidate = `${segment}_${copy}`;
+      candidate = `${base}_${copy}`;
     }
     taken.add(candidate);
-    return { upstreamName, name: `${UPSTREAM_TOOL_GROUP}:${candidate}` };
+    return { upstreamName, name: candidate };
   });
 };

@@ -9,6 +9,7 @@ import { createToolName } from "./create-tool-name";
 import { describeOpenedSection } from "./describe-opened-section";
 import type { ExposedEntry } from "./exposed-entry";
 import type { ExposedSection } from "./exposed-section";
+import { loadGroupNames } from "./load-group-names";
 import { loadGroupTools } from "./load-group-tools";
 import { readVerb } from "./read-verb";
 import { sectionKey } from "./section-key";
@@ -58,7 +59,7 @@ export const createToolExposure = (catalog: Catalog, options: McpOptions) => {
     if (!server) {
       throw new Error(`unknown server "${section.serverId}"`);
     }
-    const groups = section.group === undefined && !server.upstream ? await catalog.loadGroups(server.id) : [];
+    const groups = section.group === undefined ? await loadGroupNames(catalog, server) : [];
     if (groups.length > 0) {
       return groups.map((group) => createSection(server, group));
     }

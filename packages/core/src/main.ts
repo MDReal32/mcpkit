@@ -31,7 +31,14 @@ export {
 export type { Env } from "./env";
 export { describeError, isMissingFileError } from "./errors";
 export type { ExecuteOptions, HttpRequest, UpstreamAccess } from "./execution";
-export { buildRequest, executeTool, prepareToolArgs, ToolError, withUpstreamAccess } from "./execution";
+export {
+  buildRequest,
+  executeTool,
+  nameUpstreamTool,
+  prepareToolArgs,
+  ToolError,
+  withUpstreamAccess,
+} from "./execution";
 export { resolveHomeDir } from "./home";
 export { isJsonObject } from "./json";
 export type {
@@ -63,6 +70,7 @@ export type {
   UiLinkAction,
   UiSpec,
   UiTexts,
+  UpstreamNameRule,
   UpstreamRepo,
   UpstreamSpec,
 } from "./manifest";

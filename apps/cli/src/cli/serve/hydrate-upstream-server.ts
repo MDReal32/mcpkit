@@ -2,7 +2,7 @@ import type { ExecuteOptions } from "@usemcpkit/core";
 import { describeError } from "@usemcpkit/core";
 import type { RegistryContext, RegistryServer } from "../../registry";
 import { loadManifest } from "../../registry";
-import { createUpstreamServer, discoverTools } from "../../upstream";
+import { createUpstreamServer, discoverTools, renameDiscoveredTools } from "../../upstream";
 import { printError } from "../output/print-error";
 
 /**
@@ -20,7 +20,7 @@ export const hydrateUpstreamServer = async (
     const tools = await discoverTools(context.dir, server.id, load, options, (error) =>
       printError(`${server.id}: could not refresh its tools: ${describeError(error)}`),
     );
-    return createUpstreamServer(load, tools);
+    return createUpstreamServer(load, renameDiscoveredTools(tools, (await load()).upstream?.naming));
   } catch (error) {
     throw new Error(`${server.id} is unavailable: ${describeError(error)}`);
   }

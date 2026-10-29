@@ -9,7 +9,10 @@ import { writeToolCache } from "./write-tool-cache";
 const discoverFromUpstream = async (manifest: Manifest, options: ExecuteOptions) => {
   const { connection, result } = await openUpstream(manifest, options, (opened) => opened.listTools());
   await connection.close();
-  const names = toCatalogToolNames(result.map((tool) => tool.name));
+  const names = toCatalogToolNames(
+    result.map((tool) => tool.name),
+    manifest.upstream?.naming,
+  );
   return result.map((tool, position) => {
     const discovered: DiscoveredTool = {
       name: names[position]?.name ?? tool.name,

@@ -36,6 +36,7 @@ export type { UiTexts } from "./types/ui/ui-texts";
 export type { HttpUpstream } from "./types/upstream/http-upstream";
 export type { RepoSetupStep } from "./types/upstream/repo-setup-step";
 export type { StdioUpstream } from "./types/upstream/stdio-upstream";
+export type { UpstreamNameRule } from "./types/upstream/upstream-name-rule";
 export type { UpstreamRepo } from "./types/upstream/upstream-repo";
 export type { UpstreamSpec } from "./types/upstream/upstream-spec";
 export { DEFAULT_UI_TEXTS } from "./ui/const";

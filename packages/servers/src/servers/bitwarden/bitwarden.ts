@@ -1,5 +1,5 @@
 import { defineServer } from "@usemcpkit/core";
-import { BITWARDEN_REPO_COMMIT, BITWARDEN_REPO_URL, BITWARDEN_SESSION_ENV } from "./const";
+import { BITWARDEN_NAMING, BITWARDEN_REPO_COMMIT, BITWARDEN_REPO_URL, BITWARDEN_SESSION_ENV } from "./const";
 
 export const bitwarden = defineServer({
   name: "bitwarden",
@@ -13,6 +13,7 @@ export const bitwarden = defineServer({
     command: "node",
     args: ["{repo}/dist/index.js"],
     forwardEnv: [BITWARDEN_SESSION_ENV],
+    naming: BITWARDEN_NAMING,
     repo: {
       url: BITWARDEN_REPO_URL,
       ref: BITWARDEN_REPO_COMMIT,
