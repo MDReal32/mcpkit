@@ -29,3 +29,6 @@ export const MAC_WINDOW_DELEGATE_CLASS = "McpkitFormWindowDelegate";
 
 /** Objective-C type encoding of `- (void)windowWillClose:(NSNotification *)notification`. */
 export const MAC_WINDOW_WILL_CLOSE_TYPES = "v@:@";
+
+/** Links the page may hand to the default browser; nothing else leaves the window. */
+export const WINDOW_LINK_PROTOCOLS: readonly string[] = ["https:", "http:"];

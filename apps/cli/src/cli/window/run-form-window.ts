@@ -1,8 +1,10 @@
 import { FORM_WINDOW_BINDINGS } from "@usemcpkit/core";
+import { openBrowser } from "../browser/open-browser";
 import { FORM_WINDOW_SIZE, FORM_WINDOW_TITLE, WEBVIEW_SIZE_HINT } from "./const";
 import { loadWebviewLibrary } from "./load-webview-library";
 import { createMacOverlayWindow } from "./macos/create-mac-overlay-window";
 import { readFitSize } from "./read-fit-size";
+import { readLinkUrl } from "./read-link-url";
 import { raiseWin32Window } from "./win32/raise-win32-window";
 
 /**
@@ -30,10 +32,20 @@ export const runFormWindow = async (url: string) => {
     },
     { args: [FFIType.ptr, FFIType.ptr, FFIType.ptr], returns: FFIType.void },
   );
+  const openLink = new JSCallback(
+    (_seq, request) => {
+      const link = readLinkUrl(String(new CString(request)));
+      if (link) {
+        openBrowser(link);
+      }
+    },
+    { args: [FFIType.ptr, FFIType.ptr, FFIType.ptr], returns: FFIType.void },
+  );
   symbols.webview_set_title(webview, encode(FORM_WINDOW_TITLE));
   symbols.webview_set_size(webview, FORM_WINDOW_SIZE.width, FORM_WINDOW_SIZE.height, WEBVIEW_SIZE_HINT.none);
   symbols.webview_bind(webview, encode(FORM_WINDOW_BINDINGS.close), closeWindow.ptr, null);
   symbols.webview_bind(webview, encode(FORM_WINDOW_BINDINGS.fit), fitWindow.ptr, null);
+  symbols.webview_bind(webview, encode(FORM_WINDOW_BINDINGS.openLink), openLink.ptr, null);
   symbols.webview_navigate(webview, encode(url));
   if (overlay) {
     overlay.show();
@@ -44,6 +56,7 @@ export const runFormWindow = async (url: string) => {
   symbols.webview_destroy(webview);
   closeWindow.close();
   fitWindow.close();
+  openLink.close();
   overlay?.dispose();
   close();
 };

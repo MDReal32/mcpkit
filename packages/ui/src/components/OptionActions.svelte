@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { VisibleAction } from "../types/visible-action";
+  import { openWindowLink } from "../window/open-window-link";
 
   interface Props {
     actions: readonly VisibleAction[];
@@ -16,7 +17,7 @@
   <div class="token-source">
     {#each actions as action (action.index)}
       {#if action.type === 'link'}
-        <a class="button" href={action.href} target="_blank" rel="noopener noreferrer">{action.label}</a>
+        <a class="button" href={action.href} target="_blank" rel="noopener noreferrer" onclick={openWindowLink}>{action.label}</a>
       {:else}
         <button type="button" disabled={busy} onclick={() => onrun(action.index)}>{action.label}</button>
       {/if}
