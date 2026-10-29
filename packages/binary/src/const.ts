@@ -49,5 +49,8 @@ export const HOMEBREW_CELLAR_PATTERN = /^(?<prefix>.+)\/Cellar\/mcpkit\/[^/]+\/b
 
 export const HOMEBREW_UPGRADE_COMMAND = "brew upgrade mcpkit";
 
-/** `…\WinGet\Packages\<PackageIdentifier>_<source>\mcpkit.exe`; winget upgrades in place, so the folder stays the same. */
-export const WINGET_PACKAGE_PATTERN = /\\WinGet\\Packages\\(?<id>[^\\_]+)_[^\\]+\\mcpkit\.exe$/i;
+/**
+ * `…\WinGet\Packages\<PackageIdentifier>_<source>\usemcpkit.exe`; winget names a portable binary after its command
+ * (`usemcpkit`) and upgrades in place, so the folder stays the same.
+ */
+export const WINGET_PACKAGE_PATTERN = /\\WinGet\\Packages\\(?<id>[^\\_]+)_[^\\]+\\(?:use)?mcpkit\.exe$/i;

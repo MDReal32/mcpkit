@@ -3,11 +3,13 @@ import type { OpenApiParameter } from "../types/open-api-operation";
 import type { SchemaOptions } from "../types/schema-options";
 import { cleanDescription } from "./clean-description";
 import { convertSchema } from "./convert-schema";
+import { isExplodedScalarArray } from "./is-exploded-scalar-array";
 
 export const buildParameterSchema = (parameter: OpenApiParameter, options: SchemaOptions): JsonSchema => {
   const schema = parameter.schema ?? {};
   const description = cleanDescription(parameter.description ?? schema.description, options.stripBold);
-  if (schema.type === "array") {
+  const keepsArray = options.keepsExplodedArrays && isExplodedScalarArray(parameter);
+  if (schema.type === "array" && !keepsArray) {
     const suffix = "(comma-separated)";
     return { type: "string", description: description ? `${description} ${suffix}` : suffix };
   }

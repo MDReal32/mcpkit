@@ -11,4 +11,5 @@ export const DEFAULT_SCHEMA_OPTIONS: SchemaOptions = {
   includeDefaults: true,
   widenMixedScalarsToString: false,
   stripBold: false,
+  keepsExplodedArrays: false,
 };

@@ -2,7 +2,9 @@ import type { Manifest, ToolArgs } from "@usemcpkit/core";
 import { executeTool, validateManifest } from "@usemcpkit/core";
 import { useTempDir } from "@usemcpkit/testing";
 import { describe, expect, it } from "vitest";
+import { clickup } from "../src/servers/clickup/clickup";
 import { confluence } from "../src/servers/confluence/confluence";
+import { discord } from "../src/servers/discord/discord";
 import { github } from "../src/servers/github/github";
 import { gitlab } from "../src/servers/gitlab/gitlab";
 import { jira } from "../src/servers/jira/jira";
@@ -13,6 +15,7 @@ interface SentRequest {
   method: string;
   url: string;
   body: unknown;
+  headers: Headers;
 }
 
 const sendTool = async (manifest: Manifest, toolName: string, args: ToolArgs, env: NodeJS.ProcessEnv) => {
@@ -23,7 +26,7 @@ const sendTool = async (manifest: Manifest, toolName: string, args: ToolArgs, en
   }
   const fetchImpl: typeof fetch = async (input, init) => {
     const body = init?.body ? JSON.parse(String(init.body)) : undefined;
-    sent.push({ method: init?.method ?? "GET", url: String(input), body });
+    sent.push({ method: init?.method ?? "GET", url: String(input), body, headers: new Headers(init?.headers) });
     return new Response("{}", { status: 200, headers: { "content-type": "application/json" } });
   };
   await executeTool(manifest, tool, args, { env: { MCPKIT_HOME: readHome(), ...env }, fetchImpl });
@@ -43,7 +46,7 @@ const CONFLUENCE_CLOUD = {
 const CONFLUENCE_DATA_CENTER = { CONFLUENCE_HOST: "wiki.acme.com", CONFLUENCE_PERSONAL_TOKEN: "t" };
 
 describe("bundled servers", () => {
-  it.each([github, gitlab, jira, confluence])("$name compiles to a valid manifest", (server) => {
+  it.each([github, gitlab, jira, confluence, clickup, discord])("$name compiles to a valid manifest", (server) => {
     expect(validateManifest(JSON.parse(JSON.stringify(server)))).toEqual([]);
   });
 });
@@ -178,6 +181,102 @@ describe("jira comments", () => {
       method: "DELETE",
       url: "https://jira.acme.com/jira/rest/api/2/issue/A-1/comment/10",
     });
+  });
+});
+
+describe("clickup", () => {
+  const env = { CLICKUP_API_TOKEN: "pk_1_ABC" };
+
+  it("sends the personal token as the raw Authorization header", async () => {
+    const [request] = await sendTool(clickup, "tasks:tasks:get_task", { task_id: "abc" }, env);
+
+    expect(request?.url).toBe("https://api.clickup.com/api/v2/task/abc");
+    expect(request?.headers.get("Authorization")).toBe("pk_1_ABC");
+  });
+
+  it("repeats array filters under their bracketed names and keeps JSON filters whole", async () => {
+    const customFields = '[{"field_id":"f","operator":"=","value":"1"}]';
+
+    const [request] = await sendTool(
+      clickup,
+      "tasks:tasks:get_tasks",
+      { list_id: 7, statuses: ["to do", "in progress"], custom_fields: customFields },
+      env,
+    );
+
+    const url = new URL(request?.url ?? "");
+    expect(url.pathname).toBe("/api/v2/list/7/task");
+    expect(url.searchParams.getAll("statuses[]")).toEqual(["to do", "in progress"]);
+    expect(url.searchParams.get("custom_fields")).toBe(customFields);
+  });
+
+  it("fills the Workspace placeholder of team-level v2 paths", async () => {
+    const [request] = await sendTool(
+      clickup,
+      "time:time_tracking:get_time_entries_within_a_date_range",
+      { team_Id: 9 },
+      env,
+    );
+
+    expect(request?.url).toBe("https://api.clickup.com/api/v2/team/9/time_entries");
+  });
+
+  it("reaches the v3 API under the same base URL", async () => {
+    const [request] = await sendTool(clickup, "docs:docs:search_for_docs", { workspace_id: "9", limit: 5 }, env);
+
+    const url = new URL(request?.url ?? "");
+    expect(url.origin + url.pathname).toBe("https://api.clickup.com/api/v3/workspaces/9/docs");
+    expect(url.searchParams.get("limit")).toBe("5");
+  });
+});
+
+describe("discord", () => {
+  const env = { DISCORD_BOT_TOKEN: "MTA.bot" };
+
+  it("posts a message as the bot", async () => {
+    const [request] = await sendTool(
+      discord,
+      "channels:messages:create_message",
+      { channel_id: "123", content: "hi" },
+      env,
+    );
+
+    expect(request?.method).toBe("POST");
+    expect(request?.url).toBe("https://discord.com/api/v10/channels/123/messages");
+    expect(request?.body).toEqual({ content: "hi" });
+    expect(request?.headers.get("Authorization")).toBe("Bot MTA.bot");
+  });
+
+  it("repeats search filter arrays as one query key per item", async () => {
+    const [request] = await sendTool(
+      discord,
+      "guilds:messages:guild_search",
+      { guild_id: "1", author_id: ["2", "3"] },
+      env,
+    );
+
+    const url = new URL(request?.url ?? "");
+    expect(url.pathname).toBe("/api/v10/guilds/1/messages/search");
+    expect(url.searchParams.getAll("author_id")).toEqual(["2", "3"]);
+  });
+
+  it("encodes a custom emoji in the reaction path", async () => {
+    const [request] = await sendTool(
+      discord,
+      "channels:messages:add_my_message_reaction",
+      { channel_id: "1", message_id: "2", emoji_name: "party:42" },
+      env,
+    );
+
+    expect(request?.url).toBe("https://discord.com/api/v10/channels/1/messages/2/reactions/party%3A42/@me");
+  });
+
+  it("leaves out endpoints that only take a user's OAuth2 token", () => {
+    const actions = discord.tools.map((tool) => tool.name.split(":").at(-1));
+
+    expect(actions).toContain("list_my_guilds");
+    expect(actions).not.toContain("get_my_guild_member");
+    expect(actions).not.toContain("get_application_user_role_connection");
   });
 });
 

@@ -169,6 +169,17 @@ describe("findPackageManagerInstall", () => {
     });
   });
 
+  it("recognizes the winget binary named after its usemcpkit command", () => {
+    const path =
+      "C:\\Users\\me\\AppData\\Local\\Microsoft\\WinGet\\Packages\\MDReal32.UseMCPKit__DefaultSource\\usemcpkit.exe";
+
+    expect(findPackageManagerInstall(path)).toEqual({
+      manager: "winget",
+      path,
+      upgradeCommand: "winget upgrade --id MDReal32.UseMCPKit",
+    });
+  });
+
   it("ignores binaries outside a package manager", () => {
     expect(findPackageManagerInstall("/Users/me/.mcpkit/bin/mcpkit")).toBeUndefined();
   });

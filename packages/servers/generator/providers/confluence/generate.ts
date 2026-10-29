@@ -1,5 +1,5 @@
+import { assertUniqueIdentifiers } from "../../utils/pipeline/assert-unique-identifiers";
 import { runGenerator } from "../../utils/pipeline/run-generator";
-import { assertUniqueIdentifiers } from "./assert-unique-identifiers";
 import { SERVER_DESCRIPTION, SERVER_NAME, SPEC_SOURCES } from "./const";
 import { createSpecPlan } from "./create-spec-plan";
 

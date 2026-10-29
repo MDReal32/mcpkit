@@ -1,5 +1,5 @@
+import { slugify } from "../../utils/naming/slugify";
 import { toToolNames } from "../../utils/naming/to-tool-names";
-import { slugify } from "./slugify";
 import { toActionName } from "./to-action-name";
 import type { GitlabOperation } from "./types/gitlab-operation";
 

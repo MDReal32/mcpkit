@@ -25,7 +25,14 @@ describe("compileServers", () => {
     const { compiled, errors, dependencies } = await compileServers(resolve("src/servers"));
 
     expect(errors).toEqual([]);
-    expect(compiled.map(({ manifest }) => manifest.name)).toEqual(["confluence", "github", "gitlab", "jira"]);
+    expect(compiled.map(({ manifest }) => manifest.name)).toEqual([
+      "clickup",
+      "confluence",
+      "discord",
+      "github",
+      "gitlab",
+      "jira",
+    ]);
     const github = compiled.find(({ manifest }) => manifest.name === "github");
     expect(JSON.parse(github?.json ?? "null")).toEqual(github?.manifest);
     expect(github?.manifest.tools.find((tool) => tool.name === "issues:issues:create")?.input.required).toEqual([
