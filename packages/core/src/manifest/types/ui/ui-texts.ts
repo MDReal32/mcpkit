@@ -10,6 +10,8 @@ export interface UiTexts {
   domainLabel: string;
   domainHint: string;
   domainPlaceholder: string;
+  domainNewHost: string;
+  domainShowHosts: string;
   signInLabel: string;
   tokenDivider: string;
   credentialLegend: string;

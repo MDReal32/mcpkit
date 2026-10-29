@@ -1,49 +1,95 @@
 <script lang="ts">
-  import { untrack } from "svelte";
-
   interface Props {
     id: string;
     label: string;
     hint?: string;
     placeholder?: string;
+    newHostHint: string;
+    showHostsLabel: string;
     knownHosts: readonly string[];
     value: string;
   }
 
-  const NEW_HOST = "";
+  let {
+    id,
+    label,
+    hint = "",
+    placeholder = "",
+    newHostHint,
+    showHostsLabel,
+    knownHosts,
+    value = $bindable(),
+  }: Props = $props();
 
-  let { id, label, hint = "", placeholder = "", knownHosts, value = $bindable() }: Props = $props();
+  let open = $state(false);
+  const listId = $derived(`${id}-hosts`);
+  const typed = $derived(value.trim());
+  const isNew = $derived(typed !== "" && !knownHosts.includes(typed));
 
-  let adding = $state(untrack(() => knownHosts.length === 0 || !knownHosts.includes(value)));
-  const selected = $derived(adding ? NEW_HOST : value);
+  const pick = (host: string) => {
+    value = host;
+    open = false;
+  };
 
-  const choose = (event: Event) => {
-    const picked = (event.currentTarget as HTMLSelectElement).value;
-    adding = picked === NEW_HOST;
-    value = adding ? "" : picked;
+  const closeOnEscape = (event: KeyboardEvent) => {
+    if (event.key === "Escape") {
+      open = false;
+    }
   };
 </script>
 
-<div class="field">
+<div class="field combobox">
   <label for={id}>{label}</label>
-  {#if knownHosts.length > 0}
-    <select {id} value={selected} onchange={choose}>
-      {#each knownHosts as host (host)}
-        <option value={host}>{host}</option>
-      {/each}
-      <option value={NEW_HOST}>+ Add another host…</option>
-    </select>
-  {/if}
-  {#if adding}
+  <div class="combobox-control">
     <input
-      id={knownHosts.length > 0 ? `${id}-new` : id}
+      {id}
       type="text"
+      role="combobox"
+      aria-expanded={open}
+      aria-controls={listId}
+      aria-autocomplete="list"
       autocomplete="off"
       spellcheck="false"
-      aria-label={label}
       {placeholder}
       bind:value
+      onfocus={() => (open = knownHosts.length > 0)}
+      oninput={() => (open = knownHosts.length > 0)}
+      onblur={() => (open = false)}
+      onkeydown={closeOnEscape}
     />
+    {#if knownHosts.length > 0}
+      <button
+        type="button"
+        class="combobox-toggle"
+        tabindex="-1"
+        aria-label={showHostsLabel}
+        onmousedown={(event) => event.preventDefault()}
+        onclick={() => (open = !open)}
+      >
+        ▾
+      </button>
+    {/if}
+    {#if open}
+      <ul class="combobox-list" id={listId} role="listbox">
+        {#each knownHosts as host (host)}
+          <li role="presentation">
+            <button
+              type="button"
+              role="option"
+              aria-selected={host === typed}
+              tabindex="-1"
+              onmousedown={(event) => event.preventDefault()}
+              onclick={() => pick(host)}
+            >
+              {host}
+            </button>
+          </li>
+        {/each}
+      </ul>
+    {/if}
+  </div>
+  {#if isNew && knownHosts.length > 0}
+    <p class="hint">{newHostHint}</p>
   {/if}
   {#if hint}
     <p class="hint">{hint}</p>

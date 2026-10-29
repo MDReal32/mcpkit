@@ -71,6 +71,8 @@
       label={request.domain.label}
       hint={request.domain.hint}
       placeholder={request.domain.placeholder}
+      newHostHint={texts.domainNewHost}
+      showHostsLabel={texts.domainShowHosts}
       knownHosts={request.domain.knownHosts}
       bind:value={draft.domain}
     />

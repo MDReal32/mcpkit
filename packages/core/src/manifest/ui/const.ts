@@ -9,6 +9,8 @@ export const DEFAULT_UI_TEXTS: Readonly<UiTexts> = {
   domainLabel: "Domain",
   domainHint: "Host, optionally with a port and path, without https://",
   domainPlaceholder: "api.example.com",
+  domainNewHost: "New host, saved with its own credentials.",
+  domainShowHosts: "Show saved hosts",
   signInLabel: "Sign in with OAuth2",
   tokenDivider: "or use an access token",
   credentialLegend: "Credential",
