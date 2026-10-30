@@ -33,6 +33,7 @@ describe("compileServers", () => {
       "github",
       "gitlab",
       "jira",
+      "reddit",
     ]);
     const github = compiled.find(({ manifest }) => manifest.name === "github");
     expect(JSON.parse(github?.json ?? "null")).toEqual(github?.manifest);

@@ -8,6 +8,7 @@ import { discord } from "../src/servers/discord/discord";
 import { github } from "../src/servers/github/github";
 import { gitlab } from "../src/servers/gitlab/gitlab";
 import { jira } from "../src/servers/jira/jira";
+import { reddit } from "../src/servers/reddit/reddit";
 
 const readHome = useTempDir("mcpkit-servers-");
 
@@ -46,9 +47,12 @@ const CONFLUENCE_CLOUD = {
 const CONFLUENCE_DATA_CENTER = { CONFLUENCE_HOST: "wiki.acme.com", CONFLUENCE_PERSONAL_TOKEN: "t" };
 
 describe("bundled servers", () => {
-  it.each([github, gitlab, jira, confluence, clickup, discord])("$name compiles to a valid manifest", (server) => {
-    expect(validateManifest(JSON.parse(JSON.stringify(server)))).toEqual([]);
-  });
+  it.each([github, gitlab, jira, confluence, clickup, discord, reddit])(
+    "$name compiles to a valid manifest",
+    (server) => {
+      expect(validateManifest(JSON.parse(JSON.stringify(server)))).toEqual([]);
+    },
+  );
 });
 
 describe("github", () => {
@@ -277,6 +281,42 @@ describe("discord", () => {
     expect(actions).toContain("list_my_guilds");
     expect(actions).not.toContain("get_my_guild_member");
     expect(actions).not.toContain("get_application_user_role_connection");
+  });
+});
+
+describe("reddit", () => {
+  const env = { REDDIT_ACCESS_TOKEN: "t" };
+
+  it("lists a subreddit's hot posts with the bearer token and a descriptive User-Agent", async () => {
+    const [request] = await sendTool(reddit, "posts:posts:list_subreddit_posts", { subreddit: "rust", limit: 5 }, env);
+
+    const url = new URL(request?.url ?? "");
+    expect(url.origin + url.pathname).toBe("https://oauth.reddit.com/r/rust/hot");
+    expect(url.searchParams.get("limit")).toBe("5");
+    expect(url.searchParams.get("raw_json")).toBe("1");
+    expect(request?.headers.get("Authorization")).toBe("Bearer t");
+    expect(request?.headers.get("User-Agent")).toMatch(/^mcpkit:communication\.reddit:/);
+  });
+
+  it("reads a post's comment tree by article id", async () => {
+    const [request] = await sendTool(
+      reddit,
+      "posts:comments:get_post_comments",
+      { article: "1abcde", sort: "top", depth: 2 },
+      env,
+    );
+
+    const url = new URL(request?.url ?? "");
+    expect(url.origin + url.pathname).toBe("https://oauth.reddit.com/comments/1abcde");
+    expect(url.searchParams.get("sort")).toBe("top");
+    expect(url.searchParams.get("depth")).toBe("2");
+  });
+
+  it("trims listings to the post fields the spec declares", () => {
+    const tool = reddit.tools.find((candidate) => candidate.name === "users:posts:list_user_posts");
+
+    expect(tool?.response?.root).toBe("data.children");
+    expect(tool?.response?.fields).toMatchObject({ title: "data.title", name: "data.name" });
   });
 });
 

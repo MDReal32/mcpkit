@@ -6,7 +6,7 @@ The server definitions mcpkit ships, and the generators that write most of them.
 ```
 src/servers/<name>/<name>.ts            one defineServer export per server
 src/servers/<name>/tools/<resource>/<action>.ts      one tool per file
-src/servers/<name>/tools/<group>/<resource>/<action>.ts   grouped servers (github, gitlab, jira, confluence, clickup, discord)
+src/servers/<name>/tools/<group>/<resource>/<action>.ts   grouped servers (github, gitlab, jira, confluence, clickup, discord, reddit)
 src/providers/<name>/                   manifest base shared by a provider's tools (host, headers, auth, editions)
 generator/                              OpenAPI → server definitions
 plugins/manifests/                      Vite plugin: compiles and validates src/servers, writes build/manifests
@@ -35,6 +35,7 @@ params in `const.ts`. Servers that live in a category folder (`servers/<category
 | `confluence` | `atlassian` | Confluence Cloud, Confluence Data Center | 562 operations in three groups: `cloud` (REST v2, `cloud:pages:create_page`), `cloud_v1` (REST v1, `cloud_v1:search:search_by_cql`) and `datacenter` (`datacenter:content:create`); call the group that matches the host |
 | `clickup` | `productivity` | ClickUp (`api.clickup.com`) | the ClickUp REST API v2 and v3 (171 operations) in eight groups, for example `tasks:tasks:get_tasks`, `hierarchy:lists:create_list`, `docs:docs:search_for_docs` |
 | `discord` | `communication` | Discord (`discord.com/api/v10`) | the Discord HTTP API v10 as a bot (241 operations) in eight groups, for example `channels:messages:create_message`, `guilds:roles:list_guild_roles`, `webhooks:webhooks:execute_webhook` |
+| `reddit` | `communication` | Reddit (`oauth.reddit.com`) | 11 read tools in four groups from a hand-written OpenAPI subset, for example `posts:posts:list_subreddit_posts`, `posts:comments:get_post_comments`, `users:comments:list_user_comments` |
 
 GitLab reads `GITLAB_HOST` (default `gitlab.com`) and a personal access token in `GITLAB_TOKEN`. Tools take a project
 id or its full path (`group/subgroup/project`) as `id`; issue and merge request numbers are the per-project `iid`.
@@ -52,9 +53,15 @@ Discord reads a bot token in `DISCORD_BOT_TOKEN` and sends it as `Authorization:
 first path segment picks the group and the next one the resource; endpoints that accept only a user's OAuth2 token are
 skipped.
 
+Reddit reads an OAuth access token in `REDDIT_ACCESS_TOKEN` (scopes `read`, `identity`) and sends a descriptive
+`User-Agent`, which Reddit requires. Reddit publishes no OpenAPI description, so the generator reads one written by hand
+in `generator/providers/reddit/openapi.json`; add an endpoint there and regenerate. Each operation's tags are
+`[group, resource]`, and its 200 schema (a listing, a thing or a plain object) lists the fields the tool returns, so
+listings come back trimmed; page with `after` set to the last item's `name`.
+
 ## Generators
 
-`github`, `gitlab`, `jira`, `confluence`, `clickup` and `discord` are generated from the providers' OpenAPI descriptions. Never edit the
+`github`, `gitlab`, `jira`, `confluence`, `clickup`, `discord` and `reddit` are generated from OpenAPI descriptions (Reddit's written by hand, since it publishes none). Never edit the
 generated files by hand; change the generator and run it again. The generator formats its own output with Biome.
 
 ```bash

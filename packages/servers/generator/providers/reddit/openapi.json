@@ -1,0 +1,459 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Reddit API (read subset)",
+    "version": "1.0.0",
+    "description": "Written by hand for mcpkit: Reddit publishes no OpenAPI description. Each operation's tags are [group, resource]; a 200 schema shaped as a listing or a thing ({ kind, data }) lists the fields its tool returns. Reference: https://www.reddit.com/dev/api"
+  },
+  "servers": [{ "url": "https://oauth.reddit.com" }],
+  "paths": {
+    "/r/{subreddit}/{sort}": {
+      "get": {
+        "operationId": "list_subreddit_posts",
+        "tags": ["posts", "posts"],
+        "summary": "List a subreddit's posts by sort order",
+        "description": "Read a post's comments with posts:comments:get_post_comments using its `id`.",
+        "parameters": [
+          { "$ref": "#/components/parameters/Subreddit" },
+          {
+            "name": "sort",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "enum": ["hot", "new", "top", "rising", "controversial"], "default": "hot" }
+          },
+          { "$ref": "#/components/parameters/Time" },
+          { "$ref": "#/components/parameters/Limit" },
+          { "$ref": "#/components/parameters/After" },
+          { "$ref": "#/components/parameters/Before" }
+        ],
+        "responses": { "200": { "$ref": "#/components/responses/PostListing" } }
+      }
+    },
+    "/search": {
+      "get": {
+        "operationId": "search_posts",
+        "tags": ["posts", "posts"],
+        "summary": "Search posts across Reddit",
+        "description": "Narrow the search with Reddit's syntax in `q`, e.g. `subreddit:rust async`, `author:spez`, `title:release`.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "description": "Search query.",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "schema": { "type": "string", "enum": ["relevance", "hot", "top", "new", "comments"] }
+          },
+          { "$ref": "#/components/parameters/Time" },
+          { "$ref": "#/components/parameters/Limit" },
+          { "$ref": "#/components/parameters/After" },
+          { "$ref": "#/components/parameters/Before" }
+        ],
+        "responses": { "200": { "$ref": "#/components/responses/PostListing" } }
+      }
+    },
+    "/api/info": {
+      "get": {
+        "operationId": "get_posts_by_id",
+        "tags": ["posts", "posts"],
+        "summary": "Get posts by fullname",
+        "description": "Up to 100 posts at once.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "description": "Post fullnames (t3_ followed by the post id), e.g. t3_1abcde,t3_1fghij.",
+            "explode": false,
+            "schema": { "type": "array", "items": { "type": "string" } }
+          }
+        ],
+        "responses": { "200": { "$ref": "#/components/responses/PostListing" } }
+      }
+    },
+    "/comments/{article}": {
+      "get": {
+        "operationId": "get_post_comments",
+        "tags": ["posts", "comments"],
+        "summary": "Get a post and its comment tree",
+        "description": "Returns Reddit's two listings: [0] holds the post, [1] the top-level comments, each with nested `replies`; `more` entries mark comments left out by `limit` or `depth`.",
+        "parameters": [
+          {
+            "name": "article",
+            "in": "path",
+            "required": true,
+            "description": "Post id without the t3_ prefix, e.g. 1abcde.",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "schema": { "type": "string", "enum": ["confidence", "top", "new", "controversial", "old", "qa"] }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Most comments to return.",
+            "schema": { "type": "integer" }
+          },
+          {
+            "name": "depth",
+            "in": "query",
+            "description": "Deepest reply level to include.",
+            "schema": { "type": "integer" }
+          },
+          {
+            "name": "comment",
+            "in": "query",
+            "description": "Id of a comment to focus the tree on.",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "context",
+            "in": "query",
+            "description": "Parent comments to include above `comment`, 0-8.",
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The post listing followed by the comment listing.",
+            "content": { "application/json": { "schema": { "type": "array", "items": { "type": "object" } } } }
+          }
+        }
+      }
+    },
+    "/r/{subreddit}/about": {
+      "get": {
+        "operationId": "get_subreddit",
+        "tags": ["subreddits", "subreddits"],
+        "summary": "Get a subreddit's description, subscriber count and type",
+        "parameters": [{ "$ref": "#/components/parameters/Subreddit" }],
+        "responses": {
+          "200": {
+            "description": "The subreddit.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SubredditThing" } } }
+          }
+        }
+      }
+    },
+    "/subreddits/search": {
+      "get": {
+        "operationId": "search_subreddits",
+        "tags": ["subreddits", "subreddits"],
+        "summary": "Find subreddits by name and description",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "description": "Search query.",
+            "schema": { "type": "string" }
+          },
+          { "name": "sort", "in": "query", "schema": { "type": "string", "enum": ["relevance", "activity"] } },
+          { "$ref": "#/components/parameters/Limit" },
+          { "$ref": "#/components/parameters/After" },
+          { "$ref": "#/components/parameters/Before" }
+        ],
+        "responses": {
+          "200": {
+            "description": "A listing of subreddits.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/SubredditListing" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/r/{subreddit}/about/rules": {
+      "get": {
+        "operationId": "get_subreddit_rules",
+        "tags": ["subreddits", "rules"],
+        "summary": "Get a subreddit's posting rules",
+        "parameters": [{ "$ref": "#/components/parameters/Subreddit" }],
+        "responses": {
+          "200": {
+            "description": "The rules.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "rules": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "short_name": { "type": "string" },
+                          "description": { "type": "string" },
+                          "kind": { "type": "string" },
+                          "violation_reason": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{username}/about": {
+      "get": {
+        "operationId": "get_user",
+        "tags": ["users", "users"],
+        "summary": "Get a user's public profile and karma",
+        "parameters": [{ "$ref": "#/components/parameters/Username" }],
+        "responses": {
+          "200": {
+            "description": "The user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "kind": { "type": "string" },
+                    "data": { "$ref": "#/components/schemas/Account" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{username}/submitted": {
+      "get": {
+        "operationId": "list_user_posts",
+        "tags": ["users", "posts"],
+        "summary": "List the posts a user submitted",
+        "parameters": [
+          { "$ref": "#/components/parameters/Username" },
+          { "$ref": "#/components/parameters/UserSort" },
+          { "$ref": "#/components/parameters/Time" },
+          { "$ref": "#/components/parameters/Limit" },
+          { "$ref": "#/components/parameters/After" },
+          { "$ref": "#/components/parameters/Before" }
+        ],
+        "responses": { "200": { "$ref": "#/components/responses/PostListing" } }
+      }
+    },
+    "/user/{username}/comments": {
+      "get": {
+        "operationId": "list_user_comments",
+        "tags": ["users", "comments"],
+        "summary": "List the comments a user wrote",
+        "parameters": [
+          { "$ref": "#/components/parameters/Username" },
+          { "$ref": "#/components/parameters/UserSort" },
+          { "$ref": "#/components/parameters/Time" },
+          { "$ref": "#/components/parameters/Limit" },
+          { "$ref": "#/components/parameters/After" },
+          { "$ref": "#/components/parameters/Before" }
+        ],
+        "responses": {
+          "200": {
+            "description": "A listing of comments.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CommentListing" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me": {
+      "get": {
+        "operationId": "get_me",
+        "tags": ["account", "me"],
+        "summary": "Get the account the access token belongs to",
+        "description": "Needs the `identity` scope.",
+        "responses": {
+          "200": {
+            "description": "The signed-in account.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Account" } } }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "Subreddit": {
+        "name": "subreddit",
+        "in": "path",
+        "required": true,
+        "description": "Subreddit name without the r/ prefix; `all` and `popular` work for listings.",
+        "schema": { "type": "string" }
+      },
+      "Username": {
+        "name": "username",
+        "in": "path",
+        "required": true,
+        "description": "Username without the u/ prefix.",
+        "schema": { "type": "string" }
+      },
+      "UserSort": {
+        "name": "sort",
+        "in": "query",
+        "schema": { "type": "string", "enum": ["hot", "new", "top", "controversial"] }
+      },
+      "Time": {
+        "name": "t",
+        "in": "query",
+        "description": "Time window for `top`, `controversial` and search.",
+        "schema": { "type": "string", "enum": ["hour", "day", "week", "month", "year", "all"] }
+      },
+      "Limit": {
+        "name": "limit",
+        "in": "query",
+        "description": "Items to return, 1-100 (Reddit's default is 25).",
+        "schema": { "type": "integer" }
+      },
+      "After": {
+        "name": "after",
+        "in": "query",
+        "description": "Fullname of the last item seen (its `name`, e.g. t3_abc) to get the next page.",
+        "schema": { "type": "string" }
+      },
+      "Before": {
+        "name": "before",
+        "in": "query",
+        "description": "Fullname of the first item seen to get the previous page.",
+        "schema": { "type": "string" }
+      }
+    },
+    "responses": {
+      "PostListing": {
+        "description": "A listing of posts.",
+        "content": { "application/json": { "schema": { "$ref": "#/components/schemas/PostListing" } } }
+      }
+    },
+    "schemas": {
+      "Post": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "description": "Fullname, t3_<id>." },
+          "id": { "type": "string" },
+          "subreddit": { "type": "string" },
+          "title": { "type": "string" },
+          "author": { "type": "string" },
+          "score": { "type": "integer" },
+          "upvote_ratio": { "type": "number" },
+          "num_comments": { "type": "integer" },
+          "created_utc": { "type": "number" },
+          "link_flair_text": { "type": "string" },
+          "over_18": { "type": "boolean" },
+          "stickied": { "type": "boolean" },
+          "is_self": { "type": "boolean" },
+          "selftext": { "type": "string" },
+          "url": { "type": "string" },
+          "permalink": { "type": "string" }
+        }
+      },
+      "Comment": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "description": "Fullname, t1_<id>." },
+          "id": { "type": "string" },
+          "subreddit": { "type": "string" },
+          "author": { "type": "string" },
+          "body": { "type": "string" },
+          "score": { "type": "integer" },
+          "created_utc": { "type": "number" },
+          "parent_id": { "type": "string" },
+          "link_id": { "type": "string" },
+          "link_title": { "type": "string" },
+          "permalink": { "type": "string" }
+        }
+      },
+      "Subreddit": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "description": "Fullname, t5_<id>." },
+          "display_name": { "type": "string" },
+          "title": { "type": "string" },
+          "public_description": { "type": "string" },
+          "subscribers": { "type": "integer" },
+          "active_user_count": { "type": "integer" },
+          "created_utc": { "type": "number" },
+          "over18": { "type": "boolean" },
+          "subreddit_type": { "type": "string" },
+          "url": { "type": "string" }
+        }
+      },
+      "Account": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "id": { "type": "string" },
+          "created_utc": { "type": "number" },
+          "link_karma": { "type": "integer" },
+          "comment_karma": { "type": "integer" },
+          "total_karma": { "type": "integer" },
+          "is_mod": { "type": "boolean" },
+          "is_employee": { "type": "boolean" }
+        }
+      },
+      "PostThing": {
+        "type": "object",
+        "properties": { "kind": { "type": "string" }, "data": { "$ref": "#/components/schemas/Post" } }
+      },
+      "CommentThing": {
+        "type": "object",
+        "properties": { "kind": { "type": "string" }, "data": { "$ref": "#/components/schemas/Comment" } }
+      },
+      "SubredditThing": {
+        "type": "object",
+        "properties": { "kind": { "type": "string" }, "data": { "$ref": "#/components/schemas/Subreddit" } }
+      },
+      "PostListing": {
+        "type": "object",
+        "properties": {
+          "kind": { "type": "string" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "after": { "type": "string" },
+              "children": { "type": "array", "items": { "$ref": "#/components/schemas/PostThing" } }
+            }
+          }
+        }
+      },
+      "CommentListing": {
+        "type": "object",
+        "properties": {
+          "kind": { "type": "string" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "after": { "type": "string" },
+              "children": { "type": "array", "items": { "$ref": "#/components/schemas/CommentThing" } }
+            }
+          }
+        }
+      },
+      "SubredditListing": {
+        "type": "object",
+        "properties": {
+          "kind": { "type": "string" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "after": { "type": "string" },
+              "children": { "type": "array", "items": { "$ref": "#/components/schemas/SubredditThing" } }
+            }
+          }
+        }
+      }
+    }
+  }
+}
