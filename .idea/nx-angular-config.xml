@@ -2,6 +2,7 @@
 <project version="4">
   <component name="NxAngularConfigService" workspaceLocation="file://$PROJECT_DIR$/nx.json">
     <projects>
+      <project name="@usemcpkit/analytics" file="file://$PROJECT_DIR$/apps/analytics/project.json" />
       <project name="@usemcpkit/cli" file="file://$PROJECT_DIR$/apps/cli/project.json" />
     </projects>
   </component>
