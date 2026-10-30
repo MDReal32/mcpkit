@@ -1,6 +1,6 @@
 {
   "name": "@usemcpkit/core",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Manifest-driven MCP tool execution: manifest validation, HTTP execution, response mapping, auth and the server SDK.",
   "repository": {
     "type": "git",

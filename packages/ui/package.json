@@ -1,6 +1,6 @@
 {
   "name": "@usemcpkit/ui",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "private": true,
   "description": "Local pages the mcpkit CLI opens in the browser, such as the credentials form.",
   "type": "module",
