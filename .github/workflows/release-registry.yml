@@ -1,30 +1,16 @@
-name: Registry
+name: Release registry
 
 on:
-  push:
-    branches:
-      - master
-    paths:
-      - packages/servers/**
-      - packages/core/src/**
-      - apps/video/**
-      - .github/workflows/registry.yml
-      - "!**/*.md"
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: registry
-  cancel-in-progress: false
+  workflow_call:
 
 jobs:
-  deploy:
+  registry:
     name: Publish manifests and the promo video to GitHub Pages
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -33,19 +19,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v7
+      - name: Download the registry
+        uses: actions/download-artifact@v8
         with:
-          node-version: "24"
-          package-manager-cache: false
-
-      - name: Install
-        run: |
-          corepack enable
-          yarn install --immutable
-
-      - name: Build
-        run: yarn build
+          name: registry
+          path: packages/servers/build/manifests
 
       - name: Restore promo video
         id: video-cache
@@ -53,6 +31,19 @@ jobs:
         with:
           path: apps/video/build/pages
           key: video-${{ hashFiles('apps/video/src/**', 'apps/video/scripts/**', 'apps/video/public/sfx/**', 'apps/video/public/voiceover/**', 'apps/video/site/**', 'apps/video/package.json', 'apps/video/remotion.config.ts', 'yarn.lock') }}
+
+      - name: Setup Node.js
+        if: steps.video-cache.outputs.cache-hit != 'true'
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          package-manager-cache: false
+
+      - name: Install
+        if: steps.video-cache.outputs.cache-hit != 'true'
+        run: |
+          corepack enable
+          yarn install --immutable
 
       - name: Install Chrome Headless Shell dependencies
         if: steps.video-cache.outputs.cache-hit != 'true'

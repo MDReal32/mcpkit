@@ -35,6 +35,13 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
+      - name: Restore the Nx cache
+        uses: actions/cache@v6
+        with:
+          path: .nx/cache
+          key: nx-${{ runner.os }}-${{ github.sha }}
+          restore-keys: nx-${{ runner.os }}-
+
       - name: Build
         run: yarn build
 
@@ -56,5 +63,12 @@ jobs:
         with:
           name: release
           path: release.tar
+          retention-days: 1
+
+      - name: Upload the registry
+        uses: actions/upload-artifact@v7
+        with:
+          name: registry
+          path: packages/servers/build/manifests
           retention-days: 1
 

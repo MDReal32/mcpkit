@@ -342,7 +342,7 @@ finishes and the next call uses the token.
 ## Server manifests
 
 No manifest ships inside the binary. They live in a registry (by default the repository's GitHub Pages, published by
-`.github/workflows/registry.yml` whenever `packages/servers/src` or the manifest compiler changes):
+`.github/workflows/release-registry.yml`, a job of the Release workflow that deploys the manifests the Release build already produced; the build restores the Nx cache, so only changed projects are built):
 
 ```
 index.json                  every server: id, version, description, link, sha256 (no tools, so it stays small)
