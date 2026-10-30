@@ -30,8 +30,8 @@ export const VOICE_LINES: readonly VoiceLineData[] = [
   {
     scene: "catalog",
     at: 0.2,
-    text: "Over five thousand tools, from GitHub to Bitwarden.",
-    speech: "Over five thousand tools, from GitHub to Bitwarden.",
+    text: "Over five thousand tools, and this is only the alpha.",
+    speech: "Over five thousand tools, and this is only the alpha.",
   },
   {
     scene: "credentials",

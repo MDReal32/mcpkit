@@ -1,8 +1,9 @@
 import { COLORS, LIVELY_SPRING } from "../../const";
+import { progressBetween } from "../../motion/progress-between";
 import { useEntrance } from "../../motion/use-entrance";
 import { useSeconds } from "../../motion/use-seconds";
 import { MONO, SANS } from "../../typography/fonts";
-import { TILE_STEP, TILE_WIDTH, TILES_AT } from "./const";
+import { EXAMPLE_STAGGER, TILE_STEP, TILE_WIDTH, TILES_AT } from "./const";
 import type { ServerTileData } from "./server-tile-data";
 import { tileCount } from "./tile-count";
 import { ToolExampleRoll } from "./tool-example-roll";
@@ -16,6 +17,7 @@ export const ServerTile = ({ tile, index }: ServerTileProps) => {
   const seconds = useSeconds();
   const appear = useEntrance(TILES_AT + index * TILE_STEP, LIVELY_SPRING);
   const settled = Math.min(1, appear);
+  const rollStart = TILES_AT + index * TILE_STEP + 0.35 + index * EXAMPLE_STAGGER;
   return (
     <div
       style={{
@@ -79,9 +81,10 @@ export const ServerTile = ({ tile, index }: ServerTileProps) => {
             borderRadius: 8,
             background: "rgba(255, 255, 255, 0.04)",
             border: `1px solid ${COLORS.border}`,
+            opacity: progressBetween(seconds, rollStart - 0.2, rollStart + 0.1),
           }}
         >
-          <ToolExampleRoll examples={tile.examples} startAt={TILES_AT + index * TILE_STEP + 0.6} />
+          <ToolExampleRoll examples={tile.examples} startAt={rollStart} />
         </div>
       </div>
     </div>

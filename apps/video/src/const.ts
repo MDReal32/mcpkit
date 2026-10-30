@@ -25,7 +25,7 @@ export const COLORS = {
 export const SCENE_SECONDS = {
   hook: 3.6,
   problem: 3.4,
-  install: 3.9,
+  install: 4.1,
   assistant: 5.9,
   clients: 4.3,
   catalog: 4.6,

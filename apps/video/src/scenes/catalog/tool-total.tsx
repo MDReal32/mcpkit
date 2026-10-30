@@ -1,6 +1,7 @@
 import { COLORS } from "../../const";
 import { useSeconds } from "../../motion/use-seconds";
 import { MONO, SANS } from "../../typography/fonts";
+import { AlphaBadge } from "./alpha-badge";
 import { SERVER_TILES } from "./const";
 import { tileCount } from "./tile-count";
 
@@ -26,6 +27,7 @@ export const ToolTotal = () => {
       <div style={{ fontFamily: MONO, fontSize: 24, color: COLORS.muted, marginTop: 10 }}>
         tools across {SERVER_TILES.length} servers
       </div>
+      <AlphaBadge />
     </div>
   );
 };
