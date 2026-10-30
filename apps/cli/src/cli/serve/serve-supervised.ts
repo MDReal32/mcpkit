@@ -1,5 +1,6 @@
 import { superviseServe, WORKER_FLAG } from "../../mcp";
 import { VERSION } from "../../version";
+import { SHUTDOWN_SIGNALS } from "../const";
 import { printError } from "../output/print-error";
 import { startAutoUpdate } from "../update/start-auto-update";
 import { startUpgradeSchedule } from "../update/start-upgrade-schedule";
@@ -13,5 +14,8 @@ export const serveSupervised = async (names: readonly string[]) => {
     { command: process.execPath, args: ["serve", ...names, WORKER_FLAG] },
     { watchPath: process.execPath },
   );
+  for (const signal of SHUTDOWN_SIGNALS) {
+    process.once(signal, supervisor.stop);
+  }
   return supervisor.done;
 };

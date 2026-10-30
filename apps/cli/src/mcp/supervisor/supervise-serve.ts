@@ -1,7 +1,7 @@
 import { createInterface } from "node:readline";
 import { describeError } from "@usemcpkit/core";
 import { printError } from "../../cli/output/print-error";
-import { TOOLS_LIST_CHANGED } from "./const";
+import { SHUTDOWN_GRACE_MS, TOOLS_LIST_CHANGED } from "./const";
 import { recordHandshakeLine } from "./record-handshake-line";
 import { replayHandshake } from "./replay-handshake";
 import { retireWorker } from "./retire-worker";
@@ -16,7 +16,9 @@ import { watchBinaryFile } from "./watch-binary-file";
 /**
  * Owns the client's stdio and runs the real server as a child. `reload` starts a replacement, replays the
  * client's handshake to it, switches new requests over and announces `tools/list_changed`; the old child
- * finishes the requests it already has. A replacement that fails to start leaves the running server alone.
+ * finishes the requests it already has. A replacement that fails to start leaves the running server alone. When the
+ * client closes input (or `stop` is called) the worker's input is closed too, and it is killed if it is still running
+ * after a grace period, so a worker held up by an upstream process or an open credentials form never outlives the client.
  */
 export const superviseServe = async (
   launch: WorkerLaunch,
@@ -85,7 +87,15 @@ export const superviseServe = async (
     for (const worker of retired) {
       worker.kill();
     }
+    const timer = setTimeout(() => current.kill(), SHUTDOWN_GRACE_MS);
+    timer.unref();
   });
-  const supervisor: Supervisor = { reload: queueReload, done };
+  const supervisor: Supervisor = {
+    reload: queueReload,
+    stop: () => {
+      lines.close();
+    },
+    done,
+  };
   return supervisor;
 };

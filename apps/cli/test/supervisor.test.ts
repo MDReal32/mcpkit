@@ -12,6 +12,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const dir = process.env.FAKE_DIR;
 if (fs.existsSync(path.join(dir, 'broken'))) { process.exit(1); }
+if (fs.existsSync(path.join(dir, 'stuck'))) { setInterval(() => undefined, 1000); }
 const version = fs.readFileSync(path.join(dir, 'version.txt'), 'utf8').trim();
 require('node:readline').createInterface({ input: process.stdin }).on('line', (line) => {
   const message = JSON.parse(line);
@@ -85,6 +86,27 @@ describe("superviseServe", () => {
     expect(await supervisor.done).toBe(0);
     expect(received.find((message) => message.id === 2)).toMatchObject({ result: { tools: [{ name: "tool_1.0.0" }] } });
     expect(received.some((message) => message.method === "notifications/tools/list_changed")).toBe(false);
+  });
+
+  it("ends a worker that keeps running after the client closed its input", async () => {
+    await writeFile(join(directory(), "stuck"), "");
+    const { input, supervisor, waitFor } = await createHarness(directory());
+    input.write(rpc({ id: 1, method: "initialize", params: {} }));
+    await waitFor((messages) => messages.some((message) => message.id === 1));
+
+    input.end();
+
+    expect(await supervisor.done).not.toBe(0);
+  }, 15_000);
+
+  it("stops on request while the client keeps its input open", async () => {
+    const { input, supervisor, waitFor } = await createHarness(directory());
+    input.write(rpc({ id: 1, method: "initialize", params: {} }));
+    await waitFor((messages) => messages.some((message) => message.id === 1));
+
+    supervisor.stop();
+
+    expect(await supervisor.done).toBe(0);
   });
 });
 
