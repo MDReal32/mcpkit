@@ -1,35 +1,24 @@
-import { mkdir, rename, rm, writeFile } from "node:fs/promises";
-import { dirname, join } from "node:path";
 import type { UpstreamRepo } from "@usemcpkit/core";
-import { READY_MARKER_FILE_NAME } from "./const";
-import { readReadyMarker } from "./read-ready-marker";
-import { runProgram } from "./run-program";
+import type { RepoOptions } from "../types/repo-options";
+import { buildRepo } from "./build-repo";
+import { REPO_CHECK_INTERVAL_MS } from "./const";
+import { isPinnedCommit } from "./is-pinned-commit";
+import { readRepoState } from "./read-repo-state";
+import { updateRepo } from "./update-repo";
 
 /**
- * Makes `dir` a finished clone of `repo`: cloned, checked out at the pinned ref and set up. It is built next to `dir`
- * and moved into place at the end, so a failed or interrupted run leaves nothing half-made, and a clone made for
- * another url, ref or setup is replaced. Nothing runs when the marker of the finished clone already matches.
+ * Makes `dir` a finished clone of `repo`. The clone is always used as it is; a clone made for another url, ref or
+ * setup is replaced, and one at a branch or tag is compared with the remote once its last check is older than the
+ * interval and rebuilt when the ref moved. A commit is pinned and never compared.
  */
-export const ensureRepo = async (repo: UpstreamRepo, dir: string) => {
+export const ensureRepo = async (repo: UpstreamRepo, dir: string, { check, warn }: RepoOptions) => {
   const signature = JSON.stringify(repo);
-  if ((await readReadyMarker(dir)) === signature) {
+  const state = await readRepoState(dir);
+  if (state?.signature !== signature) {
+    await buildRepo(repo, dir, signature, Date.now());
     return;
   }
-  const staging = `${dir}.tmp-${process.pid}`;
-  await mkdir(dirname(dir), { recursive: true });
-  await rm(staging, { recursive: true, force: true });
-  try {
-    await runProgram("git", ["clone", "--quiet", "--no-checkout", "--", repo.url, staging], dirname(dir));
-    await runProgram("git", ["checkout", "--quiet", "--detach", repo.ref, "--"], staging);
-    for (const step of repo.setup ?? []) {
-      await runProgram(step.command, step.args ?? [], staging);
-    }
-    await writeFile(join(staging, READY_MARKER_FILE_NAME), signature);
-    if ((await readReadyMarker(dir)) !== signature) {
-      await rm(dir, { recursive: true, force: true });
-      await rename(staging, dir);
-    }
-  } finally {
-    await rm(staging, { recursive: true, force: true });
+  if (check && !isPinnedCommit(repo) && Date.now() - state.checkedAt >= REPO_CHECK_INTERVAL_MS) {
+    await updateRepo(repo, dir, state, { warn });
   }
 };

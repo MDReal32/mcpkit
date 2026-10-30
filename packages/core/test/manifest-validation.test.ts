@@ -94,7 +94,7 @@ describe("upstream manifests", () => {
       }),
     ).toEqual([
       "upstream.repo.url must be an https:// URL",
-      "upstream.repo.ref must be a tag or commit, not starting with '-'",
+      "upstream.repo.ref must be a commit, tag or branch, not starting with '-'",
       "upstream.repo.setup[0].command must be a program name on PATH, not a path",
     ]);
   });

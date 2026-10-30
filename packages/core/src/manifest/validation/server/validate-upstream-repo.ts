@@ -29,7 +29,7 @@ export const validateUpstreamRepo = (repo: unknown) => {
     errors.push("upstream.repo.url must be an https:// URL");
   }
   if (typeof repo.ref !== "string" || !REF_PATTERN.test(repo.ref)) {
-    errors.push("upstream.repo.ref must be a tag or commit, not starting with '-'");
+    errors.push("upstream.repo.ref must be a commit, tag or branch, not starting with '-'");
   }
   if (repo.setup !== undefined) {
     if (Array.isArray(repo.setup)) {

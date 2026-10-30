@@ -1,3 +1,4 @@
+import { AUTO_UPDATE_ENV } from "@usemcpkit/binary";
 import type { ExecuteOptions, Manifest } from "@usemcpkit/core";
 import { withUpstreamAccess } from "@usemcpkit/core";
 import type { UpstreamConnection } from "@usemcpkit/upstream";
@@ -26,6 +27,7 @@ export const openUpstream = <T>(
         headers,
         env,
         repoDir: resolveRepoDir(manifest),
+        checkRepo: (options.env ?? process.env)[AUTO_UPDATE_ENV] !== "0",
         fetchImpl: options.fetchImpl,
         clientVersion: VERSION,
       });
