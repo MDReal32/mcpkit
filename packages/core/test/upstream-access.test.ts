@@ -50,6 +50,22 @@ describe("withUpstreamAccess", () => {
     expect(env).toEqual({ DEMO_TOKEN: "t-1" });
   });
 
+  it("forwards an optional credential when it is set and leaves it out when it is not", async () => {
+    const manifest = createUpstreamManifest({
+      upstream: { type: "stdio", command: "demo-mcp", optionalEnv: ["DEMO_SESSION", "DEMO_ID"] },
+    });
+
+    const withSession = await withUpstreamAccess(manifest, async (access) => access.env, {
+      env: { MCPKIT_HOME: readHome(), DEMO_SESSION: "s-1" },
+    });
+    const without = await withUpstreamAccess(manifest, async (access) => access.env, {
+      env: { MCPKIT_HOME: readHome() },
+    });
+
+    expect(withSession).toEqual({ DEMO_SESSION: "s-1" });
+    expect(without).toEqual({});
+  });
+
   it("names the missing credential of a stdio upstream", async () => {
     const manifest = createUpstreamManifest({
       upstream: { type: "stdio", command: "demo-mcp", forwardEnv: ["DEMO_TOKEN"] },

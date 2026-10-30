@@ -20,6 +20,9 @@ const validateStdio = (upstream: Record<string, unknown>) => {
   if (upstream.forwardEnv !== undefined && !isStringList(upstream.forwardEnv)) {
     errors.push("upstream.forwardEnv must be a list of strings");
   }
+  if (upstream.optionalEnv !== undefined && !isStringList(upstream.optionalEnv)) {
+    errors.push("upstream.optionalEnv must be a list of strings");
+  }
   if (upstream.repo !== undefined) {
     errors.push(...validateUpstreamRepo(upstream.repo));
   }

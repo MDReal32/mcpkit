@@ -4,7 +4,7 @@ export const BITWARDEN_REPO_URL = "https://github.com/bitwarden/mcp-server.git";
 
 export const BITWARDEN_REPO_COMMIT = "4fd2b49c617e11773c93edf8937b2e27f40a89da";
 
-export const BITWARDEN_SESSION_ENV = "BW_SESSION";
+export const BITWARDEN_OPTIONAL_ENV = ["BW_SESSION", "BW_CLIENT_ID", "BW_CLIENT_SECRET"];
 
 /**
  * Bitwarden's server names its tools `<verb>_<object>` (`create_org_group`); these rules file them as
