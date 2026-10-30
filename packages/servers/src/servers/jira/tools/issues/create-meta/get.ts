@@ -1,7 +1,7 @@
 import { defineTool } from "@usemcpkit/core";
 
-export const issuesIssuesGetCreateIssueMeta = defineTool({
-  name: "issues:issues:get_create_issue_meta",
+export const issuesCreateMetaGet = defineTool({
+  name: "issues:create_meta:get",
   description:
     "[Deprecated] Get create issue metadata. Returns details of projects, issue types within projects, and, when requested, the create screen fields for each issue type for the user. Use the information to populate the requests in Create issue and Create issues.",
   input: {

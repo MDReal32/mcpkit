@@ -1,5 +1,5 @@
 import { findGroupName } from "../../utils/naming/find-group-name";
-import { SERVER_GROUPS } from "./const";
+import { OPERATION_NAME_OVERRIDES, SERVER_GROUPS } from "./const";
 import { toToolNames } from "./to-tool-names";
 import type { JiraOperation } from "./types/jira-operation";
 import type { SpecSource } from "./types/spec-source";
@@ -11,5 +11,8 @@ export const nameOperations = (operations: JiraOperation[], source: SpecSource) 
     if (!groupName) {
       throw new Error(`${source.name}:${operationId}: category "${operation.category}" belongs to no server group`);
     }
-    return toToolNames(groupName, operation.category, operationId);
+    const override = OPERATION_NAME_OVERRIDES[operationId];
+    return override
+      ? toToolNames(groupName, override.resource, override.action)
+      : toToolNames(groupName, operation.category, operationId);
   });

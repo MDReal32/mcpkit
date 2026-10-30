@@ -11,10 +11,6 @@ import { issuesIssuesExportArchivedIssues } from "./export-archived-issues";
 import { issuesIssuesGetBulkChangelogs } from "./get-bulk-changelogs";
 import { issuesIssuesGetChangeLogs } from "./get-change-logs";
 import { issuesIssuesGetChangeLogsByIds } from "./get-change-logs-by-ids";
-import { issuesIssuesGetCreateIssueMeta } from "./get-create-issue-meta";
-import { issuesIssuesGetCreateIssueMetaIssueTypeId } from "./get-create-issue-meta-issue-type-id";
-import { issuesIssuesGetCreateIssueMetaIssueTypes } from "./get-create-issue-meta-issue-types";
-import { issuesIssuesGetEditIssueMeta } from "./get-edit-issue-meta";
 import { issuesIssuesGetEvents } from "./get-events";
 import { issuesIssuesGetIssue } from "./get-issue";
 import { issuesIssuesGetIssueAdfLimitReport } from "./get-issue-adf-limit-report";
@@ -37,10 +33,6 @@ export const issuesIssuesTools = [
   issuesIssuesGetBulkChangelogs,
   issuesIssuesGetChangeLogs,
   issuesIssuesGetChangeLogsByIds,
-  issuesIssuesGetCreateIssueMeta,
-  issuesIssuesGetCreateIssueMetaIssueTypeId,
-  issuesIssuesGetCreateIssueMetaIssueTypes,
-  issuesIssuesGetEditIssueMeta,
   issuesIssuesGetEvents,
   issuesIssuesGetIssue,
   issuesIssuesGetIssueAdfLimitReport,

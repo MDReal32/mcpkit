@@ -1,7 +1,7 @@
 import { defineTool } from "@usemcpkit/core";
 
-export const issuesIssuesGetEditIssueMeta = defineTool({
-  name: "issues:issues:get_edit_issue_meta",
+export const issuesEditMetaGet = defineTool({
+  name: "issues:edit_meta:get",
   description:
     "Get edit issue metadata. Returns the edit screen fields for an issue that are visible to and editable by the user. Use the information to populate the requests in Edit issue.",
   input: {

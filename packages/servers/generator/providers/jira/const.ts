@@ -1,5 +1,6 @@
 import { DEFAULT_SCHEMA_OPTIONS } from "../../utils/schema/const";
 import type { EditionPair } from "./types/edition-pair";
+import type { OperationNameOverride } from "./types/operation-name-override";
 import type { SpecSource } from "./types/spec-source";
 
 /**
@@ -188,3 +189,14 @@ export const SERVER_DESCRIPTION =
 export const DOWNLOAD_PATHS: readonly RegExp[] = [/\/attachment\/(content|thumbnail)\/\{id\}$/];
 
 export const FILE_PART_NAME = "file";
+
+/**
+ * Atlassian names the metadata operations after what they are used for (`getCreateIssueMeta`), which reads as two verbs
+ * in a row ("get create"). They are filed under the metadata they return, with the verb alone leading the action.
+ */
+export const OPERATION_NAME_OVERRIDES: Readonly<Record<string, OperationNameOverride>> = {
+  getCreateIssueMeta: { resource: "create-meta", action: "get" },
+  getCreateIssueMetaIssueTypes: { resource: "create-meta", action: "list-issue-types" },
+  getCreateIssueMetaIssueTypeId: { resource: "create-meta", action: "list-issue-type-fields" },
+  getEditIssueMeta: { resource: "edit-meta", action: "get" },
+};

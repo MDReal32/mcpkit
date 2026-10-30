@@ -1,3 +1,5 @@
+import { issuesCreateMetaTools } from "./create-meta";
+import { issuesEditMetaTools } from "./edit-meta";
 import { issuesIssueAttachmentsTools } from "./issue-attachments";
 import { issuesIssueCommentPropertiesTools } from "./issue-comment-properties";
 import { issuesIssueCommentsTools } from "./issue-comments";
@@ -21,6 +23,8 @@ import { issuesTasksTools } from "./tasks";
 import { issuesTimeTrackingTools } from "./time-tracking";
 
 export const issuesGroupTools = [
+  ...issuesCreateMetaTools,
+  ...issuesEditMetaTools,
   ...issuesIssueAttachmentsTools,
   ...issuesIssueCommentPropertiesTools,
   ...issuesIssueCommentsTools,
