@@ -6,7 +6,11 @@ const MAX_NAME_LENGTH = 51;
 
 describe("createToolName", () => {
   it("joins the server id and the tool name", () => {
-    expect(createToolName("git:github", "issues:issues:get_issue")).toBe("git_github_issues_issues_get_issue");
+    expect(createToolName("git:github", "pulls:comments:list")).toBe("git_github_pulls_comments_list");
+    expect(createToolName("git:github", "issues:issues:get_issue")).toBe("git_github_issues_get_issue");
+    expect(createToolName("atlassian:jira", "issues:issues:get_edit_issue_meta")).toBe(
+      "atlassian_jira_issues_get_edit_issue_meta",
+    );
   });
 
   it("shortens a long name to fit, keeping a stable hash of the full id", () => {

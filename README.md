@@ -388,8 +388,8 @@ description says so, it takes no arguments, and calling it opens it. A server sp
 each one another section (`git_github_issues`); calling a group, or a server that has no groups, puts its tools into the
 list and mcpkit sends `tools/list_changed`. Only what the model opens is downloaded: the index first, then the server's
 shell, then the one group file. Every real tool is its own MCP tool, with its description and input schema, so the
-client's permission rules apply per tool: `git:github` with `issues:issues:get_issue` is `git_github_issues_issues_get_issue`
-(`mcp__mcpkit__git_github_issues_issues_get_issue` in Claude Code). There are no `call_tool` or `describe_tool` meta-tools,
+client's permission rules apply per tool: `git:github` with `issues:issues:get_issue` is `git_github_issues_get_issue`
+(`mcp__mcpkit__git_github_issues_get_issue` in Claude Code). There are no `call_tool` or `describe_tool` meta-tools,
 and opened sections are forgotten when the server restarts. Tool names cannot contain
 `:` and the API caps a name at 64 characters, 13 of which the client spends on `mcp__mcpkit__`, so a name longer than 51
 characters is cut at a word boundary and ends in a 6-character hash of its full id (`..._comments_create_d9463b`). The
