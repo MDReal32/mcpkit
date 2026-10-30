@@ -3,7 +3,7 @@ import type { RegistryContext } from "../types/registry-context";
 import type { RegistryServer } from "../types/registry-server";
 import { loadPartTools } from "./load-part-tools";
 import { readManifestFile } from "./read-manifest-file";
-import { retryWithFreshIndex } from "./retry-with-fresh-index";
+import { withFreshServer } from "./with-fresh-server";
 
 const loadGroupOnce = async (server: RegistryServer, context: RegistryContext, group: string | undefined) => {
   const file = await readManifestFile(server, context);
@@ -26,4 +26,4 @@ const loadGroupOnce = async (server: RegistryServer, context: RegistryContext, g
  * that replaces it. A server split into parts loads only that part; a whole manifest ignores `group`.
  */
 export const loadGroupManifest = (server: RegistryServer, context: RegistryContext, group?: string) =>
-  retryWithFreshIndex(server, context, (current) => loadGroupOnce(current, context, group));
+  withFreshServer(server, context, (current) => loadGroupOnce(current, context, group));

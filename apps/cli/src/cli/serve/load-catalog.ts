@@ -1,3 +1,4 @@
+import { AUTO_UPDATE_ENV } from "@usemcpkit/binary";
 import type { ExecuteOptions } from "@usemcpkit/core";
 import type { Catalog } from "../../mcp";
 import { createRegistryContext, loadGroupManifest, loadGroups, loadManifest, readCachedIndex } from "../../registry";
@@ -11,7 +12,7 @@ const matchesSelection = (id: string, selection: string) => id === selection || 
 /** `options` is what upstream servers are reached with while their tools are discovered: nothing here prompts. */
 export const loadCatalog = async (selection: readonly string[], options: ExecuteOptions = {}) => {
   await autoSyncManifests();
-  const context = createRegistryContext();
+  const context = createRegistryContext({ revalidate: process.env[AUTO_UPDATE_ENV] !== "0" });
   const index = await readCachedIndex(context.dir);
   if (!index) {
     throw new Error("no registry index found; run `usemcpkit update` to download it");

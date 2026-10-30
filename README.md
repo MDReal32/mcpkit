@@ -354,8 +354,13 @@ Only `index.json` is synced by default (into `~/.mcpkit/manifests`, `MCPKIT_HOME
 the first time a tool of that server is described or called, checked against the `sha256` in the index, and cached.
 
 - `mcpkit install` and the first `serve`/`list` with nothing cached download the index.
-- After that `serve` checks once a day in the background (`~/.mcpkit/manifests/.synced`); the result applies at the
-  next start. `MCPKIT_AUTO_UPDATE=0` turns the background check off.
+- The cache is always served first. `~/.mcpkit/manifests/cache.json` maps each cached file (`index.json`,
+  `git/github.json`, `git/github/issues.json`, ...) to `updatedAt` (ms, when its content last changed), `checkedAt`
+  (ms, when it was last confirmed current) and its `sha256`. When a server is opened and the index was last checked
+  more than 5 minutes ago, the index is fetched again (5 second timeout); a manifest or part whose hash differs
+  from it is downloaded and replaces the cached one, so a published change lands without a restart. If the registry
+  cannot be reached the cache keeps serving and a warning goes to stderr. `serve` also does this check in the
+  background at start. `MCPKIT_AUTO_UPDATE=0` turns both checks off.
 - `mcpkit update [--registry <url>]` syncs now: it refreshes the index and re-downloads cached manifests whose
   checksum changed, so an edit published without a version bump still lands. The URL comes from the flag,
   `MCPKIT_REGISTRY`, then the default.

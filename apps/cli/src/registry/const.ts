@@ -6,9 +6,11 @@ export const REGISTRY_ENV = "MCPKIT_REGISTRY";
 
 export const INDEX_FILE_NAME = "index.json";
 
-export const SYNC_MARKER_FILE_NAME = ".synced";
+export const CACHE_FILE_NAME = "cache.json";
 
-export const MANIFEST_SYNC_INTERVAL_MS = 24 * 60 * 60_000;
+export const INDEX_CHECK_INTERVAL_MS = 5 * 60_000;
+
+export const INDEX_CHECK_TIMEOUT_MS = 5_000;
 
 export const SERVER_ID_PATTERN = /^[a-z][a-z0-9-]*:[a-z][a-z0-9_]*$/;
 

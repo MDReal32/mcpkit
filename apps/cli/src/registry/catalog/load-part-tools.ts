@@ -34,6 +34,6 @@ export const loadPartTools = async (server: RegistryServer, part: ManifestPart, 
     throw new Error(`${server.id}: ${url} does not match the checksum in the manifest`);
   }
   const tools = parseTools(server, part, text);
-  await writeCachedPart(context.dir, server.id, part.name, text);
+  await writeCachedPart(context, server.id, part.name, text);
   return tools;
 };

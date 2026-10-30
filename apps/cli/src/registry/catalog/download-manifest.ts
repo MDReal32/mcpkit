@@ -15,6 +15,6 @@ export const downloadManifest = async (server: RegistryServer, context: Registry
     throw new ChecksumMismatchError(`${server.id}: ${url} does not match the index checksum`);
   }
   const file = parseManifestText(server, text);
-  await writeCachedManifest(context.dir, server.id, text);
+  await writeCachedManifest(context, server.id, text);
   return file;
 };

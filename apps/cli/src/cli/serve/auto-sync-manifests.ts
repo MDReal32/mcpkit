@@ -3,8 +3,8 @@ import { readSyncStatus } from "../../registry";
 import { syncQuietly } from "./sync-quietly";
 
 /**
- * No manifests ship in the binary. With none on disk the first sync is awaited; afterwards a daily check
- * runs in the background and its result applies the next time the server starts.
+ * No manifests ship in the binary. With none on disk the first sync is awaited; afterwards a check once the index
+ * is older than the interval runs in the background; opening a server re-checks it too, so a change applies on use.
  */
 export const autoSyncManifests = async (env = process.env) => {
   const status = await readSyncStatus();

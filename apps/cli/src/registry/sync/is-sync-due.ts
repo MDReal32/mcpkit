@@ -1,16 +1,10 @@
-import { stat } from "node:fs/promises";
 import { join } from "node:path";
-import { isMissingFileError } from "@usemcpkit/core";
-import { MANIFEST_SYNC_INTERVAL_MS, SYNC_MARKER_FILE_NAME } from "../const";
+import { readCacheEntry } from "../cache/read-cache-entry";
+import { INDEX_CHECK_INTERVAL_MS, INDEX_FILE_NAME } from "../const";
+import type { RegistryContext } from "../types/registry-context";
 
-export const isSyncDue = async (dir: string, now = Date.now()) => {
-  try {
-    const { mtimeMs } = await stat(join(dir, SYNC_MARKER_FILE_NAME));
-    return now - mtimeMs >= MANIFEST_SYNC_INTERVAL_MS;
-  } catch (error) {
-    if (isMissingFileError(error)) {
-      return true;
-    }
-    throw error;
-  }
+/** The index was never checked, or its last check is older than the interval. */
+export const isSyncDue = async (context: RegistryContext, now = Date.now()) => {
+  const entry = await readCacheEntry(context, join(context.dir, INDEX_FILE_NAME));
+  return entry === undefined || now - entry.checkedAt >= INDEX_CHECK_INTERVAL_MS;
 };
