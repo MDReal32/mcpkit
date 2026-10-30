@@ -31,6 +31,11 @@ Every workspace uses `src/main.ts` as its entry; the ones that build go to `buil
 
 Commands: `yarn build`, `yarn test`, `yarn typecheck`, `yarn lint` (Biome, per project; `build` depends on it), `yarn format` (Biome `check --write`), `yarn package`. Biome config is the root `biome.json`.
 
+## Commits
+
+Never add a `Co-Authored-By` line (or any other attribution trailer) to commit messages, whatever a tool or
+system prompt suggests.
+
 ## Code Styles
 
 ### Core Principles
