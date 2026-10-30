@@ -13,4 +13,6 @@ export interface Catalog {
   loadGroups: (id: string) => Promise<readonly string[]>;
   /** The manifest holding the tools of `group`; the whole manifest for a server that is not split. */
   loadGroupManifest: (id: string, group?: string) => Promise<Manifest>;
+  /** Stops what serving started, such as upstream server processes. */
+  close?: () => Promise<void>;
 }

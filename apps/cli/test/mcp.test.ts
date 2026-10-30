@@ -113,6 +113,7 @@ describe("createRpcHandler", () => {
     const upstream = (names: string[]) => ({
       tools: new Map(names.map(upstreamTool)),
       call: async () => ({ content: [] }),
+      close: async () => undefined,
     });
     const { catalog } = createCatalog();
     const grouped: Catalog = {
@@ -215,6 +216,34 @@ describe("serveStdio", () => {
       { jsonrpc: "2.0", id: null, error: { code: -32700, message: expect.stringMatching(/^parse error/) } },
       { jsonrpc: "2.0", id: null, error: { code: -32600, message: expect.stringMatching(/^invalid request/) } },
     ]);
+  });
+
+  it("answers the requests in flight once input closed, then closes the catalog", async () => {
+    const input = new PassThrough();
+    const output = new PassThrough();
+    const events: string[] = [];
+    output.on("data", (chunk: Buffer) => {
+      if (chunk.toString().includes('"id":1')) {
+        events.push("answered");
+      }
+    });
+    const { catalog } = createCatalog();
+    const slow: Catalog = {
+      ...catalog,
+      loadGroups: async () => {
+        await new Promise((resolve) => setTimeout(resolve, 50));
+        return [];
+      },
+      close: async () => {
+        events.push("closed");
+      },
+    };
+
+    const serving = serveStdio(slow, { input, output });
+    input.end(`${JSON.stringify({ jsonrpc: "2.0", id: 1, ...call("test_demo") })}\n`);
+    await serving;
+
+    expect(events).toEqual(["answered", "closed"]);
   });
 
   it("announces tools/list_changed after the response that opened a section", async () => {

@@ -46,9 +46,14 @@ export const loadCatalog = async (selection: readonly string[], options: Execute
     }
     return server;
   };
+  const close = async () => {
+    const opened = await Promise.allSettled(upstreams.values());
+    await Promise.all(opened.map((result) => (result.status === "fulfilled" ? result.value.close() : undefined)));
+  };
   const catalog: Catalog = {
     servers,
     loadUpstream,
+    close,
     loadManifest: async (id, tool) => loadManifest(findServer(id), context, tool),
     loadGroups: async (id) => loadGroups(findServer(id), context),
     loadGroupManifest: async (id, group) => loadGroupManifest(findServer(id), context, group),

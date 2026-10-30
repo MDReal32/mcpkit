@@ -20,6 +20,10 @@ export const createUpstreamServer = (loadManifest: () => Promise<Manifest>, tool
       }
       return kept.callTool(tool.upstreamName, args);
     },
+    close: async () => {
+      await kept?.close();
+      kept = undefined;
+    },
   };
   return server;
 };

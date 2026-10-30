@@ -9,8 +9,9 @@ import type { StdioOptions } from "./types/stdio-options";
 /**
  * Serves newline-delimited JSON-RPC until input closes; stdout carries protocol messages only. The `tools/list_changed`
  * notification is written after the response of the call that opened a section, so the client lists again afterwards.
+ * Once input closed, the requests in flight are answered and the catalog is closed, so nothing keeps the process alive.
  */
-export const serveStdio = (
+export const serveStdio = async (
   catalog: Catalog,
   { input = process.stdin, output = process.stdout }: StdioOptions = {},
   options: McpOptions = {},
@@ -20,15 +21,20 @@ export const serveStdio = (
     setImmediate(() => output.write(`${JSON.stringify(TOOLS_LIST_CHANGED)}\n`));
   };
   const handler = createRpcHandler(catalog, { ...options, onToolsChanged: announceToolsChanged });
+  const inFlight = new Set<Promise<void>>();
   const lines = createInterface({ input, crlfDelay: Infinity });
   lines.on("line", (line) => {
-    void handleLine(line, handler).then((response) => {
+    const answered = handleLine(line, handler).then((response) => {
       if (response) {
         output.write(`${JSON.stringify(response)}\n`);
       }
     });
+    inFlight.add(answered);
+    void answered.finally(() => inFlight.delete(answered));
   });
-  return new Promise<void>((resolve) => {
+  await new Promise<void>((resolve) => {
     lines.once("close", resolve);
   });
+  await Promise.allSettled(inFlight);
+  await catalog.close?.();
 };
