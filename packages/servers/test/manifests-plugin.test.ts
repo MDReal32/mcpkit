@@ -28,6 +28,7 @@ describe("compileServers", () => {
     expect(compiled.map(({ manifest }) => manifest.name)).toEqual([
       "bitwarden",
       "clickup",
+      "cloudflare",
       "confluence",
       "discord",
       "github",

@@ -40,6 +40,7 @@ export const SAFE_VERBS: readonly string[] = [
   "suspend",
   "stop",
   "status",
+  "whoami",
 ];
 
 export const DESTRUCTIVE_VERBS: readonly string[] = ["delete", "remove", "revoke", "trash", "purge", "cancel", "deny"];
