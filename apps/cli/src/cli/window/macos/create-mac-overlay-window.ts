@@ -11,6 +11,7 @@ import {
 import type { MacOverlayWindow } from "../types/mac-overlay-window";
 import type { ObjcRuntime } from "../types/objc-runtime";
 import { bindObjcMessage } from "./bind-objc-message";
+import { installMacEditMenu } from "./install-mac-edit-menu";
 
 /**
  * An NSPanel above every other window, a full-screen app included. The process becomes an accessory app (no Dock icon,
@@ -38,6 +39,7 @@ export const createMacOverlayWindow = async (onClose: () => void) => {
 
   const application = sendForPointer(objcClass("NSApplication"), selector("sharedApplication"));
   sendInteger(application, selector("setActivationPolicy:"), MAC_ACCESSORY_ACTIVATION_POLICY);
+  await installMacEditMenu({ application, objcClass, selector, encode });
 
   const willClose = new JSCallback(onClose, { args: [FFIType.ptr, FFIType.ptr, FFIType.ptr], returns: FFIType.void });
   const delegateClass = runtime.symbols.objc_allocateClassPair(
