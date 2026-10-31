@@ -6,7 +6,20 @@ import { discord } from "./discord/discord";
 import { github } from "./github/github";
 import { gitlab } from "./gitlab/gitlab";
 import { jira } from "./jira/jira";
+import { medium } from "./medium/medium";
 import { reddit } from "./reddit/reddit";
 import { teams } from "./teams/teams";
 
-export const servers = [bitwarden, clickup, cloudflare, confluence, discord, github, gitlab, jira, reddit, teams];
+export const servers = [
+  bitwarden,
+  clickup,
+  cloudflare,
+  confluence,
+  discord,
+  github,
+  gitlab,
+  jira,
+  medium,
+  reddit,
+  teams,
+];

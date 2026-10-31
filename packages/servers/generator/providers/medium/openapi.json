@@ -1,0 +1,398 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Medium API",
+    "version": "1.0.0",
+    "description": "Written by hand for mcpkit: Medium publishes no OpenAPI description, only the documentation at https://github.com/Medium/medium-api-docs (archived: the API is no longer supported). Each operation's tags are [group, resource]; a 200 schema is a `data` envelope that lists the fields its tool returns."
+  },
+  "servers": [
+    {
+      "url": "https://api.medium.com/v1"
+    }
+  ],
+  "paths": {
+    "/me": {
+      "get": {
+        "operationId": "get_me",
+        "tags": ["account", "me"],
+        "summary": "Get the authenticated user",
+        "description": "The Medium user the integration token belongs to; its `id` is the user id other tools take.",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/User"
+          }
+        }
+      }
+    },
+    "/users/{userId}/publications": {
+      "get": {
+        "operationId": "list_user_publications",
+        "tags": ["publications", "publications"],
+        "summary": "List the publications a user can contribute to (as editor or writer)",
+        "description": "Only the authenticated user's id is accepted.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "description": "Id of the authenticated user (from account:me:get_me).",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Publications"
+          }
+        }
+      }
+    },
+    "/publications/{publicationId}/contributors": {
+      "get": {
+        "operationId": "list_publication_contributors",
+        "tags": ["publications", "contributors"],
+        "summary": "List a publication's contributors with their role, `editor` or `writer`",
+        "description": "Take the publication id from publications:publications:list_user_publications.",
+        "parameters": [
+          {
+            "name": "publicationId",
+            "in": "path",
+            "required": true,
+            "description": "Publication id (from publications:publications:list_user_publications).",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Contributors"
+          }
+        }
+      }
+    },
+    "/users/{authorId}/posts": {
+      "post": {
+        "operationId": "create_post",
+        "tags": ["posts", "posts"],
+        "summary": "Publish a post on the authenticated user's profile",
+        "description": "It goes out under their name; use publishStatus draft to keep it private. The title field is used for SEO and listings only: put the title in the content as well for it to show on the page.",
+        "parameters": [
+          {
+            "name": "authorId",
+            "in": "path",
+            "required": true,
+            "description": "Id of the authenticated user (from account:me:get_me).",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewPost"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Post"
+          }
+        }
+      }
+    },
+    "/publications/{publicationId}/posts": {
+      "post": {
+        "operationId": "create_publication_post",
+        "tags": ["posts", "posts"],
+        "summary": "Publish a post under a publication",
+        "description": "The user must be an editor or writer of the publication; a writer's post may wait for an editor. Use publishStatus draft to keep it private.",
+        "parameters": [
+          {
+            "name": "publicationId",
+            "in": "path",
+            "required": true,
+            "description": "Publication id (from publications:publications:list_user_publications).",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewPost"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Post"
+          }
+        }
+      }
+    },
+    "/images": {
+      "post": {
+        "operationId": "upload_image",
+        "tags": ["images", "images"],
+        "summary": "Upload a local image to Medium and get its URL, to use in a post",
+        "description": "Medium also side-loads <img src> images in a post, so this is only needed for local files. JPEG, PNG, GIF and TIFF.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": ["image"],
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Path of the image file on this machine."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Image"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "NewPost": {
+        "type": "object",
+        "required": ["title", "contentFormat", "content"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Post title for SEO and listings; titles over 100 characters are ignored and made from the content."
+          },
+          "contentFormat": {
+            "type": "string",
+            "enum": ["html", "markdown"],
+            "description": "Format of `content`."
+          },
+          "content": {
+            "type": "string",
+            "description": "The post body as an HTML fragment or Markdown. Medium side-loads images given by <img src>."
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Tags for the post; only the first three are used and tags over 25 characters are ignored."
+          },
+          "canonicalUrl": {
+            "type": "string",
+            "description": "The original URL of the content, if it was published elsewhere first."
+          },
+          "publishStatus": {
+            "type": "string",
+            "enum": ["public", "draft", "unlisted"],
+            "description": "Defaults to public, which publishes at once."
+          },
+          "license": {
+            "type": "string",
+            "enum": [
+              "all-rights-reserved",
+              "cc-40-by",
+              "cc-40-by-sa",
+              "cc-40-by-nd",
+              "cc-40-by-nc",
+              "cc-40-by-nc-nd",
+              "cc-40-by-nc-sa",
+              "cc-40-zero",
+              "public-domain"
+            ],
+            "description": "Defaults to all-rights-reserved."
+          },
+          "notifyFollowers": {
+            "type": "boolean",
+            "description": "Whether to notify the user's followers that the post was published."
+          }
+        }
+      }
+    },
+    "responses": {
+      "User": {
+        "description": "A user in a data envelope.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "username": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "imageUrl": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "Publications": {
+        "description": "Publications in a data envelope.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "url": {
+                        "type": "string"
+                      },
+                      "imageUrl": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "Contributors": {
+        "description": "Contributors in a data envelope.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "publicationId": {
+                        "type": "string"
+                      },
+                      "userId": {
+                        "type": "string"
+                      },
+                      "role": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "Post": {
+        "description": "A post in a data envelope.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "authorId": {
+                      "type": "string"
+                    },
+                    "tags": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "canonicalUrl": {
+                      "type": "string"
+                    },
+                    "publishStatus": {
+                      "type": "string"
+                    },
+                    "publishedAt": {
+                      "type": "string"
+                    },
+                    "license": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "Image": {
+        "description": "An uploaded image in a data envelope.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string"
+                    },
+                    "md5": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
