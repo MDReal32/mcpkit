@@ -2,20 +2,21 @@ import { defineTool } from "@usemcpkit/core";
 
 export const publicationsContributorsListPublicationContributors = defineTool({
   name: "publications:contributors:list_publication_contributors",
-  description: "List the contributors of a publication with their role, `editor` or `writer`.",
+  description:
+    "List a publication's contributors with their role, `editor` or `writer`. Take the publication id from publications:publications:list_user_publications.",
   input: {
     type: "object",
     properties: {
-      publication_id: {
+      publicationId: {
         type: "string",
         description: "Publication id (from publications:publications:list_user_publications).",
       },
     },
-    required: ["publication_id"],
+    required: ["publicationId"],
   },
   request: {
     method: "GET",
-    path: "/publications/{publication_id}/contributors",
+    path: "/publications/{publicationId}/contributors",
   },
   response: {
     root: "data",

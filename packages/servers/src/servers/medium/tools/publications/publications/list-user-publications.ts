@@ -2,20 +2,21 @@ import { defineTool } from "@usemcpkit/core";
 
 export const publicationsPublicationsListUserPublications = defineTool({
   name: "publications:publications:list_user_publications",
-  description: "List the publications the user can contribute to (as editor or writer).",
+  description:
+    "List the publications a user can contribute to (as editor or writer). Only the authenticated user's id is accepted.",
   input: {
     type: "object",
     properties: {
-      user_id: {
+      userId: {
         type: "string",
-        description: "Id of the authenticated user (from account:me:get_me). Other users' ids are refused.",
+        description: "Id of the authenticated user (from account:me:get_me).",
       },
     },
-    required: ["user_id"],
+    required: ["userId"],
   },
   request: {
     method: "GET",
-    path: "/users/{user_id}/publications",
+    path: "/users/{userId}/publications",
   },
   response: {
     root: "data",

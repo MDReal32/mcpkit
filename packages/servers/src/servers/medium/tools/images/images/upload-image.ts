@@ -9,7 +9,7 @@ export const imagesImagesUploadImage = defineTool({
     properties: {
       image: {
         type: "string",
-        description: "Path of the image file on this machine.",
+        description: "Path of a local file to upload.",
       },
     },
     required: ["image"],
@@ -17,6 +17,7 @@ export const imagesImagesUploadImage = defineTool({
   request: {
     method: "POST",
     path: "/images",
+    body: ["image"],
     contentType: "multipart/form-data",
     fileArgs: ["image"],
   },

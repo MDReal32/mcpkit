@@ -2,7 +2,8 @@ import { defineTool } from "@usemcpkit/core";
 
 export const accountMeGetMe = defineTool({
   name: "account:me:get_me",
-  description: "Get the Medium user the integration token belongs to; its `id` is the user id other tools take.",
+  description:
+    "Get the authenticated user. The Medium user the integration token belongs to; its `id` is the user id other tools take.",
   input: {
     type: "object",
     properties: {},
