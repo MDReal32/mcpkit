@@ -91,6 +91,7 @@ export const createToolExposure = (catalog: Catalog, options: McpOptions) => {
     const key = sectionKey(section);
     const id = section.group === undefined ? section.serverId : createToolId(section.serverId, section.group);
     const known = children.get(key);
+    options.wireLog?.("section-open", { section: key, known: known !== undefined });
     if (known) {
       return describeOpenedSection(id, known);
     }
@@ -100,6 +101,7 @@ export const createToolExposure = (catalog: Catalog, options: McpOptions) => {
       const opened = await pending;
       if (!children.has(key)) {
         children.set(key, opened);
+        options.wireLog?.("tools-changed", { section: key, entries: opened.length });
         options.onToolsChanged?.();
       }
       return describeOpenedSection(id, opened);

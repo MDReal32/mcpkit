@@ -1,6 +1,7 @@
 import { createInterface } from "node:readline";
 import { describeError } from "@usemcpkit/core";
 import { printError } from "../../cli/output/print-error";
+import { describeWireLine } from "../wire-log";
 import { SHUTDOWN_GRACE_MS, TOOLS_LIST_CHANGED } from "./const";
 import { recordHandshakeLine } from "./record-handshake-line";
 import { replayHandshake } from "./replay-handshake";
@@ -22,7 +23,7 @@ import { watchBinaryFile } from "./watch-binary-file";
  */
 export const superviseServe = async (
   launch: WorkerLaunch,
-  { input = process.stdin, output = process.stdout, watchPath }: SuperviseOptions = {},
+  { input = process.stdin, output = process.stdout, watchPath, wireLog }: SuperviseOptions = {},
 ) => {
   let record: HandshakeRecord = {};
   let closing = false;
@@ -33,11 +34,18 @@ export const superviseServe = async (
   });
   const retired = new Set<Worker>();
   const forward = (line: string) => {
-    output.write(`${line}\n`);
+    wireLog?.("forward-out", describeWireLine(line));
+    output.write(`${line}\n`, (error) => {
+      if (error) {
+        wireLog?.("write-error", { message: error.message });
+      }
+    });
   };
   const start = () => {
     const worker = spawnWorker(launch, forward);
+    wireLog?.("worker-start");
     void worker.exited.then((code) => {
+      wireLog?.("worker-exit", { code, current: current === worker });
       if (current === worker) {
         finish(code);
       }
@@ -49,6 +57,7 @@ export const superviseServe = async (
     if (closing) {
       return;
     }
+    wireLog?.("reload");
     const next = start();
     try {
       const version = await replayHandshake(next, record);
@@ -77,10 +86,12 @@ export const superviseServe = async (
   let current: Worker = start();
   const lines = createInterface({ input, crlfDelay: Infinity });
   lines.on("line", (line) => {
+    wireLog?.("client-in", describeWireLine(line));
     record = recordHandshakeLine(record, line);
     current.send(line);
   });
   lines.once("close", () => {
+    wireLog?.("client-closed");
     closing = true;
     stopWatching();
     current.finish();

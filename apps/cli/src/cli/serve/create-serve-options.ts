@@ -1,7 +1,7 @@
 import { createFileSecretStore } from "@usemcpkit/core";
 import { createCredentialsForm } from "@usemcpkit/credentials-form";
 import { createUsageReporter } from "../../analytics";
-import type { McpOptions } from "../../mcp";
+import { createWireLog, type McpOptions } from "../../mcp";
 import { VERSION } from "../../version";
 import { credentialsFormPage } from "../browser/credentials-form-page";
 import { announceAuthorizationUrl } from "../output/announce-authorization-url";
@@ -17,6 +17,7 @@ export const createServeOptions = () => {
     requestCredentials,
     onWarning: printError,
     onToolUse: createUsageReporter({ env: process.env, version: VERSION, os: process.platform }),
+    wireLog: createWireLog("server"),
   };
   return options;
 };

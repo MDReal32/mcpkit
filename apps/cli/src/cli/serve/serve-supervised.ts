@@ -1,4 +1,4 @@
-import { superviseServe, WORKER_FLAG } from "../../mcp";
+import { createWireLog, superviseServe, WORKER_FLAG } from "../../mcp";
 import { VERSION } from "../../version";
 import { SHUTDOWN_SIGNALS } from "../const";
 import { printError } from "../output/print-error";
@@ -12,7 +12,7 @@ export const serveSupervised = async (names: readonly string[]) => {
   startUpgradeSchedule();
   const supervisor = await superviseServe(
     { command: process.execPath, args: ["serve", ...names, WORKER_FLAG] },
-    { watchPath: process.execPath },
+    { watchPath: process.execPath, wireLog: createWireLog("supervisor") },
   );
   for (const signal of SHUTDOWN_SIGNALS) {
     process.once(signal, supervisor.stop);

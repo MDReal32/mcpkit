@@ -7,3 +7,5 @@ export type { CatalogServer } from "./types/catalog-server";
 export type { McpOptions } from "./types/mcp-options";
 export type { RpcMessage } from "./types/rpc-message";
 export type { RpcResponse } from "./types/rpc-response";
+export type { WireLog } from "./wire-log";
+export { createWireLog } from "./wire-log";

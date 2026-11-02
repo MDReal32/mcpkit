@@ -5,6 +5,7 @@ import { TOOLS_LIST_CHANGED } from "./supervisor/const";
 import type { Catalog } from "./types/catalog";
 import type { McpOptions } from "./types/mcp-options";
 import type { StdioOptions } from "./types/stdio-options";
+import { describeWireLine } from "./wire-log";
 
 /**
  * Serves newline-delimited JSON-RPC until input closes; stdout carries protocol messages only. The `tools/list_changed`
@@ -16,17 +17,27 @@ export const serveStdio = async (
   { input = process.stdin, output = process.stdout }: StdioOptions = {},
   options: McpOptions = {},
 ) => {
+  const wireLog = options.wireLog;
+  const writeLine = (line: string, event: string) => {
+    wireLog?.(event, describeWireLine(line));
+    output.write(`${line}\n`, (error) => {
+      if (error) {
+        wireLog?.("write-error", { event, message: error.message });
+      }
+    });
+  };
   const announceToolsChanged = () => {
     options.onToolsChanged?.();
-    setImmediate(() => output.write(`${JSON.stringify(TOOLS_LIST_CHANGED)}\n`));
+    setImmediate(() => writeLine(JSON.stringify(TOOLS_LIST_CHANGED), "notice-out"));
   };
   const handler = createRpcHandler(catalog, { ...options, onToolsChanged: announceToolsChanged });
   const inFlight = new Set<Promise<void>>();
   const lines = createInterface({ input, crlfDelay: Infinity });
   lines.on("line", (line) => {
+    wireLog?.("line-in", describeWireLine(line));
     const answered = handleLine(line, handler).then((response) => {
       if (response) {
-        output.write(`${JSON.stringify(response)}\n`);
+        writeLine(JSON.stringify(response), "response-out");
       }
     });
     inFlight.add(answered);
@@ -35,6 +46,7 @@ export const serveStdio = async (
   await new Promise<void>((resolve) => {
     lines.once("close", resolve);
   });
+  wireLog?.("input-closed", { inFlight: inFlight.size });
   await Promise.allSettled(inFlight);
   await catalog.close?.();
 };
