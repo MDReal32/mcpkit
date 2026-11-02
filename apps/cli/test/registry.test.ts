@@ -3,22 +3,17 @@ import { join } from "node:path";
 import { DEFAULT_REGISTRY_URL } from "@usemcpkit/servers";
 import { createPingManifest, useTempDir } from "@usemcpkit/testing";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { RegistryContext } from "../src/registry";
 import {
   createRegistryContext,
   loadGroupManifest,
   loadGroups,
   loadManifest,
   readCachedIndex,
-  readSyncStatus,
   resolveRegistryUrl,
   syncRegistry,
 } from "../src/registry";
 import { readCacheMap } from "../src/registry/cache/read-cache-map";
-import { writeCacheMap } from "../src/registry/cache/write-cache-map";
-import { INDEX_CHECK_INTERVAL_MS } from "../src/registry/const";
 import { hashText } from "../src/registry/ids/hash-text";
-import { isSyncDue } from "../src/registry/sync/is-sync-due";
 import { createRegistryFetch } from "./fixtures/create-registry-fetch";
 import { createSplitRegistryFetch } from "./fixtures/create-split-registry-fetch";
 
@@ -141,18 +136,7 @@ describe("loadManifest", () => {
   });
 });
 
-describe("sync status", () => {
-  it("reports an empty dir, then a fresh one right after a sync, then a due one a day later", async () => {
-    const { context } = setup();
-
-    const before = await readSyncStatus(context);
-    await syncRegistry(context);
-    const after = await readSyncStatus(context);
-    const later = await isSyncDue(context, Date.now() + INDEX_CHECK_INTERVAL_MS + 1000);
-
-    expect([before, after, later]).toEqual(["empty", "fresh", true]);
-  });
-
+describe("resolveRegistryUrl", () => {
   it("resolves the registry from the flag, then the environment, then the default", () => {
     expect(resolveRegistryUrl("https://flag.example", { MCPKIT_REGISTRY: "https://env.example" })).toBe(
       "https://flag.example",
@@ -161,15 +145,6 @@ describe("sync status", () => {
     expect(resolveRegistryUrl(undefined, {})).toBe(DEFAULT_REGISTRY_URL);
   });
 });
-
-const makeIndexStale = async (context: RegistryContext) => {
-  const map = await readCacheMap(context);
-  const entry = map["index.json"];
-  if (!entry) {
-    throw new Error("the index is not in the cache map");
-  }
-  await writeCacheMap(context.dir, { ...map, "index.json": { ...entry, checkedAt: 0 } });
-};
 
 describe("cache map", () => {
   afterEach(() => {
@@ -215,65 +190,15 @@ describe("cache map", () => {
   });
 });
 
-describe("checking the registry on use", () => {
-  const indexRequests = (requests: readonly string[]) => requests.filter((url) => url.endsWith("index.json"));
-
-  it("serves the cache without asking the registry while the index was checked recently", async () => {
-    const { registry, context } = setup();
-    await syncRegistry(context);
-
-    await loadManifest(await readIndexServer(), context, "ping:run");
-
-    expect(indexRequests(registry.requests)).toHaveLength(1);
-  });
-
-  it("re-checks a stale index on use and loads what changed, without a sync", async () => {
-    const first = setup("one");
-    await syncRegistry(first.context);
-    const staleServer = await readIndexServer();
-    await loadManifest(staleServer, first.context, "ping:run");
-    await makeIndexStale(first.context);
-    const second = setup("two");
-
-    const manifest = await loadManifest(staleServer, second.context, "ping:run");
-
-    expect(manifest.description).toBe("two");
-    expect(second.registry.requests).toEqual([`${REGISTRY}/index.json`, `${REGISTRY}/test/demo.json`]);
-    expect((await readCacheMap(second.context))["index.json"]?.checkedAt).toBeGreaterThan(0);
-  });
-
-  it("keeps serving the cache and warns when the registry cannot be reached for the check", async () => {
+describe("opening a server", () => {
+  it("serves the cache and never asks the registry, even when it has changed", async () => {
     const first = setup("one");
     await syncRegistry(first.context);
     const server = await readIndexServer();
     await loadManifest(server, first.context, "ping:run");
-    await makeIndexStale(first.context);
-    const warnings: string[] = [];
-    const offline = createRegistryContext({
-      dir: readDir(),
-      registryUrl: REGISTRY,
-      fetchImpl: async () => {
-        throw new Error("offline");
-      },
-      warn: (message) => warnings.push(message),
-    });
-
-    const manifest = await loadManifest(server, offline, "ping:run");
-    await loadManifest(server, offline, "ping:run");
-
-    expect(manifest.description).toBe("one");
-    expect(warnings).toEqual([expect.stringContaining("using the cache: offline")]);
-  });
-
-  it("leaves the index alone when checking on use is turned off", async () => {
-    const first = setup("one");
-    await syncRegistry(first.context);
-    const server = await readIndexServer();
-    await loadManifest(server, first.context, "ping:run");
-    await makeIndexStale(first.context);
     const second = setup("two");
 
-    const manifest = await loadManifest(server, { ...second.context, revalidate: false }, "ping:run");
+    const manifest = await loadManifest(server, second.context, "ping:run");
 
     expect(manifest.description).toBe("one");
     expect(second.registry.requests).toEqual([]);
@@ -332,5 +257,27 @@ describe("loadManifest of a server split into parts", () => {
     await syncRegistry(context);
 
     await expect(loadManifest(await readIndexServer(), context, "c:x:run")).rejects.toThrow(/no group "c"/);
+  });
+
+  it("updates only the parts already cached, never one nobody opened", async () => {
+    const first = createSplitRegistryFetch(REGISTRY, split);
+    const firstContext = createRegistryContext({ dir: readDir(), registryUrl: REGISTRY, fetchImpl: first.fetchImpl });
+    await syncRegistry(firstContext);
+    await loadManifest(await readIndexServer(), firstContext, "a:x:run");
+    const changed = { ...split, tools: split.tools.map((candidate) => ({ ...candidate, description: "changed" })) };
+    const second = createSplitRegistryFetch(REGISTRY, changed);
+    const secondContext = createRegistryContext({ dir: readDir(), registryUrl: REGISTRY, fetchImpl: second.fetchImpl });
+
+    const report = await syncRegistry(secondContext);
+
+    expect(report).toEqual({ servers: 1, refreshed: ["test:demo", "test:demo/a"], failed: [] });
+    expect(second.requests).toEqual([
+      `${REGISTRY}/index.json`,
+      `${REGISTRY}/test/demo.json`,
+      `${REGISTRY}/test/demo/a.json`,
+    ]);
+    expect((await loadManifest(await readIndexServer(), secondContext, "a:x:run")).tools[0]?.description).toBe(
+      "changed",
+    );
   });
 });

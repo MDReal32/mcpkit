@@ -3,7 +3,7 @@ import type { RegistryContext } from "../types/registry-context";
 import type { RegistryServer } from "../types/registry-server";
 import { loadPartTools } from "./load-part-tools";
 import { readManifestFile } from "./read-manifest-file";
-import { withFreshServer } from "./with-fresh-server";
+import { retryOnStaleIndex } from "./retry-on-stale-index";
 
 const loadGroupOnce = async (server: RegistryServer, context: RegistryContext, group: string | undefined) => {
   const file = await readManifestFile(server, context);
@@ -23,7 +23,7 @@ const loadGroupOnce = async (server: RegistryServer, context: RegistryContext, g
 
 /**
  * The manifest holding the tools of `group`: the cached copy when it still matches the index, otherwise a download
- * that replaces it. A server split into parts loads only that part; a whole manifest ignores `group`.
+ * that replaces it; an index that is stale only shows when that download fails its checksum. A server split into parts loads only that part; a whole manifest ignores `group`.
  */
 export const loadGroupManifest = (server: RegistryServer, context: RegistryContext, group?: string) =>
-  withFreshServer(server, context, (current) => loadGroupOnce(current, context, group));
+  retryOnStaleIndex(server, context, (current) => loadGroupOnce(current, context, group));
