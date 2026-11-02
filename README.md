@@ -60,8 +60,9 @@ version from the npm registry and checks the tarball against its published `sha5
 writes those packages to `apps/cli/build/npm/cli-<target>/`; publish each of them together with `@usemcpkit/cli` and
 `mcpkit`.
 
-**Auto-update.** `mcpkit serve`, when it is the installed binary, checks the npm registry at most once a day
-(`~/.mcpkit/update-state.json`) in the background. A newer release replaces the binary and is picked up without
+**Auto-update.** `mcpkit serve`, when it is the installed binary, checks the npm registry at most every six hours
+(`~/.mcpkit/update-state.json`) in the background: at start, and then every hour for as long as it runs, so a server
+that stays up for days still finds a new release. A newer release replaces the binary and is picked up without
 restarting the client, see Live reload. `MCPKIT_AUTO_UPDATE=0` turns this off, `MCPKIT_NPM_REGISTRY` points at another
 registry.
 

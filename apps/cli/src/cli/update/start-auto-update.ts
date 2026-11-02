@@ -1,14 +1,15 @@
 import { isCompiledBinary } from "@usemcpkit/binary";
-import { describeError } from "@usemcpkit/core";
-import { printError } from "../output/print-error";
-import { runAutoUpdate } from "./run-auto-update";
+import { checkForUpdate } from "./check-for-update";
+import { AUTO_UPDATE_RECHECK_INTERVAL_MS } from "./const";
 
-/** Fire-and-forget: a failed update check is logged to stderr and never affects serving. */
+/**
+ * Fire-and-forget: checks once now and then every AUTO_UPDATE_RECHECK_INTERVAL_MS, so a server that stays up for
+ * days still finds a new release; the binary decides whether its own check interval has passed.
+ */
 export const startAutoUpdate = () => {
   if (!isCompiledBinary()) {
     return;
   }
-  runAutoUpdate().catch((error: unknown) => {
-    printError(`mcpkit: update check failed: ${describeError(error)}`);
-  });
+  void checkForUpdate();
+  setInterval(checkForUpdate, AUTO_UPDATE_RECHECK_INTERVAL_MS).unref();
 };
