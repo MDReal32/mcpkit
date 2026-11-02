@@ -1,6 +1,6 @@
 {
   "name": "@usemcpkit/credentials-form",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "private": true,
   "description": "Serves the one-off local credentials page.",
   "type": "module",
