@@ -217,7 +217,11 @@ running process never picks the variable up. Then read the newest files in `~/.m
    Back in the supervisor: `forward-out` for the response and for the notice, then a `client-in` `tools/list` shortly
    after, which is the client listing again.
 3. Read where the chain stops:
-   - no `client-in` for the call: the client never sent it to this process (wrong entry, or another process answered);
+   - no `client-in` for the call: the client never sent it to this process (wrong entry, or another process answered).
+     The Claude desktop app does this: it runs the `mcpkit` entry of its own `claude_desktop_config.json` and hands it
+     to every Claude Code session under the same name, shadowing the session's own `mcpkit`, with a fixed tool list that
+     never takes the opened groups. Its copy writes no wire log, since the app passes no custom env vars. The fix is to
+     drop the `mcpkit` entry from the desktop config (or give it another name) and restart the app;
    - `section-open` but no `tools-changed`: loading failed, and the call's response carries the error;
    - `notice-out` in the server but no matching `forward-out`: the supervisor lost it, look for `worker-exit` or
      `reload` in between (a reload starts a worker with no open sections);
