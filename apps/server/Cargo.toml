@@ -1,0 +1,24 @@
+[package]
+name = "mcpkit-server"
+description = "The mcpkit MCP server: it serves the registry's manifests over stdio behind the mcpkit runner."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[[bin]]
+name = "mcpkit-server"
+path = "src/main.rs"
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+clap.workspace = true
+serde_json.workspace = true
+tao.workspace = true
+url.workspace = true
+wry.workspace = true
+
+[lints]
+workspace = true

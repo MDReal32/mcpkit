@@ -2584,6 +2584,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@usemcpkit/server@workspace:apps/server":
+  version: 0.0.0-use.local
+  resolution: "@usemcpkit/server@workspace:apps/server"
+  languageName: unknown
+  linkType: soft
+
 "@usemcpkit/servers@workspace:*, @usemcpkit/servers@workspace:packages/servers":
   version: 0.0.0-use.local
   resolution: "@usemcpkit/servers@workspace:packages/servers"
