@@ -4,9 +4,11 @@ import { join } from "node:path";
 import { gzipSync } from "node:zlib";
 import { useTempDir } from "@usemcpkit/testing";
 import { describe, expect, it } from "vitest";
+import { UPDATE_CHECK_INTERVAL_MS } from "../src/const";
 import type { BinaryContext } from "../src/main";
 import {
   autoUpdateBinary,
+  checkForBinaryUpdate,
   detectPackageManagerInstall,
   extractTarFile,
   findPackageManagerInstall,
@@ -143,6 +145,48 @@ describe("installBinary", () => {
 describe("autoUpdateBinary", () => {
   it("does nothing outside the installed binary", async () => {
     expect(await autoUpdateBinary(createContext(createBinaryFetch({})), "0.1.0")).toBeUndefined();
+  });
+});
+
+describe("checkForBinaryUpdate", () => {
+  const START = 10 * UPDATE_CHECK_INTERVAL_MS;
+
+  const createInstalledBinary = async () => {
+    const path = join(readDir(), "mcpkit");
+    await writeFile(path, "old");
+    return path;
+  };
+
+  it("does not record a failed check, so the next call tries again", async () => {
+    const path = await createInstalledBinary();
+
+    await expect(checkForBinaryUpdate(createContext(createBinaryFetch({})), path, "0.1.0", START)).rejects.toThrow(
+      /is not published/,
+    );
+    const retried = await checkForBinaryUpdate(
+      createContext(createReleaseFetch("0.2.0", "new")),
+      path,
+      "0.1.0",
+      START + 1_000,
+    );
+
+    expect(retried).toEqual({ status: "updated", from: "0.1.0", to: "0.2.0", path });
+    expect(await readFile(path, "utf8")).toBe("new");
+  });
+
+  it("skips until the interval has passed once a check has finished", async () => {
+    const path = await createInstalledBinary();
+    const context = createContext(createReleaseFetch("0.1.0", "same"));
+
+    expect(await checkForBinaryUpdate(context, path, "0.1.0", START)).toEqual({
+      status: "up-to-date",
+      version: "0.1.0",
+    });
+    expect(await checkForBinaryUpdate(context, path, "0.1.0", START + 1_000)).toBeUndefined();
+    expect(await checkForBinaryUpdate(context, path, "0.1.0", START + UPDATE_CHECK_INTERVAL_MS)).toEqual({
+      status: "up-to-date",
+      version: "0.1.0",
+    });
   });
 });
 

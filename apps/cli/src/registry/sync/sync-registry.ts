@@ -1,23 +1,18 @@
 import { join } from "node:path";
 import { describeError } from "@usemcpkit/core";
-import { recordCacheEntry } from "../cache/record-cache-entry";
 import { touchCacheEntry } from "../cache/touch-cache-entry";
-import { downloadManifest } from "../catalog/download-manifest";
 import { INDEX_FILE_NAME } from "../const";
 import { createRegistryContext } from "../create-registry-context";
-import { hashText } from "../ids/hash-text";
-import { resolveManifestPath } from "../ids/resolve-manifest-path";
-import { readCachedManifestText } from "../local/read-cached-manifest-text";
 import { writeCachedIndex } from "../local/write-cached-index";
 import { fetchRegistryIndex } from "../remote/fetch-registry-index";
 import type { RegistryOptions } from "../types/registry-options";
 import type { SyncFailure } from "../types/sync-failure";
 import type { SyncReport } from "../types/sync-report";
+import { refreshCachedServer } from "./refresh-cached-server";
 
 /**
- * Refreshes the cached index and re-downloads only manifests that are already cached and no longer match it;
- * servers nobody used are never downloaded. The attempt is marked before fetching so a failing registry is
- * retried once an interval, not on every start.
+ * Refreshes the cached index and re-downloads only the manifests and parts that are already cached and no longer
+ * match it; servers and parts nobody used are never downloaded.
  */
 export const syncRegistry = async (options: RegistryOptions = {}) => {
   const context = createRegistryContext(options);
@@ -27,17 +22,8 @@ export const syncRegistry = async (options: RegistryOptions = {}) => {
   const refreshed: string[] = [];
   const failed: SyncFailure[] = [];
   for (const server of index.servers) {
-    const cached = await readCachedManifestText(context.dir, server.id);
-    if (cached === undefined) {
-      continue;
-    }
-    if (hashText(cached) === server.sha256) {
-      await recordCacheEntry(context, resolveManifestPath(context.dir, server.id), cached);
-      continue;
-    }
     try {
-      await downloadManifest(server, context);
-      refreshed.push(server.id);
+      refreshed.push(...(await refreshCachedServer(server, context)));
     } catch (error) {
       failed.push({ id: server.id, error: describeError(error) });
     }

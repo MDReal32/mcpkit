@@ -45,7 +45,8 @@ npx usemcpkit --all                         # every detected client, no checklis
 npx usemcpkit --clients cursor,codex        # only these
 mcpkit install --binary ./mcpkit         # install a local binary instead of downloading one
 mcpkit uninstall [--all | --clients ...] # remove the entry; the binary stays
-mcpkit upgrade                           # update the installed binary now
+mcpkit update                            # refresh the cached manifests now
+mcpkit upgrade                           # update the cached manifests, then the installed binary
 ```
 
 Supported clients (ids): `claude-desktop`, `claude-code` (`~/.claude.json`), `cursor`, `vscode`, `vscode-insiders`
@@ -375,16 +376,17 @@ Only `index.json` is synced by default (into `~/.mcpkit/manifests`, `MCPKIT_HOME
 the first time a tool of that server is described or called, checked against the `sha256` in the index, and cached.
 
 - `mcpkit install` and the first `serve`/`list` with nothing cached download the index.
-- The cache is always served first. `~/.mcpkit/manifests/cache.json` maps each cached file (`index.json`,
-  `git/github.json`, `git/github/issues.json`, ...) to `updatedAt` (ms, when its content last changed), `checkedAt`
-  (ms, when it was last confirmed current) and its `sha256`. When a server is opened and the index was last checked
-  more than 5 minutes ago, the index is fetched again (5 second timeout); a manifest or part whose hash differs
-  from it is downloaded and replaces the cached one, so a published change lands without a restart. If the registry
-  cannot be reached the cache keeps serving and a warning goes to stderr. `serve` also does this check in the
-  background at start. `MCPKIT_AUTO_UPDATE=0` turns both checks off.
-- `mcpkit update [--registry <url>]` syncs now: it refreshes the index and re-downloads cached manifests whose
-  checksum changed, so an edit published without a version bump still lands. The URL comes from the flag,
-  `MCPKIT_REGISTRY`, then the default.
+- The cache is always served, and opening a server or calling a tool never asks the registry for changes.
+  `~/.mcpkit/manifests/cache.json` maps each cached file (`index.json`, `git/github.json`,
+  `git/github/issues.json`, ...) to `updatedAt` (ms, when its content last changed), `checkedAt` (ms, when it was
+  last confirmed current) and its `sha256`. Only a download that fails its checksum, because the cached index is
+  older than the registry, fetches the index again once.
+- `mcpkit update [--registry <url>]` refreshes the index and re-downloads the manifests and parts that are already
+  cached and no longer match it, so an edit published without a version bump still lands. A server or part nobody
+  opened is never downloaded. The URL comes from the flag, `MCPKIT_REGISTRY`, then the default.
+- `mcpkit upgrade` runs that update and then replaces the installed binary. It is what the scheduled job runs every
+  six hours, so manifests and binary stay current without anyone running a command. `MCPKIT_AUTO_UPDATE=0` turns the
+  scheduled job and the binary auto-update off.
 - Self-hosting a registry is hosting the `packages/servers/build/manifests/` folder (links in `index.json` are built from the
   registry URL in `apps/cli/vite.config.ts`).
 

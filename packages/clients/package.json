@@ -1,6 +1,6 @@
 {
   "name": "@usemcpkit/clients",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "private": true,
   "description": "Detects AI clients and edits their MCP configuration.",
   "type": "module",

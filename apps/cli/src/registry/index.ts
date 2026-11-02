@@ -5,8 +5,6 @@ export { createRegistryContext } from "./create-registry-context";
 export { readCachedIndex } from "./local/read-cached-index";
 export { resolveUserDir } from "./local/resolve-user-dir";
 export { resolveRegistryUrl } from "./remote/resolve-registry-url";
-export type { SyncStatus } from "./sync/read-sync-status";
-export { readSyncStatus } from "./sync/read-sync-status";
 export { syncRegistry } from "./sync/sync-registry";
 export type { RegistryContext } from "./types/registry-context";
 export type { RegistryIndex } from "./types/registry-index";

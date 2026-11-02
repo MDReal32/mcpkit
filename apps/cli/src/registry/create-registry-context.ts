@@ -8,9 +8,8 @@ export const createRegistryContext = ({
   dir = resolveUserDir(),
   registryUrl = resolveRegistryUrl(),
   fetchImpl = fetch,
-  revalidate = true,
   warn = warnOnStderr,
 }: RegistryOptions = {}) => {
-  const context: RegistryContext = { dir, registryUrl, fetchImpl, revalidate, warn };
+  const context: RegistryContext = { dir, registryUrl, fetchImpl, warn };
   return context;
 };
