@@ -412,3 +412,15 @@ read-only, deletes destructive and known writes as writes; any other verb is lef
 
 Ids still come from `index.json`: `<category>:<server>:<resource>:<action>` selects `<category>/<server>.json`.
 `mcpkit serve [servers…]` limits the catalog to the given ids or bare names.
+
+### Debugging a connection
+
+When a client shows the sections but never the tools a section opens, or a connection drops, turn on the wire log:
+set `USEMCPKIT_DEBUG=1` in the environment the client starts mcpkit with (the server entry's `env`, or the user
+environment, then quit and reopen the client so its processes see it). Every `serve` process then appends one JSON line
+per message and lifecycle event to its own file under `~/.mcpkit/logs`, named `<role>-<start time>-<pid>.jsonl`. A
+compiled binary writes two: the `supervisor` that owns the client's stdio and the `server` worker it runs. Each line
+records the time, the process and its parent (`pid`, `ppid`), the event and the message's `id`, `method`, called
+`tool`, the client's name from `initialize`, its error and its size. It never records arguments, results, credentials
+or environment values, so a log can be shared as it is. It can stay on: every start adds new files, so clear old ones
+from time to time, and unset the variable to stop writing them.

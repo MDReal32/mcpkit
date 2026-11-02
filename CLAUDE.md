@@ -200,3 +200,33 @@ system prompt suggests.
 * Verify unfamiliar Nx CLI flags before using them; do not guess flags.
 * For scaffolding, use the appropriate Nx generator workflow rather than manually inventing project structure when a generator is intended.
 * Use Nx documentation for advanced configuration, unfamiliar flags, migrations, plugin configuration, and edge cases rather than for routine syntax already known from the workspace.
+
+## Diagnosing a user's connection
+
+When someone reports that a client does not show mcpkit's tools, that a section opens but its tools never appear, or
+that the connection drops, read the wire log before guessing (README "Debugging a connection" is the user-facing
+version). Ask them to set `USEMCPKIT_DEBUG=1` where the client starts mcpkit and to quit and reopen the client; a
+running process never picks the variable up. Then read the newest files in `~/.mcpkit/logs`.
+
+1. Pair the files. The `server` file's `ppid` is the `supervisor` file's `pid`, and the supervisor's `ppid` is the client
+   process. Several clients (an editor, a desktop app, a CLI) each start their own pair; tell them apart by the
+   `client` field on the `initialize` line and by `ppid`. Only look at the pair of the client that misbehaves.
+2. Follow one section call. In the supervisor: `client-in` with `method: "tools/call"` and the section's `tool`. In the
+   server: `line-in` for it, `section-open` (`known: true` means it was already open, so no notice follows),
+   `tools-changed` with the number of entries, `response-out`, then `notice-out` for `notifications/tools/list_changed`.
+   Back in the supervisor: `forward-out` for the response and for the notice, then a `client-in` `tools/list` shortly
+   after, which is the client listing again.
+3. Read where the chain stops:
+   - no `client-in` for the call: the client never sent it to this process (wrong entry, or another process answered);
+   - `section-open` but no `tools-changed`: loading failed, and the call's response carries the error;
+   - `notice-out` in the server but no matching `forward-out`: the supervisor lost it, look for `worker-exit` or
+     `reload` in between (a reload starts a worker with no open sections);
+   - `forward-out` for the notice with no `tools/list` after it: mcpkit delivered it and the client ignored it, so
+     compare with the client's own MCP log (Claude Code keeps one per server in its cache folder, `mcp-logs-<name>`);
+   - `write-error`: the client's pipe was closed or broken at that moment;
+   - `worker-exit` with `current: true`: the server died and the supervisor exits with its code.
+4. Never ask for or print `~/.mcpkit/config.json`: it holds the saved secrets. The wire log is safe to read because it
+   has no payloads; keep it that way when you add events (`describeWireLine` decides what a line keeps).
+
+Once the cause is found, tell the user they can leave the variable on or unset it, and that old log files can be
+deleted.
