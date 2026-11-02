@@ -27,4 +27,5 @@ export type { BinaryUpdateResult } from "./types/binary-update-result";
 export type { InstalledBinary } from "./types/installed-binary";
 export type { PackageManagerInstall } from "./types/package-manager-install";
 export { autoUpdateBinary } from "./update/auto-update-binary";
+export { checkForBinaryUpdate } from "./update/check-for-binary-update";
 export { updateBinary } from "./update/update-binary";
