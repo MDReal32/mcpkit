@@ -12,7 +12,7 @@ import { readForwardedEnv } from "./read-forwarded-env";
 import type { UpstreamAccess } from "./upstream-access";
 
 /**
- * Runs `run` with the access of an `upstream` manifest. A stdio upstream gets its forwarded credentials; an HTTP one
+ * Runs `run` with the access of an `upstream` manifest. A stdio upstream gets its forwarded credentials, asked for in the credentials form when missing and saved once `run` succeeded; an HTTP one
  * tries the manifest's auth options in order like an API call does, moving on when `run` throws UnauthorizedError.
  */
 export const withUpstreamAccess = async <T>(
@@ -28,7 +28,10 @@ export const withUpstreamAccess = async <T>(
     throw new AuthError(`${manifest.name} has no upstream`);
   }
   if (upstream.type === "stdio") {
-    return run({ upstream, headers: {}, env: await readForwardedEnv(manifest, upstream, domain, context) });
+    const forwarded = await readForwardedEnv(manifest, upstream, domain, context);
+    const result = await run({ upstream, headers: {}, env: forwarded.env });
+    await forwarded.commit();
+    return result;
   }
   const failures: string[] = [];
   for (const candidate of orderAuthCandidates(manifest.name, buildAuthCandidates(manifest, domain, context))) {

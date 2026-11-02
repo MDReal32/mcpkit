@@ -14,7 +14,7 @@ export const toCredentialField = (
     label: spec?.label ?? label,
     hint: spec?.hint ?? fillTemplate(texts.fieldHint, { key }),
     placeholder: spec?.placeholder ?? "",
-    secret,
+    secret: spec?.secret ?? secret,
   };
   return field;
 };

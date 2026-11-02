@@ -1,6 +1,7 @@
 import { isJsonObject } from "../../../json";
 import { isHttpsUrl } from "../guards/is-https-url";
 import { isStringList } from "../guards/is-string-list";
+import { validateStdioUi } from "../ui/validate-stdio-ui";
 import { validateUpstreamNaming } from "./validate-upstream-naming";
 import { validateUpstreamRepo } from "./validate-upstream-repo";
 
@@ -26,7 +27,7 @@ const validateStdio = (upstream: Record<string, unknown>) => {
   if (upstream.repo !== undefined) {
     errors.push(...validateUpstreamRepo(upstream.repo));
   }
-  return errors;
+  return [...errors, ...validateStdioUi(upstream)];
 };
 
 export const validateUpstream = (upstream: unknown) => {
