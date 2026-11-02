@@ -75,6 +75,34 @@ describe("upstream manifests", () => {
     ).toEqual([]);
   });
 
+  it("accepts a form for the forwarded credentials and rejects one for anything else", () => {
+    const stdio = { type: "stdio", command: "uv", forwardEnv: ["DEMO_ID"] };
+    const ui = {
+      inputs: { DEMO_ID: { label: "Id", secret: false } },
+      actions: [{ type: "link", label: "Portal", url: "https://portal.example.com" }],
+    };
+
+    expect(validateManifest({ ...base, upstream: { ...stdio, ui } })).toEqual([]);
+    expect(
+      validateManifest({
+        ...base,
+        upstream: {
+          ...stdio,
+          ui: {
+            inputs: { OTHER: { label: "x" }, DEMO_ID: { secret: "yes" } },
+            texts: {},
+            actions: [{ type: "cli", label: "Get", command: "demo", args: [] }],
+          },
+        },
+      }),
+    ).toEqual([
+      "upstream.ui.texts is not allowed here",
+      expect.stringContaining('"OTHER" is not a credential'),
+      "upstream.ui.inputs.DEMO_ID.secret must be a boolean",
+      expect.stringContaining("a CLI prints one token"),
+    ]);
+  });
+
   it("accepts a stdio upstream run from a pinned repository and rejects a malformed one", () => {
     const stdio = { type: "stdio", command: "node", args: ["{repo}/dist/index.js"] };
     const repo = {

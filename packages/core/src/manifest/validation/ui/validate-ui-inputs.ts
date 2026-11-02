@@ -16,8 +16,13 @@ export const validateUiInputs = (inputs: unknown, location: string, envNames: re
     if (!isJsonObject(input)) {
       return [`${inputLocation} must be an object`];
     }
-    return UI_INPUT_KEYS.filter((key) => input[key] !== undefined && typeof input[key] !== "string").map(
+    const textErrors = UI_INPUT_KEYS.filter((key) => input[key] !== undefined && typeof input[key] !== "string").map(
       (key) => `${inputLocation}.${key} must be a string`,
     );
+    const secretErrors =
+      input.secret === undefined || typeof input.secret === "boolean"
+        ? []
+        : [`${inputLocation}.secret must be a boolean`];
+    return [...textErrors, ...secretErrors];
   });
 };

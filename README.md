@@ -172,9 +172,11 @@ no longer issues new tokens, so the server works only for people who already hav
 to keep one private), list publications and upload images; there is no tool to read, edit or delete a post.
 
 Teams signs in as a Microsoft Entra application (a bot), not as you, and posts into one channel. It needs `git` and `uv`
-on PATH (uv installs its own Python 3.12 for it, never the system one), and reads `TEAMS_APP_ID`, `TEAMS_APP_PASSWORD`, `TEAMS_APP_TENANT_ID`, `TEAM_ID` and
-`TEAMS_CHANNEL_ID` from the client's env for mcpkit (the server's
-[setup guide](https://github.com/InditexTech/mcp-teams-server/blob/main/doc/MS-Teams-setup.md) explains the Azure side).
+on PATH (uv installs its own Python 3.12 for it, never the system one). The first call opens the same credentials
+window as the other servers, with a field and a hint for each of `TEAMS_APP_ID`, `TEAMS_APP_PASSWORD`,
+`TEAMS_APP_TENANT_ID`, `TEAM_ID` and `TEAMS_CHANNEL_ID` and links to your Entra app registrations and the server's
+[setup guide](https://github.com/InditexTech/mcp-teams-server/blob/main/doc/MS-Teams-setup.md); the values are saved
+once the server has started with them. Setting them in the client's env for mcpkit skips the window.
 Microsoft's own Teams MCP server (Work IQ) is not used: it needs a signed-in Entra OAuth token that mcpkit cannot get.
 
 ## Manifest format
