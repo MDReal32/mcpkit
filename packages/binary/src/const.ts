@@ -2,7 +2,7 @@ export const BIN_DIR_NAME = "bin";
 
 export const UPDATE_STATE_FILE_NAME = "update-state.json";
 
-export const UPDATE_CHECK_INTERVAL_MS = 24 * 60 * 60_000;
+export const UPDATE_CHECK_INTERVAL_MS = 6 * 60 * 60_000;
 
 export const DEFAULT_NPM_REGISTRY = "https://registry.npmjs.org";
 
