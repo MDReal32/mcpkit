@@ -1,0 +1,25 @@
+mod await_handshake;
+mod consts;
+mod file_signature;
+mod handshake_record;
+mod line_header;
+mod output_message;
+mod read_server_version;
+mod replace_line_id;
+mod replay_handshake;
+mod retire_worker;
+mod spawn_worker;
+mod supervise_options;
+mod supervise_serve;
+mod supervisor_event;
+mod supervisor_state;
+mod wait_for_exit;
+mod watch_binary_file;
+mod worker;
+mod worker_input;
+mod worker_launch;
+mod write_output;
+
+pub use supervise_options::SuperviseOptions;
+pub use supervise_serve::supervise_serve;
+pub use worker_launch::WorkerLaunch;

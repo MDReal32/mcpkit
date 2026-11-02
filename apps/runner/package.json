@@ -1,0 +1,9 @@
+{
+  "name": "@usemcpkit/runner",
+  "private": true,
+  "scripts": {
+    "build": "cargo build --release -p mcpkit-runner",
+    "test": "cargo test -p mcpkit-runner",
+    "lint": "cargo fmt -p mcpkit-runner --check && cargo clippy -p mcpkit-runner --all-targets"
+  }
+}
