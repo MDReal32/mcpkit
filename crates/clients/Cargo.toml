@@ -1,0 +1,18 @@
+[package]
+name = "mcpkit-clients"
+description = "Finds the AI clients installed for this user and writes, or removes, the one mcpkit entry in each client's MCP config, keeping comments and every other key."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+mcpkit-core.workspace = true
+regex.workspace = true
+serde_json.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+
+[lints]
+workspace = true

@@ -1,13 +1,22 @@
 mod consts;
 mod encode_uri_component;
 mod format_js_number;
+mod is_js_whitespace;
+mod js_trim;
+mod js_trim_end;
+mod js_trim_start;
 mod to_js_json;
 mod to_js_json_pretty;
 mod to_js_numbers;
 mod to_js_string;
 
+pub use consts::JS_WHITESPACE;
 pub use encode_uri_component::encode_uri_component;
 pub use format_js_number::format_js_number;
+pub use is_js_whitespace::is_js_whitespace;
+pub use js_trim::js_trim;
+pub use js_trim_end::js_trim_end;
+pub use js_trim_start::js_trim_start;
 pub use to_js_json::to_js_json;
 pub use to_js_json_pretty::to_js_json_pretty;
 pub use to_js_numbers::to_js_numbers;

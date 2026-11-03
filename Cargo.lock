@@ -1624,6 +1624,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "mcpkit-clients"
+version = "0.9.0"
+dependencies = [
+ "mcpkit-core",
+ "regex",
+ "serde_json",
+ "tempfile",
+]
+
+[[package]]
 name = "mcpkit-core"
 version = "0.9.0"
 dependencies = [
