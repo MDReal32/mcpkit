@@ -1,5 +1,4 @@
 use crate::supervisor::consts::SHUTDOWN_GRACE;
-use mcpkit_core::mcp::TOOLS_LIST_CHANGED;
 use crate::supervisor::handshake_record::HandshakeRecord;
 use crate::supervisor::output_message::OutputMessage;
 use crate::supervisor::replay_handshake::replay_handshake;
@@ -8,6 +7,7 @@ use crate::supervisor::spawn_worker::spawn_worker;
 use crate::supervisor::supervisor_event::SupervisorEvent;
 use crate::supervisor::worker::Worker;
 use crate::supervisor::worker_launch::WorkerLaunch;
+use mcpkit_core::mcp::TOOLS_LIST_CHANGED;
 use mcpkit_wire_log::{WireLog, describe_wire_line};
 use serde_json::json;
 use std::collections::HashMap;

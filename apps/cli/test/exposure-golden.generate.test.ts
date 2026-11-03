@@ -1,39 +1,53 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { DEFAULT_REGISTRY_URL } from "@usemcpkit/servers";
+import { useTempDir } from "@usemcpkit/testing";
 import { it } from "vitest";
 import { createToolExposure } from "../src/mcp/exposed";
 import type { Catalog } from "../src/mcp/types/catalog";
+import { createRegistryContext, loadGroupManifest, loadGroups, readCachedIndex, syncRegistry } from "../src/registry";
 
 const REGISTRY = join(__dirname, "../../../packages/servers/build/manifests");
 const OUTPUT = process.env.GOLDEN_OUTPUT ?? "";
 
-const readJson = (link: string) =>
-  JSON.parse(readFileSync(join(REGISTRY, link.replace(/^https?:\/\/[^/]+\/mcpkit\//, "")), "utf8"));
+/** Serves the built registry as if it were published. */
+const readBuiltRegistry: typeof fetch = async (input) => {
+  const url = input instanceof Request ? input.url : String(input);
+  const path = url.slice(`${DEFAULT_REGISTRY_URL}/`.length);
+  return new Response(readFileSync(join(REGISTRY, path), "utf8"));
+};
 
+const tempDir = useTempDir("mcpkit-golden-");
+
+/**
+ * Writes `apps/server/tests/fixtures/exposed-tools.json`, which the Rust server's exposure test compares against: every
+ * section and tool name after opening each server that is not an upstream, and each of its groups, in list order.
+ */
 it.skipIf(OUTPUT === "")("writes the exposed tool list golden file", async () => {
-  const index = readJson("index.json");
-  const manifestOf = (id: string) => {
-    const server = index.servers.find((candidate: { id: string }) => candidate.id === id);
-    return readJson(server.url);
+  const context = createRegistryContext({
+    dir: tempDir(),
+    registryUrl: DEFAULT_REGISTRY_URL,
+    fetchImpl: readBuiltRegistry,
+  });
+  await syncRegistry(context);
+  const index = await readCachedIndex(context.dir);
+  if (!index) {
+    throw new Error("the registry sync wrote no index");
+  }
+  const findServer = (id: string) => {
+    const server = index.servers.find((candidate) => candidate.id === id);
+    if (!server) {
+      throw new Error(`unknown server "${id}"`);
+    }
+    return server;
   };
   const catalog: Catalog = {
-    servers: index.servers.map(({ id, description, upstream }: Record<string, unknown>) => ({
-      id,
-      description,
-      upstream,
-    })),
+    servers: index.servers,
     loadManifest: async () => {
       throw new Error("not used");
     },
-    loadGroups: async (id) => (manifestOf(id).parts ?? []).map((part: { name: string }) => part.name),
-    loadGroupManifest: async (id, group) => {
-      const file = manifestOf(id);
-      if (!file.parts) {
-        return file;
-      }
-      const part = file.parts.find((candidate: { name: string }) => candidate.name === group);
-      return { ...file, tools: readJson(part.url).tools };
-    },
+    loadGroups: (id) => loadGroups(findServer(id), context),
+    loadGroupManifest: (id, group) => loadGroupManifest(findServer(id), context, group),
   };
   const exposure = createToolExposure(catalog, {});
   for (const server of catalog.servers) {

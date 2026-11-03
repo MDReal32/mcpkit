@@ -7,7 +7,11 @@ use std::time::Duration;
 use support::registry_root;
 use tokio::io::{AsyncBufReadExt, AsyncWriteExt, BufReader, DuplexStream, Lines};
 
-const SERVER_COUNT: usize = 11;
+fn indexed_server_count() -> usize {
+    let index: Value =
+        serde_json::from_str(&std::fs::read_to_string(registry_root().join("index.json")).unwrap()).unwrap();
+    index["servers"].as_array().unwrap().len()
+}
 
 /// The server's cache as `mcpkit update` and a first look at GitHub leave it, so nothing is fetched while serving.
 fn seed_home(home: &Path) {
@@ -92,7 +96,10 @@ async fn opens_a_section_through_the_runner_and_announces_the_new_tools_after_th
 
     assert_eq!(initialized["result"]["protocolVersion"], json!("2025-03-26"));
     assert_eq!(initialized["result"]["serverInfo"]["name"], json!("mcpkit"));
-    assert_eq!(listed["result"]["tools"].as_array().unwrap().len(), SERVER_COUNT);
+    assert_eq!(
+        listed["result"]["tools"].as_array().unwrap().len(),
+        indexed_server_count()
+    );
     assert_eq!(opened["id"], json!(2));
     let text = opened["result"]["content"][0]["text"].as_str().unwrap();
     assert!(text.starts_with("git:github is a section, not a tool."), "{text}");
