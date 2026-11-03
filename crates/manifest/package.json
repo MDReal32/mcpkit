@@ -1,0 +1,11 @@
+{
+  "name": "@usemcpkit/manifest",
+  "private": true,
+  "scripts": {
+    "test": "cargo test -p mcpkit-manifest",
+    "lint": "cargo fmt -p mcpkit-manifest --check && cargo clippy -p mcpkit-manifest --all-targets"
+  },
+  "devDependencies": {
+    "@usemcpkit/servers": "workspace:*"
+  }
+}
