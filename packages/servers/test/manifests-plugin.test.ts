@@ -31,6 +31,7 @@ describe("compileServers", () => {
       "cloudflare",
       "confluence",
       "discord",
+      "figma",
       "github",
       "gitlab",
       "jira",
