@@ -31,6 +31,7 @@ impl Harness {
         let launch = WorkerLaunch {
             command: "node".into(),
             args: vec!["-e".into(), FAKE_WORKER.into(), version_file.display().to_string()],
+            env: Vec::new(),
         };
         let options = SuperviseOptions {
             input: Box::new(input),

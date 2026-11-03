@@ -11,7 +11,10 @@ pub struct ManifestDocument {
 
 impl ManifestDocument {
     pub fn from_json(text: &str) -> serde_json::Result<Self> {
-        let mut data: Value = serde_json::from_str(text)?;
+        Self::from_value(serde_json::from_str(text)?)
+    }
+
+    pub fn from_value(mut data: Value) -> serde_json::Result<Self> {
         let parts = match data.as_object_mut().and_then(|object| object.remove("parts")) {
             Some(parts) => Some(serde_json::from_value(parts)?),
             None => None,

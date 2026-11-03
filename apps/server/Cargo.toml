@@ -15,10 +15,20 @@ path = "src/lib.rs"
 
 [dependencies]
 clap.workspace = true
+mcpkit-core.workspace = true
+mcpkit-manifest.workspace = true
+mcpkit-registry.workspace = true
+mcpkit-wire-log.workspace = true
+serde.workspace = true
 serde_json.workspace = true
 tao.workspace = true
+tokio.workspace = true
 url.workspace = true
 wry.workspace = true
+
+[dev-dependencies]
+mcpkit-runner.workspace = true
+tempfile.workspace = true
 
 [lints]
 workspace = true

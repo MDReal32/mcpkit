@@ -1,4 +1,5 @@
-use crate::supervisor::consts::{SHUTDOWN_GRACE, TOOLS_LIST_CHANGED};
+use crate::supervisor::consts::SHUTDOWN_GRACE;
+use mcpkit_core::mcp::TOOLS_LIST_CHANGED;
 use crate::supervisor::handshake_record::HandshakeRecord;
 use crate::supervisor::output_message::OutputMessage;
 use crate::supervisor::replay_handshake::replay_handshake;

@@ -27,6 +27,7 @@ pub fn serve_command(servers: Vec<String>, server: Option<PathBuf>) -> i32 {
     let launch = WorkerLaunch {
         command: command.clone(),
         args,
+        env: Vec::new(),
     };
     let runtime = match tokio::runtime::Builder::new_current_thread().enable_all().build() {
         Ok(runtime) => runtime,

@@ -27,6 +27,7 @@ pub fn spawn_worker(
     let mut command = Command::new(&launch.command);
     command
         .args(&launch.args)
+        .envs(launch.env.iter().cloned())
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
         .stderr(Stdio::inherit());

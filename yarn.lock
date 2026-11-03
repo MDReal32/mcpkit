@@ -2552,6 +2552,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@usemcpkit/core-rs@workspace:crates/core":
+  version: 0.0.0-use.local
+  resolution: "@usemcpkit/core-rs@workspace:crates/core"
+  languageName: unknown
+  linkType: soft
+
 "@usemcpkit/core@workspace:*, @usemcpkit/core@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@usemcpkit/core@workspace:packages/core"
@@ -2586,6 +2592,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@usemcpkit/registry@workspace:crates/registry":
+  version: 0.0.0-use.local
+  resolution: "@usemcpkit/registry@workspace:crates/registry"
+  dependencies:
+    "@usemcpkit/servers": "workspace:*"
+  languageName: unknown
+  linkType: soft
+
 "@usemcpkit/runner@workspace:apps/runner":
   version: 0.0.0-use.local
   resolution: "@usemcpkit/runner@workspace:apps/runner"
@@ -2595,6 +2609,8 @@ __metadata:
 "@usemcpkit/server@workspace:apps/server":
   version: 0.0.0-use.local
   resolution: "@usemcpkit/server@workspace:apps/server"
+  dependencies:
+    "@usemcpkit/servers": "workspace:*"
   languageName: unknown
   linkType: soft
 

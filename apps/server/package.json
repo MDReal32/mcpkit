@@ -5,5 +5,8 @@
     "build": "cargo build --release -p mcpkit-server",
     "test": "cargo test -p mcpkit-server",
     "lint": "cargo fmt -p mcpkit-server --check && cargo clippy -p mcpkit-server --all-targets"
+  },
+  "devDependencies": {
+    "@usemcpkit/servers": "workspace:*"
   }
 }

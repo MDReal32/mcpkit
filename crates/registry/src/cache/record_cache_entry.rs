@@ -1,0 +1,33 @@
+use crate::cache::cache_entry::CacheEntry;
+use crate::cache::read_cache_map::read_cache_map;
+use crate::cache::to_cache_path::to_cache_path;
+use crate::cache::write_cache_map::write_cache_map;
+use crate::registry_context::RegistryContext;
+use crate::registry_error::RegistryError;
+use mcpkit_core::hash::sha256_hex;
+use std::path::Path;
+
+/// Notes that `text` is what `file` holds now and is current; `updated_at` moves only when the content differs from the last one noted.
+pub async fn record_cache_entry<F>(
+    context: &RegistryContext<F>,
+    file: &Path,
+    text: &str,
+    now: u64,
+) -> Result<(), RegistryError> {
+    let path = to_cache_path(&context.dir, file);
+    let mut map = read_cache_map(context).await;
+    let sha256 = sha256_hex(text);
+    let updated_at = match map.get(&path) {
+        Some(previous) if previous.sha256 == sha256 => previous.updated_at,
+        _ => now,
+    };
+    map.insert(
+        path,
+        CacheEntry {
+            updated_at,
+            checked_at: now,
+            sha256,
+        },
+    );
+    write_cache_map(&context.dir, &map).await
+}

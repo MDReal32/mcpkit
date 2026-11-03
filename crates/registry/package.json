@@ -1,0 +1,11 @@
+{
+  "name": "@usemcpkit/registry",
+  "private": true,
+  "scripts": {
+    "test": "cargo test -p mcpkit-registry",
+    "lint": "cargo fmt -p mcpkit-registry --check && cargo clippy -p mcpkit-registry --all-targets"
+  },
+  "devDependencies": {
+    "@usemcpkit/servers": "workspace:*"
+  }
+}

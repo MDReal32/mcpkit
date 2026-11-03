@@ -15,6 +15,4 @@ pub const INITIALIZE_METHOD: &str = "initialize";
 
 pub const INITIALIZED_METHOD: &str = "notifications/initialized";
 
-pub const TOOLS_LIST_CHANGED: &str = r#"{"jsonrpc":"2.0","method":"notifications/tools/list_changed"}"#;
-
 pub const SYNTHETIC_INITIALIZE: &str = r#"{"jsonrpc":"2.0","id":"mcpkit-reload","method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"mcpkit-supervisor","version":"0"}}}"#;
