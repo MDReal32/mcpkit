@@ -13,6 +13,7 @@ mcpkit-core.workspace = true
 mcpkit-http.workspace = true
 mcpkit-manifest.workspace = true
 serde_json.workspace = true
+url.workspace = true
 
 [lints]
 workspace = true

@@ -5,10 +5,11 @@ use mcpkit_http::{HttpClient, HttpResponse};
 use mcpkit_manifest::Manifest;
 use mcpkit_manifest::tool::ToolSpec;
 use mcpkit_testing::{
-    DEMO_TOKEN_URL, FixedClient, PING_URL, RecordingClient, TokenCheckingClient, demo_manifest, demo_oauth,
-    json_response, ping_manifest,
+    DEMO_TOKEN_URL, FixedClient, PING_URL, RecordingClient, TokenCheckingClient, approve_sign_in, demo_manifest,
+    demo_oauth, json_response, ping_manifest,
 };
 use serde_json::{Map, Value, json};
+use std::cell::RefCell;
 use std::path::Path;
 use std::rc::Rc;
 
@@ -18,6 +19,7 @@ fn call_context(home: &Path, env: &[(&str, &str)], http: Rc<dyn HttpClient>) -> 
             env: Env::from_pairs(env.iter().copied()),
             home: home.to_path_buf(),
             http,
+            on_authorization_url: None,
             project_dir: None,
             secret_store: None,
             state: Rc::new(AuthState::default()),
@@ -180,6 +182,43 @@ async fn uses_a_provided_fallback_moves_past_a_401_and_remembers_the_winner() {
         *http.sent_authorizations.borrow(),
         ["Bearer revoked", "Bearer second", "Bearer second"]
     );
+}
+
+#[tokio::test]
+async fn signs_in_with_oauth2_when_no_fallback_is_provided_and_keeps_the_token_for_the_next_call() {
+    let home = tempfile::tempdir().unwrap();
+    let http = Rc::new(TokenCheckingClient::new(
+        "signed-in",
+        [(
+            DEMO_TOKEN_URL.to_owned(),
+            json!({ "access_token": "signed-in", "token_type": "bearer", "expires_in": 3600 }),
+        )],
+    ));
+    let manifest = ping_manifest("signs_in", Some(auth_list()));
+    let mut context = call_context(home.path(), &[], http.clone());
+    let authorization_urls = Rc::new(RefCell::new(Vec::new()));
+    let shown_urls = Rc::clone(&authorization_urls);
+    context.auth.on_authorization_url = Some(Rc::new(move |url: &str| {
+        shown_urls
+            .borrow_mut()
+            .push((url.to_owned(), approve_sign_in(url, None)));
+    }));
+
+    assert_eq!(call_ping(&manifest, &context).await, Ok(Some(json!({ "pong": true }))));
+    assert_eq!(call_ping(&manifest, &context).await, Ok(Some(json!({ "pong": true }))));
+
+    let shown: Vec<_> = authorization_urls.borrow_mut().drain(..).collect();
+    assert_eq!(shown.len(), 1);
+    for (_, callback) in shown {
+        assert_eq!(callback.join().unwrap(), "HTTP/1.1 200 OK");
+    }
+    assert_eq!(
+        *http.sent_authorizations.borrow(),
+        ["Bearer signed-in", "Bearer signed-in"]
+    );
+    let saved = &read_tokens(home.path())["signs_in"];
+    assert_eq!(saved["accessToken"], "signed-in");
+    assert_eq!(saved["authKey"], format!("oauth {DEMO_TOKEN_URL}"));
 }
 
 #[tokio::test]

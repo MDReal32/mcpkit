@@ -28,6 +28,7 @@ fn context(home: &TempDir, env: &[(&str, &str)], project_dir: Option<PathBuf>) -
         env: Env::from_pairs(env.iter().copied()),
         home: home.path().to_path_buf(),
         http: Rc::new(FixedClient::new(HttpResponse::default())),
+        on_authorization_url: None,
         project_dir,
         secret_store: None,
         state: Rc::new(AuthState::default()),

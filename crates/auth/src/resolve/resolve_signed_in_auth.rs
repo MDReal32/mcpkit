@@ -1,14 +1,25 @@
+use crate::oauth::sign_in_once;
 use crate::{AuthContext, AuthError, ResolvedAuth};
+use indexmap::IndexMap;
 use mcpkit_manifest::auth::OAuthAuth;
 
-/// The browser sign-in for one OAuth2 entry. No caller shows an authorization URL yet, so it always answers like the
-/// TypeScript executor does for a caller without `onAuthorizationUrl`.
+/// Runs the browser sign-in for one OAuth2 entry and stores the token in `tokens.json`.
 pub async fn resolve_signed_in_auth(
     server_name: &str,
-    _auth: &OAuthAuth,
-    _context: &AuthContext,
+    auth: &OAuthAuth,
+    context: &AuthContext,
 ) -> Result<ResolvedAuth, AuthError> {
-    Err(AuthError(format!(
-        "{server_name}: sign-in needs a browser, which this caller does not provide"
-    )))
+    let Some(on_authorization_url) = &context.on_authorization_url else {
+        return Err(AuthError(format!(
+            "{server_name}: sign-in needs a browser, which this caller does not provide"
+        )));
+    };
+    let signed_in = sign_in_once(server_name, auth, context, on_authorization_url).await?;
+    Ok(ResolvedAuth {
+        headers: IndexMap::from([(
+            "Authorization".to_owned(),
+            format!("Bearer {}", signed_in.token.access_token),
+        )]),
+        query: IndexMap::new(),
+    })
 }

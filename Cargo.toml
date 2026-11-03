@@ -19,9 +19,14 @@ mcpkit-testing = { path = "crates/testing" }
 mcpkit-runner = { path = "apps/runner" }
 mcpkit-wire-log = { path = "crates/wire-log" }
 base64 = "0.23"
-futures-util = { version = "0.3", default-features = false, features = ["std"] }
+bytes = "1.12"
 clap = { version = "4.6", features = ["derive", "env"] }
+futures-util = { version = "0.3", default-features = false, features = ["std"] }
+getrandom = "0.4"
+http-body-util = "0.1"
 humantime = "2.4"
+hyper = { version = "1.12", features = ["http1", "server"] }
+hyper-util = { version = "0.1", features = ["tokio"] }
 indexmap = { version = "2.14", features = ["serde"] }
 percent-encoding = "2.3"
 reqwest = { version = "0.13", default-features = false, features = ["rustls", "http2", "charset", "system-proxy", "multipart", "gzip"] }
@@ -32,7 +37,7 @@ tao = "0.37"
 tempfile = "3.27"
 url = "2.5"
 wry = "0.57"
-tokio = { version = "1.54", features = ["fs", "io-std", "io-util", "macros", "process", "rt", "signal", "sync", "time"] }
+tokio = { version = "1.54", features = ["fs", "io-std", "io-util", "macros", "net", "process", "rt", "signal", "sync", "time"] }
 windows-sys = { version = "0.61", features = ["Win32_Foundation", "Win32_System_Diagnostics_ToolHelp", "Win32_System_Threading"] }
 
 [workspace.lints.rust]

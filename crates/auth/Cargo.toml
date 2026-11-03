@@ -8,13 +8,19 @@ repository.workspace = true
 
 [dependencies]
 base64.workspace = true
+bytes.workspace = true
 futures-util.workspace = true
+getrandom.workspace = true
+http-body-util.workspace = true
+hyper.workspace = true
+hyper-util.workspace = true
 indexmap.workspace = true
 mcpkit-core.workspace = true
 mcpkit-http.workspace = true
 mcpkit-manifest.workspace = true
 serde.workspace = true
 serde_json.workspace = true
+sha2.workspace = true
 tokio.workspace = true
 url.workspace = true
 
