@@ -3,6 +3,7 @@ import { clickup } from "./clickup/clickup";
 import { cloudflare } from "./cloudflare/cloudflare";
 import { confluence } from "./confluence/confluence";
 import { discord } from "./discord/discord";
+import { figma } from "./figma/figma";
 import { github } from "./github/github";
 import { gitlab } from "./gitlab/gitlab";
 import { jira } from "./jira/jira";
@@ -16,6 +17,7 @@ export const servers = [
   cloudflare,
   confluence,
   discord,
+  figma,
   github,
   gitlab,
   jira,

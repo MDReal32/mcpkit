@@ -5,6 +5,7 @@ import { describe, expect, it } from "vitest";
 import { clickup } from "../src/servers/clickup/clickup";
 import { confluence } from "../src/servers/confluence/confluence";
 import { discord } from "../src/servers/discord/discord";
+import { figma } from "../src/servers/figma/figma";
 import { github } from "../src/servers/github/github";
 import { gitlab } from "../src/servers/gitlab/gitlab";
 import { jira } from "../src/servers/jira/jira";
@@ -47,7 +48,7 @@ const CONFLUENCE_CLOUD = {
 const CONFLUENCE_DATA_CENTER = { CONFLUENCE_HOST: "wiki.acme.com", CONFLUENCE_PERSONAL_TOKEN: "t" };
 
 describe("bundled servers", () => {
-  it.each([github, gitlab, jira, confluence, clickup, discord, reddit])(
+  it.each([github, gitlab, jira, confluence, clickup, discord, figma, reddit])(
     "$name compiles to a valid manifest",
     (server) => {
       expect(validateManifest(JSON.parse(JSON.stringify(server)))).toEqual([]);
@@ -231,6 +232,41 @@ describe("clickup", () => {
     const url = new URL(request?.url ?? "");
     expect(url.origin + url.pathname).toBe("https://api.clickup.com/api/v3/workspaces/9/docs");
     expect(url.searchParams.get("limit")).toBe("5");
+  });
+});
+
+describe("figma", () => {
+  const env = { FIGMA_ACCESS_TOKEN: "figd_t" };
+
+  it("reads nodes of a file with the token in X-Figma-Token", async () => {
+    const [request] = await sendTool(
+      figma,
+      "files:files:get_file_nodes",
+      { file_key: "abc", ids: "1:2,3:4", depth: 2 },
+      env,
+    );
+
+    expect(request?.method).toBe("GET");
+    const url = new URL(request?.url ?? "");
+    expect(url.origin + url.pathname).toBe("https://api.figma.com/v1/files/abc/nodes");
+    expect(url.searchParams.get("ids")).toBe("1:2,3:4");
+    expect(url.searchParams.get("depth")).toBe("2");
+    expect(request?.headers.get("X-Figma-Token")).toBe("figd_t");
+  });
+
+  it("posts a comment as the token owner", async () => {
+    const [request] = await sendTool(figma, "files:comments:post_comment", { file_key: "abc", message: "hi" }, env);
+
+    expect(request?.method).toBe("POST");
+    expect(request?.url).toBe("https://api.figma.com/v1/files/abc/comments");
+    expect(request?.body).toMatchObject({ message: "hi" });
+  });
+
+  it("leaves out operations a personal access token cannot call", () => {
+    const names = figma.tools.map((tool) => tool.name);
+
+    expect(names).toContain("users:users:get_me");
+    expect(names).not.toContain("projects:folders:post_team_folder");
   });
 });
 
