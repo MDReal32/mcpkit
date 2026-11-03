@@ -2,6 +2,7 @@
 //! and writes it back unchanged: optional fields stay absent, and maps keep their order.
 
 pub mod auth;
+pub mod domain;
 pub mod registry;
 pub mod tool;
 pub mod ui;

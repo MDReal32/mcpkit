@@ -9,7 +9,10 @@ license = "MIT"
 repository = "https://github.com/MDReal32/mcpkit"
 
 [workspace.dependencies]
+mcpkit-auth = { path = "crates/auth" }
 mcpkit-core = { path = "crates/core" }
+mcpkit-execution = { path = "crates/execution" }
+mcpkit-http = { path = "crates/http" }
 mcpkit-manifest = { path = "crates/manifest" }
 mcpkit-registry = { path = "crates/registry" }
 mcpkit-runner = { path = "apps/runner" }
@@ -17,7 +20,8 @@ mcpkit-wire-log = { path = "crates/wire-log" }
 clap = { version = "4.6", features = ["derive", "env"] }
 humantime = "2.4"
 indexmap = { version = "2.14", features = ["serde"] }
-reqwest = { version = "0.13", default-features = false, features = ["rustls", "http2", "charset", "system-proxy"] }
+percent-encoding = "2.3"
+reqwest = { version = "0.13", default-features = false, features = ["rustls", "http2", "charset", "system-proxy", "multipart", "gzip"] }
 sha2 = "0.10"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = { version = "1.0", features = ["preserve_order"] }

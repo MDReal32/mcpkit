@@ -2,8 +2,9 @@ use crate::catalog::RegistryCatalog;
 use crate::mcp::consts::INVALID_PARAMS;
 use crate::mcp::exposed::{ExposedEntry, ToolExposure};
 use crate::mcp::methods::method_outcome::MethodOutcome;
-use crate::mcp::rpc::{RpcError, to_js_string};
+use crate::mcp::rpc::RpcError;
 use crate::mcp::tools::{call_server_tool, create_text_result, create_tool_id, read_tool_arguments};
+use mcpkit_core::js::to_js_string;
 use mcpkit_registry::Fetch;
 use serde_json::{Map, Value};
 

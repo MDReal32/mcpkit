@@ -1,0 +1,8 @@
+{
+  "name": "@usemcpkit/auth",
+  "private": true,
+  "scripts": {
+    "test": "cargo test -p mcpkit-auth",
+    "lint": "cargo fmt -p mcpkit-auth --check && cargo clippy -p mcpkit-auth --all-targets"
+  }
+}

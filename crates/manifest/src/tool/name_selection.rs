@@ -9,3 +9,13 @@ pub enum NameSelection {
     List(Vec<String>),
     Mapping(IndexMap<String, String>),
 }
+
+impl NameSelection {
+    /// `{ outgoing: source }`, a list mapping each name to itself.
+    pub fn to_mapping(&self) -> IndexMap<String, String> {
+        match self {
+            NameSelection::List(names) => names.iter().map(|name| (name.clone(), name.clone())).collect(),
+            NameSelection::Mapping(mapping) => mapping.clone(),
+        }
+    }
+}

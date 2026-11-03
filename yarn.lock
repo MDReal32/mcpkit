@@ -2503,6 +2503,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@usemcpkit/auth@workspace:crates/auth":
+  version: 0.0.0-use.local
+  resolution: "@usemcpkit/auth@workspace:crates/auth"
+  languageName: unknown
+  linkType: soft
+
 "@usemcpkit/binary@workspace:*, @usemcpkit/binary@workspace:packages/binary":
   version: 0.0.0-use.local
   resolution: "@usemcpkit/binary@workspace:packages/binary"
@@ -2581,6 +2587,18 @@ __metadata:
     "@usemcpkit/testing": "workspace:*"
     typescript: "npm:^5.9.0"
     vitest: "npm:^4.0.0"
+  languageName: unknown
+  linkType: soft
+
+"@usemcpkit/execution@workspace:crates/execution":
+  version: 0.0.0-use.local
+  resolution: "@usemcpkit/execution@workspace:crates/execution"
+  languageName: unknown
+  linkType: soft
+
+"@usemcpkit/http@workspace:crates/http":
+  version: 0.0.0-use.local
+  resolution: "@usemcpkit/http@workspace:crates/http"
   languageName: unknown
   linkType: soft
 

@@ -8,3 +8,13 @@ pub enum FixedValue {
     Number(Number),
     Bool(bool),
 }
+
+impl FixedValue {
+    pub fn to_value(&self) -> serde_json::Value {
+        match self {
+            FixedValue::String(text) => serde_json::Value::String(text.clone()),
+            FixedValue::Number(number) => serde_json::Value::Number(number.clone()),
+            FixedValue::Bool(flag) => serde_json::Value::Bool(*flag),
+        }
+    }
+}
