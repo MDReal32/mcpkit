@@ -1,11 +1,16 @@
+mod support;
+
+use mcpkit_http::HttpResponse;
 use mcpkit_manifest::registry::RegistryServer;
 use mcpkit_registry::{Fetch, RegistryContext, RegistryError};
 use mcpkit_server::catalog::RegistryCatalog;
 use mcpkit_server::mcp::McpServer;
+use mcpkit_testing::FixedClient;
 use mcpkit_wire_log::{WireLog, WireLogRole};
 use serde_json::{Value, json};
 use std::cell::Cell;
 use std::rc::Rc;
+use support::call_context;
 use tempfile::TempDir;
 
 /// A registry that is never reachable, counting how often it was asked.
@@ -39,6 +44,7 @@ fn offline_server(calls: &Rc<Cell<usize>>, cache: &TempDir) -> McpServer<Offline
     McpServer::new(
         RegistryCatalog::new(servers, context),
         Rc::new(WireLog::disabled(WireLogRole::Server)),
+        call_context(cache.path(), &[], Rc::new(FixedClient::new(HttpResponse::default()))),
     )
 }
 

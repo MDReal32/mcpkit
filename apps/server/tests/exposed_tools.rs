@@ -1,13 +1,15 @@
 mod support;
 
+use mcpkit_http::HttpResponse;
 use mcpkit_registry::{DEFAULT_REGISTRY_URL, Fetch, RegistryContext, RegistryError};
 use mcpkit_server::catalog::load_catalog;
 use mcpkit_server::mcp::{ExposedEntry, ExposedSection, McpServer, ToolAnnotations};
+use mcpkit_testing::FixedClient;
 use mcpkit_wire_log::{WireLog, WireLogRole};
 use serde_json::{Value, json};
 use std::path::PathBuf;
 use std::rc::Rc;
-use support::registry_root;
+use support::{call_context, registry_root};
 
 /// Serves the built registry as if it were published.
 struct FolderFetcher {
@@ -76,7 +78,8 @@ async fn exposes_the_names_the_typescript_cli_exposes() {
         .filter(|server| !server.upstream)
         .map(|server| server.id.clone())
         .collect();
-    let server = McpServer::new(catalog, Rc::new(WireLog::disabled(WireLogRole::Server)));
+    let calls = call_context(cache.path(), &[], Rc::new(FixedClient::new(HttpResponse::default())));
+    let server = McpServer::new(catalog, Rc::new(WireLog::disabled(WireLogRole::Server)), calls);
 
     for id in &ids {
         let root = sections_of(&server, id).remove(0);

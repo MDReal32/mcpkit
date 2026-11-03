@@ -1,6 +1,11 @@
-use std::path::{Path, PathBuf};
+#![allow(
+    dead_code,
+    unused_imports,
+    reason = "each test binary uses only some of the fixtures"
+)]
 
-/// The registry `packages/servers` builds, laid out as it is published.
-pub fn registry_root() -> PathBuf {
-    Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/servers/build/manifests")
-}
+mod call_context;
+mod registry_root;
+
+pub use call_context::call_context;
+pub use registry_root::registry_root;

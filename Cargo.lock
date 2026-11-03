@@ -1692,13 +1692,18 @@ name = "mcpkit-server"
 version = "0.9.0"
 dependencies = [
  "clap",
+ "mcpkit-auth",
  "mcpkit-core",
+ "mcpkit-execution",
+ "mcpkit-http",
  "mcpkit-manifest",
  "mcpkit-registry",
  "mcpkit-runner",
+ "mcpkit-testing",
  "mcpkit-wire-log",
  "serde",
  "serde_json",
+ "sha2",
  "tao",
  "tempfile",
  "tokio",

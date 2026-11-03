@@ -15,7 +15,10 @@ path = "src/lib.rs"
 
 [dependencies]
 clap.workspace = true
+mcpkit-auth.workspace = true
 mcpkit-core.workspace = true
+mcpkit-execution.workspace = true
+mcpkit-http.workspace = true
 mcpkit-manifest.workspace = true
 mcpkit-registry.workspace = true
 mcpkit-wire-log.workspace = true
@@ -28,6 +31,8 @@ wry.workspace = true
 
 [dev-dependencies]
 mcpkit-runner.workspace = true
+mcpkit-testing.workspace = true
+sha2.workspace = true
 tempfile.workspace = true
 
 [lints]

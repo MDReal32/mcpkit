@@ -5,6 +5,7 @@ use crate::mcp::methods::method_outcome::MethodOutcome;
 use crate::mcp::rpc::RpcError;
 use crate::mcp::tools::{call_server_tool, create_text_result, create_tool_id, read_tool_arguments};
 use mcpkit_core::js::to_js_string;
+use mcpkit_execution::CallContext;
 use mcpkit_registry::Fetch;
 use serde_json::{Map, Value};
 
@@ -13,6 +14,7 @@ pub async fn call_tool<F: Fetch>(
     catalog: &RegistryCatalog<F>,
     exposure: &ToolExposure<F>,
     params: Option<&Map<String, Value>>,
+    context: &CallContext,
 ) -> Result<MethodOutcome, RpcError> {
     let name = to_js_string(params.and_then(|params| params.get("name")));
     let Some(found) = exposure.find(&name) else {
@@ -33,9 +35,11 @@ pub async fn call_tool<F: Fetch>(
             )),
         }),
         ExposedEntry::Tool(tool) => {
-            read_tool_arguments(params)?;
+            let args = read_tool_arguments(params)?;
             let id = create_tool_id(&tool.server_id, &tool.tool);
-            Ok(MethodOutcome::unchanged(call_server_tool(catalog, &id).await))
+            Ok(MethodOutcome::unchanged(
+                call_server_tool(catalog, &id, args, context).await,
+            ))
         }
     }
 }
