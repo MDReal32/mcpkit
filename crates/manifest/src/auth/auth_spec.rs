@@ -1,4 +1,5 @@
 use crate::auth::{BasicAuth, BearerAuth, HeaderAuth, OAuthAuth, QueryAuth};
+use crate::ui::UiSpec;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
@@ -47,6 +48,28 @@ impl AuthSpec {
             AuthSpec::Query(_) => "query",
             AuthSpec::Basic(_) => "basic",
             AuthSpec::OAuth(_) => "oauth pkce",
+        }
+    }
+
+    /// What the credentials form calls a fallback entry instead of its auth type and env vars.
+    pub fn label(&self) -> Option<&str> {
+        match self {
+            AuthSpec::Bearer(auth) => auth.label.as_deref(),
+            AuthSpec::Header(auth) => auth.label.as_deref(),
+            AuthSpec::Query(auth) => auth.label.as_deref(),
+            AuthSpec::Basic(auth) => auth.label.as_deref(),
+            AuthSpec::None | AuthSpec::OAuth(_) => None,
+        }
+    }
+
+    /// The credentials form overrides of a fallback entry.
+    pub fn ui(&self) -> Option<&UiSpec> {
+        match self {
+            AuthSpec::Bearer(auth) => auth.ui.as_ref(),
+            AuthSpec::Header(auth) => auth.ui.as_ref(),
+            AuthSpec::Query(auth) => auth.ui.as_ref(),
+            AuthSpec::Basic(auth) => auth.ui.as_ref(),
+            AuthSpec::None | AuthSpec::OAuth(_) => None,
         }
     }
 

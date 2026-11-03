@@ -7,7 +7,8 @@ use mcpkit_manifest::domain::apply_domain;
 use std::rc::Rc;
 
 /// The `tokens.json` token first, then fallbacks whose credentials are set or saved, and only when nothing else works
-/// the OAuth2 browser sign-in. A server that needs a domain and has none gets only the candidate that says so.
+/// the credentials form or the OAuth2 browser sign-in. A server that needs a domain and has none gets only the form or
+/// the candidate that says so.
 pub fn build_auth_candidates<'a>(
     manifest: &Manifest,
     domain: Option<&'a str>,
@@ -21,6 +22,6 @@ pub fn build_auth_candidates<'a>(
         Some(target) => list_provided_candidates(target, domain, context),
         None => Vec::new(),
     };
-    candidates.extend(list_interactive_candidates(manifest, target.as_ref(), context));
+    candidates.extend(list_interactive_candidates(manifest, target.as_ref(), domain, context));
     candidates
 }

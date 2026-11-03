@@ -21,6 +21,7 @@ pub fn create_call_context() -> Result<CallContext, String> {
             http: Rc::new(http),
             on_authorization_url: Some(Rc::new(announce_authorization_url)),
             project_dir: Some(project_dir),
+            request_credentials: None,
             secret_store: Some(Rc::new(FileSecretStore::new(home))),
             state: Rc::new(AuthState::default()),
         },

@@ -1,6 +1,6 @@
 use crate::ToolError;
 use crate::args::ToolArgs;
-use crate::request::encode_uri_component::encode_uri_component;
+use mcpkit_core::js::encode_uri_component;
 use mcpkit_core::js::to_js_string;
 
 /// Replaces each `{name}` of word characters with the URL-encoded argument; other braces stay as they are.

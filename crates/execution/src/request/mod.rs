@@ -7,7 +7,6 @@ mod build_request_body;
 mod build_request_url;
 mod collect_args;
 mod consts;
-mod encode_uri_component;
 mod fill_path;
 mod load_file_args;
 mod prepare_tool_args;

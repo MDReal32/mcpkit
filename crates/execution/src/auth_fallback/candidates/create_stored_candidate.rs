@@ -18,6 +18,7 @@ pub fn create_stored_candidate<'a>(manifest: &Rc<Manifest>, context: &'a CallCon
                 Ok(AuthResolution {
                     auth: resolved,
                     manifest,
+                    save: None,
                 })
             })
         }),

@@ -1,3 +1,4 @@
+use crate::credentials::CredentialRequester;
 use crate::oauth::AuthorizationUrlHandler;
 use crate::{AuthState, SecretStore};
 use mcpkit_core::env::Env;
@@ -16,6 +17,8 @@ pub struct AuthContext {
     pub on_authorization_url: Option<AuthorizationUrlHandler>,
     /// The directory the calling client works in; it picks the host of a server used on several hosts.
     pub project_dir: Option<PathBuf>,
+    /// Shows the credentials form; without it, a call that needs credentials nobody set fails with what it tried.
+    pub request_credentials: Option<CredentialRequester>,
     /// Credentials saved from the credentials form; env vars win over them.
     pub secret_store: Option<Rc<dyn SecretStore>>,
     pub state: Rc<AuthState>,

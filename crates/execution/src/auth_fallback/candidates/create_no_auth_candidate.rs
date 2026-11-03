@@ -8,6 +8,7 @@ pub fn create_no_auth_candidate<'a>(manifest: &Rc<Manifest>) -> AuthCandidate<'a
     let resolution = AuthResolution {
         auth: ResolvedAuth::default(),
         manifest: Rc::clone(manifest),
+        save: None,
     };
     AuthCandidate {
         label: "no auth".to_owned(),

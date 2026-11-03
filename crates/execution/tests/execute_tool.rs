@@ -21,6 +21,7 @@ fn call_context(home: &Path, env: &[(&str, &str)], http: Rc<dyn HttpClient>) -> 
             http,
             on_authorization_url: None,
             project_dir: None,
+            request_credentials: None,
             secret_store: None,
             state: Rc::new(AuthState::default()),
         },

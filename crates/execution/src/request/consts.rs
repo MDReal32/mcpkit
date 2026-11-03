@@ -1,5 +1,3 @@
-use percent_encoding::{AsciiSet, NON_ALPHANUMERIC};
-
 pub const JSON_CONTENT_TYPE: &str = "application/json";
 
 pub const MULTIPART_CONTENT_TYPE: &str = "multipart/form-data";
@@ -8,15 +6,3 @@ pub const MULTIPART_CONTENT_TYPE: &str = "multipart/form-data";
 pub const TEXT_CONTENT_TYPE_PREFIX: &str = "text/";
 
 pub const CONTENT_TYPE_HEADER: &str = "Content-Type";
-
-/// What `encodeURIComponent` escapes: everything but letters, digits and `-_.!~*'()`.
-pub const URI_COMPONENT: &AsciiSet = &NON_ALPHANUMERIC
-    .remove(b'-')
-    .remove(b'_')
-    .remove(b'.')
-    .remove(b'!')
-    .remove(b'~')
-    .remove(b'*')
-    .remove(b'\'')
-    .remove(b'(')
-    .remove(b')');

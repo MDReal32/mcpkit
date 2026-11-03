@@ -1,6 +1,7 @@
 //! The Rust port of `@usemcpkit/core` `auth/`: every file it reads and writes stays readable by the TypeScript CLI.
 
 pub mod config;
+pub mod credentials;
 pub mod domain;
 pub mod oauth;
 pub mod project;

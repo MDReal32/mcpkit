@@ -23,6 +23,7 @@ pub fn to_sign_in_candidate<'a>(
                 Ok(AuthResolution {
                     auth: resolved,
                     manifest,
+                    save: None,
                 })
             })
         }),

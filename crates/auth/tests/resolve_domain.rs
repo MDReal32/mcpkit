@@ -30,6 +30,7 @@ fn context(home: &TempDir, env: &[(&str, &str)], project_dir: Option<PathBuf>) -
         http: Rc::new(FixedClient::new(HttpResponse::default())),
         on_authorization_url: None,
         project_dir,
+        request_credentials: None,
         secret_store: None,
         state: Rc::new(AuthState::default()),
     }

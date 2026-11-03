@@ -24,6 +24,7 @@ pub fn to_fallback_candidate<'a>(
                 Ok(AuthResolution {
                     auth: resolved,
                     manifest,
+                    save: None,
                 })
             })
         }),

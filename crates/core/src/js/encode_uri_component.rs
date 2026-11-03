@@ -1,4 +1,4 @@
-use crate::request::consts::URI_COMPONENT;
+use crate::js::consts::URI_COMPONENT;
 use percent_encoding::utf8_percent_encode;
 
 pub fn encode_uri_component(value: &str) -> String {

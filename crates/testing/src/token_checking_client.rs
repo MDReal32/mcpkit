@@ -7,12 +7,13 @@ use std::collections::HashMap;
 use std::time::Duration;
 
 /// Serves `token_routes` as JSON; every other request gets 200 `{ "pong": true }` only for
-/// `Authorization: Bearer <valid_token>` and 401 otherwise. Records the Authorization header of every API request and
-/// the body of every token request.
+/// `Authorization: Bearer <valid_token>` and 401 otherwise. Records the Authorization header and the URL of every API
+/// request, and every token request.
 pub struct TokenCheckingClient {
     valid_token: String,
     token_routes: HashMap<String, Value>,
     pub sent_authorizations: RefCell<Vec<String>>,
+    pub sent_urls: RefCell<Vec<String>>,
     pub token_requests: RefCell<Vec<HttpRequest>>,
 }
 
@@ -22,6 +23,7 @@ impl TokenCheckingClient {
             valid_token: valid_token.to_owned(),
             token_routes: token_routes.into_iter().collect(),
             sent_authorizations: RefCell::new(Vec::new()),
+            sent_urls: RefCell::new(Vec::new()),
             token_requests: RefCell::new(Vec::new()),
         }
     }
@@ -47,6 +49,7 @@ impl HttpClient for TokenCheckingClient {
                     .unwrap_or_default();
                 let accepted = authorization == format!("Bearer {}", self.valid_token);
                 self.sent_authorizations.borrow_mut().push(authorization);
+                self.sent_urls.borrow_mut().push(request.url.clone());
                 match accepted {
                     true => json_response(200, &json!({ "pong": true })),
                     false => json_response(401, &json!({ "message": "Bad credentials" })),
