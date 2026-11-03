@@ -1,0 +1,18 @@
+[package]
+name = "mcpkit-testing"
+description = "Shared test fixtures of the mcpkit crates: fake HTTP clients and small manifests."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+
+[dependencies]
+indexmap.workspace = true
+mcpkit-core.workspace = true
+mcpkit-http.workspace = true
+mcpkit-manifest.workspace = true
+serde_json.workspace = true
+
+[lints]
+workspace = true

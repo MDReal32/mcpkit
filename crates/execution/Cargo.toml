@@ -19,6 +19,7 @@ tokio.workspace = true
 url.workspace = true
 
 [dev-dependencies]
+mcpkit-testing.workspace = true
 tempfile.workspace = true
 
 [lints]

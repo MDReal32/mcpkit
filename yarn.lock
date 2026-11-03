@@ -2648,6 +2648,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@usemcpkit/testing-rs@workspace:crates/testing":
+  version: 0.0.0-use.local
+  resolution: "@usemcpkit/testing-rs@workspace:crates/testing"
+  languageName: unknown
+  linkType: soft
+
 "@usemcpkit/testing@workspace:*, @usemcpkit/testing@workspace:packages/testing":
   version: 0.0.0-use.local
   resolution: "@usemcpkit/testing@workspace:packages/testing"

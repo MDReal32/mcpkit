@@ -1587,14 +1587,18 @@ dependencies = [
 name = "mcpkit-auth"
 version = "0.9.0"
 dependencies = [
+ "base64",
+ "futures-util",
  "indexmap",
  "mcpkit-core",
  "mcpkit-http",
  "mcpkit-manifest",
+ "mcpkit-testing",
  "serde",
  "serde_json",
  "tempfile",
  "tokio",
+ "url",
 ]
 
 [[package]]
@@ -1614,6 +1618,7 @@ dependencies = [
  "mcpkit-core",
  "mcpkit-http",
  "mcpkit-manifest",
+ "mcpkit-testing",
  "percent-encoding",
  "serde",
  "serde_json",
@@ -1686,6 +1691,17 @@ dependencies = [
  "tokio",
  "url",
  "wry",
+]
+
+[[package]]
+name = "mcpkit-testing"
+version = "0.9.0"
+dependencies = [
+ "indexmap",
+ "mcpkit-core",
+ "mcpkit-http",
+ "mcpkit-manifest",
+ "serde_json",
 ]
 
 [[package]]
