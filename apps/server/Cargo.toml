@@ -17,6 +17,7 @@ path = "src/lib.rs"
 clap.workspace = true
 mcpkit-auth.workspace = true
 mcpkit-core.workspace = true
+mcpkit-credentials-form.workspace = true
 mcpkit-execution.workspace = true
 mcpkit-http.workspace = true
 mcpkit-manifest.workspace = true

@@ -11,6 +11,7 @@ repository = "https://github.com/MDReal32/mcpkit"
 [workspace.dependencies]
 mcpkit-auth = { path = "crates/auth" }
 mcpkit-core = { path = "crates/core" }
+mcpkit-credentials-form = { path = "crates/credentials-form" }
 mcpkit-execution = { path = "crates/execution" }
 mcpkit-http = { path = "crates/http" }
 mcpkit-manifest = { path = "crates/manifest" }

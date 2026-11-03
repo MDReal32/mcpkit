@@ -4,6 +4,9 @@
     "test": {
       "dependsOn": ["^build"],
       "inputs": ["default", "{workspaceRoot}/packages/servers/build/manifests/**/*"]
+    },
+    "lint": {
+      "dependsOn": ["^build"]
     }
   }
 }

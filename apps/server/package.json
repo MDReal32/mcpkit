@@ -7,6 +7,7 @@
     "lint": "cargo fmt -p mcpkit-server --check && cargo clippy -p mcpkit-server --all-targets"
   },
   "devDependencies": {
-    "@usemcpkit/servers": "workspace:*"
+    "@usemcpkit/servers": "workspace:*",
+    "@usemcpkit/ui": "workspace:*"
   }
 }

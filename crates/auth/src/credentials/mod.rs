@@ -1,3 +1,4 @@
+mod consts;
 mod credential_exchange;
 mod credential_field;
 mod credential_option;
@@ -10,6 +11,10 @@ mod request;
 mod resolve;
 mod response;
 
+pub use consts::{
+    CREDENTIALS_FORM_CANCEL_PATH, CREDENTIALS_FORM_IMPORT_PATH, CREDENTIALS_FORM_SESSION_HEADER,
+    CREDENTIALS_FORM_SUBMIT_PATH, CREDENTIALS_REQUEST_ELEMENT_ID,
+};
 pub use credential_exchange::CredentialExchange;
 pub use credential_field::CredentialField;
 pub use credential_option::CredentialOption;

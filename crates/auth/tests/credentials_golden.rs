@@ -1,7 +1,11 @@
 //! The credentials form contract against `fixtures/credentials-form.golden.json`, written by core's
 //! `test/credential-golden.generate.test.ts` from the TypeScript implementation; regenerate it when the registry changes.
 
-use mcpkit_auth::credentials::{CredentialRequest, build_credential_request, validate_credential_response};
+use mcpkit_auth::credentials::{
+    CREDENTIALS_FORM_CANCEL_PATH, CREDENTIALS_FORM_IMPORT_PATH, CREDENTIALS_FORM_SESSION_HEADER,
+    CREDENTIALS_FORM_SUBMIT_PATH, CREDENTIALS_REQUEST_ELEMENT_ID, CredentialRequest, build_credential_request,
+    validate_credential_response,
+};
 use mcpkit_core::env::Env;
 use mcpkit_manifest::Manifest;
 use serde::Deserialize;
@@ -11,6 +15,7 @@ use std::collections::BTreeMap;
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct Golden {
+    constants: Value,
     requests: Vec<RequestCase>,
     validations: Vec<ValidationCase>,
 }
@@ -36,6 +41,22 @@ struct ValidationCase {
 
 fn golden() -> Golden {
     serde_json::from_str(include_str!("fixtures/credentials-form.golden.json")).unwrap()
+}
+
+#[test]
+fn shares_the_page_contract_constants_with_typescript() {
+    assert_eq!(
+        golden().constants,
+        serde_json::json!({
+            "api": {
+                "submit": CREDENTIALS_FORM_SUBMIT_PATH,
+                "cancel": CREDENTIALS_FORM_CANCEL_PATH,
+                "import": CREDENTIALS_FORM_IMPORT_PATH,
+            },
+            "sessionHeader": CREDENTIALS_FORM_SESSION_HEADER,
+            "requestElementId": CREDENTIALS_REQUEST_ELEMENT_ID,
+        })
+    );
 }
 
 #[test]

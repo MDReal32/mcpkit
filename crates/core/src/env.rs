@@ -28,9 +28,19 @@ impl Env {
         Env { vars }
     }
 
-    /// The value when the variable is set, even to an empty string, like `env[name]`.
+    /// The value when the variable is set, even to an empty string, like `env[name]`; on Windows the name is matched
+    /// without regard to case, as Node's `process.env` does there (`Path` is `PATH`).
     pub fn get(&self, name: &str) -> Option<&str> {
-        self.vars.get(name).map(String::as_str)
+        let exact = self.vars.get(name);
+        let found = match (exact, cfg!(windows)) {
+            (None, true) => self
+                .vars
+                .iter()
+                .find(|(candidate, _)| candidate.eq_ignore_ascii_case(name))
+                .map(|(_, value)| value),
+            _ => exact,
+        };
+        found.map(String::as_str)
     }
 
     /// The value when it is set and not empty, like `env[name] || …`.
