@@ -9,3 +9,18 @@ pub fn create_json_result(value: Option<&Value>) -> Value {
         None => json!({ "content": [{ "type": "text" }] }),
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::create_json_result;
+    use serde_json::json;
+
+    #[test]
+    fn writes_pretty_json_and_leaves_out_the_text_of_nothing() {
+        assert_eq!(
+            create_json_result(Some(&json!({ "a": [1.0] }))),
+            json!({ "content": [{ "type": "text", "text": "{\n  \"a\": [\n    1\n  ]\n}" }] })
+        );
+        assert_eq!(create_json_result(None), json!({ "content": [{ "type": "text" }] }));
+    }
+}

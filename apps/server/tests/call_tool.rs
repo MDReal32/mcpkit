@@ -172,10 +172,8 @@ async fn answers_a_failing_tool_with_an_error_result() {
 
     let result = call(&server, 3, tool, json!({})).await;
 
-    assert_eq!(result["isError"], json!(true));
-    assert_eq!(result["content"][0]["type"], "text");
-    assert!(
-        result["content"][0]["text"].as_str().unwrap().contains("jql"),
-        "{result}"
+    assert_eq!(
+        result,
+        json!({ "content": [{ "type": "text", "text": "missing required argument(s): jql" }], "isError": true })
     );
 }
