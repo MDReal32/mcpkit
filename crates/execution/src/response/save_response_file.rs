@@ -37,6 +37,7 @@ mod tests {
         let response = HttpResponse {
             status: 200,
             content_type: Some("application/octet-stream".into()),
+            headers: Vec::new(),
             body: vec![1, 2, 3],
         };
 

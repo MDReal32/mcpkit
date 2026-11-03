@@ -73,6 +73,11 @@ impl ReqwestClient {
             .get(reqwest::header::CONTENT_TYPE)
             .and_then(|value| value.to_str().ok())
             .map(str::to_owned);
+        let headers = response
+            .headers()
+            .iter()
+            .filter_map(|(name, value)| Some((name.as_str().to_owned(), value.to_str().ok()?.to_owned())))
+            .collect();
         let body = response
             .bytes()
             .await
@@ -80,6 +85,7 @@ impl ReqwestClient {
         Ok(HttpResponse {
             status,
             content_type,
+            headers,
             body: body.to_vec(),
         })
     }

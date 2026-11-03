@@ -1,7 +1,7 @@
-use crate::cli_detection::find_command::find_command;
 use mcpkit_auth::AuthError;
 use mcpkit_auth::credentials::CredentialRequest;
 use mcpkit_core::env::Env;
+use mcpkit_core::program::find_program;
 use mcpkit_manifest::ui::UiAction;
 use std::collections::BTreeSet;
 
@@ -21,7 +21,10 @@ pub async fn keep_installed_cli_actions(
         .collect();
     let mut installed = BTreeSet::new();
     for command in commands {
-        if find_command(&command, env).await?.is_some() {
+        if find_program(&command, env)
+            .map_err(|error| AuthError(format!("cannot look up \"{command}\" on PATH: {error}")))?
+            .is_some()
+        {
             installed.insert(command);
         }
     }

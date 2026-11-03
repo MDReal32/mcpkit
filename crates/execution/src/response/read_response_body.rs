@@ -29,6 +29,7 @@ mod tests {
         HttpResponse {
             status: 200,
             content_type: content_type.map(str::to_owned),
+            headers: Vec::new(),
             body: body.to_vec(),
         }
     }

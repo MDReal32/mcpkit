@@ -116,6 +116,7 @@ async fn saves_a_download_to_the_local_path_instead_of_returning_it() {
     let response = HttpResponse {
         status: 200,
         content_type: None,
+        headers: Vec::new(),
         body: vec![1, 2, 3],
     };
     let context = call_context(home.path(), &[], Rc::new(FixedClient::new(response)));
@@ -138,6 +139,7 @@ async fn returns_non_json_bodies_as_text() {
     let response = HttpResponse {
         status: 200,
         content_type: Some("text/plain;charset=UTF-8".into()),
+        headers: Vec::new(),
         body: b"plain".to_vec(),
     };
     let manifest = demo_manifest();

@@ -18,7 +18,4 @@ pub const CLI_TOKEN_TIMEOUT: Duration = Duration::from_secs(15);
 /// Stands in for the token while the import request is validated, before the CLI runs.
 pub const PENDING_TOKEN_VALUE: &str = "pending";
 
-/// What Windows tries when `PATHEXT` is not set.
-pub const WINDOWS_DEFAULT_PATH_EXTENSIONS: &str = ".COM;.EXE;.BAT;.CMD";
-
 pub const CANNOT_IMPORT_MESSAGE: &str = "this credential cannot be fetched automatically";

@@ -4,6 +4,7 @@ pub mod home;
 pub mod js;
 pub mod mcp;
 pub mod migrations;
+pub mod program;
 
 mod local_future;
 
