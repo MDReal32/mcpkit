@@ -1743,6 +1743,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "mcpkit-upstream"
+version = "0.9.0"
+dependencies = [
+ "indexmap",
+ "mcpkit-core",
+ "mcpkit-http",
+ "mcpkit-manifest",
+ "mcpkit-testing",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "tokio",
+]
+
+[[package]]
 name = "mcpkit-wire-log"
 version = "0.9.0"
 dependencies = [

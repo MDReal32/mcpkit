@@ -17,6 +17,7 @@ mcpkit-http = { path = "crates/http" }
 mcpkit-manifest = { path = "crates/manifest" }
 mcpkit-registry = { path = "crates/registry" }
 mcpkit-testing = { path = "crates/testing" }
+mcpkit-upstream = { path = "crates/upstream" }
 mcpkit-runner = { path = "apps/runner" }
 mcpkit-wire-log = { path = "crates/wire-log" }
 base64 = "0.23"

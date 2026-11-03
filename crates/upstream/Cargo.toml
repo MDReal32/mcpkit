@@ -1,0 +1,29 @@
+[package]
+name = "mcpkit-upstream"
+description = "A minimal MCP client for the servers an mcpkit manifest fronts: stdio (optionally run from a cloned repository) and Streamable HTTP."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[[bin]]
+name = "fake-upstream"
+path = "src/bin/fake_upstream.rs"
+test = false
+doc = false
+
+[dependencies]
+indexmap.workspace = true
+mcpkit-core.workspace = true
+mcpkit-http.workspace = true
+mcpkit-manifest.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tokio.workspace = true
+
+[dev-dependencies]
+mcpkit-testing.workspace = true
+tempfile.workspace = true
+
+[lints]
+workspace = true
