@@ -31,6 +31,7 @@ hyper = { version = "1.12", features = ["http1", "server"] }
 hyper-util = { version = "0.1", features = ["tokio"] }
 indexmap = { version = "2.14", features = ["serde"] }
 percent-encoding = "2.3"
+regex = "1.11"
 reqwest = { version = "0.13", default-features = false, features = ["rustls", "http2", "charset", "system-proxy", "multipart", "gzip"] }
 sha2 = "0.10"
 serde = { version = "1.0", features = ["derive"] }

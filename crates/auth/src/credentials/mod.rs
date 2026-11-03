@@ -23,6 +23,6 @@ pub use credential_requester::CredentialRequester;
 pub use domain_field::DomainField;
 pub use form_answer::FormAnswer;
 pub use pending_credential_exchange::PendingCredentialExchange;
-pub use request::{build_credential_request, resolve_credential_form};
+pub use request::{build_credential_request, request_credentials_once, resolve_credential_form, to_credential_field};
 pub use resolve::save_form_answer;
-pub use response::validate_credential_response;
+pub use response::{read_answer_values, validate_credential_response};

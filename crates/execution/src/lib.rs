@@ -6,6 +6,7 @@ pub mod auth_fallback;
 pub mod mapping;
 pub mod request;
 pub mod response;
+pub mod upstream;
 
 mod call_context;
 mod consts;

@@ -1,5 +1,4 @@
 use crate::catalog::RegistryCatalog;
-use crate::mcp::consts::UPSTREAM_NOT_PORTED;
 use crate::mcp::tools::create_json_result::create_json_result;
 use crate::mcp::tools::create_text_result::create_text_result;
 use crate::mcp::tools::find_tool::find_tool;
@@ -18,11 +17,18 @@ pub async fn call_server_tool<F: Fetch>(
         Ok(found) => found,
         Err(error) => return create_text_result(&error, true),
     };
-    if catalog
-        .find_server(&found.server_id)
-        .is_ok_and(|server| server.upstream)
-    {
-        return create_text_result(&format!("{id}: {UPSTREAM_NOT_PORTED}"), true);
+    match catalog.load_upstream(&found.server_id).await {
+        Ok(Some(upstream)) => {
+            let Some(discovered) = upstream.tools.get(&found.tool) else {
+                return create_text_result(&format!("\"{id}\" is not on {}", found.server_id), true);
+            };
+            return match upstream.call(discovered, args).await {
+                Ok(result) => result,
+                Err(error) => create_text_result(error.message(), true),
+            };
+        }
+        Ok(None) => {}
+        Err(error) => return create_text_result(&error, true),
     }
     let manifest = match catalog.load_manifest(&found.server_id, &found.tool).await {
         Ok(manifest) => manifest,

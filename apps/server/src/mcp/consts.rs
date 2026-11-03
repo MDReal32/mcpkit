@@ -4,8 +4,6 @@ pub const SERVER_NAME: &str = "mcpkit";
 
 pub const TOOL_ID_SEPARATOR: char = ':';
 
-pub const UPSTREAM_NOT_PORTED: &str = "servers backed by another MCP server are not served by the Rust server yet";
-
 pub const PARSE_ERROR: i64 = -32700;
 
 pub const INVALID_REQUEST: i64 = -32600;

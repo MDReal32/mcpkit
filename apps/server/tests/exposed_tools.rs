@@ -71,14 +71,14 @@ async fn exposes_the_names_the_typescript_cli_exposes() {
         DEFAULT_REGISTRY_URL.into(),
         FolderFetcher { root: registry_root() },
     );
-    let catalog = load_catalog(&[], context).await.unwrap();
+    let calls = call_context(cache.path(), &[], Rc::new(FixedClient::new(HttpResponse::default())));
+    let catalog = load_catalog(&[], context, calls.clone()).await.unwrap();
     let ids: Vec<String> = catalog
         .servers
         .iter()
         .filter(|server| !server.upstream)
         .map(|server| server.id.clone())
         .collect();
-    let calls = call_context(cache.path(), &[], Rc::new(FixedClient::new(HttpResponse::default())));
     let server = McpServer::new(catalog, Rc::new(WireLog::disabled(WireLogRole::Server)), calls);
 
     for id in &ids {

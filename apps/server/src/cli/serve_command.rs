@@ -31,9 +31,11 @@ async fn serve(servers: &[String]) -> Result<(), String> {
     let calls = create_call_context()?;
     let fetcher = HttpFetcher::new().map_err(|error| error.to_string())?;
     let context = RegistryContext::from_env(None, fetcher).map_err(|error| error.to_string())?;
-    let catalog = load_catalog(servers, context).await?;
+    let catalog = load_catalog(servers, context, calls.clone()).await?;
     let ids: Vec<&str> = catalog.servers.iter().map(|server| server.id.as_str()).collect();
     eprintln!("mcpkit {}: serving {}", env!("CARGO_PKG_VERSION"), ids.join(", "));
     let server = Rc::new(McpServer::new(catalog, Rc::clone(&wire_log), calls));
-    serve_stdio(server, tokio::io::stdin(), tokio::io::stdout(), wire_log).await
+    let served = serve_stdio(Rc::clone(&server), tokio::io::stdin(), tokio::io::stdout(), wire_log).await;
+    server.close().await;
+    served
 }

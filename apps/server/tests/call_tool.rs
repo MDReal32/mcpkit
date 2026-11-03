@@ -103,10 +103,11 @@ fn tracker_server(registry: &TempDir, http: Rc<TrackerApi>) -> McpServer<FolderF
         ("FIRST_TOKEN", "revoked"),
         ("SECOND_TOKEN", "second"),
     ];
+    let calls = call_context(&registry.path().join("home"), &env, http);
     McpServer::new(
-        RegistryCatalog::new(servers, context),
+        RegistryCatalog::new(servers, context, calls.clone()),
         Rc::new(WireLog::disabled(WireLogRole::Server)),
-        call_context(&registry.path().join("home"), &env, http),
+        calls,
     )
 }
 

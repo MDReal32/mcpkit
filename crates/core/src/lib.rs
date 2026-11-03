@@ -5,6 +5,7 @@ pub mod js;
 pub mod mcp;
 pub mod migrations;
 pub mod program;
+pub mod update;
 
 mod local_future;
 

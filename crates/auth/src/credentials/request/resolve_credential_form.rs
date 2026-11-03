@@ -1,3 +1,4 @@
+use crate::credentials::request::load_credential_request::load_credential_request;
 use crate::credentials::request::request_credentials_once::request_credentials_once;
 use crate::credentials::resolve::{resolve_form_sign_in, resolve_form_token};
 use crate::credentials::response::validate_credential_response;
@@ -19,7 +20,12 @@ pub async fn resolve_credential_form(
             manifest.name
         )));
     };
-    let exchange = request_credentials_once(manifest, domain, context, requester).await?;
+    let create_request = Box::pin(load_credential_request(
+        Rc::clone(manifest),
+        domain.map(str::to_owned),
+        context.clone(),
+    ));
+    let exchange = request_credentials_once(&manifest.name, create_request, context, requester).await?;
     let errors = validate_credential_response(&exchange.request, &exchange.response);
     if !errors.is_empty() {
         return Err(AuthError(format!(

@@ -1,5 +1,6 @@
 use crate::catalog::RegistryCatalog;
-use crate::mcp::consts::UPSTREAM_NOT_PORTED;
+use crate::mcp::consts::TOOL_ID_SEPARATOR;
+use crate::mcp::exposed::load_upstream_tools::load_upstream_tools;
 use crate::mcp::exposed::tool_descriptor::ToolDescriptor;
 use mcpkit_manifest::registry::RegistryServer;
 use mcpkit_registry::Fetch;
@@ -11,7 +12,14 @@ pub async fn load_group_tools<F: Fetch>(
     group: Option<&str>,
 ) -> Result<Vec<ToolDescriptor>, String> {
     if server.upstream {
-        return Err(format!("{}: {UPSTREAM_NOT_PORTED}", server.id));
+        let tools = load_upstream_tools(catalog, server).await?;
+        return Ok(match group {
+            Some(group) => tools
+                .into_iter()
+                .filter(|found| found.tool.split(TOOL_ID_SEPARATOR).next() == Some(group))
+                .collect(),
+            None => tools,
+        });
     }
     let manifest = catalog.load_group_manifest(&server.id, group).await?;
     Ok(manifest

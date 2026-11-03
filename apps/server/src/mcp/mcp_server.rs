@@ -32,6 +32,11 @@ impl<F: Fetch> McpServer<F> {
         &self.exposure
     }
 
+    /// Stops what serving started, such as upstream server processes.
+    pub async fn close(&self) {
+        self.catalog.close().await;
+    }
+
     pub async fn handle_line(&self, line: &str) -> HandledLine {
         if line.trim().is_empty() {
             return HandledLine {

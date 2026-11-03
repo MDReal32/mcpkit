@@ -1,17 +1,33 @@
+use crate::upstream::{UpstreamServer, hydrate_upstream_server};
+use mcpkit_execution::CallContext;
 use mcpkit_manifest::Manifest;
 use mcpkit_manifest::registry::RegistryServer;
 use mcpkit_registry::{Fetch, RegistryContext, load_group_manifest, load_groups, load_manifest};
+use std::cell::RefCell;
+use std::collections::HashMap;
+use std::rc::Rc;
+use tokio::sync::OnceCell;
 
-/// What the server knows without downloading anything, plus a way to get one server's manifest.
+/// What the server knows without downloading anything, plus a way to get one server's manifest, and the upstream
+/// servers it started.
 pub struct RegistryCatalog<F> {
     /// The servers being served, in index order.
     pub servers: Vec<RegistryServer>,
     context: RegistryContext<F>,
+    /// What upstream servers are reached with while their tools are discovered and called.
+    calls: CallContext,
+    /// Per upstream server id: the server once it was hydrated; a failed hydration leaves it empty for the next call.
+    upstreams: RefCell<HashMap<String, Rc<OnceCell<Rc<UpstreamServer>>>>>,
 }
 
 impl<F: Fetch> RegistryCatalog<F> {
-    pub fn new(servers: Vec<RegistryServer>, context: RegistryContext<F>) -> Self {
-        RegistryCatalog { servers, context }
+    pub fn new(servers: Vec<RegistryServer>, context: RegistryContext<F>, calls: CallContext) -> Self {
+        RegistryCatalog {
+            servers,
+            context,
+            calls,
+            upstreams: RefCell::new(HashMap::new()),
+        }
     }
 
     pub fn find_server(&self, id: &str) -> Result<&RegistryServer, String> {
@@ -43,5 +59,35 @@ impl<F: Fetch> RegistryCatalog<F> {
         load_group_manifest(server, &self.context, group)
             .await
             .map_err(|error| error.to_string())
+    }
+
+    /// The server behind an upstream catalog server, started and asked for its tools on first use, once however many
+    /// calls ask at the same time; `None` for the other servers.
+    pub async fn load_upstream(&self, id: &str) -> Result<Option<Rc<UpstreamServer>>, String> {
+        let server = self.find_server(id)?;
+        if !server.upstream {
+            return Ok(None);
+        }
+        let cell = Rc::clone(self.upstreams.borrow_mut().entry(id.to_owned()).or_default());
+        let upstream = cell
+            .get_or_try_init(|| async {
+                let hydrated = hydrate_upstream_server(server, &self.context, &self.calls).await?;
+                Ok::<_, String>(Rc::new(hydrated))
+            })
+            .await?;
+        Ok(Some(Rc::clone(upstream)))
+    }
+
+    /// Stops what serving started, such as upstream server processes.
+    pub async fn close(&self) {
+        let opened: Vec<Rc<UpstreamServer>> = self
+            .upstreams
+            .borrow()
+            .values()
+            .filter_map(|cell| cell.get().cloned())
+            .collect();
+        for upstream in opened {
+            upstream.close().await;
+        }
     }
 }

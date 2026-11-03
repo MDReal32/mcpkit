@@ -1,0 +1,278 @@
+{
+  "toolNames": {
+    "security/bitwarden": {
+      "names": [
+        "lock",
+        "unlock",
+        "sync",
+        "status",
+        "confirm",
+        "list",
+        "get",
+        "generate",
+        "delete",
+        "restore",
+        "move",
+        "create_item",
+        "edit_item",
+        "create_folder",
+        "edit_folder",
+        "edit_item_collections",
+        "create_attachment",
+        "create_text_send",
+        "create_file_send",
+        "remove_send_password",
+        "list_send",
+        "get_send",
+        "edit_send",
+        "delete_send",
+        "device_approval_list",
+        "device_approval_approve",
+        "list_org_collections",
+        "get_org_collection",
+        "list_org_members",
+        "get_org_member_groups",
+        "update_org_member_groups",
+        "list_org_groups",
+        "get_org_group_members",
+        "list_org_policies",
+        "get_org_policy",
+        "get_org_events",
+        "get_org_subscription",
+        "update_org_subscription",
+        "import_org_users_and_groups",
+        "generate_username",
+        "searchItems"
+      ],
+      "catalog": [
+        "session:session:lock",
+        "session:session:unlock",
+        "session:session:sync",
+        "session:session:status",
+        "org:members:confirm",
+        "vault:items:list",
+        "vault:items:get",
+        "vault:items:generate",
+        "vault:items:delete",
+        "vault:items:restore",
+        "vault:items:move",
+        "vault:items:create",
+        "vault:items:edit",
+        "vault:folders:create",
+        "vault:folders:edit",
+        "vault:items:edit_collections",
+        "vault:attachments:create",
+        "send:sends:create_text",
+        "send:sends:create_file",
+        "send:sends:remove_password",
+        "send:sends:list",
+        "send:sends:get",
+        "send:sends:edit",
+        "send:sends:delete",
+        "device:approvals:list",
+        "device:approvals:approve",
+        "org:collections:list",
+        "org:collections:get",
+        "org:members:list",
+        "org:members:get_groups",
+        "org:members:update_groups",
+        "org:groups:list",
+        "org:groups:get_members",
+        "org:policies:list",
+        "org:policies:get",
+        "org:events:get",
+        "org:subscription:get",
+        "org:subscription:update",
+        "org:members:import",
+        "tools:generate_username",
+        "tools:search_items"
+      ]
+    },
+    "communication/teams": {
+      "names": [
+        "start_thread",
+        "update_thread",
+        "read_thread",
+        "list_threads",
+        "list_members",
+        "get_member_by_name",
+        "list-channels"
+      ],
+      "catalog": [
+        "channel:threads:start",
+        "channel:threads:update",
+        "channel:threads:read",
+        "channel:threads:list",
+        "team:members:list",
+        "team:members:get_by_name",
+        "tools:list_channels"
+      ]
+    },
+    "cloud/cloudflare": {
+      "names": [
+        "docs",
+        "search",
+        "execute",
+        "whoami",
+        "Execute"
+      ],
+      "catalog": [
+        "docs:docs:search",
+        "api:spec:search",
+        "api:requests:execute",
+        "account:account:whoami",
+        "tools:execute"
+      ]
+    }
+  },
+  "plain": {
+    "names": [
+      "searchIssues",
+      "search-issues",
+      "9lives",
+      "aBC",
+      "__x__",
+      "getHTTPResponse",
+      "a1B2",
+      "Ünïcode tool",
+      "x",
+      "x",
+      "x",
+      "tools",
+      "",
+      "---",
+      "camelCaseName",
+      "snake_case_name",
+      "with.dots.and spaces"
+    ],
+    "catalog": [
+      "tools:search_issues",
+      "tools:search_issues_2",
+      "tools:t_9lives",
+      "tools:a_bc",
+      "tools:x",
+      "tools:get_httpresponse",
+      "tools:a1_b2",
+      "tools:n_code_tool",
+      "tools:x_2",
+      "tools:x_3",
+      "tools:x_4",
+      "tools:tools",
+      "tools:t_",
+      "tools:t__2",
+      "tools:camel_case_name",
+      "tools:snake_case_name",
+      "tools:with_dots_and_spaces"
+    ]
+  },
+  "replacements": [
+    {
+      "pattern": "^(a)(b)?$",
+      "input": "a",
+      "template": "$1|$2|$&",
+      "replaced": "a||a"
+    },
+    {
+      "pattern": "(b)",
+      "input": "abc",
+      "template": "[$$]",
+      "replaced": "a[$]c"
+    },
+    {
+      "pattern": "(b)",
+      "input": "abc",
+      "template": "[$&]",
+      "replaced": "a[b]c"
+    },
+    {
+      "pattern": "(b)",
+      "input": "abc",
+      "template": "[$`]",
+      "replaced": "a[a]c"
+    },
+    {
+      "pattern": "(b)",
+      "input": "abc",
+      "template": "[$']",
+      "replaced": "a[c]c"
+    },
+    {
+      "pattern": "(b)",
+      "input": "abc",
+      "template": "[$10]",
+      "replaced": "a[b0]c"
+    },
+    {
+      "pattern": "(b)",
+      "input": "abc",
+      "template": "[$01]",
+      "replaced": "a[b]c"
+    },
+    {
+      "pattern": "(b)",
+      "input": "abc",
+      "template": "[$0]",
+      "replaced": "a[$0]c"
+    },
+    {
+      "pattern": "(b)",
+      "input": "abc",
+      "template": "[$00]",
+      "replaced": "a[$00]c"
+    },
+    {
+      "pattern": "(b)",
+      "input": "abc",
+      "template": "[$2]",
+      "replaced": "a[$2]c"
+    },
+    {
+      "pattern": "(b)",
+      "input": "abc",
+      "template": "[$<x>]",
+      "replaced": "a[$<x>]c"
+    },
+    {
+      "pattern": "(?<x>b)",
+      "input": "abc",
+      "template": "[$<x>]",
+      "replaced": "a[b]c"
+    },
+    {
+      "pattern": "(?<x>b)",
+      "input": "abc",
+      "template": "[$<y>]",
+      "replaced": "a[]c"
+    },
+    {
+      "pattern": "(?<x>b)",
+      "input": "abc",
+      "template": "[$<x]",
+      "replaced": "a[$<x]c"
+    },
+    {
+      "pattern": "(b)",
+      "input": "abc",
+      "template": "[$]",
+      "replaced": "a[$]c"
+    },
+    {
+      "pattern": "(b)",
+      "input": "abc",
+      "template": "[$$1]",
+      "replaced": "a[$1]c"
+    },
+    {
+      "pattern": "b",
+      "input": "abcb",
+      "template": "X",
+      "replaced": "aXcb"
+    },
+    {
+      "pattern": "(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)(k)",
+      "input": "abcdefghijk",
+      "template": "$11-$10-$1-$12",
+      "replaced": "k-j-a-a2"
+    }
+  ]
+}

@@ -1,12 +1,15 @@
 use crate::catalog::ensure_manifest_index::ensure_manifest_index;
 use crate::catalog::matches_selection::matches_selection;
 use crate::catalog::registry_catalog::RegistryCatalog;
+use mcpkit_execution::CallContext;
 use mcpkit_registry::{Fetch, RegistryContext, read_cached_index};
 
-/// The servers named in `selection`, all of them when it is empty, read from the cached index alone.
+/// The servers named in `selection`, all of them when it is empty, read from the cached index alone. `calls` is what
+/// upstream servers are reached with while their tools are discovered.
 pub async fn load_catalog<F: Fetch>(
     selection: &[String],
     context: RegistryContext<F>,
+    calls: CallContext,
 ) -> Result<RegistryCatalog<F>, String> {
     ensure_manifest_index(&context).await?;
     let Some(index) = read_cached_index(&context.dir)
@@ -33,5 +36,5 @@ pub async fn load_catalog<F: Fetch>(
         .into_iter()
         .filter(|server| selection.is_empty() || selection.iter().any(|name| matches_selection(&server.id, name)))
         .collect();
-    Ok(RegistryCatalog::new(servers, context))
+    Ok(RegistryCatalog::new(servers, context, calls))
 }

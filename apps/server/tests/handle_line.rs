@@ -41,10 +41,11 @@ fn offline_server(calls: &Rc<Cell<usize>>, cache: &TempDir) -> McpServer<Offline
         description: None,
         upstream: false,
     }];
+    let calls = call_context(cache.path(), &[], Rc::new(FixedClient::new(HttpResponse::default())));
     McpServer::new(
-        RegistryCatalog::new(servers, context),
+        RegistryCatalog::new(servers, context, calls.clone()),
         Rc::new(WireLog::disabled(WireLogRole::Server)),
-        call_context(cache.path(), &[], Rc::new(FixedClient::new(HttpResponse::default()))),
+        calls,
     )
 }
 
