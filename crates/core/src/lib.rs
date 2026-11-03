@@ -3,6 +3,7 @@ pub mod hash;
 pub mod home;
 pub mod js;
 pub mod mcp;
+pub mod migrations;
 
 mod local_future;
 
