@@ -1738,7 +1738,9 @@ name = "mcpkit-runner"
 version = "0.9.0"
 dependencies = [
  "clap",
+ "mcpkit-binary",
  "mcpkit-core",
+ "mcpkit-http",
  "mcpkit-wire-log",
  "serde_json",
  "tempfile",

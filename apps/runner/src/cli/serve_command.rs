@@ -1,5 +1,6 @@
-use crate::cli::consts::WORKER_FLAG;
-use crate::cli::resolve_server_binary::resolve_server_binary;
+use crate::cli::consts::{EXIT_FAILURE, VERSION, WORKER_FLAG};
+use crate::cli::prepare_server_binary::prepare_server_binary;
+use crate::cli::run_local::run_local;
 use crate::supervisor::{SuperviseOptions, WorkerLaunch, supervise_serve};
 use mcpkit_wire_log::{WireLog, WireLogRole};
 use std::path::PathBuf;
@@ -9,34 +10,26 @@ use tokio::sync::oneshot;
 /// The process the client starts: it keeps the connection, runs the server as a worker and swaps it when the server
 /// binary changes. Ctrl-C stops it the way closing stdin does.
 pub fn serve_command(servers: Vec<String>, server: Option<PathBuf>) -> i32 {
-    let command = match resolve_server_binary(server) {
-        Ok(command) => command,
-        Err(error) => {
-            eprintln!("mcpkit: cannot find the server binary: {error}");
-            return 1;
-        }
-    };
-    eprintln!(
-        "mcpkit {}: supervising {}, it reloads when that binary is replaced",
-        env!("CARGO_PKG_VERSION"),
-        command.display()
-    );
-    let mut args = vec!["serve".to_string()];
-    args.extend(servers);
-    args.push(WORKER_FLAG.to_string());
-    let launch = WorkerLaunch {
-        command: command.clone(),
-        args,
-        env: Vec::new(),
-    };
-    let runtime = match tokio::runtime::Builder::new_current_thread().enable_all().build() {
-        Ok(runtime) => runtime,
-        Err(error) => {
-            eprintln!("mcpkit: cannot start the runtime: {error}");
-            return 1;
-        }
-    };
-    let code = runtime.block_on(async {
+    run_local(async move {
+        let command = match prepare_server_binary(server).await {
+            Ok(command) => command,
+            Err(error) => {
+                eprintln!("mcpkit: {error}");
+                return EXIT_FAILURE;
+            }
+        };
+        eprintln!(
+            "mcpkit {VERSION}: supervising {}, it reloads when that binary is replaced",
+            command.display()
+        );
+        let mut args = vec!["serve".to_string()];
+        args.extend(servers);
+        args.push(WORKER_FLAG.to_string());
+        let launch = WorkerLaunch {
+            command: command.clone(),
+            args,
+            env: Vec::new(),
+        };
         let (stop_tx, stop) = oneshot::channel();
         tokio::spawn(async move {
             match tokio::signal::ctrl_c().await {
@@ -55,7 +48,5 @@ pub fn serve_command(servers: Vec<String>, server: Option<PathBuf>) -> i32 {
             ..SuperviseOptions::default()
         };
         supervise_serve(launch, options).await
-    });
-    runtime.shutdown_background();
-    code
+    })
 }

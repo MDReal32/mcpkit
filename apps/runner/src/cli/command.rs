@@ -17,5 +17,9 @@ pub enum Command {
         /// The server binary to run and watch, instead of mcpkit-server next to this binary
         #[arg(long, env = crate::cli::consts::SERVER_BINARY_ENV)]
         server: Option<PathBuf>,
+        /// Internal: run as the worker of a supervising serve, which an older mcpkit that already runs starts when this
+        /// binary replaces it
+        #[arg(long, hide = true)]
+        worker: bool,
     },
 }

@@ -7,7 +7,7 @@ use mcpkit_binary::tar::{TAR_BLOCK_SIZE, extract_tar_file};
 use mcpkit_binary::{
     BinaryContext, BinarySource, BinaryUpdateResult, InstalledBinary, PackageManagerInstall, PackageRelease,
     UPDATE_CHECK_INTERVAL_MS, auto_update_binary, check_for_binary_update, find_package_manager_install,
-    install_binary, read_package_release, update_binary, verify_integrity,
+    install_binary, read_package_release, restore_server_binary, update_binary, verify_integrity,
 };
 use mcpkit_core::env::Env;
 use mcpkit_http::HttpResponse;
@@ -517,4 +517,38 @@ fn detect_package_manager_install_follows_the_homebrew_bin_link_into_the_cellar(
         .unwrap();
 
     assert_eq!(found.path, prefix.join("bin/mcpkit").to_string_lossy());
+}
+
+#[tokio::test(flavor = "current_thread")]
+async fn restore_server_binary_writes_the_server_of_the_running_version_next_to_the_runner() {
+    let home = TempDir::new().unwrap();
+    let runner = home.path().join("bin").join("mcpkit");
+    fs::create_dir_all(runner.parent().unwrap()).unwrap();
+    fs::write(&runner, "runner").unwrap();
+    let context = create_context(
+        home.path(),
+        release_client("0.2.0", "released runner", "server"),
+        runner.clone(),
+    );
+
+    let path = restore_server_binary(&context, "0.2.0").await.unwrap();
+
+    assert_eq!(path, home.path().join("bin").join("mcpkit-server"));
+    assert_eq!(read(&path), "server");
+    assert_eq!(read(&runner), "runner");
+}
+
+#[tokio::test(flavor = "current_thread")]
+async fn restore_server_binary_fails_for_a_version_that_is_not_published() {
+    let home = TempDir::new().unwrap();
+    let runner = home.path().join("bin").join("mcpkit");
+    let context = create_context(home.path(), release_client("0.2.0", "runner", "server"), runner);
+
+    let error = restore_server_binary(&context, "0.1.0").await.unwrap_err();
+
+    assert!(
+        error.0.contains("@usemcpkit/cli-darwin-arm64@0.1.0 is not published"),
+        "{error}"
+    );
+    assert!(!home.path().join("bin").join("mcpkit-server").exists());
 }
