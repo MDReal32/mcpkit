@@ -23,13 +23,15 @@ Yarn 4 workspaces + Nx (targets are inferred from each `package.json`; pipeline 
   - `src/cli/` commands and flags, parsed by `yargs-extended` (each command file in `commands/` has a `registerXCommand`; `create-program.ts` lists them), `src/mcp/` the stdio server (`tools/list` starts as one section per server, a section is not a tool: calling it lists its groups or loads its tools into the list and sends `tools/list_changed`; every real tool is its own MCP tool with its schema, named `<category>_<server>_<tool parts>`, shortened to 51 characters with a hash of the id when longer; `exposed/`; no meta-tools) and supervisor, `src/registry/` manifests. Domains with their own boundary live in packages below.
   - Vite loads its config with `--configLoader runner` because the plugins import `@usemcpkit/core` TS source; other projects use `--configLoader native`.
 - `apps/npx` (`usemcpkit`) — published wrapper so `npx usemcpkit` runs `@usemcpkit/cli` (bare `mcpkit` = install).
+- `apps/runner` (`mcpkit-runner`, binary `mcpkit`) and `apps/server` (`mcpkit-server`) — the Rust port of the CLI on branch `feat/rust` (status, goldens, differences from TS and open release work in `docs/rust-port.md`). The runner owns the client's stdio: the same commands as `apps/cli` (bare `mcpkit` = install, `uninstall`, `list`, `update`, `upgrade`, `serve`, with a cliclack checklist) and the supervisor (`src/supervisor/`) that runs `mcpkit-server serve <names> --worker` from next to itself and swaps it when that binary changes; a hidden `serve --worker` hands an older TS supervisor's connection on to the server, and an installed runner with no server beside it downloads the server of its own version. The server is `serveStdio` (catalog, sections, tool calls; `src/mcp/`, `src/catalog/`, `src/upstream/`) plus `window <url>`, the wry/tao credentials window; its `build.rs` embeds `packages/ui/build/mcpkit.ui.html`, and its tests read `packages/servers/build/manifests`, so build both first. Their Nx targets (`package.json` scripts) run `cargo`, which must be on PATH.
+- `crates/*` — the Rust libraries behind them, each the port of a TS package: `core` (home, `Env`, versions, `find_program`, config migrations, JS-compatible printing in `js`), `manifest` (serde types of the manifest and registry formats), `registry`, `http`, `auth`, `execution`, `credentials-form`, `upstream`, `clients`, `binary`, `wire-log`, and `testing` (fake HTTP clients). Rust follows the same code rules: one entity per file (`snake_case.rs`, `mod.rs` lists and re-exports), constants in the folder's `consts.rs`, `///` docs only, no swallowed errors; `unsafe_code` and every clippy lint are denied workspace-wide, and `cargo fmt --all` is the formatter. TS behavior is pinned by golden fixtures that TS `*.generate.test.ts` files write (skipped unless their `*_OUTPUT` variable is set) and Rust tests compare against; regenerate them when the registry changes.
 - `src/<domain>/index.ts` is each domain's public boundary; relative imports into a folder with an `index.ts` (from outside it) target the folder, never its files. Other workspaces are imported by package name.
 
 The private packages ship as source (`exports` points at `src/main.ts`, like `@usemcpkit/testing`) and are bundled into the CLI by Vite; only `@usemcpkit/core` has a build.
 
 Every workspace uses `src/main.ts` as its entry; the ones that build go to `build/mcpkit.<package>.<ext>` (plus a same-named `.d.ts` when it ships types).
 
-Commands: `yarn build`, `yarn test`, `yarn typecheck`, `yarn lint` (Biome, per project; `build` depends on it), `yarn format` (Biome `check --write`), `yarn package`. Biome config is the root `biome.json`.
+Commands: `yarn build`, `yarn test`, `yarn typecheck`, `yarn lint` (Biome, per project; `build` depends on it), `yarn format` (Biome `check --write`), `yarn package`. Biome config is the root `biome.json`. Rust: `cargo build`, `cargo test --workspace`, `cargo clippy --workspace --all-targets`, `cargo fmt --all` (workspace in the root `Cargo.toml`).
 
 ## Commits
 
@@ -208,7 +210,7 @@ that the connection drops, read the wire log before guessing (README "Debugging 
 version). Ask them to set `USEMCPKIT_DEBUG=1` where the client starts mcpkit and to quit and reopen the client; a
 running process never picks the variable up. Then read the newest files in `~/.mcpkit/logs`.
 
-1. Pair the files. The `server` file's `ppid` is the `supervisor` file's `pid`, and the supervisor's `ppid` is the client
+1. Pair the files (the Rust runner writes the `supervisor` file and `mcpkit-server` the `server` file, with the same events). The `server` file's `ppid` is the `supervisor` file's `pid`, and the supervisor's `ppid` is the client
    process. Several clients (an editor, a desktop app, a CLI) each start their own pair; tell them apart by the
    `client` field on the `initialize` line and by `ppid`. Only look at the pair of the client that misbehaves.
 2. Follow one section call. In the supervisor: `client-in` with `method: "tools/call"` and the section's `tool`. In the
@@ -230,7 +232,7 @@ running process never picks the variable up. Then read the newest files in `~/.m
    - `write-error`: the client's pipe was closed or broken at that moment;
    - `worker-exit` with `current: true`: the server died and the supervisor exits with its code.
 4. Never ask for or print `~/.mcpkit/config.json`: it holds the saved secrets. The wire log is safe to read because it
-   has no payloads; keep it that way when you add events (`describeWireLine` decides what a line keeps).
+   has no payloads; keep it that way when you add events (`describeWireLine`, in Rust `describe_wire_line`, decides what a line keeps).
 
 Once the cause is found, tell the user they can leave the variable on or unset it, and that old log files can be
 deleted.
