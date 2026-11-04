@@ -3,7 +3,7 @@ mod support;
 use mcpkit_core::LocalFuture;
 use mcpkit_http::{HttpClient, HttpError, HttpRequest, HttpResponse};
 use mcpkit_manifest::registry::RegistryServer;
-use mcpkit_registry::{Fetch, RegistryContext, RegistryError};
+use mcpkit_registry::RegistryContext;
 use mcpkit_server::catalog::RegistryCatalog;
 use mcpkit_server::mcp::McpServer;
 use mcpkit_testing::json_response;
@@ -11,28 +11,12 @@ use mcpkit_wire_log::{WireLog, WireLogRole};
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
 use std::cell::RefCell;
-use std::path::PathBuf;
 use std::rc::Rc;
 use std::time::Duration;
-use support::call_context;
+use support::{FolderFetcher, call_context};
 use tempfile::TempDir;
 
 const REGISTRY_URL: &str = "https://registry.test";
-
-/// Serves a registry folder as if it were published.
-struct FolderFetcher {
-    root: PathBuf,
-}
-
-impl Fetch for FolderFetcher {
-    async fn fetch_text(&self, url: &str) -> Result<String, RegistryError> {
-        let path = url
-            .strip_prefix(&format!("{REGISTRY_URL}/"))
-            .ok_or_else(|| RegistryError::failed(format!("GET {url} failed: 404")))?;
-        std::fs::read_to_string(self.root.join(path))
-            .map_err(|error| RegistryError::failed(format!("GET {url}: {error}")))
-    }
-}
 
 /// An issue tracker that only knows `Bearer second`, recording the URL and Authorization of every request.
 #[derive(Default)]
@@ -94,9 +78,7 @@ fn tracker_server(registry: &TempDir, http: Rc<TrackerApi>) -> McpServer<FolderF
     let context = RegistryContext::new(
         registry.path().join("manifests"),
         REGISTRY_URL.into(),
-        FolderFetcher {
-            root: registry.path().join("registry"),
-        },
+        FolderFetcher::new(registry.path().join("registry"), REGISTRY_URL),
     );
     let env = [
         ("TRACKER_HOST", "acme.atlassian.net"),

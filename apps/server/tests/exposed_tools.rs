@@ -1,7 +1,7 @@
 mod support;
 
 use mcpkit_http::HttpResponse;
-use mcpkit_registry::{DEFAULT_REGISTRY_URL, Fetch, RegistryContext, RegistryError};
+use mcpkit_registry::{DEFAULT_REGISTRY_URL, RegistryContext};
 use mcpkit_server::catalog::load_catalog;
 use mcpkit_server::mcp::{ExposedEntry, ExposedSection, McpServer, ToolAnnotations};
 use mcpkit_testing::FixedClient;
@@ -9,22 +9,7 @@ use mcpkit_wire_log::{WireLog, WireLogRole};
 use serde_json::{Value, json};
 use std::path::PathBuf;
 use std::rc::Rc;
-use support::{call_context, registry_root};
-
-/// Serves the built registry as if it were published.
-struct FolderFetcher {
-    root: PathBuf,
-}
-
-impl Fetch for FolderFetcher {
-    async fn fetch_text(&self, url: &str) -> Result<String, RegistryError> {
-        let path = url
-            .strip_prefix(&format!("{DEFAULT_REGISTRY_URL}/"))
-            .ok_or_else(|| RegistryError::failed(format!("GET {url} failed: 404")))?;
-        std::fs::read_to_string(self.root.join(path))
-            .map_err(|error| RegistryError::failed(format!("GET {url}: {error}")))
-    }
-}
+use support::{FolderFetcher, call_context, registry_root};
 
 /// The shape `apps/cli/test/exposure-golden.generate.test.ts` writes for each entry.
 fn describe_entry(entry: &ExposedEntry) -> Value {
@@ -69,7 +54,7 @@ async fn exposes_the_names_the_typescript_cli_exposes() {
     let context = RegistryContext::new(
         cache.path().join("manifests"),
         DEFAULT_REGISTRY_URL.into(),
-        FolderFetcher { root: registry_root() },
+        FolderFetcher::new(registry_root(), DEFAULT_REGISTRY_URL),
     );
     let calls = call_context(cache.path(), &[], Rc::new(FixedClient::new(HttpResponse::default())));
     let catalog = load_catalog(&[], context, calls.clone()).await.unwrap();
