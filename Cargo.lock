@@ -3544,6 +3544,7 @@ name = "usemcpkit-testing"
 version = "0.9.0"
 dependencies = [
  "indexmap",
+ "serde",
  "serde_json",
  "url",
  "usemcpkit-core",

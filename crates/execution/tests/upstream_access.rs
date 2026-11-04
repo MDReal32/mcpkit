@@ -1,7 +1,7 @@
 use indexmap::IndexMap;
 use serde_json::{Value, json};
 use std::cell::RefCell;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::rc::Rc;
 use tempfile::TempDir;
 use usemcpkit_auth::credentials::CredentialRequester;
@@ -12,14 +12,18 @@ use usemcpkit_execution::upstream::{UpstreamAccess, with_upstream_access};
 use usemcpkit_execution::{CallContext, DEFAULT_TIMEOUT, ExecutorState};
 use usemcpkit_http::HttpResponse;
 use usemcpkit_manifest::Manifest;
-use usemcpkit_testing::FixedClient;
+use usemcpkit_testing::{FixedClient, updates_goldens, write_golden};
 use usemcpkit_upstream::UpstreamError;
 
-/// What the TypeScript `withUpstreamAccess` asked and started the Teams upstream with, given only `TEAMS_APP_ID` and a
-/// form answer padded with spaces.
+fn teams_golden_path() -> PathBuf {
+    Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/teams-forwarded-credentials.json")
+}
+
+/// What the Teams upstream is asked and started with, given only `TEAMS_APP_ID` and a form answer padded with spaces
+/// (first written by the TypeScript `withUpstreamAccess`); rewrite it with `UPDATE_GOLDENS=1 cargo test -p
+/// usemcpkit-execution` when the Teams manifest changes.
 fn teams_golden() -> Value {
-    let file = Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/teams-forwarded-credentials.json");
-    serde_json::from_str(&std::fs::read_to_string(file).unwrap()).unwrap()
+    serde_json::from_str(&std::fs::read_to_string(teams_golden_path()).unwrap()).unwrap()
 }
 
 fn built_manifest(path: &str) -> Manifest {
@@ -93,7 +97,7 @@ fn pairs(env: &IndexMap<String, String>) -> Vec<(String, String)> {
 }
 
 #[tokio::test]
-async fn asks_for_missing_forwarded_credentials_with_the_form_the_typescript_cli_shows() {
+async fn asks_for_missing_forwarded_credentials_with_the_recorded_form() {
     let home = TempDir::new().unwrap();
     let asked = Rc::new(RefCell::new(Vec::new()));
     let context = context(home.path(), &[("TEAMS_APP_ID", "app-1")], Some(padded_answers(&asked)));
@@ -102,6 +106,18 @@ async fn asks_for_missing_forwarded_credentials_with_the_form_the_typescript_cli
 
     let access = start(&manifest, &context).await.unwrap();
 
+    if updates_goldens() {
+        let env: serde_json::Map<String, Value> = access
+            .env
+            .iter()
+            .map(|(name, value)| (name.clone(), Value::from(value.as_str())))
+            .collect();
+        write_golden(
+            &teams_golden_path(),
+            &serde_json::json!({ "request": asked.borrow()[0], "env": env }),
+        );
+        return;
+    }
     assert_eq!(asked.borrow().as_slice(), [golden["request"].clone()]);
     let expected: Vec<(String, String)> = golden["env"]
         .as_object()

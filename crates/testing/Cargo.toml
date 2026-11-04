@@ -12,6 +12,7 @@ indexmap.workspace = true
 usemcpkit-core.workspace = true
 usemcpkit-http.workspace = true
 usemcpkit-manifest.workspace = true
+serde.workspace = true
 serde_json.workspace = true
 url.workspace = true
 

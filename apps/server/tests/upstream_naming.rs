@@ -2,18 +2,20 @@ mod support;
 
 use regex::Regex;
 use serde_json::Value;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use support::registry_root;
 use usemcpkit_manifest::upstream::UpstreamNameRule;
 use usemcpkit_servers::upstream::to_catalog_tool_names;
+use usemcpkit_testing::{updates_goldens, write_golden};
 
-/// Written by the TypeScript `toCatalogToolNames` over the built manifests' naming rules; regenerate it when a rule
-/// changes.
+fn golden_path() -> PathBuf {
+    Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/upstream-naming.json")
+}
+
+/// First written by the TypeScript `toCatalogToolNames` over the built manifests' naming rules; rewrite its `catalog`
+/// lists with `UPDATE_GOLDENS=1 cargo test -p usemcpkit-servers` when a rule changes.
 fn golden() -> Value {
-    let text =
-        std::fs::read_to_string(Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/upstream-naming.json"))
-            .unwrap();
-    serde_json::from_str(&text).unwrap()
+    serde_json::from_str(&std::fs::read_to_string(golden_path()).unwrap()).unwrap()
 }
 
 fn strings(value: &Value) -> Vec<String> {
@@ -35,8 +37,9 @@ fn read_manifest(path: &Path) -> Value {
 }
 
 #[test]
-fn names_upstream_tools_like_the_typescript_cli() {
-    let golden = golden();
+fn names_upstream_tools_by_the_rules_of_the_built_registry() {
+    let mut golden = golden();
+    let mut rewritten = golden.clone();
     for (path, case) in golden["toolNames"].as_object().unwrap() {
         let manifest = read_manifest(&registry_root().join(format!("{path}.json")));
         let naming = read_naming(&manifest);
@@ -45,12 +48,26 @@ fn names_upstream_tools_like_the_typescript_cli() {
 
         let catalog = to_catalog_tool_names(&upstream_names, naming.as_deref()).unwrap();
 
+        if updates_goldens() {
+            rewritten["toolNames"][path]["catalog"] = catalog.into();
+            continue;
+        }
         assert_eq!(catalog, strings(&case["catalog"]), "{path}");
+    }
+    if updates_goldens() {
+        let names = strings(&golden["plain"]["names"]);
+        let upstream_names: Vec<&str> = names.iter().map(String::as_str).collect();
+        rewritten["plain"]["catalog"] = to_catalog_tool_names(&upstream_names, None).unwrap().into();
+        golden = rewritten;
+        write_golden(&golden_path(), &golden);
     }
 }
 
 #[test]
-fn names_tools_no_rule_matches_and_numbers_clashes_like_the_typescript_cli() {
+fn names_tools_no_rule_matches_and_numbers_clashes() {
+    if updates_goldens() {
+        return;
+    }
     let golden = golden();
     let names = strings(&golden["plain"]["names"]);
     let upstream_names: Vec<&str> = names.iter().map(String::as_str).collect();

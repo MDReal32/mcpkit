@@ -3,7 +3,7 @@ mod support;
 use serde_json::{Map, Value, json};
 use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, HashSet};
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::rc::Rc;
 use support::{FolderFetcher, call_context, registry_root};
 use tempfile::TempDir;
@@ -11,7 +11,7 @@ use usemcpkit_http::HttpResponse;
 use usemcpkit_registry::{DEFAULT_REGISTRY_URL, RegistryContext};
 use usemcpkit_servers::catalog::load_catalog;
 use usemcpkit_servers::mcp::McpServer;
-use usemcpkit_testing::FixedClient;
+use usemcpkit_testing::{FixedClient, updates_goldens, write_golden};
 use usemcpkit_wire_log::{WireLog, WireLogRole};
 
 const SECTION_MARKER: &str = "SECTION of usemcpkit";
@@ -29,12 +29,15 @@ async fn built_registry_server(cache: &TempDir) -> McpServer<FolderFetcher> {
     McpServer::new(catalog, Rc::new(WireLog::disabled(WireLogRole::Server)), calls)
 }
 
-fn read_fixture(name: &str) -> Value {
-    let path = Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures").join(name);
-    serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap()
+fn fixture_path(name: &str) -> PathBuf {
+    Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures").join(name)
 }
 
-/// JSON with every object's keys sorted, as `apps/cli/test/fixtures/to-canonical-json.ts` writes it.
+fn read_fixture(name: &str) -> Value {
+    serde_json::from_str(&std::fs::read_to_string(fixture_path(name)).unwrap()).unwrap()
+}
+
+/// JSON with every object's keys sorted, the text each tool digest is taken of.
 fn to_canonical_json(value: &Value) -> String {
     match value {
         Value::Array(items) => format!(
@@ -60,8 +63,8 @@ fn digest(tool: &Value) -> String {
         .collect()
 }
 
-/// Node and serde_json word a JSON syntax error differently, so only the code and the prefix are compared; each side
-/// reports its own build as the server version.
+/// Only the code and the prefix of a parse error are compared, and never the server version: the fixture was first
+/// written by the TypeScript CLI, whose JSON syntax errors and version differ.
 fn without_build_details(response: &Value) -> Value {
     let mut response = response.clone();
     if let Some(version) = response.pointer_mut("/result/serverInfo/version") {
@@ -81,9 +84,9 @@ async fn list_tools(server: &McpServer<FolderFetcher>) -> Vec<Value> {
     response["result"]["tools"].as_array().unwrap().clone()
 }
 
-/// Regenerate both fixtures with `apps/cli/test/session-golden.generate.test.ts` whenever the registry changes.
+/// Rewrite both fixtures with `UPDATE_GOLDENS=1 cargo test -p usemcpkit-servers` whenever the registry changes.
 #[tokio::test]
-async fn answers_a_client_session_as_the_typescript_cli_does() {
+async fn answers_the_recorded_client_session() {
     let cache = TempDir::new().unwrap();
     let server = built_registry_server(&cache).await;
 
@@ -95,11 +98,16 @@ async fn answers_a_client_session_as_the_typescript_cli_does() {
         env!("CARGO_PKG_VERSION")
     );
 
+    let mut recorded = Vec::new();
     for step in read_fixture("session.json").as_array().unwrap() {
         let line = step["line"].as_str().unwrap();
         let handled = server.handle_line(line).await;
 
         let actual = handled.response.unwrap_or(Value::Null);
+        if updates_goldens() {
+            recorded.push(json!({ "line": line, "response": actual, "toolsChanged": handled.tools_changed }));
+            continue;
+        }
         assert_eq!(
             without_build_details(&actual),
             without_build_details(&step["response"]),
@@ -110,10 +118,13 @@ async fn answers_a_client_session_as_the_typescript_cli_does() {
             "tools changed after {line}"
         );
     }
+    if updates_goldens() {
+        write_golden(&fixture_path("session.json"), &Value::Array(recorded));
+    }
 }
 
 #[tokio::test]
-async fn lists_every_tool_as_the_typescript_cli_does() {
+async fn lists_every_tool_of_the_built_registry() {
     let cache = TempDir::new().unwrap();
     let server = built_registry_server(&cache).await;
     let index: Value =
@@ -155,6 +166,10 @@ async fn lists_every_tool_as_the_typescript_cli_does() {
         .iter()
         .map(|tool| (tool["name"].as_str().unwrap().to_owned(), json!(digest(tool))))
         .collect();
+    if updates_goldens() {
+        write_golden(&fixture_path("tool-digests.json"), &Value::Object(actual));
+        return;
+    }
     let differing: Vec<&String> = expected
         .iter()
         .filter(|(name, sum)| actual.get(*name) != Some(sum))

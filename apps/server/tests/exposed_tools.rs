@@ -8,10 +8,10 @@ use usemcpkit_http::HttpResponse;
 use usemcpkit_registry::{DEFAULT_REGISTRY_URL, RegistryContext};
 use usemcpkit_servers::catalog::load_catalog;
 use usemcpkit_servers::mcp::{ExposedEntry, ExposedSection, McpServer, ToolAnnotations};
-use usemcpkit_testing::FixedClient;
+use usemcpkit_testing::{FixedClient, updates_goldens, write_golden};
 use usemcpkit_wire_log::{WireLog, WireLogRole};
 
-/// The shape `apps/cli/test/exposure-golden.generate.test.ts` writes for each entry.
+/// One entry of `fixtures/exposed-tools.json`.
 fn describe_entry(entry: &ExposedEntry) -> Value {
     match entry {
         ExposedEntry::Section(section) => json!({
@@ -47,9 +47,9 @@ fn sections_of(server: &McpServer<FolderFetcher>, id: &str) -> Vec<ExposedSectio
         .collect()
 }
 
-/// Regenerate the fixture with the generator test whenever the registry changes.
+/// Rewrite the fixture with `UPDATE_GOLDENS=1 cargo test -p usemcpkit-servers` whenever the registry changes.
 #[tokio::test]
-async fn exposes_the_names_the_typescript_cli_exposes() {
+async fn exposes_every_section_and_tool_of_the_built_registry() {
     let cache = tempfile::tempdir().unwrap();
     let context = RegistryContext::new(
         cache.path().join("manifests"),
@@ -83,10 +83,12 @@ async fn exposes_the_names_the_typescript_cli_exposes() {
         .iter()
         .map(|entry| describe_entry(entry))
         .collect();
-    let fixture =
-        std::fs::read_to_string(PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/exposed-tools.json"))
-            .unwrap();
-    let expected: Vec<Value> = serde_json::from_str(&fixture).unwrap();
+    let fixture = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/exposed-tools.json");
+    if updates_goldens() {
+        write_golden(&fixture, &Value::Array(exposed));
+        return;
+    }
+    let expected: Vec<Value> = serde_json::from_str(&std::fs::read_to_string(fixture).unwrap()).unwrap();
     for (index, (actual, wanted)) in exposed.iter().zip(&expected).enumerate() {
         assert_eq!(actual, wanted, "entry {index} differs");
     }
