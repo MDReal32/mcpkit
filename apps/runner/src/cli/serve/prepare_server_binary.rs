@@ -1,10 +1,8 @@
 use crate::cli::consts::VERSION;
-use crate::cli::resolve_server_binary::resolve_server_binary;
-use mcpkit_binary::{BinaryContext, is_installed_binary, restore_server_binary};
-use mcpkit_core::env::Env;
-use mcpkit_http::ReqwestClient;
+use crate::cli::serve::resolve_server_binary::resolve_server_binary;
+use crate::cli::update::create_binary_context;
+use mcpkit_binary::{is_installed_binary, restore_server_binary};
 use std::path::PathBuf;
-use std::rc::Rc;
 
 /// The server `--server` names, or the one next to this runner. An updater from before the server was split out
 /// replaces only the runner; the runner `mcpkit install` placed then downloads the server of its own version.
@@ -19,8 +17,7 @@ pub async fn prepare_server_binary(explicit: Option<PathBuf>) -> Result<PathBuf,
     if exists {
         return Ok(path);
     }
-    let http = ReqwestClient::new().map_err(|error| error.0)?;
-    let context = BinaryContext::current(Env::from_process(), Rc::new(http)).map_err(|error| error.0)?;
+    let context = create_binary_context()?;
     if !is_installed_binary(&context) {
         return Err(format!(
             "{} is missing; mcpkit-server must sit next to mcpkit",

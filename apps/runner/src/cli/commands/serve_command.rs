@@ -1,6 +1,7 @@
 use crate::cli::consts::{EXIT_FAILURE, VERSION, WORKER_FLAG};
-use crate::cli::prepare_server_binary::prepare_server_binary;
 use crate::cli::run_local::run_local;
+use crate::cli::serve::prepare_server_binary;
+use crate::cli::update::{create_binary_context, start_auto_update, start_upgrade_schedule};
 use crate::supervisor::{SuperviseOptions, WorkerLaunch, supervise_serve};
 use mcpkit_wire_log::{WireLog, WireLogRole};
 use std::path::PathBuf;
@@ -22,6 +23,13 @@ pub fn serve_command(servers: Vec<String>, server: Option<PathBuf>) -> i32 {
             "mcpkit {VERSION}: supervising {}, it reloads when that binary is replaced",
             command.display()
         );
+        match create_binary_context() {
+            Ok(context) => {
+                start_auto_update(context.clone());
+                start_upgrade_schedule(context);
+            }
+            Err(error) => eprintln!("mcpkit: no update checks: {error}"),
+        }
         let mut args = vec!["serve".to_string()];
         args.extend(servers);
         args.push(WORKER_FLAG.to_string());

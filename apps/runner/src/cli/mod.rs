@@ -1,11 +1,14 @@
+mod clients;
 mod command;
+mod commands;
 mod consts;
-mod prepare_server_binary;
-mod resolve_server_binary;
+mod output;
+mod registry;
 mod run;
+mod run_command;
 mod run_local;
-mod serve_command;
-mod serve_worker_command;
+mod serve;
+mod update;
 
 pub use command::{Cli, Command};
 pub use run::run;

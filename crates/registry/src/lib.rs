@@ -19,5 +19,5 @@ pub use local::{read_cached_index, resolve_user_dir};
 pub use registry_context::RegistryContext;
 pub use registry_error::RegistryError;
 pub use remote::{Fetch, HttpFetcher, resolve_registry_url};
-pub use sync::{SyncFailure, SyncReport, sync_registry};
+pub use sync::{SyncFailure, SyncReport, ensure_manifest_index, sync_registry};
 pub use warn_on_stderr::warn_on_stderr;

@@ -15,9 +15,12 @@ path = "src/lib.rs"
 
 [dependencies]
 clap.workspace = true
+cliclack.workspace = true
 mcpkit-binary.workspace = true
+mcpkit-clients.workspace = true
 mcpkit-core.workspace = true
 mcpkit-http.workspace = true
+mcpkit-registry.workspace = true
 mcpkit-wire-log.workspace = true
 serde_json.workspace = true
 tokio.workspace = true

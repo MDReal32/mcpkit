@@ -25,6 +25,7 @@ mcpkit-wire-log = { path = "crates/wire-log" }
 base64 = "0.23"
 bytes = "1.12"
 flate2 = "1.1"
+cliclack = "0.5.7"
 clap = { version = "4.6", features = ["derive", "env"] }
 futures-util = { version = "0.3", default-features = false, features = ["std"] }
 getrandom = "0.4"

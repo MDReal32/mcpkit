@@ -1,4 +1,3 @@
-mod ensure_manifest_index;
 mod load_catalog;
 mod matches_selection;
 mod registry_catalog;

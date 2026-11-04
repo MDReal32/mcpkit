@@ -1,6 +1,6 @@
 use crate::cli::consts::{EXIT_FAILURE, WORKER_FLAG};
-use crate::cli::prepare_server_binary::prepare_server_binary;
 use crate::cli::run_local::run_local;
+use crate::cli::serve::prepare_server_binary;
 use std::path::PathBuf;
 use std::process::Command;
 
