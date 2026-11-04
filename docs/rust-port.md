@@ -136,6 +136,9 @@ TS and Rust handle them the same way:
 - `serve` (the worker) copies `config.json`, `secrets.json` and `tokens.json` from `~/.mcpkit` into `~/.usemcpkit`
   once, while the new home has none of them (`adopt_legacy_home`). It never does with `USEMCPKIT_HOME` set, and it
   leaves the old folder alone. Caches, cloned repos and logs are not copied: they come back on first use.
+- The old `MCPKIT_*` variables are no longer read. The old entry is replaced as a whole, its `env` (Codex
+  `[mcp_servers.mcpkit.env]` included) with it: `MCPKIT_AUTO_UPDATE=0` must become `USEMCPKIT_AUTO_UPDATE=0`, and
+  credentials under a custom `MCPKIT_HOME` are not adopted, since only `~/.mcpkit` is looked at.
 - An installed TS `0.9.0` updates itself from `package/bin/mcpkit[.exe]` of the platform package and knows nothing of
   the new names. Until a release ships that path too, those installs stay on `0.9.0`, and `npx usemcpkit` moves them
   over once.
