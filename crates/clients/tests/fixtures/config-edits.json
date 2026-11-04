@@ -551,21 +551,21 @@
     },
     {
       "name": "entry with escapes",
-      "text": "{ \"mcpServers\": { \"mcp\\u006bit\": {} } }",
+      "text": "{ \"mcpServers\": { \"usemcp\\u006bit\": {} } }",
       "serversPath": [
         "mcpServers"
       ],
       "parse": {
-        "value": false
+        "value": true
       },
       "upsert": {
-        "value": "{\n  \"mcpServers\": {\n    \"mcp\\u006bit\": {},\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
+        "value": "{ \"mcpServers\": { \"usemcp\\u006bit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    } } }"
       },
       "upsertOther": {
-        "value": "{\n  \"mcpServers\": {\n    \"mcp\\u006bit\": {},\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
+        "value": "{ \"mcpServers\": { \"usemcp\\u006bit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    } } }"
       },
       "remove": {
-        "value": "{ \"mcpServers\": { \"mcp\\u006bit\": {} } }"
+        "value": "{\n  \"mcpServers\": {}\n}"
       }
     },
     {

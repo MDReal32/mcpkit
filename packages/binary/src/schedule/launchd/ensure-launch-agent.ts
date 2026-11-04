@@ -1,6 +1,7 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 import { assertSchedulerSuccess } from "../assert-scheduler-success";
+import { LAUNCH_AGENT_LABEL } from "../const";
 import { readTextFile } from "../read-text-file";
 import { runSchedulerCommand } from "../run-scheduler-command";
 import type { UpgradeSchedule } from "../types/upgrade-schedule";
@@ -11,13 +12,13 @@ import { unloadLaunchAgent } from "./unload-launch-agent";
 
 /** Writes and loads the LaunchAgent; an agent that is already in place is left alone. Resolves true when it changed. */
 export const ensureLaunchAgent = async (schedule: UpgradeSchedule) => {
-  const path = resolveLaunchAgentPath();
+  const path = resolveLaunchAgentPath(LAUNCH_AGENT_LABEL);
   const plist = buildLaunchAgentPlist(schedule);
   const current = await readTextFile(path);
   if (current === plist) {
     return false;
   }
-  await unloadLaunchAgent(path);
+  await unloadLaunchAgent(path, LAUNCH_AGENT_LABEL);
   await mkdir(dirname(path), { recursive: true });
   await writeFile(path, plist);
   assertSchedulerSuccess(

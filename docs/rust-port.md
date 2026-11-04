@@ -120,14 +120,33 @@ fails 4076 tool digests.
 
 - A TS supervisor that is already running restarts whatever binary replaced its own as `serve <names> --worker`. The
   runner accepts that hidden flag and hands the connection on to `usemcpkit-server` on the same stdio.
-- The TS updater replaces only `usemcpkit`. When the installed runner finds no `usemcpkit-server` next to it, it downloads the
-  server of its own version from npm (`restore_server_binary`) before serving.
+- The TS updater replaces only the runner. When the installed runner finds no `usemcpkit-server` next to it, it downloads
+  the server of its own version from npm (`restore_server_binary`) before serving.
+
+## Moving users from the `mcpkit` name
+
+Releases up to TS `0.9.0` were named `mcpkit`: the command `mcpkit`, the home `~/.mcpkit`, the client entry `mcpkit`
+and the scheduled job "mcpkit upgrade" (launchd `org.mdreal.mcpkit.upgrade`, cron marker `# mcpkit: scheduled upgrade`).
+TS and Rust handle them the same way:
+
+- Installing writes the `usemcpkit` entry and drops a `mcpkit` one from the same config, so the client never starts
+  both; uninstalling removes both. A client with only the old entry counts as configured (`LEGACY_ENTRY_NAMES`).
+- Every update of the upgrade schedule also removes the old job, so it stops upgrading the old binary; uninstalling
+  removes both.
+- `serve` (the worker) copies `config.json`, `secrets.json` and `tokens.json` from `~/.mcpkit` into `~/.usemcpkit`
+  once, while the new home has none of them (`adopt_legacy_home`). It never does with `USEMCPKIT_HOME` set, and it
+  leaves the old folder alone. Caches, cloned repos and logs are not copied: they come back on first use.
+- An installed TS `0.9.0` updates itself from `package/bin/mcpkit[.exe]` of the platform package and knows nothing of
+  the new names. Until a release ships that path too, those installs stay on `0.9.0`, and `npx usemcpkit` moves them
+  over once.
 
 ## Release work still open
 
 - `apps/cli/plugins/binaries` still compiles the TS CLI with Bun. Replace it with a `cargo build --release` per target
   (`cargo-zigbuild` or a CI matrix for Linux musl and ARM).
 - Each npm platform package must ship `package/bin/usemcpkit[.exe]` and `package/bin/usemcpkit-server[.exe]` together.
+- Decide whether the first release also ships the runner as `package/bin/mcpkit[.exe]`, so TS `0.9.0` installs update
+  themselves into it, or whether those users reinstall with `npx usemcpkit` (see "Moving users from the `mcpkit` name").
 - npm already has a TS `0.9.0`, which has no server in it, so the first Rust release must be newer than `0.9.0`.
 - Homebrew and winget packages must ship `usemcpkit-server` next to `usemcpkit`.
 - The `usemcpkit` npx wrapper must spawn the platform binary instead of the TS CLI.

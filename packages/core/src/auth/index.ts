@@ -1,4 +1,5 @@
 export { AuthError } from "./auth-error";
+export { adoptLegacyHome } from "./config/adopt-legacy-home";
 export {
   CREDENTIALS_FORM_API,
   CREDENTIALS_FORM_SESSION_HEADER,

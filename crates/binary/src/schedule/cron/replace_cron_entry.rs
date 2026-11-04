@@ -1,10 +1,10 @@
-use crate::schedule::consts::CRON_MARKER;
+use crate::schedule::consts::{CRON_MARKER, LEGACY_CRON_MARKER};
 
-/// The crontab without usemcpkit's line, plus `line` when given; every other line is kept as it is.
+/// The crontab without usemcpkit's line (or the one an older `mcpkit` release wrote), plus `line` when given; every other line is kept as it is.
 pub fn replace_cron_entry(crontab: &str, line: Option<&str>) -> String {
     let lines: Vec<&str> = crontab
         .split('\n')
-        .filter(|entry| !entry.is_empty() && !entry.ends_with(CRON_MARKER))
+        .filter(|entry| !entry.is_empty() && !entry.ends_with(CRON_MARKER) && !entry.ends_with(LEGACY_CRON_MARKER))
         .chain(line)
         .collect();
     if lines.is_empty() {

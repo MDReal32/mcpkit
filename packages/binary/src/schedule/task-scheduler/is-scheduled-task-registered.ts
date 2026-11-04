@@ -1,5 +1,4 @@
-import { SCHEDULED_TASK_NAME } from "../const";
 import { runSchedulerCommand } from "../run-scheduler-command";
 
-export const isScheduledTaskRegistered = async () =>
-  (await runSchedulerCommand("schtasks", ["/Query", "/TN", SCHEDULED_TASK_NAME])).exitCode === 0;
+export const isScheduledTaskRegistered = async (name: string) =>
+  (await runSchedulerCommand("schtasks", ["/Query", "/TN", name])).exitCode === 0;

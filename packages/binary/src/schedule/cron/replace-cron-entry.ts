@@ -1,8 +1,13 @@
-import { CRON_MARKER } from "../const";
+import { CRON_MARKER, LEGACY_CRON_MARKER } from "../const";
 
-/** The crontab without usemcpkit's line, plus `line` when given; every other line is kept as it is. */
+/**
+ * The crontab without usemcpkit's line (or the one an older `mcpkit` release wrote), plus `line` when given; every
+ * other line is kept as it is.
+ */
 export const replaceCronEntry = (crontab: string, line: string | undefined) => {
-  const kept = crontab.split("\n").filter((entry) => entry !== "" && !entry.endsWith(CRON_MARKER));
+  const kept = crontab
+    .split("\n")
+    .filter((entry) => entry !== "" && !entry.endsWith(CRON_MARKER) && !entry.endsWith(LEGACY_CRON_MARKER));
   const lines = line === undefined ? kept : [...kept, line];
   return lines.length === 0 ? "" : `${lines.join("\n")}\n`;
 };

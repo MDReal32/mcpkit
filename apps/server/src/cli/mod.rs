@@ -1,3 +1,4 @@
+mod adopt_legacy_credentials;
 mod command;
 mod create_call_context;
 mod run;

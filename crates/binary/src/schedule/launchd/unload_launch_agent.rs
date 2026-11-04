@@ -6,8 +6,8 @@ use crate::schedule::run_scheduler_command::run_scheduler_command;
 use std::path::Path;
 use usemcpkit_core::env::Env;
 
-pub async fn unload_launch_agent(path: &Path, env: &Env) -> Result<(), BinaryError> {
-    if !is_launch_agent_loaded(env).await? {
+pub async fn unload_launch_agent(path: &Path, label: &str, env: &Env) -> Result<(), BinaryError> {
+    if !is_launch_agent_loaded(label, env).await? {
         return Ok(());
     }
     let domain = to_launchd_domain();

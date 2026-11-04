@@ -1,6 +1,12 @@
 /** The single entry usemcpkit owns in every client config; it serves every bundled server. */
 export const ENTRY_NAME = "usemcpkit";
 
+/** Entry names older releases wrote (the brand was `mcpkit`); installing replaces them and uninstalling removes them. */
+export const LEGACY_ENTRY_NAMES: readonly string[] = ["mcpkit"];
+
+/** The current entry name followed by the ones older releases wrote. */
+export const OWNED_ENTRY_NAMES: readonly string[] = [ENTRY_NAME, ...LEGACY_ENTRY_NAMES];
+
 export const SERVE_ARGS: readonly string[] = ["serve"];
 
 export const BACKUP_SUFFIX = ".usemcpkit-backup";

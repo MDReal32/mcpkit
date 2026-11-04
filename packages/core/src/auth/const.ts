@@ -49,6 +49,9 @@ export const CONFIG_FILE_NAME = "config.json";
 
 export const SECRETS_FILE_NAME = "secrets.json";
 
+/** Every file credentials are or were saved in, which a new home folder adopts from the old one. */
+export const SAVED_FILE_NAMES: readonly string[] = [CONFIG_FILE_NAME, SECRETS_FILE_NAME, TOKENS_FILE_NAME];
+
 /** The host key of a server that has no domain, so its credentials still live under `hosts`. */
 export const DEFAULT_HOST_KEY = "default";
 

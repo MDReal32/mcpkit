@@ -63,7 +63,7 @@ const JSON_CASES: [string, string, string[]?][] = [
   ["non-ascii", '{\n  "név": "ü€😀",\n  "mcpServers": {\n    "ü": "€"\n  }\n}\n'],
   ["comment after brace", '{ // c\n  "mcpServers": { /* in */ }\n}'],
   ["one line with more", '{"mcpServers": {"other": {}}, "x": 1}'],
-  ["entry with escapes", '{ "mcpServers": { "mcp\\u006bit": {} } }'],
+  ["entry with escapes", '{ "mcpServers": { "usemcp\\u006bit": {} } }'],
   ["nested arrays and numbers", '{\n  "a": [1, 2.5e3, -0, true, null, { "b": [] }],\n  "mcpServers": {}\n}\n'],
   ["comment at end", '{\n  "mcpServers": {}\n}\n// done\n'],
   ["block comment lines", '{\n  /*\n   * many\n   */\n  "mcpServers": {\n  }\n}'],

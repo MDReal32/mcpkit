@@ -5,6 +5,9 @@ pub const SECRETS_FILE_NAME: &str = "secrets.json";
 
 pub const TOKENS_FILE_NAME: &str = "tokens.json";
 
+/// Every file credentials are or were saved in, which a new home folder adopts from the old one.
+pub const SAVED_FILE_NAMES: [&str; 3] = [CONFIG_FILE_NAME, SECRETS_FILE_NAME, TOKENS_FILE_NAME];
+
 /// The host key of a server that has no domain, so its credentials still live under `hosts`.
 pub const DEFAULT_HOST_KEY: &str = "default";
 

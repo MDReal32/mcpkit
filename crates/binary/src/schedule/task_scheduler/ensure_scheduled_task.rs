@@ -8,7 +8,7 @@ use usemcpkit_core::env::Env;
 
 /// Registers the task once; Task Scheduler keeps no log of its own here, so `log_path` is unused on Windows.
 pub async fn ensure_scheduled_task(schedule: &UpgradeSchedule, env: &Env) -> Result<bool, BinaryError> {
-    if is_scheduled_task_registered(env).await? {
+    if is_scheduled_task_registered(SCHEDULED_TASK_NAME, env).await? {
         return Ok(false);
     }
     let quoted_binary = format!("\"{}\"", schedule.binary_path.display());

@@ -48,6 +48,15 @@ describe("scheduled upgrade", () => {
     expect(replaceCronEntry(`${buildCronLine(schedule)}\n`, undefined)).toBe("");
   });
 
+  it("drops the crontab line of an older mcpkit release", () => {
+    const legacy =
+      "17 */6 * * * '/home/me/.mcpkit/bin/mcpkit' 'upgrade' >> '/home/me/.mcpkit/upgrade.log' 2>&1 # mcpkit: scheduled upgrade";
+    const line = buildCronLine(schedule);
+
+    expect(replaceCronEntry(`0 9 * * 1 backup.sh\n${legacy}\n`, line)).toBe(`0 9 * * 1 backup.sh\n${line}\n`);
+    expect(replaceCronEntry(`${legacy}\n`, undefined)).toBe("");
+  });
+
   it("writes a LaunchAgent that runs upgrade every six hours with escaped paths", () => {
     const plist = buildLaunchAgentPlist({ ...schedule, binaryPath: "/Users/a&b/.usemcpkit/bin/usemcpkit" });
 

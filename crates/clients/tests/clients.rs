@@ -227,3 +227,37 @@ fn refuses_to_edit_an_inline_codex_table_entry() {
 
     assert!(error.0.contains("inline table"), "{error}");
 }
+
+#[test]
+fn replaces_an_entry_written_under_the_old_mcpkit_name() {
+    let home = TempDir::new().unwrap();
+    let definition = find_definition("gemini-cli");
+    let path = write_config(
+        home.path(),
+        &definition,
+        r#"{ "mcpServers": { "mcpkit": { "command": "old" }, "other": {} } }"#,
+    );
+
+    let detected = detect_clients(&create_context(home.path()), &[definition]).unwrap();
+    assert!(detected[0].has_entry);
+
+    set_client_entry(&definition, &path, &launch()).unwrap();
+    let written: Value = serde_json::from_str(&read(&path)).unwrap();
+    assert_eq!(written["mcpServers"]["usemcpkit"]["command"], LAUNCH_COMMAND);
+    assert!(written["mcpServers"].get("mcpkit").is_none());
+    assert!(written["mcpServers"].get("other").is_some());
+}
+
+#[test]
+fn uninstalls_the_old_mcpkit_codex_table_with_the_new_one() {
+    let home = TempDir::new().unwrap();
+    let codex = find_definition("codex");
+    let path = write_config(
+        home.path(),
+        &codex,
+        "[mcp_servers.mcpkit]\ncommand = \"old\"\n\n[mcp_servers.mcpkit.env]\nA = \"1\"\n\n[mcp_servers.usemcpkit]\ncommand = \"new\"\n\n[profiles.x]\nmodel = \"y\"\n",
+    );
+
+    assert!(remove_client_entry(&codex, &path).unwrap());
+    assert_eq!(read(&path), "[profiles.x]\nmodel = \"y\"\n");
+}

@@ -1,21 +1,17 @@
 use crate::client_definition::ClientDefinition;
 use crate::client_error::ClientError;
-use crate::config::{read_config_text, remove_json_entry, remove_toml_table, write_config_text};
-use crate::config_format::ConfigFormat;
-use crate::consts::ENTRY_NAME;
-use crate::entry::has_client_entry::has_client_entry;
+use crate::config::{read_config_text, write_config_text};
+use crate::entry::owned_entry_names::owned_entry_names;
+use crate::entry::remove_named_entries::remove_named_entries;
 use std::path::Path;
 
-/// `false` when the file has no `usemcpkit` entry, without touching it.
+/// Removes the `usemcpkit` entry and any older-named one; `false` when the file has neither, without touching it.
 pub fn remove_client_entry(definition: &ClientDefinition, path: &Path) -> Result<bool, ClientError> {
     let text = read_config_text(path)?;
-    if !has_client_entry(definition, &text, path)? {
+    let (updated, removed) = remove_named_entries(definition, &text, path, &owned_entry_names())?;
+    if !removed {
         return Ok(false);
     }
-    let updated = match definition.format {
-        ConfigFormat::Toml => remove_toml_table(&text, definition.servers_path, ENTRY_NAME),
-        ConfigFormat::Json => remove_json_entry(&text, definition.servers_path, ENTRY_NAME)?,
-    };
     write_config_text(path, &updated)?;
     Ok(true)
 }

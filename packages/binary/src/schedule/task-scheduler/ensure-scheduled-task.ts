@@ -6,7 +6,7 @@ import { isScheduledTaskRegistered } from "./is-scheduled-task-registered";
 
 /** Registers the task once; Task Scheduler keeps no log of its own here, so `logPath` is unused on Windows. */
 export const ensureScheduledTask = async (schedule: UpgradeSchedule) => {
-  if (await isScheduledTaskRegistered()) {
+  if (await isScheduledTaskRegistered(SCHEDULED_TASK_NAME)) {
     return false;
   }
   const taskRun = [`"${schedule.binaryPath}"`, ...UPGRADE_ARGS].join(" ");

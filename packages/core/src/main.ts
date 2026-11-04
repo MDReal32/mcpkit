@@ -16,6 +16,7 @@ export type {
 } from "./auth";
 export {
   AuthError,
+  adoptLegacyHome,
   CREDENTIALS_FORM_API,
   CREDENTIALS_FORM_SESSION_HEADER,
   CREDENTIALS_REQUEST_ELEMENT_ID,
@@ -40,7 +41,7 @@ export {
   ToolError,
   withUpstreamAccess,
 } from "./execution";
-export { resolveHomeDir } from "./home";
+export { resolveHomeDir, resolveLegacyHomeDir } from "./home";
 export { isJsonObject } from "./json";
 export type {
   ArgSpec,

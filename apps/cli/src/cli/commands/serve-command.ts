@@ -5,6 +5,7 @@ import { serveStdio } from "../../mcp";
 import { VERSION } from "../../version";
 import { EXIT_SUCCESS } from "../const";
 import { printError } from "../output/print-error";
+import { adoptLegacyCredentials } from "../serve/adopt-legacy-credentials";
 import { createServeOptions } from "../serve/create-serve-options";
 import { loadCatalog } from "../serve/load-catalog";
 import { serveSupervised } from "../serve/serve-supervised";
@@ -16,6 +17,7 @@ export const serveCommand = async (options: ServeOptions) => {
   if (isCompiledBinary() && !options.worker) {
     return serveSupervised(names);
   }
+  await adoptLegacyCredentials();
   const serveOptions = createServeOptions();
   const catalog = await loadCatalog(names, serveOptions);
   printError(`usemcpkit ${VERSION}: serving ${catalog.servers.map((server) => server.id).join(", ")}`);

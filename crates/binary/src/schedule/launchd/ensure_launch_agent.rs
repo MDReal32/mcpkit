@@ -1,5 +1,6 @@
 use crate::binary_error::BinaryError;
 use crate::schedule::assert_scheduler_success::assert_scheduler_success;
+use crate::schedule::consts::LAUNCH_AGENT_LABEL;
 use crate::schedule::launchd::build_launch_agent_plist::build_launch_agent_plist;
 use crate::schedule::launchd::resolve_launch_agent_path::resolve_launch_agent_path;
 use crate::schedule::launchd::to_launchd_domain::to_launchd_domain;
@@ -11,12 +12,12 @@ use usemcpkit_core::env::Env;
 
 /// Writes and loads the LaunchAgent; an agent that is already in place is left alone. `true` when it changed.
 pub async fn ensure_launch_agent(schedule: &UpgradeSchedule, env: &Env) -> Result<bool, BinaryError> {
-    let path = resolve_launch_agent_path()?;
+    let path = resolve_launch_agent_path(LAUNCH_AGENT_LABEL)?;
     let plist = build_launch_agent_plist(schedule);
     if read_text_file(&path)?.as_deref() == Some(plist.as_str()) {
         return Ok(false);
     }
-    unload_launch_agent(&path, env).await?;
+    unload_launch_agent(&path, LAUNCH_AGENT_LABEL, env).await?;
     let failed = |error: std::io::Error| BinaryError(format!("cannot write {}: {error}", path.display()));
     if let Some(parent) = path.parent() {
         std::fs::create_dir_all(parent).map_err(failed)?;

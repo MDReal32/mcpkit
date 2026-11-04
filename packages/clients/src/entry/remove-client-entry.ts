@@ -1,21 +1,16 @@
 import { readConfigText } from "../config/read-config-text";
-import { removeJsonEntry } from "../config/remove-json-entry";
-import { removeTomlTable } from "../config/remove-toml-table";
 import { writeConfigText } from "../config/write-config-text";
-import { ENTRY_NAME } from "../const";
+import { OWNED_ENTRY_NAMES } from "../const";
 import type { ClientDefinition } from "../types/client-definition";
-import { hasClientEntry } from "./has-client-entry";
+import { removeNamedEntries } from "./remove-named-entries";
 
-/** Resolves false when the file has no `usemcpkit` entry, without touching it. */
+/** Removes the `usemcpkit` entry and any older-named one; resolves false when the file has neither, without touching it. */
 export const removeClientEntry = async (definition: ClientDefinition, path: string) => {
   const text = await readConfigText(path);
-  if (!hasClientEntry(definition, text, path)) {
+  const { updated, removed } = removeNamedEntries(definition, text, path, OWNED_ENTRY_NAMES);
+  if (!removed) {
     return false;
   }
-  const updated =
-    definition.format === "toml"
-      ? removeTomlTable(text, definition.serversPath, ENTRY_NAME)
-      : removeJsonEntry(text, definition.serversPath, ENTRY_NAME);
   await writeConfigText(path, updated);
   return true;
 };

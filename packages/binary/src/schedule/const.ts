@@ -9,10 +9,16 @@ export const SCHEDULER_COMMAND_TIMEOUT_MS = 10_000;
 
 export const LAUNCH_AGENT_LABEL = "org.mdreal.usemcpkit.upgrade";
 
+/** The label releases wrote before the brand became usemcpkit; installing and uninstalling remove its agent. */
+export const LEGACY_LAUNCH_AGENT_LABEL = "org.mdreal.mcpkit.upgrade";
+
 export const LAUNCH_AGENTS_DIR = "Library/LaunchAgents";
 
 /** Every line usemcpkit adds to the user's crontab ends with this comment, so it is found and replaced, never duplicated. */
 export const CRON_MARKER = "# usemcpkit: scheduled upgrade";
+
+/** The marker of the crontab line releases wrote before the brand became usemcpkit; any update drops that line. */
+export const LEGACY_CRON_MARKER = "# mcpkit: scheduled upgrade";
 
 /** Minute 17, every UPGRADE_INTERVAL_HOURS hours. */
 export const CRON_SCHEDULE = `17 */${UPGRADE_INTERVAL_HOURS} * * *`;
@@ -21,3 +27,6 @@ export const CRON_SCHEDULE = `17 */${UPGRADE_INTERVAL_HOURS} * * *`;
 export const NO_CRONTAB_PATTERN = /no crontab for/i;
 
 export const SCHEDULED_TASK_NAME = "usemcpkit upgrade";
+
+/** The task releases registered before the brand became usemcpkit; installing and uninstalling remove it. */
+export const LEGACY_SCHEDULED_TASK_NAME = "mcpkit upgrade";

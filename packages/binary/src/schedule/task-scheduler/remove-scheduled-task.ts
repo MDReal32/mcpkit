@@ -1,15 +1,12 @@
 import { assertSchedulerSuccess } from "../assert-scheduler-success";
-import { SCHEDULED_TASK_NAME } from "../const";
 import { runSchedulerCommand } from "../run-scheduler-command";
 import { isScheduledTaskRegistered } from "./is-scheduled-task-registered";
 
-export const removeScheduledTask = async () => {
-  if (!(await isScheduledTaskRegistered())) {
+/** Resolves true when there was a task named `name` to remove. */
+export const removeScheduledTask = async (name: string) => {
+  if (!(await isScheduledTaskRegistered(name))) {
     return false;
   }
-  assertSchedulerSuccess(
-    await runSchedulerCommand("schtasks", ["/Delete", "/TN", SCHEDULED_TASK_NAME, "/F"]),
-    "schtasks /Delete",
-  );
+  assertSchedulerSuccess(await runSchedulerCommand("schtasks", ["/Delete", "/TN", name, "/F"]), "schtasks /Delete");
   return true;
 };

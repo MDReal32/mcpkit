@@ -72,6 +72,38 @@ fn removes_only_its_own_crontab_line() {
 }
 
 #[test]
+fn drops_the_crontab_line_of_an_older_mcpkit_release() {
+    let legacy = "17 */6 * * * '/home/me/.mcpkit/bin/mcpkit' 'upgrade' >> '/home/me/.mcpkit/upgrade.log' 2>&1 # mcpkit: scheduled upgrade";
+    let line = build_cron_line(&schedule());
+
+    assert_eq!(
+        replace_cron_entry(
+            &format!(
+                "0 9 * * 1 backup.sh
+{legacy}
+"
+            ),
+            Some(&line)
+        ),
+        format!(
+            "0 9 * * 1 backup.sh
+{line}
+"
+        )
+    );
+    assert_eq!(
+        replace_cron_entry(
+            &format!(
+                "{legacy}
+"
+            ),
+            None
+        ),
+        ""
+    );
+}
+
+#[test]
 fn writes_a_launch_agent_that_runs_upgrade_every_six_hours_with_escaped_paths() {
     let plist = build_launch_agent_plist(&with_binary("/Users/a&b/.usemcpkit/bin/usemcpkit"));
 

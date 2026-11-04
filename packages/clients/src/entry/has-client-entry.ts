@@ -1,10 +1,7 @@
-import { hasJsonEntry } from "../config/has-json-entry";
-import { hasTomlTable } from "../config/has-toml-table";
-import { parseJsonConfig } from "../config/parse-json-config";
-import { ENTRY_NAME } from "../const";
+import { OWNED_ENTRY_NAMES } from "../const";
 import type { ClientDefinition } from "../types/client-definition";
+import { hasNamedEntry } from "./has-named-entry";
 
+/** True when the file has the `usemcpkit` entry or one an older release wrote under its old name. */
 export const hasClientEntry = (definition: ClientDefinition, text: string, path: string) =>
-  definition.format === "toml"
-    ? hasTomlTable(text, definition.serversPath, ENTRY_NAME)
-    : hasJsonEntry(parseJsonConfig(text, path), definition.serversPath, ENTRY_NAME);
+  OWNED_ENTRY_NAMES.some((name) => hasNamedEntry(definition, text, path, name));

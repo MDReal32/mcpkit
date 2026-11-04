@@ -115,6 +115,20 @@ describe("JSON client configs", () => {
       enabled: true,
     });
   });
+
+  it("replaces an entry written under the old mcpkit name", async () => {
+    const definition = findDefinition("gemini-cli");
+    const path = await writeConfig(definition, '{ "mcpServers": { "mcpkit": { "command": "old" }, "other": {} } }');
+
+    const [detected] = await detectClients(createContext(), [definition]);
+    expect(detected?.hasEntry).toBe(true);
+
+    await setClientEntry(definition, path, LAUNCH);
+    const written = JSON.parse(await readFile(path, "utf8")).mcpServers;
+    expect(written.usemcpkit.command).toBe(LAUNCH.command);
+    expect(written).not.toHaveProperty("mcpkit");
+    expect(written).toHaveProperty("other");
+  });
 });
 
 describe("Codex TOML config", () => {
@@ -144,6 +158,17 @@ describe("Codex TOML config", () => {
     );
 
     await removeClientEntry(codex, path);
+    expect(await readFile(path, "utf8")).toBe('[profiles.x]\nmodel = "y"\n');
+  });
+
+  it("uninstalls the old mcpkit table with the new one", async () => {
+    const path = await writeConfig(
+      codex,
+      '[mcp_servers.mcpkit]\ncommand = "old"\n\n[mcp_servers.mcpkit.env]\nA = "1"\n\n' +
+        '[mcp_servers.usemcpkit]\ncommand = "new"\n\n[profiles.x]\nmodel = "y"\n',
+    );
+
+    expect(await removeClientEntry(codex, path)).toBe(true);
     expect(await readFile(path, "utf8")).toBe('[profiles.x]\nmodel = "y"\n');
   });
 
