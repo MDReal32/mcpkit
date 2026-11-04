@@ -3511,7 +3511,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "usemcpkit-server"
+name = "usemcpkit-servers"
 version = "0.9.0"
 dependencies = [
  "clap",

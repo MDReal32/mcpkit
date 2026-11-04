@@ -40,7 +40,7 @@ async fn opens_a_section_through_the_runner_and_announces_the_new_tools_after_th
     let home = tempfile::tempdir().unwrap();
     seed_home(home.path());
     let launch = WorkerLaunch {
-        command: env!("CARGO_BIN_EXE_usemcpkit-server").into(),
+        command: env!("CARGO_BIN_EXE_usemcpkit-servers").into(),
         args: vec!["serve".into(), "--worker".into()],
         env: vec![
             ("USEMCPKIT_HOME".into(), home.path().into()),

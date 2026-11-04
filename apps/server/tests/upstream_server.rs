@@ -14,8 +14,8 @@ use usemcpkit_http::{HttpClient, HttpError, HttpRequest, HttpResponse, RequestBo
 use usemcpkit_manifest::registry::RegistryServer;
 use usemcpkit_manifest::tool::HttpMethod;
 use usemcpkit_registry::{Fetch, RegistryContext, RegistryError};
-use usemcpkit_server::catalog::RegistryCatalog;
-use usemcpkit_server::mcp::McpServer;
+use usemcpkit_servers::catalog::RegistryCatalog;
+use usemcpkit_servers::mcp::McpServer;
 use usemcpkit_testing::json_response;
 use usemcpkit_wire_log::{WireLog, WireLogRole};
 

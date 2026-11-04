@@ -8,8 +8,8 @@ use tempfile::TempDir;
 use usemcpkit_http::HttpResponse;
 use usemcpkit_manifest::registry::RegistryServer;
 use usemcpkit_registry::{Fetch, RegistryContext, RegistryError};
-use usemcpkit_server::catalog::RegistryCatalog;
-use usemcpkit_server::mcp::McpServer;
+use usemcpkit_servers::catalog::RegistryCatalog;
+use usemcpkit_servers::mcp::McpServer;
 use usemcpkit_testing::FixedClient;
 use usemcpkit_wire_log::{WireLog, WireLogRole};
 

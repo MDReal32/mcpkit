@@ -1,7 +1,7 @@
 use crate::browser::fall_back_to_browser::fall_back_to_browser;
 use crate::browser::form_window_command::form_window_command;
 
-/// Shows the form in the server's own native window (`usemcpkit-server window <url>`, a process of its own because the
+/// Shows the form in the server's own native window (`usemcpkit-servers window <url>`, a process of its own because the
 /// webview blocks its thread). When that window cannot open, it says so and opens the default browser instead.
 pub fn open_form_window(url: &str) {
     let spawned = std::env::current_exe()

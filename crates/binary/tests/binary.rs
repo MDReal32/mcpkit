@@ -87,7 +87,7 @@ fn release_client(version: &str, runner: &str, server: &str) -> RouteClient {
             content: runner,
         },
         TarEntry {
-            path: "package/bin/usemcpkit-server",
+            path: "package/bin/usemcpkit-servers",
             prefix: "",
             content: server,
         },
@@ -197,7 +197,7 @@ fn write_installed_pair(dir: &Path) -> PathBuf {
     fs::create_dir_all(dir).unwrap();
     let path = dir.join("usemcpkit");
     fs::write(&path, "old").unwrap();
-    fs::write(dir.join("usemcpkit-server"), "old server").unwrap();
+    fs::write(dir.join("usemcpkit-servers"), "old server").unwrap();
     path
 }
 
@@ -218,7 +218,7 @@ async fn update_binary_replaces_both_binaries_with_a_newer_verified_release() {
         }
     );
     assert_eq!(read(&path), "new");
-    assert_eq!(read(&home.path().join("bin").join("usemcpkit-server")), "new server");
+    assert_eq!(read(&home.path().join("bin").join("usemcpkit-servers")), "new server");
     #[cfg(unix)]
     {
         use std::os::unix::fs::PermissionsExt;
@@ -287,7 +287,7 @@ async fn update_binary_writes_nothing_when_the_release_lacks_the_server() {
     let error = update_binary(&context, &path, "0.1.0").await.unwrap_err();
 
     assert!(
-        error.0.contains("tarball has no package/bin/usemcpkit-server"),
+        error.0.contains("tarball has no package/bin/usemcpkit-servers"),
         "{error}"
     );
     assert_eq!(read(&path), "old");
@@ -324,7 +324,7 @@ fn install_binary_copies_a_local_runner_and_its_server_into_usemcpkit_home_bin()
     fs::create_dir(&source_dir).unwrap();
     let source = source_dir.join("usemcpkit");
     fs::write(&source, "local").unwrap();
-    fs::write(source_dir.join("usemcpkit-server"), "local server").unwrap();
+    fs::write(source_dir.join("usemcpkit-servers"), "local server").unwrap();
     let context = create_context(home.path(), empty_client(), PathBuf::from("unused"));
 
     let installed = install_binary(
@@ -341,7 +341,7 @@ fn install_binary_copies_a_local_runner_and_its_server_into_usemcpkit_home_bin()
         installed,
         InstalledBinary {
             path: bin.join("usemcpkit"),
-            server_path: bin.join("usemcpkit-server"),
+            server_path: bin.join("usemcpkit-servers"),
             version: "0.1.0".to_owned(),
         }
     );
@@ -355,7 +355,7 @@ fn install_binary_copies_the_running_runner_and_the_server_next_to_it() {
     let running_dir = home.path().join("downloads");
     fs::create_dir(&running_dir).unwrap();
     fs::write(running_dir.join("usemcpkit"), "running").unwrap();
-    fs::write(running_dir.join("usemcpkit-server"), "running server").unwrap();
+    fs::write(running_dir.join("usemcpkit-servers"), "running server").unwrap();
     let context = create_context(home.path(), empty_client(), running_dir.join("usemcpkit"));
 
     let installed = install_binary(
@@ -387,7 +387,7 @@ fn install_binary_refuses_a_runner_without_its_server() {
     )
     .unwrap_err();
 
-    assert!(error.0.contains("usemcpkit-server"), "{error}");
+    assert!(error.0.contains("usemcpkit-servers"), "{error}");
     assert!(!home.path().join("bin").join("usemcpkit").exists());
 }
 
@@ -536,7 +536,7 @@ async fn restore_server_binary_writes_the_server_of_the_running_version_next_to_
 
     let path = restore_server_binary(&context, "0.2.0").await.unwrap();
 
-    assert_eq!(path, home.path().join("bin").join("usemcpkit-server"));
+    assert_eq!(path, home.path().join("bin").join("usemcpkit-servers"));
     assert_eq!(read(&path), "server");
     assert_eq!(read(&runner), "runner");
 }
@@ -553,5 +553,5 @@ async fn restore_server_binary_fails_for_a_version_that_is_not_published() {
         error.0.contains("@usemcpkit/cli-darwin-arm64@0.1.0 is not published"),
         "{error}"
     );
-    assert!(!home.path().join("bin").join("usemcpkit-server").exists());
+    assert!(!home.path().join("bin").join("usemcpkit-servers").exists());
 }

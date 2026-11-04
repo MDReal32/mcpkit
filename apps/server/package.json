@@ -2,9 +2,9 @@
   "name": "@usemcpkit/server",
   "private": true,
   "scripts": {
-    "build": "cargo build --release -p usemcpkit-server",
-    "test": "cargo test -p usemcpkit-server",
-    "lint": "cargo fmt -p usemcpkit-server --check && cargo clippy -p usemcpkit-server --all-targets"
+    "build": "cargo build --release -p usemcpkit-servers",
+    "test": "cargo test -p usemcpkit-servers",
+    "lint": "cargo fmt -p usemcpkit-servers --check && cargo clippy -p usemcpkit-servers --all-targets"
   },
   "devDependencies": {
     "@usemcpkit/servers": "workspace:*",

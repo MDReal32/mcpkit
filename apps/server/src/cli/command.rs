@@ -2,7 +2,7 @@ use clap::{Parser, Subcommand};
 
 #[derive(Debug, Parser)]
 #[command(
-    name = "usemcpkit-server",
+    name = "usemcpkit-servers",
     version,
     about = "The usemcpkit MCP server, run by the usemcpkit runner"
 )]

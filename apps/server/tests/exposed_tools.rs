@@ -6,8 +6,8 @@ use std::rc::Rc;
 use support::{FolderFetcher, call_context, registry_root};
 use usemcpkit_http::HttpResponse;
 use usemcpkit_registry::{DEFAULT_REGISTRY_URL, RegistryContext};
-use usemcpkit_server::catalog::load_catalog;
-use usemcpkit_server::mcp::{ExposedEntry, ExposedSection, McpServer, ToolAnnotations};
+use usemcpkit_servers::catalog::load_catalog;
+use usemcpkit_servers::mcp::{ExposedEntry, ExposedSection, McpServer, ToolAnnotations};
 use usemcpkit_testing::FixedClient;
 use usemcpkit_wire_log::{WireLog, WireLogRole};
 

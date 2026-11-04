@@ -3,7 +3,7 @@
 The `usemcpkit` binary was a Bun-compiled TypeScript CLI of about 113 MB. On branch `feat/rust` it is two Rust binaries:
 
 - `usemcpkit`, the runner, is what clients start;
-- `usemcpkit-server`, the MCP server, runs behind it.
+- `usemcpkit-servers`, the MCP server, runs behind it.
 
 The servers, their generators, `packages/ui` and the `@usemcpkit/core` authoring API stay in TypeScript. The built JSON
 manifests and the built UI page are the contract between the two sides. The TypeScript CLI (`apps/cli` and the packages
@@ -14,7 +14,7 @@ it bundles) still exists. It is the reference the Rust code is tested against un
 | Path                     | Crate                     | What it owns                                                                                                                                   |
 | ------------------------ | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | `apps/runner`            | `usemcpkit-runner` (`usemcpkit`) | The commands (`install`, which a bare `usemcpkit` runs, plus `uninstall`, `list`, `update`, `upgrade` and `serve`) and the supervisor that owns the client's stdio and swaps the server when its binary changes. |
-| `apps/server`            | `usemcpkit-server`           | `serve [servers...] --worker`, which runs the catalog, sections and tool calls over stdio, and `window <url>`, the wry/tao credentials window. `build.rs` embeds `packages/ui/build/usemcpkit.ui.html`. |
+| `apps/server`            | `usemcpkit-servers`           | `serve [servers...] --worker`, which runs the catalog, sections and tool calls over stdio, and `window <url>`, the wry/tao credentials window. `build.rs` embeds `packages/ui/build/usemcpkit.ui.html`. |
 | `crates/core`            | `usemcpkit-core`             | The usemcpkit home, `Env`, versions, `find_program`, config migrations, and JavaScript-compatible number, string and JSON printing.             |
 | `crates/manifest`        | `usemcpkit-manifest`         | Manifest and registry types (serde), domains and editions, and UI texts.                                                                       |
 | `crates/registry`        | `usemcpkit-registry`         | The index and manifest cache in `~/.usemcpkit/manifests`: sync, checksums, lazy shell and part downloads, `ensure_manifest_index`.                |
@@ -119,8 +119,8 @@ fails 4076 tool digests.
 ## Moving users from the TypeScript binary
 
 - A TS supervisor that is already running restarts whatever binary replaced its own as `serve <names> --worker`. The
-  runner accepts that hidden flag and hands the connection on to `usemcpkit-server` on the same stdio.
-- The TS updater replaces only the runner. When the installed runner finds no `usemcpkit-server` next to it, it downloads
+  runner accepts that hidden flag and hands the connection on to `usemcpkit-servers` on the same stdio.
+- The TS updater replaces only the runner. When the installed runner finds no `usemcpkit-servers` next to it, it downloads
   the server of its own version from npm (`restore_server_binary`) before serving.
 
 ## Moving users from the `mcpkit` name
@@ -147,11 +147,11 @@ TS and Rust handle them the same way:
 
 - `apps/cli/plugins/binaries` still compiles the TS CLI with Bun. Replace it with a `cargo build --release` per target
   (`cargo-zigbuild` or a CI matrix for Linux musl and ARM).
-- Each npm platform package must ship `package/bin/usemcpkit[.exe]` and `package/bin/usemcpkit-server[.exe]` together.
+- Each npm platform package must ship `package/bin/usemcpkit[.exe]` and `package/bin/usemcpkit-servers[.exe]` together.
 - Decide whether the first release also ships the runner as `package/bin/mcpkit[.exe]`, so TS `0.9.0` installs update
   themselves into it, or whether those users reinstall with `npx usemcpkit` (see "Moving users from the `mcpkit` name").
 - npm already has a TS `0.9.0`, which has no server in it, so the first Rust release must be newer than `0.9.0`.
-- Homebrew and winget packages must ship `usemcpkit-server` next to `usemcpkit`.
+- Homebrew and winget packages must ship `usemcpkit-servers` next to `usemcpkit`.
 - The `usemcpkit` npx wrapper must spawn the platform binary instead of the TS CLI.
 
 ## Testing hazards

@@ -1,5 +1,5 @@
 [package]
-name = "usemcpkit-server"
+name = "usemcpkit-servers"
 description = "The usemcpkit MCP server: it serves the registry's manifests over stdio behind the usemcpkit runner."
 version.workspace = true
 edition.workspace = true
@@ -7,7 +7,7 @@ license.workspace = true
 repository.workspace = true
 
 [[bin]]
-name = "usemcpkit-server"
+name = "usemcpkit-servers"
 path = "src/main.rs"
 
 [lib]

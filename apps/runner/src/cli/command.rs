@@ -29,7 +29,7 @@ pub enum Command {
     Serve {
         /// Server ids or names, for example git:github or jira
         servers: Vec<String>,
-        /// The server binary to run and watch, instead of usemcpkit-server next to this binary
+        /// The server binary to run and watch, instead of usemcpkit-servers next to this binary
         #[arg(long, env = crate::cli::consts::SERVER_BINARY_ENV)]
         server: Option<PathBuf>,
         /// Internal: run as the worker of a supervising serve, which an older usemcpkit that already runs starts when this
@@ -62,7 +62,7 @@ pub struct ClientSelection {
 pub struct InstallArgs {
     #[command(flatten)]
     pub selection: ClientSelection,
-    /// Install this usemcpkit binary (with usemcpkit-server next to it) instead of the running one
+    /// Install this usemcpkit binary (with usemcpkit-servers next to it) instead of the running one
     #[arg(long)]
     pub binary: Option<PathBuf>,
 }

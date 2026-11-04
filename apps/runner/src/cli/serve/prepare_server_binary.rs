@@ -20,7 +20,7 @@ pub async fn prepare_server_binary(explicit: Option<PathBuf>) -> Result<PathBuf,
     let context = create_binary_context()?;
     if !is_installed_binary(&context) {
         return Err(format!(
-            "{} is missing; usemcpkit-server must sit next to usemcpkit",
+            "{} is missing; usemcpkit-servers must sit next to usemcpkit",
             path.display()
         ));
     }

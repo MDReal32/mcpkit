@@ -11,8 +11,8 @@ use usemcpkit_core::LocalFuture;
 use usemcpkit_http::{HttpClient, HttpError, HttpRequest, HttpResponse};
 use usemcpkit_manifest::registry::RegistryServer;
 use usemcpkit_registry::RegistryContext;
-use usemcpkit_server::catalog::RegistryCatalog;
-use usemcpkit_server::mcp::McpServer;
+use usemcpkit_servers::catalog::RegistryCatalog;
+use usemcpkit_servers::mcp::McpServer;
 use usemcpkit_testing::json_response;
 use usemcpkit_wire_log::{WireLog, WireLogRole};
 
