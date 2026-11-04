@@ -1,21 +1,10 @@
-import { readFileSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
-import { DEFAULT_REGISTRY_URL } from "@usemcpkit/servers";
+import { writeFileSync } from "node:fs";
 import { useTempDir } from "@usemcpkit/testing";
 import { it } from "vitest";
 import { createToolExposure } from "../src/mcp/exposed";
-import type { Catalog } from "../src/mcp/types/catalog";
-import { createRegistryContext, loadGroupManifest, loadGroups, readCachedIndex, syncRegistry } from "../src/registry";
+import { createBuiltRegistryCatalog } from "./fixtures/create-built-registry-catalog";
 
-const REGISTRY = join(__dirname, "../../../packages/servers/build/manifests");
 const OUTPUT = process.env.GOLDEN_OUTPUT ?? "";
-
-/** Serves the built registry as if it were published. */
-const readBuiltRegistry: typeof fetch = async (input) => {
-  const url = input instanceof Request ? input.url : String(input);
-  const path = url.slice(`${DEFAULT_REGISTRY_URL}/`.length);
-  return new Response(readFileSync(join(REGISTRY, path), "utf8"));
-};
 
 const tempDir = useTempDir("mcpkit-golden-");
 
@@ -24,31 +13,7 @@ const tempDir = useTempDir("mcpkit-golden-");
  * section and tool name after opening each server that is not an upstream, and each of its groups, in list order.
  */
 it.skipIf(OUTPUT === "")("writes the exposed tool list golden file", async () => {
-  const context = createRegistryContext({
-    dir: tempDir(),
-    registryUrl: DEFAULT_REGISTRY_URL,
-    fetchImpl: readBuiltRegistry,
-  });
-  await syncRegistry(context);
-  const index = await readCachedIndex(context.dir);
-  if (!index) {
-    throw new Error("the registry sync wrote no index");
-  }
-  const findServer = (id: string) => {
-    const server = index.servers.find((candidate) => candidate.id === id);
-    if (!server) {
-      throw new Error(`unknown server "${id}"`);
-    }
-    return server;
-  };
-  const catalog: Catalog = {
-    servers: index.servers,
-    loadManifest: async () => {
-      throw new Error("not used");
-    },
-    loadGroups: (id) => loadGroups(findServer(id), context),
-    loadGroupManifest: (id, group) => loadGroupManifest(findServer(id), context, group),
-  };
+  const catalog = await createBuiltRegistryCatalog(tempDir());
   const exposure = createToolExposure(catalog, {});
   for (const server of catalog.servers) {
     if (server.upstream) {
