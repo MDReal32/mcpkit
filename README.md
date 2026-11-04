@@ -18,6 +18,7 @@ Yarn 4 workspaces and Nx, Node 22.18+. Every command below runs from the reposit
 ```bash
 yarn install
 yarn build          # every package; apps/cli/build/usemcpkit.cli.js + packages/servers/build/manifests/
+                    #   then a copy of every build and the Rust release binaries in build/
 yarn test
 yarn typecheck
 yarn lint           # Biome: lint + format + import order check per project

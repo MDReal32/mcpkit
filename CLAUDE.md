@@ -29,7 +29,7 @@ Yarn 4 workspaces + Nx (targets are inferred from each `package.json`; pipeline 
 
 The private packages ship as source (`exports` points at `src/main.ts`, like `@usemcpkit/testing`) and are bundled into the CLI by Vite; only `@usemcpkit/core` has a build.
 
-Every workspace uses `src/main.ts` as its entry; the ones that build go to `build/usemcpkit.<package>.<ext>` (plus a same-named `.d.ts` when it ships types).
+Every workspace uses `src/main.ts` as its entry; the ones that build go to `build/usemcpkit.<package>.<ext>` (plus a same-named `.d.ts` when it ships types). Each project keeps its own `build/` (npm packs only what is inside a package, and `exports` cannot leave it); the last task of `yarn build` is `tools/build-output` (Nx project `build-output`, uncached, depending on every project that builds), which replaces the root `build/` with a copy of each of them (`build/core`, `build/ui`, `build/servers`, `build/cli`, `build/npx`, `build/analytics`) and of the Rust release binaries (`build/usemcpkit[.exe]`, `build/usemcpkit-servers[.exe]`, from Cargo's `target/release`, which stays where it is).
 
 Commands: `yarn build`, `yarn test`, `yarn typecheck`, `yarn lint` (Biome, per project; `build` depends on it), `yarn format` (Biome `check --write`), `yarn package`. Biome config is the root `biome.json`. Rust: `cargo build`, `cargo test --workspace`, `cargo clippy --workspace --all-targets`, `cargo fmt --all` (workspace in the root `Cargo.toml`).
 
