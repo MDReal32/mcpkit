@@ -6,7 +6,6 @@ export const BUILD_OUTPUT_DIR = "build";
 /** Each project's own build folder and the folder it is copied to under {@link BUILD_OUTPUT_DIR}. */
 export const PROJECT_BUILDS: readonly BuildCopy[] = [
   { from: "apps/analytics/build", to: "analytics" },
-  { from: "apps/cli/build", to: "cli" },
   { from: "apps/npx/build", to: "npx" },
   { from: "packages/core/build", to: "core" },
   { from: "packages/servers/build", to: "servers" },

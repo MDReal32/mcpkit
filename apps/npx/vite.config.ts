@@ -7,7 +7,6 @@ export default defineConfig({
     outDir: "build",
     emptyOutDir: true,
     rolldownOptions: {
-      external: ["@usemcpkit/cli"],
       output: {
         entryFileNames: "usemcpkit.npx.js",
         banner: "#!/usr/bin/env node",

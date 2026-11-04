@@ -301,16 +301,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@clack/core@npm:1.5.1":
-  version: 1.5.1
-  resolution: "@clack/core@npm:1.5.1"
-  dependencies:
-    fast-wrap-ansi: "npm:^0.2.0"
-    sisteransi: "npm:^1.0.5"
-  checksum: 10c0/6dca93ff5a34bfe8c150367519bc40a847e9172cb1a78b18c88da0507cb6ad899debe1ad5cfcb9796e439108f12f003cf06fd002e2293bc85ff500975e45ff13
-  languageName: node
-  linkType: hard
-
 "@clack/prompts@npm:1.7.0":
   version: 1.7.0
   resolution: "@clack/prompts@npm:1.7.0"
@@ -320,18 +310,6 @@ __metadata:
     fast-wrap-ansi: "npm:^0.2.0"
     sisteransi: "npm:^1.0.5"
   checksum: 10c0/a11e4f8d4a03cfe2d9eb21c3263f0252648573977b96e495a7d4f159f7efa929fe775a6ac3fe7ae30d8acb72514d94418a2c4335855d05b575a41aa885c9ff26
-  languageName: node
-  linkType: hard
-
-"@clack/prompts@npm:1.8.1":
-  version: 1.8.1
-  resolution: "@clack/prompts@npm:1.8.1"
-  dependencies:
-    "@clack/core": "npm:1.5.1"
-    fast-string-width: "npm:^3.0.2"
-    fast-wrap-ansi: "npm:^0.2.0"
-    sisteransi: "npm:^1.0.5"
-  checksum: 10c0/ed38748acde0cb1e7ebdac1242470c78bd90380cbdde1e5560e0828881e3c74e2676de666086cf8183c8d4d3f1fc6e489f15a004f0d9f8ee294a3aa744de2093
   languageName: node
   linkType: hard
 
@@ -2503,55 +2481,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@usemcpkit/binary@workspace:*, @usemcpkit/binary@workspace:packages/binary":
-  version: 0.0.0-use.local
-  resolution: "@usemcpkit/binary@workspace:packages/binary"
-  dependencies:
-    "@biomejs/biome": "npm:2.5.15"
-    "@usemcpkit/core": "workspace:*"
-    "@usemcpkit/testing": "workspace:*"
-    typescript: "npm:^5.9.0"
-    vitest: "npm:^4.0.0"
-  languageName: unknown
-  linkType: soft
-
-"@usemcpkit/cli@workspace:*, @usemcpkit/cli@workspace:apps/cli":
-  version: 0.0.0-use.local
-  resolution: "@usemcpkit/cli@workspace:apps/cli"
-  dependencies:
-    "@biomejs/biome": "npm:2.5.15"
-    "@clack/prompts": "npm:1.8.1"
-    "@usemcpkit/binary": "workspace:*"
-    "@usemcpkit/clients": "workspace:*"
-    "@usemcpkit/core": "workspace:*"
-    "@usemcpkit/credentials-form": "workspace:*"
-    "@usemcpkit/servers": "workspace:*"
-    "@usemcpkit/testing": "workspace:*"
-    "@usemcpkit/ui": "workspace:*"
-    "@usemcpkit/upstream": "workspace:*"
-    typescript: "npm:^5.9.0"
-    vite: "npm:^8.0.0"
-    vitest: "npm:^4.0.0"
-    webview-bun: "npm:2.4.0"
-    yargs-extended: "npm:1.1.0"
-  bin:
-    usemcpkit: build/usemcpkit.cli.js
-  languageName: unknown
-  linkType: soft
-
-"@usemcpkit/clients@workspace:*, @usemcpkit/clients@workspace:packages/clients":
-  version: 0.0.0-use.local
-  resolution: "@usemcpkit/clients@workspace:packages/clients"
-  dependencies:
-    "@biomejs/biome": "npm:2.5.15"
-    "@usemcpkit/core": "workspace:*"
-    "@usemcpkit/testing": "workspace:*"
-    jsonc-parser: "npm:3.3.1"
-    typescript: "npm:^5.9.0"
-    vitest: "npm:^4.0.0"
-  languageName: unknown
-  linkType: soft
-
 "@usemcpkit/core@workspace:*, @usemcpkit/core@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@usemcpkit/core@workspace:packages/core"
@@ -2566,19 +2495,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@usemcpkit/credentials-form@workspace:*, @usemcpkit/credentials-form@workspace:packages/credentials-form":
-  version: 0.0.0-use.local
-  resolution: "@usemcpkit/credentials-form@workspace:packages/credentials-form"
-  dependencies:
-    "@biomejs/biome": "npm:2.5.15"
-    "@usemcpkit/core": "workspace:*"
-    "@usemcpkit/testing": "workspace:*"
-    typescript: "npm:^5.9.0"
-    vitest: "npm:^4.0.0"
-  languageName: unknown
-  linkType: soft
-
-"@usemcpkit/servers@workspace:*, @usemcpkit/servers@workspace:packages/servers":
+"@usemcpkit/servers@workspace:packages/servers":
   version: 0.0.0-use.local
   resolution: "@usemcpkit/servers@workspace:packages/servers"
   dependencies:
@@ -2605,7 +2522,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@usemcpkit/ui@workspace:*, @usemcpkit/ui@workspace:packages/ui":
+"@usemcpkit/ui@workspace:packages/ui":
   version: 0.0.0-use.local
   resolution: "@usemcpkit/ui@workspace:packages/ui"
   dependencies:
@@ -2617,17 +2534,6 @@ __metadata:
     typescript: "npm:^5.9.0"
     vite: "npm:^8.0.0"
     vite-plugin-singlefile: "npm:2.3.3"
-    vitest: "npm:^4.0.0"
-  languageName: unknown
-  linkType: soft
-
-"@usemcpkit/upstream@workspace:*, @usemcpkit/upstream@workspace:packages/upstream":
-  version: 0.0.0-use.local
-  resolution: "@usemcpkit/upstream@workspace:packages/upstream"
-  dependencies:
-    "@biomejs/biome": "npm:2.5.15"
-    "@usemcpkit/core": "workspace:*"
-    typescript: "npm:^5.9.0"
     vitest: "npm:^4.0.0"
   languageName: unknown
   linkType: soft
@@ -3035,26 +2941,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ansi-regex@npm:^6.2.2":
-  version: 6.4.0
-  resolution: "ansi-regex@npm:6.4.0"
-  checksum: 10c0/e42f68ffa21aac4c4de27aad601bb5ea415b5a07b127681ef44728195f22231b77bc39230ce0c976420d84650b7bf5a5b60eb4e7500c1f74e9a3f3cd4a68f3f6
-  languageName: node
-  linkType: hard
-
 "ansi-styles@npm:4.3.0, ansi-styles@npm:^4.0.0, ansi-styles@npm:^4.1.0":
   version: 4.3.0
   resolution: "ansi-styles@npm:4.3.0"
   dependencies:
     color-convert: "npm:^2.0.1"
   checksum: 10c0/895a23929da416f2bd3de7e9cb4eabd340949328ab85ddd6e484a637d8f6820d485f53933446f5291c3b760cbc488beb8e88573dd0f9c7daf83dccc8fe81b041
-  languageName: node
-  linkType: hard
-
-"ansi-styles@npm:^6.2.1":
-  version: 6.2.3
-  resolution: "ansi-styles@npm:6.2.3"
-  checksum: 10c0/23b8a4ce14e18fb854693b95351e286b771d23d8844057ed2e7d083cd3e708376c3323707ec6a24365f7d7eda3ca00327fe04092e29e551499ec4c8b7bfac868
   languageName: node
   linkType: hard
 
@@ -3321,17 +3213,6 @@ __metadata:
     strip-ansi: "npm:^6.0.1"
     wrap-ansi: "npm:^7.0.0"
   checksum: 10c0/4bda0f09c340cbb6dfdc1ed508b3ca080f12992c18d68c6be4d9cf51756033d5266e61ec57529e610dacbf4da1c634423b0c1b11037709cc6b09045cbd815df5
-  languageName: node
-  linkType: hard
-
-"cliui@npm:^9.0.1":
-  version: 9.0.1
-  resolution: "cliui@npm:9.0.1"
-  dependencies:
-    string-width: "npm:^7.2.0"
-    strip-ansi: "npm:^7.1.0"
-    wrap-ansi: "npm:^9.0.0"
-  checksum: 10c0/13441832e9efe7c7a76bd2b8e683555c478d461a9f249dc5db9b17fe8d4b47fa9277b503914b90bd00e4a151abb6b9b02b2288972ffe2e5e3ca40bcb1c2330d3
   languageName: node
   linkType: hard
 
@@ -3632,13 +3513,6 @@ __metadata:
   version: 8.0.0
   resolution: "emoji-regex@npm:8.0.0"
   checksum: 10c0/b6053ad39951c4cf338f9092d7bfba448cdfd46fe6a2a034700b149ac9ffbc137e361cbd3c442297f86bed2e5f7576c1b54cc0a6bf8ef5106cc62f496af35010
-  languageName: node
-  linkType: hard
-
-"emoji-regex@npm:^10.3.0":
-  version: 10.6.0
-  resolution: "emoji-regex@npm:10.6.0"
-  checksum: 10c0/1e4aa097bb007301c3b4b1913879ae27327fdc48e93eeefefe3b87e495eb33c5af155300be951b4349ff6ac084f4403dc9eff970acba7c1c572d89396a9a32d7
   languageName: node
   linkType: hard
 
@@ -4171,13 +4045,6 @@ __metadata:
   version: 2.0.5
   resolution: "get-caller-file@npm:2.0.5"
   checksum: 10c0/c6c7b60271931fa752aeb92f2b47e355eac1af3a2673f47c9589e8f8a41adc74d45551c1bc57b5e66a80609f10ffb72b6f575e4370d61cc3f7f3aaff01757cde
-  languageName: node
-  linkType: hard
-
-"get-east-asian-width@npm:^1.0.0, get-east-asian-width@npm:^1.5.0":
-  version: 1.7.0
-  resolution: "get-east-asian-width@npm:1.7.0"
-  checksum: 10c0/680a5f611a186e4a065291f31821f7e4ad7742625be814e05b8ab5535c6fa53562bc0333a83138fca5f2e1030ed960a561b2fd4629e0cff0dc68b19cf46d7c53
   languageName: node
   linkType: hard
 
@@ -5898,27 +5765,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"string-width@npm:^7.0.0, string-width@npm:^7.2.0":
-  version: 7.2.0
-  resolution: "string-width@npm:7.2.0"
-  dependencies:
-    emoji-regex: "npm:^10.3.0"
-    get-east-asian-width: "npm:^1.0.0"
-    strip-ansi: "npm:^7.1.0"
-  checksum: 10c0/eb0430dd43f3199c7a46dcbf7a0b34539c76fe3aa62763d0b0655acdcbdf360b3f66f3d58ca25ba0205f42ea3491fa00f09426d3b7d3040e506878fc7664c9b9
-  languageName: node
-  linkType: hard
-
-"string-width@npm:^8.2.1":
-  version: 8.3.0
-  resolution: "string-width@npm:8.3.0"
-  dependencies:
-    get-east-asian-width: "npm:^1.5.0"
-    strip-ansi: "npm:^7.1.2"
-  checksum: 10c0/bc354b27772777c314e6792106f01586e959f36abb3d4b8ad46c4d4ee92d5e906acb10c1f3be97a85ae0ba1b11389094bc5672999fc5f03f12d22a4725fa30fe
-  languageName: node
-  linkType: hard
-
 "string_decoder@npm:1.3.0, string_decoder@npm:^1.1.1":
   version: 1.3.0
   resolution: "string_decoder@npm:1.3.0"
@@ -5934,15 +5780,6 @@ __metadata:
   dependencies:
     ansi-regex: "npm:^5.0.1"
   checksum: 10c0/1ae5f212a126fe5b167707f716942490e3933085a5ff6c008ab97ab2f272c8025d3aa218b7bd6ab25729ca20cc81cddb252102f8751e13482a5199e873680952
-  languageName: node
-  linkType: hard
-
-"strip-ansi@npm:^7.1.0, strip-ansi@npm:^7.1.2":
-  version: 7.2.0
-  resolution: "strip-ansi@npm:7.2.0"
-  dependencies:
-    ansi-regex: "npm:^6.2.2"
-  checksum: 10c0/544d13b7582f8254811ea97db202f519e189e59d35740c46095897e254e4f1aa9fe1524a83ad6bc5ad67d4dd6c0281d2e0219ed62b880a6238a16a17d375f221
   languageName: node
   linkType: hard
 
@@ -6396,7 +6233,6 @@ __metadata:
   resolution: "usemcpkit@workspace:apps/npx"
   dependencies:
     "@biomejs/biome": "npm:2.5.15"
-    "@usemcpkit/cli": "workspace:*"
     typescript: "npm:^5.9.0"
     vite: "npm:^8.0.0"
   bin:
@@ -6660,13 +6496,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webview-bun@npm:2.4.0":
-  version: 2.4.0
-  resolution: "webview-bun@npm:2.4.0"
-  checksum: 10c0/51a8e8994fd2296086ba0059c71aefd95d2febd4eef7fc842d5798a59aa7bec7328c13bd8e4668bd526343e26bbedbf98ea4be526f151b64e59281e25ff7cac4
-  languageName: node
-  linkType: hard
-
 "which@npm:3.0.1":
   version: 3.0.1
   resolution: "which@npm:3.0.1"
@@ -6778,17 +6607,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"wrap-ansi@npm:^9.0.0":
-  version: 9.0.2
-  resolution: "wrap-ansi@npm:9.0.2"
-  dependencies:
-    ansi-styles: "npm:^6.2.1"
-    string-width: "npm:^7.0.0"
-    strip-ansi: "npm:^7.1.0"
-  checksum: 10c0/3305839b9a0d6fb930cb63a52f34d3936013d8b0682ff3ec133c9826512620f213800ffa19ea22904876d5b7e9a3c1f40682f03597d986a4ca881fa7b033688c
-  languageName: node
-  linkType: hard
-
 "wrappy@npm:1, wrappy@npm:1.0.2":
   version: 1.0.2
   resolution: "wrappy@npm:1.0.2"
@@ -6848,26 +6666,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yargs-extended@npm:1.1.0":
-  version: 1.1.0
-  resolution: "yargs-extended@npm:1.1.0"
-  dependencies:
-    yargs: "npm:^18.1.0"
-  checksum: 10c0/272cb244b2e77924f9e5662354e4d669928d3d2a5efbdfe8946d9848991f66bf8a7939f559fba75201e7747a5f6680e3867db7062165d43d279f141942edb4c3
-  languageName: node
-  linkType: hard
-
 "yargs-parser@npm:21.1.1, yargs-parser@npm:^21.1.1":
   version: 21.1.1
   resolution: "yargs-parser@npm:21.1.1"
   checksum: 10c0/f84b5e48169479d2f402239c59f084cfd1c3acc197a05c59b98bab067452e6b3ea46d4dd8ba2985ba7b3d32a343d77df0debd6b343e5dae3da2aab2cdf5886b2
-  languageName: node
-  linkType: hard
-
-"yargs-parser@npm:^22.0.0":
-  version: 22.0.0
-  resolution: "yargs-parser@npm:22.0.0"
-  checksum: 10c0/cb7ef81759c4271cb1d96b9351dbbc9a9ce35d3e1122d2b739bf6c432603824fa02c67cc12dcef6ea80283379d63495686e8f41cc7b06c6576e792aba4d33e1c
   languageName: node
   linkType: hard
 
@@ -6883,20 +6685,6 @@ __metadata:
     y18n: "npm:^5.0.5"
     yargs-parser: "npm:^21.1.1"
   checksum: 10c0/ccd7e723e61ad5965fffbb791366db689572b80cca80e0f96aad968dfff4156cd7cd1ad18607afe1046d8241e6fb2d6c08bf7fa7bfb5eaec818735d8feac8f05
-  languageName: node
-  linkType: hard
-
-"yargs@npm:^18.1.0":
-  version: 18.2.0
-  resolution: "yargs@npm:18.2.0"
-  dependencies:
-    cliui: "npm:^9.0.1"
-    escalade: "npm:^3.1.1"
-    get-caller-file: "npm:^2.0.5"
-    string-width: "npm:^8.2.1"
-    y18n: "npm:^5.0.5"
-    yargs-parser: "npm:^22.0.0"
-  checksum: 10c0/7419338c3c00f9143ec6b6ab168335061c6f5342d161642aec23ff119e28cac1c417e0eca1d7dc82fd084f07207cc5d34c7d8315f605c0e3dbf12c350e405f3f
   languageName: node
   linkType: hard
 

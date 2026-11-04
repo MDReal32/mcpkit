@@ -1,7 +1,7 @@
 {
   "name": "usemcpkit",
   "version": "0.8.4",
-  "description": "npx usemcpkit: adds usemcpkit to every AI client on this computer. Runs @usemcpkit/cli.",
+  "description": "npx usemcpkit: runs the usemcpkit binary of this machine, which adds usemcpkit to every AI client with no command.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MDReal32/mcpkit.git",
@@ -19,9 +19,6 @@
     "build": "vite build --configLoader native",
     "typecheck": "tsc --noEmit",
     "lint": "biome check ."
-  },
-  "dependencies": {
-    "@usemcpkit/cli": "workspace:*"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.15",

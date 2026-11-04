@@ -4,7 +4,6 @@
   "projectType": "application",
   "implicitDependencies": [
     "@usemcpkit/analytics",
-    "@usemcpkit/cli",
     "@usemcpkit/core",
     "@usemcpkit/servers",
     "@usemcpkit/ui",
