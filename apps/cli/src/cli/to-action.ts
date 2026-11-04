@@ -9,7 +9,7 @@ export const toAction =
     try {
       process.exitCode = await command(args);
     } catch (error) {
-      printError(`mcpkit: ${describeError(error)}`);
+      printError(`usemcpkit: ${describeError(error)}`);
       process.exitCode = EXIT_FAILURE;
     }
   };

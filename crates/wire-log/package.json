@@ -2,7 +2,7 @@
   "name": "@usemcpkit/wire-log",
   "private": true,
   "scripts": {
-    "test": "cargo test -p mcpkit-wire-log",
-    "lint": "cargo fmt -p mcpkit-wire-log --check && cargo clippy -p mcpkit-wire-log --all-targets"
+    "test": "cargo test -p usemcpkit-wire-log",
+    "lint": "cargo fmt -p usemcpkit-wire-log --check && cargo clippy -p usemcpkit-wire-log --all-targets"
   }
 }

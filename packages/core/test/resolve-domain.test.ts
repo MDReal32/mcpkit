@@ -6,7 +6,7 @@ import { describe, expect, it } from "vitest";
 import { resolveDomain } from "../src/auth";
 import type { Manifest } from "../src/main";
 
-const readHome = useTempDir("mcpkit-resolve-domain-");
+const readHome = useTempDir("usemcpkit-resolve-domain-");
 
 const createManifest = (matchGitRemote: boolean) => {
   const manifest: Manifest = {
@@ -44,7 +44,7 @@ describe("resolveDomain with several hosts", () => {
     const projectDir = await createRepo("repo-b", "git@gitlab.b.example:team/app.git");
 
     const domain = await resolveDomain(createManifest(true), {
-      env: { MCPKIT_HOME: readHome() },
+      env: { USEMCPKIT_HOME: readHome() },
       fetchImpl: fetch,
       projectDir,
     });
@@ -57,7 +57,7 @@ describe("resolveDomain with several hosts", () => {
     const projectDir = await createRepo("repo-x", "https://other.example/team/app.git");
 
     const domain = await resolveDomain(createManifest(true), {
-      env: { MCPKIT_HOME: readHome() },
+      env: { USEMCPKIT_HOME: readHome() },
       fetchImpl: fetch,
       projectDir,
     });
@@ -70,7 +70,7 @@ describe("resolveDomain with several hosts", () => {
     await saveConfig({ gitlab: { ...twoHosts.gitlab, projects: { [await realKey(projectDir)]: "gitlab.b.example" } } });
 
     const domain = await resolveDomain(createManifest(false), {
-      env: { MCPKIT_HOME: readHome() },
+      env: { USEMCPKIT_HOME: readHome() },
       fetchImpl: fetch,
       projectDir,
     });
@@ -82,12 +82,12 @@ describe("resolveDomain with several hosts", () => {
     await saveConfig(twoHosts);
 
     const fromEnv = await resolveDomain(createManifest(true), {
-      env: { MCPKIT_HOME: readHome(), GITLAB_HOST: "env.example" },
+      env: { USEMCPKIT_HOME: readHome(), GITLAB_HOST: "env.example" },
       fetchImpl: fetch,
       projectDir: readHome(),
     });
     const withoutProject = await resolveDomain(createManifest(true), {
-      env: { MCPKIT_HOME: readHome() },
+      env: { USEMCPKIT_HOME: readHome() },
       fetchImpl: fetch,
     });
 

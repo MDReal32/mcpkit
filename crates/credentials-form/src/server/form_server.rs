@@ -1,15 +1,15 @@
 use crate::consts::{FORM_CLOSE_TIMEOUT, FORM_HOST};
 use crate::server::form_session::FormSession;
 use crate::server::serve_form_connection::serve_form_connection;
-use mcpkit_auth::AuthError;
-use mcpkit_auth::credentials::CredentialRequest;
-use mcpkit_auth::oauth::create_random_token;
-use mcpkit_core::env::Env;
 use serde_json::Value;
 use std::sync::Arc;
 use tokio::net::TcpListener;
 use tokio::sync::oneshot;
 use tokio::task::JoinSet;
+use usemcpkit_auth::AuthError;
+use usemcpkit_auth::credentials::CredentialRequest;
+use usemcpkit_auth::oauth::create_random_token;
+use usemcpkit_core::env::Env;
 
 /// Serves the form on a free loopback port until the page answers or is cancelled. Each connection runs on its own
 /// task, so a slow CLI import never holds up the page.

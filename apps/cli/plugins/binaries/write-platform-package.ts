@@ -19,7 +19,7 @@ export const writePlatformPackage = async (npmDir: string, target: Target, binar
   const packageJson: PlatformPackageJson = {
     name: toPlatformPackageName(target),
     version,
-    description: `mcpkit standalone binary for ${target}`,
+    description: `usemcpkit standalone binary for ${target}`,
     license: PLATFORM_PACKAGE_LICENSE,
     repository: { type: "git", url: PLATFORM_PACKAGE_REPOSITORY_URL },
     publishConfig: { access: "public" },

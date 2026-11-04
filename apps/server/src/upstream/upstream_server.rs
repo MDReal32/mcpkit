@@ -1,12 +1,12 @@
 use crate::upstream::discovered_tool::DiscoveredTool;
 use crate::upstream::open_upstream::open_upstream;
 use indexmap::IndexMap;
-use mcpkit_execution::CallContext;
-use mcpkit_manifest::Manifest;
-use mcpkit_upstream::{UpstreamConnection, UpstreamError};
 use serde_json::{Map, Value};
 use std::cell::RefCell;
 use std::rc::Rc;
+use usemcpkit_execution::CallContext;
+use usemcpkit_manifest::Manifest;
+use usemcpkit_upstream::{UpstreamConnection, UpstreamError};
 
 /// A catalog server backed by another MCP server. It keeps the connection between calls, so a stdio upstream is
 /// started once; a connection that closed is replaced before the call, and a call that failed is never retried, since

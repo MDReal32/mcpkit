@@ -1,17 +1,17 @@
 mod support;
 
-use mcpkit_http::HttpResponse;
-use mcpkit_manifest::registry::RegistryServer;
-use mcpkit_registry::{Fetch, RegistryContext, RegistryError};
-use mcpkit_server::catalog::RegistryCatalog;
-use mcpkit_server::mcp::McpServer;
-use mcpkit_testing::FixedClient;
-use mcpkit_wire_log::{WireLog, WireLogRole};
 use serde_json::{Value, json};
 use std::cell::Cell;
 use std::rc::Rc;
 use support::call_context;
 use tempfile::TempDir;
+use usemcpkit_http::HttpResponse;
+use usemcpkit_manifest::registry::RegistryServer;
+use usemcpkit_registry::{Fetch, RegistryContext, RegistryError};
+use usemcpkit_server::catalog::RegistryCatalog;
+use usemcpkit_server::mcp::McpServer;
+use usemcpkit_testing::FixedClient;
+use usemcpkit_wire_log::{WireLog, WireLogRole};
 
 /// A registry that is never reachable, counting how often it was asked.
 struct OfflineFetcher {

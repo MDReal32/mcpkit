@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import type { SecretOwner } from "../src/main";
 import { createFileSecretStore } from "../src/main";
 
-const readHome = useTempDir("mcpkit-secret-file-");
+const readHome = useTempDir("usemcpkit-secret-file-");
 
 const github: SecretOwner = { name: "github", category: "git" };
 
@@ -17,13 +17,13 @@ const readLegacyFile = () => join(readHome(), "secrets.json");
 
 describe("createFileSecretStore", () => {
   it("returns undefined when nothing is saved", async () => {
-    const store = createFileSecretStore({ MCPKIT_HOME: readHome() });
+    const store = createFileSecretStore({ USEMCPKIT_HOME: readHome() });
 
     await expect(store.get(github, "GITHUB_TOKEN")).resolves.toBeUndefined();
   });
 
   it("saves plain text by server and key in a private file", async () => {
-    const store = createFileSecretStore({ MCPKIT_HOME: readHome() });
+    const store = createFileSecretStore({ USEMCPKIT_HOME: readHome() });
 
     await store.set(github, "GITHUB_TOKEN", "ghp_1");
     await store.set(jira, "JIRA_TOKEN", "jt");
@@ -40,8 +40,8 @@ describe("createFileSecretStore", () => {
   });
 
   it("keeps concurrent saves and sees saves from other stores", async () => {
-    const first = createFileSecretStore({ MCPKIT_HOME: readHome() });
-    const second = createFileSecretStore({ MCPKIT_HOME: readHome() });
+    const first = createFileSecretStore({ USEMCPKIT_HOME: readHome() });
+    const second = createFileSecretStore({ USEMCPKIT_HOME: readHome() });
 
     await Promise.all([first.set(github, "A", "1"), first.set(github, "B", "2")]);
 
@@ -57,13 +57,13 @@ describe("createFileSecretStore", () => {
         servers: { git: { github: { hosts: { default: { secrets: { GITHUB_TOKEN: 1 } } } } } },
       }),
     );
-    const store = createFileSecretStore({ MCPKIT_HOME: readHome() });
+    const store = createFileSecretStore({ USEMCPKIT_HOME: readHome() });
 
-    await expect(store.set(github, "GITHUB_TOKEN", "x")).rejects.toThrow("not a valid mcpkit config file");
+    await expect(store.set(github, "GITHUB_TOKEN", "x")).rejects.toThrow("not a valid usemcpkit config file");
   });
 
   it("keeps the secrets of each host apart", async () => {
-    const store = createFileSecretStore({ MCPKIT_HOME: readHome() });
+    const store = createFileSecretStore({ USEMCPKIT_HOME: readHome() });
 
     await store.set({ ...github, domain: "ghe.example.com" }, "GITHUB_TOKEN", "ghp_1");
     await store.set({ ...github, domain: "api.github.com" }, "GITHUB_TOKEN", "ghp_2");
@@ -78,7 +78,7 @@ describe("createFileSecretStore", () => {
       readSecretsFile(),
       JSON.stringify({ version: 4, servers: { git: { github: { hosts: { "ghe.example.com": {} } } } } }),
     );
-    const store = createFileSecretStore({ MCPKIT_HOME: readHome() });
+    const store = createFileSecretStore({ USEMCPKIT_HOME: readHome() });
 
     await store.set({ ...github, domain: "ghe.example.com" }, "GITHUB_TOKEN", "ghp_1");
 
@@ -95,7 +95,7 @@ describe("createFileSecretStore", () => {
       readSecretsFile(),
       JSON.stringify({ version: 4, servers: { git: { github: { hosts: { "ghe.example.com": {} } } } } }),
     );
-    const store = createFileSecretStore({ MCPKIT_HOME: readHome() });
+    const store = createFileSecretStore({ USEMCPKIT_HOME: readHome() });
 
     await expect(store.get({ ...github, domain: "ghe.example.com" }, "GITHUB_TOKEN")).resolves.toBe("old");
 
@@ -113,7 +113,7 @@ describe("createFileSecretStore", () => {
       JSON.stringify({ servers: { github: { domain: "ghe.example.com" }, jira: {} } }),
     );
     await writeFile(readLegacyFile(), JSON.stringify({ github: { GITHUB_TOKEN: "old" }, jira: { JIRA_TOKEN: "jt" } }));
-    const store = createFileSecretStore({ MCPKIT_HOME: readHome() });
+    const store = createFileSecretStore({ USEMCPKIT_HOME: readHome() });
 
     await expect(store.get(jira, "JIRA_TOKEN")).resolves.toBe("jt");
 
@@ -132,7 +132,7 @@ describe("createFileSecretStore", () => {
       readSecretsFile(),
       JSON.stringify({ servers: { github: { domain: "ghe.example.com", secrets: { GITHUB_TOKEN: "t" } } } }),
     );
-    const store = createFileSecretStore({ MCPKIT_HOME: readHome() });
+    const store = createFileSecretStore({ USEMCPKIT_HOME: readHome() });
 
     await store.set({ ...github, domain: "ghe.example.com" }, "OTHER", "o");
 
@@ -157,7 +157,7 @@ describe("createFileSecretStore", () => {
         },
       }),
     );
-    const store = createFileSecretStore({ MCPKIT_HOME: readHome() });
+    const store = createFileSecretStore({ USEMCPKIT_HOME: readHome() });
 
     await expect(store.get({ ...github, domain: "ghe.example.com" }, "GITHUB_TOKEN")).resolves.toBe("t");
 
@@ -172,11 +172,11 @@ describe("createFileSecretStore", () => {
     });
   });
 
-  it("refuses a config from a newer mcpkit instead of overwriting it", async () => {
+  it("refuses a config from a newer usemcpkit instead of overwriting it", async () => {
     await writeFile(readSecretsFile(), JSON.stringify({ version: 5, servers: {} }));
-    const store = createFileSecretStore({ MCPKIT_HOME: readHome() });
+    const store = createFileSecretStore({ USEMCPKIT_HOME: readHome() });
 
-    await expect(store.set(github, "GITHUB_TOKEN", "x")).rejects.toThrow("update mcpkit");
+    await expect(store.set(github, "GITHUB_TOKEN", "x")).rejects.toThrow("update usemcpkit");
   });
 
   it("keeps hosts and projects of a config written before versions existed", async () => {
@@ -188,7 +188,7 @@ describe("createFileSecretStore", () => {
       },
     };
     await writeFile(readSecretsFile(), JSON.stringify({ servers }));
-    const store = createFileSecretStore({ MCPKIT_HOME: readHome() });
+    const store = createFileSecretStore({ USEMCPKIT_HOME: readHome() });
 
     await expect(
       store.get({ name: "gitlab", category: "git", domain: "gitlab.a.example" }, "GITLAB_TOKEN"),

@@ -1,15 +1,15 @@
 use indexmap::IndexMap;
-use mcpkit_core::env::Env;
-use mcpkit_http::HttpResponse;
-use mcpkit_manifest::upstream::{RepoSetupStep, StdioUpstream, UpstreamRepo, UpstreamSpec};
-use mcpkit_testing::FixedClient;
-use mcpkit_upstream::repo::{REPO_CHECK_INTERVAL_MS, RepoOptions, RepoState, ensure_repo, read_repo_state};
-use mcpkit_upstream::{UpstreamConnection, UpstreamError, UpstreamOptions, connect_upstream};
 use serde_json::json;
 use std::cell::{Cell, RefCell};
 use std::path::{Path, PathBuf};
 use std::process::Command;
 use std::rc::Rc;
+use usemcpkit_core::env::Env;
+use usemcpkit_http::HttpResponse;
+use usemcpkit_manifest::upstream::{RepoSetupStep, StdioUpstream, UpstreamRepo, UpstreamSpec};
+use usemcpkit_testing::FixedClient;
+use usemcpkit_upstream::repo::{REPO_CHECK_INTERVAL_MS, RepoOptions, RepoState, ensure_repo, read_repo_state};
+use usemcpkit_upstream::{UpstreamConnection, UpstreamError, UpstreamOptions, connect_upstream};
 
 const FAKE_UPSTREAM: &str = env!("CARGO_BIN_EXE_fake-upstream");
 
@@ -179,7 +179,7 @@ async fn clones_at_the_pinned_commit_runs_setup_once_and_starts_the_program_from
 #[tokio::test]
 async fn hands_setup_no_credentials_only_the_server() {
     let fixture = Fixture::new();
-    let leaky = Env::from_process().with("TOKEN", "from-mcpkit");
+    let leaky = Env::from_process().with("TOKEN", "from-usemcpkit");
     let options = fixture.options(leaky, &[("TOKEN", "secret-1")]);
 
     let connection = fixture
@@ -365,7 +365,7 @@ async fn adopts_a_clone_marked_before_states_existed_and_rebuilds_it_only_when_i
     let repo = fixture.repo("HEAD", &[]);
     fixture.ensure(&repo, true).await;
     std::fs::write(
-        fixture.dir().join(".mcpkit-ready"),
+        fixture.dir().join(".usemcpkit-ready"),
         serde_json::to_string(&repo).unwrap(),
     )
     .unwrap();

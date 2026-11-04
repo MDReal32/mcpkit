@@ -1,5 +1,5 @@
 /**
- * Every string the credentials page shows. `{server}` is filled in by mcpkit; `{key}`, `{name}`, `{label}` and
+ * Every string the credentials page shows. `{server}` is filled in by usemcpkit; `{key}`, `{name}`, `{label}` and
  * `{status}` are filled in where the text is used.
  */
 export interface UiTexts {

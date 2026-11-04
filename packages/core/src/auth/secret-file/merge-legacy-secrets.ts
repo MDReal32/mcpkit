@@ -1,11 +1,11 @@
 import { listKnownHosts } from "../config/list-known-hosts";
 import { DEFAULT_HOST_KEY, LEGACY_SERVER_CATEGORIES, UNKNOWN_CATEGORY } from "../const";
-import type { McpkitConfig } from "../types/mcpkit-config";
 import type { ServerConfig } from "../types/server-config";
 import type { StoredSecrets } from "../types/store/stored-secrets";
+import type { UsemcpkitConfig } from "../types/usemcpkit-config";
 
 /** Adds the credentials of the old secrets file under the host the server uses; a value already in the config wins. */
-export const mergeLegacySecrets = (config: McpkitConfig, legacy: StoredSecrets) => {
+export const mergeLegacySecrets = (config: UsemcpkitConfig, legacy: StoredSecrets) => {
   const servers: Record<string, Record<string, ServerConfig>> = { ...config.servers };
   for (const [name, secrets] of Object.entries(legacy)) {
     const category = LEGACY_SERVER_CATEGORIES[name] ?? UNKNOWN_CATEGORY;
@@ -24,6 +24,6 @@ export const mergeLegacySecrets = (config: McpkitConfig, legacy: StoredSecrets) 
       },
     };
   }
-  const merged: McpkitConfig = { ...config, servers };
+  const merged: UsemcpkitConfig = { ...config, servers };
   return merged;
 };

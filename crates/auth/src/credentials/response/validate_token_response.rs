@@ -1,7 +1,7 @@
 use crate::credentials::CredentialRequest;
 use crate::json::is_string_record;
-use mcpkit_manifest::ui::fill_template;
 use serde_json::{Map, Value};
+use usemcpkit_manifest::ui::fill_template;
 
 /// The chosen option must be one that was offered, with every field filled; `values` that are not all strings count as
 /// none given.

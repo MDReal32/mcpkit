@@ -5,17 +5,17 @@ use crate::transport::pending_requests::PendingRequests;
 use crate::transport::read_until_exit::read_until_exit;
 use crate::upstream_error::UpstreamError;
 use crate::upstream_options::UpstreamOptions;
-use mcpkit_core::LocalFuture;
-use mcpkit_core::env::Env;
-use mcpkit_core::js::to_js_json;
-use mcpkit_core::program::find_program;
-use mcpkit_manifest::upstream::StdioUpstream;
 use serde_json::Value;
 use std::process::Stdio;
 use std::sync::{Arc, PoisonError};
 use tokio::io::AsyncWriteExt;
 use tokio::process::{ChildStdin, Command};
 use tokio::sync::oneshot;
+use usemcpkit_core::LocalFuture;
+use usemcpkit_core::env::Env;
+use usemcpkit_core::js::to_js_json;
+use usemcpkit_core::program::find_program;
+use usemcpkit_manifest::upstream::StdioUpstream;
 
 /// A child started without a shell, spoken to one JSON line at a time. One task reads its stdout and owns the child:
 /// when the child exits, every waiting request fails with the exit code; `close` (or dropping the transport) kills it.
@@ -43,7 +43,7 @@ impl StdioTransport {
             .stderr(Stdio::null())
             .kill_on_drop(true);
         #[cfg(windows)]
-        spawning.creation_flags(mcpkit_core::program::CREATE_NO_WINDOW);
+        spawning.creation_flags(usemcpkit_core::program::CREATE_NO_WINDOW);
         let mut child = spawning.spawn().map_err(|error| could_not_start(error.to_string()))?;
         let (Some(stdin), Some(stdout)) = (child.stdin.take(), child.stdout.take()) else {
             return Err(could_not_start("its stdio was not piped".to_owned()));

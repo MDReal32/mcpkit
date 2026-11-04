@@ -1,4 +1,4 @@
-use mcpkit_manifest::Manifest;
+use usemcpkit_manifest::Manifest;
 
 /// Where a server's settings live in the config: `servers.<category>.<name>`.
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]

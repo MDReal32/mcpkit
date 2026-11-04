@@ -2,10 +2,10 @@ use crate::upstream::discovered_tool::DiscoveredTool;
 use crate::upstream::is_cache_stale::is_cache_stale;
 use crate::upstream::read_tool_cache::read_tool_cache;
 use crate::upstream::refresh_tools::refresh_tools;
-use mcpkit_execution::CallContext;
-use mcpkit_manifest::Manifest;
 use std::path::Path;
 use std::time::SystemTime;
+use usemcpkit_execution::CallContext;
+use usemcpkit_manifest::Manifest;
 
 /// The tools of an upstream server. A cached list is returned at once, so opening never waits for an upstream; when it
 /// is a day old it is refreshed in the background and a failure is reported on stderr. Without a cache the upstream is

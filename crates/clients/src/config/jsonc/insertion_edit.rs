@@ -1,7 +1,7 @@
 use crate::config::jsonc::json_tree::JsonTree;
 use crate::config::jsonc::text_edit::TextEdit;
-use mcpkit_core::js::to_js_json;
 use serde_json::Value;
+use usemcpkit_core::js::to_js_json;
 
 /// The edit that adds `segment: value` as the last property of the object `parent`.
 pub fn insertion_edit(tree: &JsonTree, parent: usize, segment: &str, value: &Value) -> TextEdit {

@@ -1,14 +1,14 @@
 use crate::upstream::consts::FORWARDED_OPTION_INDEX;
 use indexmap::IndexMap;
-use mcpkit_auth::credentials::{
+use serde_json::Value;
+use usemcpkit_auth::credentials::{
     CredentialOption, CredentialRequest, CredentialRequester, read_answer_values, request_credentials_once,
     to_credential_field, validate_credential_response,
 };
-use mcpkit_auth::ui::{build_ui_texts, to_option_actions};
-use mcpkit_auth::{AuthContext, AuthError};
-use mcpkit_manifest::Manifest;
-use mcpkit_manifest::upstream::StdioUpstream;
-use serde_json::Value;
+use usemcpkit_auth::ui::{build_ui_texts, to_option_actions};
+use usemcpkit_auth::{AuthContext, AuthError};
+use usemcpkit_manifest::Manifest;
+use usemcpkit_manifest::upstream::StdioUpstream;
 
 /// Asks the user in the credentials form for `names`, the credentials of a stdio upstream that nothing provided.
 pub async fn request_forwarded_credentials(

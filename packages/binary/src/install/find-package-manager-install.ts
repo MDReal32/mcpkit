@@ -7,7 +7,7 @@ export const findPackageManagerInstall = (realExecPath: string) => {
   if (homebrewPrefix !== undefined) {
     const install: PackageManagerInstall = {
       manager: "Homebrew",
-      path: `${homebrewPrefix}/bin/mcpkit`,
+      path: `${homebrewPrefix}/bin/usemcpkit`,
       upgradeCommand: HOMEBREW_UPGRADE_COMMAND,
     };
     return install;

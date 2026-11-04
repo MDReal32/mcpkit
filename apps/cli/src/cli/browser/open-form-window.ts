@@ -5,7 +5,7 @@ import { printError } from "../output/print-error";
 import { openBrowser } from "./open-browser";
 
 /**
- * The compiled binary shows the form in its own native window (`mcpkit window <url>`, a process of its own because the
+ * The compiled binary shows the form in its own native window (`usemcpkit window <url>`, a process of its own because the
  * webview blocks its thread). When that window cannot open, or outside the binary (`npx` on Node), it says so and opens
  * the default browser instead.
  */

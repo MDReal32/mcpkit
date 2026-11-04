@@ -1,7 +1,7 @@
 use crate::oauth::sign_in_once;
 use crate::{AuthContext, AuthError, ResolvedAuth};
 use indexmap::IndexMap;
-use mcpkit_manifest::auth::OAuthAuth;
+use usemcpkit_manifest::auth::OAuthAuth;
 
 /// Runs the browser sign-in for one OAuth2 entry and stores the token in `tokens.json`.
 pub async fn resolve_signed_in_auth(

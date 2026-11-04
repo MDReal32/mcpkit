@@ -1,7 +1,7 @@
 use crate::ToolError;
 use crate::args::ToolArgs;
-use mcpkit_core::js::encode_uri_component;
-use mcpkit_core::js::to_js_string;
+use usemcpkit_core::js::encode_uri_component;
+use usemcpkit_core::js::to_js_string;
 
 /// Replaces each `{name}` of word characters with the URL-encoded argument; other braces stay as they are.
 pub fn fill_path(template: &str, args: &ToolArgs) -> Result<String, ToolError> {

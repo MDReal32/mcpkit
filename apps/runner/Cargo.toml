@@ -1,13 +1,13 @@
 [package]
-name = "mcpkit-runner"
-description = "The mcpkit binary AI clients start: it owns their stdio and runs the mcpkit server behind it."
+name = "usemcpkit-runner"
+description = "The usemcpkit binary AI clients start: it owns their stdio and runs the usemcpkit server behind it."
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
 
 [[bin]]
-name = "mcpkit"
+name = "usemcpkit"
 path = "src/main.rs"
 
 [lib]
@@ -16,12 +16,12 @@ path = "src/lib.rs"
 [dependencies]
 clap.workspace = true
 cliclack.workspace = true
-mcpkit-binary.workspace = true
-mcpkit-clients.workspace = true
-mcpkit-core.workspace = true
-mcpkit-http.workspace = true
-mcpkit-registry.workspace = true
-mcpkit-wire-log.workspace = true
+usemcpkit-binary.workspace = true
+usemcpkit-clients.workspace = true
+usemcpkit-core.workspace = true
+usemcpkit-http.workspace = true
+usemcpkit-registry.workspace = true
+usemcpkit-wire-log.workspace = true
 serde_json.workspace = true
 tokio.workspace = true
 

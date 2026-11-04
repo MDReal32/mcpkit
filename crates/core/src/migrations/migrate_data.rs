@@ -20,7 +20,7 @@ pub fn migrate_data(data: Value, migrations: &[Migration]) -> Result<Map<String,
     };
     if version > latest as f64 {
         return Err(format!(
-            "is version {}; this mcpkit reads up to version {latest}, update mcpkit",
+            "is version {}; this usemcpkit reads up to version {latest}, update usemcpkit",
             to_js_string(Some(&version_value))
         ));
     }
@@ -77,7 +77,7 @@ mod tests {
         );
         assert_eq!(
             migrate_data(json!({ "version": 4 }), MIGRATIONS).unwrap_err(),
-            "is version 4; this mcpkit reads up to version 3, update mcpkit"
+            "is version 4; this usemcpkit reads up to version 3, update usemcpkit"
         );
     }
 }

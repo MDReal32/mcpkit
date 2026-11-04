@@ -13,7 +13,7 @@ pub fn find_package_manager_install(real_exec_path: &str) -> Result<Option<Packa
     {
         return Ok(Some(PackageManagerInstall {
             manager: "Homebrew".to_owned(),
-            path: format!("{}/bin/mcpkit", prefix.as_str()),
+            path: format!("{}/bin/usemcpkit", prefix.as_str()),
             upgrade_command: HOMEBREW_UPGRADE_COMMAND.to_owned(),
         }));
     }

@@ -9,7 +9,7 @@ import { toSchedulerPlatform } from "./to-scheduler-platform";
 
 /**
  * Registers a job with the OS scheduler (a LaunchAgent on macOS, a crontab line on Linux, a scheduled task on Windows)
- * that runs `mcpkit upgrade` on the installed binary every few hours. Idempotent; resolves true when it changed anything.
+ * that runs `usemcpkit upgrade` on the installed binary every few hours. Idempotent; resolves true when it changed anything.
  */
 export const ensureUpgradeSchedule = async (context: BinaryContext) => {
   const schedule = resolveUpgradeSchedule(resolveInstalledBinaryPath(context.target, context.env), context.env);

@@ -4,10 +4,10 @@ use crate::mcp::exposed::{ExposedEntry, ToolExposure};
 use crate::mcp::methods::method_outcome::MethodOutcome;
 use crate::mcp::rpc::RpcError;
 use crate::mcp::tools::{call_server_tool, create_text_result, create_tool_id, read_tool_arguments};
-use mcpkit_core::js::to_js_string;
-use mcpkit_execution::CallContext;
-use mcpkit_registry::Fetch;
 use serde_json::{Map, Value};
+use usemcpkit_core::js::to_js_string;
+use usemcpkit_execution::CallContext;
+use usemcpkit_registry::Fetch;
 
 /// Calling a section opens it; calling a tool runs it. Only a name the list does not hold is a protocol error.
 pub async fn call_tool<F: Fetch>(

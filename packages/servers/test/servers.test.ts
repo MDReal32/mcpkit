@@ -10,7 +10,7 @@ import { gitlab } from "../src/servers/gitlab/gitlab";
 import { jira } from "../src/servers/jira/jira";
 import { reddit } from "../src/servers/reddit/reddit";
 
-const readHome = useTempDir("mcpkit-servers-");
+const readHome = useTempDir("usemcpkit-servers-");
 
 interface SentRequest {
   method: string;
@@ -30,7 +30,7 @@ const sendTool = async (manifest: Manifest, toolName: string, args: ToolArgs, en
     sent.push({ method: init?.method ?? "GET", url: String(input), body, headers: new Headers(init?.headers) });
     return new Response("{}", { status: 200, headers: { "content-type": "application/json" } });
   };
-  await executeTool(manifest, tool, args, { env: { MCPKIT_HOME: readHome(), ...env }, fetchImpl });
+  await executeTool(manifest, tool, args, { env: { USEMCPKIT_HOME: readHome(), ...env }, fetchImpl });
   return sent;
 };
 
@@ -295,7 +295,7 @@ describe("reddit", () => {
     expect(url.searchParams.get("limit")).toBe("5");
     expect(url.searchParams.get("raw_json")).toBe("1");
     expect(request?.headers.get("Authorization")).toBe("Bearer t");
-    expect(request?.headers.get("User-Agent")).toMatch(/^mcpkit:communication\.reddit:/);
+    expect(request?.headers.get("User-Agent")).toMatch(/^usemcpkit:communication\.reddit:/);
   });
 
   it("reads a post's comment tree by article id", async () => {

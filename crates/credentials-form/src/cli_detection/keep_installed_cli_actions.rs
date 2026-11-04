@@ -1,9 +1,9 @@
-use mcpkit_auth::AuthError;
-use mcpkit_auth::credentials::CredentialRequest;
-use mcpkit_core::env::Env;
-use mcpkit_core::program::find_program;
-use mcpkit_manifest::ui::UiAction;
 use std::collections::BTreeSet;
+use usemcpkit_auth::AuthError;
+use usemcpkit_auth::credentials::CredentialRequest;
+use usemcpkit_core::env::Env;
+use usemcpkit_core::program::find_program;
+use usemcpkit_manifest::ui::UiAction;
 
 /// Drops CLI buttons whose program is not on PATH, before the page sees the request, so action indexes stay valid.
 pub async fn keep_installed_cli_actions(

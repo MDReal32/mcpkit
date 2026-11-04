@@ -1,7 +1,7 @@
 use crate::ResolvedAuth;
 use crate::credentials::FormAnswer;
-use mcpkit_manifest::Manifest;
 use std::rc::Rc;
+use usemcpkit_manifest::Manifest;
 
 /// The auth to send a call with.
 #[derive(Clone, Debug, PartialEq)]

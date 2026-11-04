@@ -1,6 +1,6 @@
-use mcpkit_core::env::Env;
 use std::rc::Rc;
 use std::time::Duration;
+use usemcpkit_core::env::Env;
 
 /// How the credentials form is shown: the page, who announces its URL, how long it waits, and the variables its CLI
 /// buttons are looked up with.

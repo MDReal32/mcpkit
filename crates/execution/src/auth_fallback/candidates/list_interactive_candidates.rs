@@ -4,8 +4,8 @@ use crate::auth_fallback::candidates::create_credential_form_candidate::create_c
 use crate::auth_fallback::candidates::create_missing_domain_candidate::create_missing_domain_candidate;
 use crate::auth_fallback::candidates::offers_credential_form::offers_credential_form;
 use crate::auth_fallback::candidates::to_sign_in_candidate::to_sign_in_candidate;
-use mcpkit_manifest::Manifest;
 use std::rc::Rc;
+use usemcpkit_manifest::Manifest;
 
 /// The credentials form when there is one to show, else the OAuth2 browser sign-ins, or the candidate that says the
 /// domain is missing.

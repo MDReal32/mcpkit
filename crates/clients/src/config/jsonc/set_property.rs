@@ -5,8 +5,8 @@ use crate::config::jsonc::parse_tree::parse_tree;
 use crate::config::jsonc::removal_edit::removal_edit;
 use crate::config::jsonc::text_edit::TextEdit;
 use crate::config::jsonc::with_formatting::with_formatting;
-use mcpkit_core::js::to_js_json;
 use serde_json::{Map, Value};
+use usemcpkit_core::js::to_js_json;
 
 /// jsonc-parser's `modify(text, path, value, { formattingOptions })` applied to `text`, for a path of property names:
 /// sets the property at `path` to `value` (creating the objects on the way) or removes it when `value` is `None`.

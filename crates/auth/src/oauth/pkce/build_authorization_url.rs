@@ -1,8 +1,8 @@
 use crate::AuthError;
 use crate::oauth::pkce::authorization_request::AuthorizationRequest;
 use crate::oauth::pkce::set_search_param::set_search_param;
-use mcpkit_manifest::auth::OAuthAuth;
 use url::Url;
+use usemcpkit_manifest::auth::OAuthAuth;
 
 /// The URL the user opens to approve access: the entry's own params, then the PKCE authorization code request.
 pub fn build_authorization_url(auth: &OAuthAuth, request: &AuthorizationRequest) -> Result<String, AuthError> {
@@ -29,8 +29,8 @@ pub fn build_authorization_url(auth: &OAuthAuth, request: &AuthorizationRequest)
 mod tests {
     use super::build_authorization_url;
     use crate::oauth::pkce::AuthorizationRequest;
-    use mcpkit_manifest::auth::OAuthAuth;
     use serde_json::json;
+    use usemcpkit_manifest::auth::OAuthAuth;
 
     #[test]
     fn adds_the_pkce_request_after_the_entry_params() {

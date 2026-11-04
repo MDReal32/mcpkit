@@ -11,6 +11,6 @@ pub fn form_window_command(program: PathBuf, url: &str) -> Command {
         .stdout(Stdio::null())
         .stderr(Stdio::piped());
     #[cfg(windows)]
-    command.creation_flags(mcpkit_core::program::CREATE_NO_WINDOW);
+    command.creation_flags(usemcpkit_core::program::CREATE_NO_WINDOW);
     command
 }

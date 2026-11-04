@@ -8,9 +8,9 @@ export const TARGETS = [
   "windows-x64",
 ] as const;
 
-export const BINARY_NAME = "mcpkit";
+export const BINARY_NAME = "usemcpkit";
 
-/** Each target is published as `@usemcpkit/cli-<target>` holding `bin/mcpkit[.exe]`. */
+/** Each target is published as `@usemcpkit/cli-<target>` holding `bin/usemcpkit[.exe]`. */
 export const PLATFORM_PACKAGE_PREFIX = "@usemcpkit/cli-";
 
 export const PLATFORM_PACKAGE_BIN_DIR = "bin";

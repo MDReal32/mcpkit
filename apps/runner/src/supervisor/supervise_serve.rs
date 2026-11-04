@@ -18,7 +18,7 @@ pub async fn supervise_serve(launch: WorkerLaunch, options: SuperviseOptions) ->
         Some(path) => match watch_binary_file(path.clone(), options.poll_interval, events_tx.clone()).await {
             Ok(watcher) => Some(watcher),
             Err(error) => {
-                eprintln!("mcpkit: cannot read {}: {error}", path.display());
+                eprintln!("usemcpkit: cannot read {}: {error}", path.display());
                 return 1;
             }
         },
@@ -31,7 +31,7 @@ pub async fn supervise_serve(launch: WorkerLaunch, options: SuperviseOptions) ->
         let events = events_tx.clone();
         tokio::spawn(async move {
             if stop.await.is_ok() && events.send(SupervisorEvent::ClientClosed).is_err() {
-                eprintln!("mcpkit: stopped after the supervisor ended");
+                eprintln!("usemcpkit: stopped after the supervisor ended");
             }
         });
     }
@@ -45,7 +45,7 @@ pub async fn supervise_serve(launch: WorkerLaunch, options: SuperviseOptions) ->
     };
     let (flushed_tx, flushed) = oneshot::channel();
     if output_tx.send(OutputMessage::Flush(flushed_tx)).is_ok() && flushed.await.is_err() {
-        eprintln!("mcpkit: the client output closed before it was flushed");
+        eprintln!("usemcpkit: the client output closed before it was flushed");
     }
     drop(output_tx);
     drop(supervisor);
@@ -64,12 +64,12 @@ async fn read_client_input(input: Box<dyn AsyncRead + Unpin + Send>, events: mps
             }
             Ok(None) => break,
             Err(error) => {
-                eprintln!("mcpkit: cannot read the client's input: {error}");
+                eprintln!("usemcpkit: cannot read the client's input: {error}");
                 break;
             }
         }
     }
     if events.send(SupervisorEvent::ClientClosed).is_err() {
-        eprintln!("mcpkit: the client closed its input after the supervisor ended");
+        eprintln!("usemcpkit: the client closed its input after the supervisor ended");
     }
 }

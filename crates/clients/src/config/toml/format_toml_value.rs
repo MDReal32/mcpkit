@@ -1,5 +1,5 @@
-use mcpkit_core::js::to_js_json;
 use serde_json::Value;
+use usemcpkit_core::js::to_js_json;
 
 /// TOML basic strings accept JSON string escapes, so `JSON.stringify` yields valid TOML for strings and arrays.
 pub fn format_toml_value(value: &Value) -> Result<String, String> {

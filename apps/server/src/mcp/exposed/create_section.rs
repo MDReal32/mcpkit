@@ -2,8 +2,8 @@ use crate::mcp::exposed::create_group_section_description::create_group_section_
 use crate::mcp::exposed::create_server_section_description::create_server_section_description;
 use crate::mcp::exposed::exposed_section::ExposedSection;
 use crate::mcp::exposed::pick_free_name::pick_free_name;
-use mcpkit_manifest::registry::RegistryServer;
 use std::collections::HashSet;
+use usemcpkit_manifest::registry::RegistryServer;
 
 pub fn create_section(server: &RegistryServer, group: Option<&str>, taken: &mut HashSet<String>) -> ExposedSection {
     let description = match group {

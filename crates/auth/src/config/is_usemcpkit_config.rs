@@ -4,7 +4,7 @@ use serde_json::{Map, Value};
 
 /// The current version with `servers.<category>.<name>` objects whose `hosts.<host>.secrets` and `projects` hold
 /// strings; any other key is kept as it is.
-pub fn is_mcpkit_config(config: &Map<String, Value>) -> bool {
+pub fn is_usemcpkit_config(config: &Map<String, Value>) -> bool {
     let is_host = |host: &Value| {
         host.as_object()
             .is_some_and(|host| host.get("secrets").is_none_or(is_string_record))

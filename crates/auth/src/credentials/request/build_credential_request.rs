@@ -2,8 +2,8 @@ use crate::credentials::CredentialRequest;
 use crate::credentials::request::build_domain_field::build_domain_field;
 use crate::credentials::request::to_credential_option::to_credential_option;
 use crate::ui::build_ui_texts;
-use mcpkit_core::env::Env;
-use mcpkit_manifest::Manifest;
+use usemcpkit_core::env::Env;
+use usemcpkit_manifest::Manifest;
 
 /// What the credentials page shows for the server: its texts, the domain field, the fallback entries to fill in and
 /// whether it can sign in.

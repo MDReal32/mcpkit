@@ -4,8 +4,8 @@ use crate::oauth::sign_in::sign_in_result::SignInResult;
 use crate::resolve::to_auth_key;
 use crate::{AuthContext, AuthError};
 use futures_util::FutureExt;
-use mcpkit_core::LocalFuture;
-use mcpkit_manifest::auth::OAuthAuth;
+use usemcpkit_core::LocalFuture;
+use usemcpkit_manifest::auth::OAuthAuth;
 
 /// Joins the sign-in already running for the server and auth entry, or starts one that every caller until it ends
 /// shares, so concurrent calls open one browser page.

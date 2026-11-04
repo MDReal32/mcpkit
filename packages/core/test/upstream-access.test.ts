@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import type { CredentialRequest, CredentialResponse, Manifest } from "../src/main";
 import { AuthError, createFileSecretStore, UnauthorizedError, withUpstreamAccess } from "../src/main";
 
-const readHome = useTempDir("mcpkit-upstream-access-");
+const readHome = useTempDir("usemcpkit-upstream-access-");
 
 const createUpstreamManifest = (overrides: Partial<Manifest>) => ({
   ...createPingManifest("1.0.0"),
@@ -31,7 +31,7 @@ describe("withUpstreamAccess", () => {
         }
         return "ok";
       },
-      { env: { MCPKIT_HOME: readHome(), FIRST_TOKEN: "one", SECOND_TOKEN: "two" } },
+      { env: { USEMCPKIT_HOME: readHome(), FIRST_TOKEN: "one", SECOND_TOKEN: "two" } },
     );
 
     expect(result).toBe("ok");
@@ -44,7 +44,7 @@ describe("withUpstreamAccess", () => {
     });
 
     const env = await withUpstreamAccess(manifest, async (access) => access.env, {
-      env: { MCPKIT_HOME: readHome(), DEMO_TOKEN: "t-1", OTHER: "no" },
+      env: { USEMCPKIT_HOME: readHome(), DEMO_TOKEN: "t-1", OTHER: "no" },
     });
 
     expect(env).toEqual({ DEMO_TOKEN: "t-1" });
@@ -56,10 +56,10 @@ describe("withUpstreamAccess", () => {
     });
 
     const withSession = await withUpstreamAccess(manifest, async (access) => access.env, {
-      env: { MCPKIT_HOME: readHome(), DEMO_SESSION: "s-1" },
+      env: { USEMCPKIT_HOME: readHome(), DEMO_SESSION: "s-1" },
     });
     const without = await withUpstreamAccess(manifest, async (access) => access.env, {
-      env: { MCPKIT_HOME: readHome() },
+      env: { USEMCPKIT_HOME: readHome() },
     });
 
     expect(withSession).toEqual({ DEMO_SESSION: "s-1" });
@@ -72,7 +72,7 @@ describe("withUpstreamAccess", () => {
     });
 
     await expect(
-      withUpstreamAccess(manifest, async () => "never", { env: { MCPKIT_HOME: readHome() } }),
+      withUpstreamAccess(manifest, async () => "never", { env: { USEMCPKIT_HOME: readHome() } }),
     ).rejects.toBeInstanceOf(AuthError);
   });
 });
@@ -102,7 +102,7 @@ describe("a stdio upstream with credentials missing", () => {
   };
 
   it("asks the form for what is missing, passes it on and saves it once the upstream has started", async () => {
-    const env = { MCPKIT_HOME: readHome(), DEMO_ID: "id-1" };
+    const env = { USEMCPKIT_HOME: readHome(), DEMO_ID: "id-1" };
     const secretStore = createFileSecretStore(env);
     const { requests, requestCredentials } = createForm({ DEMO_SECRET: " s-1 " });
     const manifest = createFormManifest();
@@ -127,7 +127,7 @@ describe("a stdio upstream with credentials missing", () => {
   });
 
   it("does not save what was entered when the upstream fails to start", async () => {
-    const env = { MCPKIT_HOME: readHome() };
+    const env = { USEMCPKIT_HOME: readHome() };
     const secretStore = createFileSecretStore(env);
     const { requestCredentials } = createForm({ DEMO_ID: "id-1", DEMO_SECRET: "s-1" });
     const manifest = createFormManifest();
@@ -146,7 +146,7 @@ describe("a stdio upstream with credentials missing", () => {
   });
 
   it("reads saved credentials without asking again", async () => {
-    const env = { MCPKIT_HOME: readHome() };
+    const env = { USEMCPKIT_HOME: readHome() };
     const secretStore = createFileSecretStore(env);
     const manifest = createFormManifest();
     const first = createForm({ DEMO_ID: "id-1", DEMO_SECRET: "s-1" });
@@ -168,7 +168,7 @@ describe("a stdio upstream with credentials missing", () => {
   });
 
   it("rejects a form answer that leaves a credential empty", async () => {
-    const env = { MCPKIT_HOME: readHome() };
+    const env = { USEMCPKIT_HOME: readHome() };
     const { requestCredentials } = createForm({ DEMO_ID: "id-1", DEMO_SECRET: " " });
 
     await expect(

@@ -12,7 +12,7 @@ export const readStoredSecrets = async (file: string) => {
   }
   const data: unknown = JSON.parse(text);
   if (!isStoredSecrets(data)) {
-    throw new AuthError(`${file} is not a valid mcpkit secrets file`);
+    throw new AuthError(`${file} is not a valid usemcpkit secrets file`);
   }
   return data;
 };

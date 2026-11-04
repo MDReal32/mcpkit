@@ -1,7 +1,7 @@
 use crate::ToolError;
-use mcpkit_http::HttpResponse;
 use serde_json::{Value, json};
 use std::path::Path;
+use usemcpkit_http::HttpResponse;
 
 /// Writes the body to the path the `saveToArg` argument holds and returns what was saved in its place.
 pub async fn save_response_file(response: &HttpResponse, path: Option<&Value>) -> Result<Value, ToolError> {
@@ -27,8 +27,8 @@ pub async fn save_response_file(response: &HttpResponse, path: Option<&Value>) -
 #[cfg(test)]
 mod tests {
     use super::save_response_file;
-    use mcpkit_http::HttpResponse;
     use serde_json::json;
+    use usemcpkit_http::HttpResponse;
 
     #[tokio::test]
     async fn writes_the_body_into_missing_folders() {

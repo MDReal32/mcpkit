@@ -1,5 +1,5 @@
-use mcpkit_manifest::Manifest;
 use serde_json::{Value, json};
+use usemcpkit_manifest::Manifest;
 
 /// A server with one `ping:run` tool, `GET https://api.example.com/ping`, and the given auth list.
 pub fn ping_manifest(name: &str, auth: Option<Value>) -> Manifest {

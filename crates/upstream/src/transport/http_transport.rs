@@ -8,14 +8,14 @@ use crate::transport::read_json_rpc_result::read_json_rpc_result;
 use crate::upstream_error::UpstreamError;
 use crate::upstream_options::UpstreamOptions;
 use indexmap::IndexMap;
-use mcpkit_core::LocalFuture;
-use mcpkit_core::js::to_js_json;
-use mcpkit_http::{HttpClient, HttpRequest, HttpResponse, RequestBody};
-use mcpkit_manifest::tool::HttpMethod;
-use mcpkit_manifest::upstream::HttpUpstream;
 use serde_json::Value;
 use std::cell::{Cell, RefCell};
 use std::rc::Rc;
+use usemcpkit_core::LocalFuture;
+use usemcpkit_core::js::to_js_json;
+use usemcpkit_http::{HttpClient, HttpRequest, HttpResponse, RequestBody};
+use usemcpkit_manifest::tool::HttpMethod;
+use usemcpkit_manifest::upstream::HttpUpstream;
 
 /// Streamable HTTP: every message is a POST, a reply comes back as JSON or as a text/event-stream body, and the
 /// session id the server hands out is sent back until `close` ends the session with a DELETE.
@@ -120,7 +120,10 @@ impl HttpTransport {
             body: None,
         };
         if let Err(error) = self.http.send(&request, REQUEST_TIMEOUT).await {
-            (self.warn)(&format!("mcpkit: could not end the session with {}: {error}", self.url));
+            (self.warn)(&format!(
+                "usemcpkit: could not end the session with {}: {error}",
+                self.url
+            ));
         }
     }
 }

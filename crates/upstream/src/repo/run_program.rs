@@ -2,12 +2,12 @@ use crate::repo::read_failure_output::read_failure_output;
 use crate::transport::create_child_env;
 use crate::upstream_error::UpstreamError;
 use indexmap::IndexMap;
-use mcpkit_core::env::Env;
-use mcpkit_core::program::find_program;
 use std::path::Path;
 use std::process::Stdio;
 use std::time::Duration;
 use tokio::process::Command;
+use usemcpkit_core::env::Env;
+use usemcpkit_core::program::find_program;
 
 /// Runs one program without a shell in `cwd` and returns what it printed, trimmed. The environment is the minimal
 /// inherited one, so a repository's install scripts never see the credentials the server will later be given; git
@@ -40,7 +40,7 @@ pub async fn run_program(
         .stdin(Stdio::null())
         .kill_on_drop(true);
     #[cfg(windows)]
-    running.creation_flags(mcpkit_core::program::CREATE_NO_WINDOW);
+    running.creation_flags(usemcpkit_core::program::CREATE_NO_WINDOW);
     let output = match tokio::time::timeout(timeout, running.output()).await {
         Ok(Ok(output)) => output,
         Ok(Err(error)) => return Err(failed(error.to_string())),

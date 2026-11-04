@@ -1,5 +1,5 @@
 use crate::cli::registry::create_registry_context::create_registry_context;
-use mcpkit_registry::sync_registry;
+use usemcpkit_registry::sync_registry;
 
 /// Refreshes the registry after an install; a failure is reported and changes nothing else.
 pub async fn sync_quietly() {
@@ -11,6 +11,6 @@ pub async fn sync_quietly() {
         Err(error) => Err(error),
     };
     if let Err(error) = synced {
-        eprintln!("mcpkit: registry sync failed: {error}");
+        eprintln!("usemcpkit: registry sync failed: {error}");
     }
 }

@@ -1,14 +1,14 @@
-use mcpkit_binary::platform::Target;
-use mcpkit_binary::schedule::{
+use std::path::PathBuf;
+use usemcpkit_binary::platform::Target;
+use usemcpkit_binary::schedule::{
     CRON_MARKER, CRON_SCHEDULE, SchedulerPlatform, UpgradeSchedule, build_cron_line, build_launch_agent_plist,
     quote_shell_arg, replace_cron_entry, to_scheduler_platform,
 };
-use std::path::PathBuf;
 
 fn schedule() -> UpgradeSchedule {
     UpgradeSchedule {
-        binary_path: PathBuf::from("/home/me/.mcpkit/bin/mcpkit"),
-        log_path: PathBuf::from("/home/me/.mcpkit/upgrade.log"),
+        binary_path: PathBuf::from("/home/me/.usemcpkit/bin/usemcpkit"),
+        log_path: PathBuf::from("/home/me/.usemcpkit/upgrade.log"),
     }
 }
 
@@ -39,7 +39,7 @@ fn runs_upgrade_on_the_installed_binary_and_appends_its_output_to_the_log() {
     assert_eq!(
         build_cron_line(&schedule()),
         format!(
-            "{CRON_SCHEDULE} '/home/me/.mcpkit/bin/mcpkit' 'upgrade' >> '/home/me/.mcpkit/upgrade.log' 2>&1 {CRON_MARKER}"
+            "{CRON_SCHEDULE} '/home/me/.usemcpkit/bin/usemcpkit' 'upgrade' >> '/home/me/.usemcpkit/upgrade.log' 2>&1 {CRON_MARKER}"
         )
     );
 }
@@ -47,7 +47,7 @@ fn runs_upgrade_on_the_installed_binary_and_appends_its_output_to_the_log() {
 #[test]
 fn adds_its_crontab_line_once_and_keeps_the_users_own_lines() {
     let line = build_cron_line(&schedule());
-    let moved = build_cron_line(&with_binary("/new/mcpkit"));
+    let moved = build_cron_line(&with_binary("/new/usemcpkit"));
 
     let added = replace_cron_entry("0 9 * * 1 backup.sh\n", Some(&line));
 
@@ -73,9 +73,9 @@ fn removes_only_its_own_crontab_line() {
 
 #[test]
 fn writes_a_launch_agent_that_runs_upgrade_every_six_hours_with_escaped_paths() {
-    let plist = build_launch_agent_plist(&with_binary("/Users/a&b/.mcpkit/bin/mcpkit"));
+    let plist = build_launch_agent_plist(&with_binary("/Users/a&b/.usemcpkit/bin/usemcpkit"));
 
-    assert!(plist.contains("<string>/Users/a&amp;b/.mcpkit/bin/mcpkit</string>\n    <string>upgrade</string>"));
+    assert!(plist.contains("<string>/Users/a&amp;b/.usemcpkit/bin/usemcpkit</string>\n    <string>upgrade</string>"));
     assert!(plist.contains("<key>StartInterval</key>\n  <integer>21600</integer>"));
-    assert!(plist.contains("<key>StandardOutPath</key>\n  <string>/home/me/.mcpkit/upgrade.log</string>"));
+    assert!(plist.contains("<key>StandardOutPath</key>\n  <string>/home/me/.usemcpkit/upgrade.log</string>"));
 }

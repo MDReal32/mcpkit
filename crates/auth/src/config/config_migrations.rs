@@ -1,7 +1,7 @@
 use crate::config::migrations::{
     drop_last_used_domain, group_servers, migrate_servers, move_secrets_under_host, to_legacy_category,
 };
-use mcpkit_core::migrations::{FIRST_VERSION, Migration};
+use usemcpkit_core::migrations::{FIRST_VERSION, Migration};
 
 /// One entry per version bump, in order; the version of the config file is the list length plus one.
 pub const CONFIG_MIGRATIONS: &[Migration] = &[

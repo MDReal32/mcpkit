@@ -3,11 +3,11 @@ use crate::auth_fallback::auth_candidate_kind::AuthCandidateKind;
 use crate::auth_fallback::candidates::{build_auth_candidates, order_auth_candidates};
 use crate::upstream::upstream_access::UpstreamAccess;
 use indexmap::IndexMap;
-use mcpkit_auth::credentials::save_form_answer;
-use mcpkit_core::LocalFuture;
-use mcpkit_manifest::Manifest;
-use mcpkit_manifest::upstream::UpstreamSpec;
-use mcpkit_upstream::UpstreamError;
+use usemcpkit_auth::credentials::save_form_answer;
+use usemcpkit_core::LocalFuture;
+use usemcpkit_manifest::Manifest;
+use usemcpkit_manifest::upstream::UpstreamSpec;
+use usemcpkit_upstream::UpstreamError;
 
 /// Tries the manifest's auth candidates in order with their headers; a candidate whose credentials are unavailable or
 /// that the upstream answers 401 is passed over, any other failure ends the attempt.

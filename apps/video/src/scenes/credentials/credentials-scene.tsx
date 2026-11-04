@@ -17,7 +17,7 @@ export const CredentialsScene = () => (
       width={720}
     />
     <RiseIn delay={FORM_TIMELINE.pageIn} distance={50}>
-      <WindowFrame title="127.0.0.1 · mcpkit" width={PAGE_WIDTH} height={530}>
+      <WindowFrame title="127.0.0.1 · usemcpkit" width={PAGE_WIDTH} height={530}>
         <CredentialsForm />
         <ConnectedPanel />
         <Cursor stops={FORM_CURSOR} />

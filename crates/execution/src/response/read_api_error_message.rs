@@ -1,5 +1,5 @@
-use mcpkit_core::js::to_js_string;
 use serde_json::Value;
+use usemcpkit_core::js::to_js_string;
 
 pub fn read_api_error_message(body: &Value) -> String {
     if let Some(message) = body.as_object().and_then(|object| object.get("message")) {

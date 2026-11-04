@@ -1,7 +1,7 @@
 use crate::catalog::RegistryCatalog;
 use crate::mcp::tools::parse_tool_id::parse_tool_id;
 use crate::mcp::tools::parsed_tool_id::ParsedToolId;
-use mcpkit_registry::Fetch;
+use usemcpkit_registry::Fetch;
 
 /// Resolves a tool id against the catalog; the error text is written for the model to correct itself.
 pub fn find_tool<F: Fetch>(catalog: &RegistryCatalog<F>, id: &str) -> Result<ParsedToolId, String> {

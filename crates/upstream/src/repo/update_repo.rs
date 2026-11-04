@@ -4,8 +4,8 @@ use crate::repo::repo_options::RepoOptions;
 use crate::repo::repo_state::RepoState;
 use crate::repo::write_repo_state::write_repo_state;
 use crate::upstream_error::UpstreamError;
-use mcpkit_manifest::upstream::UpstreamRepo;
 use std::path::Path;
+use usemcpkit_manifest::upstream::UpstreamRepo;
 
 /// Compares the commit the clone was built at with the remote's current one and builds the clone again when they
 /// differ. The check is marked before it starts, and a remote that cannot be reached or a build that fails keeps the
@@ -31,7 +31,7 @@ pub async fn update_repo(
     .await;
     if let Err(error) = updated {
         (options.warn)(&format!(
-            "mcpkit: could not update {} at {}, using the clone it has: {error}",
+            "usemcpkit: could not update {} at {}, using the clone it has: {error}",
             repo.url, repo.reference
         ));
     }

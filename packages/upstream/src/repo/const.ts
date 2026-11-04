@@ -1,4 +1,4 @@
-export const READY_MARKER_FILE_NAME = ".mcpkit-ready";
+export const READY_MARKER_FILE_NAME = ".usemcpkit-ready";
 
 export const SETUP_TIMEOUT_MS = 10 * 60_000;
 

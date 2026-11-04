@@ -8,7 +8,7 @@ export const announceUpgradeSchedule = async () => {
   try {
     const changed = await scheduleUpgrades();
     if (changed) {
-      printLine('Scheduled "mcpkit upgrade" to run every few hours.');
+      printLine('Scheduled "usemcpkit upgrade" to run every few hours.');
     }
   } catch (error) {
     printError(`Could not schedule upgrades: ${describeError(error)}`);

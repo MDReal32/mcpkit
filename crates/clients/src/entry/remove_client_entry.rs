@@ -6,7 +6,7 @@ use crate::consts::ENTRY_NAME;
 use crate::entry::has_client_entry::has_client_entry;
 use std::path::Path;
 
-/// `false` when the file has no `mcpkit` entry, without touching it.
+/// `false` when the file has no `usemcpkit` entry, without touching it.
 pub fn remove_client_entry(definition: &ClientDefinition, path: &Path) -> Result<bool, ClientError> {
     let text = read_config_text(path)?;
     if !has_client_entry(definition, &text, path)? {

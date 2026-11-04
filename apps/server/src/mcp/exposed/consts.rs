@@ -11,4 +11,4 @@ pub const NAME_PART_SEPARATOR: char = '_';
 
 pub const HASH_LENGTH: usize = 6;
 
-pub const SECTION_NOTICE: &str = "This is a SECTION of mcpkit, not a callable tool.";
+pub const SECTION_NOTICE: &str = "This is a SECTION of usemcpkit, not a callable tool.";

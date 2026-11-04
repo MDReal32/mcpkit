@@ -3,9 +3,9 @@ use crate::cli::clients::find_requested_clients::find_requested_clients;
 use crate::cli::clients::prompt_client_selection::prompt_client_selection;
 use crate::cli::command::ClientSelection;
 use crate::cli::consts::{ALL_FLAG, CLIENTS_FLAG};
-use mcpkit_clients::DetectedClient;
 use std::io::IsTerminal;
 use std::path::Path;
+use usemcpkit_clients::DetectedClient;
 
 /// `--clients` and `--all` skip the checklist; without them a terminal is required. `None` when the user cancels.
 pub fn select_clients(

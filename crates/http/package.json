@@ -2,7 +2,7 @@
   "name": "@usemcpkit/http",
   "private": true,
   "scripts": {
-    "test": "cargo test -p mcpkit-http",
-    "lint": "cargo fmt -p mcpkit-http --check && cargo clippy -p mcpkit-http --all-targets"
+    "test": "cargo test -p usemcpkit-http",
+    "lint": "cargo fmt -p usemcpkit-http --check && cargo clippy -p usemcpkit-http --all-targets"
   }
 }

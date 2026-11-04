@@ -1,11 +1,11 @@
 use indexmap::IndexMap;
-use mcpkit_core::env::Env;
-use mcpkit_http::HttpResponse;
-use mcpkit_manifest::upstream::{StdioUpstream, UpstreamSpec};
-use mcpkit_testing::FixedClient;
-use mcpkit_upstream::{UpstreamConnection, UpstreamError, UpstreamOptions, connect_upstream};
 use serde_json::{Map, Value, json};
 use std::rc::Rc;
+use usemcpkit_core::env::Env;
+use usemcpkit_http::HttpResponse;
+use usemcpkit_manifest::upstream::{StdioUpstream, UpstreamSpec};
+use usemcpkit_testing::FixedClient;
+use usemcpkit_upstream::{UpstreamConnection, UpstreamError, UpstreamOptions, connect_upstream};
 
 const FAKE_UPSTREAM: &str = env!("CARGO_BIN_EXE_fake-upstream");
 
@@ -70,7 +70,7 @@ async fn calls_a_tool_with_its_arguments() {
 
 #[tokio::test]
 async fn hands_the_child_only_the_environment_it_was_given() {
-    let leaky = Env::from_process().with("TOKEN", "from-mcpkit");
+    let leaky = Env::from_process().with("TOKEN", "from-usemcpkit");
     let given = connect_upstream(&stdio(FAKE_UPSTREAM), &options(leaky.clone(), &[("TOKEN", "secret-1")]))
         .await
         .unwrap();
@@ -128,10 +128,10 @@ async fn is_closed_after_close_and_refuses_further_calls() {
 
 #[tokio::test]
 async fn fails_with_the_reason_when_the_command_cannot_start() {
-    let failed = connect_upstream(&stdio("mcpkit-no-such-program"), &options(Env::from_process(), &[])).await;
+    let failed = connect_upstream(&stdio("usemcpkit-no-such-program"), &options(Env::from_process(), &[])).await;
 
     assert!(
-        matches!(&failed, Err(UpstreamError::Failed(message)) if message.starts_with("could not start \"mcpkit-no-such-program\"")),
+        matches!(&failed, Err(UpstreamError::Failed(message)) if message.starts_with("could not start \"usemcpkit-no-such-program\"")),
         "{:?}",
         failed.err()
     );

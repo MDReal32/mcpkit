@@ -9,7 +9,7 @@ export default defineConfig({
     rolldownOptions: {
       external: ["@usemcpkit/cli"],
       output: {
-        entryFileNames: "mcpkit.npx.js",
+        entryFileNames: "usemcpkit.npx.js",
         banner: "#!/usr/bin/env node",
       },
     },

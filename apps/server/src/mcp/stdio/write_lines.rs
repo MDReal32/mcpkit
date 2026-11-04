@@ -1,9 +1,9 @@
 use crate::mcp::stdio::outgoing_line::OutgoingLine;
-use mcpkit_wire_log::{WireLog, describe_wire_line};
 use serde_json::json;
 use std::rc::Rc;
 use tokio::io::{AsyncWrite, AsyncWriteExt};
 use tokio::sync::mpsc::UnboundedReceiver;
+use usemcpkit_wire_log::{WireLog, describe_wire_line};
 
 /// The only writer of `output`, so lines never interleave and each one keeps the order it was queued in. A line that
 /// cannot be written is recorded and the next one is still tried, as the client may only have been slow.

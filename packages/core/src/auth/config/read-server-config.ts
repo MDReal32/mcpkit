@@ -1,5 +1,5 @@
-import type { McpkitConfig } from "../types/mcpkit-config";
 import type { ServerKey } from "../types/server-key";
+import type { UsemcpkitConfig } from "../types/usemcpkit-config";
 
-export const readServerConfig = (config: McpkitConfig, server: ServerKey) =>
+export const readServerConfig = (config: UsemcpkitConfig, server: ServerKey) =>
   config.servers?.[server.category]?.[server.name];

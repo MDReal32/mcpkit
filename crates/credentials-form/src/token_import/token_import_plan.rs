@@ -1,4 +1,4 @@
-use mcpkit_auth::ui::CliTokenCommand;
+use usemcpkit_auth::ui::CliTokenCommand;
 
 /// What a checked import request runs and which answer the token completes.
 #[derive(Clone, Debug, PartialEq)]

@@ -2,7 +2,7 @@ use crate::binary_error::BinaryError;
 use crate::schedule::assert_scheduler_success::assert_scheduler_success;
 use crate::schedule::consts::NO_CRONTAB_TEXT;
 use crate::schedule::run_scheduler_command::run_scheduler_command;
-use mcpkit_core::env::Env;
+use usemcpkit_core::env::Env;
 
 /// The user's crontab; empty when they have none yet.
 pub async fn read_crontab(env: &Env) -> Result<String, BinaryError> {

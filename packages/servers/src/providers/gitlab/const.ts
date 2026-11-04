@@ -24,7 +24,7 @@ export const GITLAB_BASE: Omit<Manifest, "name" | "description" | "tools"> = {
           {
             type: "link",
             label: "Create on GitLab ↗",
-            url: "https://{domain}/-/user_settings/personal_access_tokens?name=mcpkit+{server}&scopes=api",
+            url: "https://{domain}/-/user_settings/personal_access_tokens?name=usemcpkit+{server}&scopes=api",
           },
           {
             type: "cli",

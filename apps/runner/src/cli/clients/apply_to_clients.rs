@@ -1,6 +1,6 @@
 use crate::cli::output::to_display_path;
-use mcpkit_clients::{ClientError, DetectedClient};
 use std::path::Path;
+use usemcpkit_clients::{ClientError, DetectedClient};
 
 /// Runs the action per client, reporting each outcome; one failing client does not stop the others. The number of
 /// clients that failed.

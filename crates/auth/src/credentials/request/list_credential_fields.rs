@@ -1,8 +1,8 @@
 use crate::credentials::CredentialField;
 use crate::credentials::request::to_credential_field::to_credential_field;
 use indexmap::IndexMap;
-use mcpkit_manifest::auth::AuthSpec;
-use mcpkit_manifest::ui::fill_template;
+use usemcpkit_manifest::auth::AuthSpec;
+use usemcpkit_manifest::ui::fill_template;
 
 /// The values a fallback entry takes, one field per env var; none for `none` and the sign-in.
 pub fn list_credential_fields(auth: &AuthSpec, texts: &IndexMap<String, String>) -> Vec<CredentialField> {

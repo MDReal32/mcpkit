@@ -15,8 +15,8 @@
     "access": "public",
     "exports": {
       ".": {
-        "types": "./build/mcpkit.core.d.ts",
-        "import": "./build/mcpkit.core.js"
+        "types": "./build/usemcpkit.core.d.ts",
+        "import": "./build/usemcpkit.core.js"
       }
     }
   },

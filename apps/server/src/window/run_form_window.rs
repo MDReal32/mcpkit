@@ -33,7 +33,7 @@ pub fn run_form_window(url: &str) -> Result<(), String> {
             if let Some(event) = read_window_message(request.body())
                 && proxy.send_event(event).is_err()
             {
-                eprintln!("mcpkit: the form window closed before it handled a message");
+                eprintln!("usemcpkit: the form window closed before it handled a message");
             }
         });
     let _webview = build_webview(builder, &window).map_err(|error| error.to_string())?;

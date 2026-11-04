@@ -1,12 +1,12 @@
 use crate::binary_error::BinaryError;
 use crate::schedule::consts::SCHEDULER_COMMAND_TIMEOUT;
 use crate::schedule::scheduler_command_result::SchedulerCommandResult;
-use mcpkit_core::env::Env;
-use mcpkit_core::program::find_program;
 use std::io::ErrorKind;
 use std::process::Stdio;
 use tokio::io::AsyncWriteExt;
 use tokio::process::Command;
+use usemcpkit_core::env::Env;
+use usemcpkit_core::program::find_program;
 
 /// Runs a scheduler tool (`crontab`, `launchctl`, `schtasks`) without a shell, `input` on its stdin; a non-zero exit
 /// is returned, not an error.
@@ -27,7 +27,7 @@ pub async fn run_scheduler_command(
         .stderr(Stdio::piped())
         .kill_on_drop(true);
     #[cfg(windows)]
-    running.creation_flags(mcpkit_core::program::CREATE_NO_WINDOW);
+    running.creation_flags(usemcpkit_core::program::CREATE_NO_WINDOW);
     let mut child = running
         .spawn()
         .map_err(|error| BinaryError(format!("cannot run {command}: {error}")))?;

@@ -16,7 +16,7 @@ export const EXPIRY_SKEW_MS = 60_000;
 export const RANDOM_TOKEN_BYTES = 32;
 
 export const CALLBACK_PAGE =
-  '<!doctype html><meta charset="utf-8"><title>mcpkit</title><p>mcpkit received the authorization. You can close this window.</p>';
+  '<!doctype html><meta charset="utf-8"><title>usemcpkit</title><p>usemcpkit received the authorization. You can close this window.</p>';
 
 export const PRIVATE_DIR_MODE = 0o700;
 
@@ -31,19 +31,19 @@ export const CREDENTIALS_FORM_API = {
   import: "/api/import",
 } as const;
 
-export const CREDENTIALS_REQUEST_ELEMENT_ID = "mcpkit-request";
+export const CREDENTIALS_REQUEST_ELEMENT_ID = "usemcpkit-request";
 
 /**
  * Functions the CLI's native form window binds into the page: close it, fit it to `{ width, height }`, and open a link
  * in the default browser (a webview has no tabs, so `target="_blank"` links go nowhere).
  */
 export const FORM_WINDOW_BINDINGS = {
-  close: "mcpkitCloseWindow",
-  fit: "mcpkitFitWindow",
-  openLink: "mcpkitOpenLink",
+  close: "usemcpkitCloseWindow",
+  fit: "usemcpkitFitWindow",
+  openLink: "usemcpkitOpenLink",
 } as const;
 
-export const CREDENTIALS_FORM_SESSION_HEADER = "X-Mcpkit-Session";
+export const CREDENTIALS_FORM_SESSION_HEADER = "X-Usemcpkit-Session";
 
 export const CONFIG_FILE_NAME = "config.json";
 

@@ -10,7 +10,7 @@ import { toCanonicalJson } from "./fixtures/to-canonical-json";
 
 const OUTPUT_DIR = process.env.SESSION_GOLDEN_OUTPUT ?? "";
 
-const SECTION_MARKER = "SECTION of mcpkit";
+const SECTION_MARKER = "SECTION of usemcpkit";
 
 const call = (id: number, name: string, args?: unknown) =>
   JSON.stringify({ jsonrpc: "2.0", id, method: "tools/call", params: { name, arguments: args } });
@@ -52,7 +52,7 @@ const SESSION_LINES = [
   list(23),
 ];
 
-const tempDir = useTempDir("mcpkit-session-golden-");
+const tempDir = useTempDir("usemcpkit-session-golden-");
 
 interface ListedTool {
   name: string;

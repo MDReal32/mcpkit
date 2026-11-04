@@ -1,10 +1,10 @@
 use crate::cli::consts::VERSION;
 use crate::cli::update::launch_binary::LaunchBinary;
-use mcpkit_binary::{BinaryContext, BinarySource, detect_package_manager_install, install_binary};
 use std::path::{Path, PathBuf};
+use usemcpkit_binary::{BinaryContext, BinarySource, detect_package_manager_install, install_binary};
 
 /// A Homebrew or winget binary is used where it is so its package manager keeps updating it; any other runner is
-/// copied to ~/.mcpkit/bin with the server next to it.
+/// copied to ~/.usemcpkit/bin with the server next to it.
 pub fn prepare_launch_binary(context: &BinaryContext, binary: Option<PathBuf>) -> Result<LaunchBinary, String> {
     let managed = match binary {
         None => detect_package_manager_install(&context.exec_path).map_err(|error| error.0)?,
@@ -16,11 +16,11 @@ pub fn prepare_launch_binary(context: &BinaryContext, binary: Option<PathBuf>) -
             .map_err(|error| format!("cannot read {}: {error}", managed.path))?;
         if !exists {
             return Err(format!(
-                "{} does not exist; relink mcpkit with {} and run \"usemcpkit\" again",
+                "{} does not exist; relink usemcpkit with {} and run \"usemcpkit\" again",
                 managed.path, managed.manager
             ));
         }
-        println!("Using mcpkit {VERSION} from {} at {}", managed.manager, managed.path);
+        println!("Using usemcpkit {VERSION} from {} at {}", managed.manager, managed.path);
         return Ok(LaunchBinary {
             path: PathBuf::from(managed.path),
             update_hint: format!("Update it with \"{}\".", managed.upgrade_command),
@@ -32,7 +32,11 @@ pub fn prepare_launch_binary(context: &BinaryContext, binary: Option<PathBuf>) -
         version: VERSION.to_owned(),
     };
     let installed = install_binary(context, &source).map_err(|error| error.0)?;
-    println!("mcpkit {} installed at {}", installed.version, installed.path.display());
+    println!(
+        "usemcpkit {} installed at {}",
+        installed.version,
+        installed.path.display()
+    );
     Ok(LaunchBinary {
         path: installed.path,
         update_hint: "It updates itself in the background.".to_owned(),

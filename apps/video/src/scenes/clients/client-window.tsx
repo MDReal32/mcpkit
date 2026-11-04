@@ -13,7 +13,7 @@ interface ClientWindowProps {
   index: number;
 }
 
-/** Another client making its own mcpkit call; times inside are relative to the window's start. */
+/** Another client making its own usemcpkit call; times inside are relative to the window's start. */
 export const ClientWindow = ({ window, index }: ClientWindowProps) => {
   const { fps } = useVideoConfig();
   const start = windowStart(index);

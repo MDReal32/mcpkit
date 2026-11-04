@@ -7,7 +7,7 @@ import { startUpgradeSchedule } from "../update/start-upgrade-schedule";
 
 /** The process the client starts: it keeps the connection, runs the real server as a worker and swaps it when the binary changes. */
 export const serveSupervised = async (names: readonly string[]) => {
-  printError(`mcpkit ${VERSION}: supervising the server, it reloads itself when this binary is replaced`);
+  printError(`usemcpkit ${VERSION}: supervising the server, it reloads itself when this binary is replaced`);
   startAutoUpdate();
   startUpgradeSchedule();
   const supervisor = await superviseServe(

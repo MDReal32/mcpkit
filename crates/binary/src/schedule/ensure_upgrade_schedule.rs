@@ -9,7 +9,7 @@ use crate::schedule::task_scheduler::ensure_scheduled_task;
 use crate::schedule::to_scheduler_platform::to_scheduler_platform;
 
 /// Registers a job with the OS scheduler (a LaunchAgent on macOS, a crontab line on Linux, a scheduled task on Windows)
-/// that runs `mcpkit upgrade` on the installed runner every few hours. Idempotent; `true` when it changed anything.
+/// that runs `usemcpkit upgrade` on the installed runner every few hours. Idempotent; `true` when it changed anything.
 pub async fn ensure_upgrade_schedule(context: &BinaryContext) -> Result<bool, BinaryError> {
     let binary_path = resolve_installed_binary_path(&context.home_dir, context.target);
     let schedule = resolve_upgrade_schedule(&binary_path, &context.home_dir);

@@ -42,7 +42,7 @@ describe("stdio upstream", () => {
   });
 
   it("fails with the reason when the command cannot start", async () => {
-    await expect(connectUpstream({ type: "stdio", command: "mcpkit-no-such-program" })).rejects.toBeInstanceOf(
+    await expect(connectUpstream({ type: "stdio", command: "usemcpkit-no-such-program" })).rejects.toBeInstanceOf(
       UpstreamError,
     );
   });

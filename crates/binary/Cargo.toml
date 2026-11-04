@@ -1,6 +1,6 @@
 [package]
-name = "mcpkit-binary"
-description = "Installs and self-updates the mcpkit binaries (the runner and the server next to it), schedules `mcpkit upgrade`, and names the build targets and their npm packages."
+name = "usemcpkit-binary"
+description = "Installs and self-updates the usemcpkit binaries (the runner and the server next to it), schedules `usemcpkit upgrade`, and names the build targets and their npm packages."
 version.workspace = true
 edition.workspace = true
 license.workspace = true
@@ -10,9 +10,9 @@ repository.workspace = true
 base64.workspace = true
 flate2.workspace = true
 indexmap.workspace = true
-mcpkit-core.workspace = true
-mcpkit-http.workspace = true
-mcpkit-manifest.workspace = true
+usemcpkit-core.workspace = true
+usemcpkit-http.workspace = true
+usemcpkit-manifest.workspace = true
 regex.workspace = true
 serde_json.workspace = true
 sha2.workspace = true
@@ -22,7 +22,7 @@ tokio.workspace = true
 rustix.workspace = true
 
 [dev-dependencies]
-mcpkit-testing.workspace = true
+usemcpkit-testing.workspace = true
 tempfile.workspace = true
 
 [lints]

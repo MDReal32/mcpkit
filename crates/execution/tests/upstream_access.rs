@@ -1,19 +1,19 @@
 use indexmap::IndexMap;
-use mcpkit_auth::credentials::CredentialRequester;
-use mcpkit_auth::secret_file::FileSecretStore;
-use mcpkit_auth::{AuthContext, AuthError, AuthState, SecretOwner, ServerKey};
-use mcpkit_core::env::Env;
-use mcpkit_execution::upstream::{UpstreamAccess, with_upstream_access};
-use mcpkit_execution::{CallContext, DEFAULT_TIMEOUT, ExecutorState};
-use mcpkit_http::HttpResponse;
-use mcpkit_manifest::Manifest;
-use mcpkit_testing::FixedClient;
-use mcpkit_upstream::UpstreamError;
 use serde_json::{Value, json};
 use std::cell::RefCell;
 use std::path::Path;
 use std::rc::Rc;
 use tempfile::TempDir;
+use usemcpkit_auth::credentials::CredentialRequester;
+use usemcpkit_auth::secret_file::FileSecretStore;
+use usemcpkit_auth::{AuthContext, AuthError, AuthState, SecretOwner, ServerKey};
+use usemcpkit_core::env::Env;
+use usemcpkit_execution::upstream::{UpstreamAccess, with_upstream_access};
+use usemcpkit_execution::{CallContext, DEFAULT_TIMEOUT, ExecutorState};
+use usemcpkit_http::HttpResponse;
+use usemcpkit_manifest::Manifest;
+use usemcpkit_testing::FixedClient;
+use usemcpkit_upstream::UpstreamError;
 
 /// What the TypeScript `withUpstreamAccess` asked and started the Teams upstream with, given only `TEAMS_APP_ID` and a
 /// form answer padded with spaces.
@@ -149,7 +149,7 @@ async fn names_the_missing_credentials_when_there_is_no_form() {
     assert_eq!(
         failed,
         Err(UpstreamError::new(
-            "teams: missing credential, set TEAMS_APP_PASSWORD, TEAMS_APP_TENANT_ID, TEAM_ID, TEAMS_CHANNEL_ID in the client's env for mcpkit"
+            "teams: missing credential, set TEAMS_APP_PASSWORD, TEAMS_APP_TENANT_ID, TEAM_ID, TEAMS_CHANNEL_ID in the client's env for usemcpkit"
         ))
     );
 }
@@ -208,7 +208,7 @@ async fn moves_on_to_the_next_auth_option_after_a_401_and_tries_the_one_that_wor
                     "https://mcp.cloudflare.com/mcp answered 401".to_owned(),
                 )),
             }
-        }) as mcpkit_core::LocalFuture<'static, _>
+        }) as usemcpkit_core::LocalFuture<'static, _>
     };
 
     let first = with_upstream_access(&manifest, connect, &context).await;

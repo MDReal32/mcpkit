@@ -1,4 +1,4 @@
-export const PLUGIN_NAME = "mcpkit:manifests";
+export const PLUGIN_NAME = "usemcpkit:manifests";
 
 export const DEFAULT_SERVERS_DIR = "src/servers";
 

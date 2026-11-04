@@ -1,6 +1,6 @@
 use crate::client_context::ClientContext;
-use mcpkit_core::platform::Platform;
 use std::path::PathBuf;
+use usemcpkit_core::platform::Platform;
 
 pub fn resolve_zed_dir(context: &ClientContext) -> PathBuf {
     if context.platform == Platform::Windows {

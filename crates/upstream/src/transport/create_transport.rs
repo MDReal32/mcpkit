@@ -3,7 +3,7 @@ use crate::transport::mcp_transport::McpTransport;
 use crate::transport::stdio_transport::StdioTransport;
 use crate::upstream_error::UpstreamError;
 use crate::upstream_options::UpstreamOptions;
-use mcpkit_manifest::upstream::UpstreamSpec;
+use usemcpkit_manifest::upstream::UpstreamSpec;
 
 /// A stdio spec must already be prepared: its repository cloned and `{repo}` replaced.
 pub fn create_transport(

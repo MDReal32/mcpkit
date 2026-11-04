@@ -1,9 +1,9 @@
 use crate::upstream::resolve_repo_dir::resolve_repo_dir;
-use mcpkit_core::update::AUTO_UPDATE_ENV;
-use mcpkit_execution::CallContext;
-use mcpkit_manifest::Manifest;
-use mcpkit_upstream::UpstreamOptions;
 use std::rc::Rc;
+use usemcpkit_core::update::AUTO_UPDATE_ENV;
+use usemcpkit_execution::CallContext;
+use usemcpkit_manifest::Manifest;
+use usemcpkit_upstream::UpstreamOptions;
 
 /// What every connection to the manifest's upstream shares; the access of one attempt is added to it.
 pub fn create_upstream_options(manifest: &Manifest, calls: &CallContext) -> UpstreamOptions {

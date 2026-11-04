@@ -12,7 +12,7 @@ import type { InstallOptions } from "../types/install-options";
 import { announceUpgradeSchedule } from "../update/announce-upgrade-schedule";
 import { prepareLaunchBinary } from "../update/prepare-launch-binary";
 
-/** Copies the binary to ~/.mcpkit/bin (or uses the Homebrew/winget one in place) and points each chosen client's single `mcpkit` entry at it. */
+/** Copies the binary to ~/.usemcpkit/bin (or uses the Homebrew/winget one in place) and points each chosen client's single `usemcpkit` entry at it. */
 export const installCommand = async (options: InstallOptions) => {
   const binaryPath = options.binary;
   if (binaryPath !== undefined && !(await pathExists(binaryPath))) {
@@ -37,16 +37,16 @@ export const installCommand = async (options: InstallOptions) => {
     await announceUpgradeSchedule();
   }
   await syncQuietly();
-  printLine(`Restart the clients to load mcpkit. ${binary.updateHint}`);
+  printLine(`Restart the clients to load usemcpkit. ${binary.updateHint}`);
   return failed === 0 ? EXIT_SUCCESS : EXIT_FAILURE;
 };
 
 export const registerInstallCommand = (program: Program) => {
   program
-    .command("install", "Add mcpkit to the AI clients found on this computer (asks which)")
+    .command("install", "Add usemcpkit to the AI clients found on this computer (asks which)")
     .addAlias("$0")
     .option("--all", { description: "Every detected client, no questions", default: false })
     .option("--clients [string]", { description: "Only these clients, comma-separated ids" })
-    .option("--binary [path]", { description: "Install this mcpkit binary instead of downloading one" })
+    .option("--binary [path]", { description: "Install this usemcpkit binary instead of downloading one" })
     .action(toAction(installCommand));
 };

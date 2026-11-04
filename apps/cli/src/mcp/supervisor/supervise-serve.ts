@@ -61,10 +61,10 @@ export const superviseServe = async (
     const next = start();
     try {
       const version = await replayHandshake(next, record);
-      printError(`mcpkit: reloaded, now serving ${version}`);
+      printError(`usemcpkit: reloaded, now serving ${version}`);
     } catch (error) {
       next.kill();
-      printError(`mcpkit: reload failed, the running server stays: ${describeError(error)}`);
+      printError(`usemcpkit: reload failed, the running server stays: ${describeError(error)}`);
       return;
     }
     if (closing) {

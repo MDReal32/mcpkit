@@ -1,11 +1,11 @@
 use crate::config::{load_config, read_server_config, update_server_config};
 use crate::json::object_entry;
 use crate::{AuthError, SecretOwner, SecretStore};
-use mcpkit_core::LocalFuture;
 use serde_json::Value;
 use std::path::PathBuf;
+use usemcpkit_core::LocalFuture;
 
-/// Plain text in the config file under the mcpkit home, by server and host, read on every call so all running servers
+/// Plain text in the config file under the usemcpkit home, by server and host, read on every call so all running servers
 /// see each other's saves.
 pub struct FileSecretStore {
     home: PathBuf,

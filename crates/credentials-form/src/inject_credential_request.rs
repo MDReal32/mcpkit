@@ -1,6 +1,6 @@
-use mcpkit_auth::AuthError;
-use mcpkit_auth::credentials::{CREDENTIALS_REQUEST_ELEMENT_ID, CredentialRequest};
-use mcpkit_core::js::to_js_json;
+use usemcpkit_auth::AuthError;
+use usemcpkit_auth::credentials::{CREDENTIALS_REQUEST_ELEMENT_ID, CredentialRequest};
+use usemcpkit_core::js::to_js_json;
 
 /// Puts the request into the page's empty JSON element; `<` is escaped so the data can never close the script. The
 /// element is found the way the TypeScript pattern `(<script[^>]*\bid="…"[^>]*>)\s*(</script>)` finds it: the first
@@ -33,7 +33,7 @@ pub fn inject_credential_request(page: &str, request: &CredentialRequest) -> Res
 mod tests {
     use super::inject_credential_request;
     use indexmap::IndexMap;
-    use mcpkit_auth::credentials::CredentialRequest;
+    use usemcpkit_auth::credentials::CredentialRequest;
 
     fn request(server_name: &str) -> CredentialRequest {
         CredentialRequest {
@@ -48,13 +48,14 @@ mod tests {
 
     #[test]
     fn fills_the_first_empty_request_element_and_escapes_every_angle_bracket() {
-        let page = "<script id=\"other\"></script><script type=\"application/json\" id=\"mcpkit-request\">\n </script>";
+        let page =
+            "<script id=\"other\"></script><script type=\"application/json\" id=\"usemcpkit-request\">\n </script>";
 
         let injected = inject_credential_request(page, &request("</script><b>")).unwrap();
 
         assert_eq!(
             injected,
-            "<script id=\"other\"></script><script type=\"application/json\" id=\"mcpkit-request\">{\"serverName\":\"\\u003c/script>\\u003cb>\",\"texts\":{},\"options\":[],\"signIn\":false}</script>"
+            "<script id=\"other\"></script><script type=\"application/json\" id=\"usemcpkit-request\">{\"serverName\":\"\\u003c/script>\\u003cb>\",\"texts\":{},\"options\":[],\"signIn\":false}</script>"
         );
     }
 
@@ -62,13 +63,13 @@ mod tests {
     fn refuses_a_page_without_an_empty_request_element() {
         for page in [
             "<p>x</p>",
-            "<script id=\"mcpkit-request\">x</script>",
-            "<script xid=\"mcpkit-request\"></script>",
+            "<script id=\"usemcpkit-request\">x</script>",
+            "<script xid=\"usemcpkit-request\"></script>",
         ] {
             let error = inject_credential_request(page, &request("demo")).unwrap_err();
             assert_eq!(
                 error.0,
-                "the credentials page has no empty #mcpkit-request script element"
+                "the credentials page has no empty #usemcpkit-request script element"
             );
         }
     }

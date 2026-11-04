@@ -1,5 +1,5 @@
 use crate::AuthError;
-use mcpkit_core::env::Env;
+use usemcpkit_core::env::Env;
 
 pub fn read_secret(env: &Env, env_name: &str, server_name: &str) -> Result<String, AuthError> {
     env.get_non_empty(env_name).map(str::to_owned).ok_or_else(|| {

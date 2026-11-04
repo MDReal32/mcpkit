@@ -1,6 +1,6 @@
 use crate::credentials::CredentialField;
 use indexmap::IndexMap;
-use mcpkit_manifest::ui::{UiInputSpec, fill_template};
+use usemcpkit_manifest::ui::{UiInputSpec, fill_template};
 
 pub fn to_credential_field(
     key: &str,

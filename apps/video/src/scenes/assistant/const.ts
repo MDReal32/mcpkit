@@ -34,7 +34,7 @@ export const COLUMN_LEFT = APP_WINDOW.sidebar + (APP_WINDOW.width - APP_WINDOW.s
 
 export const PROMPT = "Which pull requests in acme/api are waiting on my review?";
 
-export const INTRO_TEXT = "I'll check GitHub through mcpkit.";
+export const INTRO_TEXT = "I'll check GitHub through usemcpkit.";
 
 export const ANSWER_TEXT = "Three are waiting on your review:";
 

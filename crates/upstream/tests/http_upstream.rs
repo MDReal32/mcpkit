@@ -1,14 +1,14 @@
 use indexmap::IndexMap;
-use mcpkit_core::LocalFuture;
-use mcpkit_core::env::Env;
-use mcpkit_http::{HttpClient, HttpError, HttpRequest, HttpResponse, RequestBody};
-use mcpkit_manifest::tool::HttpMethod;
-use mcpkit_manifest::upstream::{HttpUpstream, UpstreamSpec};
-use mcpkit_upstream::{UpstreamError, UpstreamOptions, connect_upstream};
 use serde_json::{Value, json};
 use std::cell::RefCell;
 use std::rc::Rc;
 use std::time::Duration;
+use usemcpkit_core::LocalFuture;
+use usemcpkit_core::env::Env;
+use usemcpkit_http::{HttpClient, HttpError, HttpRequest, HttpResponse, RequestBody};
+use usemcpkit_manifest::tool::HttpMethod;
+use usemcpkit_manifest::upstream::{HttpUpstream, UpstreamSpec};
+use usemcpkit_upstream::{UpstreamError, UpstreamOptions, connect_upstream};
 
 const URL: &str = "http://127.0.0.1:9/mcp";
 
@@ -143,7 +143,7 @@ async fn keeps_the_session_signs_requests_and_reads_event_stream_replies() {
 }
 
 #[tokio::test]
-async fn sends_the_handshake_with_mcpkit_as_the_client() {
+async fn sends_the_handshake_with_usemcpkit_as_the_client() {
     let server = FakeMcpServer::new(200);
 
     let connection = connect_upstream(&http_spec(), &options(&server)).await.unwrap();
@@ -161,7 +161,7 @@ async fn sends_the_handshake_with_mcpkit_as_the_client() {
     assert_eq!(
         bodies,
         [
-            r#"{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"mcpkit","version":"0.0.0"}}}"#,
+            r#"{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"usemcpkit","version":"0.0.0"}}}"#,
             r#"{"jsonrpc":"2.0","method":"notifications/initialized"}"#,
         ]
     );

@@ -2,8 +2,8 @@ use crate::binary_error::BinaryError;
 use crate::consts::SUPPORTED_INTEGRITY_ALGORITHMS;
 use base64::Engine;
 use base64::engine::general_purpose::STANDARD;
-use mcpkit_core::js::is_js_whitespace;
 use sha2::{Digest, Sha256, Sha384, Sha512};
+use usemcpkit_core::js::is_js_whitespace;
 
 /// Checks bytes against a Subresource Integrity string as npm publishes it (`sha512-<base64>`).
 pub fn verify_integrity(bytes: &[u8], integrity: &str, label: &str) -> Result<(), BinaryError> {

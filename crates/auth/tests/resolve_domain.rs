@@ -1,14 +1,14 @@
-use mcpkit_auth::domain::resolve_domain;
-use mcpkit_auth::{AuthContext, AuthState};
-use mcpkit_core::env::Env;
-use mcpkit_http::HttpResponse;
-use mcpkit_manifest::Manifest;
-use mcpkit_testing::FixedClient;
 use serde_json::{Value, json};
 use std::path::{Path, PathBuf};
 use std::process::Command;
 use std::rc::Rc;
 use tempfile::TempDir;
+use usemcpkit_auth::domain::resolve_domain;
+use usemcpkit_auth::{AuthContext, AuthState};
+use usemcpkit_core::env::Env;
+use usemcpkit_http::HttpResponse;
+use usemcpkit_manifest::Manifest;
+use usemcpkit_testing::FixedClient;
 
 fn gitlab(match_git_remote: bool) -> Manifest {
     serde_json::from_value(json!({

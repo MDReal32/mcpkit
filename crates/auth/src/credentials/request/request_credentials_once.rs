@@ -1,8 +1,8 @@
 use crate::credentials::{CredentialExchange, CredentialRequest, CredentialRequester};
 use crate::{AuthContext, AuthError};
 use futures_util::FutureExt;
-use mcpkit_core::LocalFuture;
 use std::rc::Rc;
+use usemcpkit_core::LocalFuture;
 
 /// One form per server at a time: calls that arrive while it is open share it, and only the call that opens it awaits
 /// `create_request`.

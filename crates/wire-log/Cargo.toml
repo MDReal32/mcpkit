@@ -1,5 +1,5 @@
 [package]
-name = "mcpkit-wire-log"
+name = "usemcpkit-wire-log"
 version.workspace = true
 edition.workspace = true
 license.workspace = true

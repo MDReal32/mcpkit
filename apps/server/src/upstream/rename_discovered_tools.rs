@@ -1,6 +1,6 @@
 use crate::upstream::discovered_tool::DiscoveredTool;
 use crate::upstream::to_catalog_tool_names::to_catalog_tool_names;
-use mcpkit_manifest::upstream::UpstreamNameRule;
+use usemcpkit_manifest::upstream::UpstreamNameRule;
 
 /// The tools with their catalog names worked out again from the manifest's current rules, so a cached list never
 /// keeps names an older manifest gave.

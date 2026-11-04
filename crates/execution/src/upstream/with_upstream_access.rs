@@ -3,12 +3,12 @@ use crate::upstream::read_forwarded_env::read_forwarded_env;
 use crate::upstream::upstream_access::UpstreamAccess;
 use crate::upstream::with_http_upstream_access::with_http_upstream_access;
 use indexmap::IndexMap;
-use mcpkit_auth::domain::resolve_domain;
-use mcpkit_core::LocalFuture;
-use mcpkit_manifest::Manifest;
-use mcpkit_manifest::domain::apply_domain;
-use mcpkit_manifest::upstream::UpstreamSpec;
-use mcpkit_upstream::UpstreamError;
+use usemcpkit_auth::domain::resolve_domain;
+use usemcpkit_core::LocalFuture;
+use usemcpkit_manifest::Manifest;
+use usemcpkit_manifest::domain::apply_domain;
+use usemcpkit_manifest::upstream::UpstreamSpec;
+use usemcpkit_upstream::UpstreamError;
 
 /// Runs `run` with the access of an `upstream` manifest. A stdio upstream gets its forwarded credentials, asked for in
 /// the credentials form when missing and saved once `run` succeeded; an HTTP one tries the manifest's auth options in

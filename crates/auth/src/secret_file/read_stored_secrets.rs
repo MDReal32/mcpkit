@@ -12,7 +12,7 @@ pub async fn read_stored_secrets(file: &Path) -> Result<Map<String, Value>, Auth
     match parse_json_file(file, &text)? {
         Value::Object(secrets) if is_stored_secrets(&Value::Object(secrets.clone())) => Ok(secrets),
         _ => Err(AuthError(format!(
-            "{} is not a valid mcpkit secrets file",
+            "{} is not a valid usemcpkit secrets file",
             file.display()
         ))),
     }

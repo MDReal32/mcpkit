@@ -1,4 +1,4 @@
-/// Moves everything mcpkit keeps (config, manifests, repos, logs aside) to another folder.
-pub const HOME_ENV: &str = "MCPKIT_HOME";
+/// Moves everything usemcpkit keeps (config, manifests, repos, logs aside) to another folder.
+pub const HOME_ENV: &str = "USEMCPKIT_HOME";
 
-pub const HOME_DIR_NAME: &str = ".mcpkit";
+pub const HOME_DIR_NAME: &str = ".usemcpkit";

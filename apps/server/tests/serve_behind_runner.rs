@@ -1,11 +1,11 @@
 mod support;
 
-use mcpkit_runner::supervisor::{SuperviseOptions, WorkerLaunch, supervise_serve};
 use serde_json::{Value, json};
 use std::path::Path;
 use std::time::Duration;
 use support::registry_root;
 use tokio::io::{AsyncBufReadExt, AsyncWriteExt, BufReader, DuplexStream, Lines};
+use usemcpkit_runner::supervisor::{SuperviseOptions, WorkerLaunch, supervise_serve};
 
 fn indexed_server_count() -> usize {
     let index: Value =
@@ -13,7 +13,7 @@ fn indexed_server_count() -> usize {
     index["servers"].as_array().unwrap().len()
 }
 
-/// The server's cache as `mcpkit update` and a first look at GitHub leave it, so nothing is fetched while serving.
+/// The server's cache as `usemcpkit update` and a first look at GitHub leave it, so nothing is fetched while serving.
 fn seed_home(home: &Path) {
     for file in ["index.json", "git/github.json"] {
         let target = home.join("manifests").join(file);
@@ -40,11 +40,11 @@ async fn opens_a_section_through_the_runner_and_announces_the_new_tools_after_th
     let home = tempfile::tempdir().unwrap();
     seed_home(home.path());
     let launch = WorkerLaunch {
-        command: env!("CARGO_BIN_EXE_mcpkit-server").into(),
+        command: env!("CARGO_BIN_EXE_usemcpkit-server").into(),
         args: vec!["serve".into(), "--worker".into()],
         env: vec![
-            ("MCPKIT_HOME".into(), home.path().into()),
-            ("MCPKIT_REGISTRY".into(), "http://127.0.0.1:9".into()),
+            ("USEMCPKIT_HOME".into(), home.path().into()),
+            ("USEMCPKIT_REGISTRY".into(), "http://127.0.0.1:9".into()),
             ("USEMCPKIT_DEBUG".into(), "0".into()),
         ],
     };
@@ -95,7 +95,7 @@ async fn opens_a_section_through_the_runner_and_announces_the_new_tools_after_th
         .unwrap();
 
     assert_eq!(initialized["result"]["protocolVersion"], json!("2025-03-26"));
-    assert_eq!(initialized["result"]["serverInfo"]["name"], json!("mcpkit"));
+    assert_eq!(initialized["result"]["serverInfo"]["name"], json!("usemcpkit"));
     assert_eq!(
         listed["result"]["tools"].as_array().unwrap().len(),
         indexed_server_count()

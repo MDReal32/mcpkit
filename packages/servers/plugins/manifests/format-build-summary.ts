@@ -11,5 +11,5 @@ export const formatBuildSummary = (compiled: readonly CompiledManifest[], outDir
     describeAuth(manifest.auth),
     formatKilobytes(json),
   ]);
-  return [`mcpkit: ${compiled.length} manifest(s) → ${outDir}`, ...formatTable(rows)].join("\n");
+  return [`usemcpkit: ${compiled.length} manifest(s) → ${outDir}`, ...formatTable(rows)].join("\n");
 };

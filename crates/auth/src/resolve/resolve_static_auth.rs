@@ -2,9 +2,9 @@ use crate::resolve::encode_basic_credentials::encode_basic_credentials;
 use crate::resolve::read_secret::read_secret;
 use crate::{AuthError, ResolvedAuth};
 use indexmap::IndexMap;
-use mcpkit_core::env::Env;
-use mcpkit_core::js::to_js_json;
-use mcpkit_manifest::auth::AuthSpec;
+use usemcpkit_core::env::Env;
+use usemcpkit_core::js::to_js_json;
+use usemcpkit_manifest::auth::AuthSpec;
 
 /// Builds a fallback entry's auth from its credential values, keyed by env var name.
 pub fn resolve_static_auth(auth: &AuthSpec, server_name: &str, values: &Env) -> Result<ResolvedAuth, AuthError> {
@@ -53,9 +53,9 @@ mod tests {
     use base64::Engine;
     use base64::engine::general_purpose::STANDARD;
     use indexmap::IndexMap;
-    use mcpkit_core::env::Env;
-    use mcpkit_manifest::auth::AuthSpec;
     use serde_json::json;
+    use usemcpkit_core::env::Env;
+    use usemcpkit_manifest::auth::AuthSpec;
 
     fn spec(value: serde_json::Value) -> AuthSpec {
         serde_json::from_value(value).unwrap()

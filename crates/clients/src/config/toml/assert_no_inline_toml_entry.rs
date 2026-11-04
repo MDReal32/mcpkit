@@ -1,7 +1,7 @@
 use crate::client_error::ClientError;
-use mcpkit_core::js::JS_WHITESPACE;
 use regex::Regex;
 use std::path::Path;
+use usemcpkit_core::js::JS_WHITESPACE;
 
 /// An entry written as an inline table cannot be edited line by line; ask for a manual edit instead. Matches what the
 /// TypeScript CLI tests with `/^\s*(?:servers\.)?name\s*=\s*\{/m`, whose `\s` may run across lines.

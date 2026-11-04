@@ -3,8 +3,8 @@ use crate::catalog::retry_on_stale_index::retry_on_stale_index;
 use crate::registry_context::RegistryContext;
 use crate::registry_error::RegistryError;
 use crate::remote::Fetch;
-use mcpkit_manifest::Manifest;
-use mcpkit_manifest::registry::RegistryServer;
+use usemcpkit_manifest::Manifest;
+use usemcpkit_manifest::registry::RegistryServer;
 
 /// The manifest holding the tools of `group`: the cached copy when it still matches the index, otherwise a download
 /// that replaces it. A server split into parts loads only that part; a whole manifest ignores `group`.

@@ -1,7 +1,7 @@
 mod config_files;
 mod config_lock;
 mod config_migrations;
-mod is_mcpkit_config;
+mod is_usemcpkit_config;
 mod list_known_hosts;
 mod load_config;
 mod migrate_config;

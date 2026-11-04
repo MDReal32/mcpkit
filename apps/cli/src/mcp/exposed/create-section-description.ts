@@ -1,6 +1,6 @@
 import type { CatalogServer } from "../types/catalog-server";
 
-const SECTION_NOTICE = "This is a SECTION of mcpkit, not a callable tool.";
+const SECTION_NOTICE = "This is a SECTION of usemcpkit, not a callable tool.";
 
 export const createServerSectionDescription = (server: CatalogServer) =>
   `${server.description ?? server.id}. ${SECTION_NOTICE} Call it with no arguments to open it: it lists its groups ` +

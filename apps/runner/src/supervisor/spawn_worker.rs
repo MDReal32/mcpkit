@@ -37,7 +37,7 @@ pub fn spawn_worker(
         let code = run_worker_process(command, &display, input_rx, handshake_tx, output, process_kill).await;
         exited_tx.send_replace(Some(code));
         if events.send(SupervisorEvent::WorkerExited { id, code }).is_err() {
-            eprintln!("mcpkit: the server exited with code {code} after the supervisor stopped");
+            eprintln!("usemcpkit: the server exited with code {code} after the supervisor stopped");
         }
     });
     Worker {
@@ -60,12 +60,12 @@ async fn run_worker_process(
     let mut child = match command.spawn() {
         Ok(child) => child,
         Err(error) => {
-            eprintln!("mcpkit: cannot run {display}: {error}");
+            eprintln!("usemcpkit: cannot run {display}: {error}");
             return 1;
         }
     };
     let (Some(stdin), Some(stdout)) = (child.stdin.take(), child.stdout.take()) else {
-        eprintln!("mcpkit: {display} started without piped stdio");
+        eprintln!("usemcpkit: {display} started without piped stdio");
         return 1;
     };
     let writer = tokio::spawn(write_worker_input(stdin, input));
@@ -74,19 +74,19 @@ async fn run_worker_process(
         status = child.wait() => status,
         () = kill.notified() => {
             if let Err(error) = child.start_kill() {
-                eprintln!("mcpkit: cannot stop {display}: {error}");
+                eprintln!("usemcpkit: cannot stop {display}: {error}");
             }
             child.wait().await
         }
     };
     if let Err(error) = reader.await {
-        eprintln!("mcpkit: reading the output of {display} failed: {error}");
+        eprintln!("usemcpkit: reading the output of {display} failed: {error}");
     }
     writer.abort();
     match status {
         Ok(status) => status.code().unwrap_or(1),
         Err(error) => {
-            eprintln!("mcpkit: cannot wait for {display}: {error}");
+            eprintln!("usemcpkit: cannot wait for {display}: {error}");
             1
         }
     }
@@ -100,7 +100,7 @@ async fn write_worker_input(mut stdin: ChildStdin, mut input: mpsc::UnboundedRec
             stdin.flush().await
         };
         if let Err(error) = written.await {
-            eprintln!("mcpkit: cannot write to the server process: {error}");
+            eprintln!("usemcpkit: cannot write to the server process: {error}");
         }
     }
 }
@@ -117,7 +117,7 @@ async fn read_worker_output(
             Ok(Some(line)) => line,
             Ok(None) => return,
             Err(error) => {
-                eprintln!("mcpkit: cannot read the server's output: {error}");
+                eprintln!("usemcpkit: cannot read the server's output: {error}");
                 return;
             }
         };
@@ -125,7 +125,7 @@ async fn read_worker_output(
             if let Some(answer) = handshake.take()
                 && answer.send(line).is_err()
             {
-                eprintln!("mcpkit: the server answered the replayed initialize after the reload gave up");
+                eprintln!("usemcpkit: the server answered the replayed initialize after the reload gave up");
             }
             continue;
         }

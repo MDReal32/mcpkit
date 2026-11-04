@@ -1,19 +1,19 @@
 {
   "name": "usemcpkit",
   "version": "0.8.4",
-  "description": "npx usemcpkit: adds mcpkit to every AI client on this computer. Runs @usemcpkit/cli.",
+  "description": "npx usemcpkit: adds usemcpkit to every AI client on this computer. Runs @usemcpkit/cli.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MDReal32/mcpkit.git",
     "directory": "apps/npx"
   },
   "type": "module",
-  "bin": "build/mcpkit.npx.js",
+  "bin": "build/usemcpkit.npx.js",
   "publishConfig": {
     "access": "public"
   },
   "files": [
-    "build/mcpkit.npx.js"
+    "build/usemcpkit.npx.js"
   ],
   "scripts": {
     "build": "vite build --configLoader native",

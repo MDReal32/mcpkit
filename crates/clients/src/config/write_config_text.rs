@@ -5,7 +5,7 @@ use crate::consts::BACKUP_SUFFIX;
 use std::io::ErrorKind;
 use std::path::Path;
 
-/// Keeps a copy of the previous file at `<path>.mcpkit-backup`, then swaps the new content in atomically, with the
+/// Keeps a copy of the previous file at `<path>.usemcpkit-backup`, then swaps the new content in atomically, with the
 /// previous file's permissions.
 pub fn write_config_text(path: &Path, text: &str) -> Result<(), ClientError> {
     let failed = |action: &str, target: &Path, error: std::io::Error| {

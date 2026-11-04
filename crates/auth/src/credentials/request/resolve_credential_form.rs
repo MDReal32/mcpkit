@@ -3,10 +3,10 @@ use crate::credentials::request::request_credentials_once::request_credentials_o
 use crate::credentials::resolve::{resolve_form_sign_in, resolve_form_token};
 use crate::credentials::response::validate_credential_response;
 use crate::{AuthContext, AuthError, AuthResolution};
-use mcpkit_manifest::Manifest;
-use mcpkit_manifest::domain::apply_domain;
 use serde_json::Value;
 use std::rc::Rc;
+use usemcpkit_manifest::Manifest;
+use usemcpkit_manifest::domain::apply_domain;
 
 /// Asks the user for a domain and credentials, or to sign in; what they enter is saved once the API accepts it.
 pub async fn resolve_credential_form(

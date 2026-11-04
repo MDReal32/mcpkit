@@ -3,7 +3,7 @@ use crate::catalog::retry_on_stale_index::retry_on_stale_index;
 use crate::registry_context::RegistryContext;
 use crate::registry_error::RegistryError;
 use crate::remote::Fetch;
-use mcpkit_manifest::registry::RegistryServer;
+use usemcpkit_manifest::registry::RegistryServer;
 
 /// The group names of a server split into parts, read from its shell alone; empty when its tools are in one manifest.
 pub async fn load_groups<F: Fetch>(

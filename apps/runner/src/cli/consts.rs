@@ -1,7 +1,7 @@
 use std::time::Duration;
 
 /// Overrides where the runner finds the server binary it runs and watches.
-pub const SERVER_BINARY_ENV: &str = "MCPKIT_SERVER";
+pub const SERVER_BINARY_ENV: &str = "USEMCPKIT_SERVER";
 
 pub const WORKER_FLAG: &str = "--worker";
 

@@ -2,8 +2,8 @@ use crate::repo::consts::REPO_DIR_PLACEHOLDER;
 use crate::repo::ensure_repo::ensure_repo;
 use crate::repo::repo_options::RepoOptions;
 use crate::upstream_error::UpstreamError;
-use mcpkit_manifest::upstream::StdioUpstream;
 use std::path::Path;
+use usemcpkit_manifest::upstream::StdioUpstream;
 
 /// A stdio upstream that names a `repo` is cloned and set up under `repo_dir` the first time it is needed and kept up
 /// to date after that; the result runs the program with `{repo}` in its args replaced by that folder. A spec without a

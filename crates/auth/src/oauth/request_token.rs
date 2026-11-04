@@ -6,10 +6,10 @@ use crate::resolve::{encode_basic_credentials, read_secret};
 use crate::token_store::StoredToken;
 use crate::{AuthContext, AuthError};
 use indexmap::IndexMap;
-use mcpkit_http::{HttpRequest, RequestBody};
-use mcpkit_manifest::auth::{ClientAuthentication, OAuthAuth};
-use mcpkit_manifest::tool::HttpMethod;
 use url::form_urlencoded;
+use usemcpkit_http::{HttpRequest, RequestBody};
+use usemcpkit_manifest::auth::{ClientAuthentication, OAuthAuth};
+use usemcpkit_manifest::tool::HttpMethod;
 
 /// Posts a grant to the entry's token endpoint, with the client credentials where the entry says they go.
 pub async fn request_token(

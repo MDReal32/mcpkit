@@ -1,4 +1,4 @@
-export const FORM_WINDOW_TITLE = "mcpkit";
+export const FORM_WINDOW_TITLE = "usemcpkit";
 
 /** The size the window opens at, before the page reports the size of its card. */
 export const FORM_WINDOW_SIZE = { width: 520, height: 640 } as const;
@@ -25,7 +25,7 @@ export const WIN32_TOPMOST = { insertAfter: -1, flags: 0x1 | 0x2 | 0x40 } as con
 /** `NSWindowStyleMaskTitled | NSWindowStyleMaskClosable`; webview adds miniaturize when it sets the size. */
 export const MAC_PANEL_STYLE_MASK = (1 << 0) | (1 << 1);
 
-export const MAC_WINDOW_DELEGATE_CLASS = "McpkitFormWindowDelegate";
+export const MAC_WINDOW_DELEGATE_CLASS = "UsemcpkitFormWindowDelegate";
 
 /** Objective-C type encoding of `- (void)windowWillClose:(NSNotification *)notification`. */
 export const MAC_WINDOW_WILL_CLOSE_TYPES = "v@:@";

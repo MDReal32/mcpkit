@@ -1,5 +1,5 @@
 [package]
-name = "mcpkit-credentials-form"
+name = "usemcpkit-credentials-form"
 description = "Serves the one-off loopback credentials page a call opens when it needs credentials or a domain."
 version.workspace = true
 edition.workspace = true
@@ -17,9 +17,9 @@ bytes.workspace = true
 http-body-util.workspace = true
 hyper.workspace = true
 hyper-util.workspace = true
-mcpkit-auth.workspace = true
-mcpkit-core.workspace = true
-mcpkit-manifest.workspace = true
+usemcpkit-auth.workspace = true
+usemcpkit-core.workspace = true
+usemcpkit-manifest.workspace = true
 serde_json.workspace = true
 tokio.workspace = true
 

@@ -24,6 +24,6 @@ export const updateRepo = async (
       await buildRepo(repo, dir, state.signature, Date.now());
     }
   } catch (error) {
-    warn(`mcpkit: could not update ${repo.url} at ${repo.ref}, using the clone it has: ${describeError(error)}`);
+    warn(`usemcpkit: could not update ${repo.url} at ${repo.ref}, using the clone it has: ${describeError(error)}`);
   }
 };

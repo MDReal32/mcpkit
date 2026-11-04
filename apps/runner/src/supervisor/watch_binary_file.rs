@@ -26,7 +26,7 @@ pub async fn watch_binary_file(
                 Ok(signature) => signature,
                 Err(error) if error.kind() == ErrorKind::NotFound => continue,
                 Err(error) => {
-                    eprintln!("mcpkit: cannot read {}: {error}", path.display());
+                    eprintln!("usemcpkit: cannot read {}: {error}", path.display());
                     continue;
                 }
             };

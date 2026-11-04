@@ -1,4 +1,4 @@
-/// The operating system families mcpkit tells apart, as Node's `process.platform` is read across the TypeScript CLI:
+/// The operating system families usemcpkit tells apart, as Node's `process.platform` is read across the TypeScript CLI:
 /// `win32`, `darwin`, and everything else taken as Linux.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Platform {

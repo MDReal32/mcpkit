@@ -24,6 +24,6 @@ pub const CALLBACK_CLOSE_TIMEOUT: Duration = Duration::from_secs(1);
 
 pub const RANDOM_TOKEN_BYTES: usize = 32;
 
-pub const CALLBACK_PAGE: &str = "<!doctype html><meta charset=\"utf-8\"><title>mcpkit</title><p>mcpkit received the authorization. You can close this window.</p>";
+pub const CALLBACK_PAGE: &str = "<!doctype html><meta charset=\"utf-8\"><title>usemcpkit</title><p>usemcpkit received the authorization. You can close this window.</p>";
 
 pub const CALLBACK_PAGE_CONTENT_TYPE: &str = "text/html; charset=utf-8";

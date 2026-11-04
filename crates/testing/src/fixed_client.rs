@@ -1,7 +1,7 @@
-use mcpkit_core::LocalFuture;
-use mcpkit_http::{HttpClient, HttpError, HttpRequest, HttpResponse};
 use std::cell::RefCell;
 use std::time::Duration;
+use usemcpkit_core::LocalFuture;
+use usemcpkit_http::{HttpClient, HttpError, HttpRequest, HttpResponse};
 
 /// Answers every request with the same response and records what it was sent.
 pub struct FixedClient {

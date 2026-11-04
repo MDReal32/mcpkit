@@ -3,8 +3,8 @@ use crate::mcp::consts::TOOL_ID_SEPARATOR;
 use crate::mcp::exposed::load_upstream_tools::load_upstream_tools;
 use crate::upstream::MIN_SEGMENTS_TO_GROUP;
 use indexmap::IndexSet;
-use mcpkit_manifest::registry::RegistryServer;
-use mcpkit_registry::Fetch;
+use usemcpkit_manifest::registry::RegistryServer;
+use usemcpkit_registry::Fetch;
 
 /// The groups a server opens into: its parts for a server split into files, the first name segments for an upstream
 /// whose tools are all named `<group>:<resource>:<action>`. Empty when its tools are not grouped.

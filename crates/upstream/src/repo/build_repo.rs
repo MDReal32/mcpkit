@@ -4,9 +4,9 @@ use crate::repo::replace_directory::replace_directory;
 use crate::repo::set_up_clone::set_up_clone;
 use crate::repo::sibling_path::sibling_path;
 use crate::upstream_error::UpstreamError;
-use mcpkit_core::env::Env;
-use mcpkit_manifest::upstream::UpstreamRepo;
 use std::path::Path;
+use usemcpkit_core::env::Env;
+use usemcpkit_manifest::upstream::UpstreamRepo;
 
 /// Clones `repo`, checks out its ref, sets it up and records the commit it resolved to. It is built next to `dir`
 /// and moved into place at the end, so a failed or interrupted run leaves nothing half-made; a clone another process

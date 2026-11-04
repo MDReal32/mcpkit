@@ -1,5 +1,5 @@
 use crate::mcp::exposed::consts::SECTION_NOTICE;
-use mcpkit_manifest::registry::RegistryServer;
+use usemcpkit_manifest::registry::RegistryServer;
 
 pub fn create_server_section_description(server: &RegistryServer) -> String {
     let summary = server.description.as_deref().unwrap_or(&server.id);

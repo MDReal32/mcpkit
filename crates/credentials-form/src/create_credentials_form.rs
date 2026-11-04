@@ -3,9 +3,9 @@ use crate::consts::FORM_TIMED_OUT_MESSAGE;
 use crate::credentials_form_options::CredentialsFormOptions;
 use crate::inject_credential_request::inject_credential_request;
 use crate::server::FormServer;
-use mcpkit_auth::AuthError;
-use mcpkit_auth::credentials::CredentialRequester;
 use std::rc::Rc;
+use usemcpkit_auth::AuthError;
+use usemcpkit_auth::credentials::CredentialRequester;
 
 /// The `request_credentials` hook that asks through a one-off loopback page, closed once it answers, is cancelled or
 /// times out.

@@ -3,7 +3,7 @@ use crate::mcp::exposed::consts::{HASH_LENGTH, MAX_TOOL_NAME_LENGTH, NAME_PART_S
 use crate::mcp::exposed::cut_at_word_boundary::cut_at_word_boundary;
 use crate::mcp::exposed::drop_repeated_parts::drop_repeated_parts;
 use crate::mcp::exposed::sanitize_name_characters::sanitize_name_characters;
-use mcpkit_core::hash::sha256_hex;
+use usemcpkit_core::hash::sha256_hex;
 
 /// `git:github` with `issues:issues:get_issue` is `git_github_issues_get_issue`: a group and resource that repeat each
 /// other are named once. A name that does not fit is cut at a word boundary and ends in a hash of the full id, so it

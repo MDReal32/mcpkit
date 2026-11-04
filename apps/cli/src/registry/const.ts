@@ -2,7 +2,7 @@ export const MANIFESTS_DIR_NAME = "manifests";
 
 export const FETCH_TIMEOUT_MS = 30_000;
 
-export const REGISTRY_ENV = "MCPKIT_REGISTRY";
+export const REGISTRY_ENV = "USEMCPKIT_REGISTRY";
 
 export const INDEX_FILE_NAME = "index.json";
 

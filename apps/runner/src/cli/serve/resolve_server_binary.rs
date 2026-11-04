@@ -1,5 +1,5 @@
-use mcpkit_binary::platform::SERVER_BINARY_NAME;
 use std::path::PathBuf;
+use usemcpkit_binary::platform::SERVER_BINARY_NAME;
 
 /// The server binary sits next to the runner, so installing or updating one folder keeps the pair together.
 pub fn resolve_server_binary() -> std::io::Result<PathBuf> {

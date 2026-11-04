@@ -22,7 +22,7 @@ const githubCli: UiCliAction = {
 const githubLink: UiAction = {
   type: "link",
   label: "Create on GitHub",
-  url: "https://{webHost}/settings/personal-access-tokens/new?name=mcpkit+{server}",
+  url: "https://{webHost}/settings/personal-access-tokens/new?name=usemcpkit+{server}",
 };
 
 describe("fillTemplate", () => {
@@ -197,7 +197,7 @@ describe("credentials request from the manifest", () => {
       },
     ]);
     expect(request?.options[0]?.actions).toEqual([
-      { ...githubLink, url: "https://{webHost}/settings/personal-access-tokens/new?name=mcpkit+demo" },
+      { ...githubLink, url: "https://{webHost}/settings/personal-access-tokens/new?name=usemcpkit+demo" },
       githubCli,
     ]);
   });

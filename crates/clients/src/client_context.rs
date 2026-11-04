@@ -1,7 +1,7 @@
 use crate::paths::resolve_app_data_dir;
-use mcpkit_core::env::Env;
-use mcpkit_core::platform::Platform;
 use std::path::PathBuf;
+use usemcpkit_core::env::Env;
+use usemcpkit_core::platform::Platform;
 
 /// Where the clients of this user keep their files.
 #[derive(Clone, Debug)]

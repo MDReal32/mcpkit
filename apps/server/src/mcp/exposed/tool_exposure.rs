@@ -10,13 +10,13 @@ use crate::mcp::exposed::load_group_names::load_group_names;
 use crate::mcp::exposed::load_group_tools::load_group_tools;
 use crate::mcp::exposed::opened_section::OpenedSection;
 use crate::mcp::exposed::pick_free_name::pick_free_name;
-use mcpkit_registry::Fetch;
-use mcpkit_wire_log::WireLog;
 use serde_json::json;
 use std::cell::RefCell;
 use std::collections::{HashMap, HashSet};
 use std::rc::Rc;
 use tokio::sync::OnceCell;
+use usemcpkit_registry::Fetch;
+use usemcpkit_wire_log::WireLog;
 
 type LoadedChildren = Result<Vec<Rc<ExposedEntry>>, String>;
 

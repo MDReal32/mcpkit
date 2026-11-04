@@ -2,16 +2,6 @@ use base64::Engine;
 use base64::engine::general_purpose::STANDARD;
 use flate2::Compression;
 use flate2::write::GzEncoder;
-use mcpkit_binary::platform::Target;
-use mcpkit_binary::tar::{TAR_BLOCK_SIZE, extract_tar_file};
-use mcpkit_binary::{
-    BinaryContext, BinarySource, BinaryUpdateResult, InstalledBinary, PackageManagerInstall, PackageRelease,
-    UPDATE_CHECK_INTERVAL_MS, auto_update_binary, check_for_binary_update, find_package_manager_install,
-    install_binary, read_package_release, restore_server_binary, update_binary, verify_integrity,
-};
-use mcpkit_core::env::Env;
-use mcpkit_http::HttpResponse;
-use mcpkit_testing::RouteClient;
 use serde_json::{Value, json};
 use sha2::{Digest, Sha512};
 use std::fs;
@@ -19,6 +9,16 @@ use std::io::Write;
 use std::path::{Path, PathBuf};
 use std::rc::Rc;
 use tempfile::TempDir;
+use usemcpkit_binary::platform::Target;
+use usemcpkit_binary::tar::{TAR_BLOCK_SIZE, extract_tar_file};
+use usemcpkit_binary::{
+    BinaryContext, BinarySource, BinaryUpdateResult, InstalledBinary, PackageManagerInstall, PackageRelease,
+    UPDATE_CHECK_INTERVAL_MS, auto_update_binary, check_for_binary_update, find_package_manager_install,
+    install_binary, read_package_release, restore_server_binary, update_binary, verify_integrity,
+};
+use usemcpkit_core::env::Env;
+use usemcpkit_http::HttpResponse;
+use usemcpkit_testing::RouteClient;
 
 const REGISTRY: &str = "https://reg.example";
 
@@ -82,12 +82,12 @@ fn json_body(body: &Value) -> HttpResponse {
 fn release_client(version: &str, runner: &str, server: &str) -> RouteClient {
     let tarball = gzip(&create_tar(&[
         TarEntry {
-            path: "package/bin/mcpkit",
+            path: "package/bin/usemcpkit",
             prefix: "",
             content: runner,
         },
         TarEntry {
-            path: "package/bin/mcpkit-server",
+            path: "package/bin/usemcpkit-server",
             prefix: "",
             content: server,
         },
@@ -112,8 +112,8 @@ fn empty_client() -> RouteClient {
 
 fn create_context(home: &Path, client: RouteClient, exec_path: PathBuf) -> BinaryContext {
     let env = Env::from_pairs([
-        ("MCPKIT_HOME", home.to_str().unwrap()),
-        ("MCPKIT_NPM_REGISTRY", &format!("{REGISTRY}/")),
+        ("USEMCPKIT_HOME", home.to_str().unwrap()),
+        ("USEMCPKIT_NPM_REGISTRY", &format!("{REGISTRY}/")),
     ]);
     BinaryContext::new(Target::DarwinArm64, env, exec_path, Rc::new(client)).unwrap()
 }
@@ -131,13 +131,13 @@ fn extract_tar_file_returns_the_requested_file_and_skips_the_others() {
             content: "{}",
         },
         TarEntry {
-            path: "mcpkit",
+            path: "usemcpkit",
             prefix: "package/bin",
             content: "binary",
         },
     ]);
 
-    assert_eq!(extract_tar_file(&archive, "package/bin/mcpkit").unwrap(), b"binary");
+    assert_eq!(extract_tar_file(&archive, "package/bin/usemcpkit").unwrap(), b"binary");
 }
 
 #[test]
@@ -155,13 +155,13 @@ fn extract_tar_file_fails_when_the_file_is_missing() {
 
 #[test]
 fn verify_integrity_accepts_matching_sha512_integrity() {
-    verify_integrity(b"mcpkit", &to_integrity(b"mcpkit"), "x").unwrap();
+    verify_integrity(b"usemcpkit", &to_integrity(b"usemcpkit"), "x").unwrap();
 }
 
 #[test]
 fn verify_integrity_rejects_a_mismatch_and_unknown_algorithms() {
-    let mismatch = verify_integrity(b"mcpkit", &to_integrity(&[1]), "x").unwrap_err();
-    let unknown = verify_integrity(b"mcpkit", "md5-abc", "x").unwrap_err();
+    let mismatch = verify_integrity(b"usemcpkit", &to_integrity(&[1]), "x").unwrap_err();
+    let unknown = verify_integrity(b"usemcpkit", "md5-abc", "x").unwrap_err();
 
     assert!(mismatch.0.contains("does not match"), "{mismatch}");
     assert!(unknown.0.contains("unsupported integrity"), "{unknown}");
@@ -195,9 +195,9 @@ fn read_package_release_fails_for_unpublished_versions() {
 
 fn write_installed_pair(dir: &Path) -> PathBuf {
     fs::create_dir_all(dir).unwrap();
-    let path = dir.join("mcpkit");
+    let path = dir.join("usemcpkit");
     fs::write(&path, "old").unwrap();
-    fs::write(dir.join("mcpkit-server"), "old server").unwrap();
+    fs::write(dir.join("usemcpkit-server"), "old server").unwrap();
     path
 }
 
@@ -218,7 +218,7 @@ async fn update_binary_replaces_both_binaries_with_a_newer_verified_release() {
         }
     );
     assert_eq!(read(&path), "new");
-    assert_eq!(read(&home.path().join("bin").join("mcpkit-server")), "new server");
+    assert_eq!(read(&home.path().join("bin").join("usemcpkit-server")), "new server");
     #[cfg(unix)]
     {
         use std::os::unix::fs::PermissionsExt;
@@ -266,7 +266,7 @@ async fn update_binary_writes_nothing_when_the_release_lacks_the_server() {
     let home = TempDir::new().unwrap();
     let path = write_installed_pair(&home.path().join("bin"));
     let tarball = gzip(&create_tar(&[TarEntry {
-        path: "package/bin/mcpkit",
+        path: "package/bin/usemcpkit",
         prefix: "",
         content: "new",
     }]));
@@ -286,7 +286,10 @@ async fn update_binary_writes_nothing_when_the_release_lacks_the_server() {
 
     let error = update_binary(&context, &path, "0.1.0").await.unwrap_err();
 
-    assert!(error.0.contains("tarball has no package/bin/mcpkit-server"), "{error}");
+    assert!(
+        error.0.contains("tarball has no package/bin/usemcpkit-server"),
+        "{error}"
+    );
     assert_eq!(read(&path), "old");
 }
 
@@ -315,13 +318,13 @@ async fn update_binary_rejects_a_tarball_that_fails_its_integrity() {
 }
 
 #[test]
-fn install_binary_copies_a_local_runner_and_its_server_into_mcpkit_home_bin() {
+fn install_binary_copies_a_local_runner_and_its_server_into_usemcpkit_home_bin() {
     let home = TempDir::new().unwrap();
     let source_dir = home.path().join("build");
     fs::create_dir(&source_dir).unwrap();
-    let source = source_dir.join("mcpkit");
+    let source = source_dir.join("usemcpkit");
     fs::write(&source, "local").unwrap();
-    fs::write(source_dir.join("mcpkit-server"), "local server").unwrap();
+    fs::write(source_dir.join("usemcpkit-server"), "local server").unwrap();
     let context = create_context(home.path(), empty_client(), PathBuf::from("unused"));
 
     let installed = install_binary(
@@ -337,8 +340,8 @@ fn install_binary_copies_a_local_runner_and_its_server_into_mcpkit_home_bin() {
     assert_eq!(
         installed,
         InstalledBinary {
-            path: bin.join("mcpkit"),
-            server_path: bin.join("mcpkit-server"),
+            path: bin.join("usemcpkit"),
+            server_path: bin.join("usemcpkit-server"),
             version: "0.1.0".to_owned(),
         }
     );
@@ -351,9 +354,9 @@ fn install_binary_copies_the_running_runner_and_the_server_next_to_it() {
     let home = TempDir::new().unwrap();
     let running_dir = home.path().join("downloads");
     fs::create_dir(&running_dir).unwrap();
-    fs::write(running_dir.join("mcpkit"), "running").unwrap();
-    fs::write(running_dir.join("mcpkit-server"), "running server").unwrap();
-    let context = create_context(home.path(), empty_client(), running_dir.join("mcpkit"));
+    fs::write(running_dir.join("usemcpkit"), "running").unwrap();
+    fs::write(running_dir.join("usemcpkit-server"), "running server").unwrap();
+    let context = create_context(home.path(), empty_client(), running_dir.join("usemcpkit"));
 
     let installed = install_binary(
         &context,
@@ -371,7 +374,7 @@ fn install_binary_copies_the_running_runner_and_the_server_next_to_it() {
 #[test]
 fn install_binary_refuses_a_runner_without_its_server() {
     let home = TempDir::new().unwrap();
-    let source = home.path().join("mcpkit");
+    let source = home.path().join("usemcpkit");
     fs::write(&source, "local").unwrap();
     let context = create_context(home.path(), empty_client(), PathBuf::from("unused"));
 
@@ -384,8 +387,8 @@ fn install_binary_refuses_a_runner_without_its_server() {
     )
     .unwrap_err();
 
-    assert!(error.0.contains("mcpkit-server"), "{error}");
-    assert!(!home.path().join("bin").join("mcpkit").exists());
+    assert!(error.0.contains("usemcpkit-server"), "{error}");
+    assert!(!home.path().join("bin").join("usemcpkit").exists());
 }
 
 #[tokio::test(flavor = "current_thread")]
@@ -394,7 +397,7 @@ async fn auto_update_binary_does_nothing_outside_the_installed_binary() {
     let context = create_context(
         home.path(),
         empty_client(),
-        home.path().join("elsewhere").join("mcpkit"),
+        home.path().join("elsewhere").join("usemcpkit"),
     );
 
     assert_eq!(auto_update_binary(&context, "0.1.0", 0).await.unwrap(), None);
@@ -457,29 +460,29 @@ async fn check_for_binary_update_skips_until_the_interval_has_passed_once_a_chec
 #[test]
 fn find_package_manager_install_points_homebrew_installs_at_the_linked_bin_path() {
     assert_eq!(
-        find_package_manager_install("/opt/homebrew/Cellar/mcpkit/0.2.0/bin/mcpkit").unwrap(),
+        find_package_manager_install("/opt/homebrew/Cellar/usemcpkit/0.2.0/bin/usemcpkit").unwrap(),
         Some(PackageManagerInstall {
             manager: "Homebrew".to_owned(),
-            path: "/opt/homebrew/bin/mcpkit".to_owned(),
-            upgrade_command: "brew upgrade mcpkit".to_owned(),
+            path: "/opt/homebrew/bin/usemcpkit".to_owned(),
+            upgrade_command: "brew upgrade usemcpkit".to_owned(),
         })
     );
-    let linuxbrew = find_package_manager_install("/home/linuxbrew/.linuxbrew/Cellar/mcpkit/0.2.0/bin/mcpkit")
+    let linuxbrew = find_package_manager_install("/home/linuxbrew/.linuxbrew/Cellar/usemcpkit/0.2.0/bin/usemcpkit")
         .unwrap()
         .unwrap();
-    assert_eq!(linuxbrew.path, "/home/linuxbrew/.linuxbrew/bin/mcpkit");
+    assert_eq!(linuxbrew.path, "/home/linuxbrew/.linuxbrew/bin/usemcpkit");
 }
 
 #[test]
 fn find_package_manager_install_keeps_winget_installs_in_their_package_folder() {
-    let path = r"C:\Users\me\AppData\Local\Microsoft\WinGet\Packages\Mcpkit.Mcpkit_Microsoft.Winget.Source_8wekyb3d8bbwe\mcpkit.exe";
+    let path = r"C:\Users\me\AppData\Local\Microsoft\WinGet\Packages\Usemcpkit.Usemcpkit_Microsoft.Winget.Source_8wekyb3d8bbwe\usemcpkit.exe";
 
     assert_eq!(
         find_package_manager_install(path).unwrap(),
         Some(PackageManagerInstall {
             manager: "winget".to_owned(),
             path: path.to_owned(),
-            upgrade_command: "winget upgrade --id Mcpkit.Mcpkit".to_owned(),
+            upgrade_command: "winget upgrade --id Usemcpkit.Usemcpkit".to_owned(),
         })
     );
 }
@@ -496,7 +499,7 @@ fn find_package_manager_install_recognizes_the_winget_binary_named_after_its_use
 #[test]
 fn find_package_manager_install_ignores_binaries_outside_a_package_manager() {
     assert_eq!(
-        find_package_manager_install("/Users/me/.mcpkit/bin/mcpkit").unwrap(),
+        find_package_manager_install("/Users/me/.usemcpkit/bin/usemcpkit").unwrap(),
         None
     );
 }
@@ -506,23 +509,23 @@ fn find_package_manager_install_ignores_binaries_outside_a_package_manager() {
 fn detect_package_manager_install_follows_the_homebrew_bin_link_into_the_cellar() {
     let home = TempDir::new().unwrap();
     let prefix = fs::canonicalize(home.path()).unwrap();
-    let cellar_bin = prefix.join("Cellar/mcpkit/0.2.0/bin");
+    let cellar_bin = prefix.join("Cellar/usemcpkit/0.2.0/bin");
     fs::create_dir_all(&cellar_bin).unwrap();
     fs::create_dir(prefix.join("bin")).unwrap();
-    fs::write(cellar_bin.join("mcpkit"), "binary").unwrap();
-    std::os::unix::fs::symlink(cellar_bin.join("mcpkit"), prefix.join("bin/mcpkit")).unwrap();
+    fs::write(cellar_bin.join("usemcpkit"), "binary").unwrap();
+    std::os::unix::fs::symlink(cellar_bin.join("usemcpkit"), prefix.join("bin/usemcpkit")).unwrap();
 
-    let found = mcpkit_binary::detect_package_manager_install(&prefix.join("bin/mcpkit"))
+    let found = usemcpkit_binary::detect_package_manager_install(&prefix.join("bin/usemcpkit"))
         .unwrap()
         .unwrap();
 
-    assert_eq!(found.path, prefix.join("bin/mcpkit").to_string_lossy());
+    assert_eq!(found.path, prefix.join("bin/usemcpkit").to_string_lossy());
 }
 
 #[tokio::test(flavor = "current_thread")]
 async fn restore_server_binary_writes_the_server_of_the_running_version_next_to_the_runner() {
     let home = TempDir::new().unwrap();
-    let runner = home.path().join("bin").join("mcpkit");
+    let runner = home.path().join("bin").join("usemcpkit");
     fs::create_dir_all(runner.parent().unwrap()).unwrap();
     fs::write(&runner, "runner").unwrap();
     let context = create_context(
@@ -533,7 +536,7 @@ async fn restore_server_binary_writes_the_server_of_the_running_version_next_to_
 
     let path = restore_server_binary(&context, "0.2.0").await.unwrap();
 
-    assert_eq!(path, home.path().join("bin").join("mcpkit-server"));
+    assert_eq!(path, home.path().join("bin").join("usemcpkit-server"));
     assert_eq!(read(&path), "server");
     assert_eq!(read(&runner), "runner");
 }
@@ -541,7 +544,7 @@ async fn restore_server_binary_writes_the_server_of_the_running_version_next_to_
 #[tokio::test(flavor = "current_thread")]
 async fn restore_server_binary_fails_for_a_version_that_is_not_published() {
     let home = TempDir::new().unwrap();
-    let runner = home.path().join("bin").join("mcpkit");
+    let runner = home.path().join("bin").join("usemcpkit");
     let context = create_context(home.path(), release_client("0.2.0", "runner", "server"), runner);
 
     let error = restore_server_binary(&context, "0.1.0").await.unwrap_err();
@@ -550,5 +553,5 @@ async fn restore_server_binary_fails_for_a_version_that_is_not_published() {
         error.0.contains("@usemcpkit/cli-darwin-arm64@0.1.0 is not published"),
         "{error}"
     );
-    assert!(!home.path().join("bin").join("mcpkit-server").exists());
+    assert!(!home.path().join("bin").join("usemcpkit-server").exists());
 }

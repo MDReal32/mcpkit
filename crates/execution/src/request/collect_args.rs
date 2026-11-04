@@ -1,6 +1,6 @@
 use crate::args::{ArgValue, ToolArgs};
 use indexmap::IndexMap;
-use mcpkit_manifest::tool::NameSelection;
+use usemcpkit_manifest::tool::NameSelection;
 
 /// The given arguments a request part names, under their outgoing keys.
 pub fn collect_args(spec: Option<&NameSelection>, args: &ToolArgs) -> IndexMap<String, ArgValue> {

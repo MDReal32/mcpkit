@@ -1,5 +1,5 @@
 use indexmap::IndexMap;
-use mcpkit_manifest::upstream::UpstreamSpec;
+use usemcpkit_manifest::upstream::UpstreamSpec;
 
 /// What one attempt at an upstream is made with: its spec with the domain filled in, the auth headers of an HTTP one
 /// and the forwarded credentials of a stdio one.

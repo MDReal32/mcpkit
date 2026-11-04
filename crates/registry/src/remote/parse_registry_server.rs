@@ -1,6 +1,6 @@
 use crate::ids::{is_sha256, parse_server_id};
-use mcpkit_manifest::registry::RegistryServer;
 use serde_json::Value;
+use usemcpkit_manifest::registry::RegistryServer;
 
 const SERVER_ID_PATTERN: &str = "/^[a-z][a-z0-9-]*:[a-z][a-z0-9_]*$/";
 

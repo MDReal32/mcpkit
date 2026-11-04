@@ -14,7 +14,7 @@ pub async fn read_cache_map<F>(context: &RegistryContext<F>) -> CacheMap {
     };
     parsed.unwrap_or_else(|error| {
         (context.warn)(&format!(
-            "mcpkit: {} is unreadable and will be rebuilt: {error}",
+            "usemcpkit: {} is unreadable and will be rebuilt: {error}",
             file.display()
         ));
         CacheMap::new()

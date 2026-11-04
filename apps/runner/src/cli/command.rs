@@ -4,7 +4,7 @@ use std::path::PathBuf;
 
 #[derive(Debug, Parser)]
 #[command(
-    name = "mcpkit",
+    name = "usemcpkit",
     version,
     about = "Many MCP servers in one tool (no command means install)",
     after_help = describe_program(),
@@ -19,9 +19,9 @@ pub struct Cli {
 
 #[derive(Debug, Subcommand)]
 pub enum Command {
-    /// Add mcpkit to the AI clients found on this computer (asks which)
+    /// Add usemcpkit to the AI clients found on this computer (asks which)
     Install(InstallArgs),
-    /// Remove the mcpkit entry from clients
+    /// Remove the usemcpkit entry from clients
     Uninstall(ClientSelection),
     /// Update the cached manifests, then replace the installed binary with the latest release
     Upgrade,
@@ -29,10 +29,10 @@ pub enum Command {
     Serve {
         /// Server ids or names, for example git:github or jira
         servers: Vec<String>,
-        /// The server binary to run and watch, instead of mcpkit-server next to this binary
+        /// The server binary to run and watch, instead of usemcpkit-server next to this binary
         #[arg(long, env = crate::cli::consts::SERVER_BINARY_ENV)]
         server: Option<PathBuf>,
-        /// Internal: run as the worker of a supervising serve, which an older mcpkit that already runs starts when this
+        /// Internal: run as the worker of a supervising serve, which an older usemcpkit that already runs starts when this
         /// binary replaces it
         #[arg(long, hide = true)]
         worker: bool,
@@ -41,7 +41,7 @@ pub enum Command {
     List,
     /// Refresh the registry index and the manifests already cached; servers you have not used are not downloaded
     Update {
-        /// Registry base URL (default: MCPKIT_REGISTRY, else the mcpkit registry)
+        /// Registry base URL (default: USEMCPKIT_REGISTRY, else the usemcpkit registry)
         #[arg(long)]
         registry: Option<String>,
     },
@@ -62,7 +62,7 @@ pub struct ClientSelection {
 pub struct InstallArgs {
     #[command(flatten)]
     pub selection: ClientSelection,
-    /// Install this mcpkit binary (with mcpkit-server next to it) instead of the running one
+    /// Install this usemcpkit binary (with usemcpkit-server next to it) instead of the running one
     #[arg(long)]
     pub binary: Option<PathBuf>,
 }

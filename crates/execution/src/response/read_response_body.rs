@@ -1,7 +1,7 @@
 use crate::ToolError;
 use crate::response::consts::JSON_CONTENT_TYPE_MARKER;
-use mcpkit_http::HttpResponse;
 use serde_json::Value;
+use usemcpkit_http::HttpResponse;
 
 /// An empty body is `null`, a JSON one is parsed, any other is its text.
 pub fn read_response_body(response: &HttpResponse) -> Result<Value, ToolError> {
@@ -22,8 +22,8 @@ pub fn read_response_body(response: &HttpResponse) -> Result<Value, ToolError> {
 #[cfg(test)]
 mod tests {
     use super::read_response_body;
-    use mcpkit_http::HttpResponse;
     use serde_json::json;
+    use usemcpkit_http::HttpResponse;
 
     fn response(content_type: Option<&str>, body: &[u8]) -> HttpResponse {
         HttpResponse {

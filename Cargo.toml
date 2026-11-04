@@ -9,19 +9,19 @@ license = "MIT"
 repository = "https://github.com/MDReal32/mcpkit"
 
 [workspace.dependencies]
-mcpkit-auth = { path = "crates/auth" }
-mcpkit-binary = { path = "crates/binary" }
-mcpkit-clients = { path = "crates/clients" }
-mcpkit-core = { path = "crates/core" }
-mcpkit-credentials-form = { path = "crates/credentials-form" }
-mcpkit-execution = { path = "crates/execution" }
-mcpkit-http = { path = "crates/http" }
-mcpkit-manifest = { path = "crates/manifest" }
-mcpkit-registry = { path = "crates/registry" }
-mcpkit-testing = { path = "crates/testing" }
-mcpkit-upstream = { path = "crates/upstream" }
-mcpkit-runner = { path = "apps/runner" }
-mcpkit-wire-log = { path = "crates/wire-log" }
+usemcpkit-auth = { path = "crates/auth" }
+usemcpkit-binary = { path = "crates/binary" }
+usemcpkit-clients = { path = "crates/clients" }
+usemcpkit-core = { path = "crates/core" }
+usemcpkit-credentials-form = { path = "crates/credentials-form" }
+usemcpkit-execution = { path = "crates/execution" }
+usemcpkit-http = { path = "crates/http" }
+usemcpkit-manifest = { path = "crates/manifest" }
+usemcpkit-registry = { path = "crates/registry" }
+usemcpkit-testing = { path = "crates/testing" }
+usemcpkit-upstream = { path = "crates/upstream" }
+usemcpkit-runner = { path = "apps/runner" }
+usemcpkit-wire-log = { path = "crates/wire-log" }
 base64 = "0.23"
 bytes = "1.12"
 flate2 = "1.1"

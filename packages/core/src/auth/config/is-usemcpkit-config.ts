@@ -1,5 +1,5 @@
 import { isJsonObject } from "../../json";
-import type { McpkitConfig } from "../types/mcpkit-config";
+import type { UsemcpkitConfig } from "../types/usemcpkit-config";
 import { CONFIG_VERSION } from "./config-migrations";
 
 const isStringRecord = (value: unknown) =>
@@ -13,7 +13,7 @@ const isServerConfig = (value: unknown) =>
   (value.hosts === undefined || (isJsonObject(value.hosts) && Object.values(value.hosts).every(isHostConfig))) &&
   (value.projects === undefined || isStringRecord(value.projects));
 
-export const isMcpkitConfig = (value: unknown): value is McpkitConfig =>
+export const isUsemcpkitConfig = (value: unknown): value is UsemcpkitConfig =>
   isJsonObject(value) &&
   value.version === CONFIG_VERSION &&
   (value.servers === undefined ||

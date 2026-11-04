@@ -1,8 +1,8 @@
 use crate::ToolError;
 use indexmap::IndexMap;
-use mcpkit_core::js::to_js_string;
 use serde_json::Value;
 use url::Url;
+use usemcpkit_core::js::to_js_string;
 
 /// The base URL without one trailing slash, the path, then the query: an array repeats its key per item unless the key
 /// is comma joined, which sends `String(array)`.

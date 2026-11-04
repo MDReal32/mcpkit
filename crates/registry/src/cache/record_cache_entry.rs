@@ -4,8 +4,8 @@ use crate::cache::to_cache_path::to_cache_path;
 use crate::cache::write_cache_map::write_cache_map;
 use crate::registry_context::RegistryContext;
 use crate::registry_error::RegistryError;
-use mcpkit_core::hash::sha256_hex;
 use std::path::Path;
+use usemcpkit_core::hash::sha256_hex;
 
 /// Notes that `text` is what `file` holds now and is current; `updated_at` moves only when the content differs from the last one noted.
 pub async fn record_cache_entry<F>(

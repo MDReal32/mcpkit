@@ -4,8 +4,8 @@ use crate::transport::create_transport;
 use crate::upstream_connection::UpstreamConnection;
 use crate::upstream_error::UpstreamError;
 use crate::upstream_options::UpstreamOptions;
-use mcpkit_manifest::upstream::UpstreamSpec;
 use std::rc::Rc;
+use usemcpkit_manifest::upstream::UpstreamSpec;
 
 /// Clones the repository of a stdio upstream if it has one and needs it (and keeps it up to date), starts the
 /// transport and runs the initialize handshake; the connection is ready for `tools/list` and `tools/call`.

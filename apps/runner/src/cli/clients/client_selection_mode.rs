@@ -7,8 +7,8 @@ pub enum ClientSelectionMode {
 impl ClientSelectionMode {
     pub fn message(self) -> &'static str {
         match self {
-            ClientSelectionMode::Install => "Add mcpkit to which clients?",
-            ClientSelectionMode::Uninstall => "Remove mcpkit from which clients?",
+            ClientSelectionMode::Install => "Add usemcpkit to which clients?",
+            ClientSelectionMode::Uninstall => "Remove usemcpkit from which clients?",
         }
     }
 }

@@ -3,8 +3,8 @@ use crate::local::read_cached_part_text;
 use crate::registry_context::RegistryContext;
 use crate::registry_error::RegistryError;
 use crate::remote::Fetch;
-use mcpkit_core::hash::sha256_hex;
-use mcpkit_manifest::registry::RegistryServer;
+use usemcpkit_core::hash::sha256_hex;
+use usemcpkit_manifest::registry::RegistryServer;
 
 /// Re-downloads the parts of a server that are already cached and no longer match their shell; a part nobody opened
 /// is never downloaded. Returns `<id>/<part>` for each part it replaced.

@@ -10,4 +10,4 @@ export const DISABLED_VALUES: readonly string[] = ["0", "false", "off", "no"];
 
 export const SEND_TIMEOUT_MS = 2000;
 export const ANALYTICS_NOTICE =
-  "mcpkit counts which tools are used (tool id, version and OS only, no arguments); turn it off with USEMCPKIT_TELEMETRY=0 or DO_NOT_TRACK=1";
+  "usemcpkit counts which tools are used (tool id, version and OS only, no arguments); turn it off with USEMCPKIT_TELEMETRY=0 or DO_NOT_TRACK=1";

@@ -3,10 +3,10 @@ use crate::consts::{METADATA_TIMEOUT_MS, NOT_FOUND_STATUS, NPM_METADATA_ACCEPT};
 use crate::release::package_release::PackageRelease;
 use crate::release::read_package_release::read_package_release;
 use indexmap::IndexMap;
-use mcpkit_http::{HttpClient, HttpRequest};
-use mcpkit_manifest::tool::HttpMethod;
 use serde_json::Value;
 use std::time::Duration;
+use usemcpkit_http::{HttpClient, HttpRequest};
+use usemcpkit_manifest::tool::HttpMethod;
 
 pub async fn fetch_package_release(
     registry: &str,

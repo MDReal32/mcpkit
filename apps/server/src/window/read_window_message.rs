@@ -40,18 +40,18 @@ mod tests {
     #[test]
     fn reads_close_and_fit() {
         assert_eq!(
-            read_window_message(r#"{"name":"mcpkitCloseWindow","args":[]}"#),
+            read_window_message(r#"{"name":"usemcpkitCloseWindow","args":[]}"#),
             Some(FormWindowEvent::Close)
         );
         assert_eq!(
-            read_window_message(r#"{"name":"mcpkitFitWindow","args":[{"width":520,"height":411.6}]}"#),
+            read_window_message(r#"{"name":"usemcpkitFitWindow","args":[{"width":520,"height":411.6}]}"#),
             Some(FormWindowEvent::Fit {
                 width: 520,
                 height: 412
             })
         );
         assert_eq!(
-            read_window_message(r#"{"name":"mcpkitFitWindow","args":["big"]}"#),
+            read_window_message(r#"{"name":"usemcpkitFitWindow","args":["big"]}"#),
             None
         );
     }
@@ -59,11 +59,11 @@ mod tests {
     #[test]
     fn opens_only_http_links() {
         assert_eq!(
-            read_window_message(r#"{"name":"mcpkitOpenLink","args":["https://github.com/settings/tokens"]}"#),
+            read_window_message(r#"{"name":"usemcpkitOpenLink","args":["https://github.com/settings/tokens"]}"#),
             Some(FormWindowEvent::OpenLink("https://github.com/settings/tokens".into()))
         );
         assert_eq!(
-            read_window_message(r#"{"name":"mcpkitOpenLink","args":["file:///etc/passwd"]}"#),
+            read_window_message(r#"{"name":"usemcpkitOpenLink","args":["file:///etc/passwd"]}"#),
             None
         );
         assert_eq!(read_window_message(r#"{"name":"other","args":[]}"#), None);

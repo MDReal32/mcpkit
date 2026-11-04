@@ -1,4 +1,4 @@
-use crate::consts::{MCPKIT_DIR_NAME, WIRE_LOG_DIR_NAME, WIRE_LOG_ENABLED, WIRE_LOG_ENV};
+use crate::consts::{USEMCPKIT_DIR_NAME, WIRE_LOG_DIR_NAME, WIRE_LOG_ENABLED, WIRE_LOG_ENV};
 use crate::parent_process_id::parent_process_id;
 use crate::wire_log_role::WireLogRole;
 use serde_json::{Map, Value, json};
@@ -38,7 +38,7 @@ impl WireLog {
         let name = format!("{}-{}-{}.jsonl", role.as_str(), stamp, std::process::id());
         let log = WireLog {
             role,
-            file: Mutex::new(Some(home.join(MCPKIT_DIR_NAME).join(WIRE_LOG_DIR_NAME).join(name))),
+            file: Mutex::new(Some(home.join(USEMCPKIT_DIR_NAME).join(WIRE_LOG_DIR_NAME).join(name))),
         };
         let exec_path = std::env::current_exe()
             .map(|path| path.display().to_string())
@@ -68,7 +68,7 @@ impl WireLog {
             entry.extend(details);
         }
         if let Err(error) = append_line(path, &Value::Object(entry).to_string()) {
-            eprintln!("mcpkit: wire log {} turned off: {error}", path.display());
+            eprintln!("usemcpkit: wire log {} turned off: {error}", path.display());
             *file = None;
         }
     }
@@ -95,7 +95,7 @@ mod tests {
 
         log.record("worker-exit", json!({ "code": 0, "current": true }));
 
-        let directory = home.path().join(".mcpkit").join("logs");
+        let directory = home.path().join(".usemcpkit").join("logs");
         let file = std::fs::read_dir(&directory).unwrap().next().unwrap().unwrap().path();
         let lines: Vec<Value> = std::fs::read_to_string(file)
             .unwrap()

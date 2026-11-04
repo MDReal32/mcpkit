@@ -1,4 +1,4 @@
-use mcpkit_clients::DetectedClient;
+use usemcpkit_clients::DetectedClient;
 
 /// Resolves `--clients a,b` against the detected clients; ids that are unknown or not installed are an error.
 pub fn find_requested_clients(detected: Vec<DetectedClient>, id_list: &str) -> Result<Vec<DetectedClient>, String> {
@@ -29,8 +29,8 @@ pub fn find_requested_clients(detected: Vec<DetectedClient>, id_list: &str) -> R
 #[cfg(test)]
 mod tests {
     use super::find_requested_clients;
-    use mcpkit_clients::{CLIENT_DEFINITIONS, DetectedClient};
     use std::path::PathBuf;
+    use usemcpkit_clients::{CLIENT_DEFINITIONS, DetectedClient};
 
     fn detected(index: usize) -> DetectedClient {
         DetectedClient {

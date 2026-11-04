@@ -19,7 +19,7 @@ import { createSplitRegistryFetch } from "./fixtures/create-split-registry-fetch
 
 const REGISTRY = "https://reg.example";
 
-const readDir = useTempDir("mcpkit-registry-");
+const readDir = useTempDir("usemcpkit-registry-");
 
 const setup = (description = "") => {
   const registry = createRegistryFetch(REGISTRY, [createPingManifest("1.0.0", description)]);
@@ -138,10 +138,10 @@ describe("loadManifest", () => {
 
 describe("resolveRegistryUrl", () => {
   it("resolves the registry from the flag, then the environment, then the default", () => {
-    expect(resolveRegistryUrl("https://flag.example", { MCPKIT_REGISTRY: "https://env.example" })).toBe(
+    expect(resolveRegistryUrl("https://flag.example", { USEMCPKIT_REGISTRY: "https://env.example" })).toBe(
       "https://flag.example",
     );
-    expect(resolveRegistryUrl(undefined, { MCPKIT_REGISTRY: "https://env.example" })).toBe("https://env.example");
+    expect(resolveRegistryUrl(undefined, { USEMCPKIT_REGISTRY: "https://env.example" })).toBe("https://env.example");
     expect(resolveRegistryUrl(undefined, {})).toBe(DEFAULT_REGISTRY_URL);
   });
 });

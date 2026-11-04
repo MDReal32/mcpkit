@@ -8,8 +8,8 @@ import { toSchedulerPlatform } from "../src/schedule/to-scheduler-platform";
 import type { UpgradeSchedule } from "../src/schedule/types/upgrade-schedule";
 
 const schedule: UpgradeSchedule = {
-  binaryPath: "/home/me/.mcpkit/bin/mcpkit",
-  logPath: "/home/me/.mcpkit/upgrade.log",
+  binaryPath: "/home/me/.usemcpkit/bin/usemcpkit",
+  logPath: "/home/me/.usemcpkit/upgrade.log",
 };
 
 describe("scheduled upgrade", () => {
@@ -25,7 +25,7 @@ describe("scheduled upgrade", () => {
 
   it("runs upgrade on the installed binary and appends its output to the log", () => {
     expect(buildCronLine(schedule)).toBe(
-      `${CRON_SCHEDULE} '/home/me/.mcpkit/bin/mcpkit' 'upgrade' >> '/home/me/.mcpkit/upgrade.log' 2>&1 ${CRON_MARKER}`,
+      `${CRON_SCHEDULE} '/home/me/.usemcpkit/bin/usemcpkit' 'upgrade' >> '/home/me/.usemcpkit/upgrade.log' 2>&1 ${CRON_MARKER}`,
     );
   });
 
@@ -36,8 +36,8 @@ describe("scheduled upgrade", () => {
     const added = replaceCronEntry(own, line);
     expect(added).toBe(`0 9 * * 1 backup.sh\n${line}\n`);
     expect(replaceCronEntry(added, line)).toBe(added);
-    expect(replaceCronEntry(`${line}\n`, buildCronLine({ ...schedule, binaryPath: "/new/mcpkit" }))).toBe(
-      `${buildCronLine({ ...schedule, binaryPath: "/new/mcpkit" })}\n`,
+    expect(replaceCronEntry(`${line}\n`, buildCronLine({ ...schedule, binaryPath: "/new/usemcpkit" }))).toBe(
+      `${buildCronLine({ ...schedule, binaryPath: "/new/usemcpkit" })}\n`,
     );
   });
 
@@ -49,10 +49,10 @@ describe("scheduled upgrade", () => {
   });
 
   it("writes a LaunchAgent that runs upgrade every six hours with escaped paths", () => {
-    const plist = buildLaunchAgentPlist({ ...schedule, binaryPath: "/Users/a&b/.mcpkit/bin/mcpkit" });
+    const plist = buildLaunchAgentPlist({ ...schedule, binaryPath: "/Users/a&b/.usemcpkit/bin/usemcpkit" });
 
-    expect(plist).toContain("<string>/Users/a&amp;b/.mcpkit/bin/mcpkit</string>\n    <string>upgrade</string>");
+    expect(plist).toContain("<string>/Users/a&amp;b/.usemcpkit/bin/usemcpkit</string>\n    <string>upgrade</string>");
     expect(plist).toContain("<key>StartInterval</key>\n  <integer>21600</integer>");
-    expect(plist).toContain("<key>StandardOutPath</key>\n  <string>/home/me/.mcpkit/upgrade.log</string>");
+    expect(plist).toContain("<key>StandardOutPath</key>\n  <string>/home/me/.usemcpkit/upgrade.log</string>");
   });
 });

@@ -2,8 +2,8 @@ use crate::args::{ArgValue, ToolArgs};
 use crate::json::expand_json_paths;
 use crate::request::collect_args::collect_args;
 use indexmap::IndexMap;
-use mcpkit_manifest::tool::RequestSpec;
 use serde_json::Value;
+use usemcpkit_manifest::tool::RequestSpec;
 
 /// The `bodyArg` argument as it is, otherwise the fixed and collected body values expanded into nested JSON; nothing
 /// when there is no value to send.

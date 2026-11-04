@@ -1,5 +1,5 @@
-use mcpkit_http::HttpResponse;
-use mcpkit_manifest::tool::ToolSpec;
+use usemcpkit_http::HttpResponse;
+use usemcpkit_manifest::tool::ToolSpec;
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct AcceptedAuthAttempt {

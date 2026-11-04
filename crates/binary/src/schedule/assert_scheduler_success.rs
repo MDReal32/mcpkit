@@ -1,6 +1,6 @@
 use crate::binary_error::BinaryError;
 use crate::schedule::scheduler_command_result::SchedulerCommandResult;
-use mcpkit_core::js::js_trim;
+use usemcpkit_core::js::js_trim;
 
 pub fn assert_scheduler_success(result: &SchedulerCommandResult, description: &str) -> Result<(), BinaryError> {
     if result.exit_code == 0 {

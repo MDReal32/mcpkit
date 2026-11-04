@@ -1,12 +1,12 @@
 use crate::upstream::{UpstreamServer, hydrate_upstream_server};
-use mcpkit_execution::CallContext;
-use mcpkit_manifest::Manifest;
-use mcpkit_manifest::registry::RegistryServer;
-use mcpkit_registry::{Fetch, RegistryContext, load_group_manifest, load_groups, load_manifest};
 use std::cell::RefCell;
 use std::collections::HashMap;
 use std::rc::Rc;
 use tokio::sync::OnceCell;
+use usemcpkit_execution::CallContext;
+use usemcpkit_manifest::Manifest;
+use usemcpkit_manifest::registry::RegistryServer;
+use usemcpkit_registry::{Fetch, RegistryContext, load_group_manifest, load_groups, load_manifest};
 
 /// What the server knows without downloading anything, plus a way to get one server's manifest, and the upstream
 /// servers it started.

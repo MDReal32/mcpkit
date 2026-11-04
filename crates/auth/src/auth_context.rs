@@ -1,12 +1,12 @@
 use crate::credentials::CredentialRequester;
 use crate::oauth::AuthorizationUrlHandler;
 use crate::{AuthState, SecretStore};
-use mcpkit_core::env::Env;
-use mcpkit_http::HttpClient;
 use std::path::PathBuf;
 use std::rc::Rc;
+use usemcpkit_core::env::Env;
+use usemcpkit_http::HttpClient;
 
-/// What resolving a call's auth reads from: its variables, the mcpkit home, the network and the user's project.
+/// What resolving a call's auth reads from: its variables, the usemcpkit home, the network and the user's project.
 #[derive(Clone)]
 pub struct AuthContext {
     pub env: Env,

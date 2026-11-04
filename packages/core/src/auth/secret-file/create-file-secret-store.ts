@@ -8,7 +8,7 @@ import type { SecretStore } from "../types/store/secret-store";
 
 const toHostKey = (owner: SecretOwner) => owner.domain ?? DEFAULT_HOST_KEY;
 
-/** Plain text in the 0600 config file under the mcpkit home, by server and host, read on every call so all running servers see each other's saves. */
+/** Plain text in the 0600 config file under the usemcpkit home, by server and host, read on every call so all running servers see each other's saves. */
 export const createFileSecretStore = (env: Env = process.env) => {
   const store: SecretStore = {
     get: async (owner, key) =>

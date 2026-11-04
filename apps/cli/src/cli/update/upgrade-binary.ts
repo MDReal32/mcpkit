@@ -10,24 +10,24 @@ import { printError } from "../output/print-error";
 import { printLine } from "../output/print-line";
 import { readBinaryVersion } from "./read-binary-version";
 
-/** Homebrew and winget installs are left to their package manager. Otherwise replaces ~/.mcpkit/bin/mcpkit with the latest published release. */
+/** Homebrew and winget installs are left to their package manager. Otherwise replaces ~/.usemcpkit/bin/usemcpkit with the latest published release. */
 export const upgradeBinary = async () => {
   const managed = await detectPackageManagerInstall();
   if (managed) {
-    printLine(`mcpkit was installed with ${managed.manager}; update it with "${managed.upgradeCommand}"`);
+    printLine(`usemcpkit was installed with ${managed.manager}; update it with "${managed.upgradeCommand}"`);
     return EXIT_SUCCESS;
   }
   const context = await createBinaryContext();
   const path = resolveInstalledBinaryPath(context.target, context.env);
   if (!(await pathExists(path))) {
-    printError(`mcpkit is not installed at ${path}: run "usemcpkit install" first`);
+    printError(`usemcpkit is not installed at ${path}: run "usemcpkit install" first`);
     return EXIT_FAILURE;
   }
   const result = await updateBinary(context, path, await readBinaryVersion(path));
   printLine(
     result.status === "updated"
       ? `updated ${result.from} -> ${result.to}. Restart the clients to use it.`
-      : `mcpkit ${result.version} is the latest version`,
+      : `usemcpkit ${result.version} is the latest version`,
   );
   return EXIT_SUCCESS;
 };

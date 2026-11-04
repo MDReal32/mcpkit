@@ -61,13 +61,13 @@ describe("createRpcHandler", () => {
       tools: [
         {
           name: "test_demo",
-          description: expect.stringContaining("SECTION of mcpkit, not a callable tool"),
+          description: expect.stringContaining("SECTION of usemcpkit, not a callable tool"),
           inputSchema: { type: "object", properties: {} },
           annotations: { readOnlyHint: true },
         },
         {
           name: "test_grouped",
-          description: expect.stringContaining("SECTION of mcpkit, not a callable tool"),
+          description: expect.stringContaining("SECTION of usemcpkit, not a callable tool"),
           inputSchema: { type: "object", properties: {} },
           annotations: { readOnlyHint: true },
         },

@@ -1,6 +1,6 @@
 use crate::credentials::CredentialField;
-use mcpkit_manifest::ui::UiAction;
 use serde::{Deserialize, Serialize};
+use usemcpkit_manifest::ui::UiAction;
 
 /// One fallback auth entry the user can fill in.
 #[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]

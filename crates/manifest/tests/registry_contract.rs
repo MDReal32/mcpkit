@@ -1,8 +1,8 @@
-use mcpkit_manifest::ManifestDocument;
-use mcpkit_manifest::registry::{PartFile, RegistryIndex};
 use serde_json::Value;
 use std::fs;
 use std::path::{Path, PathBuf};
+use usemcpkit_manifest::ManifestDocument;
+use usemcpkit_manifest::registry::{PartFile, RegistryIndex};
 
 fn registry_dir() -> PathBuf {
     Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/servers/build/manifests")

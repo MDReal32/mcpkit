@@ -1,6 +1,6 @@
 [package]
-name = "mcpkit-core"
-description = "What the mcpkit runner and server share: the mcpkit home folder, the environment, content hashes and JavaScript-compatible value printing."
+name = "usemcpkit-core"
+description = "What the usemcpkit runner and server share: the usemcpkit home folder, the environment, content hashes and JavaScript-compatible value printing."
 version.workspace = true
 edition.workspace = true
 license.workspace = true

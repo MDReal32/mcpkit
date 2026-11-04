@@ -1,6 +1,6 @@
-use mcpkit_registry::DEFAULT_REGISTRY_URL;
 use std::fs;
 use std::path::Path;
+use usemcpkit_registry::DEFAULT_REGISTRY_URL;
 
 #[test]
 fn matches_the_url_packages_servers_publishes_to() {

@@ -7,7 +7,7 @@ pub fn run_local<F: Future<Output = i32>>(command: F) -> i32 {
     let runtime = match Builder::new_current_thread().enable_all().build() {
         Ok(runtime) => runtime,
         Err(error) => {
-            eprintln!("mcpkit: cannot start the runtime: {error}");
+            eprintln!("usemcpkit: cannot start the runtime: {error}");
             return EXIT_FAILURE;
         }
     };

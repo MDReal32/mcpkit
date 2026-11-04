@@ -1,6 +1,6 @@
 [package]
-name = "mcpkit-registry"
-description = "The mcpkit registry: the cached index, manifests and parts in ~/.mcpkit/manifests and how they are synced."
+name = "usemcpkit-registry"
+description = "The usemcpkit registry: the cached index, manifests and parts in ~/.usemcpkit/manifests and how they are synced."
 version.workspace = true
 edition.workspace = true
 license.workspace = true
@@ -8,8 +8,8 @@ repository.workspace = true
 
 [dependencies]
 indexmap.workspace = true
-mcpkit-core.workspace = true
-mcpkit-manifest.workspace = true
+usemcpkit-core.workspace = true
+usemcpkit-manifest.workspace = true
 reqwest.workspace = true
 serde.workspace = true
 serde_json.workspace = true

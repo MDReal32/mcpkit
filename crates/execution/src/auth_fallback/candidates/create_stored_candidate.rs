@@ -1,10 +1,10 @@
 use crate::CallContext;
 use crate::auth_fallback::auth_candidate::AuthCandidate;
 use crate::auth_fallback::auth_candidate_kind::AuthCandidateKind;
-use mcpkit_auth::AuthResolution;
-use mcpkit_auth::resolve::resolve_stored_auth;
-use mcpkit_manifest::Manifest;
 use std::rc::Rc;
+use usemcpkit_auth::AuthResolution;
+use usemcpkit_auth::resolve::resolve_stored_auth;
+use usemcpkit_manifest::Manifest;
 
 pub fn create_stored_candidate<'a>(manifest: &Rc<Manifest>, context: &'a CallContext) -> AuthCandidate<'a> {
     let manifest = Rc::clone(manifest);

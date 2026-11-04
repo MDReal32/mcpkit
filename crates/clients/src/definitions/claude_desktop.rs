@@ -1,7 +1,7 @@
 use crate::client_definition::ClientDefinition;
 use crate::config_format::ConfigFormat;
 use crate::definitions::create_command_entry::create_command_entry;
-use mcpkit_core::platform::Platform;
+use usemcpkit_core::platform::Platform;
 
 /// On Windows the folder alone is no sign of this build: the Store build leaves `%APPDATA%\Claude` behind with only a
 /// marker file in it, so the app's own `config.json` is looked for instead.

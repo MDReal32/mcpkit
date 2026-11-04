@@ -1,13 +1,13 @@
 [package]
-name = "mcpkit-server"
-description = "The mcpkit MCP server: it serves the registry's manifests over stdio behind the mcpkit runner."
+name = "usemcpkit-server"
+description = "The usemcpkit MCP server: it serves the registry's manifests over stdio behind the usemcpkit runner."
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
 
 [[bin]]
-name = "mcpkit-server"
+name = "usemcpkit-server"
 path = "src/main.rs"
 
 [lib]
@@ -17,15 +17,15 @@ path = "src/lib.rs"
 clap.workspace = true
 humantime.workspace = true
 indexmap.workspace = true
-mcpkit-auth.workspace = true
-mcpkit-core.workspace = true
-mcpkit-credentials-form.workspace = true
-mcpkit-execution.workspace = true
-mcpkit-http.workspace = true
-mcpkit-manifest.workspace = true
-mcpkit-registry.workspace = true
-mcpkit-upstream.workspace = true
-mcpkit-wire-log.workspace = true
+usemcpkit-auth.workspace = true
+usemcpkit-core.workspace = true
+usemcpkit-credentials-form.workspace = true
+usemcpkit-execution.workspace = true
+usemcpkit-http.workspace = true
+usemcpkit-manifest.workspace = true
+usemcpkit-registry.workspace = true
+usemcpkit-upstream.workspace = true
+usemcpkit-wire-log.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 tao.workspace = true
@@ -34,8 +34,8 @@ url.workspace = true
 wry.workspace = true
 
 [dev-dependencies]
-mcpkit-runner.workspace = true
-mcpkit-testing.workspace = true
+usemcpkit-runner.workspace = true
+usemcpkit-testing.workspace = true
 regex.workspace = true
 sha2.workspace = true
 tempfile.workspace = true

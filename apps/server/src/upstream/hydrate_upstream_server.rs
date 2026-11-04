@@ -1,10 +1,10 @@
 use crate::upstream::discover_tools::discover_tools;
 use crate::upstream::rename_discovered_tools::rename_discovered_tools;
 use crate::upstream::upstream_server::UpstreamServer;
-use mcpkit_execution::CallContext;
-use mcpkit_manifest::registry::RegistryServer;
-use mcpkit_manifest::upstream::UpstreamSpec;
-use mcpkit_registry::{Fetch, RegistryContext, load_manifest};
+use usemcpkit_execution::CallContext;
+use usemcpkit_manifest::registry::RegistryServer;
+use usemcpkit_manifest::upstream::UpstreamSpec;
+use usemcpkit_registry::{Fetch, RegistryContext, load_manifest};
 
 /// The upstream server behind a catalog entry, with its tools discovered: from the cache when there is one, otherwise
 /// by starting it (which clones and sets up its repository the first time). Called when the server is first opened,

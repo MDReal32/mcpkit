@@ -1,6 +1,6 @@
 import type { RepoSetupStep } from "./repo-setup-step";
 
-/** A git repository the upstream server is run from, cloned on first use into `~/.mcpkit/repos/<category>/<name>`. */
+/** A git repository the upstream server is run from, cloned on first use into `~/.usemcpkit/repos/<category>/<name>`. */
 export interface UpstreamRepo {
   url: string;
   /**

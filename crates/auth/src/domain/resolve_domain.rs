@@ -1,8 +1,8 @@
 use crate::domain::resolve_saved_domain::resolve_saved_domain;
 use crate::domain::saved_domain::SavedDomain;
 use crate::{AuthContext, AuthError};
-use mcpkit_manifest::Manifest;
-use mcpkit_manifest::domain::is_domain_value;
+use usemcpkit_manifest::Manifest;
+use usemcpkit_manifest::domain::is_domain_value;
 
 /// The host of a call, in this order: its env var; the host this project was bound to; the known host the project's
 /// git remote points at (when the manifest asks for it); the only host in use, or the manifest default. With several

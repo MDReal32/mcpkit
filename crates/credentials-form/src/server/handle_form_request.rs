@@ -9,10 +9,10 @@ use http_body_util::Full;
 use hyper::body::Incoming;
 use hyper::header::{CACHE_CONTROL, CONTENT_TYPE, HeaderValue};
 use hyper::{Method, Request, Response, StatusCode};
-use mcpkit_auth::credentials::{
+use serde_json::json;
+use usemcpkit_auth::credentials::{
     CREDENTIALS_FORM_CANCEL_PATH, CREDENTIALS_FORM_IMPORT_PATH, CREDENTIALS_FORM_SUBMIT_PATH,
 };
-use serde_json::json;
 
 /// The page at `GET /` (Host checked) and the API under `/api` (Host and session token checked).
 pub async fn handle_form_request(session: &FormSession, request: Request<Incoming>) -> Response<Full<Bytes>> {

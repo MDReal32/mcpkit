@@ -1,10 +1,10 @@
 use crate::supervisor::consts::BINARY_POLL_INTERVAL;
-use mcpkit_wire_log::{WireLog, WireLogRole};
 use std::path::PathBuf;
 use std::sync::Arc;
 use std::time::Duration;
 use tokio::io::{AsyncRead, AsyncWrite};
 use tokio::sync::oneshot;
+use usemcpkit_wire_log::{WireLog, WireLogRole};
 
 pub struct SuperviseOptions {
     pub input: Box<dyn AsyncRead + Unpin + Send>,

@@ -1,9 +1,9 @@
 use crate::consts::{CANNOT_IMPORT_MESSAGE, PENDING_TOKEN_VALUE};
 use crate::token_import::token_import_plan::TokenImportPlan;
-use mcpkit_auth::credentials::{CredentialRequest, validate_credential_response};
-use mcpkit_auth::ui::resolve_cli_command;
-use mcpkit_manifest::ui::UiAction;
 use serde_json::{Map, Value, json};
+use usemcpkit_auth::credentials::{CredentialRequest, validate_credential_response};
+use usemcpkit_auth::ui::resolve_cli_command;
+use usemcpkit_manifest::ui::UiAction;
 
 /// Checks the import request against what the form offered before anything runs; the domain becomes a CLI argument.
 pub fn prepare_token_import(request: &CredentialRequest, body: &Value) -> Result<TokenImportPlan, String> {

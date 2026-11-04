@@ -7,7 +7,7 @@ import { executeTool, signIn, validateManifest } from "../src/main";
 import { createRecordingFetch } from "./fixtures/create-recording-fetch";
 import { DEMO_TOKEN_URL, demoOAuth } from "./fixtures/demo-oauth";
 
-const readHome = useTempDir("mcpkit-oauth-");
+const readHome = useTempDir("usemcpkit-oauth-");
 
 const callPing = (fetchImpl: typeof fetch) => {
   const manifest = createPingManifest("1.0.0", "", "demo", [demoOAuth]);
@@ -15,7 +15,7 @@ const callPing = (fetchImpl: typeof fetch) => {
   if (!tool) {
     throw new Error("ping manifest has no tool");
   }
-  return executeTool(manifest, tool, {}, { env: { MCPKIT_HOME: readHome() }, fetchImpl });
+  return executeTool(manifest, tool, {}, { env: { USEMCPKIT_HOME: readHome() }, fetchImpl });
 };
 
 const readTokensFile = async () => {
@@ -47,13 +47,13 @@ describe("signIn with provider-specific client handling", () => {
       ...demoOAuth,
       authorizationParams: { duration: "permanent" },
       clientAuthentication: "basic",
-      tokenHeaders: { "User-Agent": "mcpkit-test" },
+      tokenHeaders: { "User-Agent": "usemcpkit-test" },
     } as const;
     const authorizationUrls: URL[] = [];
     const callbacks: Promise<Response>[] = [];
 
     await signIn("demo", auth, {
-      context: { env: { MCPKIT_HOME: readHome() }, fetchImpl: recordingFetch },
+      context: { env: { USEMCPKIT_HOME: readHome() }, fetchImpl: recordingFetch },
       onAuthorizationUrl: (url) => {
         const authorizationUrl = new URL(url);
         authorizationUrls.push(authorizationUrl);
@@ -67,7 +67,7 @@ describe("signIn with provider-specific client handling", () => {
     expect(authorizationUrls[0]?.searchParams.get("duration")).toBe("permanent");
     const [request] = requests;
     expect(request?.headers.get("authorization")).toBe(`Basic ${Buffer.from("client-1:").toString("base64")}`);
-    expect(request?.headers.get("user-agent")).toBe("mcpkit-test");
+    expect(request?.headers.get("user-agent")).toBe("usemcpkit-test");
     expect(new URLSearchParams(request?.body).has("client_id")).toBe(false);
   });
 });
@@ -81,7 +81,7 @@ describe("signIn", () => {
     const authorizationUrls: URL[] = [];
 
     const { token, tokensFile } = await signIn("demo", demoOAuth, {
-      context: { env: { MCPKIT_HOME: readHome() }, fetchImpl: recordingFetch },
+      context: { env: { USEMCPKIT_HOME: readHome() }, fetchImpl: recordingFetch },
       onAuthorizationUrl: (url) => {
         const authorizationUrl = new URL(url);
         authorizationUrls.push(authorizationUrl);
@@ -113,7 +113,7 @@ describe("signIn", () => {
     const { recordingFetch } = createRecordingFetch({});
 
     const signingIn = signIn("demo", demoOAuth, {
-      context: { env: { MCPKIT_HOME: readHome() }, fetchImpl: recordingFetch },
+      context: { env: { USEMCPKIT_HOME: readHome() }, fetchImpl: recordingFetch },
       onAuthorizationUrl: (url) => {
         const redirectUri = new URL(url).searchParams.get("redirect_uri") ?? "";
         void fetch(`${redirectUri}?code=code-1&state=forged`);
@@ -143,7 +143,7 @@ describe("oauth token use", () => {
     });
     const manifest = createPingManifest("1.0.0", "", "demo", [demoOAuth]);
     const [tool] = manifest.tools;
-    const options = { env: { MCPKIT_HOME: readHome() }, fetchImpl: recordingFetch };
+    const options = { env: { USEMCPKIT_HOME: readHome() }, fetchImpl: recordingFetch };
 
     const results = await Promise.all([
       tool && executeTool(manifest, tool, {}, options),

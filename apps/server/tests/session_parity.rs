@@ -1,11 +1,5 @@
 mod support;
 
-use mcpkit_http::HttpResponse;
-use mcpkit_registry::{DEFAULT_REGISTRY_URL, RegistryContext};
-use mcpkit_server::catalog::load_catalog;
-use mcpkit_server::mcp::McpServer;
-use mcpkit_testing::FixedClient;
-use mcpkit_wire_log::{WireLog, WireLogRole};
 use serde_json::{Map, Value, json};
 use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, HashSet};
@@ -13,8 +7,14 @@ use std::path::Path;
 use std::rc::Rc;
 use support::{FolderFetcher, call_context, registry_root};
 use tempfile::TempDir;
+use usemcpkit_http::HttpResponse;
+use usemcpkit_registry::{DEFAULT_REGISTRY_URL, RegistryContext};
+use usemcpkit_server::catalog::load_catalog;
+use usemcpkit_server::mcp::McpServer;
+use usemcpkit_testing::FixedClient;
+use usemcpkit_wire_log::{WireLog, WireLogRole};
 
-const SECTION_MARKER: &str = "SECTION of mcpkit";
+const SECTION_MARKER: &str = "SECTION of usemcpkit";
 
 const PARSE_ERROR: i64 = -32700;
 

@@ -2,7 +2,7 @@ use crate::config::save_server_domain;
 use crate::credentials::FormAnswer;
 use crate::project::resolve_project;
 use crate::{AuthContext, AuthError, SecretOwner, ServerKey};
-use mcpkit_manifest::Manifest;
+use usemcpkit_manifest::Manifest;
 
 /// Credentials go to the secret store under their host; the host is remembered for the project that asked for it.
 pub async fn save_form_answer(

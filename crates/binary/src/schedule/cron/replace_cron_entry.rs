@@ -1,6 +1,6 @@
 use crate::schedule::consts::CRON_MARKER;
 
-/// The crontab without mcpkit's line, plus `line` when given; every other line is kept as it is.
+/// The crontab without usemcpkit's line, plus `line` when given; every other line is kept as it is.
 pub fn replace_cron_entry(crontab: &str, line: Option<&str>) -> String {
     let lines: Vec<&str> = crontab
         .split('\n')

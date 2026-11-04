@@ -1,6 +1,6 @@
 [package]
-name = "mcpkit-upstream"
-description = "A minimal MCP client for the servers an mcpkit manifest fronts: stdio (optionally run from a cloned repository) and Streamable HTTP."
+name = "usemcpkit-upstream"
+description = "A minimal MCP client for the servers an usemcpkit manifest fronts: stdio (optionally run from a cloned repository) and Streamable HTTP."
 version.workspace = true
 edition.workspace = true
 license.workspace = true
@@ -14,15 +14,15 @@ doc = false
 
 [dependencies]
 indexmap.workspace = true
-mcpkit-core.workspace = true
-mcpkit-http.workspace = true
-mcpkit-manifest.workspace = true
+usemcpkit-core.workspace = true
+usemcpkit-http.workspace = true
+usemcpkit-manifest.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 tokio.workspace = true
 
 [dev-dependencies]
-mcpkit-testing.workspace = true
+usemcpkit-testing.workspace = true
 tempfile.workspace = true
 
 [lints]

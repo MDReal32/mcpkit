@@ -1,7 +1,7 @@
 import { AbsoluteFill } from "remotion";
 import { useEntrance } from "../../motion/use-entrance";
 import { ConfigEntry } from "./config-entry";
-import { MCPKIT_ENTRY, MERGED_AT, SCATTERED_ENTRIES } from "./const";
+import { MERGED_AT, SCATTERED_ENTRIES, USEMCPKIT_ENTRY } from "./const";
 import { ProblemTitle } from "./problem-title";
 import { ScatteredEntry } from "./scattered-entry";
 
@@ -25,7 +25,7 @@ export const ProblemScene = () => {
             filter: `blur(${Math.max(0, 1 - merged) * 12}px)`,
           }}
         >
-          <ConfigEntry entry={MCPKIT_ENTRY} fontSize={32} highlighted />
+          <ConfigEntry entry={USEMCPKIT_ENTRY} fontSize={32} highlighted />
         </div>
       </AbsoluteFill>
     </AbsoluteFill>

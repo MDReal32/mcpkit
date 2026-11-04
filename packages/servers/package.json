@@ -6,8 +6,8 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./build/mcpkit.servers.d.ts",
-      "import": "./build/mcpkit.servers.js"
+      "types": "./build/usemcpkit.servers.d.ts",
+      "import": "./build/usemcpkit.servers.js"
     }
   },
   "scripts": {

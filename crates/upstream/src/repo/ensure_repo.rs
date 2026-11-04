@@ -6,8 +6,8 @@ use crate::repo::repo_options::RepoOptions;
 use crate::repo::repo_signature::repo_signature;
 use crate::repo::update_repo::update_repo;
 use crate::upstream_error::UpstreamError;
-use mcpkit_manifest::upstream::UpstreamRepo;
 use std::path::Path;
+use usemcpkit_manifest::upstream::UpstreamRepo;
 
 /// Makes `dir` a finished clone of `repo`. The clone is always used as it is; a clone made for another url, ref or
 /// setup is replaced, and one at a branch or tag is compared with the remote once its last check is older than the

@@ -1,7 +1,7 @@
 use crate::upstream::RepoSetupStep;
 use serde::{Deserialize, Serialize};
 
-/// A git repository the upstream server is run from, cloned on first use into `~/.mcpkit/repos/<category>/<name>`.
+/// A git repository the upstream server is run from, cloned on first use into `~/.usemcpkit/repos/<category>/<name>`.
 #[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct UpstreamRepo {
     pub url: String,

@@ -1,7 +1,7 @@
 use crate::ExecutorState;
-use mcpkit_auth::AuthContext;
 use std::rc::Rc;
 use std::time::Duration;
+use usemcpkit_auth::AuthContext;
 
 /// Everything a tool call reads besides its manifest and arguments.
 #[derive(Clone)]

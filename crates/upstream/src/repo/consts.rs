@@ -1,7 +1,7 @@
 use std::time::Duration;
 
 /// Written last into a finished clone, holding its `RepoState`.
-pub const READY_MARKER_FILE_NAME: &str = ".mcpkit-ready";
+pub const READY_MARKER_FILE_NAME: &str = ".usemcpkit-ready";
 
 pub const SETUP_TIMEOUT: Duration = Duration::from_secs(10 * 60);
 

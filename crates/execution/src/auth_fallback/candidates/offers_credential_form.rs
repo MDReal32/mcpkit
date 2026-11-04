@@ -1,6 +1,6 @@
 use crate::CallContext;
-use mcpkit_manifest::Manifest;
-use mcpkit_manifest::auth::AuthSpec;
+use usemcpkit_manifest::Manifest;
+use usemcpkit_manifest::auth::AuthSpec;
 
 /// The form is shown when the user can enter a credential, or choose a domain to sign in to.
 pub fn offers_credential_form(manifest: &Manifest, context: &CallContext) -> bool {

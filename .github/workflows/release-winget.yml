@@ -39,6 +39,6 @@ jobs:
         uses: vedantmgoyal9/winget-releaser@v2
         with:
           identifier: MDReal32.UseMCPKit
-          installers-regex: 'mcpkit-windows-x64\.exe$'
+          installers-regex: 'usemcpkit-windows-x64\.exe$'
           release-tag: ${{ inputs.tag }}
           token: ${{ env.WINGET_TOKEN }}

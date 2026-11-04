@@ -1,7 +1,3 @@
-use mcpkit_registry::{
-    DEFAULT_REGISTRY_URL, Fetch, RegistryContext, RegistryError, load_group_manifest, load_groups, read_cached_index,
-    sync_registry,
-};
 use serde_json::Value;
 use std::cell::RefCell;
 use std::collections::HashMap;
@@ -9,6 +5,10 @@ use std::fs;
 use std::path::{Path, PathBuf};
 use std::rc::Rc;
 use tempfile::TempDir;
+use usemcpkit_registry::{
+    DEFAULT_REGISTRY_URL, Fetch, RegistryContext, RegistryError, load_group_manifest, load_groups, read_cached_index,
+    sync_registry,
+};
 
 /// Serves the registry `packages/servers` builds as if it were published, logging every URL asked for.
 struct FolderFetcher {
@@ -71,7 +71,7 @@ fn cache_keys(fixture: &Fixture) -> Vec<String> {
     map.keys().cloned().collect()
 }
 
-async fn github(fixture: &Fixture) -> mcpkit_manifest::registry::RegistryServer {
+async fn github(fixture: &Fixture) -> usemcpkit_manifest::registry::RegistryServer {
     let index = read_cached_index(&fixture.context.dir)
         .await
         .expect("readable")

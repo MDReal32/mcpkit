@@ -1,5 +1,5 @@
 use clap::Parser;
-use mcpkit_server::cli::{Cli, run};
+use usemcpkit_server::cli::{Cli, run};
 
 fn main() {
     let code = run(Cli::parse());

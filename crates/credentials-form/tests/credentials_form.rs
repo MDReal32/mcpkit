@@ -1,11 +1,3 @@
-use mcpkit_auth::AuthError;
-use mcpkit_auth::credentials::{
-    CREDENTIALS_FORM_CANCEL_PATH, CREDENTIALS_FORM_IMPORT_PATH, CREDENTIALS_FORM_SESSION_HEADER,
-    CREDENTIALS_FORM_SUBMIT_PATH, CredentialRequest,
-};
-use mcpkit_core::env::Env;
-use mcpkit_credentials_form::{CREDENTIALS_FORM_TIMEOUT, CredentialsFormOptions, create_credentials_form};
-use mcpkit_manifest::ui::DEFAULT_UI_TEXTS;
 use serde_json::{Value, json};
 use std::cell::RefCell;
 use std::path::Path;
@@ -14,8 +6,16 @@ use std::time::Duration;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::TcpStream;
 use tokio::sync::oneshot;
+use usemcpkit_auth::AuthError;
+use usemcpkit_auth::credentials::{
+    CREDENTIALS_FORM_CANCEL_PATH, CREDENTIALS_FORM_IMPORT_PATH, CREDENTIALS_FORM_SESSION_HEADER,
+    CREDENTIALS_FORM_SUBMIT_PATH, CredentialRequest,
+};
+use usemcpkit_core::env::Env;
+use usemcpkit_credentials_form::{CREDENTIALS_FORM_TIMEOUT, CredentialsFormOptions, create_credentials_form};
+use usemcpkit_manifest::ui::DEFAULT_UI_TEXTS;
 
-const PAGE: &str = "<script type=\"application/json\" id=\"mcpkit-request\"></script><p>form</p>";
+const PAGE: &str = "<script type=\"application/json\" id=\"usemcpkit-request\"></script><p>form</p>";
 
 /// The page URL the form announced: its `host:port` and the session token from the fragment.
 struct FormUrl {
@@ -148,7 +148,7 @@ async fn call_api(url: &FormUrl, path: &str, body: &Value) -> HttpAnswer {
 async fn read_injected_request(url: &FormUrl) -> Value {
     let page = send(&url.host, "GET /", &[("host", url.host.as_str())], "").await;
     assert_eq!(page.status, 200);
-    let start = page.body.find("id=\"mcpkit-request\">").unwrap() + "id=\"mcpkit-request\">".len();
+    let start = page.body.find("id=\"usemcpkit-request\">").unwrap() + "id=\"usemcpkit-request\">".len();
     let end = page.body[start..].find("</script>").unwrap() + start;
     serde_json::from_str(&page.body[start..end]).unwrap()
 }
@@ -238,7 +238,7 @@ async fn fails_when_the_page_has_no_request_element() {
 
     let error = answer.await.unwrap_err();
 
-    assert!(error.0.contains("mcpkit-request"), "{error}");
+    assert!(error.0.contains("usemcpkit-request"), "{error}");
 }
 
 #[tokio::test]

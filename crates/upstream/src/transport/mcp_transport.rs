@@ -1,6 +1,6 @@
 use crate::upstream_error::UpstreamError;
-use mcpkit_core::LocalFuture;
 use serde_json::Value;
+use usemcpkit_core::LocalFuture;
 
 /// One JSON-RPC channel to an upstream; `params` is left out of the message when `None`.
 pub trait McpTransport {

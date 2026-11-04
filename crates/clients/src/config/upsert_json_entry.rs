@@ -1,8 +1,8 @@
 use crate::client_error::ClientError;
 use crate::config::jsonc::set_property;
 use crate::consts::JSON_INDENT_SIZE;
-use mcpkit_core::js::js_trim;
 use serde_json::Value;
+use usemcpkit_core::js::js_trim;
 
 /// Sets `servers_path.name` to `entry`, keeping comments and the rest of the file as they are.
 pub fn upsert_json_entry(text: &str, servers_path: &[&str], name: &str, entry: &Value) -> Result<String, ClientError> {

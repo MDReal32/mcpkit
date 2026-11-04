@@ -5,8 +5,8 @@ use crate::request::consts::{CONTENT_TYPE_HEADER, MULTIPART_CONTENT_TYPE};
 use crate::request::request_content::RequestContent;
 use crate::request::serialize_body::serialize_body;
 use indexmap::IndexMap;
-use mcpkit_http::RequestBody;
-use mcpkit_manifest::tool::RequestSpec;
+use usemcpkit_http::RequestBody;
+use usemcpkit_manifest::tool::RequestSpec;
 
 /// A multipart form sets its own content type; any other body is sent under `content_type`, an uploaded file as its
 /// bytes.

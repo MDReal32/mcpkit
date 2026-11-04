@@ -1,7 +1,7 @@
 use crate::server::form_session::FormSession;
 use hyper::header::HOST;
 use hyper::{HeaderMap, http::HeaderValue};
-use mcpkit_auth::credentials::CREDENTIALS_FORM_SESSION_HEADER;
+use usemcpkit_auth::credentials::CREDENTIALS_FORM_SESSION_HEADER;
 
 /// The Host check stops DNS rebinding; the token from the URL fragment proves the caller loaded this page.
 pub fn is_session_request(session: &FormSession, headers: &HeaderMap<HeaderValue>, require_token: bool) -> bool {

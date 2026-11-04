@@ -11,11 +11,17 @@ import { upsertTomlTable } from "../src/config/upsert-toml-table";
 
 const OUTPUT = process.env.CONFIG_EDITS_GOLDEN_OUTPUT ?? "";
 
-const NAME = "mcpkit";
+const NAME = "usemcpkit";
 const PATH = "config.json";
-const ENTRY = { type: "stdio", command: "C:\\Program Files\\mcpkit\\mcpkit.exe", args: ["serve"] };
-const OTHER_ENTRY = { type: "local", command: ["/opt/mcpkit", "serve"], enabled: true, n: 1.5, label: 'ü€😀\u2028"' };
-const TOML_ENTRY = { command: "C:\\mcpkit.exe", args: ["serve", "--x"], enabled: true, n: 1.5 };
+const ENTRY = { type: "stdio", command: "C:\\Program Files\\usemcpkit\\usemcpkit.exe", args: ["serve"] };
+const OTHER_ENTRY = {
+  type: "local",
+  command: ["/opt/usemcpkit", "serve"],
+  enabled: true,
+  n: 1.5,
+  label: 'ü€😀\u2028"',
+};
+const TOML_ENTRY = { command: "C:\\usemcpkit.exe", args: ["serve", "--x"], enabled: true, n: 1.5 };
 
 const outcome = (run: () => unknown) => {
   try {
@@ -41,19 +47,19 @@ const JSON_CASES: [string, string, string[]?][] = [
   ["bom only", "\uFEFF"],
   ["no servers", '{ "theme": "dark" }'],
   ["empty servers", '{ "mcpServers": {} }'],
-  ["replace", '{\n  "mcpServers": {\n    "mcpkit": { "command": "old" },\n    "other": {}\n  }\n}'],
-  ["last with trailing comma", '{ "mcpServers": { "a": 1, "mcpkit": {}, } }'],
-  ["only entry", '{\n  "mcpServers": {\n    "mcpkit": {\n      "command": "old"\n    }\n  }\n}\n'],
-  ["first of several", '{\n  "mcpServers": {\n    "mcpkit": {},\n    "b": {}\n  }\n}\n'],
-  ["middle", '{\n  "mcpServers": {\n    "a": {},\n    "mcpkit": {},\n    "b": {}\n  }\n}\n'],
+  ["replace", '{\n  "mcpServers": {\n    "usemcpkit": { "command": "old" },\n    "other": {}\n  }\n}'],
+  ["last with trailing comma", '{ "mcpServers": { "a": 1, "usemcpkit": {}, } }'],
+  ["only entry", '{\n  "mcpServers": {\n    "usemcpkit": {\n      "command": "old"\n    }\n  }\n}\n'],
+  ["first of several", '{\n  "mcpServers": {\n    "usemcpkit": {},\n    "b": {}\n  }\n}\n'],
+  ["middle", '{\n  "mcpServers": {\n    "a": {},\n    "usemcpkit": {},\n    "b": {}\n  }\n}\n'],
   ["vscode", '{\n  "inputs": [],\n  "servers": {}\n}', ["servers"]],
   ["zed one line", '{"theme":"One Dark","context_servers":{"other":{"command":"x"}}}', ["context_servers"]],
   ["servers number", '{ "mcpServers": 1 }'],
   ["servers array", '{ "mcpServers": [] }'],
   ["root array", "[]"],
   ["root string", '"x"'],
-  ["duplicate servers, entry in last", '{ "mcpServers": { "other": {} }, "mcpServers": { "mcpkit": {} } }'],
-  ["duplicate servers, entry in first", '{ "mcpServers": { "mcpkit": {} }, "mcpServers": { "other": {} } }'],
+  ["duplicate servers, entry in last", '{ "mcpServers": { "other": {} }, "mcpServers": { "usemcpkit": {} } }'],
+  ["duplicate servers, entry in first", '{ "mcpServers": { "usemcpkit": {} }, "mcpServers": { "other": {} } }'],
   ["non-ascii", '{\n  "név": "ü€😀",\n  "mcpServers": {\n    "ü": "€"\n  }\n}\n'],
   ["comment after brace", '{ // c\n  "mcpServers": { /* in */ }\n}'],
   ["one line with more", '{"mcpServers": {"other": {}}, "x": 1}'],
@@ -89,32 +95,32 @@ const JSON_CASES: [string, string, string[]?][] = [
 const TOML_CASES: [string, string][] = [
   ["empty", ""],
   ["append", 'model = "o3" # pick\n\n[mcp_servers.other]\ncommand = "x"\n'],
-  ["replace with trailing blank", '[mcp_servers.mcpkit]\ncommand = "old"\n\n[profiles.x]\nmodel = "y"\n'],
-  ["replace without trailing blank", '[mcp_servers.mcpkit]\ncommand = "old"\n[profiles.x]\n'],
+  ["replace with trailing blank", '[mcp_servers.usemcpkit]\ncommand = "old"\n\n[profiles.x]\nmodel = "y"\n'],
+  ["replace without trailing blank", '[mcp_servers.usemcpkit]\ncommand = "old"\n[profiles.x]\n'],
   [
     "subtables",
-    '[mcp_servers.mcpkit]\ncommand = "old"\n\n[mcp_servers.mcpkit.env]\nA = "1"\n\n[profiles.x]\nmodel = "y"\n',
+    '[mcp_servers.usemcpkit]\ncommand = "old"\n\n[mcp_servers.usemcpkit.env]\nA = "1"\n\n[profiles.x]\nmodel = "y"\n',
   ],
-  ["inline under servers", '[mcp_servers]\nmcpkit = { command = "x" }\n'],
-  ["inline dotted", 'mcp_servers.mcpkit = { command = "x" }\n'],
-  ["inline across lines", "a = 1\nmcp_servers.mcpkit\n=\n{ }\n"],
-  ["crlf", '[mcp_servers.mcpkit]\r\ncommand = "old"\r\n\r\n[other]\r\n'],
-  ["header comment", '[mcp_servers.mcpkit] # note\ncommand = "old"\n'],
-  ["crlf header comment", '[mcp_servers.mcpkit] # note\r\ncommand = "old"\r\n'],
-  ["spaced header", '[ mcp_servers . mcpkit ]\ncommand = "old"\n'],
-  ["no final newline", 'a = 1\n[mcp_servers.mcpkit]\ncommand = "old"'],
+  ["inline under servers", '[mcp_servers]\nusemcpkit = { command = "x" }\n'],
+  ["inline dotted", 'mcp_servers.usemcpkit = { command = "x" }\n'],
+  ["inline across lines", "a = 1\nmcp_servers.usemcpkit\n=\n{ }\n"],
+  ["crlf", '[mcp_servers.usemcpkit]\r\ncommand = "old"\r\n\r\n[other]\r\n'],
+  ["header comment", '[mcp_servers.usemcpkit] # note\ncommand = "old"\n'],
+  ["crlf header comment", '[mcp_servers.usemcpkit] # note\r\ncommand = "old"\r\n'],
+  ["spaced header", '[ mcp_servers . usemcpkit ]\ncommand = "old"\n'],
+  ["no final newline", 'a = 1\n[mcp_servers.usemcpkit]\ncommand = "old"'],
   ["blank tail", "a = 1\n\n\n   \n"],
-  ["array of tables", "[[mcp_servers.mcpkit]]\ncommand = 1\n"],
-  ["indented header", '  [mcp_servers.mcpkit]\n  command = "old"\n'],
-  ["other header first", "[mcp_servers.mcpkitx]\na = 1\n"],
-  ["bom", '\uFEFF[mcp_servers.mcpkit]\ncommand = "old"\n'],
+  ["array of tables", "[[mcp_servers.usemcpkit]]\ncommand = 1\n"],
+  ["indented header", '  [mcp_servers.usemcpkit]\n  command = "old"\n'],
+  ["other header first", "[mcp_servers.usemcpkitx]\na = 1\n"],
+  ["bom", '\uFEFF[mcp_servers.usemcpkit]\ncommand = "old"\n'],
 ];
 
 const TOML_VALUES = [["a", 1, true], {}, null, 'ü\n"', 1e21, [[1], []]];
 
 /**
  * Writes `crates/clients/tests/fixtures/config-edits.json`, which the Rust config editing tests compare against: how
- * each JSONC text parses and what adding, replacing and removing the `mcpkit` entry gives, the same for Codex TOML,
+ * each JSONC text parses and what adding, replacing and removing the `usemcpkit` entry gives, the same for Codex TOML,
  * and how TOML values are written.
  */
 it.skipIf(OUTPUT === "")("writes the config edit golden file", () => {

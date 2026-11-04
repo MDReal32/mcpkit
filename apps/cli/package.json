@@ -9,23 +9,23 @@
   },
   "type": "module",
   "exports": {
-    ".": "./build/mcpkit.cli.js"
+    ".": "./build/usemcpkit.cli.js"
   },
   "bin": {
-    "usemcpkit": "build/mcpkit.cli.js"
+    "usemcpkit": "build/usemcpkit.cli.js"
   },
   "publishConfig": {
     "access": "public"
   },
   "files": [
-    "build/mcpkit.cli.js"
+    "build/usemcpkit.cli.js"
   ],
   "scripts": {
     "build": "vite build --configLoader runner",
     "package": "vite build --configLoader runner --mode package",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --configLoader runner",
-    "start": "node build/mcpkit.cli.js",
+    "start": "node build/usemcpkit.cli.js",
     "lint": "biome check ."
   },
   "devDependencies": {

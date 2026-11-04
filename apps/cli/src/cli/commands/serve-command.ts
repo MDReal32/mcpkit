@@ -18,7 +18,7 @@ export const serveCommand = async (options: ServeOptions) => {
   }
   const serveOptions = createServeOptions();
   const catalog = await loadCatalog(names, serveOptions);
-  printError(`mcpkit ${VERSION}: serving ${catalog.servers.map((server) => server.id).join(", ")}`);
+  printError(`usemcpkit ${VERSION}: serving ${catalog.servers.map((server) => server.id).join(", ")}`);
   if (serveOptions.onToolUse) {
     printError(ANALYTICS_NOTICE);
   }

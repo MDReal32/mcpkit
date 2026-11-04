@@ -1,8 +1,8 @@
 use crate::upstream::request_forwarded_credentials::request_forwarded_credentials;
 use indexmap::IndexMap;
-use mcpkit_auth::{AuthContext, AuthError};
-use mcpkit_manifest::Manifest;
-use mcpkit_manifest::upstream::StdioUpstream;
+use usemcpkit_auth::{AuthContext, AuthError};
+use usemcpkit_manifest::Manifest;
+use usemcpkit_manifest::upstream::StdioUpstream;
 
 /// The values the user enters for `missing`; without a form to ask in, the missing names are the error.
 pub async fn ask_for_missing_credentials(
@@ -13,7 +13,7 @@ pub async fn ask_for_missing_credentials(
 ) -> Result<IndexMap<String, String>, AuthError> {
     let Some(requester) = &context.request_credentials else {
         return Err(AuthError(format!(
-            "{}: missing credential, set {} in the client's env for mcpkit",
+            "{}: missing credential, set {} in the client's env for usemcpkit",
             manifest.name,
             missing.join(", ")
         )));

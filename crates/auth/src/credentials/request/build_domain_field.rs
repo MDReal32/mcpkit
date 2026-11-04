@@ -1,7 +1,7 @@
 use crate::credentials::DomainField;
 use indexmap::IndexMap;
-use mcpkit_core::env::Env;
-use mcpkit_manifest::Manifest;
+use usemcpkit_core::env::Env;
+use usemcpkit_manifest::Manifest;
 
 /// A domain set through its env var is not offered for editing.
 pub fn build_domain_field(

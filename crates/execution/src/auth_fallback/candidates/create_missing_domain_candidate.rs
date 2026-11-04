@@ -1,7 +1,7 @@
 use crate::auth_fallback::auth_candidate::AuthCandidate;
 use crate::auth_fallback::auth_candidate_kind::AuthCandidateKind;
-use mcpkit_auth::AuthError;
-use mcpkit_manifest::Manifest;
+use usemcpkit_auth::AuthError;
+use usemcpkit_manifest::Manifest;
 
 pub fn create_missing_domain_candidate<'a>(manifest: &Manifest) -> AuthCandidate<'a> {
     let env_hint = manifest

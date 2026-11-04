@@ -1,7 +1,7 @@
 use crate::registry_error::RegistryError;
-use mcpkit_manifest::registry::{ManifestPart, RegistryServer};
-use mcpkit_manifest::tool::ToolSpec;
 use serde_json::Value;
+use usemcpkit_manifest::registry::{ManifestPart, RegistryServer};
+use usemcpkit_manifest::tool::ToolSpec;
 
 pub fn parse_part_tools(
     server: &RegistryServer,

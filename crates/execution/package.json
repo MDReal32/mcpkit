@@ -2,7 +2,7 @@
   "name": "@usemcpkit/execution",
   "private": true,
   "scripts": {
-    "test": "cargo test -p mcpkit-execution",
-    "lint": "cargo fmt -p mcpkit-execution --check && cargo clippy -p mcpkit-execution --all-targets"
+    "test": "cargo test -p usemcpkit-execution",
+    "lint": "cargo fmt -p usemcpkit-execution --check && cargo clippy -p usemcpkit-execution --all-targets"
   }
 }

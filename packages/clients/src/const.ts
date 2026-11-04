@@ -1,9 +1,9 @@
-/** The single entry mcpkit owns in every client config; it serves every bundled server. */
-export const ENTRY_NAME = "mcpkit";
+/** The single entry usemcpkit owns in every client config; it serves every bundled server. */
+export const ENTRY_NAME = "usemcpkit";
 
 export const SERVE_ARGS: readonly string[] = ["serve"];
 
-export const BACKUP_SUFFIX = ".mcpkit-backup";
+export const BACKUP_SUFFIX = ".usemcpkit-backup";
 
 export const JSON_INDENT_SIZE = 2;
 

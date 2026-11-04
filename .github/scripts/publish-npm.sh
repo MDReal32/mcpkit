@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Publishes mcpkit packages whose version is not on npm yet. The release workflow runs the steps in parallel jobs:
+# Publishes usemcpkit packages whose version is not on npm yet. The release workflow runs the steps in parallel jobs:
 #   platforms            prints the per-OS package dirs as a JSON array (the job matrix)
 #   pack <dir>           `yarn pack` core, cli and the wrapper into <dir> (rewrites `workspace:*` and `publishConfig`)
 #   publish-dir <dir>    publish one package directory

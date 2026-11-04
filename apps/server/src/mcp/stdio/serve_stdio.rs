@@ -4,14 +4,14 @@ use crate::mcp::stdio::read_line_text::read_line_text;
 use crate::mcp::stdio::reap_finished_tasks::reap_finished_tasks;
 use crate::mcp::stdio::rethrow_task_panic::rethrow_task_panic;
 use crate::mcp::stdio::write_lines::write_lines;
-use mcpkit_core::mcp::TOOLS_LIST_CHANGED;
-use mcpkit_registry::Fetch;
-use mcpkit_wire_log::{WireLog, describe_wire_line};
 use serde_json::json;
 use std::rc::Rc;
 use tokio::io::{AsyncBufReadExt, AsyncRead, AsyncWrite, BufReader};
 use tokio::sync::mpsc;
 use tokio::task::JoinSet;
+use usemcpkit_core::mcp::TOOLS_LIST_CHANGED;
+use usemcpkit_registry::Fetch;
+use usemcpkit_wire_log::{WireLog, describe_wire_line};
 
 const WRITER_OUTLIVES_SENDERS: &str = "the writer runs until every sender is dropped";
 

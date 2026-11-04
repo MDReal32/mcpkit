@@ -1,7 +1,7 @@
 use crate::registry_error::RegistryError;
 use crate::remote::parse_registry_server::parse_registry_server;
-use mcpkit_manifest::registry::RegistryIndex;
 use serde_json::Value;
+use usemcpkit_manifest::registry::RegistryIndex;
 
 /// Keeps only what the index promises; extra fields, such as the `tools` older registries listed, are dropped.
 pub fn parse_registry_index(text: &str) -> Result<RegistryIndex, RegistryError> {

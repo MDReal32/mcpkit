@@ -35,7 +35,7 @@ const connect = async (repo: UpstreamRepo, repoDir = join(root, "repos", "demo")
 };
 
 beforeEach(() => {
-  root = mkdtempSync(join(tmpdir(), "mcpkit-repo-"));
+  root = mkdtempSync(join(tmpdir(), "usemcpkit-repo-"));
   source = join(root, "source");
   execFileSync("git", ["init", "--quiet", source]);
   copyFileSync(FAKE_SERVER, join(source, "fake-mcp-server.mjs"));
@@ -211,7 +211,7 @@ describe("a clone kept up to date with its remote ref", () => {
   it("adopts a clone marked before states existed and rebuilds it only when its ref moved", async () => {
     const repo: UpstreamRepo = { url: source, ref: "HEAD" };
     await ensure(repo);
-    writeFileSync(join(dirOf(), ".mcpkit-ready"), JSON.stringify(repo));
+    writeFileSync(join(dirOf(), ".usemcpkit-ready"), JSON.stringify(repo));
     const moved = commitFile("moved.txt");
 
     await ensure(repo);

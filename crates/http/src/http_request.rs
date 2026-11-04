@@ -1,7 +1,7 @@
 use crate::request_body::RequestBody;
 use indexmap::IndexMap;
-use mcpkit_manifest::tool::HttpMethod;
 use serde::{Deserialize, Serialize};
+use usemcpkit_manifest::tool::HttpMethod;
 
 #[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct HttpRequest {

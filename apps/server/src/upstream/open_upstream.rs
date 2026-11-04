@@ -1,10 +1,10 @@
 use crate::upstream::create_upstream_options::create_upstream_options;
-use mcpkit_core::LocalFuture;
-use mcpkit_execution::CallContext;
-use mcpkit_execution::upstream::{UpstreamAccess, with_upstream_access};
-use mcpkit_manifest::Manifest;
-use mcpkit_upstream::{UpstreamConnection, UpstreamError, connect_upstream};
 use std::rc::Rc;
+use usemcpkit_core::LocalFuture;
+use usemcpkit_execution::CallContext;
+use usemcpkit_execution::upstream::{UpstreamAccess, with_upstream_access};
+use usemcpkit_manifest::Manifest;
+use usemcpkit_upstream::{UpstreamConnection, UpstreamError, connect_upstream};
 
 /// Connects with the manifest's auth and runs `use_connection` on the connection. When it fails (a 401 moves on to the
 /// next auth option), the connection is closed; otherwise the caller owns it.

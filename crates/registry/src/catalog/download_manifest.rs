@@ -3,9 +3,9 @@ use crate::local::write_cached_manifest;
 use crate::registry_context::RegistryContext;
 use crate::registry_error::RegistryError;
 use crate::remote::{Fetch, resolve_registry_link};
-use mcpkit_core::hash::sha256_hex;
-use mcpkit_manifest::ManifestDocument;
-use mcpkit_manifest::registry::RegistryServer;
+use usemcpkit_core::hash::sha256_hex;
+use usemcpkit_manifest::ManifestDocument;
+use usemcpkit_manifest::registry::RegistryServer;
 
 /// Nothing is cached unless it matches the index hash and parses.
 pub async fn download_manifest<F: Fetch>(

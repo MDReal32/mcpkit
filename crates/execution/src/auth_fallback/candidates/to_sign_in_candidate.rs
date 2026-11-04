@@ -1,11 +1,11 @@
 use crate::CallContext;
 use crate::auth_fallback::auth_candidate::AuthCandidate;
 use crate::auth_fallback::auth_candidate_kind::AuthCandidateKind;
-use mcpkit_auth::AuthResolution;
-use mcpkit_auth::resolve::resolve_signed_in_auth;
-use mcpkit_manifest::Manifest;
-use mcpkit_manifest::auth::{AuthSpec, OAuthAuth};
 use std::rc::Rc;
+use usemcpkit_auth::AuthResolution;
+use usemcpkit_auth::resolve::resolve_signed_in_auth;
+use usemcpkit_manifest::Manifest;
+use usemcpkit_manifest::auth::{AuthSpec, OAuthAuth};
 
 pub fn to_sign_in_candidate<'a>(
     auth: &OAuthAuth,

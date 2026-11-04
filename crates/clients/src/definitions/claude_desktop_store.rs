@@ -2,7 +2,7 @@ use crate::client_definition::ClientDefinition;
 use crate::config_format::ConfigFormat;
 use crate::definitions::create_command_entry::create_command_entry;
 use crate::definitions::resolve_claude_desktop_store_dir::resolve_claude_desktop_store_dir;
-use mcpkit_core::platform::Platform;
+use usemcpkit_core::platform::Platform;
 
 pub const CLAUDE_DESKTOP_STORE: ClientDefinition = ClientDefinition {
     id: "claude-desktop-store",

@@ -1,4 +1,4 @@
-export const PLUGIN_NAME = "mcpkit:binaries";
+export const PLUGIN_NAME = "usemcpkit:binaries";
 
 export const DEFAULT_OUT_SUBDIR = "bin";
 

@@ -7,8 +7,8 @@ use crate::auth_fallback::auth_candidate::AuthCandidate;
 use crate::consts::HTTP_UNAUTHORIZED;
 use crate::request::build_request;
 use crate::response::{read_api_error_message, read_response_body};
-use mcpkit_auth::credentials::save_form_answer;
-use mcpkit_manifest::tool::ToolSpec;
+use usemcpkit_auth::credentials::save_form_answer;
+use usemcpkit_manifest::tool::ToolSpec;
 
 /// A candidate fails when its credentials are unavailable (unset env var, no stored token) or the API answers 401; a
 /// request that cannot be built or sent fails the whole call, and so does saving what the credentials form answered.

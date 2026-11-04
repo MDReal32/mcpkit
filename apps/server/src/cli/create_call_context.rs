@@ -1,12 +1,12 @@
 use crate::browser::{CREDENTIALS_FORM_PAGE, announce_authorization_url, announce_credentials_form_url};
-use mcpkit_auth::secret_file::FileSecretStore;
-use mcpkit_auth::{AuthContext, AuthState};
-use mcpkit_core::env::Env;
-use mcpkit_core::home::resolve_env_home_dir;
-use mcpkit_credentials_form::{CREDENTIALS_FORM_TIMEOUT, CredentialsFormOptions, create_credentials_form};
-use mcpkit_execution::{CallContext, DEFAULT_TIMEOUT, ExecutorState};
-use mcpkit_http::ReqwestClient;
 use std::rc::Rc;
+use usemcpkit_auth::secret_file::FileSecretStore;
+use usemcpkit_auth::{AuthContext, AuthState};
+use usemcpkit_core::env::Env;
+use usemcpkit_core::home::resolve_env_home_dir;
+use usemcpkit_credentials_form::{CREDENTIALS_FORM_TIMEOUT, CredentialsFormOptions, create_credentials_form};
+use usemcpkit_execution::{CallContext, DEFAULT_TIMEOUT, ExecutorState};
+use usemcpkit_http::ReqwestClient;
 
 /// What every tool call of this server process shares: one HTTP client, the saved secrets, and one auth and executor
 /// state, so a refresh, a sign-in or a credentials form runs once and the auth that worked is tried first.

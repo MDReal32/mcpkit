@@ -10,10 +10,10 @@ export const startUpgradeSchedule = () => {
       return;
     }
     if (await scheduleUpgrades()) {
-      printError('mcpkit: scheduled "mcpkit upgrade" to run every few hours');
+      printError('usemcpkit: scheduled "usemcpkit upgrade" to run every few hours');
     }
   };
   run().catch((error: unknown) => {
-    printError(`mcpkit: could not schedule upgrades: ${describeError(error)}`);
+    printError(`usemcpkit: could not schedule upgrades: ${describeError(error)}`);
   });
 };

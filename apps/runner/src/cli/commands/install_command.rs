@@ -5,10 +5,10 @@ use crate::cli::output::print_detected_clients_missing;
 use crate::cli::registry::sync_quietly;
 use crate::cli::run_command::run_command;
 use crate::cli::update::{announce_upgrade_schedule, create_binary_context, prepare_launch_binary};
-use mcpkit_clients::{CLIENT_DEFINITIONS, LaunchCommand, SERVE_ARGS, detect_clients, set_client_entry};
+use usemcpkit_clients::{CLIENT_DEFINITIONS, LaunchCommand, SERVE_ARGS, detect_clients, set_client_entry};
 
-/// Copies the binaries to ~/.mcpkit/bin (or uses the Homebrew/winget one in place) and points each chosen client's
-/// single `mcpkit` entry at the runner.
+/// Copies the binaries to ~/.usemcpkit/bin (or uses the Homebrew/winget one in place) and points each chosen client's
+/// single `usemcpkit` entry at the runner.
 pub fn install_command(args: InstallArgs) -> i32 {
     run_command(async move {
         if let Some(binary) = &args.binary {
@@ -49,7 +49,7 @@ pub fn install_command(args: InstallArgs) -> i32 {
             announce_upgrade_schedule(&binary_context).await;
         }
         sync_quietly().await;
-        println!("Restart the clients to load mcpkit. {}", binary.update_hint);
+        println!("Restart the clients to load usemcpkit. {}", binary.update_hint);
         Ok(if failed == 0 { EXIT_SUCCESS } else { EXIT_FAILURE })
     })
 }

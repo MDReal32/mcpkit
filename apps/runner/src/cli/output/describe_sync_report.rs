@@ -1,4 +1,4 @@
-use mcpkit_registry::SyncReport;
+use usemcpkit_registry::SyncReport;
 
 pub fn describe_sync_report(report: &SyncReport) -> Vec<String> {
     std::iter::once(format!("{} server(s) in the registry", report.servers))
@@ -15,7 +15,7 @@ pub fn describe_sync_report(report: &SyncReport) -> Vec<String> {
 #[cfg(test)]
 mod tests {
     use super::describe_sync_report;
-    use mcpkit_registry::{SyncFailure, SyncReport};
+    use usemcpkit_registry::{SyncFailure, SyncReport};
 
     #[test]
     fn counts_the_servers_then_lists_what_changed_and_failed() {

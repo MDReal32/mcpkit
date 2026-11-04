@@ -14,7 +14,7 @@ export const readCacheMap = async ({ dir, warn }: RegistryContext) => {
     return parseCacheMap(JSON.parse(await readFile(file, "utf8")));
   } catch (error) {
     if (!isMissingFileError(error)) {
-      warn(`mcpkit: ${file} is unreadable and will be rebuilt: ${describeError(error)}`);
+      warn(`usemcpkit: ${file} is unreadable and will be rebuilt: ${describeError(error)}`);
     }
     return empty;
   }

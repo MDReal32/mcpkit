@@ -9,7 +9,7 @@ export const RETIRED_WORKER_GRACE_MS = 5 * 60_000;
 /** How long the worker gets to wind down after the client went away, before it is killed. */
 export const SHUTDOWN_GRACE_MS = 3000;
 
-export const HANDSHAKE_REQUEST_ID = "mcpkit-reload";
+export const HANDSHAKE_REQUEST_ID = "usemcpkit-reload";
 
 export const INITIALIZE_METHOD = "initialize";
 
@@ -21,5 +21,9 @@ export const SYNTHETIC_INITIALIZE = JSON.stringify({
   jsonrpc: "2.0",
   id: HANDSHAKE_REQUEST_ID,
   method: INITIALIZE_METHOD,
-  params: { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "mcpkit-supervisor", version: "0" } },
+  params: {
+    protocolVersion: "2025-06-18",
+    capabilities: {},
+    clientInfo: { name: "usemcpkit-supervisor", version: "0" },
+  },
 });

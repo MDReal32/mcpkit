@@ -1,7 +1,7 @@
 {
   "entry": {
     "type": "stdio",
-    "command": "C:\\Program Files\\mcpkit\\mcpkit.exe",
+    "command": "C:\\Program Files\\usemcpkit\\usemcpkit.exe",
     "args": [
       "serve"
     ]
@@ -9,7 +9,7 @@
   "otherEntry": {
     "type": "local",
     "command": [
-      "/opt/mcpkit",
+      "/opt/usemcpkit",
       "serve"
     ],
     "enabled": true,
@@ -17,7 +17,7 @@
     "label": "ü€😀 \""
   },
   "tomlEntry": {
-    "command": "C:\\mcpkit.exe",
+    "command": "C:\\usemcpkit.exe",
     "args": [
       "serve",
       "--x"
@@ -36,10 +36,10 @@
         "value": false
       },
       "upsert": {
-        "value": "{\n  // line comment\n  \"theme\": \"dark\", /* block */\n  \"mcpServers\": {\n    \"other\": {\n      \"command\": \"x\"\n    },\n    \"mcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\mcpkit\\\\mcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    } // same line\n  }\n}\n"
+        "value": "{\n  // line comment\n  \"theme\": \"dark\", /* block */\n  \"mcpServers\": {\n    \"other\": {\n      \"command\": \"x\"\n    },\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    } // same line\n  }\n}\n"
       },
       "upsertOther": {
-        "value": "{\n  // line comment\n  \"theme\": \"dark\", /* block */\n  \"mcpServers\": {\n    \"other\": {\n      \"command\": \"x\"\n    },\n    \"mcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/mcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    } // same line\n  }\n}\n"
+        "value": "{\n  // line comment\n  \"theme\": \"dark\", /* block */\n  \"mcpServers\": {\n    \"other\": {\n      \"command\": \"x\"\n    },\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    } // same line\n  }\n}\n"
       },
       "remove": {
         "value": "{\n  // line comment\n  \"theme\": \"dark\", /* block */\n  \"mcpServers\": {\n    \"other\": { \"command\": \"x\" } // same line\n  }\n}\n"
@@ -55,10 +55,10 @@
         "value": false
       },
       "upsert": {
-        "value": "{\n  \"mcpServers\": {\n    \"other\": {},\n    \"mcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\mcpkit\\\\mcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    },\n  },\n}\n"
+        "value": "{\n  \"mcpServers\": {\n    \"other\": {},\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    },\n  },\n}\n"
       },
       "upsertOther": {
-        "value": "{\n  \"mcpServers\": {\n    \"other\": {},\n    \"mcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/mcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    },\n  },\n}\n"
+        "value": "{\n  \"mcpServers\": {\n    \"other\": {},\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    },\n  },\n}\n"
       },
       "remove": {
         "value": "{\n  \"mcpServers\": {\n    \"other\": {},\n  },\n}\n"
@@ -74,10 +74,10 @@
         "value": false
       },
       "upsert": {
-        "value": "{\r\n  // line comment\r\n  \"theme\": \"dark\", /* block */\r\n  \"mcpServers\": {\r\n    \"other\": {\r\n      \"command\": \"x\"\r\n    },\r\n    \"mcpkit\": {\r\n      \"type\": \"stdio\",\r\n      \"command\": \"C:\\\\Program Files\\\\mcpkit\\\\mcpkit.exe\",\r\n      \"args\": [\r\n        \"serve\"\r\n      ]\r\n    } // same line\r\n  }\r\n}\r\n"
+        "value": "{\r\n  // line comment\r\n  \"theme\": \"dark\", /* block */\r\n  \"mcpServers\": {\r\n    \"other\": {\r\n      \"command\": \"x\"\r\n    },\r\n    \"usemcpkit\": {\r\n      \"type\": \"stdio\",\r\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\r\n      \"args\": [\r\n        \"serve\"\r\n      ]\r\n    } // same line\r\n  }\r\n}\r\n"
       },
       "upsertOther": {
-        "value": "{\r\n  // line comment\r\n  \"theme\": \"dark\", /* block */\r\n  \"mcpServers\": {\r\n    \"other\": {\r\n      \"command\": \"x\"\r\n    },\r\n    \"mcpkit\": {\r\n      \"type\": \"local\",\r\n      \"command\": [\r\n        \"/opt/mcpkit\",\r\n        \"serve\"\r\n      ],\r\n      \"enabled\": true,\r\n      \"n\": 1.5,\r\n      \"label\": \"ü€😀 \\\"\"\r\n    } // same line\r\n  }\r\n}\r\n"
+        "value": "{\r\n  // line comment\r\n  \"theme\": \"dark\", /* block */\r\n  \"mcpServers\": {\r\n    \"other\": {\r\n      \"command\": \"x\"\r\n    },\r\n    \"usemcpkit\": {\r\n      \"type\": \"local\",\r\n      \"command\": [\r\n        \"/opt/usemcpkit\",\r\n        \"serve\"\r\n      ],\r\n      \"enabled\": true,\r\n      \"n\": 1.5,\r\n      \"label\": \"ü€😀 \\\"\"\r\n    } // same line\r\n  }\r\n}\r\n"
       },
       "remove": {
         "value": "{\r\n  // line comment\r\n  \"theme\": \"dark\", /* block */\r\n  \"mcpServers\": {\r\n    \"other\": { \"command\": \"x\" } // same line\r\n  }\r\n}\r\n"
@@ -93,10 +93,10 @@
         "value": false
       },
       "upsert": {
-        "value": "{\n\t\"mcpServers\": {\n    \"other\": {},\n    \"mcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\mcpkit\\\\mcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n\t}\n}"
+        "value": "{\n\t\"mcpServers\": {\n    \"other\": {},\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n\t}\n}"
       },
       "upsertOther": {
-        "value": "{\n\t\"mcpServers\": {\n    \"other\": {},\n    \"mcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/mcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n\t}\n}"
+        "value": "{\n\t\"mcpServers\": {\n    \"other\": {},\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n\t}\n}"
       },
       "remove": {
         "value": "{\n\t\"mcpServers\": {\n\t\t\"other\": {}\n\t}\n}"
@@ -112,10 +112,10 @@
         "value": false
       },
       "upsert": {
-        "value": "{\n    \"theme\": \"dark\",\n    \"mcpServers\": {\n        \"other\": {},\n        \"mcpkit\": {\n          \"type\": \"stdio\",\n          \"command\": \"C:\\\\Program Files\\\\mcpkit\\\\mcpkit.exe\",\n          \"args\": [\n            \"serve\"\n          ]\n        }\n    }\n}\n"
+        "value": "{\n    \"theme\": \"dark\",\n    \"mcpServers\": {\n        \"other\": {},\n        \"usemcpkit\": {\n          \"type\": \"stdio\",\n          \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n          \"args\": [\n            \"serve\"\n          ]\n        }\n    }\n}\n"
       },
       "upsertOther": {
-        "value": "{\n    \"theme\": \"dark\",\n    \"mcpServers\": {\n        \"other\": {},\n        \"mcpkit\": {\n          \"type\": \"local\",\n          \"command\": [\n            \"/opt/mcpkit\",\n            \"serve\"\n          ],\n          \"enabled\": true,\n          \"n\": 1.5,\n          \"label\": \"ü€😀 \\\"\"\n        }\n    }\n}\n"
+        "value": "{\n    \"theme\": \"dark\",\n    \"mcpServers\": {\n        \"other\": {},\n        \"usemcpkit\": {\n          \"type\": \"local\",\n          \"command\": [\n            \"/opt/usemcpkit\",\n            \"serve\"\n          ],\n          \"enabled\": true,\n          \"n\": 1.5,\n          \"label\": \"ü€😀 \\\"\"\n        }\n    }\n}\n"
       },
       "remove": {
         "value": "{\n    \"theme\": \"dark\",\n    \"mcpServers\": {\n        \"other\": {}\n    }\n}\n"
@@ -131,10 +131,10 @@
         "value": false
       },
       "upsert": {
-        "value": "{\n  \"mcpServers\": {\n    \"mcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\mcpkit\\\\mcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
       },
       "upsertOther": {
-        "value": "{\n  \"mcpServers\": {\n    \"mcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/mcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
       },
       "remove": {
         "error": "Can not delete in empty document"
@@ -150,10 +150,10 @@
         "value": false
       },
       "upsert": {
-        "value": "{\n  \"mcpServers\": {\n    \"mcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\mcpkit\\\\mcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
       },
       "upsertOther": {
-        "value": "{\n  \"mcpServers\": {\n    \"mcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/mcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
       },
       "remove": {
         "error": "Can not delete in empty document"
@@ -169,10 +169,10 @@
         "value": false
       },
       "upsert": {
-        "value": "{\n  \"mcpServers\": {\n    \"mcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\mcpkit\\\\mcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
       },
       "upsertOther": {
-        "value": "{\n  \"mcpServers\": {\n    \"mcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/mcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
       },
       "remove": {
         "error": "Can not delete in empty document"
@@ -198,10 +198,10 @@
         "value": false
       },
       "upsert": {
-        "value": "{\n  \"mcpServers\": {\n    \"mcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\mcpkit\\\\mcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
       },
       "upsertOther": {
-        "value": "{\n  \"mcpServers\": {\n    \"mcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/mcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
       },
       "remove": {
         "error": "Can not delete in empty document"
@@ -217,10 +217,10 @@
         "value": false
       },
       "upsert": {
-        "value": "{\n  \"theme\": \"dark\",\n  \"mcpServers\": {\n    \"mcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\mcpkit\\\\mcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
+        "value": "{\n  \"theme\": \"dark\",\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
       },
       "upsertOther": {
-        "value": "{\n  \"theme\": \"dark\",\n  \"mcpServers\": {\n    \"mcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/mcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
+        "value": "{\n  \"theme\": \"dark\",\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
       },
       "remove": {
         "error": "Can not delete in empty document"
@@ -236,10 +236,10 @@
         "value": false
       },
       "upsert": {
-        "value": "{\n  \"mcpServers\": {\n    \"mcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\mcpkit\\\\mcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
       },
       "upsertOther": {
-        "value": "{\n  \"mcpServers\": {\n    \"mcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/mcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
       },
       "remove": {
         "value": "{ \"mcpServers\": {} }"
@@ -247,7 +247,7 @@
     },
     {
       "name": "replace",
-      "text": "{\n  \"mcpServers\": {\n    \"mcpkit\": { \"command\": \"old\" },\n    \"other\": {}\n  }\n}",
+      "text": "{\n  \"mcpServers\": {\n    \"usemcpkit\": { \"command\": \"old\" },\n    \"other\": {}\n  }\n}",
       "serversPath": [
         "mcpServers"
       ],
@@ -255,10 +255,10 @@
         "value": true
       },
       "upsert": {
-        "value": "{\n  \"mcpServers\": {\n    \"mcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\mcpkit\\\\mcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    },\n    \"other\": {}\n  }\n}"
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    },\n    \"other\": {}\n  }\n}"
       },
       "upsertOther": {
-        "value": "{\n  \"mcpServers\": {\n    \"mcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/mcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    },\n    \"other\": {}\n  }\n}"
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    },\n    \"other\": {}\n  }\n}"
       },
       "remove": {
         "value": "{\n  \"mcpServers\": {\n    \"other\": {}\n  }\n}"
@@ -266,7 +266,7 @@
     },
     {
       "name": "last with trailing comma",
-      "text": "{ \"mcpServers\": { \"a\": 1, \"mcpkit\": {}, } }",
+      "text": "{ \"mcpServers\": { \"a\": 1, \"usemcpkit\": {}, } }",
       "serversPath": [
         "mcpServers"
       ],
@@ -274,10 +274,10 @@
         "value": true
       },
       "upsert": {
-        "value": "{ \"mcpServers\": { \"a\": 1, \"mcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\mcpkit\\\\mcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }, } }"
+        "value": "{ \"mcpServers\": { \"a\": 1, \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }, } }"
       },
       "upsertOther": {
-        "value": "{ \"mcpServers\": { \"a\": 1, \"mcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/mcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }, } }"
+        "value": "{ \"mcpServers\": { \"a\": 1, \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }, } }"
       },
       "remove": {
         "value": "{\n  \"mcpServers\": {\n    \"a\": 1,\n  }\n}"
@@ -285,7 +285,7 @@
     },
     {
       "name": "only entry",
-      "text": "{\n  \"mcpServers\": {\n    \"mcpkit\": {\n      \"command\": \"old\"\n    }\n  }\n}\n",
+      "text": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"command\": \"old\"\n    }\n  }\n}\n",
       "serversPath": [
         "mcpServers"
       ],
@@ -293,10 +293,10 @@
         "value": true
       },
       "upsert": {
-        "value": "{\n  \"mcpServers\": {\n    \"mcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\mcpkit\\\\mcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}\n"
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}\n"
       },
       "upsertOther": {
-        "value": "{\n  \"mcpServers\": {\n    \"mcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/mcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}\n"
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}\n"
       },
       "remove": {
         "value": "{\n  \"mcpServers\": {\n  }\n}\n"
@@ -304,7 +304,7 @@
     },
     {
       "name": "first of several",
-      "text": "{\n  \"mcpServers\": {\n    \"mcpkit\": {},\n    \"b\": {}\n  }\n}\n",
+      "text": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {},\n    \"b\": {}\n  }\n}\n",
       "serversPath": [
         "mcpServers"
       ],
@@ -312,10 +312,10 @@
         "value": true
       },
       "upsert": {
-        "value": "{\n  \"mcpServers\": {\n    \"mcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\mcpkit\\\\mcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    },\n    \"b\": {}\n  }\n}\n"
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    },\n    \"b\": {}\n  }\n}\n"
       },
       "upsertOther": {
-        "value": "{\n  \"mcpServers\": {\n    \"mcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/mcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    },\n    \"b\": {}\n  }\n}\n"
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    },\n    \"b\": {}\n  }\n}\n"
       },
       "remove": {
         "value": "{\n  \"mcpServers\": {\n    \"b\": {}\n  }\n}\n"
@@ -323,7 +323,7 @@
     },
     {
       "name": "middle",
-      "text": "{\n  \"mcpServers\": {\n    \"a\": {},\n    \"mcpkit\": {},\n    \"b\": {}\n  }\n}\n",
+      "text": "{\n  \"mcpServers\": {\n    \"a\": {},\n    \"usemcpkit\": {},\n    \"b\": {}\n  }\n}\n",
       "serversPath": [
         "mcpServers"
       ],
@@ -331,10 +331,10 @@
         "value": true
       },
       "upsert": {
-        "value": "{\n  \"mcpServers\": {\n    \"a\": {},\n    \"mcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\mcpkit\\\\mcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    },\n    \"b\": {}\n  }\n}\n"
+        "value": "{\n  \"mcpServers\": {\n    \"a\": {},\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    },\n    \"b\": {}\n  }\n}\n"
       },
       "upsertOther": {
-        "value": "{\n  \"mcpServers\": {\n    \"a\": {},\n    \"mcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/mcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    },\n    \"b\": {}\n  }\n}\n"
+        "value": "{\n  \"mcpServers\": {\n    \"a\": {},\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    },\n    \"b\": {}\n  }\n}\n"
       },
       "remove": {
         "value": "{\n  \"mcpServers\": {\n    \"a\": {},\n    \"b\": {}\n  }\n}\n"
@@ -350,10 +350,10 @@
         "value": false
       },
       "upsert": {
-        "value": "{\n  \"inputs\": [],\n  \"servers\": {\n    \"mcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\mcpkit\\\\mcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
+        "value": "{\n  \"inputs\": [],\n  \"servers\": {\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
       },
       "upsertOther": {
-        "value": "{\n  \"inputs\": [],\n  \"servers\": {\n    \"mcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/mcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
+        "value": "{\n  \"inputs\": [],\n  \"servers\": {\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
       },
       "remove": {
         "value": "{\n  \"inputs\": [],\n  \"servers\": {}\n}"
@@ -369,10 +369,10 @@
         "value": false
       },
       "upsert": {
-        "value": "{\n  \"theme\": \"One Dark\",\n  \"context_servers\": {\n    \"other\": {\n      \"command\": \"x\"\n    },\n    \"mcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\mcpkit\\\\mcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
+        "value": "{\n  \"theme\": \"One Dark\",\n  \"context_servers\": {\n    \"other\": {\n      \"command\": \"x\"\n    },\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
       },
       "upsertOther": {
-        "value": "{\n  \"theme\": \"One Dark\",\n  \"context_servers\": {\n    \"other\": {\n      \"command\": \"x\"\n    },\n    \"mcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/mcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
+        "value": "{\n  \"theme\": \"One Dark\",\n  \"context_servers\": {\n    \"other\": {\n      \"command\": \"x\"\n    },\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
       },
       "remove": {
         "value": "{\"theme\":\"One Dark\",\"context_servers\":{\"other\":{\"command\":\"x\"}}}"
@@ -456,7 +456,7 @@
     },
     {
       "name": "duplicate servers, entry in last",
-      "text": "{ \"mcpServers\": { \"other\": {} }, \"mcpServers\": { \"mcpkit\": {} } }",
+      "text": "{ \"mcpServers\": { \"other\": {} }, \"mcpServers\": { \"usemcpkit\": {} } }",
       "serversPath": [
         "mcpServers"
       ],
@@ -464,18 +464,18 @@
         "value": true
       },
       "upsert": {
-        "value": "{\n  \"mcpServers\": {\n    \"other\": {},\n    \"mcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\mcpkit\\\\mcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  },\n  \"mcpServers\": {\n    \"mcpkit\": {}\n  }\n}"
+        "value": "{\n  \"mcpServers\": {\n    \"other\": {},\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  },\n  \"mcpServers\": {\n    \"usemcpkit\": {}\n  }\n}"
       },
       "upsertOther": {
-        "value": "{\n  \"mcpServers\": {\n    \"other\": {},\n    \"mcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/mcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  },\n  \"mcpServers\": {\n    \"mcpkit\": {}\n  }\n}"
+        "value": "{\n  \"mcpServers\": {\n    \"other\": {},\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  },\n  \"mcpServers\": {\n    \"usemcpkit\": {}\n  }\n}"
       },
       "remove": {
-        "value": "{ \"mcpServers\": { \"other\": {} }, \"mcpServers\": { \"mcpkit\": {} } }"
+        "value": "{ \"mcpServers\": { \"other\": {} }, \"mcpServers\": { \"usemcpkit\": {} } }"
       }
     },
     {
       "name": "duplicate servers, entry in first",
-      "text": "{ \"mcpServers\": { \"mcpkit\": {} }, \"mcpServers\": { \"other\": {} } }",
+      "text": "{ \"mcpServers\": { \"usemcpkit\": {} }, \"mcpServers\": { \"other\": {} } }",
       "serversPath": [
         "mcpServers"
       ],
@@ -483,10 +483,10 @@
         "value": false
       },
       "upsert": {
-        "value": "{ \"mcpServers\": { \"mcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\mcpkit\\\\mcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    } }, \"mcpServers\": { \"other\": {} } }"
+        "value": "{ \"mcpServers\": { \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    } }, \"mcpServers\": { \"other\": {} } }"
       },
       "upsertOther": {
-        "value": "{ \"mcpServers\": { \"mcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/mcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    } }, \"mcpServers\": { \"other\": {} } }"
+        "value": "{ \"mcpServers\": { \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    } }, \"mcpServers\": { \"other\": {} } }"
       },
       "remove": {
         "value": "{\n  \"mcpServers\": {},\n  \"mcpServers\": {\n    \"other\": {}\n  }\n}"
@@ -502,10 +502,10 @@
         "value": false
       },
       "upsert": {
-        "value": "{\n  \"név\": \"ü€😀\",\n  \"mcpServers\": {\n    \"ü\": \"€\",\n    \"mcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\mcpkit\\\\mcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}\n"
+        "value": "{\n  \"név\": \"ü€😀\",\n  \"mcpServers\": {\n    \"ü\": \"€\",\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}\n"
       },
       "upsertOther": {
-        "value": "{\n  \"név\": \"ü€😀\",\n  \"mcpServers\": {\n    \"ü\": \"€\",\n    \"mcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/mcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}\n"
+        "value": "{\n  \"név\": \"ü€😀\",\n  \"mcpServers\": {\n    \"ü\": \"€\",\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}\n"
       },
       "remove": {
         "value": "{\n  \"név\": \"ü€😀\",\n  \"mcpServers\": {\n    \"ü\": \"€\"\n  }\n}\n"
@@ -521,10 +521,10 @@
         "value": false
       },
       "upsert": {
-        "value": "{ // c\n  \"mcpServers\": {\n    \"mcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\mcpkit\\\\mcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    } /* in */\n  }\n}"
+        "value": "{ // c\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    } /* in */\n  }\n}"
       },
       "upsertOther": {
-        "value": "{ // c\n  \"mcpServers\": {\n    \"mcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/mcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    } /* in */\n  }\n}"
+        "value": "{ // c\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    } /* in */\n  }\n}"
       },
       "remove": {
         "value": "{ // c\n  \"mcpServers\": { /* in */ }\n}"
@@ -540,10 +540,10 @@
         "value": false
       },
       "upsert": {
-        "value": "{\n  \"mcpServers\": {\n    \"other\": {},\n    \"mcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\mcpkit\\\\mcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  },\n  \"x\": 1\n}"
+        "value": "{\n  \"mcpServers\": {\n    \"other\": {},\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  },\n  \"x\": 1\n}"
       },
       "upsertOther": {
-        "value": "{\n  \"mcpServers\": {\n    \"other\": {},\n    \"mcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/mcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  },\n  \"x\": 1\n}"
+        "value": "{\n  \"mcpServers\": {\n    \"other\": {},\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  },\n  \"x\": 1\n}"
       },
       "remove": {
         "value": "{\"mcpServers\": {\"other\": {}}, \"x\": 1}"
@@ -556,16 +556,16 @@
         "mcpServers"
       ],
       "parse": {
-        "value": true
+        "value": false
       },
       "upsert": {
-        "value": "{ \"mcpServers\": { \"mcp\\u006bit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\mcpkit\\\\mcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    } } }"
+        "value": "{\n  \"mcpServers\": {\n    \"mcp\\u006bit\": {},\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
       },
       "upsertOther": {
-        "value": "{ \"mcpServers\": { \"mcp\\u006bit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/mcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    } } }"
+        "value": "{\n  \"mcpServers\": {\n    \"mcp\\u006bit\": {},\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
       },
       "remove": {
-        "value": "{\n  \"mcpServers\": {}\n}"
+        "value": "{ \"mcpServers\": { \"mcp\\u006bit\": {} } }"
       }
     },
     {
@@ -578,10 +578,10 @@
         "value": false
       },
       "upsert": {
-        "value": "{\n  \"a\": [1, 2.5e3, -0, true, null, { \"b\": [] }],\n  \"mcpServers\": {\n    \"mcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\mcpkit\\\\mcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}\n"
+        "value": "{\n  \"a\": [1, 2.5e3, -0, true, null, { \"b\": [] }],\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}\n"
       },
       "upsertOther": {
-        "value": "{\n  \"a\": [1, 2.5e3, -0, true, null, { \"b\": [] }],\n  \"mcpServers\": {\n    \"mcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/mcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}\n"
+        "value": "{\n  \"a\": [1, 2.5e3, -0, true, null, { \"b\": [] }],\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}\n"
       },
       "remove": {
         "value": "{\n  \"a\": [1, 2.5e3, -0, true, null, { \"b\": [] }],\n  \"mcpServers\": {}\n}\n"
@@ -597,10 +597,10 @@
         "value": false
       },
       "upsert": {
-        "value": "{\n  \"mcpServers\": {\n    \"mcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\mcpkit\\\\mcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}\n// done\n"
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}\n// done\n"
       },
       "upsertOther": {
-        "value": "{\n  \"mcpServers\": {\n    \"mcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/mcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}\n// done\n"
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}\n// done\n"
       },
       "remove": {
         "value": "{\n  \"mcpServers\": {}\n}\n// done\n"
@@ -616,10 +616,10 @@
         "value": false
       },
       "upsert": {
-        "value": "{\n  /*\n   * many\n   */\n  \"mcpServers\": {\n    \"mcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\mcpkit\\\\mcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
+        "value": "{\n  /*\n   * many\n   */\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
       },
       "upsertOther": {
-        "value": "{\n  /*\n   * many\n   */\n  \"mcpServers\": {\n    \"mcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/mcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
+        "value": "{\n  /*\n   * many\n   */\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
       },
       "remove": {
         "value": "{\n  /*\n   * many\n   */\n  \"mcpServers\": {\n  }\n}"
@@ -862,7 +862,7 @@
       "text": "",
       "has": false,
       "upsert": {
-        "value": "[mcp_servers.mcpkit]\ncommand = \"C:\\\\mcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
+        "value": "[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
       },
       "remove": ""
     },
@@ -871,106 +871,106 @@
       "text": "model = \"o3\" # pick\n\n[mcp_servers.other]\ncommand = \"x\"\n",
       "has": false,
       "upsert": {
-        "value": "model = \"o3\" # pick\n\n[mcp_servers.other]\ncommand = \"x\"\n\n[mcp_servers.mcpkit]\ncommand = \"C:\\\\mcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
+        "value": "model = \"o3\" # pick\n\n[mcp_servers.other]\ncommand = \"x\"\n\n[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
       },
       "remove": "model = \"o3\" # pick\n\n[mcp_servers.other]\ncommand = \"x\"\n"
     },
     {
       "name": "replace with trailing blank",
-      "text": "[mcp_servers.mcpkit]\ncommand = \"old\"\n\n[profiles.x]\nmodel = \"y\"\n",
+      "text": "[mcp_servers.usemcpkit]\ncommand = \"old\"\n\n[profiles.x]\nmodel = \"y\"\n",
       "has": true,
       "upsert": {
-        "value": "[mcp_servers.mcpkit]\ncommand = \"C:\\\\mcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n\n[profiles.x]\nmodel = \"y\"\n"
+        "value": "[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n\n[profiles.x]\nmodel = \"y\"\n"
       },
       "remove": "[profiles.x]\nmodel = \"y\"\n"
     },
     {
       "name": "replace without trailing blank",
-      "text": "[mcp_servers.mcpkit]\ncommand = \"old\"\n[profiles.x]\n",
+      "text": "[mcp_servers.usemcpkit]\ncommand = \"old\"\n[profiles.x]\n",
       "has": true,
       "upsert": {
-        "value": "[mcp_servers.mcpkit]\ncommand = \"C:\\\\mcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n[profiles.x]\n"
+        "value": "[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n[profiles.x]\n"
       },
       "remove": "[profiles.x]\n"
     },
     {
       "name": "subtables",
-      "text": "[mcp_servers.mcpkit]\ncommand = \"old\"\n\n[mcp_servers.mcpkit.env]\nA = \"1\"\n\n[profiles.x]\nmodel = \"y\"\n",
+      "text": "[mcp_servers.usemcpkit]\ncommand = \"old\"\n\n[mcp_servers.usemcpkit.env]\nA = \"1\"\n\n[profiles.x]\nmodel = \"y\"\n",
       "has": true,
       "upsert": {
-        "value": "[mcp_servers.mcpkit]\ncommand = \"C:\\\\mcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n\n[mcp_servers.mcpkit.env]\nA = \"1\"\n\n[profiles.x]\nmodel = \"y\"\n"
+        "value": "[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n\n[mcp_servers.usemcpkit.env]\nA = \"1\"\n\n[profiles.x]\nmodel = \"y\"\n"
       },
       "remove": "[profiles.x]\nmodel = \"y\"\n"
     },
     {
       "name": "inline under servers",
-      "text": "[mcp_servers]\nmcpkit = { command = \"x\" }\n",
+      "text": "[mcp_servers]\nusemcpkit = { command = \"x\" }\n",
       "has": false,
       "upsert": {
-        "error": "config.toml: \"mcpkit\" is defined as an inline table; remove it by hand and run again"
+        "error": "config.toml: \"usemcpkit\" is defined as an inline table; remove it by hand and run again"
       },
-      "remove": "[mcp_servers]\nmcpkit = { command = \"x\" }\n"
+      "remove": "[mcp_servers]\nusemcpkit = { command = \"x\" }\n"
     },
     {
       "name": "inline dotted",
-      "text": "mcp_servers.mcpkit = { command = \"x\" }\n",
+      "text": "mcp_servers.usemcpkit = { command = \"x\" }\n",
       "has": false,
       "upsert": {
-        "error": "config.toml: \"mcpkit\" is defined as an inline table; remove it by hand and run again"
+        "error": "config.toml: \"usemcpkit\" is defined as an inline table; remove it by hand and run again"
       },
-      "remove": "mcp_servers.mcpkit = { command = \"x\" }\n"
+      "remove": "mcp_servers.usemcpkit = { command = \"x\" }\n"
     },
     {
       "name": "inline across lines",
-      "text": "a = 1\nmcp_servers.mcpkit\n=\n{ }\n",
+      "text": "a = 1\nmcp_servers.usemcpkit\n=\n{ }\n",
       "has": false,
       "upsert": {
-        "error": "config.toml: \"mcpkit\" is defined as an inline table; remove it by hand and run again"
+        "error": "config.toml: \"usemcpkit\" is defined as an inline table; remove it by hand and run again"
       },
-      "remove": "a = 1\nmcp_servers.mcpkit\n=\n{ }\n"
+      "remove": "a = 1\nmcp_servers.usemcpkit\n=\n{ }\n"
     },
     {
       "name": "crlf",
-      "text": "[mcp_servers.mcpkit]\r\ncommand = \"old\"\r\n\r\n[other]\r\n",
+      "text": "[mcp_servers.usemcpkit]\r\ncommand = \"old\"\r\n\r\n[other]\r\n",
       "has": true,
       "upsert": {
-        "value": "[mcp_servers.mcpkit]\ncommand = \"C:\\\\mcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n\n[other]\r\n"
+        "value": "[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n\n[other]\r\n"
       },
       "remove": "[other]\r\n"
     },
     {
       "name": "header comment",
-      "text": "[mcp_servers.mcpkit] # note\ncommand = \"old\"\n",
+      "text": "[mcp_servers.usemcpkit] # note\ncommand = \"old\"\n",
       "has": true,
       "upsert": {
-        "value": "[mcp_servers.mcpkit]\ncommand = \"C:\\\\mcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
+        "value": "[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
       },
       "remove": ""
     },
     {
       "name": "crlf header comment",
-      "text": "[mcp_servers.mcpkit] # note\r\ncommand = \"old\"\r\n",
+      "text": "[mcp_servers.usemcpkit] # note\r\ncommand = \"old\"\r\n",
       "has": false,
       "upsert": {
-        "value": "[mcp_servers.mcpkit] # note\r\ncommand = \"old\"\n\n[mcp_servers.mcpkit]\ncommand = \"C:\\\\mcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
+        "value": "[mcp_servers.usemcpkit] # note\r\ncommand = \"old\"\n\n[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
       },
-      "remove": "[mcp_servers.mcpkit] # note\r\ncommand = \"old\"\r\n"
+      "remove": "[mcp_servers.usemcpkit] # note\r\ncommand = \"old\"\r\n"
     },
     {
       "name": "spaced header",
-      "text": "[ mcp_servers . mcpkit ]\ncommand = \"old\"\n",
+      "text": "[ mcp_servers . usemcpkit ]\ncommand = \"old\"\n",
       "has": true,
       "upsert": {
-        "value": "[mcp_servers.mcpkit]\ncommand = \"C:\\\\mcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
+        "value": "[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
       },
       "remove": ""
     },
     {
       "name": "no final newline",
-      "text": "a = 1\n[mcp_servers.mcpkit]\ncommand = \"old\"",
+      "text": "a = 1\n[mcp_servers.usemcpkit]\ncommand = \"old\"",
       "has": true,
       "upsert": {
-        "value": "a = 1\n[mcp_servers.mcpkit]\ncommand = \"C:\\\\mcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5"
+        "value": "a = 1\n[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5"
       },
       "remove": "a = 1"
     },
@@ -979,43 +979,43 @@
       "text": "a = 1\n\n\n   \n",
       "has": false,
       "upsert": {
-        "value": "a = 1\n\n[mcp_servers.mcpkit]\ncommand = \"C:\\\\mcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
+        "value": "a = 1\n\n[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
       },
       "remove": "a = 1\n\n\n   \n"
     },
     {
       "name": "array of tables",
-      "text": "[[mcp_servers.mcpkit]]\ncommand = 1\n",
+      "text": "[[mcp_servers.usemcpkit]]\ncommand = 1\n",
       "has": false,
       "upsert": {
-        "value": "[[mcp_servers.mcpkit]]\ncommand = 1\n\n[mcp_servers.mcpkit]\ncommand = \"C:\\\\mcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
+        "value": "[[mcp_servers.usemcpkit]]\ncommand = 1\n\n[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
       },
-      "remove": "[[mcp_servers.mcpkit]]\ncommand = 1\n"
+      "remove": "[[mcp_servers.usemcpkit]]\ncommand = 1\n"
     },
     {
       "name": "indented header",
-      "text": "  [mcp_servers.mcpkit]\n  command = \"old\"\n",
+      "text": "  [mcp_servers.usemcpkit]\n  command = \"old\"\n",
       "has": true,
       "upsert": {
-        "value": "[mcp_servers.mcpkit]\ncommand = \"C:\\\\mcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
+        "value": "[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
       },
       "remove": ""
     },
     {
       "name": "other header first",
-      "text": "[mcp_servers.mcpkitx]\na = 1\n",
+      "text": "[mcp_servers.usemcpkitx]\na = 1\n",
       "has": false,
       "upsert": {
-        "value": "[mcp_servers.mcpkitx]\na = 1\n\n[mcp_servers.mcpkit]\ncommand = \"C:\\\\mcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
+        "value": "[mcp_servers.usemcpkitx]\na = 1\n\n[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
       },
-      "remove": "[mcp_servers.mcpkitx]\na = 1\n"
+      "remove": "[mcp_servers.usemcpkitx]\na = 1\n"
     },
     {
       "name": "bom",
-      "text": "﻿[mcp_servers.mcpkit]\ncommand = \"old\"\n",
+      "text": "﻿[mcp_servers.usemcpkit]\ncommand = \"old\"\n",
       "has": true,
       "upsert": {
-        "value": "[mcp_servers.mcpkit]\ncommand = \"C:\\\\mcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
+        "value": "[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
       },
       "remove": ""
     }

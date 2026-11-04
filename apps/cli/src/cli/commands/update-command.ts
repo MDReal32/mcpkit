@@ -13,7 +13,7 @@ export const registerUpdateCommand = (program: Program) => {
       `Refresh the registry index and the manifests already cached in ${resolveUserDir()}; servers you have not used are not downloaded`,
     )
     .option("--registry [string]", {
-      description: "Registry base URL (default: MCPKIT_REGISTRY, else the mcpkit registry)",
+      description: "Registry base URL (default: USEMCPKIT_REGISTRY, else the usemcpkit registry)",
     })
     .action(toAction(updateCommand));
 };

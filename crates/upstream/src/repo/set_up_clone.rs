@@ -3,9 +3,9 @@ use crate::repo::repo_state::RepoState;
 use crate::repo::run_program::run_program;
 use crate::repo::write_repo_state::write_repo_state;
 use crate::upstream_error::UpstreamError;
-use mcpkit_core::env::Env;
-use mcpkit_manifest::upstream::UpstreamRepo;
 use std::path::Path;
+use usemcpkit_core::env::Env;
+use usemcpkit_manifest::upstream::UpstreamRepo;
 
 /// Clones `repo` into `staging` (whose parent exists), checks out its ref, runs its setup steps there and marks it
 /// finished; the state written is returned.

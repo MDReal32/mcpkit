@@ -1,9 +1,9 @@
-/// The single entry mcpkit owns in every client config; it serves every server of the registry.
-pub const ENTRY_NAME: &str = "mcpkit";
+/// The single entry usemcpkit owns in every client config; it serves every server of the registry.
+pub const ENTRY_NAME: &str = "usemcpkit";
 
 pub const SERVE_ARGS: &[&str] = &["serve"];
 
-pub const BACKUP_SUFFIX: &str = ".mcpkit-backup";
+pub const BACKUP_SUFFIX: &str = ".usemcpkit-backup";
 
 pub const JSON_INDENT_SIZE: usize = 2;
 

@@ -1,9 +1,9 @@
 use crate::supervisor::output_message::OutputMessage;
-use mcpkit_wire_log::{WireLog, describe_wire_line};
 use serde_json::json;
 use std::sync::Arc;
 use tokio::io::{AsyncWrite, AsyncWriteExt};
 use tokio::sync::mpsc;
+use usemcpkit_wire_log::{WireLog, describe_wire_line};
 
 /// The one writer of the client's stdout, so lines from the current and the retired workers never interleave.
 pub async fn write_output(

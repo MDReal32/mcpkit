@@ -1,7 +1,7 @@
 use crate::upstream::is_catalog_tool_name::is_catalog_tool_name;
 use crate::upstream::replace_first_match::replace_first_match;
-use mcpkit_manifest::upstream::UpstreamNameRule;
 use regex::Regex;
+use usemcpkit_manifest::upstream::UpstreamNameRule;
 
 /// The catalog name `rules` give an upstream tool, from the first rule whose `match` finds the tool name, or `None`
 /// when none does. Like JavaScript's `String.prototype.replace`, only the first match is replaced. A name that is not

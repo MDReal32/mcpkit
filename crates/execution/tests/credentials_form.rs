@@ -1,17 +1,17 @@
-use mcpkit_auth::credentials::{CredentialRequest, CredentialRequester};
-use mcpkit_auth::secret_file::FileSecretStore;
-use mcpkit_auth::{AuthContext, AuthState, SecretOwner, ServerKey};
-use mcpkit_core::env::Env;
-use mcpkit_execution::{CallContext, DEFAULT_TIMEOUT, ExecutorState, execute_tool};
-use mcpkit_manifest::Manifest;
-use mcpkit_manifest::ui::DEFAULT_UI_TEXTS;
-use mcpkit_testing::{TokenCheckingClient, approve_sign_in, demo_oauth, ping_manifest};
 use serde_json::{Map, Value, json};
 use std::cell::RefCell;
 use std::path::Path;
 use std::rc::Rc;
 use std::thread::JoinHandle;
 use url::Url;
+use usemcpkit_auth::credentials::{CredentialRequest, CredentialRequester};
+use usemcpkit_auth::secret_file::FileSecretStore;
+use usemcpkit_auth::{AuthContext, AuthState, SecretOwner, ServerKey};
+use usemcpkit_core::env::Env;
+use usemcpkit_execution::{CallContext, DEFAULT_TIMEOUT, ExecutorState, execute_tool};
+use usemcpkit_manifest::Manifest;
+use usemcpkit_manifest::ui::DEFAULT_UI_TEXTS;
+use usemcpkit_testing::{TokenCheckingClient, approve_sign_in, demo_oauth, ping_manifest};
 
 const GHE_TOKEN_URL: &str = "https://ghe.example.com/token";
 

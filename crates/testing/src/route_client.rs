@@ -1,8 +1,8 @@
-use mcpkit_core::LocalFuture;
-use mcpkit_http::{HttpClient, HttpError, HttpRequest, HttpResponse};
 use std::cell::RefCell;
 use std::collections::HashMap;
 use std::time::Duration;
+use usemcpkit_core::LocalFuture;
+use usemcpkit_http::{HttpClient, HttpError, HttpRequest, HttpResponse};
 
 /// Serves a prepared response per URL, an empty 404 for any other, and records every request.
 pub struct RouteClient {

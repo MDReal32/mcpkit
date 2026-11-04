@@ -6,7 +6,7 @@ import { describe, expect, it } from "vitest";
 import { compileServers } from "../plugins/manifests";
 import { writeManifests } from "../plugins/manifests/write-manifests";
 
-const readDir = useTempDir("mcpkit-servers-");
+const readDir = useTempDir("usemcpkit-servers-");
 
 const VALID_DEFINITION = {
   category: "test",
@@ -81,20 +81,20 @@ describe("writeManifests", () => {
   it("writes <category>/<name>.json and a light index of ids, links and checksums, without tools", async () => {
     const { compiled } = await compileServers(resolve("src/servers"));
 
-    await writeManifests(compiled, join(readDir(), "linked"), "https://reg.example/mcpkit/");
+    await writeManifests(compiled, join(readDir(), "linked"), "https://reg.example/usemcpkit/");
     await writeManifests(compiled, join(readDir(), "plain"));
 
     const read = async (dir: string) => JSON.parse(await readFile(join(readDir(), dir, "index.json"), "utf8"));
     const linked = (await read("linked")).servers.find((server: { id: string }) => server.id === "git:github");
     const plain = (await read("plain")).servers.find((server: { id: string }) => server.id === "git:github");
     const file = await readFile(join(readDir(), "linked", "git", "github.json"), "utf8");
-    expect(linked.url).toBe("https://reg.example/mcpkit/git/github.json");
+    expect(linked.url).toBe("https://reg.example/usemcpkit/git/github.json");
     expect(plain.url).toBe("git/github.json");
     expect(linked.tools).toBeUndefined();
     const shell = JSON.parse(file);
     expect(shell.tools).toBeUndefined();
     const issues = shell.parts.find((part: { name: string }) => part.name === "issues");
-    expect(issues.url).toBe("https://reg.example/mcpkit/git/github/issues.json");
+    expect(issues.url).toBe("https://reg.example/usemcpkit/git/github/issues.json");
     const part = await readFile(join(readDir(), "linked", "git", "github", "issues.json"), "utf8");
     expect(issues.sha256).toBe(createHash("sha256").update(part).digest("hex"));
     expect(JSON.parse(part).tools.map((tool: { name: string }) => tool.name)).toContain("issues:issues:create");

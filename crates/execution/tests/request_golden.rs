@@ -1,13 +1,13 @@
 use indexmap::IndexMap;
-use mcpkit_auth::ResolvedAuth;
-use mcpkit_execution::request::{build_request, load_file_args, prepare_tool_args};
-use mcpkit_http::HttpRequest;
-use mcpkit_manifest::Manifest;
-use mcpkit_manifest::domain::apply_domain;
-use mcpkit_manifest::tool::ToolSpec;
 use serde::Deserialize;
 use serde_json::{Map, Value};
 use std::path::{Path, PathBuf};
+use usemcpkit_auth::ResolvedAuth;
+use usemcpkit_execution::request::{build_request, load_file_args, prepare_tool_args};
+use usemcpkit_http::HttpRequest;
+use usemcpkit_manifest::Manifest;
+use usemcpkit_manifest::domain::apply_domain;
+use usemcpkit_manifest::tool::ToolSpec;
 
 /// What `packages/core/test/request-golden.generate.test.ts` writes.
 #[derive(Deserialize)]

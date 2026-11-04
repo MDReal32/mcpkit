@@ -2,9 +2,9 @@ use clap::{Parser, Subcommand};
 
 #[derive(Debug, Parser)]
 #[command(
-    name = "mcpkit-server",
+    name = "usemcpkit-server",
     version,
-    about = "The mcpkit MCP server, run by the mcpkit runner"
+    about = "The usemcpkit MCP server, run by the usemcpkit runner"
 )]
 pub struct Cli {
     #[command(subcommand)]

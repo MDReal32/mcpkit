@@ -40,7 +40,7 @@ echo "no oauth token found for $4" >&2
 exit 1
 `;
 
-const readBinDir = useTempDir("mcpkit-fake-gh-");
+const readBinDir = useTempDir("usemcpkit-fake-gh-");
 
 const originalPath = process.env.PATH;
 
@@ -48,7 +48,7 @@ afterEach(() => {
   process.env.PATH = originalPath;
 });
 
-const PAGE = '<script type="application/json" id="mcpkit-request"></script><p>form</p>';
+const PAGE = '<script type="application/json" id="usemcpkit-request"></script><p>form</p>';
 
 const openForm = (timeoutMs?: number, formRequest: CredentialRequest = request) => {
   let announce: (url: URL) => void = () => undefined;
@@ -61,7 +61,7 @@ const openForm = (timeoutMs?: number, formRequest: CredentialRequest = request) 
 
 const readInjectedRequest = async (url: URL) => {
   const page = await (await fetch(url)).text();
-  const injected = /<script type="application\/json" id="mcpkit-request">(.*)<\/script>/.exec(page)?.[1];
+  const injected = /<script type="application\/json" id="usemcpkit-request">(.*)<\/script>/.exec(page)?.[1];
   return JSON.parse(injected ?? "");
 };
 
@@ -112,7 +112,7 @@ describe("createCredentialsForm", () => {
 
   it("fails when the page has no request element", async () => {
     await expect(createCredentialsForm({ page: "<p>x</p>", onUrl: () => undefined })(request)).rejects.toThrow(
-      /mcpkit-request/,
+      /usemcpkit-request/,
     );
   });
 

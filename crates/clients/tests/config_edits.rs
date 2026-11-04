@@ -1,9 +1,9 @@
-use mcpkit_clients::config::{
+use serde_json::{Map, Value, json};
+use std::path::Path;
+use usemcpkit_clients::config::{
     format_toml_value, has_json_entry, has_toml_table, parse_json_config, remove_json_entry, remove_toml_table,
     upsert_json_entry, upsert_toml_table,
 };
-use serde_json::{Map, Value, json};
-use std::path::Path;
 
 const GOLDEN: &str = include_str!("fixtures/config-edits.json");
 
@@ -36,16 +36,16 @@ fn json_edits_match_jsonc_parser() {
         let name = row["name"].as_str().unwrap();
         let text = row["text"].as_str().unwrap();
         let servers = servers_path(row);
-        let parsed = parse_json_config(text, path).map(|tree| has_json_entry(&tree, &servers, "mcpkit"));
+        let parsed = parse_json_config(text, path).map(|tree| has_json_entry(&tree, &servers, "usemcpkit"));
         assert_eq!(outcome(parsed.clone()), row["parse"], "{name}: parse");
         if parsed.is_err() {
             continue;
         }
-        let upsert = upsert_json_entry(text, &servers, "mcpkit", &golden["entry"]);
+        let upsert = upsert_json_entry(text, &servers, "usemcpkit", &golden["entry"]);
         assert_eq!(outcome(upsert), row["upsert"], "{name}: upsert");
-        let upsert_other = upsert_json_entry(text, &servers, "mcpkit", &golden["otherEntry"]);
+        let upsert_other = upsert_json_entry(text, &servers, "usemcpkit", &golden["otherEntry"]);
         assert_eq!(outcome(upsert_other), row["upsertOther"], "{name}: upsert other");
-        let remove = remove_json_entry(text, &servers, "mcpkit");
+        let remove = remove_json_entry(text, &servers, "usemcpkit");
         assert_eq!(outcome(remove), row["remove"], "{name}: remove");
     }
 }
@@ -60,14 +60,14 @@ fn toml_edits_match_the_typescript_cli() {
         let name = row["name"].as_str().unwrap();
         let text = row["text"].as_str().unwrap();
         assert_eq!(
-            Value::from(has_toml_table(text, &servers, "mcpkit")),
+            Value::from(has_toml_table(text, &servers, "usemcpkit")),
             row["has"],
             "{name}: has"
         );
-        let upsert = upsert_toml_table(text, &servers, "mcpkit", entry, path);
+        let upsert = upsert_toml_table(text, &servers, "usemcpkit", entry, path);
         assert_eq!(outcome(upsert), row["upsert"], "{name}: upsert");
         assert_eq!(
-            Value::from(remove_toml_table(text, &servers, "mcpkit")),
+            Value::from(remove_toml_table(text, &servers, "usemcpkit")),
             row["remove"],
             "{name}: remove"
         );

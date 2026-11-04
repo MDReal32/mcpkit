@@ -5,7 +5,7 @@ use std::path::Path;
 
 fn main() {
     let manifest_dir = std::env::var("CARGO_MANIFEST_DIR").expect("cargo sets CARGO_MANIFEST_DIR");
-    let page = Path::new(&manifest_dir).join("../../packages/ui/build/mcpkit.ui.html");
+    let page = Path::new(&manifest_dir).join("../../packages/ui/build/usemcpkit.ui.html");
     println!("cargo:rerun-if-changed={}", page.display());
     assert!(
         page.is_file(),

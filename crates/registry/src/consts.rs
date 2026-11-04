@@ -4,7 +4,7 @@ pub const MANIFESTS_DIR_NAME: &str = "manifests";
 
 pub const FETCH_TIMEOUT: Duration = Duration::from_secs(30);
 
-pub const REGISTRY_ENV: &str = "MCPKIT_REGISTRY";
+pub const REGISTRY_ENV: &str = "USEMCPKIT_REGISTRY";
 
 /// Where CI publishes the compiled manifests; the same value as `DEFAULT_REGISTRY_URL` in `packages/servers`.
 pub const DEFAULT_REGISTRY_URL: &str = "https://mdreal32.github.io/mcpkit";

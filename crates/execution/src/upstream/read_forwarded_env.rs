@@ -2,9 +2,9 @@ use crate::upstream::ask_for_missing_credentials::ask_for_missing_credentials;
 use crate::upstream::forwarded_env::ForwardedEnv;
 use crate::upstream::read_forwarded_value::read_forwarded_value;
 use indexmap::IndexMap;
-use mcpkit_auth::{AuthContext, AuthError, SecretOwner, ServerKey};
-use mcpkit_manifest::Manifest;
-use mcpkit_manifest::upstream::StdioUpstream;
+use usemcpkit_auth::{AuthContext, AuthError, SecretOwner, ServerKey};
+use usemcpkit_manifest::Manifest;
+use usemcpkit_manifest::upstream::StdioUpstream;
 
 /// Each forwarded credential from its env var, else from the secret store; an optional one is left out when unset.
 /// A required one found nowhere is asked for in the credentials form when the caller has one, and `commit` saves what

@@ -1,7 +1,7 @@
 use crate::cli::consts::AUTO_UPDATE_RECHECK_INTERVAL;
 use crate::cli::update::check_for_update::check_for_update;
-use mcpkit_binary::BinaryContext;
 use tokio::time::MissedTickBehavior;
+use usemcpkit_binary::BinaryContext;
 
 /// Fire-and-forget: checks once now and then every `AUTO_UPDATE_RECHECK_INTERVAL`, so a runner that stays up for days
 /// still finds a new release; the update state decides whether its own check interval has passed.

@@ -20,7 +20,7 @@ export const Wordmark = ({ size, draw = 1 }: WordmarkProps) => (
         lineHeight: 1,
       }}
     >
-      mcpkit
+      usemcpkit
     </span>
   </div>
 );

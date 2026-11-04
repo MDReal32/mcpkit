@@ -6,7 +6,7 @@ import { createBuiltRegistryCatalog } from "./fixtures/create-built-registry-cat
 
 const OUTPUT = process.env.GOLDEN_OUTPUT ?? "";
 
-const tempDir = useTempDir("mcpkit-golden-");
+const tempDir = useTempDir("usemcpkit-golden-");
 
 /**
  * Writes `apps/server/tests/fixtures/exposed-tools.json`, which the Rust server's exposure test compares against: every

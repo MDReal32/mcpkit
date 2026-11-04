@@ -1,6 +1,6 @@
 [package]
-name = "mcpkit-execution"
-description = "How mcpkit runs a manifest tool: the arguments, the HTTP request it builds, the auth it tries and the response it maps."
+name = "usemcpkit-execution"
+description = "How usemcpkit runs a manifest tool: the arguments, the HTTP request it builds, the auth it tries and the response it maps."
 version.workspace = true
 edition.workspace = true
 license.workspace = true
@@ -8,11 +8,11 @@ repository.workspace = true
 
 [dependencies]
 indexmap.workspace = true
-mcpkit-auth.workspace = true
-mcpkit-core.workspace = true
-mcpkit-http.workspace = true
-mcpkit-manifest.workspace = true
-mcpkit-upstream.workspace = true
+usemcpkit-auth.workspace = true
+usemcpkit-core.workspace = true
+usemcpkit-http.workspace = true
+usemcpkit-manifest.workspace = true
+usemcpkit-upstream.workspace = true
 regex.workspace = true
 serde.workspace = true
 serde_json.workspace = true
@@ -21,7 +21,7 @@ url.workspace = true
 
 [dev-dependencies]
 futures-util.workspace = true
-mcpkit-testing.workspace = true
+usemcpkit-testing.workspace = true
 tempfile.workspace = true
 
 [lints]

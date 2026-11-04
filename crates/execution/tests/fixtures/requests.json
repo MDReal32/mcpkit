@@ -174,7 +174,7 @@
    "headers": {
     "Accept": "application/vnd.github+json",
     "X-GitHub-Api-Version": "2022-11-28",
-    "User-Agent": "mcpkit"
+    "User-Agent": "usemcpkit"
    },
    "auth": [
     {
@@ -191,12 +191,12 @@
        {
         "type": "link",
         "label": "Create fine-grained token ↗",
-        "url": "https://{webHost}/settings/personal-access-tokens/new?name=mcpkit+{server}&description=Used+by+mcpkit"
+        "url": "https://{webHost}/settings/personal-access-tokens/new?name=usemcpkit+{server}&description=Used+by+usemcpkit"
        },
        {
         "type": "link",
         "label": "Create classic token ↗",
-        "url": "https://{webHost}/settings/tokens/new?description=mcpkit+{server}&scopes=repo,workflow,write:packages,delete:packages,admin:org,admin:public_key,admin:repo_hook,admin:org_hook,gist,notifications,user,delete_repo,write:discussion,admin:enterprise,audit_log,codespace,copilot,project,admin:gpg_key,admin:ssh_signing_key"
+        "url": "https://{webHost}/settings/tokens/new?description=usemcpkit+{server}&scopes=repo,workflow,write:packages,delete:packages,admin:org,admin:public_key,admin:repo_hook,admin:org_hook,gist,notifications,user,delete_repo,write:discussion,admin:enterprise,audit_log,codespace,copilot,project,admin:gpg_key,admin:ssh_signing_key"
        },
        {
         "type": "cli",
@@ -245,7 +245,7 @@
        {
         "type": "link",
         "label": "Create on GitLab ↗",
-        "url": "https://{domain}/-/user_settings/personal_access_tokens?name=mcpkit+{server}&scopes=api"
+        "url": "https://{domain}/-/user_settings/personal_access_tokens?name=usemcpkit+{server}&scopes=api"
        },
        {
         "type": "cli",
@@ -384,7 +384,7 @@
    "baseUrl": "https://oauth.reddit.com",
    "headers": {
     "Accept": "application/json",
-    "User-Agent": "mcpkit:communication.reddit:1.0.0 (+https://github.com/MDReal32/mcpkit)"
+    "User-Agent": "usemcpkit:communication.reddit:1.0.0 (+https://github.com/MDReal32/mcpkit)"
    },
    "auth": [
     {
@@ -6009,7 +6009,7 @@
     "headers": {
      "Accept": "application/vnd.github+json",
      "X-GitHub-Api-Version": "2022-11-28",
-     "User-Agent": "mcpkit",
+     "User-Agent": "usemcpkit",
      "Authorization": "Bearer token-1"
     }
    }
@@ -6065,7 +6065,7 @@
     "headers": {
      "Accept": "application/vnd.github+json",
      "X-GitHub-Api-Version": "2022-11-28",
-     "User-Agent": "mcpkit"
+     "User-Agent": "usemcpkit"
     }
    }
   },
@@ -6279,7 +6279,7 @@
     "headers": {
      "Accept": "application/vnd.github+json",
      "X-GitHub-Api-Version": "2022-11-28",
-     "User-Agent": "mcpkit",
+     "User-Agent": "usemcpkit",
      "Authorization": "Bearer token-1",
      "Content-Type": "application/json"
     },
@@ -6342,7 +6342,7 @@
     "headers": {
      "Accept": "application/vnd.github+json",
      "X-GitHub-Api-Version": "2022-11-28",
-     "User-Agent": "mcpkit",
+     "User-Agent": "usemcpkit",
      "Content-Type": "application/json"
     },
     "body": {
@@ -6409,7 +6409,7 @@
     "headers": {
      "Accept": "application/vnd.github+json",
      "X-GitHub-Api-Version": "2022-11-28",
-     "User-Agent": "mcpkit",
+     "User-Agent": "usemcpkit",
      "Authorization": "Bearer token-1",
      "Content-Type": "application/json"
     },
@@ -6538,7 +6538,7 @@
     "headers": {
      "Accept": "application/vnd.github+json",
      "X-GitHub-Api-Version": "2022-11-28",
-     "User-Agent": "mcpkit",
+     "User-Agent": "usemcpkit",
      "Content-Type": "application/json"
     },
     "body": {
@@ -6626,7 +6626,7 @@
     "headers": {
      "Accept": "application/vnd.github+json",
      "X-GitHub-Api-Version": "2022-11-28",
-     "User-Agent": "mcpkit",
+     "User-Agent": "usemcpkit",
      "Authorization": "Bearer token-1",
      "Content-Type": "application/json"
     },
@@ -6842,7 +6842,7 @@
     "headers": {
      "Accept": "application/vnd.github+json",
      "X-GitHub-Api-Version": "2022-11-28",
-     "User-Agent": "mcpkit",
+     "User-Agent": "usemcpkit",
      "Content-Type": "application/json"
     },
     "body": {
@@ -6901,7 +6901,7 @@
     "headers": {
      "Accept": "application/vnd.github+json",
      "X-GitHub-Api-Version": "2022-11-28",
-     "User-Agent": "mcpkit",
+     "User-Agent": "usemcpkit",
      "Authorization": "Bearer token-1"
     }
    }
@@ -6945,7 +6945,7 @@
     "headers": {
      "Accept": "application/vnd.github+json",
      "X-GitHub-Api-Version": "2022-11-28",
-     "User-Agent": "mcpkit"
+     "User-Agent": "usemcpkit"
     }
    }
   },
@@ -7014,7 +7014,7 @@
     "headers": {
      "Accept": "application/vnd.github+json",
      "X-GitHub-Api-Version": "2022-11-28",
-     "User-Agent": "mcpkit",
+     "User-Agent": "usemcpkit",
      "Authorization": "Bearer token-1"
     }
    }
@@ -7116,7 +7116,7 @@
     "headers": {
      "Accept": "application/vnd.github+json",
      "X-GitHub-Api-Version": "2022-11-28",
-     "User-Agent": "mcpkit"
+     "User-Agent": "usemcpkit"
     }
    }
   },
@@ -7194,7 +7194,7 @@
     "headers": {
      "Accept": "application/vnd.github+json",
      "X-GitHub-Api-Version": "2022-11-28",
-     "User-Agent": "mcpkit",
+     "User-Agent": "usemcpkit",
      "Authorization": "Bearer token-1",
      "Content-Type": "application/octet-stream"
     },
@@ -7261,7 +7261,7 @@
     "headers": {
      "Accept": "application/vnd.github+json",
      "X-GitHub-Api-Version": "2022-11-28",
-     "User-Agent": "mcpkit",
+     "User-Agent": "usemcpkit",
      "Content-Type": "application/json"
     },
     "body": {
@@ -7306,7 +7306,7 @@
     "headers": {
      "Accept": "application/vnd.github+json",
      "X-GitHub-Api-Version": "2022-11-28",
-     "User-Agent": "mcpkit",
+     "User-Agent": "usemcpkit",
      "Authorization": "Bearer token-1",
      "Content-Type": "text/plain"
     },
@@ -7372,7 +7372,7 @@
     "headers": {
      "Accept": "application/vnd.github+json",
      "X-GitHub-Api-Version": "2022-11-28",
-     "User-Agent": "mcpkit"
+     "User-Agent": "usemcpkit"
     }
    }
   },
@@ -7433,7 +7433,7 @@
     "headers": {
      "Accept": "application/vnd.github+json",
      "X-GitHub-Api-Version": "2022-11-28",
-     "User-Agent": "mcpkit",
+     "User-Agent": "usemcpkit",
      "Authorization": "Bearer token-1"
     }
    }
@@ -7499,7 +7499,7 @@
     "headers": {
      "Accept": "application/octet-stream",
      "X-GitHub-Api-Version": "2022-11-28",
-     "User-Agent": "mcpkit"
+     "User-Agent": "usemcpkit"
     }
    }
   },
@@ -7595,7 +7595,7 @@
     "headers": {
      "Accept": "application/vnd.github+json",
      "X-GitHub-Api-Version": "2022-11-28",
-     "User-Agent": "mcpkit",
+     "User-Agent": "usemcpkit",
      "Authorization": "Bearer token-1"
     }
    }
@@ -7677,7 +7677,7 @@
     "headers": {
      "Accept": "application/vnd.github+json",
      "X-GitHub-Api-Version": "2022-11-28",
-     "User-Agent": "mcpkit"
+     "User-Agent": "usemcpkit"
     }
    }
   },
@@ -13635,7 +13635,7 @@
     "method": "GET",
     "headers": {
      "Accept": "application/json",
-     "User-Agent": "mcpkit:communication.reddit:1.0.0 (+https://github.com/MDReal32/mcpkit)",
+     "User-Agent": "usemcpkit:communication.reddit:1.0.0 (+https://github.com/MDReal32/mcpkit)",
      "Authorization": "Bearer token-1"
     }
    }
@@ -13708,7 +13708,7 @@
     "method": "GET",
     "headers": {
      "Accept": "application/json",
-     "User-Agent": "mcpkit:communication.reddit:1.0.0 (+https://github.com/MDReal32/mcpkit)"
+     "User-Agent": "usemcpkit:communication.reddit:1.0.0 (+https://github.com/MDReal32/mcpkit)"
     }
    }
   },
@@ -13820,7 +13820,7 @@
     "method": "GET",
     "headers": {
      "Accept": "application/json",
-     "User-Agent": "mcpkit:communication.reddit:1.0.0 (+https://github.com/MDReal32/mcpkit)",
+     "User-Agent": "usemcpkit:communication.reddit:1.0.0 (+https://github.com/MDReal32/mcpkit)",
      "Authorization": "Bearer token-1"
     }
    }
@@ -13871,7 +13871,7 @@
     "method": "GET",
     "headers": {
      "Accept": "application/json",
-     "User-Agent": "mcpkit:communication.reddit:1.0.0 (+https://github.com/MDReal32/mcpkit)"
+     "User-Agent": "usemcpkit:communication.reddit:1.0.0 (+https://github.com/MDReal32/mcpkit)"
     }
    }
   },
@@ -13984,7 +13984,7 @@
     "method": "GET",
     "headers": {
      "Accept": "application/json",
-     "User-Agent": "mcpkit:communication.reddit:1.0.0 (+https://github.com/MDReal32/mcpkit)",
+     "User-Agent": "usemcpkit:communication.reddit:1.0.0 (+https://github.com/MDReal32/mcpkit)",
      "Authorization": "Bearer token-1"
     }
    }
@@ -14044,7 +14044,7 @@
     "method": "GET",
     "headers": {
      "Accept": "application/json",
-     "User-Agent": "mcpkit:communication.reddit:1.0.0 (+https://github.com/MDReal32/mcpkit)"
+     "User-Agent": "usemcpkit:communication.reddit:1.0.0 (+https://github.com/MDReal32/mcpkit)"
     }
    }
   }

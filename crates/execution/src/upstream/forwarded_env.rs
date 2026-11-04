@@ -1,5 +1,5 @@
 use indexmap::IndexMap;
-use mcpkit_auth::{AuthContext, AuthError, SecretOwner};
+use usemcpkit_auth::{AuthContext, AuthError, SecretOwner};
 
 /// The credentials a stdio upstream is started with, and the ones of them the user entered in the form.
 pub struct ForwardedEnv {

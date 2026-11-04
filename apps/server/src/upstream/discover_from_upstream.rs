@@ -2,9 +2,9 @@ use crate::upstream::discovered_tool::DiscoveredTool;
 use crate::upstream::open_upstream::open_upstream;
 use crate::upstream::read_listed_tool::read_listed_tool;
 use crate::upstream::rename_discovered_tools::rename_discovered_tools;
-use mcpkit_execution::CallContext;
-use mcpkit_manifest::Manifest;
-use mcpkit_manifest::upstream::UpstreamSpec;
+use usemcpkit_execution::CallContext;
+use usemcpkit_manifest::Manifest;
+use usemcpkit_manifest::upstream::UpstreamSpec;
 
 /// Starts the upstream, lists its tools and stops it again.
 pub async fn discover_from_upstream(manifest: &Manifest, calls: &CallContext) -> Result<Vec<DiscoveredTool>, String> {

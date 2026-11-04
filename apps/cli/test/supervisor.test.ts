@@ -48,7 +48,7 @@ const createHarness = async (directory: string) => {
 };
 
 describe("superviseServe", () => {
-  const directory = useTempDir("mcpkit-supervisor-");
+  const directory = useTempDir("usemcpkit-supervisor-");
 
   it("swaps in the new binary, replays the handshake and announces the changed tools", async () => {
     const { input, received, supervisor, waitFor } = await createHarness(directory());
@@ -67,7 +67,7 @@ describe("superviseServe", () => {
     expect(received.find((message) => message.id === 2)).toMatchObject({ result: { tools: [{ name: "tool_1.0.0" }] } });
     expect(received.find((message) => message.id === 3)).toMatchObject({ result: { tools: [{ name: "tool_2.0.0" }] } });
     expect(received.filter((message) => message.method === "notifications/tools/list_changed")).toHaveLength(1);
-    expect(received.filter((message) => message.id === "mcpkit-reload")).toEqual([]);
+    expect(received.filter((message) => message.id === "usemcpkit-reload")).toEqual([]);
     expect(received.filter((message) => message.id === 1)).toHaveLength(1);
   });
 
@@ -111,10 +111,10 @@ describe("superviseServe", () => {
 });
 
 describe("watchBinaryFile", () => {
-  const directory = useTempDir("mcpkit-watch-");
+  const directory = useTempDir("usemcpkit-watch-");
 
   it("reports a replaced file once, after it stayed the same for two polls", async () => {
-    const path = join(directory(), "mcpkit");
+    const path = join(directory(), "usemcpkit");
     await writeFile(path, "one");
     const onChange = vi.fn();
     const stop = await watchBinaryFile(path, onChange, 10);

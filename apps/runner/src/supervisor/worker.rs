@@ -15,14 +15,14 @@ pub struct Worker {
 impl Worker {
     pub fn send(&self, line: String) {
         if self.input.send(WorkerInput::Line(line)).is_err() {
-            eprintln!("mcpkit: cannot write to the server process: it has exited");
+            eprintln!("usemcpkit: cannot write to the server process: it has exited");
         }
     }
 
     /// Closes the worker's stdin, which tells it to finish what it has and exit.
     pub fn finish(&self) {
         if self.input.send(WorkerInput::Finish).is_err() {
-            eprintln!("mcpkit: cannot close the server's input: it has exited");
+            eprintln!("usemcpkit: cannot close the server's input: it has exited");
         }
     }
 

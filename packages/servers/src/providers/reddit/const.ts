@@ -4,7 +4,7 @@ import { defineUI } from "@usemcpkit/core";
 export const REDDIT_TOKEN_ENV = "REDDIT_ACCESS_TOKEN";
 
 /** Reddit rejects requests without a descriptive User-Agent in the `<platform>:<app id>:<version>` form. */
-export const REDDIT_USER_AGENT = "mcpkit:communication.reddit:1.0.0 (+https://github.com/MDReal32/mcpkit)";
+export const REDDIT_USER_AGENT = "usemcpkit:communication.reddit:1.0.0 (+https://github.com/MDReal32/mcpkit)";
 
 export const REDDIT_BASE: Omit<Manifest, "name" | "description" | "tools"> = {
   category: "communication",

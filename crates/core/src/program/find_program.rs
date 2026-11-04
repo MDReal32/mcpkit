@@ -42,7 +42,7 @@ mod tests {
 
     #[test]
     fn finds_a_program_on_path_and_takes_a_path_as_it_is() {
-        let dir = std::env::temp_dir().join(format!("mcpkit-find-program-{}", std::process::id()));
+        let dir = std::env::temp_dir().join(format!("usemcpkit-find-program-{}", std::process::id()));
         std::fs::create_dir_all(&dir).unwrap();
         let file = dir.join(format!("tool{}", std::env::consts::EXE_SUFFIX));
         std::fs::copy(std::env::current_exe().unwrap(), &file).unwrap();
@@ -53,7 +53,7 @@ mod tests {
 
         let by_name = find_program("tool", &env).unwrap();
         let by_path = find_program(&dir.join("tool").to_string_lossy(), &env.with("PATH", "")).unwrap();
-        let missing = find_program("mcpkit-no-such-program", &env).unwrap();
+        let missing = find_program("usemcpkit-no-such-program", &env).unwrap();
         std::fs::remove_dir_all(&dir).unwrap();
 
         assert_eq!(by_name.as_deref(), Some(file.as_path()));

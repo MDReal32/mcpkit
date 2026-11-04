@@ -2509,6 +2509,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@usemcpkit/binary-rs@workspace:crates/binary":
+  version: 0.0.0-use.local
+  resolution: "@usemcpkit/binary-rs@workspace:crates/binary"
+  languageName: unknown
+  linkType: soft
+
 "@usemcpkit/binary@workspace:*, @usemcpkit/binary@workspace:packages/binary":
   version: 0.0.0-use.local
   resolution: "@usemcpkit/binary@workspace:packages/binary"
@@ -2541,7 +2547,7 @@ __metadata:
     webview-bun: "npm:2.4.0"
     yargs-extended: "npm:1.1.0"
   bin:
-    usemcpkit: build/mcpkit.cli.js
+    usemcpkit: build/usemcpkit.cli.js
   languageName: unknown
   linkType: soft
 
@@ -2629,6 +2635,7 @@ __metadata:
   resolution: "@usemcpkit/server@workspace:apps/server"
   dependencies:
     "@usemcpkit/servers": "workspace:*"
+    "@usemcpkit/ui": "workspace:*"
   languageName: unknown
   linkType: soft
 
@@ -4807,19 +4814,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mcpkit-workspace@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "mcpkit-workspace@workspace:."
-  dependencies:
-    "@biomejs/biome": "npm:2.5.15"
-    "@types/node": "npm:^24.0.0"
-    nx: "npm:23.3.0"
-    typescript: "npm:^5.9.0"
-    vite: "npm:^8.0.0"
-    vitest: "npm:^4.0.0"
-  languageName: unknown
-  linkType: soft
-
 "mediabunny@npm:1.62.0":
   version: 1.62.0
   resolution: "mediabunny@npm:1.62.0"
@@ -6457,6 +6451,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"usemcpkit-workspace@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "usemcpkit-workspace@workspace:."
+  dependencies:
+    "@biomejs/biome": "npm:2.5.15"
+    "@types/node": "npm:^24.0.0"
+    nx: "npm:23.3.0"
+    typescript: "npm:^5.9.0"
+    vite: "npm:^8.0.0"
+    vitest: "npm:^4.0.0"
+  languageName: unknown
+  linkType: soft
+
 "usemcpkit@workspace:apps/npx":
   version: 0.0.0-use.local
   resolution: "usemcpkit@workspace:apps/npx"
@@ -6466,7 +6473,7 @@ __metadata:
     typescript: "npm:^5.9.0"
     vite: "npm:^8.0.0"
   bin:
-    usemcpkit: build/mcpkit.npx.js
+    usemcpkit: build/usemcpkit.npx.js
   languageName: unknown
   linkType: soft
 

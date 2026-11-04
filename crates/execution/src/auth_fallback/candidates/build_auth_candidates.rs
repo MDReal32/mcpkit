@@ -2,9 +2,9 @@ use crate::CallContext;
 use crate::auth_fallback::auth_candidate::AuthCandidate;
 use crate::auth_fallback::candidates::list_interactive_candidates::list_interactive_candidates;
 use crate::auth_fallback::candidates::list_provided_candidates::list_provided_candidates;
-use mcpkit_manifest::Manifest;
-use mcpkit_manifest::domain::apply_domain;
 use std::rc::Rc;
+use usemcpkit_manifest::Manifest;
+use usemcpkit_manifest::domain::apply_domain;
 
 /// The `tokens.json` token first, then fallbacks whose credentials are set or saved, and only when nothing else works
 /// the credentials form or the OAuth2 browser sign-in. A server that needs a domain and has none gets only the form or

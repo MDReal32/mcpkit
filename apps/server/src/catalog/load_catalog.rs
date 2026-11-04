@@ -1,7 +1,7 @@
 use crate::catalog::matches_selection::matches_selection;
 use crate::catalog::registry_catalog::RegistryCatalog;
-use mcpkit_execution::CallContext;
-use mcpkit_registry::{Fetch, RegistryContext, ensure_manifest_index, read_cached_index};
+use usemcpkit_execution::CallContext;
+use usemcpkit_registry::{Fetch, RegistryContext, ensure_manifest_index, read_cached_index};
 
 /// The servers named in `selection`, all of them when it is empty, read from the cached index alone. `calls` is what
 /// upstream servers are reached with while their tools are discovered.

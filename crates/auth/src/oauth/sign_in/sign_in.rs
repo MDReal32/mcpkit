@@ -7,7 +7,7 @@ use crate::oauth::sign_in::sign_in_result::SignInResult;
 use crate::resolve::to_auth_key;
 use crate::token_store::{StoredToken, save_token};
 use crate::{AuthContext, AuthError};
-use mcpkit_manifest::auth::OAuthAuth;
+use usemcpkit_manifest::auth::OAuthAuth;
 
 /// Runs the authorization code + PKCE flow through a loopback redirect and stores the token.
 pub async fn sign_in(

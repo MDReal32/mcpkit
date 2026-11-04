@@ -7,7 +7,7 @@ import { ENTRY_NAME } from "../const";
 import type { ClientDefinition } from "../types/client-definition";
 import type { LaunchCommand } from "../types/launch-command";
 
-/** Writes the single `mcpkit` entry; every other key in the file is left as it was. */
+/** Writes the single `usemcpkit` entry; every other key in the file is left as it was. */
 export const setClientEntry = async (definition: ClientDefinition, path: string, launch: LaunchCommand) => {
   const text = await readConfigText(path);
   const entry = definition.createEntry(launch);

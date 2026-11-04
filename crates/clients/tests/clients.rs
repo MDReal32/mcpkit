@@ -1,15 +1,15 @@
-use mcpkit_clients::{
-    CLIENT_DEFINITIONS, ClientContext, ClientDefinition, LaunchCommand, detect_clients, remove_client_entry,
-    set_client_entry,
-};
-use mcpkit_core::env::Env;
-use mcpkit_core::platform::Platform;
 use serde_json::{Value, json};
 use std::fs;
 use std::path::{Path, PathBuf};
 use tempfile::TempDir;
+use usemcpkit_clients::{
+    CLIENT_DEFINITIONS, ClientContext, ClientDefinition, LaunchCommand, detect_clients, remove_client_entry,
+    set_client_entry,
+};
+use usemcpkit_core::env::Env;
+use usemcpkit_core::platform::Platform;
 
-const LAUNCH_COMMAND: &str = "/opt/mcpkit/bin/mcpkit";
+const LAUNCH_COMMAND: &str = "/opt/usemcpkit/bin/usemcpkit";
 
 fn launch() -> LaunchCommand {
     LaunchCommand {
@@ -47,7 +47,7 @@ fn finds_clients_by_their_directories_and_reports_existing_entries() {
     write_config(
         home.path(),
         &find_definition("gemini-cli"),
-        r#"{ "mcpServers": { "mcpkit": {} } }"#,
+        r#"{ "mcpServers": { "usemcpkit": {} } }"#,
     );
 
     let detected = detect_clients(&create_context(home.path()), CLIENT_DEFINITIONS).unwrap();
@@ -85,7 +85,7 @@ fn tells_the_windows_store_build_of_claude_desktop_from_the_classic_one_by_where
         find_definition("claude-desktop"),
         find_definition("claude-desktop-store"),
     ];
-    let summarize = |clients: Vec<mcpkit_clients::DetectedClient>| {
+    let summarize = |clients: Vec<usemcpkit_clients::DetectedClient>| {
         clients
             .into_iter()
             .map(|client| (client.definition.id, client.config_path))
@@ -132,7 +132,7 @@ fn creates_the_config_file_with_the_client_specific_entry_shape() {
     let written: Value = serde_json::from_str(&read(&path)).unwrap();
     assert_eq!(
         written,
-        json!({ "servers": { "mcpkit": { "type": "stdio", "command": LAUNCH_COMMAND, "args": ["serve"] } } })
+        json!({ "servers": { "usemcpkit": { "type": "stdio", "command": LAUNCH_COMMAND, "args": ["serve"] } } })
     );
 }
 
@@ -151,12 +151,12 @@ fn keeps_comments_and_other_keys_backs_up_and_removes_only_its_entry() {
     assert!(written.contains("\"other\""));
     assert!(written.contains("\"enabled\": true"));
     let mut backup = path.clone().into_os_string();
-    backup.push(".mcpkit-backup");
+    backup.push(".usemcpkit-backup");
     assert_eq!(read(Path::new(&backup)), original);
 
     assert!(remove_client_entry(&definition, &path).unwrap());
     let removed = read(&path);
-    assert!(!removed.contains("mcpkit"));
+    assert!(!removed.contains("usemcpkit"));
     assert!(removed.contains("// theme"));
     assert!(!remove_client_entry(&definition, &path).unwrap());
 }
@@ -171,7 +171,7 @@ fn writes_opencode_commands_as_one_array() {
 
     let written: Value = serde_json::from_str(&read(&path)).unwrap();
     assert_eq!(
-        written["mcp"]["mcpkit"],
+        written["mcp"]["usemcpkit"],
         json!({ "type": "local", "command": [LAUNCH_COMMAND, "serve"], "enabled": true })
     );
 }
@@ -188,14 +188,14 @@ fn appends_the_codex_table_and_replaces_it_in_place_later() {
 
     set_client_entry(&codex, &path, &launch()).unwrap();
     let windows_launch = LaunchCommand {
-        command: "C:\\mcpkit.exe".to_owned(),
+        command: "C:\\usemcpkit.exe".to_owned(),
         args: vec!["serve".to_owned()],
     };
     set_client_entry(&codex, &path, &windows_launch).unwrap();
 
     assert_eq!(
         read(&path),
-        "model = \"o3\" # pick\n\n[mcp_servers.other]\ncommand = \"x\"\n\n[mcp_servers.mcpkit]\ncommand = \"C:\\\\mcpkit.exe\"\nargs = [\"serve\"]\n"
+        "model = \"o3\" # pick\n\n[mcp_servers.other]\ncommand = \"x\"\n\n[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\"]\n"
     );
 }
 
@@ -206,11 +206,11 @@ fn keeps_codex_subtables_on_update_and_removes_them_with_the_entry() {
     let path = write_config(
         home.path(),
         &codex,
-        "[mcp_servers.mcpkit]\ncommand = \"old\"\n\n[mcp_servers.mcpkit.env]\nA = \"1\"\n\n[profiles.x]\nmodel = \"y\"\n",
+        "[mcp_servers.usemcpkit]\ncommand = \"old\"\n\n[mcp_servers.usemcpkit.env]\nA = \"1\"\n\n[profiles.x]\nmodel = \"y\"\n",
     );
 
     set_client_entry(&codex, &path, &launch()).unwrap();
-    let expected = format!("command = \"{LAUNCH_COMMAND}\"\nargs = [\"serve\"]\n\n[mcp_servers.mcpkit.env]");
+    let expected = format!("command = \"{LAUNCH_COMMAND}\"\nargs = [\"serve\"]\n\n[mcp_servers.usemcpkit.env]");
     assert!(read(&path).contains(&expected));
 
     remove_client_entry(&codex, &path).unwrap();
@@ -221,7 +221,7 @@ fn keeps_codex_subtables_on_update_and_removes_them_with_the_entry() {
 fn refuses_to_edit_an_inline_codex_table_entry() {
     let home = TempDir::new().unwrap();
     let codex = find_definition("codex");
-    let path = write_config(home.path(), &codex, "[mcp_servers]\nmcpkit = { command = \"x\" }\n");
+    let path = write_config(home.path(), &codex, "[mcp_servers]\nusemcpkit = { command = \"x\" }\n");
 
     let error = set_client_entry(&codex, &path, &launch()).unwrap_err();
 

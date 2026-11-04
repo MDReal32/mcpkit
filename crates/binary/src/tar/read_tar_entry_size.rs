@@ -1,7 +1,7 @@
 use crate::binary_error::BinaryError;
 use crate::tar::consts::TAR_SIZE_FIELD;
 use crate::tar::read_tar_string::read_tar_string;
-use mcpkit_core::js::js_trim;
+use usemcpkit_core::js::js_trim;
 
 /// The octal size field read like `Number.parseInt(field.trim() || "0", 8)`: the digits stop at the first character
 /// that is not octal, and a field without any is invalid.

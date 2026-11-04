@@ -11,7 +11,7 @@ import { writeManifests } from "./write-manifests";
  * Compiles the server definitions in serversDir into JSON manifests at build time and writes them to `<outDir>/manifests`,
  * the registry folder CI publishes. The CLI binary embeds none of them. Invalid definitions fail the build.
  */
-export const mcpkitManifests = ({
+export const usemcpkitManifests = ({
   serversDir = DEFAULT_SERVERS_DIR,
   outSubdir = DEFAULT_OUT_SUBDIR,
   registryUrl,

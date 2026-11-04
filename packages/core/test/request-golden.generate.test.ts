@@ -198,7 +198,7 @@ const readServerTools = (id: string) => {
   return { manifest: { ...manifest, tools: [] } satisfies Manifest, tools: [...(manifest.tools ?? []), ...partTools] };
 };
 
-const tempDir = useTempDir("mcpkit-request-golden-");
+const tempDir = useTempDir("usemcpkit-request-golden-");
 
 /**
  * Writes `crates/execution/tests/fixtures/requests.json`, which the Rust executor's request test rebuilds: for each

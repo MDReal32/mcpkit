@@ -4,7 +4,7 @@ import type { BinaryContext } from "../types/binary-context";
 import { checkForBinaryUpdate } from "./check-for-binary-update";
 
 /**
- * Runs for the binary that `usemcpkit install` placed, unless MCPKIT_AUTO_UPDATE is `0`. The new binary takes effect
+ * Runs for the binary that `usemcpkit install` placed, unless USEMCPKIT_AUTO_UPDATE is `0`. The new binary takes effect
  * the next time the client starts the server. Resolves undefined when skipped.
  */
 export const autoUpdateBinary = async (context: BinaryContext, currentVersion: string, now = Date.now()) => {

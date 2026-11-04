@@ -1,17 +1,17 @@
-use mcpkit_auth::{AuthContext, AuthState};
-use mcpkit_core::env::Env;
-use mcpkit_execution::{CallContext, DEFAULT_TIMEOUT, ExecutorState, execute_tool};
-use mcpkit_http::{HttpClient, HttpResponse};
-use mcpkit_manifest::Manifest;
-use mcpkit_manifest::tool::ToolSpec;
-use mcpkit_testing::{
-    DEMO_TOKEN_URL, FixedClient, PING_URL, RecordingClient, TokenCheckingClient, approve_sign_in, demo_manifest,
-    demo_oauth, json_response, ping_manifest,
-};
 use serde_json::{Map, Value, json};
 use std::cell::RefCell;
 use std::path::Path;
 use std::rc::Rc;
+use usemcpkit_auth::{AuthContext, AuthState};
+use usemcpkit_core::env::Env;
+use usemcpkit_execution::{CallContext, DEFAULT_TIMEOUT, ExecutorState, execute_tool};
+use usemcpkit_http::{HttpClient, HttpResponse};
+use usemcpkit_manifest::Manifest;
+use usemcpkit_manifest::tool::ToolSpec;
+use usemcpkit_testing::{
+    DEMO_TOKEN_URL, FixedClient, PING_URL, RecordingClient, TokenCheckingClient, approve_sign_in, demo_manifest,
+    demo_oauth, json_response, ping_manifest,
+};
 
 fn call_context(home: &Path, env: &[(&str, &str)], http: Rc<dyn HttpClient>) -> CallContext {
     CallContext {
@@ -156,7 +156,7 @@ async fn returns_non_json_bodies_as_text() {
 #[tokio::test]
 async fn uses_the_tokens_json_token_first() {
     let home = tempfile::tempdir().unwrap();
-    let expires_at = mcpkit_auth::oauth::now_epoch_ms() + 3_600_000.0;
+    let expires_at = usemcpkit_auth::oauth::now_epoch_ms() + 3_600_000.0;
     write_tokens(
         home.path(),
         json!({ "stored_first": { "accessToken": "stored", "tokenType": "bearer", "expiresAt": expires_at } }),
@@ -309,7 +309,7 @@ async fn surfaces_provider_errors_reported_with_http_200() {
     let token_request = &http.requests.borrow()[0];
     assert_eq!(
         token_request.body,
-        Some(mcpkit_http::RequestBody::Text(
+        Some(usemcpkit_http::RequestBody::Text(
             "grant_type=refresh_token&refresh_token=rt-1&client_id=client-1".into()
         ))
     );

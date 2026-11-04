@@ -6,7 +6,7 @@ import { ENTRY_NAME } from "../const";
 import type { ClientDefinition } from "../types/client-definition";
 import { hasClientEntry } from "./has-client-entry";
 
-/** Resolves false when the file has no `mcpkit` entry, without touching it. */
+/** Resolves false when the file has no `usemcpkit` entry, without touching it. */
 export const removeClientEntry = async (definition: ClientDefinition, path: string) => {
   const text = await readConfigText(path);
   if (!hasClientEntry(definition, text, path)) {

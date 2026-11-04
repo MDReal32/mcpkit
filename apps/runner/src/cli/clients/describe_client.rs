@@ -1,6 +1,6 @@
 use crate::cli::output::to_display_path;
-use mcpkit_clients::DetectedClient;
 use std::path::Path;
+use usemcpkit_clients::DetectedClient;
 
 pub fn describe_client(client: &DetectedClient, home_dir: &Path) -> String {
     match &client.problem {

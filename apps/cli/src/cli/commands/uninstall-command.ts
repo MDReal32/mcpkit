@@ -8,12 +8,12 @@ import { printLine } from "../output/print-line";
 import { toAction } from "../to-action";
 import type { ClientSelection } from "../types/client-selection";
 
-/** Removes the `mcpkit` entry from the chosen clients. The binary stays so other clients keep working. */
+/** Removes the `usemcpkit` entry from the chosen clients. The binary stays so other clients keep working. */
 export const uninstallCommand = async (selection: ClientSelection) => {
   const detected = await detectClients(createClientContext());
   const candidates = detected.filter((client) => client.hasEntry || client.problem);
   if (candidates.length === 0) {
-    printLine("No client has an mcpkit entry.");
+    printLine("No client has an usemcpkit entry.");
     return EXIT_SUCCESS;
   }
   const selected = await selectClients(candidates, selection, "uninstall");
@@ -25,7 +25,7 @@ export const uninstallCommand = async (selection: ClientSelection) => {
   const context = await createBinaryContext();
   const remaining = await detectClients(createClientContext());
   if (!remaining.some((client) => client.hasEntry) && (await removeUpgradeSchedule(context))) {
-    printLine('No client uses mcpkit now; removed the scheduled "mcpkit upgrade".');
+    printLine('No client uses usemcpkit now; removed the scheduled "usemcpkit upgrade".');
   }
   printLine(`The binary stays at ${resolveInstalledBinaryPath(context.target, context.env)}; delete it if unused.`);
   return failed === 0 ? EXIT_SUCCESS : EXIT_FAILURE;
@@ -33,8 +33,8 @@ export const uninstallCommand = async (selection: ClientSelection) => {
 
 export const registerUninstallCommand = (program: Program) => {
   program
-    .command("uninstall", "Remove the mcpkit entry from clients")
-    .option("--all", { description: "Every client with an mcpkit entry, no questions", default: false })
+    .command("uninstall", "Remove the usemcpkit entry from clients")
+    .option("--all", { description: "Every client with an usemcpkit entry, no questions", default: false })
     .option("--clients [string]", { description: "Only these clients, comma-separated ids" })
     .action(toAction(uninstallCommand));
 };

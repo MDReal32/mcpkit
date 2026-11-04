@@ -4,9 +4,9 @@ use crate::binary_update_result::BinaryUpdateResult;
 use crate::consts::LATEST_TAG;
 use crate::install::write_binary_pair;
 use crate::release::{download_release_binaries, fetch_target_release};
-use mcpkit_core::versions::compare_versions;
 use std::cmp::Ordering;
 use std::path::Path;
+use usemcpkit_core::versions::compare_versions;
 
 /// Replaces the runner at `path`, and the server next to it, with the latest published release when it is newer than
 /// `current_version`.

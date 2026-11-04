@@ -4,9 +4,9 @@ use crate::mapping::map_response;
 use crate::request::{load_file_args, prepare_tool_args};
 use crate::response::{read_api_error_message, read_response_body, save_response_file};
 use crate::{CallContext, ToolError};
-use mcpkit_manifest::Manifest;
-use mcpkit_manifest::tool::ToolSpec;
 use serde_json::{Map, Value};
+use usemcpkit_manifest::Manifest;
+use usemcpkit_manifest::tool::ToolSpec;
 
 /// Runs one tool call: its arguments, the auth that works, the request and the mapped response. `None` is the
 /// TypeScript `undefined`, a response mapping that found nothing.

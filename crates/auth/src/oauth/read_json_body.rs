@@ -1,6 +1,6 @@
 use crate::AuthError;
-use mcpkit_http::HttpResponse;
 use serde_json::Value;
+use usemcpkit_http::HttpResponse;
 
 pub fn read_json_body(response: &HttpResponse, server_name: &str) -> Result<Value, AuthError> {
     serde_json::from_str(&response.text()).map_err(|error| {

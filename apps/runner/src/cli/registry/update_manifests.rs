@@ -1,7 +1,7 @@
 use crate::cli::consts::{EXIT_FAILURE, EXIT_SUCCESS};
 use crate::cli::output::describe_sync_report;
 use crate::cli::registry::create_registry_context::create_registry_context;
-use mcpkit_registry::sync_registry;
+use usemcpkit_registry::sync_registry;
 
 /// Refreshes the cached index and the manifests already on disk; a registry that cannot be reached is reported, not
 /// returned.

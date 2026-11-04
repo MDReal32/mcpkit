@@ -1,5 +1,5 @@
-use mcpkit_core::env::Env;
 use std::rc::Rc;
+use usemcpkit_core::env::Env;
 
 #[derive(Clone)]
 pub struct RepoOptions {
@@ -8,6 +8,6 @@ pub struct RepoOptions {
     pub warn: Rc<dyn Fn(&str)>,
     /// Epoch milliseconds.
     pub now: Rc<dyn Fn() -> u64>,
-    /// mcpkit's own environment, of which git and the setup steps get only the forwarded variables.
+    /// usemcpkit's own environment, of which git and the setup steps get only the forwarded variables.
     pub env: Env,
 }

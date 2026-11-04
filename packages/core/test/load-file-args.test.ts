@@ -10,7 +10,7 @@ const uploadTool = { ...createItemTool, request: { ...createItemTool.request, fi
 
 describe("loadFileArgs", () => {
   it("replaces a file path argument with the file name and bytes", async () => {
-    const dir = await mkdtemp(join(tmpdir(), "mcpkit-"));
+    const dir = await mkdtemp(join(tmpdir(), "usemcpkit-"));
     const path = join(dir, "note.txt");
     await writeFile(path, "hi");
 
@@ -21,7 +21,7 @@ describe("loadFileArgs", () => {
   });
 
   it("loads every path of an array argument", async () => {
-    const dir = await mkdtemp(join(tmpdir(), "mcpkit-"));
+    const dir = await mkdtemp(join(tmpdir(), "usemcpkit-"));
     const first = join(dir, "a.txt");
     const second = join(dir, "b.txt");
     await writeFile(first, "a");
@@ -36,6 +36,6 @@ describe("loadFileArgs", () => {
   });
 
   it("fails with a ToolError when the file cannot be read", async () => {
-    await expect(loadFileArgs(uploadTool, { file: "/nonexistent/mcpkit-file" })).rejects.toBeInstanceOf(ToolError);
+    await expect(loadFileArgs(uploadTool, { file: "/nonexistent/usemcpkit-file" })).rejects.toBeInstanceOf(ToolError);
   });
 });

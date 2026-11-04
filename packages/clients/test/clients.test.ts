@@ -5,9 +5,9 @@ import { describe, expect, it } from "vitest";
 import type { ClientDefinition, LaunchCommand } from "../src/main";
 import { CLIENT_DEFINITIONS, createClientContext, detectClients, removeClientEntry, setClientEntry } from "../src/main";
 
-const readHome = useTempDir("mcpkit-clients-");
+const readHome = useTempDir("usemcpkit-clients-");
 
-const LAUNCH: LaunchCommand = { command: "/opt/mcpkit/bin/mcpkit", args: ["serve"] };
+const LAUNCH: LaunchCommand = { command: "/opt/usemcpkit/bin/usemcpkit", args: ["serve"] };
 
 const findDefinition = (id: string) => {
   const definition = CLIENT_DEFINITIONS.find((candidate) => candidate.id === id);
@@ -29,7 +29,7 @@ const writeConfig = async (definition: ClientDefinition, text: string) => {
 describe("detectClients", () => {
   it("finds clients by their directories and reports existing entries", async () => {
     await mkdir(join(readHome(), ".cursor"));
-    await writeConfig(findDefinition("gemini-cli"), '{ "mcpServers": { "mcpkit": {} } }');
+    await writeConfig(findDefinition("gemini-cli"), '{ "mcpServers": { "usemcpkit": {} } }');
 
     const detected = await detectClients(createContext());
 
@@ -79,7 +79,7 @@ describe("JSON client configs", () => {
     await setClientEntry(definition, path, LAUNCH);
 
     expect(JSON.parse(await readFile(path, "utf8"))).toEqual({
-      servers: { mcpkit: { type: "stdio", command: LAUNCH.command, args: ["serve"] } },
+      servers: { usemcpkit: { type: "stdio", command: LAUNCH.command, args: ["serve"] } },
     });
   });
 
@@ -94,11 +94,11 @@ describe("JSON client configs", () => {
     expect(written).toContain("// theme");
     expect(written).toContain('"other"');
     expect(written).toContain('"enabled": true');
-    expect(await readFile(`${path}.mcpkit-backup`, "utf8")).toBe(original);
+    expect(await readFile(`${path}.usemcpkit-backup`, "utf8")).toBe(original);
 
     expect(await removeClientEntry(definition, path)).toBe(true);
     const removed = await readFile(path, "utf8");
-    expect(removed).not.toContain("mcpkit");
+    expect(removed).not.toContain("usemcpkit");
     expect(removed).toContain("// theme");
     expect(await removeClientEntry(definition, path)).toBe(false);
   });
@@ -109,7 +109,7 @@ describe("JSON client configs", () => {
 
     await setClientEntry(definition, path, LAUNCH);
 
-    expect(JSON.parse(await readFile(path, "utf8")).mcp.mcpkit).toEqual({
+    expect(JSON.parse(await readFile(path, "utf8")).mcp.usemcpkit).toEqual({
       type: "local",
       command: [LAUNCH.command, "serve"],
       enabled: true,
@@ -124,23 +124,23 @@ describe("Codex TOML config", () => {
     const path = await writeConfig(codex, 'model = "o3" # pick\n\n[mcp_servers.other]\ncommand = "x"\n');
 
     await setClientEntry(codex, path, LAUNCH);
-    await setClientEntry(codex, path, { command: "C:\\mcpkit.exe", args: ["serve"] });
+    await setClientEntry(codex, path, { command: "C:\\usemcpkit.exe", args: ["serve"] });
 
     expect(await readFile(path, "utf8")).toBe(
       'model = "o3" # pick\n\n[mcp_servers.other]\ncommand = "x"\n\n' +
-        '[mcp_servers.mcpkit]\ncommand = "C:\\\\mcpkit.exe"\nargs = ["serve"]\n',
+        '[mcp_servers.usemcpkit]\ncommand = "C:\\\\usemcpkit.exe"\nargs = ["serve"]\n',
     );
   });
 
   it("keeps user subtables on update and removes them with the entry", async () => {
     const path = await writeConfig(
       codex,
-      '[mcp_servers.mcpkit]\ncommand = "old"\n\n[mcp_servers.mcpkit.env]\nA = "1"\n\n[profiles.x]\nmodel = "y"\n',
+      '[mcp_servers.usemcpkit]\ncommand = "old"\n\n[mcp_servers.usemcpkit.env]\nA = "1"\n\n[profiles.x]\nmodel = "y"\n',
     );
 
     await setClientEntry(codex, path, LAUNCH);
     expect(await readFile(path, "utf8")).toContain(
-      `command = "${LAUNCH.command}"\nargs = ["serve"]\n\n[mcp_servers.mcpkit.env]`,
+      `command = "${LAUNCH.command}"\nargs = ["serve"]\n\n[mcp_servers.usemcpkit.env]`,
     );
 
     await removeClientEntry(codex, path);
@@ -148,7 +148,7 @@ describe("Codex TOML config", () => {
   });
 
   it("refuses to edit an inline table entry", async () => {
-    const path = await writeConfig(codex, '[mcp_servers]\nmcpkit = { command = "x" }\n');
+    const path = await writeConfig(codex, '[mcp_servers]\nusemcpkit = { command = "x" }\n');
 
     await expect(setClientEntry(codex, path, LAUNCH)).rejects.toThrow(/inline table/);
   });

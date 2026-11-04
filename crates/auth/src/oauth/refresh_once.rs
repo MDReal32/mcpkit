@@ -2,8 +2,8 @@ use crate::oauth::refresh_stored_token::refresh_stored_token;
 use crate::token_store::StoredToken;
 use crate::{AuthContext, AuthError};
 use futures_util::FutureExt;
-use mcpkit_core::LocalFuture;
-use mcpkit_manifest::auth::OAuthAuth;
+use usemcpkit_core::LocalFuture;
+use usemcpkit_manifest::auth::OAuthAuth;
 
 /// Joins the refresh already running for the server, or starts one that every caller until it ends shares.
 pub async fn refresh_once(

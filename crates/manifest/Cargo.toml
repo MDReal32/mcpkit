@@ -1,6 +1,6 @@
 [package]
-name = "mcpkit-manifest"
-description = "The mcpkit manifest and registry formats that packages/servers builds."
+name = "usemcpkit-manifest"
+description = "The usemcpkit manifest and registry formats that packages/servers builds."
 version.workspace = true
 edition.workspace = true
 license.workspace = true

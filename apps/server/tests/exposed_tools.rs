@@ -1,15 +1,15 @@
 mod support;
 
-use mcpkit_http::HttpResponse;
-use mcpkit_registry::{DEFAULT_REGISTRY_URL, RegistryContext};
-use mcpkit_server::catalog::load_catalog;
-use mcpkit_server::mcp::{ExposedEntry, ExposedSection, McpServer, ToolAnnotations};
-use mcpkit_testing::FixedClient;
-use mcpkit_wire_log::{WireLog, WireLogRole};
 use serde_json::{Value, json};
 use std::path::PathBuf;
 use std::rc::Rc;
 use support::{FolderFetcher, call_context, registry_root};
+use usemcpkit_http::HttpResponse;
+use usemcpkit_registry::{DEFAULT_REGISTRY_URL, RegistryContext};
+use usemcpkit_server::catalog::load_catalog;
+use usemcpkit_server::mcp::{ExposedEntry, ExposedSection, McpServer, ToolAnnotations};
+use usemcpkit_testing::FixedClient;
+use usemcpkit_wire_log::{WireLog, WireLogRole};
 
 /// The shape `apps/cli/test/exposure-golden.generate.test.ts` writes for each entry.
 fn describe_entry(entry: &ExposedEntry) -> Value {

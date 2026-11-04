@@ -1,5 +1,5 @@
 use crate::mcp::exposed::consts::SECTION_NOTICE;
-use mcpkit_manifest::registry::RegistryServer;
+use usemcpkit_manifest::registry::RegistryServer;
 
 pub fn create_group_section_description(server: &RegistryServer, group: &str) -> String {
     format!(

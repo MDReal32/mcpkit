@@ -2,9 +2,9 @@ use crate::repo::consts::REMOTE_CHECK_TIMEOUT;
 use crate::repo::pick_remote_commit::pick_remote_commit;
 use crate::repo::run_program::run_program;
 use crate::upstream_error::UpstreamError;
-use mcpkit_core::env::Env;
-use mcpkit_manifest::upstream::UpstreamRepo;
 use std::path::Path;
+use usemcpkit_core::env::Env;
+use usemcpkit_manifest::upstream::UpstreamRepo;
 
 /// The commit the remote's copy of the ref points at now.
 pub async fn read_remote_commit(repo: &UpstreamRepo, cwd: &Path, env: &Env) -> Result<String, UpstreamError> {

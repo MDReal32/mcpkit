@@ -4,7 +4,7 @@ use crate::schedule::consts::{SCHEDULED_TASK_NAME, UPGRADE_ARGS, UPGRADE_INTERVA
 use crate::schedule::run_scheduler_command::run_scheduler_command;
 use crate::schedule::task_scheduler::is_scheduled_task_registered::is_scheduled_task_registered;
 use crate::schedule::upgrade_schedule::UpgradeSchedule;
-use mcpkit_core::env::Env;
+use usemcpkit_core::env::Env;
 
 /// Registers the task once; Task Scheduler keeps no log of its own here, so `log_path` is unused on Windows.
 pub async fn ensure_scheduled_task(schedule: &UpgradeSchedule, env: &Env) -> Result<bool, BinaryError> {

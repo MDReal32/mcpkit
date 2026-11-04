@@ -10,7 +10,7 @@ import type { BinariesPluginOptions } from "./types/binaries-plugin-options";
 import { writePlatformPackage } from "./write-platform-package";
 
 /** After the bundle is written, compiles it into standalone binaries per target. Any failed target fails the build. */
-export const mcpkitBinaries = ({ version, targets, outSubdir = DEFAULT_OUT_SUBDIR }: BinariesPluginOptions) => {
+export const usemcpkitBinaries = ({ version, targets, outSubdir = DEFAULT_OUT_SUBDIR }: BinariesPluginOptions) => {
   const selected = selectTargets(targets);
   let resolvedConfig: ResolvedConfig | undefined;
 

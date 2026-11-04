@@ -2,7 +2,7 @@ use crate::local::write_cached_index;
 use crate::registry_context::RegistryContext;
 use crate::registry_error::RegistryError;
 use crate::remote::{Fetch, fetch_registry_index};
-use mcpkit_manifest::registry::RegistryServer;
+use usemcpkit_manifest::registry::RegistryServer;
 
 /// Runs `load` with the server's entry in the cached index. Opening a server never re-checks the registry, so the
 /// index is only fetched again when a download does not match it: the cached index is then older than the registry,

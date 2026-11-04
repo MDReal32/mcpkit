@@ -1,10 +1,10 @@
 use crate::consts::FORM_CLOSED_MESSAGE;
-use mcpkit_auth::AuthError;
-use mcpkit_auth::credentials::CredentialRequest;
-use mcpkit_core::env::Env;
 use serde_json::Value;
 use std::sync::Mutex;
 use tokio::sync::oneshot;
+use usemcpkit_auth::AuthError;
+use usemcpkit_auth::credentials::CredentialRequest;
+use usemcpkit_core::env::Env;
 
 pub type FormAnswerSender = oneshot::Sender<Result<Value, AuthError>>;
 
@@ -53,7 +53,7 @@ impl FormSession {
         if let Ok(Some(sender)) = sender
             && sender.send(outcome).is_err()
         {
-            eprintln!("mcpkit: the credentials form answered after its call gave up");
+            eprintln!("usemcpkit: the credentials form answered after its call gave up");
         }
     }
 }

@@ -1,5 +1,5 @@
-use mcpkit_core::versions::{compare_versions, parse_version};
 use std::cmp::Ordering;
+use usemcpkit_core::versions::{compare_versions, parse_version};
 
 #[test]
 fn reads_each_part_like_parse_int() {

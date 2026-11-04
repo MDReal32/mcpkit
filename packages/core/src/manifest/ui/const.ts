@@ -1,11 +1,11 @@
 import type { UiTexts } from "../types/ui/ui-texts";
 
 export const DEFAULT_UI_TEXTS: Readonly<UiTexts> = {
-  brand: "mcpkit",
-  pageTitle: "mcpkit · Connect",
+  brand: "usemcpkit",
+  pageTitle: "usemcpkit · Connect",
   title: "Connect {server}",
   intro:
-    "A tool call needs access to {server}. What you enter is saved in ~/.mcpkit/config.json and used for later calls.",
+    "A tool call needs access to {server}. What you enter is saved in ~/.usemcpkit/config.json and used for later calls.",
   domainLabel: "Domain",
   domainHint: "Host, optionally with a port and path, without https://",
   domainPlaceholder: "api.example.com",
@@ -27,7 +27,7 @@ export const DEFAULT_UI_TEXTS: Readonly<UiTexts> = {
   requiredField: "{label} is required",
   savedTitle: "{server} is connected",
   savedBody:
-    "The credentials are saved in ~/.mcpkit/config.json. This window closes by itself in a few seconds; you can also close it and go back to your MCP client.",
+    "The credentials are saved in ~/.usemcpkit/config.json. This window closes by itself in a few seconds; you can also close it and go back to your MCP client.",
   signingInTitle: "Continue in the new tab",
   signingInBody: "Approve access to {server} in the sign-in tab that just opened. You can close this one.",
   cancelledTitle: "Cancelled",

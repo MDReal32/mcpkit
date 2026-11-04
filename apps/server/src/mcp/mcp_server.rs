@@ -4,11 +4,11 @@ use crate::mcp::exposed::ToolExposure;
 use crate::mcp::handled_line::HandledLine;
 use crate::mcp::methods::{MethodOutcome, call_tool, initialize, list_tools};
 use crate::mcp::rpc::{RpcError, RpcMessage, create_error_response, create_result_response, parse_rpc_message};
-use mcpkit_execution::CallContext;
-use mcpkit_registry::Fetch;
-use mcpkit_wire_log::WireLog;
 use serde_json::{Value, json};
 use std::rc::Rc;
+use usemcpkit_execution::CallContext;
+use usemcpkit_registry::Fetch;
+use usemcpkit_wire_log::WireLog;
 
 /// Maps one JSON-RPC line to its response, over the sections and tools the catalog exposes.
 pub struct McpServer<F> {

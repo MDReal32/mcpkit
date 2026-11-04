@@ -43,6 +43,6 @@ pub async fn read_until_exit(
     };
     pending.close_with(UpstreamError::new(reason));
     if let Err(error) = child.kill().await {
-        eprintln!("mcpkit: could not stop \"{command}\": {error}");
+        eprintln!("usemcpkit: could not stop \"{command}\": {error}");
     }
 }

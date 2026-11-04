@@ -1,5 +1,5 @@
-use mcpkit_core::js::to_js_json_pretty;
 use serde_json::{Value, json};
+use usemcpkit_core::js::to_js_json_pretty;
 
 /// `createTextResult(JSON.stringify(value, null, 2))`. A mapping that found nothing is the TypeScript `undefined`, whose
 /// `JSON.stringify` is `undefined` too, so its text item goes out without a `text`, as the TypeScript server sends it.

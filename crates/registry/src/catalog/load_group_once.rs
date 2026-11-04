@@ -3,8 +3,8 @@ use crate::catalog::read_manifest_file::read_manifest_file;
 use crate::registry_context::RegistryContext;
 use crate::registry_error::RegistryError;
 use crate::remote::Fetch;
-use mcpkit_manifest::Manifest;
-use mcpkit_manifest::registry::RegistryServer;
+use usemcpkit_manifest::Manifest;
+use usemcpkit_manifest::registry::RegistryServer;
 
 pub async fn load_group_once<F: Fetch>(
     server: &RegistryServer,

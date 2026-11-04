@@ -3,9 +3,9 @@ use crate::auth_fallback::auth_candidate::AuthCandidate;
 use crate::auth_fallback::candidates::create_no_auth_candidate::create_no_auth_candidate;
 use crate::auth_fallback::candidates::create_stored_candidate::create_stored_candidate;
 use crate::auth_fallback::candidates::to_fallback_candidate::to_fallback_candidate;
-use mcpkit_manifest::Manifest;
-use mcpkit_manifest::auth::AuthSpec;
 use std::rc::Rc;
+use usemcpkit_manifest::Manifest;
+use usemcpkit_manifest::auth::AuthSpec;
 
 /// Auth that needs nothing from the user: the `tokens.json` token and fallbacks whose credentials are set or saved.
 pub fn list_provided_candidates<'a>(

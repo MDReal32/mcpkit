@@ -30,7 +30,7 @@ export const watchBinaryFile = async (path: string, onChange: () => void, interv
       }
     } catch (error) {
       if (!isMissingFileError(error)) {
-        printError(`mcpkit: cannot read ${path}: ${describeError(error)}`);
+        printError(`usemcpkit: cannot read ${path}: ${describeError(error)}`);
       }
     } finally {
       polling = false;

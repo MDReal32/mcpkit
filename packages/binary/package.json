@@ -2,7 +2,7 @@
   "name": "@usemcpkit/binary",
   "version": "0.8.4",
   "private": true,
-  "description": "Installs and self-updates the mcpkit binary; build targets and platform packages.",
+  "description": "Installs and self-updates the usemcpkit binary; build targets and platform packages.",
   "type": "module",
   "exports": {
     ".": "./src/main.ts"

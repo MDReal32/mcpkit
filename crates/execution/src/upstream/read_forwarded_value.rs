@@ -1,4 +1,4 @@
-use mcpkit_auth::{AuthContext, AuthError, SecretOwner};
+use usemcpkit_auth::{AuthContext, AuthError, SecretOwner};
 
 /// A forwarded credential from its env var, else from the secret store; an empty value counts as unset.
 pub async fn read_forwarded_value(

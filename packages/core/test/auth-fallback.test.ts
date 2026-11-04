@@ -8,7 +8,7 @@ import { approveSignIn } from "./fixtures/approve-sign-in";
 import { createTokenCheckingFetch } from "./fixtures/create-token-checking-fetch";
 import { DEMO_TOKEN_URL, demoOAuth } from "./fixtures/demo-oauth";
 
-const readHome = useTempDir("mcpkit-auth-fallback-");
+const readHome = useTempDir("usemcpkit-auth-fallback-");
 
 const authList: readonly AuthSpec[] = [
   demoOAuth,
@@ -32,7 +32,7 @@ const createPing = (serverName: string, validToken: string, options: ExecuteOpti
       {},
       {
         ...options,
-        env: { MCPKIT_HOME: readHome(), ...options.env },
+        env: { USEMCPKIT_HOME: readHome(), ...options.env },
         fetchImpl: tokenCheckingFetch,
       },
     );

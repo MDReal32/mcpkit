@@ -1,6 +1,6 @@
 use crate::{AuthContext, AuthError, SecretOwner};
-use mcpkit_core::env::Env;
-use mcpkit_manifest::auth::AuthSpec;
+use usemcpkit_core::env::Env;
+use usemcpkit_manifest::auth::AuthSpec;
 
 /// Each credential from its env var, else from the secret store; one found in neither is left out.
 pub async fn read_fallback_values(

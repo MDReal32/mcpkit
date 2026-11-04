@@ -1,13 +1,5 @@
 mod support;
 
-use mcpkit_core::LocalFuture;
-use mcpkit_http::{HttpClient, HttpError, HttpRequest, HttpResponse};
-use mcpkit_manifest::registry::RegistryServer;
-use mcpkit_registry::RegistryContext;
-use mcpkit_server::catalog::RegistryCatalog;
-use mcpkit_server::mcp::McpServer;
-use mcpkit_testing::json_response;
-use mcpkit_wire_log::{WireLog, WireLogRole};
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
 use std::cell::RefCell;
@@ -15,6 +7,14 @@ use std::rc::Rc;
 use std::time::Duration;
 use support::{FolderFetcher, call_context};
 use tempfile::TempDir;
+use usemcpkit_core::LocalFuture;
+use usemcpkit_http::{HttpClient, HttpError, HttpRequest, HttpResponse};
+use usemcpkit_manifest::registry::RegistryServer;
+use usemcpkit_registry::RegistryContext;
+use usemcpkit_server::catalog::RegistryCatalog;
+use usemcpkit_server::mcp::McpServer;
+use usemcpkit_testing::json_response;
+use usemcpkit_wire_log::{WireLog, WireLogRole};
 
 const REGISTRY_URL: &str = "https://registry.test";
 

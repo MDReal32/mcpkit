@@ -11,7 +11,7 @@ pub fn serve_worker_command(servers: Vec<String>, server: Option<PathBuf>) -> i3
         let command = match prepare_server_binary(server).await {
             Ok(command) => command,
             Err(error) => {
-                eprintln!("mcpkit: {error}");
+                eprintln!("usemcpkit: {error}");
                 return EXIT_FAILURE;
             }
         };
@@ -23,7 +23,7 @@ pub fn serve_worker_command(servers: Vec<String>, server: Option<PathBuf>) -> i3
         {
             Ok(status) => status.code().unwrap_or(EXIT_FAILURE),
             Err(error) => {
-                eprintln!("mcpkit: cannot run {}: {error}", command.display());
+                eprintln!("usemcpkit: cannot run {}: {error}", command.display());
                 EXIT_FAILURE
             }
         }

@@ -1,8 +1,8 @@
-use mcpkit_auth::secret_file::FileSecretStore;
-use mcpkit_auth::{SecretOwner, SecretStore, ServerKey};
 use serde_json::{Value, json};
 use std::path::{Path, PathBuf};
 use tempfile::TempDir;
+use usemcpkit_auth::secret_file::FileSecretStore;
+use usemcpkit_auth::{SecretOwner, SecretStore, ServerKey};
 
 fn github(domain: Option<&str>) -> SecretOwner {
     SecretOwner {
@@ -100,7 +100,7 @@ async fn fails_on_a_malformed_file_instead_of_overwriting_it() {
 
     let error = store(&home).set(&github(None), "GITHUB_TOKEN", "x").await.unwrap_err();
 
-    assert!(error.0.contains("not a valid mcpkit config file"), "{error}");
+    assert!(error.0.contains("not a valid usemcpkit config file"), "{error}");
     assert_eq!(read(&config_file(&home)), malformed);
 }
 
@@ -260,13 +260,13 @@ async fn upgrades_a_version_2_config_by_dropping_the_last_used_domain_and_groupi
 }
 
 #[tokio::test]
-async fn refuses_a_config_from_a_newer_mcpkit_instead_of_overwriting_it() {
+async fn refuses_a_config_from_a_newer_usemcpkit_instead_of_overwriting_it() {
     let home = tempfile::tempdir().unwrap();
     write(&config_file(&home), json!({ "version": 5, "servers": {} }));
 
     let error = store(&home).set(&github(None), "GITHUB_TOKEN", "x").await.unwrap_err();
 
-    assert!(error.0.contains("update mcpkit"), "{error}");
+    assert!(error.0.contains("update usemcpkit"), "{error}");
     assert_eq!(read(&config_file(&home)), json!({ "version": 5, "servers": {} }));
 }
 

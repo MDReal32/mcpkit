@@ -12,7 +12,7 @@ export const askForMissingCredentials = (
 ) => {
   if (!requestCredentials) {
     throw new AuthError(
-      `${manifest.name}: missing credential, set ${missing.join(", ")} in the client's env for mcpkit`,
+      `${manifest.name}: missing credential, set ${missing.join(", ")} in the client's env for usemcpkit`,
     );
   }
   return requestForwardedCredentials(manifest, upstream, missing, requestCredentials);

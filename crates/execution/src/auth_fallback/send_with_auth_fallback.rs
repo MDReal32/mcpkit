@@ -5,9 +5,9 @@ use crate::auth_fallback::auth_attempt::AuthAttempt;
 use crate::auth_fallback::auth_candidate_kind::AuthCandidateKind;
 use crate::auth_fallback::candidates::{build_auth_candidates, order_auth_candidates};
 use crate::{CallContext, ToolError};
-use mcpkit_auth::domain::resolve_domain;
-use mcpkit_manifest::Manifest;
-use mcpkit_manifest::tool::ToolSpec;
+use usemcpkit_auth::domain::resolve_domain;
+use usemcpkit_manifest::Manifest;
+use usemcpkit_manifest::tool::ToolSpec;
 
 /// Tries the server's auth candidates in order and keeps the one the API accepts.
 pub async fn send_with_auth_fallback(

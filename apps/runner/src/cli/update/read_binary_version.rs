@@ -4,7 +4,7 @@ use std::path::Path;
 use std::process::Stdio;
 use tokio::process::Command;
 
-/// Asks an mcpkit binary for its version, since the installed file can be older than the running runner.
+/// Asks an usemcpkit binary for its version, since the installed file can be older than the running runner.
 pub async fn read_binary_version(path: &Path) -> Result<String, String> {
     let mut command = Command::new(path);
     command
@@ -14,7 +14,7 @@ pub async fn read_binary_version(path: &Path) -> Result<String, String> {
         .stderr(Stdio::piped())
         .kill_on_drop(true);
     #[cfg(windows)]
-    command.creation_flags(mcpkit_core::program::CREATE_NO_WINDOW);
+    command.creation_flags(usemcpkit_core::program::CREATE_NO_WINDOW);
     let output = tokio::time::timeout(VERSION_TIMEOUT, command.output())
         .await
         .map_err(|_| {

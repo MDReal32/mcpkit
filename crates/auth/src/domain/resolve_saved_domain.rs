@@ -2,8 +2,8 @@ use crate::config::{list_known_hosts, load_config, read_server_config};
 use crate::domain::saved_domain::SavedDomain;
 use crate::project::{pick_remote_host, resolve_project};
 use crate::{AuthContext, AuthError, ServerKey};
-use mcpkit_manifest::Manifest;
 use serde_json::Value;
+use usemcpkit_manifest::Manifest;
 
 pub async fn resolve_saved_domain(manifest: &Manifest, context: &AuthContext) -> Result<SavedDomain, AuthError> {
     let config = load_config(&context.home).await?;

@@ -1,9 +1,9 @@
 # Rust port
 
-The `mcpkit` binary was a Bun-compiled TypeScript CLI of about 113 MB. On branch `feat/rust` it is two Rust binaries:
+The `usemcpkit` binary was a Bun-compiled TypeScript CLI of about 113 MB. On branch `feat/rust` it is two Rust binaries:
 
-- `mcpkit`, the runner, is what clients start;
-- `mcpkit-server`, the MCP server, runs behind it.
+- `usemcpkit`, the runner, is what clients start;
+- `usemcpkit-server`, the MCP server, runs behind it.
 
 The servers, their generators, `packages/ui` and the `@usemcpkit/core` authoring API stay in TypeScript. The built JSON
 manifests and the built UI page are the contract between the two sides. The TypeScript CLI (`apps/cli` and the packages
@@ -13,20 +13,20 @@ it bundles) still exists. It is the reference the Rust code is tested against un
 
 | Path                     | Crate                     | What it owns                                                                                                                                   |
 | ------------------------ | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `apps/runner`            | `mcpkit-runner` (`mcpkit`) | The commands (`install`, which a bare `mcpkit` runs, plus `uninstall`, `list`, `update`, `upgrade` and `serve`) and the supervisor that owns the client's stdio and swaps the server when its binary changes. |
-| `apps/server`            | `mcpkit-server`           | `serve [servers...] --worker`, which runs the catalog, sections and tool calls over stdio, and `window <url>`, the wry/tao credentials window. `build.rs` embeds `packages/ui/build/mcpkit.ui.html`. |
-| `crates/core`            | `mcpkit-core`             | The mcpkit home, `Env`, versions, `find_program`, config migrations, and JavaScript-compatible number, string and JSON printing.             |
-| `crates/manifest`        | `mcpkit-manifest`         | Manifest and registry types (serde), domains and editions, and UI texts.                                                                       |
-| `crates/registry`        | `mcpkit-registry`         | The index and manifest cache in `~/.mcpkit/manifests`: sync, checksums, lazy shell and part downloads, `ensure_manifest_index`.                |
-| `crates/http`            | `mcpkit-http`             | Request and response data, the `HttpClient` trait and the reqwest client.                                                                      |
-| `crates/auth`            | `mcpkit-auth`             | `config.json`, secrets and tokens, the domain of a call, fallbacks, OAuth2 PKCE sign-in, and the credentials form contract.                     |
-| `crates/execution`       | `mcpkit-execution`        | Tool arguments, the request a tool builds, the auth it tries, response mapping, and upstream access.                                           |
-| `crates/credentials-form` | `mcpkit-credentials-form` | The one-off loopback credentials page server.                                                                                                  |
-| `crates/upstream`        | `mcpkit-upstream`         | The MCP client for upstream manifests: stdio, optionally run from a cloned repository, and Streamable HTTP.                                    |
-| `crates/clients`         | `mcpkit-clients`          | AI client detection and config editing: a port of jsonc-parser for JSON, and line-based edits for Codex TOML.                                   |
-| `crates/binary`          | `mcpkit-binary`           | Build targets, npm releases and integrity, install and self-update of both binaries, and the `mcpkit upgrade` schedule.                         |
-| `crates/wire-log`        | `mcpkit-wire-log`         | The `USEMCPKIT_DEBUG` wire log that both binaries write.                                                                                       |
-| `crates/testing`         | `mcpkit-testing`          | Fake HTTP clients and small manifests for tests.                                                                                               |
+| `apps/runner`            | `usemcpkit-runner` (`usemcpkit`) | The commands (`install`, which a bare `usemcpkit` runs, plus `uninstall`, `list`, `update`, `upgrade` and `serve`) and the supervisor that owns the client's stdio and swaps the server when its binary changes. |
+| `apps/server`            | `usemcpkit-server`           | `serve [servers...] --worker`, which runs the catalog, sections and tool calls over stdio, and `window <url>`, the wry/tao credentials window. `build.rs` embeds `packages/ui/build/usemcpkit.ui.html`. |
+| `crates/core`            | `usemcpkit-core`             | The usemcpkit home, `Env`, versions, `find_program`, config migrations, and JavaScript-compatible number, string and JSON printing.             |
+| `crates/manifest`        | `usemcpkit-manifest`         | Manifest and registry types (serde), domains and editions, and UI texts.                                                                       |
+| `crates/registry`        | `usemcpkit-registry`         | The index and manifest cache in `~/.usemcpkit/manifests`: sync, checksums, lazy shell and part downloads, `ensure_manifest_index`.                |
+| `crates/http`            | `usemcpkit-http`             | Request and response data, the `HttpClient` trait and the reqwest client.                                                                      |
+| `crates/auth`            | `usemcpkit-auth`             | `config.json`, secrets and tokens, the domain of a call, fallbacks, OAuth2 PKCE sign-in, and the credentials form contract.                     |
+| `crates/execution`       | `usemcpkit-execution`        | Tool arguments, the request a tool builds, the auth it tries, response mapping, and upstream access.                                           |
+| `crates/credentials-form` | `usemcpkit-credentials-form` | The one-off loopback credentials page server.                                                                                                  |
+| `crates/upstream`        | `usemcpkit-upstream`         | The MCP client for upstream manifests: stdio, optionally run from a cloned repository, and Streamable HTTP.                                    |
+| `crates/clients`         | `usemcpkit-clients`          | AI client detection and config editing: a port of jsonc-parser for JSON, and line-based edits for Codex TOML.                                   |
+| `crates/binary`          | `usemcpkit-binary`           | Build targets, npm releases and integrity, install and self-update of both binaries, and the `usemcpkit upgrade` schedule.                         |
+| `crates/wire-log`        | `usemcpkit-wire-log`         | The `USEMCPKIT_DEBUG` wire log that both binaries write.                                                                                       |
+| `crates/testing`         | `usemcpkit-testing`          | Fake HTTP clients and small manifests for tests.                                                                                               |
 
 **Build order.** Build the TypeScript side first, since the server embeds the UI page and its tests read the built
 registry:
@@ -95,7 +95,7 @@ fails 4076 tool digests.
   - messages that carry a `method` never settle a request.
 
 **Credentials page**
-- It fails before announcing a URL when the page lacks `#mcpkit-request`.
+- It fails before announcing a URL when the page lacks `#usemcpkit-request`.
 - CLI import errors read "Command failed" or "timed out" differently from Node.
 
 **Clients**
@@ -108,7 +108,7 @@ fails 4076 tool digests.
 - `install` never downloads; TS did when it ran under Node.
 - A scheduler command that times out is an error, not exit 1.
 - gunzip error texts differ.
-- `upgrade` reads the installed version from the last word of `--version`. clap prints `mcpkit 0.9.0`; the TS binaries
+- `upgrade` reads the installed version from the last word of `--version`. clap prints `usemcpkit 0.9.0`; the TS binaries
   print a bare version.
 - After an auto-update, a running runner keeps reporting its old version until a client restarts it, as in TS.
 
@@ -119,24 +119,24 @@ fails 4076 tool digests.
 ## Moving users from the TypeScript binary
 
 - A TS supervisor that is already running restarts whatever binary replaced its own as `serve <names> --worker`. The
-  runner accepts that hidden flag and hands the connection on to `mcpkit-server` on the same stdio.
-- The TS updater replaces only `mcpkit`. When the installed runner finds no `mcpkit-server` next to it, it downloads the
+  runner accepts that hidden flag and hands the connection on to `usemcpkit-server` on the same stdio.
+- The TS updater replaces only `usemcpkit`. When the installed runner finds no `usemcpkit-server` next to it, it downloads the
   server of its own version from npm (`restore_server_binary`) before serving.
 
 ## Release work still open
 
 - `apps/cli/plugins/binaries` still compiles the TS CLI with Bun. Replace it with a `cargo build --release` per target
   (`cargo-zigbuild` or a CI matrix for Linux musl and ARM).
-- Each npm platform package must ship `package/bin/mcpkit[.exe]` and `package/bin/mcpkit-server[.exe]` together.
+- Each npm platform package must ship `package/bin/usemcpkit[.exe]` and `package/bin/usemcpkit-server[.exe]` together.
 - npm already has a TS `0.9.0`, which has no server in it, so the first Rust release must be newer than `0.9.0`.
-- Homebrew and winget packages must ship `mcpkit-server` next to `mcpkit`.
+- Homebrew and winget packages must ship `usemcpkit-server` next to `usemcpkit`.
 - The `usemcpkit` npx wrapper must spawn the platform binary instead of the TS CLI.
 
 ## Testing hazards
 
-- The upgrade schedule is per user, not per `MCPKIT_HOME`: on Windows it is the Task Scheduler task "mcpkit upgrade",
+- The upgrade schedule is per user, not per `USEMCPKIT_HOME`: on Windows it is the Task Scheduler task "usemcpkit upgrade",
   elsewhere a launch agent or crontab line. Running `install`, `uninstall` or `serve` from the installed binary by
-  hand, even with a sandboxed home, creates or deletes the real job. `MCPKIT_AUTO_UPDATE=0` stops it from being created,
+  hand, even with a sandboxed home, creates or deletes the real job. `USEMCPKIT_AUTO_UPDATE=0` stops it from being created,
   not from being removed. The tests only build the scheduler commands and never run them.
 - When you mutation-check a test, restore the file in a way that gives it a new modification time. Cargo otherwise
   keeps the mutated build.

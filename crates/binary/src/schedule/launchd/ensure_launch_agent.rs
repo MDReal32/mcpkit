@@ -7,7 +7,7 @@ use crate::schedule::launchd::unload_launch_agent::unload_launch_agent;
 use crate::schedule::read_text_file::read_text_file;
 use crate::schedule::run_scheduler_command::run_scheduler_command;
 use crate::schedule::upgrade_schedule::UpgradeSchedule;
-use mcpkit_core::env::Env;
+use usemcpkit_core::env::Env;
 
 /// Writes and loads the LaunchAgent; an agent that is already in place is left alone. `true` when it changed.
 pub async fn ensure_launch_agent(schedule: &UpgradeSchedule, env: &Env) -> Result<bool, BinaryError> {

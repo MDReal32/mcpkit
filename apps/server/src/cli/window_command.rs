@@ -4,7 +4,7 @@ pub fn window_command(url: &str) -> i32 {
     match run_form_window(url) {
         Ok(()) => 0,
         Err(error) => {
-            eprintln!("mcpkit: cannot open the form window: {error}");
+            eprintln!("usemcpkit: cannot open the form window: {error}");
             1
         }
     }

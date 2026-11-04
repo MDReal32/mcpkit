@@ -3,9 +3,9 @@ use crate::local::{read_cached_part_text, write_cached_part};
 use crate::registry_context::RegistryContext;
 use crate::registry_error::RegistryError;
 use crate::remote::{Fetch, resolve_registry_link};
-use mcpkit_core::hash::sha256_hex;
-use mcpkit_manifest::registry::{ManifestPart, RegistryServer};
-use mcpkit_manifest::tool::ToolSpec;
+use usemcpkit_core::hash::sha256_hex;
+use usemcpkit_manifest::registry::{ManifestPart, RegistryServer};
+use usemcpkit_manifest::tool::ToolSpec;
 
 /// The cached part when it matches the checksum its shell lists, otherwise a verified download that replaces it.
 pub async fn load_part_tools<F: Fetch>(

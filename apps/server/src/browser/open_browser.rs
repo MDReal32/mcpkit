@@ -11,6 +11,6 @@ pub fn open_browser(url: &str) {
         .stderr(Stdio::null())
         .spawn();
     if let Err(error) = spawned {
-        eprintln!("mcpkit: could not open a browser ({error}), open the URL above manually");
+        eprintln!("usemcpkit: could not open a browser ({error}), open the URL above manually");
     }
 }

@@ -3,7 +3,7 @@ use crate::resolve::find_token_auth::find_token_auth;
 use crate::token_store::read_stored_token;
 use crate::{AuthContext, AuthError, ResolvedAuth};
 use indexmap::IndexMap;
-use mcpkit_manifest::auth::AuthSpec;
+use usemcpkit_manifest::auth::AuthSpec;
 
 /// The server's token from `tokens.json`, refreshed against the OAuth2 entry that issued it.
 pub async fn resolve_stored_auth(

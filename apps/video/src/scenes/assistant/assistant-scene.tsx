@@ -23,7 +23,12 @@ export const AssistantScene = () => (
         color: COLORS.text,
       }}
     >
-      <Words text="Ask. mcpkit opens just the tools it needs." delay={0.05} step={0.04} accentWords={["mcpkit"]} />
+      <Words
+        text="Ask. usemcpkit opens just the tools it needs."
+        delay={0.05}
+        step={0.04}
+        accentWords={["usemcpkit"]}
+      />
     </div>
     <RiseIn delay={0} distance={60} style={{ marginTop: 40 }}>
       <div

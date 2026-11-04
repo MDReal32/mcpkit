@@ -2,10 +2,10 @@ use crate::credentials::FormAnswer;
 use crate::credentials::response::read_answer_values;
 use crate::resolve::resolve_static_auth;
 use crate::{AuthError, AuthResolution};
-use mcpkit_core::env::Env;
-use mcpkit_manifest::Manifest;
 use serde_json::{Map, Value};
 use std::rc::Rc;
+use usemcpkit_core::env::Env;
+use usemcpkit_manifest::Manifest;
 
 /// The credentials typed into the form for the chosen fallback entry, saved once the API accepts them.
 pub fn resolve_form_token(

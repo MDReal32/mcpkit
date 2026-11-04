@@ -2,8 +2,8 @@ use crate::catalog::RegistryCatalog;
 use crate::mcp::consts::TOOL_ID_SEPARATOR;
 use crate::mcp::exposed::load_upstream_tools::load_upstream_tools;
 use crate::mcp::exposed::tool_descriptor::ToolDescriptor;
-use mcpkit_manifest::registry::RegistryServer;
-use mcpkit_registry::Fetch;
+use usemcpkit_manifest::registry::RegistryServer;
+use usemcpkit_registry::Fetch;
 
 /// The tools of one group, or of the whole server when it is not split, with their descriptions and schemas.
 pub async fn load_group_tools<F: Fetch>(

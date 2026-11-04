@@ -16,14 +16,14 @@ mod tests {
 
     #[test]
     fn resolves_relative_and_keeps_absolute_links() {
-        let registry = "https://example.com/mcpkit";
+        let registry = "https://example.com/usemcpkit";
         assert_eq!(
             resolve_registry_link(registry, "git/github.json"),
-            Ok("https://example.com/mcpkit/git/github.json".into())
+            Ok("https://example.com/usemcpkit/git/github.json".into())
         );
         assert_eq!(
-            resolve_registry_link("https://example.com/mcpkit/", "index.json"),
-            Ok("https://example.com/mcpkit/index.json".into())
+            resolve_registry_link("https://example.com/usemcpkit/", "index.json"),
+            Ok("https://example.com/usemcpkit/index.json".into())
         );
         assert_eq!(
             resolve_registry_link(registry, "https://cdn.example.com/a.json"),

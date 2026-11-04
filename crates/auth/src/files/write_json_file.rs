@@ -1,8 +1,8 @@
 use crate::AuthError;
-use mcpkit_core::js::to_js_json_pretty;
 use serde_json::Value;
 use std::path::Path;
 use tokio::io::AsyncWriteExt;
+use usemcpkit_core::js::to_js_json_pretty;
 
 /// Writes `JSON.stringify(value, null, 2)` through a temp file and a rename, so a crash never leaves a half-written
 /// file; on unix the folder is created 0700 and the file 0600.

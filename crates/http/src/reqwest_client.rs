@@ -6,10 +6,10 @@ use crate::http_error::HttpError;
 use crate::http_request::HttpRequest;
 use crate::http_response::HttpResponse;
 use crate::request_body::RequestBody;
-use mcpkit_core::LocalFuture;
-use mcpkit_manifest::tool::HttpMethod;
 use reqwest::multipart::{Form, Part};
 use std::time::Duration;
+use usemcpkit_core::LocalFuture;
+use usemcpkit_manifest::tool::HttpMethod;
 
 /// The network client; redirects are followed, and credentials are dropped on a redirect to another host.
 pub struct ReqwestClient {

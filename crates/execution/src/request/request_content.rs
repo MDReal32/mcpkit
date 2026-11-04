@@ -1,5 +1,5 @@
 use indexmap::IndexMap;
-use mcpkit_http::RequestBody;
+use usemcpkit_http::RequestBody;
 
 /// A request body and the headers that describe it.
 pub struct RequestContent {

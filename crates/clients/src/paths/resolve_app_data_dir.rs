@@ -1,6 +1,6 @@
-use mcpkit_core::env::Env;
-use mcpkit_core::platform::Platform;
 use std::path::{Path, PathBuf};
+use usemcpkit_core::env::Env;
+use usemcpkit_core::platform::Platform;
 
 pub fn resolve_app_data_dir(home_dir: &Path, platform: Platform, env: &Env) -> PathBuf {
     match platform {

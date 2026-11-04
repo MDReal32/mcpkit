@@ -8,7 +8,7 @@ pub const CREDENTIALS_FORM_CANCEL_PATH: &str = "/api/cancel";
 pub const CREDENTIALS_FORM_IMPORT_PATH: &str = "/api/import";
 
 /// Carries the session token from the page URL's fragment on every API call.
-pub const CREDENTIALS_FORM_SESSION_HEADER: &str = "X-Mcpkit-Session";
+pub const CREDENTIALS_FORM_SESSION_HEADER: &str = "X-Usemcpkit-Session";
 
 /// The id of the empty JSON script element the request is injected into.
-pub const CREDENTIALS_REQUEST_ELEMENT_ID: &str = "mcpkit-request";
+pub const CREDENTIALS_REQUEST_ELEMENT_ID: &str = "usemcpkit-request";

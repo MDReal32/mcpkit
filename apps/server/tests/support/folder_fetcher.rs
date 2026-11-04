@@ -1,5 +1,5 @@
-use mcpkit_registry::{Fetch, RegistryError};
 use std::path::PathBuf;
+use usemcpkit_registry::{Fetch, RegistryError};
 
 /// Serves a registry folder as if it were published at `registry_url`.
 pub struct FolderFetcher {

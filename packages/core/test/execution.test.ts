@@ -176,7 +176,7 @@ describe("executeTool", () => {
   });
 
   it("saves a download to the local path instead of returning it", async () => {
-    const dir = await mkdtemp(join(tmpdir(), "mcpkit-"));
+    const dir = await mkdtemp(join(tmpdir(), "usemcpkit-"));
     const path = join(dir, "nested", "out.bin");
     const tool = {
       ...listItemsTool,

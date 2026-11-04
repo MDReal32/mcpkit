@@ -9,7 +9,7 @@ import { createHostCheckingFetch } from "./fixtures/create-host-checking-fetch";
 import { createMemorySecretStore } from "./fixtures/create-memory-secret-store";
 import { demoOAuth } from "./fixtures/demo-oauth";
 
-const readHome = useTempDir("mcpkit-credentials-form-");
+const readHome = useTempDir("usemcpkit-credentials-form-");
 
 const tokenAuth: readonly AuthSpec[] = [{ type: "bearer", env: "DEMO_TOKEN" }];
 
@@ -37,7 +37,7 @@ const createCall = (manifest: Manifest, validToken: string, options: ExecuteOpti
       {},
       {
         ...options,
-        env: { MCPKIT_HOME: readHome(), ...options.env },
+        env: { USEMCPKIT_HOME: readHome(), ...options.env },
         fetchImpl: fetches.hostCheckingFetch,
       },
     );

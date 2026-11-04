@@ -66,7 +66,7 @@ export const Composer = () => {
           }}
         >
           <LogoMark size={18} />
-          mcpkit
+          usemcpkit
         </div>
         <div style={{ marginLeft: "auto" }}>
           <SendButton />

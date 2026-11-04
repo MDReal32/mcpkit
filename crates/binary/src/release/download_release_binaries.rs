@@ -7,9 +7,9 @@ use crate::release::package_release::PackageRelease;
 use crate::release::verify_integrity::verify_integrity;
 use crate::tar::extract_tar_file;
 use indexmap::IndexMap;
-use mcpkit_http::{HttpClient, HttpRequest};
-use mcpkit_manifest::tool::HttpMethod;
 use std::time::Duration;
+use usemcpkit_http::{HttpClient, HttpRequest};
+use usemcpkit_manifest::tool::HttpMethod;
 
 /// Downloads a release tarball, checks it against its published integrity and reads both binaries out of it; nothing
 /// is returned unless both are there.

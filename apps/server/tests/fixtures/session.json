@@ -12,7 +12,7 @@
      }
     },
     "serverInfo": {
-     "name": "mcpkit",
+     "name": "usemcpkit",
      "version": "0.8.4"
     }
    }
@@ -42,7 +42,7 @@
     "tools": [
      {
       "name": "security_bitwarden",
-      "description": "Bitwarden password manager through its own MCP server (github.com/bitwarden/mcp-server), cloned on first use into ~/.mcpkit/repos/security/bitwarden, built there and run locally: vault items, folders, attachments, Send, password and TOTP tools. Needs git, Node.js and npm on PATH, the Bitwarden CLI (`bw`) for the vault tools, and a vault unlocked with its `unlock` tool (a native password dialog; BW_SESSION, BW_CLIENT_ID and BW_CLIENT_SECRET from the client's env are passed along when set). It reads and changes real credentials, so allow only the tools you trust.. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "description": "Bitwarden password manager through its own MCP server (github.com/bitwarden/mcp-server), cloned on first use into ~/.usemcpkit/repos/security/bitwarden, built there and run locally: vault items, folders, attachments, Send, password and TOTP tools. Needs git, Node.js and npm on PATH, the Bitwarden CLI (`bw`) for the vault tools, and a vault unlocked with its `unlock` tool (a native password dialog; BW_SESSION, BW_CLIENT_ID and BW_CLIENT_SECRET from the client's env are passed along when set). It reads and changes real credentials, so allow only the tools you trust.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -53,7 +53,7 @@
      },
      {
       "name": "productivity_clickup",
-      "description": "ClickUp REST API (v2 and v3): tasks, checklists, comments and custom fields, the Workspace hierarchy (spaces, folders, lists, views), time tracking, goals, users and guests, chat, docs, webhooks and audit logs. Tools are named '<group>:<resource>:<action>'. The v2 endpoints call the Workspace id `team_id`; list the Workspaces with hierarchy:workspaces:get_authorized_workspaces.. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "description": "ClickUp REST API (v2 and v3): tasks, checklists, comments and custom fields, the Workspace hierarchy (spaces, folders, lists, views), time tracking, goals, users and guests, chat, docs, webhooks and audit logs. Tools are named '<group>:<resource>:<action>'. The v2 endpoints call the Workspace id `team_id`; list the Workspaces with hierarchy:workspaces:get_authorized_workspaces.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -64,7 +64,7 @@
      },
      {
       "name": "cloud_cloudflare",
-      "description": "The Cloudflare API through Cloudflare's own remote MCP server (github.com/cloudflare/mcp, mcp.cloudflare.com), in code mode: search the OpenAPI spec and run API calls from JavaScript, so every product (Workers, KV, R2, D1, Pages, DNS, firewall, load balancers, Access and more) is reachable through a few tools, plus Cloudflare documentation search and whoami. `execute` can change or delete anything the token allows, so give the token only the permissions you want the AI to have.. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "description": "The Cloudflare API through Cloudflare's own remote MCP server (github.com/cloudflare/mcp, mcp.cloudflare.com), in code mode: search the OpenAPI spec and run API calls from JavaScript, so every product (Workers, KV, R2, D1, Pages, DNS, firewall, load balancers, Access and more) is reachable through a few tools, plus Cloudflare documentation search and whoami. `execute` can change or delete anything the token allows, so give the token only the permissions you want the AI to have.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -75,7 +75,7 @@
      },
      {
       "name": "atlassian_confluence",
-      "description": "Confluence REST API for Cloud and Data Center. Tools are named '<group>:<resource>:<action>': group cloud is Cloud REST v2 (/wiki/api/v2), cloud_v1 is Cloud REST v1 (/wiki/rest/api) and datacenter is Data Center / Server REST (/rest/api); call the group that matches the configured host.. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "description": "Confluence REST API for Cloud and Data Center. Tools are named '<group>:<resource>:<action>': group cloud is Cloud REST v2 (/wiki/api/v2), cloud_v1 is Cloud REST v1 (/wiki/rest/api) and datacenter is Data Center / Server REST (/rest/api); call the group that matches the configured host.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -86,7 +86,7 @@
      },
      {
       "name": "communication_discord",
-      "description": "Discord HTTP API v10, called as a bot: channels, messages, reactions, threads and pins, guilds (members, roles, bans, emojis, stickers, scheduled events, auto moderation, audit logs), users and DMs, application commands, webhooks, invites and lobbies. Tools are named '<group>:<resource>:<action>'. Ids are snowflakes passed as strings; list the bot's guilds with users:guilds:list_my_guilds.. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "description": "Discord HTTP API v10, called as a bot: channels, messages, reactions, threads and pins, guilds (members, roles, bans, emojis, stickers, scheduled events, auto moderation, audit logs), users and DMs, application commands, webhooks, invites and lobbies. Tools are named '<group>:<resource>:<action>'. Ids are snowflakes passed as strings; list the bot's guilds with users:guilds:list_my_guilds.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -97,7 +97,7 @@
      },
      {
       "name": "git_github",
-      "description": "GitHub REST API: repositories, issues and pull requests, Actions, security, organizations, users, apps, Copilot and meta endpoints. Tools are named '<group>:<resource>:<action>'.. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "description": "GitHub REST API: repositories, issues and pull requests, Actions, security, organizations, users, apps, Copilot and meta endpoints. Tools are named '<group>:<resource>:<action>'.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -108,7 +108,7 @@
      },
      {
       "name": "git_gitlab",
-      "description": "GitLab REST API (gitlab.com and self-managed): projects, issues and merge requests, CI/CD, packages, security, groups, users, administration, AI and meta endpoints. Tools are named '<group>:<resource>:<action>'.. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "description": "GitLab REST API (gitlab.com and self-managed): projects, issues and merge requests, CI/CD, packages, security, groups, users, administration, AI and meta endpoints. Tools are named '<group>:<resource>:<action>'.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -119,7 +119,7 @@
      },
      {
       "name": "atlassian_jira",
-      "description": "Jira REST API (Cloud and Data Center): issues, projects, users, workflows, fields, dashboards and filters, administration, apps and Jira Software boards and sprints. Tools are named '<group>:<resource>:<action>' and use the /rest/api/2 endpoints (Jira Software: /rest/agile/1.0), so endpoints that exist only on Cloud fail on Data Center. Issue search picks the endpoint of the deployment.. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "description": "Jira REST API (Cloud and Data Center): issues, projects, users, workflows, fields, dashboards and filters, administration, apps and Jira Software boards and sprints. Tools are named '<group>:<resource>:<action>' and use the /rest/api/2 endpoints (Jira Software: /rest/agile/1.0), so endpoints that exist only on Cloud fail on Data Center. Issue search picks the endpoint of the deployment.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -130,7 +130,7 @@
      },
      {
       "name": "communication_medium",
-      "description": "Medium's API (api.medium.com/v1), which Medium has archived and no longer supports: it needs an integration token you already have, since Medium stopped issuing new ones. Get the authenticated user (account:me:get_me), list their publications and a publication's contributors, publish posts as HTML or Markdown to the profile or a publication (as a draft, unlisted or public), and upload an image. The API cannot read, edit or delete posts. Tools are named '<group>:<resource>:<action>'. `posts:posts:create_*` publishes under the token owner's name, so prefer publishStatus draft.. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "description": "Medium's API (api.medium.com/v1), which Medium has archived and no longer supports: it needs an integration token you already have, since Medium stopped issuing new ones. Get the authenticated user (account:me:get_me), list their publications and a publication's contributors, publish posts as HTML or Markdown to the profile or a publication (as a draft, unlisted or public), and upload an image. The API cannot read, edit or delete posts. Tools are named '<group>:<resource>:<action>'. `posts:posts:create_*` publishes under the token owner's name, so prefer publishStatus draft.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -141,7 +141,7 @@
      },
      {
       "name": "communication_reddit",
-      "description": "Reddit's OAuth API (read-only): a subreddit's posts, a post with its comment tree, search for posts and subreddits, subreddit info and rules, user profiles and their posts and comments. Tools are named '<group>:<resource>:<action>'. Posts and comments are identified by fullnames (t3_<id>, t1_<id>); listings page with `after` set to the last item's `name`.. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "description": "Reddit's OAuth API (read-only): a subreddit's posts, a post with its comment tree, search for posts and subreddits, subreddit info and rules, user profiles and their posts and comments. Tools are named '<group>:<resource>:<action>'. Posts and comments are identified by fullnames (t3_<id>, t1_<id>); listings page with `after` set to the last item's `name`.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -152,7 +152,7 @@
      },
      {
       "name": "communication_teams",
-      "description": "Microsoft Teams through the community MCP server by Inditex (github.com/InditexTech/mcp-teams-server), cloned on first use into ~/.mcpkit/repos/communication/teams, set up with uv and run locally on a Python that uv installs for it (the system Python is never used). It works in the one team and channel it is configured for: start a thread, reply to it, read a thread or the channel's threads, and look up team members to mention. It signs in as a Microsoft Entra application (a bot) and needs git and uv on PATH. The first call opens a form for TEAMS_APP_ID, TEAMS_APP_PASSWORD, TEAMS_APP_TENANT_ID, TEAM_ID and TEAMS_CHANNEL_ID (or set them in the client's env for mcpkit). It posts as the bot into a real channel, so allow the write tools only when you want that.. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "description": "Microsoft Teams through the community MCP server by Inditex (github.com/InditexTech/mcp-teams-server), cloned on first use into ~/.usemcpkit/repos/communication/teams, set up with uv and run locally on a Python that uv installs for it (the system Python is never used). It works in the one team and channel it is configured for: start a thread, reply to it, read a thread or the channel's threads, and look up team members to mention. It signs in as a Microsoft Entra application (a bot) and needs git and uv on PATH. The first call opens a form for TEAMS_APP_ID, TEAMS_APP_PASSWORD, TEAMS_APP_TENANT_ID, TEAM_ID and TEAMS_CHANNEL_ID (or set them in the client's env for usemcpkit). It posts as the bot into a real channel, so allow the write tools only when you want that.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -292,7 +292,7 @@
     "content": [
      {
       "type": "text",
-      "text": "communication:medium:posts: 2 tools are now in the tool list. Call them by these names:\n- communication_medium_posts_create_post\n- communication_medium_posts_create_publication_post"
+      "text": "communication:medium:posts: 2 tools are now in the tool list. Call them by these names:\n- communication_medium_posts_create_post\n- communication_medium_posts_create_18965c"
      }
     ]
    }
@@ -308,7 +308,7 @@
     "content": [
      {
       "type": "text",
-      "text": "communication:medium:publications: 2 tools are now in the tool list. Call them by these names:\n- communication_medium_publications_d6c262\n- communication_medium_publications_list_user_420b57"
+      "text": "communication:medium:publications: 2 tools are now in the tool list. Call them by these names:\n- communication_medium_publications_d6c262\n- communication_medium_publications_list_420b57"
      }
     ]
    }
@@ -356,7 +356,7 @@
     "content": [
      {
       "type": "text",
-      "text": "communication:reddit:subreddits: 3 tools are now in the tool list. Call them by these names:\n- communication_reddit_subreddits_rules_get_514325\n- communication_reddit_subreddits_get_subreddit\n- communication_reddit_subreddits_search_subreddits"
+      "text": "communication:reddit:subreddits: 3 tools are now in the tool list. Call them by these names:\n- communication_reddit_subreddits_rules_514325\n- communication_reddit_subreddits_get_subreddit\n- communication_reddit_subreddits_search_3423f9"
      }
     ]
    }
@@ -404,7 +404,7 @@
     "content": [
      {
       "type": "text",
-      "text": "productivity:clickup:docs: 8 tools are now in the tool list. Call them by these names:\n- productivity_clickup_docs_create_a_doc\n- productivity_clickup_docs_create_a_page\n- productivity_clickup_docs_edit_a_page\n- productivity_clickup_docs_fetch_a_doc\n- productivity_clickup_docs_fetch_pagelisting_02c698\n- productivity_clickup_docs_fetch_pages_78efc5\n- productivity_clickup_docs_get_page\n- productivity_clickup_docs_search_for_docs"
+      "text": "productivity:clickup:docs: 8 tools are now in the tool list. Call them by these names:\n- productivity_clickup_docs_create_a_doc\n- productivity_clickup_docs_create_a_page\n- productivity_clickup_docs_edit_a_page\n- productivity_clickup_docs_fetch_a_doc\n- productivity_clickup_docs_fetch_02c698\n- productivity_clickup_docs_fetch_pages_78efc5\n- productivity_clickup_docs_get_page\n- productivity_clickup_docs_search_for_docs"
      }
     ]
    }
@@ -436,7 +436,7 @@
     "content": [
      {
       "type": "text",
-      "text": "atlassian:jira:administration: 20 tools are now in the tool list. Call them by these names:\n- atlassian_jira_administration_announcement_15b8d4\n- atlassian_jira_administration_announcement_86b521\n- atlassian_jira_administration_audit_records_9de5d7\n- atlassian_jira_administration_issue_panels_473d2d\n- atlassian_jira_administration_issue_panels_85faec\n- atlassian_jira_administration_jira_settings_25e198\n- atlassian_jira_administration_jira_settings_1d05ce\n- atlassian_jira_administration_jira_settings_662f32\n- atlassian_jira_administration_jira_settings_2b70a3\n- atlassian_jira_administration_license_a0b242\n- atlassian_jira_administration_license_43780e\n- atlassian_jira_administration_license_6a2a28\n- atlassian_jira_administration_policies_add_a3a960\n- atlassian_jira_administration_policies_get_379315\n- atlassian_jira_administration_policies_get_4654c7\n- atlassian_jira_administration_policies_list_576184\n- atlassian_jira_administration_policies_0d564a\n- atlassian_jira_administration_policies_set_018146\n- atlassian_jira_administration_policies_2daf99\n- atlassian_jira_administration_server_info_9af8ea"
+      "text": "atlassian:jira:administration: 20 tools are now in the tool list. Call them by these names:\n- atlassian_jira_administration_15b8d4\n- atlassian_jira_administration_86b521\n- atlassian_jira_administration_audit_9de5d7\n- atlassian_jira_administration_issue_473d2d\n- atlassian_jira_administration_issue_85faec\n- atlassian_jira_administration_jira_25e198\n- atlassian_jira_administration_jira_1d05ce\n- atlassian_jira_administration_jira_662f32\n- atlassian_jira_administration_jira_2b70a3\n- atlassian_jira_administration_license_a0b242\n- atlassian_jira_administration_license_43780e\n- atlassian_jira_administration_license_6a2a28\n- atlassian_jira_administration_policies_a3a960\n- atlassian_jira_administration_policies_379315\n- atlassian_jira_administration_policies_4654c7\n- atlassian_jira_administration_policies_576184\n- atlassian_jira_administration_policies_0d564a\n- atlassian_jira_administration_policies_018146\n- atlassian_jira_administration_policies_2daf99\n- atlassian_jira_administration_server_9af8ea"
      }
     ]
    }
@@ -468,7 +468,7 @@
     "content": [
      {
       "type": "text",
-      "text": "git:github:meta: 16 tools are now in the tool list. Call them by these names:\n- git_github_meta_codes_of_conduct_get_all_b62877\n- git_github_meta_codes_of_conduct_get_conduct_code\n- git_github_meta_emojis_get\n- git_github_meta_gitignore_get_all_templates\n- git_github_meta_gitignore_get_template\n- git_github_meta_licenses_get\n- git_github_meta_licenses_get_all_commonly_used\n- git_github_meta_licenses_get_for_repo\n- git_github_meta_markdown_render\n- git_github_meta_markdown_render_raw\n- git_github_meta_get\n- git_github_meta_get_all_versions\n- git_github_meta_get_octocat\n- git_github_meta_get_zen\n- git_github_meta_root\n- git_github_meta_rate_limit_get"
+      "text": "git:github:meta: 16 tools are now in the tool list. Call them by these names:\n- git_github_meta_codes_of_conduct_get_all_b62877\n- git_github_meta_codes_of_conduct_get_89e32d\n- git_github_meta_emojis_get\n- git_github_meta_gitignore_get_all_templates\n- git_github_meta_gitignore_get_template\n- git_github_meta_licenses_get\n- git_github_meta_licenses_get_all_commonly_used\n- git_github_meta_licenses_get_for_repo\n- git_github_meta_markdown_render\n- git_github_meta_markdown_render_raw\n- git_github_meta_get\n- git_github_meta_get_all_versions\n- git_github_meta_get_octocat\n- git_github_meta_get_zen\n- git_github_meta_root\n- git_github_meta_rate_limit_get"
      }
     ]
    }
@@ -484,7 +484,7 @@
     "tools": [
      {
       "name": "security_bitwarden",
-      "description": "Bitwarden password manager through its own MCP server (github.com/bitwarden/mcp-server), cloned on first use into ~/.mcpkit/repos/security/bitwarden, built there and run locally: vault items, folders, attachments, Send, password and TOTP tools. Needs git, Node.js and npm on PATH, the Bitwarden CLI (`bw`) for the vault tools, and a vault unlocked with its `unlock` tool (a native password dialog; BW_SESSION, BW_CLIENT_ID and BW_CLIENT_SECRET from the client's env are passed along when set). It reads and changes real credentials, so allow only the tools you trust.. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "description": "Bitwarden password manager through its own MCP server (github.com/bitwarden/mcp-server), cloned on first use into ~/.usemcpkit/repos/security/bitwarden, built there and run locally: vault items, folders, attachments, Send, password and TOTP tools. Needs git, Node.js and npm on PATH, the Bitwarden CLI (`bw`) for the vault tools, and a vault unlocked with its `unlock` tool (a native password dialog; BW_SESSION, BW_CLIENT_ID and BW_CLIENT_SECRET from the client's env are passed along when set). It reads and changes real credentials, so allow only the tools you trust.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -495,7 +495,7 @@
      },
      {
       "name": "productivity_clickup",
-      "description": "ClickUp REST API (v2 and v3): tasks, checklists, comments and custom fields, the Workspace hierarchy (spaces, folders, lists, views), time tracking, goals, users and guests, chat, docs, webhooks and audit logs. Tools are named '<group>:<resource>:<action>'. The v2 endpoints call the Workspace id `team_id`; list the Workspaces with hierarchy:workspaces:get_authorized_workspaces.. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "description": "ClickUp REST API (v2 and v3): tasks, checklists, comments and custom fields, the Workspace hierarchy (spaces, folders, lists, views), time tracking, goals, users and guests, chat, docs, webhooks and audit logs. Tools are named '<group>:<resource>:<action>'. The v2 endpoints call the Workspace id `team_id`; list the Workspaces with hierarchy:workspaces:get_authorized_workspaces.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -506,7 +506,7 @@
      },
      {
       "name": "productivity_clickup_tasks",
-      "description": "Group \"tasks\" of productivity:clickup. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"tasks\" of productivity:clickup. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -517,7 +517,7 @@
      },
      {
       "name": "productivity_clickup_hierarchy",
-      "description": "Group \"hierarchy\" of productivity:clickup. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"hierarchy\" of productivity:clickup. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -528,7 +528,7 @@
      },
      {
       "name": "productivity_clickup_time",
-      "description": "Group \"time\" of productivity:clickup. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"time\" of productivity:clickup. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -539,7 +539,7 @@
      },
      {
       "name": "productivity_clickup_goals",
-      "description": "Group \"goals\" of productivity:clickup. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"goals\" of productivity:clickup. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -819,7 +819,7 @@
      },
      {
       "name": "productivity_clickup_users",
-      "description": "Group \"users\" of productivity:clickup. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"users\" of productivity:clickup. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -830,7 +830,7 @@
      },
      {
       "name": "productivity_clickup_chat",
-      "description": "Group \"chat\" of productivity:clickup. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"chat\" of productivity:clickup. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -841,7 +841,7 @@
      },
      {
       "name": "productivity_clickup_docs",
-      "description": "Group \"docs\" of productivity:clickup. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"docs\" of productivity:clickup. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -1037,7 +1037,7 @@
       }
      },
      {
-      "name": "productivity_clickup_docs_fetch_pagelisting_02c698",
+      "name": "productivity_clickup_docs_fetch_02c698",
       "description": "Fetch PageListing for a Doc. View the PageListing for a Doc.",
       "inputSchema": {
        "type": "object",
@@ -1213,7 +1213,7 @@
      },
      {
       "name": "productivity_clickup_admin",
-      "description": "Group \"admin\" of productivity:clickup. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"admin\" of productivity:clickup. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -1224,7 +1224,7 @@
      },
      {
       "name": "cloud_cloudflare",
-      "description": "The Cloudflare API through Cloudflare's own remote MCP server (github.com/cloudflare/mcp, mcp.cloudflare.com), in code mode: search the OpenAPI spec and run API calls from JavaScript, so every product (Workers, KV, R2, D1, Pages, DNS, firewall, load balancers, Access and more) is reachable through a few tools, plus Cloudflare documentation search and whoami. `execute` can change or delete anything the token allows, so give the token only the permissions you want the AI to have.. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "description": "The Cloudflare API through Cloudflare's own remote MCP server (github.com/cloudflare/mcp, mcp.cloudflare.com), in code mode: search the OpenAPI spec and run API calls from JavaScript, so every product (Workers, KV, R2, D1, Pages, DNS, firewall, load balancers, Access and more) is reachable through a few tools, plus Cloudflare documentation search and whoami. `execute` can change or delete anything the token allows, so give the token only the permissions you want the AI to have.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -1235,7 +1235,7 @@
      },
      {
       "name": "atlassian_confluence",
-      "description": "Confluence REST API for Cloud and Data Center. Tools are named '<group>:<resource>:<action>': group cloud is Cloud REST v2 (/wiki/api/v2), cloud_v1 is Cloud REST v1 (/wiki/rest/api) and datacenter is Data Center / Server REST (/rest/api); call the group that matches the configured host.. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "description": "Confluence REST API for Cloud and Data Center. Tools are named '<group>:<resource>:<action>': group cloud is Cloud REST v2 (/wiki/api/v2), cloud_v1 is Cloud REST v1 (/wiki/rest/api) and datacenter is Data Center / Server REST (/rest/api); call the group that matches the configured host.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -1246,7 +1246,7 @@
      },
      {
       "name": "communication_discord",
-      "description": "Discord HTTP API v10, called as a bot: channels, messages, reactions, threads and pins, guilds (members, roles, bans, emojis, stickers, scheduled events, auto moderation, audit logs), users and DMs, application commands, webhooks, invites and lobbies. Tools are named '<group>:<resource>:<action>'. Ids are snowflakes passed as strings; list the bot's guilds with users:guilds:list_my_guilds.. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "description": "Discord HTTP API v10, called as a bot: channels, messages, reactions, threads and pins, guilds (members, roles, bans, emojis, stickers, scheduled events, auto moderation, audit logs), users and DMs, application commands, webhooks, invites and lobbies. Tools are named '<group>:<resource>:<action>'. Ids are snowflakes passed as strings; list the bot's guilds with users:guilds:list_my_guilds.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -1257,7 +1257,7 @@
      },
      {
       "name": "git_github",
-      "description": "GitHub REST API: repositories, issues and pull requests, Actions, security, organizations, users, apps, Copilot and meta endpoints. Tools are named '<group>:<resource>:<action>'.. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "description": "GitHub REST API: repositories, issues and pull requests, Actions, security, organizations, users, apps, Copilot and meta endpoints. Tools are named '<group>:<resource>:<action>'.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -1268,7 +1268,7 @@
      },
      {
       "name": "git_github_repos",
-      "description": "Group \"repos\" of git:github. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"repos\" of git:github. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -1279,7 +1279,7 @@
      },
      {
       "name": "git_github_issues",
-      "description": "Group \"issues\" of git:github. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"issues\" of git:github. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -1290,7 +1290,7 @@
      },
      {
       "name": "git_github_actions",
-      "description": "Group \"actions\" of git:github. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"actions\" of git:github. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -1301,7 +1301,7 @@
      },
      {
       "name": "git_github_security",
-      "description": "Group \"security\" of git:github. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"security\" of git:github. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -1312,7 +1312,7 @@
      },
      {
       "name": "git_github_orgs",
-      "description": "Group \"orgs\" of git:github. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"orgs\" of git:github. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -1323,7 +1323,7 @@
      },
      {
       "name": "git_github_users",
-      "description": "Group \"users\" of git:github. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"users\" of git:github. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -1334,7 +1334,7 @@
      },
      {
       "name": "git_github_apps",
-      "description": "Group \"apps\" of git:github. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"apps\" of git:github. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -1345,7 +1345,7 @@
      },
      {
       "name": "git_github_copilot",
-      "description": "Group \"copilot\" of git:github. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"copilot\" of git:github. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -1356,7 +1356,7 @@
      },
      {
       "name": "git_github_meta",
-      "description": "Group \"meta\" of git:github. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"meta\" of git:github. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -1377,7 +1377,7 @@
       }
      },
      {
-      "name": "git_github_meta_codes_of_conduct_get_conduct_code",
+      "name": "git_github_meta_codes_of_conduct_get_89e32d",
       "description": "Get a code of conduct. Returns information about the specified GitHub code of conduct.",
       "inputSchema": {
        "type": "object",
@@ -1632,7 +1632,7 @@
      },
      {
       "name": "git_gitlab",
-      "description": "GitLab REST API (gitlab.com and self-managed): projects, issues and merge requests, CI/CD, packages, security, groups, users, administration, AI and meta endpoints. Tools are named '<group>:<resource>:<action>'.. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "description": "GitLab REST API (gitlab.com and self-managed): projects, issues and merge requests, CI/CD, packages, security, groups, users, administration, AI and meta endpoints. Tools are named '<group>:<resource>:<action>'.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -1643,7 +1643,7 @@
      },
      {
       "name": "atlassian_jira",
-      "description": "Jira REST API (Cloud and Data Center): issues, projects, users, workflows, fields, dashboards and filters, administration, apps and Jira Software boards and sprints. Tools are named '<group>:<resource>:<action>' and use the /rest/api/2 endpoints (Jira Software: /rest/agile/1.0), so endpoints that exist only on Cloud fail on Data Center. Issue search picks the endpoint of the deployment.. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "description": "Jira REST API (Cloud and Data Center): issues, projects, users, workflows, fields, dashboards and filters, administration, apps and Jira Software boards and sprints. Tools are named '<group>:<resource>:<action>' and use the /rest/api/2 endpoints (Jira Software: /rest/agile/1.0), so endpoints that exist only on Cloud fail on Data Center. Issue search picks the endpoint of the deployment.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -1654,7 +1654,7 @@
      },
      {
       "name": "atlassian_jira_issues",
-      "description": "Group \"issues\" of atlassian:jira. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"issues\" of atlassian:jira. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -1665,7 +1665,7 @@
      },
      {
       "name": "atlassian_jira_projects",
-      "description": "Group \"projects\" of atlassian:jira. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"projects\" of atlassian:jira. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -1676,7 +1676,7 @@
      },
      {
       "name": "atlassian_jira_users",
-      "description": "Group \"users\" of atlassian:jira. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"users\" of atlassian:jira. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -1687,7 +1687,7 @@
      },
      {
       "name": "atlassian_jira_workflows",
-      "description": "Group \"workflows\" of atlassian:jira. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"workflows\" of atlassian:jira. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -1698,7 +1698,7 @@
      },
      {
       "name": "atlassian_jira_fields",
-      "description": "Group \"fields\" of atlassian:jira. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"fields\" of atlassian:jira. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -1709,7 +1709,7 @@
      },
      {
       "name": "atlassian_jira_collaboration",
-      "description": "Group \"collaboration\" of atlassian:jira. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"collaboration\" of atlassian:jira. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -1720,7 +1720,7 @@
      },
      {
       "name": "atlassian_jira_administration",
-      "description": "Group \"administration\" of atlassian:jira. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"administration\" of atlassian:jira. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -1730,7 +1730,7 @@
       }
      },
      {
-      "name": "atlassian_jira_administration_announcement_15b8d4",
+      "name": "atlassian_jira_administration_15b8d4",
       "description": "Get announcement banner configuration. Returns the current announcement banner configuration.",
       "inputSchema": {
        "type": "object",
@@ -1741,7 +1741,7 @@
       }
      },
      {
-      "name": "atlassian_jira_administration_announcement_86b521",
+      "name": "atlassian_jira_administration_86b521",
       "description": "Update announcement banner configuration. Updates the announcement banner configuration.",
       "inputSchema": {
        "type": "object",
@@ -1769,7 +1769,7 @@
       }
      },
      {
-      "name": "atlassian_jira_administration_audit_records_9de5d7",
+      "name": "atlassian_jira_administration_audit_9de5d7",
       "description": "Get audit records. Returns a list of audit records. The list can be filtered to include items:",
       "inputSchema": {
        "type": "object",
@@ -1803,7 +1803,7 @@
       }
      },
      {
-      "name": "atlassian_jira_administration_issue_panels_473d2d",
+      "name": "atlassian_jira_administration_issue_473d2d",
       "description": "Bulk pin or unpin issue panel to projects. Bulk pin or unpin an issue panel (added by a Forge app) to or from multiple projects.",
       "inputSchema": {
        "type": "object",
@@ -1846,7 +1846,7 @@
       }
      },
      {
-      "name": "atlassian_jira_administration_issue_panels_85faec",
+      "name": "atlassian_jira_administration_issue_85faec",
       "description": "Get issue panel pin status for projects. Get the pin status of an issue panel (added by a Forge app) for multiple projects.",
       "inputSchema": {
        "type": "object",
@@ -1874,7 +1874,7 @@
       }
      },
      {
-      "name": "atlassian_jira_administration_jira_settings_25e198",
+      "name": "atlassian_jira_administration_jira_25e198",
       "description": "Get advanced settings. Returns the application properties that are accessible on the *Advanced Settings* page. To navigate to the *Advanced Settings* page in Jira, choose the Jira icon > **Jira settings** > **System**, **General Configuration** and then click **Advanced Settings** (in the upper right).",
       "inputSchema": {
        "type": "object",
@@ -1885,7 +1885,7 @@
       }
      },
      {
-      "name": "atlassian_jira_administration_jira_settings_1d05ce",
+      "name": "atlassian_jira_administration_jira_1d05ce",
       "description": "Get application property. Returns all application properties or an application property.",
       "inputSchema": {
        "type": "object",
@@ -1909,7 +1909,7 @@
       }
      },
      {
-      "name": "atlassian_jira_administration_jira_settings_662f32",
+      "name": "atlassian_jira_administration_jira_662f32",
       "description": "Get global settings. Returns the global settings in Jira. These settings determine whether optional features (for example, subtasks, time tracking, and others) are enabled. If time tracking is enabled, this operation also returns the time tracking configuration.",
       "inputSchema": {
        "type": "object",
@@ -1920,7 +1920,7 @@
       }
      },
      {
-      "name": "atlassian_jira_administration_jira_settings_2b70a3",
+      "name": "atlassian_jira_administration_jira_2b70a3",
       "description": "Set application property. Changes the value of an application property. For example, you can change the value of the `jira.clone.prefix` from its default value of *CLONE -* to *Clone -* if you prefer sentence case capitalization. Editable properties are described below along with their default values.",
       "inputSchema": {
        "type": "object",
@@ -1994,7 +1994,7 @@
       }
      },
      {
-      "name": "atlassian_jira_administration_policies_add_a3a960",
+      "name": "atlassian_jira_administration_policies_a3a960",
       "description": "Apply a policy to projects. Adds a policy to a set of projects. Handles partial results: each project is processed independently, and failures on individual projects do not prevent the operation from proceeding on the remaining projects.",
       "inputSchema": {
        "type": "object",
@@ -2019,7 +2019,7 @@
       }
      },
      {
-      "name": "atlassian_jira_administration_policies_get_379315",
+      "name": "atlassian_jira_administration_policies_379315",
       "description": "Get project policy state. Returns the policies applied to a project.",
       "inputSchema": {
        "type": "object",
@@ -2038,7 +2038,7 @@
       }
      },
      {
-      "name": "atlassian_jira_administration_policies_get_4654c7",
+      "name": "atlassian_jira_administration_policies_4654c7",
       "description": "Get project policy rules. Returns the configuration of the queried rule type IDs for a given project.",
       "inputSchema": {
        "type": "object",
@@ -2061,7 +2061,7 @@
       }
      },
      {
-      "name": "atlassian_jira_administration_policies_list_576184",
+      "name": "atlassian_jira_administration_policies_576184",
       "description": "Get all policies. Returns a paginated summary of all known policies, including their names, descriptions, and which projects each policy is assigned to.",
       "inputSchema": {
        "type": "object",
@@ -2109,7 +2109,7 @@
       }
      },
      {
-      "name": "atlassian_jira_administration_policies_set_018146",
+      "name": "atlassian_jira_administration_policies_018146",
       "description": "Set the policies applied to a project. Sets the complete set of policies on a project (full replacement).",
       "inputSchema": {
        "type": "object",
@@ -2159,7 +2159,7 @@
       }
      },
      {
-      "name": "atlassian_jira_administration_server_info_9af8ea",
+      "name": "atlassian_jira_administration_server_9af8ea",
       "description": "Get Jira instance info. Returns information about the Jira instance.",
       "inputSchema": {
        "type": "object",
@@ -2171,7 +2171,7 @@
      },
      {
       "name": "atlassian_jira_apps",
-      "description": "Group \"apps\" of atlassian:jira. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"apps\" of atlassian:jira. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -2182,7 +2182,7 @@
      },
      {
       "name": "atlassian_jira_software",
-      "description": "Group \"software\" of atlassian:jira. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"software\" of atlassian:jira. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -2193,7 +2193,7 @@
      },
      {
       "name": "communication_medium",
-      "description": "Medium's API (api.medium.com/v1), which Medium has archived and no longer supports: it needs an integration token you already have, since Medium stopped issuing new ones. Get the authenticated user (account:me:get_me), list their publications and a publication's contributors, publish posts as HTML or Markdown to the profile or a publication (as a draft, unlisted or public), and upload an image. The API cannot read, edit or delete posts. Tools are named '<group>:<resource>:<action>'. `posts:posts:create_*` publishes under the token owner's name, so prefer publishStatus draft.. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "description": "Medium's API (api.medium.com/v1), which Medium has archived and no longer supports: it needs an integration token you already have, since Medium stopped issuing new ones. Get the authenticated user (account:me:get_me), list their publications and a publication's contributors, publish posts as HTML or Markdown to the profile or a publication (as a draft, unlisted or public), and upload an image. The API cannot read, edit or delete posts. Tools are named '<group>:<resource>:<action>'. `posts:posts:create_*` publishes under the token owner's name, so prefer publishStatus draft.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -2204,7 +2204,7 @@
      },
      {
       "name": "communication_medium_account",
-      "description": "Group \"account\" of communication:medium. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"account\" of communication:medium. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -2226,7 +2226,7 @@
      },
      {
       "name": "communication_medium_publications",
-      "description": "Group \"publications\" of communication:medium. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"publications\" of communication:medium. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -2255,7 +2255,7 @@
       }
      },
      {
-      "name": "communication_medium_publications_list_user_420b57",
+      "name": "communication_medium_publications_list_420b57",
       "description": "List the publications a user can contribute to (as editor or writer). Only the authenticated user's id is accepted.",
       "inputSchema": {
        "type": "object",
@@ -2275,7 +2275,7 @@
      },
      {
       "name": "communication_medium_posts",
-      "description": "Group \"posts\" of communication:medium. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"posts\" of communication:medium. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -2362,7 +2362,7 @@
       }
      },
      {
-      "name": "communication_medium_posts_create_publication_post",
+      "name": "communication_medium_posts_create_18965c",
       "description": "Publish a post under a publication. The user must be an editor or writer of the publication; a writer's post may wait for an editor. Use publishStatus draft to keep it private.",
       "inputSchema": {
        "type": "object",
@@ -2440,7 +2440,7 @@
      },
      {
       "name": "communication_medium_images",
-      "description": "Group \"images\" of communication:medium. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"images\" of communication:medium. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -2470,7 +2470,7 @@
      },
      {
       "name": "communication_reddit",
-      "description": "Reddit's OAuth API (read-only): a subreddit's posts, a post with its comment tree, search for posts and subreddits, subreddit info and rules, user profiles and their posts and comments. Tools are named '<group>:<resource>:<action>'. Posts and comments are identified by fullnames (t3_<id>, t1_<id>); listings page with `after` set to the last item's `name`.. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "description": "Reddit's OAuth API (read-only): a subreddit's posts, a post with its comment tree, search for posts and subreddits, subreddit info and rules, user profiles and their posts and comments. Tools are named '<group>:<resource>:<action>'. Posts and comments are identified by fullnames (t3_<id>, t1_<id>); listings page with `after` set to the last item's `name`.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -2481,7 +2481,7 @@
      },
      {
       "name": "communication_reddit_posts",
-      "description": "Group \"posts\" of communication:reddit. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"posts\" of communication:reddit. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -2665,7 +2665,7 @@
      },
      {
       "name": "communication_reddit_subreddits",
-      "description": "Group \"subreddits\" of communication:reddit. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"subreddits\" of communication:reddit. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -2675,7 +2675,7 @@
       }
      },
      {
-      "name": "communication_reddit_subreddits_rules_get_514325",
+      "name": "communication_reddit_subreddits_rules_514325",
       "description": "Get a subreddit's posting rules",
       "inputSchema": {
        "type": "object",
@@ -2713,7 +2713,7 @@
       }
      },
      {
-      "name": "communication_reddit_subreddits_search_subreddits",
+      "name": "communication_reddit_subreddits_search_3423f9",
       "description": "Find subreddits by name and description",
       "inputSchema": {
        "type": "object",
@@ -2752,7 +2752,7 @@
      },
      {
       "name": "communication_reddit_users",
-      "description": "Group \"users\" of communication:reddit. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"users\" of communication:reddit. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -2763,7 +2763,7 @@
      },
      {
       "name": "communication_reddit_account",
-      "description": "Group \"account\" of communication:reddit. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "description": "Group \"account\" of communication:reddit. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -2774,7 +2774,7 @@
      },
      {
       "name": "communication_teams",
-      "description": "Microsoft Teams through the community MCP server by Inditex (github.com/InditexTech/mcp-teams-server), cloned on first use into ~/.mcpkit/repos/communication/teams, set up with uv and run locally on a Python that uv installs for it (the system Python is never used). It works in the one team and channel it is configured for: start a thread, reply to it, read a thread or the channel's threads, and look up team members to mention. It signs in as a Microsoft Entra application (a bot) and needs git and uv on PATH. The first call opens a form for TEAMS_APP_ID, TEAMS_APP_PASSWORD, TEAMS_APP_TENANT_ID, TEAM_ID and TEAMS_CHANNEL_ID (or set them in the client's env for mcpkit). It posts as the bot into a real channel, so allow the write tools only when you want that.. This is a SECTION of mcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "description": "Microsoft Teams through the community MCP server by Inditex (github.com/InditexTech/mcp-teams-server), cloned on first use into ~/.usemcpkit/repos/communication/teams, set up with uv and run locally on a Python that uv installs for it (the system Python is never used). It works in the one team and channel it is configured for: start a thread, reply to it, read a thread or the channel's threads, and look up team members to mention. It signs in as a Microsoft Entra application (a bot) and needs git and uv on PATH. The first call opens a form for TEAMS_APP_ID, TEAMS_APP_PASSWORD, TEAMS_APP_TENANT_ID, TEAM_ID and TEAMS_CHANNEL_ID (or set them in the client's env for usemcpkit). It posts as the bot into a real channel, so allow the write tools only when you want that.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}

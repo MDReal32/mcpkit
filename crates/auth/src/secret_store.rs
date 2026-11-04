@@ -1,5 +1,5 @@
 use crate::{AuthError, SecretOwner};
-use mcpkit_core::LocalFuture;
+use usemcpkit_core::LocalFuture;
 
 /// Where credentials and domains entered in the credentials form are kept, per server, host and key.
 pub trait SecretStore {

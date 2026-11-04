@@ -1,4 +1,4 @@
-//! The registry as the CLI keeps it: a light `index.json` synced into `~/.mcpkit/manifests`, and manifests and parts
+//! The registry as the CLI keeps it: a light `index.json` synced into `~/.usemcpkit/manifests`, and manifests and parts
 //! downloaded only when a server or group is opened, each verified by the sha256 its index or shell lists. Opening a
 //! server never asks the registry; only a download that fails its checksum fetches the index again, once.
 

@@ -20,14 +20,14 @@ import {
 import { createBinaryFetch } from "./fixtures/create-binary-fetch";
 import { createTar } from "./fixtures/create-tar";
 
-const readDir = useTempDir("mcpkit-binary-");
+const readDir = useTempDir("usemcpkit-binary-");
 
 const REGISTRY = "https://reg.example";
 
 const toIntegrity = (bytes: Uint8Array) => `sha512-${createHash("sha512").update(bytes).digest("base64")}`;
 
 const createReleaseFetch = (version: string, binary: string) => {
-  const tarball = gzipSync(createTar([{ path: "package/bin/mcpkit", content: binary }]));
+  const tarball = gzipSync(createTar([{ path: "package/bin/usemcpkit", content: binary }]));
   const tarballUrl = `${REGISTRY}/cli-darwin-arm64-${version}.tgz`;
   return createBinaryFetch({
     [`${REGISTRY}/@usemcpkit%2fcli-darwin-arm64`]: {
@@ -41,7 +41,7 @@ const createReleaseFetch = (version: string, binary: string) => {
 const createContext = (fetchImpl: typeof fetch) => {
   const context: BinaryContext = {
     target: "darwin-arm64",
-    env: { MCPKIT_HOME: readDir(), MCPKIT_NPM_REGISTRY: `${REGISTRY}/` },
+    env: { USEMCPKIT_HOME: readDir(), USEMCPKIT_NPM_REGISTRY: `${REGISTRY}/` },
     fetchImpl,
   };
   return context;
@@ -51,10 +51,10 @@ describe("extractTarFile", () => {
   it("returns the requested file and skips the others", () => {
     const archive = createTar([
       { path: "package/package.json", content: "{}" },
-      { path: "mcpkit", prefix: "package/bin", content: "binary" },
+      { path: "usemcpkit", prefix: "package/bin", content: "binary" },
     ]);
 
-    expect(new TextDecoder().decode(extractTarFile(archive, "package/bin/mcpkit"))).toBe("binary");
+    expect(new TextDecoder().decode(extractTarFile(archive, "package/bin/usemcpkit"))).toBe("binary");
   });
 
   it("fails when the file is missing", () => {
@@ -65,7 +65,7 @@ describe("extractTarFile", () => {
 });
 
 describe("verifyIntegrity", () => {
-  const bytes = new TextEncoder().encode("mcpkit");
+  const bytes = new TextEncoder().encode("usemcpkit");
 
   it("accepts matching sha512 integrity", () => {
     expect(() => verifyIntegrity(bytes, toIntegrity(bytes), "x")).not.toThrow();
@@ -98,7 +98,7 @@ describe("readPackageRelease", () => {
 
 describe("updateBinary", () => {
   it("replaces the binary with a newer verified release", async () => {
-    const path = join(readDir(), "bin", "mcpkit");
+    const path = join(readDir(), "bin", "usemcpkit");
     await mkdir(join(readDir(), "bin"));
     await writeFile(path, "old");
 
@@ -123,13 +123,13 @@ describe("updateBinary", () => {
 });
 
 describe("installBinary", () => {
-  it("copies a local binary into MCPKIT_HOME/bin", async () => {
-    const source = join(readDir(), "local-mcpkit");
+  it("copies a local binary into USEMCPKIT_HOME/bin", async () => {
+    const source = join(readDir(), "local-usemcpkit");
     await writeFile(source, "local");
 
     const installed = await installBinary(createContext(createBinaryFetch({})), { path: source, version: "0.1.0" });
 
-    expect(installed).toEqual({ path: join(readDir(), "bin", "mcpkit"), version: "0.1.0" });
+    expect(installed).toEqual({ path: join(readDir(), "bin", "usemcpkit"), version: "0.1.0" });
     expect(await readFile(installed.path, "utf8")).toBe("local");
   });
 
@@ -152,7 +152,7 @@ describe("checkForBinaryUpdate", () => {
   const START = 10 * UPDATE_CHECK_INTERVAL_MS;
 
   const createInstalledBinary = async () => {
-    const path = join(readDir(), "mcpkit");
+    const path = join(readDir(), "usemcpkit");
     await writeFile(path, "old");
     return path;
   };
@@ -192,24 +192,24 @@ describe("checkForBinaryUpdate", () => {
 
 describe("findPackageManagerInstall", () => {
   it("points Homebrew installs at the linked bin path that survives upgrades", () => {
-    expect(findPackageManagerInstall("/opt/homebrew/Cellar/mcpkit/0.2.0/bin/mcpkit")).toEqual({
+    expect(findPackageManagerInstall("/opt/homebrew/Cellar/usemcpkit/0.2.0/bin/usemcpkit")).toEqual({
       manager: "Homebrew",
-      path: "/opt/homebrew/bin/mcpkit",
-      upgradeCommand: "brew upgrade mcpkit",
+      path: "/opt/homebrew/bin/usemcpkit",
+      upgradeCommand: "brew upgrade usemcpkit",
     });
-    expect(findPackageManagerInstall("/home/linuxbrew/.linuxbrew/Cellar/mcpkit/0.2.0/bin/mcpkit")?.path).toBe(
-      "/home/linuxbrew/.linuxbrew/bin/mcpkit",
+    expect(findPackageManagerInstall("/home/linuxbrew/.linuxbrew/Cellar/usemcpkit/0.2.0/bin/usemcpkit")?.path).toBe(
+      "/home/linuxbrew/.linuxbrew/bin/usemcpkit",
     );
   });
 
   it("keeps winget installs in their package folder and names the package id", () => {
     const path =
-      "C:\\Users\\me\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Mcpkit.Mcpkit_Microsoft.Winget.Source_8wekyb3d8bbwe\\mcpkit.exe";
+      "C:\\Users\\me\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Usemcpkit.Usemcpkit_Microsoft.Winget.Source_8wekyb3d8bbwe\\usemcpkit.exe";
 
     expect(findPackageManagerInstall(path)).toEqual({
       manager: "winget",
       path,
-      upgradeCommand: "winget upgrade --id Mcpkit.Mcpkit",
+      upgradeCommand: "winget upgrade --id Usemcpkit.Usemcpkit",
     });
   });
 
@@ -225,20 +225,22 @@ describe("findPackageManagerInstall", () => {
   });
 
   it("ignores binaries outside a package manager", () => {
-    expect(findPackageManagerInstall("/Users/me/.mcpkit/bin/mcpkit")).toBeUndefined();
+    expect(findPackageManagerInstall("/Users/me/.usemcpkit/bin/usemcpkit")).toBeUndefined();
   });
 });
 
 describe("detectPackageManagerInstall", () => {
   it("follows the Homebrew bin link into the Cellar", async () => {
     const prefix = await realpath(readDir());
-    const cellarBinary = join(prefix, "Cellar/mcpkit/0.2.0/bin/mcpkit");
-    await mkdir(join(prefix, "Cellar/mcpkit/0.2.0/bin"), { recursive: true });
+    const cellarBinary = join(prefix, "Cellar/usemcpkit/0.2.0/bin/usemcpkit");
+    await mkdir(join(prefix, "Cellar/usemcpkit/0.2.0/bin"), { recursive: true });
     await mkdir(join(prefix, "bin"));
     await writeFile(cellarBinary, "binary");
-    await symlink(cellarBinary, join(prefix, "bin/mcpkit"));
+    await symlink(cellarBinary, join(prefix, "bin/usemcpkit"));
 
-    expect((await detectPackageManagerInstall(join(prefix, "bin/mcpkit")))?.path).toBe(join(prefix, "bin/mcpkit"));
+    expect((await detectPackageManagerInstall(join(prefix, "bin/usemcpkit")))?.path).toBe(
+      join(prefix, "bin/usemcpkit"),
+    );
   });
 
   it("ignores runs under node", async () => {

@@ -1,9 +1,9 @@
-use mcpkit_auth::{AuthContext, AuthState};
-use mcpkit_core::env::Env;
-use mcpkit_execution::{CallContext, DEFAULT_TIMEOUT, ExecutorState};
-use mcpkit_http::HttpClient;
 use std::path::Path;
 use std::rc::Rc;
+use usemcpkit_auth::{AuthContext, AuthState};
+use usemcpkit_core::env::Env;
+use usemcpkit_execution::{CallContext, DEFAULT_TIMEOUT, ExecutorState};
+use usemcpkit_http::HttpClient;
 
 /// The tool-call context of a server process, with no browser, no project and no saved secrets.
 pub fn call_context(home: &Path, env: &[(&str, &str)], http: Rc<dyn HttpClient>) -> CallContext {

@@ -1,8 +1,8 @@
 import type { Env } from "../../env";
 import { writeJsonFile } from "../secrets/write-json-file";
-import type { McpkitConfig } from "../types/mcpkit-config";
 import type { ServerConfig } from "../types/server-config";
 import type { ServerKey } from "../types/server-key";
+import type { UsemcpkitConfig } from "../types/usemcpkit-config";
 import { migrateConfig } from "./migrate-config";
 import { readConfig } from "./read-config";
 import { readServerConfig } from "./read-server-config";
@@ -15,7 +15,7 @@ export const updateServerConfig = (env: Env, server: ServerKey, change: (current
     await migrateConfig(env);
     const file = resolveConfigFile(env);
     const config = await readConfig(file);
-    const updated: McpkitConfig = {
+    const updated: UsemcpkitConfig = {
       ...config,
       servers: {
         ...config.servers,

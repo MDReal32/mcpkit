@@ -1,8 +1,8 @@
 use crate::cli::clients::client_selection_mode::ClientSelectionMode;
 use crate::cli::clients::describe_client::describe_client;
-use mcpkit_clients::DetectedClient;
 use std::io::ErrorKind;
 use std::path::Path;
+use usemcpkit_clients::DetectedClient;
 
 /// A checklist of the candidates, all checked. A client whose config cannot be read is named above it instead of being
 /// offered, since the checklist has no disabled items. `None` when the user cancels.

@@ -1,6 +1,6 @@
 use crate::consts::DEMO_TOKEN_URL;
-use mcpkit_manifest::Manifest;
 use serde_json::{Value, json};
+use usemcpkit_manifest::Manifest;
 
 /// The `demo` server of the TypeScript executor tests, with its `list_items` and `create_item` tools.
 pub fn demo_manifest() -> Manifest {

@@ -1,8 +1,8 @@
 use crate::auth_fallback::auth_candidate::AuthCandidate;
 use crate::auth_fallback::auth_candidate_kind::AuthCandidateKind;
-use mcpkit_auth::{AuthResolution, ResolvedAuth};
-use mcpkit_manifest::Manifest;
 use std::rc::Rc;
+use usemcpkit_auth::{AuthResolution, ResolvedAuth};
+use usemcpkit_manifest::Manifest;
 
 pub fn create_no_auth_candidate<'a>(manifest: &Rc<Manifest>) -> AuthCandidate<'a> {
     let resolution = AuthResolution {

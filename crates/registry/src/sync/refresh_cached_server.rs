@@ -6,8 +6,8 @@ use crate::registry_context::RegistryContext;
 use crate::registry_error::RegistryError;
 use crate::remote::Fetch;
 use crate::sync::refresh_cached_parts::refresh_cached_parts;
-use mcpkit_core::hash::sha256_hex;
-use mcpkit_manifest::registry::RegistryServer;
+use usemcpkit_core::hash::sha256_hex;
+use usemcpkit_manifest::registry::RegistryServer;
 
 /// Brings what is cached of one server up to date with the index: its manifest or shell, then its cached parts.
 /// A server nobody used has nothing cached and is skipped. Returns the ids of the files it replaced.

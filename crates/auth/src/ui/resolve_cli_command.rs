@@ -1,7 +1,7 @@
 use crate::AuthError;
 use crate::ui::cli_token_command::CliTokenCommand;
 use crate::ui::to_web_host::to_web_host;
-use mcpkit_manifest::ui::fill_template;
+use usemcpkit_manifest::ui::fill_template;
 
 /// The arguments of a `cli` action with `{domain}` and `{webHost}` filled in; one that uses them needs a domain, and an
 /// empty one counts as none, as in the TypeScript CLI.

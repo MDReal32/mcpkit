@@ -2,7 +2,7 @@
   "name": "@usemcpkit/testing",
   "version": "0.8.4",
   "private": true,
-  "description": "Test fixtures shared across mcpkit workspaces.",
+  "description": "Test fixtures shared across usemcpkit workspaces.",
   "type": "module",
   "exports": {
     ".": "./src/main.ts"

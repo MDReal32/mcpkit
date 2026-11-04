@@ -1,10 +1,10 @@
 use crate::json_response::json_response;
-use mcpkit_core::LocalFuture;
-use mcpkit_http::{HttpClient, HttpError, HttpRequest, HttpResponse};
 use serde_json::{Value, json};
 use std::cell::RefCell;
 use std::collections::HashMap;
 use std::time::Duration;
+use usemcpkit_core::LocalFuture;
+use usemcpkit_http::{HttpClient, HttpError, HttpRequest, HttpResponse};
 
 /// Serves JSON per URL, 404 `{ "message": "Not Found" }` for any other, and records every request.
 pub struct RecordingClient {

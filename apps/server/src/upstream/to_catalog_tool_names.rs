@@ -1,8 +1,8 @@
 use crate::upstream::consts::UPSTREAM_TOOL_GROUP;
 use crate::upstream::to_segment::to_segment;
-use mcpkit_execution::upstream::name_upstream_tool;
-use mcpkit_manifest::upstream::UpstreamNameRule;
 use std::collections::HashSet;
+use usemcpkit_execution::upstream::name_upstream_tool;
+use usemcpkit_manifest::upstream::UpstreamNameRule;
 
 /// Catalog names for upstream tool names, in the same order. A tool a naming rule matches gets the rule's
 /// `<group>:<resource>:<action>`; any other, such as `searchIssues` or `search-issues`, becomes

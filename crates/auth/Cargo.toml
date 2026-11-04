@@ -1,6 +1,6 @@
 [package]
-name = "mcpkit-auth"
-description = "How mcpkit authenticates a call: config.json and its migrations, saved secrets and tokens, the host of a call, and the OAuth2 PKCE sign-in."
+name = "usemcpkit-auth"
+description = "How usemcpkit authenticates a call: config.json and its migrations, saved secrets and tokens, the host of a call, and the OAuth2 PKCE sign-in."
 version.workspace = true
 edition.workspace = true
 license.workspace = true
@@ -15,9 +15,9 @@ http-body-util.workspace = true
 hyper.workspace = true
 hyper-util.workspace = true
 indexmap.workspace = true
-mcpkit-core.workspace = true
-mcpkit-http.workspace = true
-mcpkit-manifest.workspace = true
+usemcpkit-core.workspace = true
+usemcpkit-http.workspace = true
+usemcpkit-manifest.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 sha2.workspace = true
@@ -25,7 +25,7 @@ tokio.workspace = true
 url.workspace = true
 
 [dev-dependencies]
-mcpkit-testing.workspace = true
+usemcpkit-testing.workspace = true
 tempfile.workspace = true
 
 [lints]

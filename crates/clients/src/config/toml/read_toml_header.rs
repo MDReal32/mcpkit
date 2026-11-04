@@ -1,5 +1,5 @@
 use crate::config::toml::consts::JS_LINE_TERMINATORS;
-use mcpkit_core::js::{is_js_whitespace, js_trim_start};
+use usemcpkit_core::js::{is_js_whitespace, js_trim_start};
 
 /// The dotted key of a `[table]` header line with whitespace removed, or `None` for any other line: what the
 /// TypeScript CLI reads with `/^\s*\[([^[\]]+)\]\s*(?:#.*)?$/`. A comment holding a `\r` (a CRLF file) is no header,

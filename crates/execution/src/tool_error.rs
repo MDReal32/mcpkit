@@ -1,5 +1,5 @@
-use mcpkit_auth::AuthError;
 use std::fmt;
+use usemcpkit_auth::AuthError;
 
 /// A call that cannot be made or that the API refused; the message is shown to the model as it is.
 #[derive(Clone, Debug, PartialEq, Eq)]

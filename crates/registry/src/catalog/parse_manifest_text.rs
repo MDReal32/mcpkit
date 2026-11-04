@@ -1,9 +1,9 @@
 use crate::catalog::check_identity::check_identity;
 use crate::catalog::check_manifest_parts::check_manifest_parts;
 use crate::registry_error::RegistryError;
-use mcpkit_manifest::ManifestDocument;
-use mcpkit_manifest::registry::RegistryServer;
 use serde_json::Value;
+use usemcpkit_manifest::ManifestDocument;
+use usemcpkit_manifest::registry::RegistryServer;
 
 /// A whole manifest or a shell (a manifest with `parts` instead of tools), checked to be the server the index names.
 pub fn parse_manifest_text(server: &RegistryServer, text: &str) -> Result<ManifestDocument, RegistryError> {

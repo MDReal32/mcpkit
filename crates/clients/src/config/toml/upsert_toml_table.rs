@@ -3,9 +3,9 @@ use crate::config::toml::assert_no_inline_toml_entry::assert_no_inline_toml_entr
 use crate::config::toml::find_toml_table::find_toml_table;
 use crate::config::toml::format_toml_table::format_toml_table;
 use crate::config::toml::to_toml_table_key::to_toml_table_key;
-use mcpkit_core::js::{js_trim, js_trim_end};
 use serde_json::{Map, Value};
 use std::path::Path;
+use usemcpkit_core::js::{js_trim, js_trim_end};
 
 /// Replaces the `[servers.name]` key/value lines in place (keeping its subtables and comments elsewhere) or appends it.
 pub fn upsert_toml_table(

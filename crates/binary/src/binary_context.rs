@@ -1,12 +1,12 @@
 use crate::binary_error::BinaryError;
 use crate::platform::{Target, detect_target};
-use mcpkit_core::env::Env;
-use mcpkit_core::home::resolve_env_home_dir;
-use mcpkit_http::HttpClient;
 use std::path::PathBuf;
 use std::rc::Rc;
+use usemcpkit_core::env::Env;
+use usemcpkit_core::home::resolve_env_home_dir;
+use usemcpkit_http::HttpClient;
 
-/// What installing and updating read: the machine's target, the variables, the mcpkit home, the running runner and
+/// What installing and updating read: the machine's target, the variables, the usemcpkit home, the running runner and
 /// the client that reaches the npm registry.
 #[derive(Clone)]
 pub struct BinaryContext {
@@ -34,13 +34,13 @@ impl BinaryContext {
     pub fn current(env: Env, http: Rc<dyn HttpClient>) -> Result<Self, BinaryError> {
         let target = detect_target().ok_or_else(|| {
             BinaryError(format!(
-                "no mcpkit binary is built for {}-{}",
+                "no usemcpkit binary is built for {}-{}",
                 std::env::consts::OS,
                 std::env::consts::ARCH
             ))
         })?;
         let exec_path = std::env::current_exe()
-            .map_err(|error| BinaryError(format!("cannot find the running mcpkit binary: {error}")))?;
+            .map_err(|error| BinaryError(format!("cannot find the running usemcpkit binary: {error}")))?;
         BinaryContext::new(target, env, exec_path, http)
     }
 }

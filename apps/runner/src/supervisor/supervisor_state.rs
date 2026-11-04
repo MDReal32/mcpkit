@@ -7,13 +7,13 @@ use crate::supervisor::spawn_worker::spawn_worker;
 use crate::supervisor::supervisor_event::SupervisorEvent;
 use crate::supervisor::worker::Worker;
 use crate::supervisor::worker_launch::WorkerLaunch;
-use mcpkit_core::mcp::TOOLS_LIST_CHANGED;
-use mcpkit_wire_log::{WireLog, describe_wire_line};
 use serde_json::json;
 use std::collections::HashMap;
 use std::sync::Arc;
 use tokio::sync::mpsc;
 use tokio::task::JoinHandle;
+use usemcpkit_core::mcp::TOOLS_LIST_CHANGED;
+use usemcpkit_wire_log::{WireLog, describe_wire_line};
 
 /// The supervisor's state, changed only by the events of its one loop. A reload starts a replacement, replays the
 /// client's handshake to it, switches new requests over and announces `tools/list_changed`; the old worker finishes the
@@ -124,7 +124,7 @@ impl SupervisorState {
                 .send(SupervisorEvent::ReloadFinished { worker: next, result })
                 .is_err()
             {
-                eprintln!("mcpkit: a reload finished after the supervisor stopped");
+                eprintln!("usemcpkit: a reload finished after the supervisor stopped");
             }
         });
     }
@@ -134,11 +134,11 @@ impl SupervisorState {
         match result {
             Err(error) => {
                 worker.kill();
-                eprintln!("mcpkit: reload failed, the running server stays: {error}");
+                eprintln!("usemcpkit: reload failed, the running server stays: {error}");
             }
             Ok(_) if self.closing => worker.kill(),
             Ok(version) => {
-                eprintln!("mcpkit: reloaded, now serving {version}");
+                eprintln!("usemcpkit: reloaded, now serving {version}");
                 let previous = std::mem::replace(&mut self.current, worker);
                 retire_worker(previous, &mut self.retired);
                 if self.record.initialize.is_some() {
@@ -154,7 +154,7 @@ impl SupervisorState {
 
     fn forward(&self, line: String) {
         if self.output.send(OutputMessage::Line(line)).is_err() {
-            eprintln!("mcpkit: the client output is closed");
+            eprintln!("usemcpkit: the client output is closed");
         }
     }
 }

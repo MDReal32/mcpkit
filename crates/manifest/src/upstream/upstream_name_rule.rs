@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-/// Renames the tools of an upstream server into mcpkit's `<group>:<resource>:<action>` form.
+/// Renames the tools of an upstream server into usemcpkit's `<group>:<resource>:<action>` form.
 #[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct UpstreamNameRule {
     /// A regular expression tested against the upstream tool name; the first rule that matches names the tool.

@@ -1,7 +1,7 @@
 use crate::mapping::get_path::get_path;
 use crate::mapping::pick_fields::pick_fields;
-use mcpkit_manifest::tool::ResponseSpec;
 use serde_json::Value;
+use usemcpkit_manifest::tool::ResponseSpec;
 
 /// `None` stands for `undefined`, a root path that found nothing.
 pub fn map_response(data: Option<Value>, response: Option<&ResponseSpec>) -> Option<Value> {
@@ -27,8 +27,8 @@ pub fn map_response(data: Option<Value>, response: Option<&ResponseSpec>) -> Opt
 #[cfg(test)]
 mod tests {
     use super::map_response;
-    use mcpkit_manifest::tool::ResponseSpec;
     use serde_json::{Value, json};
+    use usemcpkit_manifest::tool::ResponseSpec;
 
     fn spec(value: Value) -> ResponseSpec {
         serde_json::from_value(value).unwrap()

@@ -14,7 +14,7 @@ export const migrateData = (data: unknown, migrations: readonly Migration[]) => 
     throw new Error("is not valid versioned data");
   }
   if (version > latest) {
-    throw new Error(`is version ${version}; this mcpkit reads up to version ${latest}, update mcpkit`);
+    throw new Error(`is version ${version}; this usemcpkit reads up to version ${latest}, update usemcpkit`);
   }
   const migrated = migrations
     .slice(version - FIRST_VERSION)

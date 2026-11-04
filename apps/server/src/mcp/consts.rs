@@ -1,6 +1,6 @@
 pub const DEFAULT_PROTOCOL_VERSION: &str = "2025-06-18";
 
-pub const SERVER_NAME: &str = "mcpkit";
+pub const SERVER_NAME: &str = "usemcpkit";
 
 pub const TOOL_ID_SEPARATOR: char = ':';
 

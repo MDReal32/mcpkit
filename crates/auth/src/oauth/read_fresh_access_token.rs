@@ -3,7 +3,7 @@ use crate::oauth::now_epoch_ms::now_epoch_ms;
 use crate::oauth::refresh_once::refresh_once;
 use crate::token_store::StoredToken;
 use crate::{AuthContext, AuthError};
-use mcpkit_manifest::auth::OAuthAuth;
+use usemcpkit_manifest::auth::OAuthAuth;
 
 pub async fn read_fresh_access_token(
     server_name: &str,

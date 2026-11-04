@@ -1,9 +1,3 @@
-use mcpkit_auth::oauth::{AuthorizationUrlHandler, sign_in, sign_in_once, to_code_challenge};
-use mcpkit_auth::{AuthContext, AuthState};
-use mcpkit_core::env::Env;
-use mcpkit_http::{HttpClient, RequestBody};
-use mcpkit_manifest::auth::{AuthSpec, OAuthAuth};
-use mcpkit_testing::{DEMO_TOKEN_URL, RecordingClient, approve_sign_in, demo_oauth};
 use serde_json::{Value, json};
 use std::cell::RefCell;
 use std::path::Path;
@@ -11,6 +5,12 @@ use std::rc::Rc;
 use std::thread::JoinHandle;
 use url::Url;
 use url::form_urlencoded;
+use usemcpkit_auth::oauth::{AuthorizationUrlHandler, sign_in, sign_in_once, to_code_challenge};
+use usemcpkit_auth::{AuthContext, AuthState};
+use usemcpkit_core::env::Env;
+use usemcpkit_http::{HttpClient, RequestBody};
+use usemcpkit_manifest::auth::{AuthSpec, OAuthAuth};
+use usemcpkit_testing::{DEMO_TOKEN_URL, RecordingClient, approve_sign_in, demo_oauth};
 
 fn context(home: &Path, http: Rc<dyn HttpClient>) -> AuthContext {
     AuthContext {
@@ -129,7 +129,7 @@ async fn adds_authorization_params_and_sends_the_client_over_http_basic_with_tok
     let mut auth = demo_oauth();
     auth["authorizationParams"] = json!({ "duration": "permanent" });
     auth["clientAuthentication"] = json!("basic");
-    auth["tokenHeaders"] = json!({ "User-Agent": "mcpkit-test" });
+    auth["tokenHeaders"] = json!({ "User-Agent": "usemcpkit-test" });
 
     sign_in(
         "demo",
@@ -148,7 +148,7 @@ async fn adds_authorization_params_and_sends_the_client_over_http_basic_with_tok
     let requests = http.requests.borrow();
     let header = |name: &str| requests[0].headers.get(name).map(String::as_str);
     assert_eq!(header("Authorization"), Some("Basic Y2xpZW50LTE6"));
-    assert_eq!(header("User-Agent"), Some("mcpkit-test"));
+    assert_eq!(header("User-Agent"), Some("usemcpkit-test"));
     assert_eq!(form_value(&form(&requests[0].body), "client_id"), None);
 }
 

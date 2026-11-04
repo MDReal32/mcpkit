@@ -3,8 +3,8 @@ use crate::consts::TOOL_NAME_SEPARATOR;
 use crate::registry_context::RegistryContext;
 use crate::registry_error::RegistryError;
 use crate::remote::Fetch;
-use mcpkit_manifest::Manifest;
-use mcpkit_manifest::registry::RegistryServer;
+use usemcpkit_manifest::Manifest;
+use usemcpkit_manifest::registry::RegistryServer;
 
 /// The manifest holding `tool`: the part of its group for a server split into parts, the whole manifest otherwise.
 pub async fn load_manifest<F: Fetch>(

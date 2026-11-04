@@ -1,10 +1,10 @@
 use crate::current_time_millis::current_time_millis;
 use crate::warn_on_stderr::warn_on_stderr;
 use indexmap::IndexMap;
-use mcpkit_core::env::Env;
-use mcpkit_http::HttpClient;
 use std::path::PathBuf;
 use std::rc::Rc;
+use usemcpkit_core::env::Env;
+use usemcpkit_http::HttpClient;
 
 #[derive(Clone)]
 pub struct UpstreamOptions {
@@ -12,7 +12,7 @@ pub struct UpstreamOptions {
     pub headers: IndexMap<String, String>,
     /// Environment of a stdio upstream's child, on top of the few variables taken from `process_env`.
     pub env: IndexMap<String, String>,
-    /// mcpkit's own environment: where children's `PATH` and the other forwarded variables come from.
+    /// usemcpkit's own environment: where children's `PATH` and the other forwarded variables come from.
     pub process_env: Env,
     /// Where a stdio upstream that runs from a repository keeps its clone; cloned there on first use.
     pub repo_dir: Option<PathBuf>,

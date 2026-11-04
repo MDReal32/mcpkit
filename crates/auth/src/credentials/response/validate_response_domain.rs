@@ -1,6 +1,6 @@
 use crate::credentials::CredentialRequest;
-use mcpkit_manifest::domain::is_domain_value;
 use serde_json::Value;
+use usemcpkit_manifest::domain::is_domain_value;
 
 /// `None` is a domain left out of the answer; a JSON `null` counts as given.
 pub fn validate_response_domain(request: &CredentialRequest, domain: Option<&Value>) -> Vec<String> {

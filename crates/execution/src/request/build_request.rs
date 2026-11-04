@@ -6,11 +6,11 @@ use crate::request::collect_args::collect_args;
 use crate::request::consts::JSON_CONTENT_TYPE;
 use crate::request::fill_path::fill_path;
 use indexmap::IndexMap;
-use mcpkit_auth::ResolvedAuth;
-use mcpkit_http::HttpRequest;
-use mcpkit_manifest::Manifest;
-use mcpkit_manifest::tool::{HttpMethod, ToolSpec};
 use serde_json::Value;
+use usemcpkit_auth::ResolvedAuth;
+use usemcpkit_http::HttpRequest;
+use usemcpkit_manifest::Manifest;
+use usemcpkit_manifest::tool::{HttpMethod, ToolSpec};
 
 /// Expects args already passed through `prepare_tool_args` and `load_file_args`. Later headers and query values win:
 /// the manifest's, the tool's fixed ones, the auth's, then the body's content type.

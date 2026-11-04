@@ -1,10 +1,10 @@
 use crate::json_response::json_response;
-use mcpkit_core::LocalFuture;
-use mcpkit_http::{HttpClient, HttpError, HttpRequest, HttpResponse};
 use serde_json::{Value, json};
 use std::cell::RefCell;
 use std::collections::HashMap;
 use std::time::Duration;
+use usemcpkit_core::LocalFuture;
+use usemcpkit_http::{HttpClient, HttpError, HttpRequest, HttpResponse};
 
 /// Serves `token_routes` as JSON; every other request gets 200 `{ "pong": true }` only for
 /// `Authorization: Bearer <valid_token>` and 401 otherwise. Records the Authorization header and the URL of every API

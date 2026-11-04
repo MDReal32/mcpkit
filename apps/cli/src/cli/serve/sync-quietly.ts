@@ -6,6 +6,6 @@ export const syncQuietly = async () => {
   try {
     await syncRegistry();
   } catch (error) {
-    printError(`mcpkit: registry sync failed: ${describeError(error)}`);
+    printError(`usemcpkit: registry sync failed: ${describeError(error)}`);
   }
 };

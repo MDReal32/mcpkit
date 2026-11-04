@@ -1,8 +1,8 @@
 use crate::ToolError;
 use crate::args::{ArgValue, ToolArgs};
 use crate::request::read_uploaded_files::read_uploaded_files;
-use mcpkit_manifest::tool::ToolSpec;
 use serde_json::{Map, Value};
+use usemcpkit_manifest::tool::ToolSpec;
 
 /// Replaces each `fileArgs` argument that was given with the file or files at its paths.
 pub async fn load_file_args(tool: &ToolSpec, args: Map<String, Value>) -> Result<ToolArgs, ToolError> {
@@ -22,8 +22,8 @@ pub async fn load_file_args(tool: &ToolSpec, args: Map<String, Value>) -> Result
 mod tests {
     use super::load_file_args;
     use crate::args::{ArgValue, UploadedFile};
-    use mcpkit_manifest::tool::ToolSpec;
     use serde_json::{Map, Value, json};
+    use usemcpkit_manifest::tool::ToolSpec;
 
     fn upload_tool() -> ToolSpec {
         serde_json::from_value(json!({
@@ -84,7 +84,7 @@ mod tests {
 
     #[tokio::test]
     async fn fails_with_a_tool_error_when_the_file_cannot_be_read() {
-        let error = load_file_args(&upload_tool(), args(json!({ "file": "/nonexistent/mcpkit-file" })))
+        let error = load_file_args(&upload_tool(), args(json!({ "file": "/nonexistent/usemcpkit-file" })))
             .await
             .unwrap_err();
 

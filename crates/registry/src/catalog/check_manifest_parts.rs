@@ -1,5 +1,5 @@
 use crate::ids::{is_part_name, is_sha256};
-use mcpkit_manifest::registry::ManifestPart;
+use usemcpkit_manifest::registry::ManifestPart;
 
 const PART_NAME_PATTERN: &str = "/^[a-z][a-z0-9_]*$/";
 

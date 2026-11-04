@@ -1,16 +1,16 @@
 //! The credentials form contract against `fixtures/credentials-form.golden.json`, written by core's
 //! `test/credential-golden.generate.test.ts` from the TypeScript implementation; regenerate it when the registry changes.
 
-use mcpkit_auth::credentials::{
+use serde::Deserialize;
+use serde_json::Value;
+use std::collections::BTreeMap;
+use usemcpkit_auth::credentials::{
     CREDENTIALS_FORM_CANCEL_PATH, CREDENTIALS_FORM_IMPORT_PATH, CREDENTIALS_FORM_SESSION_HEADER,
     CREDENTIALS_FORM_SUBMIT_PATH, CREDENTIALS_REQUEST_ELEMENT_ID, CredentialRequest, build_credential_request,
     validate_credential_response,
 };
-use mcpkit_core::env::Env;
-use mcpkit_manifest::Manifest;
-use serde::Deserialize;
-use serde_json::Value;
-use std::collections::BTreeMap;
+use usemcpkit_core::env::Env;
+use usemcpkit_manifest::Manifest;
 
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]

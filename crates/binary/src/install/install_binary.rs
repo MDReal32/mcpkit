@@ -8,7 +8,7 @@ use crate::install::resolve_installed_binary_path::resolve_installed_binary_path
 use crate::install::sibling_server_path::sibling_server_path;
 use crate::install::write_binary_pair::write_binary_pair;
 
-/// Places the runner and its server in `<mcpkit home>/bin`; a runner started from there is left as it is.
+/// Places the runner and its server in `<usemcpkit home>/bin`; a runner started from there is left as it is.
 pub fn install_binary(context: &BinaryContext, source: &BinarySource) -> Result<InstalledBinary, BinaryError> {
     let path = resolve_installed_binary_path(&context.home_dir, context.target);
     let installed = InstalledBinary {

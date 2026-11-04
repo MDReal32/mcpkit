@@ -2,8 +2,8 @@ use crate::config::{list_known_hosts, load_config, read_server_config};
 use crate::credentials::CredentialRequest;
 use crate::credentials::request::build_credential_request;
 use crate::{AuthContext, AuthError, ServerKey};
-use mcpkit_manifest::Manifest;
 use std::rc::Rc;
+use usemcpkit_manifest::Manifest;
 
 /// The form of a server's auth options, with the hosts it was used on to choose from.
 pub async fn load_credential_request(

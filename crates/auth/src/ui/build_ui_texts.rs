@@ -1,6 +1,6 @@
 use indexmap::IndexMap;
-use mcpkit_manifest::Manifest;
-use mcpkit_manifest::ui::{DEFAULT_UI_TEXTS, fill_template};
+use usemcpkit_manifest::Manifest;
+use usemcpkit_manifest::ui::{DEFAULT_UI_TEXTS, fill_template};
 
 /// The manifest's texts over the defaults, with the server's name filled in.
 pub fn build_ui_texts(manifest: &Manifest) -> IndexMap<String, String> {

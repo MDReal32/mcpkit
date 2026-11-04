@@ -3,7 +3,7 @@ use crate::schedule::assert_scheduler_success::assert_scheduler_success;
 use crate::schedule::consts::SCHEDULED_TASK_NAME;
 use crate::schedule::run_scheduler_command::run_scheduler_command;
 use crate::schedule::task_scheduler::is_scheduled_task_registered::is_scheduled_task_registered;
-use mcpkit_core::env::Env;
+use usemcpkit_core::env::Env;
 
 pub async fn remove_scheduled_task(env: &Env) -> Result<bool, BinaryError> {
     if !is_scheduled_task_registered(env).await? {

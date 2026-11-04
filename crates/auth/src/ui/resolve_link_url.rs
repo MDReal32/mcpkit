@@ -1,5 +1,5 @@
 use crate::ui::to_web_host::to_web_host;
-use mcpkit_manifest::ui::{UI_DOMAIN_PLACEHOLDERS, fill_template, read_placeholders};
+use usemcpkit_manifest::ui::{UI_DOMAIN_PLACEHOLDERS, fill_template, read_placeholders};
 
 /// `None` while the link needs a domain and there is none yet.
 pub fn resolve_link_url(url: &str, domain: Option<&str>) -> Option<String> {

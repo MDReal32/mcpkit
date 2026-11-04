@@ -2,7 +2,7 @@ use crate::credentials::CredentialOption;
 use crate::credentials::request::list_credential_fields::list_credential_fields;
 use crate::ui::to_option_actions;
 use indexmap::IndexMap;
-use mcpkit_manifest::auth::AuthSpec;
+use usemcpkit_manifest::auth::AuthSpec;
 
 /// The option of a fallback entry that takes values; `None` for the sign-in and for entries without fields.
 pub fn to_credential_option(

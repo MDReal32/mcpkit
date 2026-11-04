@@ -1,6 +1,6 @@
 use crate::upstream_error::UpstreamError;
-use mcpkit_core::js::to_js_json;
-use mcpkit_manifest::upstream::UpstreamRepo;
+use usemcpkit_core::js::to_js_json;
+use usemcpkit_manifest::upstream::UpstreamRepo;
 
 /// `JSON.stringify(repo)`, byte for byte what TypeScript keeps in the marker, so a clone it made is not rebuilt.
 pub fn repo_signature(repo: &UpstreamRepo) -> Result<String, UpstreamError> {
@@ -12,7 +12,7 @@ pub fn repo_signature(repo: &UpstreamRepo) -> Result<String, UpstreamError> {
 #[cfg(test)]
 mod tests {
     use super::repo_signature;
-    use mcpkit_manifest::upstream::UpstreamRepo;
+    use usemcpkit_manifest::upstream::UpstreamRepo;
 
     /// What `JSON.stringify` gave for the Bitwarden and Teams manifests' `repo`.
     const TYPESCRIPT_SIGNATURES: [&str; 2] = [

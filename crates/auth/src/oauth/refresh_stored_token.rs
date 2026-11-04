@@ -1,7 +1,7 @@
 use crate::oauth::request_token::request_token;
 use crate::token_store::{StoredToken, save_token};
 use crate::{AuthContext, AuthError};
-use mcpkit_manifest::auth::OAuthAuth;
+use usemcpkit_manifest::auth::OAuthAuth;
 
 /// Providers may omit `refresh_token` on refresh; the previous one then stays valid.
 pub async fn refresh_stored_token(

@@ -1,8 +1,8 @@
 use crate::catalog::RegistryCatalog;
 use crate::mcp::exposed::empty_input_schema::empty_input_schema;
 use crate::mcp::exposed::tool_descriptor::ToolDescriptor;
-use mcpkit_manifest::registry::RegistryServer;
-use mcpkit_registry::Fetch;
+use usemcpkit_manifest::registry::RegistryServer;
+use usemcpkit_registry::Fetch;
 
 /// Every tool of an upstream server, which starts it (and clones its repository) the first time.
 pub async fn load_upstream_tools<F: Fetch>(

@@ -17,12 +17,12 @@ export const spawnWorker = (launch: WorkerLaunch, onLine: (line: string) => void
   const exited = new Promise<number>((resolve) => {
     child.once("close", (code) => resolve(code ?? 1));
     child.once("error", (error) => {
-      printError(`mcpkit: cannot run ${launch.command}: ${describeError(error)}`);
+      printError(`usemcpkit: cannot run ${launch.command}: ${describeError(error)}`);
       resolve(1);
     });
   });
   child.stdin.on("error", (error) => {
-    printError(`mcpkit: cannot write to the server process: ${describeError(error)}`);
+    printError(`usemcpkit: cannot write to the server process: ${describeError(error)}`);
   });
   createInterface({ input: child.stdout }).on("line", (line) => {
     if (readLineHeader(line).id === HANDSHAKE_REQUEST_ID) {

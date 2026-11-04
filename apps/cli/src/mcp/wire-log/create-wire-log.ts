@@ -17,7 +17,7 @@ export const createWireLog = (role: WireLogRole, env: NodeJS.ProcessEnv = proces
   if (env[WIRE_LOG_ENV] !== WIRE_LOG_ENABLED) {
     return disabledWireLog;
   }
-  const directory = join(home, ".mcpkit", WIRE_LOG_DIR_NAME);
+  const directory = join(home, ".usemcpkit", WIRE_LOG_DIR_NAME);
   const stamp = new Date().toISOString().replace(/[:.]/g, "-");
   const file = join(directory, `${role}-${stamp}-${process.pid}.jsonl`);
   let enabled = true;
@@ -31,7 +31,7 @@ export const createWireLog = (role: WireLogRole, env: NodeJS.ProcessEnv = proces
       appendFileSync(file, `${JSON.stringify(entry)}\n`);
     } catch (error) {
       enabled = false;
-      printError(`mcpkit: wire log ${file} turned off: ${describeError(error)}`);
+      printError(`usemcpkit: wire log ${file} turned off: ${describeError(error)}`);
     }
   };
   record("start", { execPath: process.execPath, argv: process.argv.slice(2) });

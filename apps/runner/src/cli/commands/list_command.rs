@@ -1,7 +1,7 @@
 use crate::cli::consts::EXIT_SUCCESS;
 use crate::cli::registry::create_registry_context;
 use crate::cli::run_command::run_command;
-use mcpkit_registry::{ensure_manifest_index, read_cached_index};
+use usemcpkit_registry::{ensure_manifest_index, read_cached_index};
 
 pub fn list_command() -> i32 {
     run_command(async {

@@ -1,11 +1,11 @@
 mod support;
 
-use mcpkit_manifest::upstream::UpstreamNameRule;
-use mcpkit_server::upstream::to_catalog_tool_names;
 use regex::Regex;
 use serde_json::Value;
 use std::path::Path;
 use support::registry_root;
+use usemcpkit_manifest::upstream::UpstreamNameRule;
+use usemcpkit_server::upstream::to_catalog_tool_names;
 
 /// Written by the TypeScript `toCatalogToolNames` over the built manifests' naming rules; regenerate it when a rule
 /// changes.

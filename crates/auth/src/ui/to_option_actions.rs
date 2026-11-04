@@ -1,5 +1,5 @@
-use mcpkit_core::js::encode_uri_component;
-use mcpkit_manifest::ui::{UiAction, UiSpec, fill_template};
+use usemcpkit_core::js::encode_uri_component;
+use usemcpkit_manifest::ui::{UiAction, UiSpec, fill_template};
 
 /// `{server}` is known when the form opens; the domain can still change while it is open. A CLI prints one token, so
 /// its button is only kept for an entry with one field.

@@ -3,10 +3,10 @@ use crate::cli::run_local::run_local;
 use crate::cli::serve::prepare_server_binary;
 use crate::cli::update::{create_binary_context, start_auto_update, start_upgrade_schedule};
 use crate::supervisor::{SuperviseOptions, WorkerLaunch, supervise_serve};
-use mcpkit_wire_log::{WireLog, WireLogRole};
 use std::path::PathBuf;
 use std::sync::Arc;
 use tokio::sync::oneshot;
+use usemcpkit_wire_log::{WireLog, WireLogRole};
 
 /// The process the client starts: it keeps the connection, runs the server as a worker and swaps it when the server
 /// binary changes. Ctrl-C stops it the way closing stdin does.
@@ -15,12 +15,12 @@ pub fn serve_command(servers: Vec<String>, server: Option<PathBuf>) -> i32 {
         let command = match prepare_server_binary(server).await {
             Ok(command) => command,
             Err(error) => {
-                eprintln!("mcpkit: {error}");
+                eprintln!("usemcpkit: {error}");
                 return EXIT_FAILURE;
             }
         };
         eprintln!(
-            "mcpkit {VERSION}: supervising {}, it reloads when that binary is replaced",
+            "usemcpkit {VERSION}: supervising {}, it reloads when that binary is replaced",
             command.display()
         );
         match create_binary_context() {
@@ -28,7 +28,7 @@ pub fn serve_command(servers: Vec<String>, server: Option<PathBuf>) -> i32 {
                 start_auto_update(context.clone());
                 start_upgrade_schedule(context);
             }
-            Err(error) => eprintln!("mcpkit: no update checks: {error}"),
+            Err(error) => eprintln!("usemcpkit: no update checks: {error}"),
         }
         let mut args = vec!["serve".to_string()];
         args.extend(servers);
@@ -43,10 +43,10 @@ pub fn serve_command(servers: Vec<String>, server: Option<PathBuf>) -> i32 {
             match tokio::signal::ctrl_c().await {
                 Ok(()) => {
                     if stop_tx.send(()).is_err() {
-                        eprintln!("mcpkit: interrupted after the supervisor ended");
+                        eprintln!("usemcpkit: interrupted after the supervisor ended");
                     }
                 }
-                Err(error) => eprintln!("mcpkit: cannot listen for Ctrl-C: {error}"),
+                Err(error) => eprintln!("usemcpkit: cannot listen for Ctrl-C: {error}"),
             }
         });
         let options = SuperviseOptions {

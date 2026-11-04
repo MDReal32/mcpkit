@@ -31,7 +31,7 @@ export const CredentialsForm = () => {
           color: COLORS.muted,
         }}
       >
-        mcpkit
+        usemcpkit
       </div>
       <div
         style={{
