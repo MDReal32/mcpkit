@@ -7,6 +7,7 @@ mod fixed_client;
 mod json_response;
 mod ping_manifest;
 mod recording_client;
+mod route_client;
 mod token_checking_client;
 
 pub use approve_sign_in::approve_sign_in;
@@ -16,4 +17,5 @@ pub use fixed_client::FixedClient;
 pub use json_response::json_response;
 pub use ping_manifest::ping_manifest;
 pub use recording_client::RecordingClient;
+pub use route_client::RouteClient;
 pub use token_checking_client::TokenCheckingClient;

@@ -7,6 +7,7 @@ pub mod migrations;
 pub mod platform;
 pub mod program;
 pub mod update;
+pub mod versions;
 
 mod local_future;
 

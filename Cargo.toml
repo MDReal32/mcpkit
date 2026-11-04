@@ -10,6 +10,7 @@ repository = "https://github.com/MDReal32/mcpkit"
 
 [workspace.dependencies]
 mcpkit-auth = { path = "crates/auth" }
+mcpkit-binary = { path = "crates/binary" }
 mcpkit-clients = { path = "crates/clients" }
 mcpkit-core = { path = "crates/core" }
 mcpkit-credentials-form = { path = "crates/credentials-form" }
@@ -23,6 +24,7 @@ mcpkit-runner = { path = "apps/runner" }
 mcpkit-wire-log = { path = "crates/wire-log" }
 base64 = "0.23"
 bytes = "1.12"
+flate2 = "1.1"
 clap = { version = "4.6", features = ["derive", "env"] }
 futures-util = { version = "0.3", default-features = false, features = ["std"] }
 getrandom = "0.4"
@@ -35,6 +37,7 @@ percent-encoding = "2.3"
 regex = "1.11"
 reqwest = { version = "0.13", default-features = false, features = ["rustls", "http2", "charset", "system-proxy", "multipart", "gzip"] }
 sha2 = "0.10"
+rustix = { version = "1.1", features = ["process"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = { version = "1.0", features = ["preserve_order"] }
 tao = "0.37"

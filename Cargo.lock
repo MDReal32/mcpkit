@@ -1624,6 +1624,25 @@ dependencies = [
 ]
 
 [[package]]
+name = "mcpkit-binary"
+version = "0.9.0"
+dependencies = [
+ "base64",
+ "flate2",
+ "indexmap",
+ "mcpkit-core",
+ "mcpkit-http",
+ "mcpkit-manifest",
+ "mcpkit-testing",
+ "regex",
+ "rustix",
+ "serde_json",
+ "sha2",
+ "tempfile",
+ "tokio",
+]
+
+[[package]]
 name = "mcpkit-clients"
 version = "0.9.0"
 dependencies = [
