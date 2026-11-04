@@ -1,5 +1,6 @@
-//! The credentials form contract against `fixtures/credentials-form.golden.json`, written by core's
-//! `test/credential-golden.generate.test.ts` from the TypeScript implementation; regenerate it when the registry changes.
+//! The credentials form contract against `fixtures/credentials-form.golden.json`, recorded from the TypeScript CLI of
+//! 0.9.0 with each case's manifest inside it. Its `constants` are also what core's TypeScript contract test checks the
+//! page's constants against; a new case is added to the file by hand.
 
 use serde::Deserialize;
 use serde_json::Value;
@@ -44,7 +45,7 @@ fn golden() -> Golden {
 }
 
 #[test]
-fn shares_the_page_contract_constants_with_typescript() {
+fn shares_the_page_contract_constants() {
     assert_eq!(
         golden().constants,
         serde_json::json!({
@@ -60,7 +61,7 @@ fn shares_the_page_contract_constants_with_typescript() {
 }
 
 #[test]
-fn builds_the_same_request_as_typescript_for_every_registry_server() {
+fn builds_the_recorded_request_for_every_case() {
     let cases = golden().requests;
     assert!(cases.len() > 10, "the golden file lists too few requests");
     for case in cases {
@@ -75,7 +76,7 @@ fn builds_the_same_request_as_typescript_for_every_registry_server() {
 }
 
 #[test]
-fn rejects_the_same_answers_with_the_same_errors_as_typescript() {
+fn rejects_the_recorded_answers_with_the_recorded_errors() {
     let cases = golden().validations;
     assert!(cases.len() > 30, "the golden file lists too few validations");
     for case in cases {

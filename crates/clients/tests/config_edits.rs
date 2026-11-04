@@ -5,6 +5,7 @@ use usemcpkit_clients::config::{
     upsert_json_entry, upsert_toml_table,
 };
 
+/// The edits the TypeScript CLI of 0.9.0 made to each client config, recorded; a new case is added to the file by hand.
 const GOLDEN: &str = include_str!("fixtures/config-edits.json");
 
 /// The outcome as the golden file writes it: `{ "value": … }` or `{ "error": message }`.
@@ -51,7 +52,7 @@ fn json_edits_match_jsonc_parser() {
 }
 
 #[test]
-fn toml_edits_match_the_typescript_cli() {
+fn toml_edits_match_the_recorded_edits() {
     let golden = golden();
     let path = Path::new("config.toml");
     let servers = ["mcp_servers"];
@@ -75,7 +76,7 @@ fn toml_edits_match_the_typescript_cli() {
 }
 
 #[test]
-fn toml_values_match_the_typescript_cli() {
+fn toml_values_match_the_recorded_values() {
     let golden = golden();
     for row in golden["tomlValues"].as_array().unwrap() {
         assert_eq!(

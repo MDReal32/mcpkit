@@ -9,7 +9,8 @@ use usemcpkit_manifest::Manifest;
 use usemcpkit_manifest::domain::apply_domain;
 use usemcpkit_manifest::tool::ToolSpec;
 
-/// What `packages/core/test/request-golden.generate.test.ts` writes.
+/// The requests the TypeScript executor of 0.9.0 built, recorded with the manifests they came from; a new case is
+/// added to the file by hand.
 #[derive(Deserialize)]
 struct RequestGolden {
     uploads: IndexMap<String, Vec<u8>>,
@@ -50,7 +51,7 @@ fn with_local_paths(tool: &ToolSpec, args: &Map<String, Value>, dir: &Path) -> M
 }
 
 #[tokio::test]
-async fn builds_the_requests_the_typescript_executor_builds() {
+async fn builds_the_recorded_requests() {
     let golden = read_golden();
     let dir = tempfile::tempdir().unwrap();
     for (name, data) in &golden.uploads {

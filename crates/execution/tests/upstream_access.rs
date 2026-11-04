@@ -20,7 +20,7 @@ fn teams_golden_path() -> PathBuf {
 }
 
 /// What the Teams upstream is asked and started with, given only `TEAMS_APP_ID` and a form answer padded with spaces
-/// (first written by the TypeScript `withUpstreamAccess`); rewrite it with `UPDATE_GOLDENS=1 cargo test -p
+/// (first recorded from the TypeScript CLI); rewrite it with `UPDATE_GOLDENS=1 cargo test -p
 /// usemcpkit-execution` when the Teams manifest changes.
 fn teams_golden() -> Value {
     serde_json::from_str(&std::fs::read_to_string(teams_golden_path()).unwrap()).unwrap()

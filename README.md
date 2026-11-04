@@ -6,25 +6,28 @@ API, auth, tools and response mapping. A generic executor runs those manifests.
 ## Repository layout
 
 ```
-packages/core      @usemcpkit/core      library: manifest format, SDK, executor, auth (publishable)
-packages/ui        @usemcpkit/ui        Svelte pages the CLI opens in the browser, e.g. the credentials form (private)
-packages/testing   @usemcpkit/testing   shared test fixtures (private)
-apps/cli           @usemcpkit/cli       usemcpkit CLI + MCP stdio server, server definitions, binaries
-apps/npx           usemcpkit         wrapper so `npx usemcpkit` runs @usemcpkit/cli
+packages/core      @usemcpkit/core       library: manifest format, validation, SDK, form contract (publishable)
+packages/servers   @usemcpkit/servers    server definitions and generators, compiled into the registry (private)
+packages/ui        @usemcpkit/ui         Svelte pages the server shows, e.g. the credentials form (private)
+packages/testing   @usemcpkit/testing    shared test fixtures (private)
+apps/runner        usemcpkit-runner      the usemcpkit binary: commands, installing, the supervisor (Rust)
+apps/server        usemcpkit-servers     the usemcpkit-servers binary: MCP stdio server, credentials window (Rust)
+apps/npx           usemcpkit             wrapper so `npx usemcpkit` runs the binary of this platform
+apps/analytics     @usemcpkit/analytics  usage-reporting Worker
+crates/*                                 the Rust libraries behind the binaries
 ```
 
-Yarn 4 workspaces and Nx, Node 22.18+. Every command below runs from the repository root.
+Yarn 4 workspaces and Nx, Node 22.18+, and a Rust toolchain with `cargo` on PATH. Every command below runs from the
+repository root.
 
 ```bash
 yarn install
-yarn build          # every package; apps/cli/build/usemcpkit.cli.js + packages/servers/build/manifests/
+yarn build          # every package; packages/servers/build/manifests/ + target/release/usemcpkit[-servers]
                     #   then a copy of every build and the Rust release binaries in build/
 yarn test
 yarn typecheck
 yarn lint           # Biome: lint + format + import order check per project
 yarn format         # Biome: apply formatting and safe fixes across the repo
-yarn package        # + binaries in apps/cli/build/bin and npm packages in apps/cli/build/npm (needs bun)
-USEMCPKIT_TARGETS=darwin-arm64,linux-x64 yarn package   # only some targets
 ```
 
 Every package builds from `src/main.ts` into `build/usemcpkit.<package>.js` (`usemcpkit.core.d.ts` for the published types,
@@ -54,13 +57,13 @@ Supported clients (ids): `claude-desktop`, `claude-code` (`~/.claude.json`), `cu
 (`servers` in the user `mcp.json`), `devin-desktop` (Windsurf's new home), `windsurf` (legacy `~/.codeium/windsurf`),
 `cline` (`~/.cline`), `roo-code`, `copilot-cli`, `codex` (TOML), `gemini-cli`, `zed` (`context_servers`), `opencode`
 (`mcp`), `kiro`, `lm-studio`, `junie`, `warp`. A client counts as installed when its config directory exists. Each
-client's path and entry shape lives in `packages/clients/src/definitions/<id>.ts`.
+client's path and entry shape lives in `crates/clients/src/definitions/<id>.rs`.
 
-**Where the binary comes from.** When the CLI runs as the compiled binary it copies itself. Under Node (`npx`) it
-downloads `@usemcpkit/cli-<target>` (for example `@usemcpkit/cli-darwin-arm64`, `@usemcpkit/cli-linux-x64-musl`) at the same
-version from the npm registry and checks the tarball against its published `sha512` integrity. `yarn package`
-writes those packages to `apps/cli/build/npm/cli-<target>/`; publish each of them together with `@usemcpkit/cli` and
-`usemcpkit`.
+**Where the binary comes from.** `npx usemcpkit` runs the `usemcpkit` binary of the `@usemcpkit/cli-<target>` package
+npm installed for this machine (for example `@usemcpkit/cli-darwin-arm64`, `@usemcpkit/cli-linux-x64-musl`), which holds
+it and `usemcpkit-servers`. Installing copies both. A runner with no `usemcpkit-servers` beside it downloads
+`@usemcpkit/cli-<target>` at its own version from the npm registry and checks the tarball against its published
+`sha512` integrity. Building and publishing those packages is release work, see `docs/rust-port.md`.
 
 **Auto-update.** `usemcpkit serve`, when it is the installed binary, checks the npm registry at most every six hours
 (`~/.usemcpkit/update-state.json`) in the background: at start, and then every hour for as long as it runs, so a server
@@ -91,10 +94,11 @@ command instead. The Homebrew formula's `caveats` and the winget manifest's `Ins
 
 ```
 packages/servers/src/servers/gitlab/gitlab.ts   author servers in TypeScript (one folder per server, one tool per file)
-  └─ vite build                          packages/servers: plugins/manifests/ compiles + validates src/servers/*, then:
-       ├─ build/usemcpkit.cli.js             the CLI, no manifests inside
+  └─ vite build                          packages/servers: plugins/manifests/ compiles + validates src/servers/*
        └─ build/manifests/*.json          compiled manifests + index.json (the registry; CI publishes it to GitHub Pages)
-            └─ yarn package              plugins/binaries/ runs bun compile → build/bin/usemcpkit-<os>-<arch>
+cargo build --release                    apps/runner + apps/server, no manifests inside
+  ├─ target/release/usemcpkit            commands and the supervisor that owns the client's stdio
+  └─ target/release/usemcpkit-servers    the MCP server it runs, which downloads manifests from the registry
 ```
 
 An invalid server definition fails the build. The build log lists each compiled manifest:
@@ -284,7 +288,7 @@ which you can edit by hand. Credentials never cross hosts. With several hosts fo
 its env var; the host its project (git root) was bound to the first time you answered the form; the saved host the
 project's `origin` remote points at (servers whose manifest sets `domain.matchGitRemote`, such as GitHub and GitLab);
 otherwise the form asks, and the answer is remembered for that project. Credentials are plain text, with file mode `0600` in a `0700` directory, the way `gh` and `glab` keep
-their tokens. The file carries a `version` (now 2); a file without one is version 1 and, like an older `secrets.json`, is upgraded on first use by the migration list in `auth/config/config-migrations.ts` (a new version is one appended entry), and a file from a newer usemcpkit is refused rather than overwritten. There is no password and nothing to unlock. Any program running as your user can read the file, so
+their tokens. The file carries a `version` (now 2); a file without one is version 1 and, like an older `secrets.json`, is upgraded on first use by the migration list in `crates/auth/src/config/config_migrations.rs` (a new version is one appended entry), and a file from a newer usemcpkit is refused rather than overwritten. There is no password and nothing to unlock. Any program running as your user can read the file, so
 protect your account and disk; to forget a credential, delete its entry or the file. Environment variables always win
 over the file.
 
@@ -391,7 +395,7 @@ the first time a tool of that server is described or called, checked against the
   six hours, so manifests and binary stay current without anyone running a command. `USEMCPKIT_AUTO_UPDATE=0` turns the
   scheduled job and the binary auto-update off.
 - Self-hosting a registry is hosting the `packages/servers/build/manifests/` folder (links in `index.json` are built from the
-  registry URL in `apps/cli/vite.config.ts`).
+  registry URL in `packages/servers/vite.config.ts`; the binaries read `DEFAULT_REGISTRY_URL` in `crates/registry`).
 
 ### What the AI client sees
 

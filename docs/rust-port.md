@@ -7,7 +7,8 @@ The `usemcpkit` binary was a Bun-compiled TypeScript CLI of about 113 MB. On bra
 
 The servers, their generators, `packages/ui` and the `@usemcpkit/core` authoring API stay in TypeScript. The built JSON
 manifests and the built UI page are the contract between the two sides. The TypeScript CLI (`apps/cli` and the packages
-it bundles) still exists. It is the reference the Rust code is tested against until the first Rust release replaces it.
+it bundled) is gone, and `@usemcpkit/core` keeps only the authoring API; what the TypeScript CLI of `0.9.0` did is kept
+in the golden fixtures below.
 
 ## Layout
 
@@ -39,23 +40,32 @@ Or let Nx order it: every crate is an Nx project named after it (a `project.json
 its Cargo dependencies), so `yarn nx run usemcpkit-servers:build` builds the UI page and the registry first. The
 targets call `cargo`, so `cargo` has to be on PATH.
 
-## Parity with the TypeScript CLI
+## Golden fixtures
 
-**Goldens.** Each golden fixture is written by a TypeScript generator test, and a Rust test compares against it. A
-generator is skipped unless its variable is set. Regenerate the goldens when the registry or the TS behavior changes, and
-pass absolute paths.
+Each golden fixture was first written by a TypeScript generator test, and a Rust test compares against it. The
+generators went with the TypeScript CLI, so Rust owns the fixtures now:
 
-| Fixture                                                      | Rust test                                   | Regenerate (from)                                                                                                                  |
-| ------------------------------------------------------------ | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `apps/server/tests/fixtures/exposed-tools.json`              | `exposed_tools.rs`                          | `apps/cli`: `GOLDEN_OUTPUT=<file> yarn vitest run --configLoader runner test/exposure-golden.generate.test.ts`                      |
-| `apps/server/tests/fixtures/session.json`, `tool-digests.json` | `session_parity.rs`                       | `apps/cli`: `SESSION_GOLDEN_OUTPUT=<fixtures dir> yarn vitest run --configLoader runner test/session-golden.generate.test.ts`        |
-| `apps/server/tests/fixtures/upstream-naming.json`            | `upstream_naming.rs`                        | `apps/cli`: `UPSTREAM_NAMING_GOLDEN_OUTPUT=<file> yarn vitest run --configLoader runner test/upstream-naming-golden.generate.test.ts` |
-| `crates/execution/tests/fixtures/requests.json`              | `request_golden.rs`                         | `packages/core`: `REQUEST_GOLDEN_OUTPUT=<file> yarn vitest run --configLoader native test/request-golden.generate.test.ts`            |
-| `crates/execution/tests/fixtures/teams-forwarded-credentials.json` | `upstream_access.rs`                  | `packages/core`: `FORWARDED_GOLDEN_OUTPUT=<file> yarn vitest run --configLoader native test/forwarded-credentials-golden.generate.test.ts` |
-| `crates/auth/tests/fixtures/credentials-form.golden.json`    | `credentials_golden.rs`                     | `packages/core`: `CREDENTIAL_GOLDEN_OUTPUT=<file> yarn vitest run --configLoader native test/credential-golden.generate.test.ts`      |
-| `crates/clients/tests/fixtures/config-edits.json`            | `config_edits.rs`                           | `packages/clients`: `CONFIG_EDITS_GOLDEN_OUTPUT=<file> yarn vitest run --configLoader native test/config-edits-golden.generate.test.ts` |
+- the ones that follow the registry are rewritten from Rust when it changes, with
+  `UPDATE_GOLDENS=1 cargo test -p usemcpkit-servers -p usemcpkit-execution` (review the diff before committing it);
+- the others hold their own inputs (manifests, client configs) and are frozen: a new case is added to the file by hand.
 
-The credentials golden is not named `credentials.json` because `.gitignore` ignores every file with that name.
+| Fixture                                                            | Rust test               | Kept up by        |
+| ------------------------------------------------------------------ | ----------------------- | ----------------- |
+| `apps/server/tests/fixtures/exposed-tools.json`                    | `exposed_tools.rs`      | `UPDATE_GOLDENS=1` |
+| `apps/server/tests/fixtures/session.json`, `tool-digests.json`     | `session_parity.rs`     | `UPDATE_GOLDENS=1` |
+| `apps/server/tests/fixtures/upstream-naming.json`                  | `upstream_naming.rs`    | `UPDATE_GOLDENS=1` |
+| `crates/execution/tests/fixtures/teams-forwarded-credentials.json` | `upstream_access.rs`    | `UPDATE_GOLDENS=1` |
+| `crates/execution/tests/fixtures/requests.json`                    | `request_golden.rs`     | frozen            |
+| `crates/auth/tests/fixtures/credentials-form.golden.json`          | `credentials_golden.rs` | frozen            |
+| `crates/clients/tests/fixtures/config-edits.json`                  | `config_edits.rs`       | frozen            |
+
+The credentials golden is not named `credentials.json` because `.gitignore` ignores every file with that name. Its
+`constants` are also what `packages/core/test/credentials-form-contract.test.ts` checks the page's form constants
+against, so the page and the server cannot drift apart.
+
+`crates/execution/tests/bundled_servers.rs` runs tool calls of the built GitHub, GitLab, Jira, Confluence, ClickUp,
+Discord and Reddit manifests and checks the requests they send (the cases `packages/servers/test/servers.test.ts` ran
+through the TypeScript executor).
 
 **What `session_parity.rs` covers.** It replays a fixed client session through `McpServer::handle_line`. The session
 includes:
@@ -71,8 +81,8 @@ fails 4076 tool digests.
 ## Behavior that differs from TypeScript
 
 **Registry and manifests**
-- `validateManifest` (semantic validation) is not ported. serde checks structure only, and `validate` is not a runner
-  command.
+- `validateManifest` (semantic validation) is not ported: it runs in TypeScript when `packages/servers` builds the
+  registry. serde checks structure only, and `validate` is not a runner command.
 
 **Protocol and errors**
 - JSON parse error texts differ from Node's.
@@ -147,14 +157,23 @@ TS and Rust handle them the same way:
 
 ## Release work still open
 
-- `apps/cli/plugins/binaries` still compiles the TS CLI with Bun. Replace it with a `cargo build --release` per target
-  (`cargo-zigbuild` or a CI matrix for Linux musl and ARM).
+- The Bun packaging (`apps/cli/plugins/binaries`) went with the TS CLI, so nothing builds the per-target binaries or
+  writes the npm platform packages now. Add a `cargo build --release` per target (`cargo-zigbuild` or a CI matrix for
+  Linux musl and ARM) and a writer for each `@usemcpkit/cli-<target>` package (`name`, `version`, `os`/`cpu`/`libc`,
+  `files: ["bin"]`, `publishConfig`; the deleted `apps/cli/plugins/binaries/write-platform-package.ts` in git history
+  has the layout).
+- `.github/workflows/release-build.yml` (`yarn package`), the CLI publish job of `release.yml`,
+  `.github/scripts/publish-npm.sh` and `.github/scripts/publish-github-release.sh` still read `apps/cli/build`; they fail
+  until they are rewritten for the Rust binaries.
 - Each npm platform package must ship `package/bin/usemcpkit[.exe]` and `package/bin/usemcpkit-servers[.exe]` together.
 - Decide whether the first release also ships the runner as `package/bin/mcpkit[.exe]`, so TS `0.9.0` installs update
   themselves into it, or whether those users reinstall with `npx usemcpkit` (see "Moving users from the `mcpkit` name").
 - npm already has a TS `0.9.0`, which has no server in it, so the first Rust release must be newer than `0.9.0`.
 - Homebrew and winget packages must ship `usemcpkit-servers` next to `usemcpkit`.
-- The `usemcpkit` npx wrapper must spawn the platform binary instead of the TS CLI.
+- The `usemcpkit` npx wrapper spawns the platform binary, but its `package.json` lists no platform packages yet:
+  publishing must add each `@usemcpkit/cli-<target>` to its `optionalDependencies` at the release version.
+- `@usemcpkit/core` lost its runtime exports (executor, auth, mapping), a breaking change for anyone who imported them:
+  its next release needs a major version bump.
 
 ## Testing hazards
 
