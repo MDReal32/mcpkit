@@ -5,6 +5,7 @@
   "implicitDependencies": [
     "@usemcpkit/analytics",
     "@usemcpkit/core",
+    "@usemcpkit/native",
     "@usemcpkit/servers",
     "@usemcpkit/ui",
     "usemcpkit",

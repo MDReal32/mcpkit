@@ -1,0 +1,25 @@
+[package]
+name = "usemcpkit-napi"
+description = "The Node.js addon behind @usemcpkit/native: the manifest validation of usemcpkit-manifest for JavaScript."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+test = false
+doctest = false
+
+[dependencies]
+napi = { version = "3.16", default-features = false, features = ["napi4", "serde-json"] }
+napi-derive = "3.7"
+serde_json.workspace = true
+usemcpkit-validation.workspace = true
+
+[build-dependencies]
+napi-build = "2.6"
+
+[lints]
+workspace = true

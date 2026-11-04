@@ -57,6 +57,7 @@ generators went with the TypeScript CLI, so Rust owns the fixtures now:
 | `crates/execution/tests/fixtures/teams-forwarded-credentials.json` | `upstream_access.rs`    | `UPDATE_GOLDENS=1` |
 | `crates/execution/tests/fixtures/requests.json`                    | `request_golden.rs`     | frozen            |
 | `crates/auth/tests/fixtures/credentials-form.golden.json`          | `credentials_golden.rs` | frozen            |
+| `crates/validation/tests/fixtures/validation.golden.json`          | `validation_golden.rs`  | frozen            |
 | `crates/clients/tests/fixtures/config-edits.json`                  | `config_edits.rs`       | frozen            |
 
 The credentials golden is not named `credentials.json` because `.gitignore` ignores every file with that name. Its
@@ -81,8 +82,10 @@ fails 4076 tool digests.
 ## Behavior that differs from TypeScript
 
 **Registry and manifests**
-- `validateManifest` (semantic validation) is not ported: it runs in TypeScript when `packages/servers` builds the
-  registry. serde checks structure only, and `validate` is not a runner command.
+- `validateManifest` (semantic validation) is `crates/validation`, which `packages/servers` calls through
+  `@usemcpkit/native` when it builds the registry. The binaries do not run it on downloaded manifests yet (serde checks
+  their structure only), and `validate` is not a runner command. A naming rule's broken `match` is reported with the
+  `regex` crate's error text instead of JavaScript's.
 
 **Protocol and errors**
 - JSON parse error texts differ from Node's.
@@ -126,7 +129,6 @@ fails 4076 tool digests.
 
 **Not ported**
 - Usage reporting (`onToolUse`, analytics).
-- The napi-rs wrapper for `@usemcpkit/core` that the first plan listed.
 
 ## Moving users from the TypeScript binary
 

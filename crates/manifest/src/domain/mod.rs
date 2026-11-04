@@ -8,6 +8,7 @@ mod find_edition;
 mod is_domain_value;
 
 pub use apply_domain::apply_domain;
+pub use consts::DOMAIN_PLACEHOLDER;
 pub use domain_host::domain_host;
 pub use fill_domain::fill_domain;
 pub use find_edition::find_edition;

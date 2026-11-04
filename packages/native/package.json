@@ -1,0 +1,22 @@
+{
+  "name": "@usemcpkit/native",
+  "version": "0.9.0",
+  "private": true,
+  "description": "The Rust manifest validation of usemcpkit as a Node.js addon (napi-rs).",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./build/usemcpkit.native.d.ts",
+      "default": "./build/usemcpkit.native.js"
+    }
+  },
+  "napi": {
+    "binaryName": "usemcpkit.native"
+  },
+  "scripts": {
+    "build": "napi build --platform --profile napi --manifest-path ../../crates/napi/Cargo.toml --output-dir build --esm --js usemcpkit.native.js --dts usemcpkit.native.d.ts"
+  },
+  "devDependencies": {
+    "@napi-rs/cli": "3.10.9"
+  }
+}

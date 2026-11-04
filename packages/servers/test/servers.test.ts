@@ -1,4 +1,4 @@
-import { validateManifest } from "@usemcpkit/core";
+import { validateManifest } from "@usemcpkit/native";
 import { describe, expect, it } from "vitest";
 import { clickup } from "../src/servers/clickup/clickup";
 import { confluence } from "../src/servers/confluence/confluence";

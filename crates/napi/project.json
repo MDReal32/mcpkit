@@ -1,0 +1,12 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "usemcpkit-napi",
+  "projectType": "library",
+  "implicitDependencies": ["usemcpkit-validation"],
+  "targets": {
+    "lint": {
+      "command": "cargo fmt -p usemcpkit-napi --check && cargo clippy -p usemcpkit-napi --all-targets",
+      "inputs": ["default", "^production", "cargo"]
+    }
+  }
+}

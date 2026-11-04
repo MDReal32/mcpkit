@@ -8,6 +8,7 @@ export const PROJECT_BUILDS: readonly BuildCopy[] = [
   { from: "apps/analytics/build", to: "analytics" },
   { from: "apps/npx/build", to: "npx" },
   { from: "packages/core/build", to: "core" },
+  { from: "packages/native/build", to: "native" },
   { from: "packages/servers/build", to: "servers" },
   { from: "packages/ui/build", to: "ui" },
 ];

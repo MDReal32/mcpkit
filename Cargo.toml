@@ -20,6 +20,7 @@ usemcpkit-manifest = { path = "crates/manifest" }
 usemcpkit-registry = { path = "crates/registry" }
 usemcpkit-testing = { path = "crates/testing" }
 usemcpkit-upstream = { path = "crates/upstream" }
+usemcpkit-validation = { path = "crates/validation" }
 usemcpkit-runner = { path = "apps/runner" }
 usemcpkit-wire-log = { path = "crates/wire-log" }
 base64 = "0.23"
@@ -60,3 +61,7 @@ lto = true
 opt-level = "s"
 panic = "abort"
 strip = true
+
+[profile.napi]
+inherits = "release"
+panic = "unwind"

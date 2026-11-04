@@ -1,0 +1,16 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "usemcpkit-validation",
+  "projectType": "library",
+  "implicitDependencies": ["usemcpkit-core", "usemcpkit-manifest"],
+  "targets": {
+    "test": {
+      "command": "cargo test -p usemcpkit-validation",
+      "inputs": ["default", "^production", "cargo"]
+    },
+    "lint": {
+      "command": "cargo fmt -p usemcpkit-validation --check && cargo clippy -p usemcpkit-validation --all-targets",
+      "inputs": ["default", "^production", "cargo"]
+    }
+  }
+}
