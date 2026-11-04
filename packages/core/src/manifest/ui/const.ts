@@ -37,23 +37,6 @@ export const DEFAULT_UI_TEXTS: Readonly<UiTexts> = {
   requestFailed: "the CLI answered {status}",
 };
 
-export const UI_TEXT_KEYS = Object.keys(DEFAULT_UI_TEXTS) as readonly (keyof UiTexts)[];
-
-/** A program found on PATH by name; never a path, so a manifest cannot point at a file it ships. */
-export const CLI_COMMAND_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._-]*$/;
-
-export const UI_ACTION_TYPES: readonly string[] = ["link", "cli"];
-
-export const UI_URL_PLACEHOLDERS: readonly string[] = ["domain", "webHost", "server"];
-
 export const UI_DOMAIN_PLACEHOLDERS: readonly string[] = ["domain", "webHost"];
 
 export const UI_PLACEHOLDER_PATTERN = /\{(\w+)\}/g;
-
-export const UI_INPUT_KEYS: readonly string[] = ["label", "hint", "placeholder"];
-
-export const UI_AUTH_TYPES: readonly string[] = ["bearer", "header", "query", "basic"];
-
-export const UI_SERVER_KEYS: readonly string[] = ["texts"];
-
-export const UI_AUTH_KEYS: readonly string[] = ["inputs", "actions"];

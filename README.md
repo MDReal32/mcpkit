@@ -6,7 +6,7 @@ API, auth, tools and response mapping. A generic executor runs those manifests.
 ## Repository layout
 
 ```
-packages/core      @usemcpkit/core       library: manifest format, validation, SDK, form contract (publishable)
+packages/core      @usemcpkit/core       library: manifest format, SDK, form contract (publishable)
 packages/servers   @usemcpkit/servers    server definitions and generators, compiled into the registry (private)
 packages/ui        @usemcpkit/ui         Svelte pages the server shows, e.g. the credentials form (private)
 packages/testing   @usemcpkit/testing    shared test fixtures (private)

@@ -58,13 +58,11 @@ export {
   fillTemplate,
   isDomainValue,
   isInteractiveAuth,
-  isValidManifest,
   listAuthEnvNames,
   nameUpstreamTool,
   SERVER_NAME_PATTERN,
   TOOL_NAME_PATTERN,
   toNameMapping,
-  validateManifest,
 } from "./manifest";
 export type { Param, ParamMap, ParamOptions } from "./sdk";
 export { array, boolean, defineServer, defineTool, defineUI, input, number, oneOf, optional, string } from "./sdk";

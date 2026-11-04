@@ -82,8 +82,8 @@ fails 4076 tool digests.
 ## Behavior that differs from TypeScript
 
 **Registry and manifests**
-- `validateManifest` (semantic validation) is `crates/validation`, which `packages/servers` calls through
-  `@usemcpkit/native` when it builds the registry. The binaries do not run it on downloaded manifests yet (serde checks
+- `validateManifest` (semantic validation) is `crates/validation` only, which `packages/servers` calls through
+  `@usemcpkit/native` when it builds the registry; `@usemcpkit/core` no longer exports it. The binaries do not run it on downloaded manifests yet (serde checks
   their structure only), and `validate` is not a runner command. A naming rule's broken `match` is reported with the
   `regex` crate's error text instead of JavaScript's.
 
@@ -174,7 +174,8 @@ TS and Rust handle them the same way:
 - Homebrew and winget packages must ship `usemcpkit-servers` next to `usemcpkit`.
 - The `usemcpkit` npx wrapper spawns the platform binary, but its `package.json` lists no platform packages yet:
   publishing must add each `@usemcpkit/cli-<target>` to its `optionalDependencies` at the release version.
-- `@usemcpkit/core` lost its runtime exports (executor, auth, mapping), a breaking change for anyone who imported them:
+- `@usemcpkit/core` lost its runtime exports (executor, auth, mapping) and `validateManifest`/`isValidManifest`, a
+  breaking change for anyone who imported them:
   its next release needs a major version bump.
 
 ## Testing hazards

@@ -1,6 +1,6 @@
 # @usemcpkit/core
 
-The authoring side of usemcpkit: the manifest format and its validation, the server SDK (`defineServer`,
+The authoring side of usemcpkit: the manifest format, the server SDK (`defineServer`,
 `defineTool`, `defineUI`), the upstream naming rules (`nameUpstreamTool`) and the credentials form contract the
 page uses (`CREDENTIALS_FORM_API`, the `Credential*` types). Published to npm. It runs nothing: the `usemcpkit`
 binaries (Rust, `apps/runner` and `apps/server`) execute the manifests, sign in and keep the credentials, as
