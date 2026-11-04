@@ -1,15 +1,6 @@
-import { createPingManifest } from "@usemcpkit/testing";
 import { describe, expect, it } from "vitest";
-import type { AuthSpec, CredentialRequest, Manifest, UiAction, UiCliAction } from "../src/main";
-import {
-  DEFAULT_UI_TEXTS,
-  defineUI,
-  executeTool,
-  fillTemplate,
-  resolveCliCommand,
-  resolveLinkUrl,
-  validateManifest,
-} from "../src/main";
+import type { UiAction, UiCliAction } from "../src/main";
+import { defineUI, fillTemplate, resolveLinkUrl, validateManifest } from "../src/main";
 import { demoManifest } from "./fixtures/demo-manifest";
 
 const githubCli: UiCliAction = {
@@ -44,16 +35,6 @@ describe("resolveLinkUrl", () => {
   it("waits for a domain only when the link needs one", () => {
     expect(resolveLinkUrl("https://{domain}/t", undefined)).toBeUndefined();
     expect(resolveLinkUrl("https://id.example.com/t", undefined)).toBe("https://id.example.com/t");
-  });
-});
-
-describe("resolveCliCommand", () => {
-  it("fills the web host of the domain into the arguments and needs a domain for it", () => {
-    expect(resolveCliCommand(githubCli, "api.acme.ghe.com")).toEqual({
-      command: "gh",
-      args: ["auth", "token", "--hostname", "acme.ghe.com"],
-    });
-    expect(() => resolveCliCommand(githubCli, undefined)).toThrow('"gh" needs a domain');
   });
 });
 
@@ -125,95 +106,5 @@ describe("ui validation", () => {
         },
       ]),
     ).toEqual([expect.stringContaining("needs an auth entry with a single credential")]);
-  });
-});
-
-describe("credentials request from the manifest", () => {
-  const askFor = async (manifest: Manifest, env: Record<string, string> = {}) => {
-    const requests: CredentialRequest[] = [];
-    const [tool] = manifest.tools;
-    if (!tool) {
-      throw new Error("manifest has no tool");
-    }
-    await expect(
-      executeTool(
-        manifest,
-        tool,
-        {},
-        {
-          env,
-          requestCredentials: async (request) => {
-            requests.push(request);
-            throw new Error("closed");
-          },
-        },
-      ),
-    ).rejects.toThrow("closed");
-    return requests[0];
-  };
-
-  const manifestWith = (auth: readonly AuthSpec[], ui?: Manifest["ui"]): Manifest => ({
-    ...createPingManifest("1.0.0", "", "demo", auth),
-    baseUrl: "https://{domain}",
-    domain: { default: "api.github.com", env: "DEMO_DOMAIN" },
-    ...(ui ? { ui } : {}),
-  });
-
-  it("carries every text, the field overrides and the actions, with the server filled in", async () => {
-    const request = await askFor(
-      manifestWith(
-        [
-          {
-            type: "bearer",
-            env: "DEMO_TOKEN",
-            ui: defineUI({
-              inputs: { DEMO_TOKEN: { label: "Token", placeholder: "ghp_…" } },
-              actions: [githubLink, githubCli],
-            }),
-          },
-        ],
-        defineUI({ texts: { cancel: "Back", title: "Link {server}" } }),
-      ),
-      { DEMO_DOMAIN: "ghe.example.com/api/v3" },
-    );
-
-    expect(request?.texts).toEqual({
-      ...DEFAULT_UI_TEXTS,
-      cancel: "Back",
-      title: "Link demo",
-      savedTitle: "demo is connected",
-      checking: "Checking with demo…",
-      signingInBody: expect.stringContaining("access to demo"),
-      intro: expect.any(String),
-    });
-    expect(request?.domainInUse).toBe("ghe.example.com/api/v3");
-    expect(request?.options[0]?.fields).toEqual([
-      {
-        key: "DEMO_TOKEN",
-        label: "Token",
-        hint: "Or set the DEMO_TOKEN environment variable.",
-        placeholder: "ghp_…",
-        secret: true,
-      },
-    ]);
-    expect(request?.options[0]?.actions).toEqual([
-      { ...githubLink, url: "https://{webHost}/settings/personal-access-tokens/new?name=usemcpkit+demo" },
-      githubCli,
-    ]);
-  });
-
-  it("drops a CLI button when the entry asks for more than one value", async () => {
-    const request = await askFor(
-      manifestWith([
-        {
-          type: "basic",
-          usernameEnv: "DEMO_USER",
-          passwordEnv: "DEMO_PASS",
-          ui: { actions: [githubLink, githubCli] },
-        },
-      ]),
-    );
-
-    expect(request?.options[0]?.actions.map((action) => action.type)).toEqual(["link"]);
   });
 });

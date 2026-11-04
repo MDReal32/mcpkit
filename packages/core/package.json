@@ -1,7 +1,7 @@
 {
   "name": "@usemcpkit/core",
   "version": "0.8.4",
-  "description": "Manifest-driven MCP tool execution: manifest validation, HTTP execution, response mapping, auth and the server SDK.",
+  "description": "The usemcpkit manifest format: types, validation, the server SDK and the credentials form contract.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MDReal32/mcpkit.git",

@@ -1,8 +1,10 @@
 # @usemcpkit/core
 
-Library behind usemcpkit: the manifest format and its validation, the server SDK (`defineServer`, `defineTool`,
-`defineUI`), the HTTP executor with response mapping, and auth (fallbacks, OAuth 2.0 PKCE, the credentials form
-contract). Published to npm. It contains no per-provider code: a server differs from another only in its manifest.
+The authoring side of usemcpkit: the manifest format and its validation, the server SDK (`defineServer`,
+`defineTool`, `defineUI`), the upstream naming rules (`nameUpstreamTool`) and the credentials form contract the
+page uses (`CREDENTIALS_FORM_API`, the `Credential*` types). Published to npm. It runs nothing: the `usemcpkit`
+binaries (Rust, `apps/runner` and `apps/server`) execute the manifests, sign in and keep the credentials, as
+described below. It contains no per-provider code: a server differs from another only in its manifest.
 
 Public surface: `src/main.ts` (built to `build/usemcpkit.core.js` with bundled types in `build/usemcpkit.core.d.ts`).
 
@@ -110,7 +112,7 @@ which you can edit by hand. Credentials never cross hosts. With several hosts fo
 its env var; the host its project (git root) was bound to the first time you answered the form; the saved host the
 project's `origin` remote points at (servers whose manifest sets `domain.matchGitRemote`, such as GitHub and GitLab);
 otherwise the form asks, and the answer is remembered for that project. Credentials are plain text, with file mode `0600` in a `0700` directory, the way `gh` and `glab` keep
-their tokens. The file carries a `version` (now 2); a file without one is version 1 and, like an older `secrets.json`, is upgraded on first use by the migration list in `auth/config/config-migrations.ts` (a new version is one appended entry), and a file from a newer usemcpkit is refused rather than overwritten. There is no password and nothing to unlock. Any program running as your user can read the file, so
+their tokens. The file carries a `version` (now 2); a file without one is version 1 and, like an older `secrets.json`, is upgraded on first use by the migration list in `crates/auth/src/config/config_migrations.rs` (a new version is one appended entry), and a file from a newer usemcpkit is refused rather than overwritten. There is no password and nothing to unlock. Any program running as your user can read the file, so
 protect your account and disk; to forget a credential, delete its entry or the file. Environment variables always win
 over the file.
 

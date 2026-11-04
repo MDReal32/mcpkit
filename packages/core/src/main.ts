@@ -1,47 +1,21 @@
 export type {
-  AuthContext,
-  CliTokenCommand,
   CredentialField,
   CredentialOption,
   CredentialRequest,
   CredentialResponse,
   DomainField,
-  ResolvedAuth,
-  SecretOwner,
-  SecretStore,
   SignInCredentialResponse,
-  SignInResult,
   TokenCredentialResponse,
   TokenImportRequest,
-} from "./auth";
+} from "./credentials-form";
 export {
-  AuthError,
-  adoptLegacyHome,
   CREDENTIALS_FORM_API,
   CREDENTIALS_FORM_SESSION_HEADER,
   CREDENTIALS_REQUEST_ELEMENT_ID,
-  createFileSecretStore,
   FORM_WINDOW_BINDINGS,
-  isValidCredentialResponse,
-  resolveCliCommand,
   resolveLinkUrl,
-  resolveStaticAuth,
-  signIn,
-  UnauthorizedError,
-  validateCredentialResponse,
-} from "./auth";
-export type { Env } from "./env";
-export { describeError, isMissingFileError } from "./errors";
-export type { ExecuteOptions, HttpRequest, UpstreamAccess } from "./execution";
-export {
-  buildRequest,
-  executeTool,
-  nameUpstreamTool,
-  prepareToolArgs,
-  ToolError,
-  withUpstreamAccess,
-} from "./execution";
-export { resolveHomeDir, resolveLegacyHomeDir } from "./home";
+} from "./credentials-form";
+export { describeError } from "./errors";
 export { isJsonObject } from "./json";
 export type {
   ArgSpec,
@@ -86,12 +60,11 @@ export {
   isInteractiveAuth,
   isValidManifest,
   listAuthEnvNames,
+  nameUpstreamTool,
   SERVER_NAME_PATTERN,
   TOOL_NAME_PATTERN,
   toNameMapping,
   validateManifest,
 } from "./manifest";
-export { getPath, mapResponse } from "./mapping";
 export type { Param, ParamMap, ParamOptions } from "./sdk";
 export { array, boolean, defineServer, defineTool, defineUI, input, number, oneOf, optional, string } from "./sdk";
-export { compareVersions } from "./versions";
