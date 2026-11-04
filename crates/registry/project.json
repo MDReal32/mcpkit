@@ -1,9 +1,17 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "usemcpkit-registry",
+  "projectType": "library",
+  "implicitDependencies": ["usemcpkit-core", "usemcpkit-manifest", "@usemcpkit/servers"],
   "targets": {
     "test": {
-      "dependsOn": ["^build"],
-      "inputs": ["default", "{workspaceRoot}/packages/servers/build/manifests/**/*"]
+      "command": "cargo test -p usemcpkit-registry",
+      "inputs": ["default", "^production", "cargo", "{workspaceRoot}/packages/servers/build/manifests/**/*"],
+      "dependsOn": ["^build"]
+    },
+    "lint": {
+      "command": "cargo fmt -p usemcpkit-registry --check && cargo clippy -p usemcpkit-registry --all-targets",
+      "inputs": ["default", "^production", "cargo"]
     }
   }
 }

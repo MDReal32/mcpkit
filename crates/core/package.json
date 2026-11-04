@@ -1,8 +1,0 @@
-{
-  "name": "@usemcpkit/core-rs",
-  "private": true,
-  "scripts": {
-    "test": "cargo test -p usemcpkit-core",
-    "lint": "cargo fmt -p usemcpkit-core --check && cargo clippy -p usemcpkit-core --all-targets"
-  }
-}

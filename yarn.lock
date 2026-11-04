@@ -2503,18 +2503,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@usemcpkit/auth@workspace:crates/auth":
-  version: 0.0.0-use.local
-  resolution: "@usemcpkit/auth@workspace:crates/auth"
-  languageName: unknown
-  linkType: soft
-
-"@usemcpkit/binary-rs@workspace:crates/binary":
-  version: 0.0.0-use.local
-  resolution: "@usemcpkit/binary-rs@workspace:crates/binary"
-  languageName: unknown
-  linkType: soft
-
 "@usemcpkit/binary@workspace:*, @usemcpkit/binary@workspace:packages/binary":
   version: 0.0.0-use.local
   resolution: "@usemcpkit/binary@workspace:packages/binary"
@@ -2564,12 +2552,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@usemcpkit/core-rs@workspace:crates/core":
-  version: 0.0.0-use.local
-  resolution: "@usemcpkit/core-rs@workspace:crates/core"
-  languageName: unknown
-  linkType: soft
-
 "@usemcpkit/core@workspace:*, @usemcpkit/core@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@usemcpkit/core@workspace:packages/core"
@@ -2596,49 +2578,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@usemcpkit/execution@workspace:crates/execution":
-  version: 0.0.0-use.local
-  resolution: "@usemcpkit/execution@workspace:crates/execution"
-  languageName: unknown
-  linkType: soft
-
-"@usemcpkit/http@workspace:crates/http":
-  version: 0.0.0-use.local
-  resolution: "@usemcpkit/http@workspace:crates/http"
-  languageName: unknown
-  linkType: soft
-
-"@usemcpkit/manifest@workspace:crates/manifest":
-  version: 0.0.0-use.local
-  resolution: "@usemcpkit/manifest@workspace:crates/manifest"
-  dependencies:
-    "@usemcpkit/servers": "workspace:*"
-  languageName: unknown
-  linkType: soft
-
-"@usemcpkit/registry@workspace:crates/registry":
-  version: 0.0.0-use.local
-  resolution: "@usemcpkit/registry@workspace:crates/registry"
-  dependencies:
-    "@usemcpkit/servers": "workspace:*"
-  languageName: unknown
-  linkType: soft
-
-"@usemcpkit/runner@workspace:apps/runner":
-  version: 0.0.0-use.local
-  resolution: "@usemcpkit/runner@workspace:apps/runner"
-  languageName: unknown
-  linkType: soft
-
-"@usemcpkit/server@workspace:apps/server":
-  version: 0.0.0-use.local
-  resolution: "@usemcpkit/server@workspace:apps/server"
-  dependencies:
-    "@usemcpkit/servers": "workspace:*"
-    "@usemcpkit/ui": "workspace:*"
-  languageName: unknown
-  linkType: soft
-
 "@usemcpkit/servers@workspace:*, @usemcpkit/servers@workspace:packages/servers":
   version: 0.0.0-use.local
   resolution: "@usemcpkit/servers@workspace:packages/servers"
@@ -2652,12 +2591,6 @@ __metadata:
     vite-plugin-dts: "npm:5.1.2"
     vitest: "npm:^4.0.0"
     yaml: "npm:2.9.0"
-  languageName: unknown
-  linkType: soft
-
-"@usemcpkit/testing-rs@workspace:crates/testing":
-  version: 0.0.0-use.local
-  resolution: "@usemcpkit/testing-rs@workspace:crates/testing"
   languageName: unknown
   linkType: soft
 
@@ -2714,12 +2647,6 @@ __metadata:
     react-dom: "npm:19.3.1"
     remotion: "npm:4.0.539"
     typescript: "npm:^5.9.0"
-  languageName: unknown
-  linkType: soft
-
-"@usemcpkit/wire-log@workspace:crates/wire-log":
-  version: 0.0.0-use.local
-  resolution: "@usemcpkit/wire-log@workspace:crates/wire-log"
   languageName: unknown
   linkType: soft
 

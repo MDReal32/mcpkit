@@ -1,8 +1,0 @@
-{
-  "name": "@usemcpkit/http",
-  "private": true,
-  "scripts": {
-    "test": "cargo test -p usemcpkit-http",
-    "lint": "cargo fmt -p usemcpkit-http --check && cargo clippy -p usemcpkit-http --all-targets"
-  }
-}

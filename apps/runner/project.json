@@ -1,0 +1,27 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "usemcpkit-runner",
+  "projectType": "application",
+  "implicitDependencies": [
+    "usemcpkit-binary",
+    "usemcpkit-clients",
+    "usemcpkit-core",
+    "usemcpkit-http",
+    "usemcpkit-registry",
+    "usemcpkit-wire-log"
+  ],
+  "targets": {
+    "build": {
+      "command": "cargo build --release -p usemcpkit-runner",
+      "cache": false
+    },
+    "test": {
+      "command": "cargo test -p usemcpkit-runner",
+      "inputs": ["default", "^production", "cargo"]
+    },
+    "lint": {
+      "command": "cargo fmt -p usemcpkit-runner --check && cargo clippy -p usemcpkit-runner --all-targets",
+      "inputs": ["default", "^production", "cargo"]
+    }
+  }
+}

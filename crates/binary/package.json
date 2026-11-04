@@ -1,8 +1,0 @@
-{
-  "name": "@usemcpkit/binary-rs",
-  "private": true,
-  "scripts": {
-    "test": "cargo test -p usemcpkit-binary",
-    "lint": "cargo fmt -p usemcpkit-binary --check && cargo clippy -p usemcpkit-binary --all-targets"
-  }
-}

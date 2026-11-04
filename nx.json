@@ -3,7 +3,8 @@
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "sharedGlobals": ["{workspaceRoot}/tsconfig.base.json"],
-    "production": ["default", "!{projectRoot}/test/**/*"]
+    "production": ["default", "!{projectRoot}/test/**/*"],
+    "cargo": ["{workspaceRoot}/Cargo.toml", "{workspaceRoot}/Cargo.lock"]
   },
   "targetDefaults": {
     "build": {

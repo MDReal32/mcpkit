@@ -1,0 +1,16 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "usemcpkit-auth",
+  "projectType": "library",
+  "implicitDependencies": ["usemcpkit-core", "usemcpkit-http", "usemcpkit-manifest", "usemcpkit-testing"],
+  "targets": {
+    "test": {
+      "command": "cargo test -p usemcpkit-auth",
+      "inputs": ["default", "^production", "cargo"]
+    },
+    "lint": {
+      "command": "cargo fmt -p usemcpkit-auth --check && cargo clippy -p usemcpkit-auth --all-targets",
+      "inputs": ["default", "^production", "cargo"]
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "usemcpkit-wire-log",
+  "projectType": "library",
+  "targets": {
+    "test": {
+      "command": "cargo test -p usemcpkit-wire-log",
+      "inputs": ["default", "^production", "cargo"]
+    },
+    "lint": {
+      "command": "cargo fmt -p usemcpkit-wire-log --check && cargo clippy -p usemcpkit-wire-log --all-targets",
+      "inputs": ["default", "^production", "cargo"]
+    }
+  }
+}

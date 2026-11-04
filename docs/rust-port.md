@@ -35,7 +35,9 @@ registry:
 2. `yarn workspace @usemcpkit/servers build`
 3. `cargo build`
 
-The Nx targets of `@usemcpkit/runner` and `@usemcpkit/server` call `cargo`, so `cargo` has to be on PATH.
+Or let Nx order it: every crate is an Nx project named after it (a `project.json`, `implicitDependencies` taken from
+its Cargo dependencies), so `yarn nx run usemcpkit-servers:build` builds the UI page and the registry first. The
+targets call `cargo`, so `cargo` has to be on PATH.
 
 ## Parity with the TypeScript CLI
 
