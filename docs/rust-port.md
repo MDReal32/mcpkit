@@ -159,12 +159,13 @@ TS and Rust handle them the same way:
 
 ## Releasing
 
-`.github/workflows/release-build.yml` runs `yarn build` (every lint, test and build gate) on Ubuntu, then builds the two
-binaries per target on that target's own runner (`linux-x64`, `linux-arm64`, `darwin-x64`, `darwin-arm64`,
-`windows-x64`) from the credentials page the first job built, then `tools/release` writes each
+`.github/workflows/release-build.yml` runs `yarn build` (every lint, test and build gate) on Ubuntu; the registry is
+deployed from it alone. `release-binaries.yml` then builds the two binaries per target on that target's own runner
+(`linux-x64`, `linux-arm64`, `darwin-x64`, `darwin-arm64`, `windows-x64`) from the credentials page the first job
+built, checks that each prints `--version`, and `tools/release` writes each
 `@usemcpkit/cli-<target>` package with `bin/usemcpkit[.exe]` and `bin/usemcpkit-servers[.exe]`, the GitHub Release
 assets (`usemcpkit-<target>[.exe]`, `usemcpkit-servers-<target>[.exe]`) and the wrapper's `optionalDependencies` at the
-release version. It fails unless `apps/npx` and the Cargo workspace have the same version. `publish-npm.sh` skips any
+release version, beside the core and wrapper builds of the first job. It fails unless `apps/npx` and the Cargo workspace have the same version. `publish-npm.sh` skips any
 version npm already has, so a release only publishes what was bumped.
 
 ## Release work still open

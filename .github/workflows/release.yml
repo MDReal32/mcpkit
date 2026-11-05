@@ -21,19 +21,24 @@ jobs:
     name: Build
     uses: ./.github/workflows/release-build.yml
 
+  binaries:
+    name: Binaries
+    needs: build
+    uses: ./.github/workflows/release-binaries.yml
+
   platforms:
     name: npm platforms
-    needs: build
+    needs: binaries
     uses: ./.github/workflows/release-npm-platforms.yml
     with:
-      platforms: ${{ needs.build.outputs.platforms }}
+      platforms: ${{ needs.binaries.outputs.platforms }}
     permissions:
       contents: read
       id-token: write
 
   core:
     name: npm core
-    needs: build
+    needs: binaries
     uses: ./.github/workflows/release-npm-package.yml
     with:
       dir: packages/core
@@ -62,7 +67,7 @@ jobs:
 
   github:
     name: GitHub Release
-    needs: build
+    needs: binaries
     uses: ./.github/workflows/release-github.yml
     permissions:
       contents: write
