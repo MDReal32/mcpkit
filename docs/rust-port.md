@@ -166,7 +166,8 @@ built, checks that each prints `--version` and runs `tools/smoke-test` against t
 <usemcpkit binary> <registry dir>`: the real `usemcpkit serve`, with the server next to it, over stdio in a temp home
 seeded from the first job's registry, auto-update off and the registry unreachable; it initializes, lists one section
 per indexed server, opens `git:github` and expects the `list_changed` notice and its groups; it does not open the
-credentials window or reach the network), and `tools/release` writes each
+credentials window or reach the network; the package job runs it once more on the packaged `cli-linux-x64`, with only
+the WebKitGTK runtime installed), and `tools/release` writes each
 `@usemcpkit/cli-<target>` package with `bin/usemcpkit[.exe]` and `bin/usemcpkit-servers[.exe]`, the GitHub Release
 assets (`usemcpkit-<target>[.exe]`, `usemcpkit-servers-<target>[.exe]`) and the wrapper's `optionalDependencies` at the
 release version, beside the core and wrapper builds of the first job. It fails unless `apps/npx` and the Cargo workspace have the same version. `publish-npm.sh` skips any

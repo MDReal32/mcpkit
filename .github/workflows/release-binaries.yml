@@ -125,6 +125,20 @@ jobs:
       - name: Write the platform packages and the release assets
         run: node tools/release/src/main.ts release-binaries release
 
+      - name: Install the WebKitGTK runtime
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-0
+
+      - name: Download the registry
+        uses: actions/download-artifact@v8
+        with:
+          name: registry
+          path: release-registry
+
+      - name: Smoke test the packaged Linux binaries
+        run: node tools/smoke-test/src/main.ts release/npm/cli-linux-x64/bin/usemcpkit release-registry
+
       - name: Pack libraries
         run: .github/scripts/publish-npm.sh pack release-tarballs
 
