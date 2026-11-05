@@ -125,10 +125,26 @@ jobs:
       - name: Write the platform packages and the release assets
         run: node tools/release/src/main.ts release-binaries release
 
-      - name: Install the WebKitGTK runtime
+      - name: List the WebKitGTK runtime packages
+        id: webkitgtk
         run: |
           sudo apt-get update
-          sudo apt-get install -y libwebkit2gtk-4.1-0
+          sudo apt-get install --print-uris -qq libwebkit2gtk-4.1-0 | cut -d' ' -f2 | sort > "$RUNNER_TEMP/webkitgtk-packages.txt"
+          echo "hash=$(sha256sum "$RUNNER_TEMP/webkitgtk-packages.txt" | cut -c1-16)" >> "$GITHUB_OUTPUT"
+
+      - name: Restore the WebKitGTK runtime packages
+        uses: actions/cache@v6
+        with:
+          path: ~/apt-archives
+          key: webkitgtk-runtime-${{ runner.os }}-${{ runner.arch }}-${{ steps.webkitgtk.outputs.hash }}
+          restore-keys: webkitgtk-runtime-${{ runner.os }}-${{ runner.arch }}-
+
+      - name: Install the WebKitGTK runtime
+        run: |
+          mkdir -p ~/apt-archives/partial
+          sudo apt-get install -y -o Acquire::Retries=3 -o Dir::Cache::Archives="$HOME/apt-archives" libwebkit2gtk-4.1-0
+          sudo apt-get autoclean -o Dir::Cache::Archives="$HOME/apt-archives"
+          sudo chown -R "$(id -u):$(id -g)" ~/apt-archives
 
       - name: Download the registry
         uses: actions/download-artifact@v8
