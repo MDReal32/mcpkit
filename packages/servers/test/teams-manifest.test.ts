@@ -1,4 +1,4 @@
-import { isValidManifest } from "@usemcpkit/core";
+import { isValidManifest } from "@usemcpkit/native";
 import { describe, expect, it } from "vitest";
 import { teams } from "../src/servers/teams/teams";
 

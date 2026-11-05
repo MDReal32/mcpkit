@@ -1,0 +1,1070 @@
+{
+  "entry": {
+    "type": "stdio",
+    "command": "C:\\Program Files\\usemcpkit\\usemcpkit.exe",
+    "args": [
+      "serve"
+    ]
+  },
+  "otherEntry": {
+    "type": "local",
+    "command": [
+      "/opt/usemcpkit",
+      "serve"
+    ],
+    "enabled": true,
+    "n": 1.5,
+    "label": "ü€😀 \""
+  },
+  "tomlEntry": {
+    "command": "C:\\usemcpkit.exe",
+    "args": [
+      "serve",
+      "--x"
+    ],
+    "enabled": true,
+    "n": 1.5
+  },
+  "json": [
+    {
+      "name": "comments",
+      "text": "{\n  // line comment\n  \"theme\": \"dark\", /* block */\n  \"mcpServers\": {\n    \"other\": { \"command\": \"x\" } // same line\n  }\n}\n",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": false
+      },
+      "upsert": {
+        "value": "{\n  // line comment\n  \"theme\": \"dark\", /* block */\n  \"mcpServers\": {\n    \"other\": {\n      \"command\": \"x\"\n    },\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    } // same line\n  }\n}\n"
+      },
+      "upsertOther": {
+        "value": "{\n  // line comment\n  \"theme\": \"dark\", /* block */\n  \"mcpServers\": {\n    \"other\": {\n      \"command\": \"x\"\n    },\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    } // same line\n  }\n}\n"
+      },
+      "remove": {
+        "value": "{\n  // line comment\n  \"theme\": \"dark\", /* block */\n  \"mcpServers\": {\n    \"other\": { \"command\": \"x\" } // same line\n  }\n}\n"
+      }
+    },
+    {
+      "name": "trailing commas",
+      "text": "{\n  \"mcpServers\": {\n    \"other\": {},\n  },\n}\n",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": false
+      },
+      "upsert": {
+        "value": "{\n  \"mcpServers\": {\n    \"other\": {},\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    },\n  },\n}\n"
+      },
+      "upsertOther": {
+        "value": "{\n  \"mcpServers\": {\n    \"other\": {},\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    },\n  },\n}\n"
+      },
+      "remove": {
+        "value": "{\n  \"mcpServers\": {\n    \"other\": {},\n  },\n}\n"
+      }
+    },
+    {
+      "name": "crlf",
+      "text": "{\r\n  // line comment\r\n  \"theme\": \"dark\", /* block */\r\n  \"mcpServers\": {\r\n    \"other\": { \"command\": \"x\" } // same line\r\n  }\r\n}\r\n",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": false
+      },
+      "upsert": {
+        "value": "{\r\n  // line comment\r\n  \"theme\": \"dark\", /* block */\r\n  \"mcpServers\": {\r\n    \"other\": {\r\n      \"command\": \"x\"\r\n    },\r\n    \"usemcpkit\": {\r\n      \"type\": \"stdio\",\r\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\r\n      \"args\": [\r\n        \"serve\"\r\n      ]\r\n    } // same line\r\n  }\r\n}\r\n"
+      },
+      "upsertOther": {
+        "value": "{\r\n  // line comment\r\n  \"theme\": \"dark\", /* block */\r\n  \"mcpServers\": {\r\n    \"other\": {\r\n      \"command\": \"x\"\r\n    },\r\n    \"usemcpkit\": {\r\n      \"type\": \"local\",\r\n      \"command\": [\r\n        \"/opt/usemcpkit\",\r\n        \"serve\"\r\n      ],\r\n      \"enabled\": true,\r\n      \"n\": 1.5,\r\n      \"label\": \"ü€😀 \\\"\"\r\n    } // same line\r\n  }\r\n}\r\n"
+      },
+      "remove": {
+        "value": "{\r\n  // line comment\r\n  \"theme\": \"dark\", /* block */\r\n  \"mcpServers\": {\r\n    \"other\": { \"command\": \"x\" } // same line\r\n  }\r\n}\r\n"
+      }
+    },
+    {
+      "name": "tabs",
+      "text": "{\n\t\"mcpServers\": {\n\t\t\"other\": {}\n\t}\n}",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": false
+      },
+      "upsert": {
+        "value": "{\n\t\"mcpServers\": {\n    \"other\": {},\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n\t}\n}"
+      },
+      "upsertOther": {
+        "value": "{\n\t\"mcpServers\": {\n    \"other\": {},\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n\t}\n}"
+      },
+      "remove": {
+        "value": "{\n\t\"mcpServers\": {\n\t\t\"other\": {}\n\t}\n}"
+      }
+    },
+    {
+      "name": "four spaces",
+      "text": "{\n    \"theme\": \"dark\",\n    \"mcpServers\": {\n        \"other\": {}\n    }\n}\n",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": false
+      },
+      "upsert": {
+        "value": "{\n    \"theme\": \"dark\",\n    \"mcpServers\": {\n        \"other\": {},\n        \"usemcpkit\": {\n          \"type\": \"stdio\",\n          \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n          \"args\": [\n            \"serve\"\n          ]\n        }\n    }\n}\n"
+      },
+      "upsertOther": {
+        "value": "{\n    \"theme\": \"dark\",\n    \"mcpServers\": {\n        \"other\": {},\n        \"usemcpkit\": {\n          \"type\": \"local\",\n          \"command\": [\n            \"/opt/usemcpkit\",\n            \"serve\"\n          ],\n          \"enabled\": true,\n          \"n\": 1.5,\n          \"label\": \"ü€😀 \\\"\"\n        }\n    }\n}\n"
+      },
+      "remove": {
+        "value": "{\n    \"theme\": \"dark\",\n    \"mcpServers\": {\n        \"other\": {}\n    }\n}\n"
+      }
+    },
+    {
+      "name": "empty",
+      "text": "",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": false
+      },
+      "upsert": {
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
+      },
+      "upsertOther": {
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
+      },
+      "remove": {
+        "error": "Can not delete in empty document"
+      }
+    },
+    {
+      "name": "whitespace only",
+      "text": "   \n  ",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": false
+      },
+      "upsert": {
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
+      },
+      "upsertOther": {
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
+      },
+      "remove": {
+        "error": "Can not delete in empty document"
+      }
+    },
+    {
+      "name": "empty object",
+      "text": "{}",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": false
+      },
+      "upsert": {
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
+      },
+      "upsertOther": {
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
+      },
+      "remove": {
+        "error": "Can not delete in empty document"
+      }
+    },
+    {
+      "name": "bom object",
+      "text": "﻿{}",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "error": "config.json: invalid JSON (InvalidSymbol at offset 0)"
+      }
+    },
+    {
+      "name": "bom only",
+      "text": "﻿",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": false
+      },
+      "upsert": {
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
+      },
+      "upsertOther": {
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
+      },
+      "remove": {
+        "error": "Can not delete in empty document"
+      }
+    },
+    {
+      "name": "no servers",
+      "text": "{ \"theme\": \"dark\" }",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": false
+      },
+      "upsert": {
+        "value": "{\n  \"theme\": \"dark\",\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
+      },
+      "upsertOther": {
+        "value": "{\n  \"theme\": \"dark\",\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
+      },
+      "remove": {
+        "error": "Can not delete in empty document"
+      }
+    },
+    {
+      "name": "empty servers",
+      "text": "{ \"mcpServers\": {} }",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": false
+      },
+      "upsert": {
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
+      },
+      "upsertOther": {
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
+      },
+      "remove": {
+        "value": "{ \"mcpServers\": {} }"
+      }
+    },
+    {
+      "name": "replace",
+      "text": "{\n  \"mcpServers\": {\n    \"usemcpkit\": { \"command\": \"old\" },\n    \"other\": {}\n  }\n}",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": true
+      },
+      "upsert": {
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    },\n    \"other\": {}\n  }\n}"
+      },
+      "upsertOther": {
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    },\n    \"other\": {}\n  }\n}"
+      },
+      "remove": {
+        "value": "{\n  \"mcpServers\": {\n    \"other\": {}\n  }\n}"
+      }
+    },
+    {
+      "name": "last with trailing comma",
+      "text": "{ \"mcpServers\": { \"a\": 1, \"usemcpkit\": {}, } }",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": true
+      },
+      "upsert": {
+        "value": "{ \"mcpServers\": { \"a\": 1, \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }, } }"
+      },
+      "upsertOther": {
+        "value": "{ \"mcpServers\": { \"a\": 1, \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }, } }"
+      },
+      "remove": {
+        "value": "{\n  \"mcpServers\": {\n    \"a\": 1,\n  }\n}"
+      }
+    },
+    {
+      "name": "only entry",
+      "text": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"command\": \"old\"\n    }\n  }\n}\n",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": true
+      },
+      "upsert": {
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}\n"
+      },
+      "upsertOther": {
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}\n"
+      },
+      "remove": {
+        "value": "{\n  \"mcpServers\": {\n  }\n}\n"
+      }
+    },
+    {
+      "name": "first of several",
+      "text": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {},\n    \"b\": {}\n  }\n}\n",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": true
+      },
+      "upsert": {
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    },\n    \"b\": {}\n  }\n}\n"
+      },
+      "upsertOther": {
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    },\n    \"b\": {}\n  }\n}\n"
+      },
+      "remove": {
+        "value": "{\n  \"mcpServers\": {\n    \"b\": {}\n  }\n}\n"
+      }
+    },
+    {
+      "name": "middle",
+      "text": "{\n  \"mcpServers\": {\n    \"a\": {},\n    \"usemcpkit\": {},\n    \"b\": {}\n  }\n}\n",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": true
+      },
+      "upsert": {
+        "value": "{\n  \"mcpServers\": {\n    \"a\": {},\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    },\n    \"b\": {}\n  }\n}\n"
+      },
+      "upsertOther": {
+        "value": "{\n  \"mcpServers\": {\n    \"a\": {},\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    },\n    \"b\": {}\n  }\n}\n"
+      },
+      "remove": {
+        "value": "{\n  \"mcpServers\": {\n    \"a\": {},\n    \"b\": {}\n  }\n}\n"
+      }
+    },
+    {
+      "name": "vscode",
+      "text": "{\n  \"inputs\": [],\n  \"servers\": {}\n}",
+      "serversPath": [
+        "servers"
+      ],
+      "parse": {
+        "value": false
+      },
+      "upsert": {
+        "value": "{\n  \"inputs\": [],\n  \"servers\": {\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
+      },
+      "upsertOther": {
+        "value": "{\n  \"inputs\": [],\n  \"servers\": {\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
+      },
+      "remove": {
+        "value": "{\n  \"inputs\": [],\n  \"servers\": {}\n}"
+      }
+    },
+    {
+      "name": "zed one line",
+      "text": "{\"theme\":\"One Dark\",\"context_servers\":{\"other\":{\"command\":\"x\"}}}",
+      "serversPath": [
+        "context_servers"
+      ],
+      "parse": {
+        "value": false
+      },
+      "upsert": {
+        "value": "{\n  \"theme\": \"One Dark\",\n  \"context_servers\": {\n    \"other\": {\n      \"command\": \"x\"\n    },\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
+      },
+      "upsertOther": {
+        "value": "{\n  \"theme\": \"One Dark\",\n  \"context_servers\": {\n    \"other\": {\n      \"command\": \"x\"\n    },\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
+      },
+      "remove": {
+        "value": "{\"theme\":\"One Dark\",\"context_servers\":{\"other\":{\"command\":\"x\"}}}"
+      }
+    },
+    {
+      "name": "servers number",
+      "text": "{ \"mcpServers\": 1 }",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": false
+      },
+      "upsert": {
+        "error": "Can not add index to parent of type number"
+      },
+      "upsertOther": {
+        "error": "Can not add index to parent of type number"
+      },
+      "remove": {
+        "error": "Can not add index to parent of type number"
+      }
+    },
+    {
+      "name": "servers array",
+      "text": "{ \"mcpServers\": [] }",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": false
+      },
+      "upsert": {
+        "error": "Can not add index to parent of type array"
+      },
+      "upsertOther": {
+        "error": "Can not add index to parent of type array"
+      },
+      "remove": {
+        "error": "Can not add index to parent of type array"
+      }
+    },
+    {
+      "name": "root array",
+      "text": "[]",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": false
+      },
+      "upsert": {
+        "error": "Can not add index to parent of type array"
+      },
+      "upsertOther": {
+        "error": "Can not add index to parent of type array"
+      },
+      "remove": {
+        "error": "Can not delete in empty document"
+      }
+    },
+    {
+      "name": "root string",
+      "text": "\"x\"",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": false
+      },
+      "upsert": {
+        "error": "Can not add index to parent of type string"
+      },
+      "upsertOther": {
+        "error": "Can not add index to parent of type string"
+      },
+      "remove": {
+        "error": "Can not delete in empty document"
+      }
+    },
+    {
+      "name": "duplicate servers, entry in last",
+      "text": "{ \"mcpServers\": { \"other\": {} }, \"mcpServers\": { \"usemcpkit\": {} } }",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": true
+      },
+      "upsert": {
+        "value": "{\n  \"mcpServers\": {\n    \"other\": {},\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  },\n  \"mcpServers\": {\n    \"usemcpkit\": {}\n  }\n}"
+      },
+      "upsertOther": {
+        "value": "{\n  \"mcpServers\": {\n    \"other\": {},\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  },\n  \"mcpServers\": {\n    \"usemcpkit\": {}\n  }\n}"
+      },
+      "remove": {
+        "value": "{ \"mcpServers\": { \"other\": {} }, \"mcpServers\": { \"usemcpkit\": {} } }"
+      }
+    },
+    {
+      "name": "duplicate servers, entry in first",
+      "text": "{ \"mcpServers\": { \"usemcpkit\": {} }, \"mcpServers\": { \"other\": {} } }",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": false
+      },
+      "upsert": {
+        "value": "{ \"mcpServers\": { \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    } }, \"mcpServers\": { \"other\": {} } }"
+      },
+      "upsertOther": {
+        "value": "{ \"mcpServers\": { \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    } }, \"mcpServers\": { \"other\": {} } }"
+      },
+      "remove": {
+        "value": "{\n  \"mcpServers\": {},\n  \"mcpServers\": {\n    \"other\": {}\n  }\n}"
+      }
+    },
+    {
+      "name": "non-ascii",
+      "text": "{\n  \"név\": \"ü€😀\",\n  \"mcpServers\": {\n    \"ü\": \"€\"\n  }\n}\n",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": false
+      },
+      "upsert": {
+        "value": "{\n  \"név\": \"ü€😀\",\n  \"mcpServers\": {\n    \"ü\": \"€\",\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}\n"
+      },
+      "upsertOther": {
+        "value": "{\n  \"név\": \"ü€😀\",\n  \"mcpServers\": {\n    \"ü\": \"€\",\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}\n"
+      },
+      "remove": {
+        "value": "{\n  \"név\": \"ü€😀\",\n  \"mcpServers\": {\n    \"ü\": \"€\"\n  }\n}\n"
+      }
+    },
+    {
+      "name": "comment after brace",
+      "text": "{ // c\n  \"mcpServers\": { /* in */ }\n}",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": false
+      },
+      "upsert": {
+        "value": "{ // c\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    } /* in */\n  }\n}"
+      },
+      "upsertOther": {
+        "value": "{ // c\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    } /* in */\n  }\n}"
+      },
+      "remove": {
+        "value": "{ // c\n  \"mcpServers\": { /* in */ }\n}"
+      }
+    },
+    {
+      "name": "one line with more",
+      "text": "{\"mcpServers\": {\"other\": {}}, \"x\": 1}",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": false
+      },
+      "upsert": {
+        "value": "{\n  \"mcpServers\": {\n    \"other\": {},\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  },\n  \"x\": 1\n}"
+      },
+      "upsertOther": {
+        "value": "{\n  \"mcpServers\": {\n    \"other\": {},\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  },\n  \"x\": 1\n}"
+      },
+      "remove": {
+        "value": "{\"mcpServers\": {\"other\": {}}, \"x\": 1}"
+      }
+    },
+    {
+      "name": "entry with escapes",
+      "text": "{ \"mcpServers\": { \"usemcp\\u006bit\": {} } }",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": true
+      },
+      "upsert": {
+        "value": "{ \"mcpServers\": { \"usemcp\\u006bit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    } } }"
+      },
+      "upsertOther": {
+        "value": "{ \"mcpServers\": { \"usemcp\\u006bit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    } } }"
+      },
+      "remove": {
+        "value": "{\n  \"mcpServers\": {}\n}"
+      }
+    },
+    {
+      "name": "nested arrays and numbers",
+      "text": "{\n  \"a\": [1, 2.5e3, -0, true, null, { \"b\": [] }],\n  \"mcpServers\": {}\n}\n",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": false
+      },
+      "upsert": {
+        "value": "{\n  \"a\": [1, 2.5e3, -0, true, null, { \"b\": [] }],\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}\n"
+      },
+      "upsertOther": {
+        "value": "{\n  \"a\": [1, 2.5e3, -0, true, null, { \"b\": [] }],\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}\n"
+      },
+      "remove": {
+        "value": "{\n  \"a\": [1, 2.5e3, -0, true, null, { \"b\": [] }],\n  \"mcpServers\": {}\n}\n"
+      }
+    },
+    {
+      "name": "comment at end",
+      "text": "{\n  \"mcpServers\": {}\n}\n// done\n",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": false
+      },
+      "upsert": {
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}\n// done\n"
+      },
+      "upsertOther": {
+        "value": "{\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}\n// done\n"
+      },
+      "remove": {
+        "value": "{\n  \"mcpServers\": {}\n}\n// done\n"
+      }
+    },
+    {
+      "name": "block comment lines",
+      "text": "{\n  /*\n   * many\n   */\n  \"mcpServers\": {\n  }\n}",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "value": false
+      },
+      "upsert": {
+        "value": "{\n  /*\n   * many\n   */\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"stdio\",\n      \"command\": \"C:\\\\Program Files\\\\usemcpkit\\\\usemcpkit.exe\",\n      \"args\": [\n        \"serve\"\n      ]\n    }\n  }\n}"
+      },
+      "upsertOther": {
+        "value": "{\n  /*\n   * many\n   */\n  \"mcpServers\": {\n    \"usemcpkit\": {\n      \"type\": \"local\",\n      \"command\": [\n        \"/opt/usemcpkit\",\n        \"serve\"\n      ],\n      \"enabled\": true,\n      \"n\": 1.5,\n      \"label\": \"ü€😀 \\\"\"\n    }\n  }\n}"
+      },
+      "remove": {
+        "value": "{\n  /*\n   * many\n   */\n  \"mcpServers\": {\n  }\n}"
+      }
+    },
+    {
+      "name": "broken",
+      "text": "{ broken",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "error": "config.json: invalid JSON (InvalidSymbol at offset 2)"
+      }
+    },
+    {
+      "name": "comma expected",
+      "text": "{ \"a\": 1 \"b\": 2 }",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "error": "config.json: invalid JSON (CommaExpected at offset 9)"
+      }
+    },
+    {
+      "name": "colon expected",
+      "text": "{ \"a\" 1 }",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "error": "config.json: invalid JSON (ColonExpected at offset 6)"
+      }
+    },
+    {
+      "name": "value expected",
+      "text": "{ \"a\": }",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "error": "config.json: invalid JSON (ValueExpected at offset 7)"
+      }
+    },
+    {
+      "name": "close bracket expected",
+      "text": "[1, 2",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "error": "config.json: invalid JSON (CloseBracketExpected at offset 5)"
+      }
+    },
+    {
+      "name": "close brace expected",
+      "text": "{ \"a\": 1",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "error": "config.json: invalid JSON (CloseBraceExpected at offset 8)"
+      }
+    },
+    {
+      "name": "end of file expected",
+      "text": "{} {}",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "error": "config.json: invalid JSON (EndOfFileExpected at offset 3)"
+      }
+    },
+    {
+      "name": "invalid symbol after",
+      "text": "{ \"a\": 1 } x",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "error": "config.json: invalid JSON (InvalidSymbol at offset 11)"
+      }
+    },
+    {
+      "name": "invalid escape",
+      "text": "{ \"a\": \"\\x\" }",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "error": "config.json: invalid JSON (InvalidEscapeCharacter at offset 7)"
+      }
+    },
+    {
+      "name": "invalid unicode",
+      "text": "{ \"a\": \"\\u12\" }",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "error": "config.json: invalid JSON (InvalidUnicode at offset 7)"
+      }
+    },
+    {
+      "name": "open comment",
+      "text": "/* open",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "error": "config.json: invalid JSON (UnexpectedEndOfComment at offset 0)"
+      }
+    },
+    {
+      "name": "open string",
+      "text": "{ \"a\": \"open",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "error": "config.json: invalid JSON (UnexpectedEndOfString at offset 7)"
+      }
+    },
+    {
+      "name": "string broken by a line",
+      "text": "{ \"a\": \"open\n\" }",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "error": "config.json: invalid JSON (UnexpectedEndOfString at offset 7)"
+      }
+    },
+    {
+      "name": "end of number",
+      "text": "{ \"a\": 1. }",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "error": "config.json: invalid JSON (UnexpectedEndOfNumber at offset 7)"
+      }
+    },
+    {
+      "name": "end of exponent",
+      "text": "{ \"a\": 1e }",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "error": "config.json: invalid JSON (UnexpectedEndOfNumber at offset 7)"
+      }
+    },
+    {
+      "name": "control character",
+      "text": "{ \"a\": \"tab\there\" }",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "error": "config.json: invalid JSON (InvalidCharacter at offset 7)"
+      }
+    },
+    {
+      "name": "leading zero",
+      "text": "{ \"a\": 01 }",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "error": "config.json: invalid JSON (CommaExpected at offset 8)"
+      }
+    },
+    {
+      "name": "lone minus",
+      "text": "{ \"a\": -x }",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "error": "config.json: invalid JSON (InvalidSymbol at offset 7)"
+      }
+    },
+    {
+      "name": "bad keyword",
+      "text": "{ \"a\": tru }",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "error": "config.json: invalid JSON (InvalidSymbol at offset 7)"
+      }
+    },
+    {
+      "name": "only a comment",
+      "text": "// nothing",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "error": "config.json: invalid JSON (ValueExpected at offset 10)"
+      }
+    },
+    {
+      "name": "astral before error",
+      "text": "{ \"😀😀\": 1 2 }",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "error": "config.json: invalid JSON (CommaExpected at offset 12)"
+      }
+    },
+    {
+      "name": "property name expected",
+      "text": "{ 1: 2 }",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "error": "config.json: invalid JSON (PropertyNameExpected at offset 2)"
+      }
+    },
+    {
+      "name": "leading comma",
+      "text": "{ , }",
+      "serversPath": [
+        "mcpServers"
+      ],
+      "parse": {
+        "error": "config.json: invalid JSON (ValueExpected at offset 2)"
+      }
+    }
+  ],
+  "toml": [
+    {
+      "name": "empty",
+      "text": "",
+      "has": false,
+      "upsert": {
+        "value": "[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
+      },
+      "remove": ""
+    },
+    {
+      "name": "append",
+      "text": "model = \"o3\" # pick\n\n[mcp_servers.other]\ncommand = \"x\"\n",
+      "has": false,
+      "upsert": {
+        "value": "model = \"o3\" # pick\n\n[mcp_servers.other]\ncommand = \"x\"\n\n[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
+      },
+      "remove": "model = \"o3\" # pick\n\n[mcp_servers.other]\ncommand = \"x\"\n"
+    },
+    {
+      "name": "replace with trailing blank",
+      "text": "[mcp_servers.usemcpkit]\ncommand = \"old\"\n\n[profiles.x]\nmodel = \"y\"\n",
+      "has": true,
+      "upsert": {
+        "value": "[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n\n[profiles.x]\nmodel = \"y\"\n"
+      },
+      "remove": "[profiles.x]\nmodel = \"y\"\n"
+    },
+    {
+      "name": "replace without trailing blank",
+      "text": "[mcp_servers.usemcpkit]\ncommand = \"old\"\n[profiles.x]\n",
+      "has": true,
+      "upsert": {
+        "value": "[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n[profiles.x]\n"
+      },
+      "remove": "[profiles.x]\n"
+    },
+    {
+      "name": "subtables",
+      "text": "[mcp_servers.usemcpkit]\ncommand = \"old\"\n\n[mcp_servers.usemcpkit.env]\nA = \"1\"\n\n[profiles.x]\nmodel = \"y\"\n",
+      "has": true,
+      "upsert": {
+        "value": "[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n\n[mcp_servers.usemcpkit.env]\nA = \"1\"\n\n[profiles.x]\nmodel = \"y\"\n"
+      },
+      "remove": "[profiles.x]\nmodel = \"y\"\n"
+    },
+    {
+      "name": "inline under servers",
+      "text": "[mcp_servers]\nusemcpkit = { command = \"x\" }\n",
+      "has": false,
+      "upsert": {
+        "error": "config.toml: \"usemcpkit\" is defined as an inline table; remove it by hand and run again"
+      },
+      "remove": "[mcp_servers]\nusemcpkit = { command = \"x\" }\n"
+    },
+    {
+      "name": "inline dotted",
+      "text": "mcp_servers.usemcpkit = { command = \"x\" }\n",
+      "has": false,
+      "upsert": {
+        "error": "config.toml: \"usemcpkit\" is defined as an inline table; remove it by hand and run again"
+      },
+      "remove": "mcp_servers.usemcpkit = { command = \"x\" }\n"
+    },
+    {
+      "name": "inline across lines",
+      "text": "a = 1\nmcp_servers.usemcpkit\n=\n{ }\n",
+      "has": false,
+      "upsert": {
+        "error": "config.toml: \"usemcpkit\" is defined as an inline table; remove it by hand and run again"
+      },
+      "remove": "a = 1\nmcp_servers.usemcpkit\n=\n{ }\n"
+    },
+    {
+      "name": "crlf",
+      "text": "[mcp_servers.usemcpkit]\r\ncommand = \"old\"\r\n\r\n[other]\r\n",
+      "has": true,
+      "upsert": {
+        "value": "[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n\n[other]\r\n"
+      },
+      "remove": "[other]\r\n"
+    },
+    {
+      "name": "header comment",
+      "text": "[mcp_servers.usemcpkit] # note\ncommand = \"old\"\n",
+      "has": true,
+      "upsert": {
+        "value": "[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
+      },
+      "remove": ""
+    },
+    {
+      "name": "crlf header comment",
+      "text": "[mcp_servers.usemcpkit] # note\r\ncommand = \"old\"\r\n",
+      "has": false,
+      "upsert": {
+        "value": "[mcp_servers.usemcpkit] # note\r\ncommand = \"old\"\n\n[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
+      },
+      "remove": "[mcp_servers.usemcpkit] # note\r\ncommand = \"old\"\r\n"
+    },
+    {
+      "name": "spaced header",
+      "text": "[ mcp_servers . usemcpkit ]\ncommand = \"old\"\n",
+      "has": true,
+      "upsert": {
+        "value": "[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
+      },
+      "remove": ""
+    },
+    {
+      "name": "no final newline",
+      "text": "a = 1\n[mcp_servers.usemcpkit]\ncommand = \"old\"",
+      "has": true,
+      "upsert": {
+        "value": "a = 1\n[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5"
+      },
+      "remove": "a = 1"
+    },
+    {
+      "name": "blank tail",
+      "text": "a = 1\n\n\n   \n",
+      "has": false,
+      "upsert": {
+        "value": "a = 1\n\n[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
+      },
+      "remove": "a = 1\n\n\n   \n"
+    },
+    {
+      "name": "array of tables",
+      "text": "[[mcp_servers.usemcpkit]]\ncommand = 1\n",
+      "has": false,
+      "upsert": {
+        "value": "[[mcp_servers.usemcpkit]]\ncommand = 1\n\n[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
+      },
+      "remove": "[[mcp_servers.usemcpkit]]\ncommand = 1\n"
+    },
+    {
+      "name": "indented header",
+      "text": "  [mcp_servers.usemcpkit]\n  command = \"old\"\n",
+      "has": true,
+      "upsert": {
+        "value": "[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
+      },
+      "remove": ""
+    },
+    {
+      "name": "other header first",
+      "text": "[mcp_servers.usemcpkitx]\na = 1\n",
+      "has": false,
+      "upsert": {
+        "value": "[mcp_servers.usemcpkitx]\na = 1\n\n[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
+      },
+      "remove": "[mcp_servers.usemcpkitx]\na = 1\n"
+    },
+    {
+      "name": "bom",
+      "text": "﻿[mcp_servers.usemcpkit]\ncommand = \"old\"\n",
+      "has": true,
+      "upsert": {
+        "value": "[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\", \"--x\"]\nenabled = true\nn = 1.5\n"
+      },
+      "remove": ""
+    }
+  ],
+  "tomlValues": [
+    {
+      "value": [
+        "a",
+        1,
+        true
+      ],
+      "formatted": {
+        "value": "[\"a\", 1, true]"
+      }
+    },
+    {
+      "value": {},
+      "formatted": {
+        "error": "cannot write object to TOML"
+      }
+    },
+    {
+      "value": null,
+      "formatted": {
+        "error": "cannot write object to TOML"
+      }
+    },
+    {
+      "value": "ü\n\"",
+      "formatted": {
+        "value": "\"ü\\n\\\"\""
+      }
+    },
+    {
+      "value": 1e+21,
+      "formatted": {
+        "value": "1e+21"
+      }
+    },
+    {
+      "value": [
+        [
+          1
+        ],
+        []
+      ],
+      "formatted": {
+        "value": "[[1], []]"
+      }
+    }
+  ]
+}

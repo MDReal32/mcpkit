@@ -19,7 +19,7 @@ export interface Manifest {
   headers?: Readonly<Record<string, string>>;
   /** OAuth2 entries first, then fallbacks; tried top to bottom, the first that works is used. */
   auth?: readonly AuthSpec[];
-  /** Page-wide texts of the credentials page, replacing mcpkit's defaults. */
+  /** Page-wide texts of the credentials page, replacing usemcpkit's defaults. */
   ui?: UiSpec;
   /** Another MCP server this one fronts: its tools are discovered at runtime, so `tools` stays empty. */
   upstream?: UpstreamSpec;

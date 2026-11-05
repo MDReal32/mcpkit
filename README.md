@@ -1,4 +1,4 @@
-# mcpkit
+# usemcpkit
 
 Many MCP servers in one binary. Each server is a **JSON manifest** that describes its
 API, auth, tools and response mapping. A generic executor runs those manifests.
@@ -6,28 +6,32 @@ API, auth, tools and response mapping. A generic executor runs those manifests.
 ## Repository layout
 
 ```
-packages/core      @usemcpkit/core      library: manifest format, SDK, executor, auth (publishable)
-packages/ui        @usemcpkit/ui        Svelte pages the CLI opens in the browser, e.g. the credentials form (private)
-packages/testing   @usemcpkit/testing   shared test fixtures (private)
-apps/cli           @usemcpkit/cli       mcpkit CLI + MCP stdio server, server definitions, binaries
-apps/npx           usemcpkit         wrapper so `npx usemcpkit` runs @usemcpkit/cli
+packages/core      @usemcpkit/core       library: manifest format, SDK, form contract (publishable)
+packages/servers   @usemcpkit/servers    server definitions and generators, compiled into the registry (private)
+packages/ui        @usemcpkit/ui         Svelte pages the server shows, e.g. the credentials form (private)
+packages/testing   @usemcpkit/testing    shared test fixtures (private)
+apps/runner        usemcpkit-runner      the usemcpkit binary: commands, installing, the supervisor (Rust)
+apps/server        usemcpkit-servers     the usemcpkit-servers binary: MCP stdio server, credentials window (Rust)
+apps/npx           usemcpkit             wrapper so `npx usemcpkit` runs the binary of this platform
+apps/analytics     @usemcpkit/analytics  usage-reporting Worker
+crates/*                                 the Rust libraries behind the binaries
 ```
 
-Yarn 4 workspaces and Nx, Node 22.18+. Every command below runs from the repository root.
+Yarn 4 workspaces and Nx, Node 22.18+, and a Rust toolchain with `cargo` on PATH. Every command below runs from the
+repository root.
 
 ```bash
 yarn install
-yarn build          # every package; apps/cli/build/mcpkit.cli.js + packages/servers/build/manifests/
+yarn build          # every package; packages/servers/build/manifests/ + target/release/usemcpkit[-servers]
+                    #   then a copy of every build and the Rust release binaries in build/
 yarn test
 yarn typecheck
 yarn lint           # Biome: lint + format + import order check per project
 yarn format         # Biome: apply formatting and safe fixes across the repo
-yarn package        # + binaries in apps/cli/build/bin and npm packages in apps/cli/build/npm (needs bun)
-MCPKIT_TARGETS=darwin-arm64,linux-x64 yarn package   # only some targets
 ```
 
-Every package builds from `src/main.ts` into `build/mcpkit.<package>.js` (`mcpkit.core.d.ts` for the published types,
-`mcpkit.ui.html` for the UI page). Nx runs `lint`, `typecheck` and `test` before every `build`, and builds dependencies first.
+Every package builds from `src/main.ts` into `build/usemcpkit.<package>.js` (`usemcpkit.core.d.ts` for the published types,
+`usemcpkit.ui.html` for the UI page). Nx runs `lint`, `typecheck` and `test` before every `build`, and builds dependencies first.
 
 ## Install
 
@@ -35,71 +39,72 @@ Every package builds from `src/main.ts` into `build/mcpkit.<package>.js` (`mcpki
 npx usemcpkit
 ```
 
-This finds the AI clients installed for the current user, asks which ones to set up, copies the mcpkit binary for
-this OS to `~/.mcpkit/bin/mcpkit` and adds one `mcpkit` entry (`<binary> serve`, every server) to each chosen client.
-Running it again updates the entries in place. Only the `mcpkit` key is touched: comments and other keys stay, and the
-previous file is kept as `<config>.mcpkit-backup`. Restart the clients afterwards (later updates reload live).
+This finds the AI clients installed for the current user, asks which ones to set up, copies the usemcpkit binary for
+this OS to `~/.usemcpkit/bin/usemcpkit` and adds one `usemcpkit` entry (`<binary> serve`, every server) to each chosen client.
+Running it again updates the entries in place. Only the `usemcpkit` key is touched: comments and other keys stay, and the
+previous file is kept as `<config>.usemcpkit-backup`. Restart the clients afterwards (later updates reload live).
 
 ```bash
 npx usemcpkit --all                         # every detected client, no checklist (needed without a terminal)
 npx usemcpkit --clients cursor,codex        # only these
-mcpkit install --binary ./mcpkit         # install a local binary instead of downloading one
-mcpkit uninstall [--all | --clients ...] # remove the entry; the binary stays
-mcpkit update                            # refresh the cached manifests now
-mcpkit upgrade                           # update the cached manifests, then the installed binary
+usemcpkit install --binary ./usemcpkit         # install a local binary instead of downloading one
+usemcpkit uninstall [--all | --clients ...] # remove the entry; the binary stays
+usemcpkit update                            # refresh the cached manifests now
+usemcpkit upgrade                           # update the cached manifests, then the installed binary
 ```
 
 Supported clients (ids): `claude-desktop`, `claude-code` (`~/.claude.json`), `cursor`, `vscode`, `vscode-insiders`
 (`servers` in the user `mcp.json`), `devin-desktop` (Windsurf's new home), `windsurf` (legacy `~/.codeium/windsurf`),
 `cline` (`~/.cline`), `roo-code`, `copilot-cli`, `codex` (TOML), `gemini-cli`, `zed` (`context_servers`), `opencode`
 (`mcp`), `kiro`, `lm-studio`, `junie`, `warp`. A client counts as installed when its config directory exists. Each
-client's path and entry shape lives in `packages/clients/src/definitions/<id>.ts`.
+client's path and entry shape lives in `crates/clients/src/definitions/<id>.rs`.
 
-**Where the binary comes from.** When the CLI runs as the compiled binary it copies itself. Under Node (`npx`) it
-downloads `@usemcpkit/cli-<target>` (for example `@usemcpkit/cli-darwin-arm64`, `@usemcpkit/cli-linux-x64-musl`) at the same
-version from the npm registry and checks the tarball against its published `sha512` integrity. `yarn package`
-writes those packages to `apps/cli/build/npm/cli-<target>/`; publish each of them together with `@usemcpkit/cli` and
-`mcpkit`.
+**Where the binary comes from.** `npx usemcpkit` runs the `usemcpkit` binary of the `@usemcpkit/cli-<target>` package
+npm installed for this machine (for example `@usemcpkit/cli-darwin-arm64`, `@usemcpkit/cli-linux-x64-musl`), which holds
+it and `usemcpkit-servers`. Installing copies both. A runner with no `usemcpkit-servers` beside it downloads
+`@usemcpkit/cli-<target>` at its own version from the npm registry and checks the tarball against its published
+`sha512` integrity. Building and publishing those packages is release work, see `docs/rust-port.md`.
 
-**Auto-update.** `mcpkit serve`, when it is the installed binary, checks the npm registry at most every six hours
-(`~/.mcpkit/update-state.json`) in the background: at start, and then every hour for as long as it runs, so a server
+**Auto-update.** `usemcpkit serve`, when it is the installed binary, checks the npm registry at most every six hours
+(`~/.usemcpkit/update-state.json`) in the background: at start, and then every hour for as long as it runs, so a server
 that stays up for days still finds a new release. A newer release replaces the binary and is picked up without
-restarting the client, see Live reload. `MCPKIT_AUTO_UPDATE=0` turns this off, `MCPKIT_NPM_REGISTRY` points at another
+restarting the client, see Live reload. `USEMCPKIT_AUTO_UPDATE=0` turns this off, `USEMCPKIT_NPM_REGISTRY` points at another
 registry.
 
-**Live reload.** A compiled `mcpkit serve` is a small supervisor: it keeps the client's stdio connection and runs the
-real server as a worker (`mcpkit serve --worker`). It polls its own binary file and, once the file was replaced and
+**Live reload.** A compiled `usemcpkit serve` is a small supervisor: it keeps the client's stdio connection and runs the
+real server as a worker (`usemcpkit serve --worker`). It polls its own binary file and, once the file was replaced and
 stayed the same for two polls (3 s each), starts the new binary as a second worker, replays the client's `initialize`
 handshake to it and only then switches new requests over. The old worker finishes the requests it already has (up to
 5 minutes) and exits. The client is told with `notifications/tools/list_changed`, which the server advertises as
 `tools.listChanged`, so new and changed tools show up without a restart. The same applies when you copy a rebuilt
-binary over `~/.mcpkit/bin/mcpkit` or when auto-update downloads a release. If the new binary fails to answer
+binary over `~/.usemcpkit/bin/usemcpkit` or when auto-update downloads a release. If the new binary fails to answer
 `initialize` within 15 s, the running server stays and the reason is logged to stderr. The supervisor itself is not
 swapped: a release that changes it needs one client restart. Clients that ignore `list_changed` need a restart to see
 changed tool lists; calls always run on the new server. A Homebrew upgrade moves the binary to a new `Cellar/<version>`
 folder, so that install is not reloaded live.
 
-**Homebrew and winget.** The package only installs the binary. Running `mcpkit` afterwards shows the same client
-checklist. A binary under Homebrew's `Cellar/mcpkit/<version>` is used in place: clients get `<prefix>/bin/mcpkit`,
+**Homebrew and winget.** The package only installs the binary. Running `usemcpkit` afterwards shows the same client
+checklist. A binary under Homebrew's `Cellar/usemcpkit/<version>` is used in place: clients get `<prefix>/bin/usemcpkit`,
 the link Homebrew moves on every upgrade. A winget binary under `WinGet\Packages\<id>_…` is also used in place. Neither
-is copied to `~/.mcpkit/bin` or updated by mcpkit; `mcpkit upgrade` prints the `brew upgrade` / `winget upgrade`
+is copied to `~/.usemcpkit/bin` or updated by usemcpkit; `usemcpkit upgrade` prints the `brew upgrade` / `winget upgrade`
 command instead. The Homebrew formula's `caveats` and the winget manifest's `InstallationNotes` should say "Run
-`mcpkit` to set up your AI clients."
+`usemcpkit` to set up your AI clients."
 
 ## CLI
 
 ```
 packages/servers/src/servers/gitlab/gitlab.ts   author servers in TypeScript (one folder per server, one tool per file)
-  └─ vite build                          packages/servers: plugins/manifests/ compiles + validates src/servers/*, then:
-       ├─ build/mcpkit.cli.js             the CLI, no manifests inside
+  └─ vite build                          packages/servers: plugins/manifests/ compiles + validates src/servers/*
        └─ build/manifests/*.json          compiled manifests + index.json (the registry; CI publishes it to GitHub Pages)
-            └─ yarn package              plugins/binaries/ runs bun compile → build/bin/mcpkit-<os>-<arch>
+cargo build --release                    apps/runner + apps/server, no manifests inside
+  ├─ target/release/usemcpkit            commands and the supervisor that owns the client's stdio
+  └─ target/release/usemcpkit-servers    the MCP server it runs, which downloads manifests from the registry
 ```
 
 An invalid server definition fails the build. The build log lists each compiled manifest:
 
 ```
-mcpkit: 1 manifest(s) → build/manifests
+usemcpkit: 1 manifest(s) → build/manifests
   github  1.0.0  1239 tools  bearer GITHUB_TOKEN  1.8 MB
 ```
 
@@ -116,15 +121,15 @@ Put each tool in `packages/servers/src/<name>/tools/<resource>/<action>.ts` (the
 ```json
 {
   "mcpServers": {
-    "mcpkit": {
-      "command": "/Users/me/.mcpkit/bin/mcpkit",
+    "usemcpkit": {
+      "command": "/Users/me/.usemcpkit/bin/usemcpkit",
       "args": ["serve"]
     }
   }
 }
 ```
 
-`mcpkit serve` with no names serves every server; `mcpkit serve github` only some. Tools are named `<server>_<tool>`.
+`usemcpkit serve` with no names serves every server; `usemcpkit serve github` only some. Tools are named `<server>_<tool>`.
 
 ### Bundled servers
 
@@ -184,8 +189,8 @@ on PATH (uv installs its own Python 3.12 for it, never the system one). The firs
 window as the other servers, with a field and a hint for each of `TEAMS_APP_ID`, `TEAMS_APP_PASSWORD`,
 `TEAMS_APP_TENANT_ID`, `TEAM_ID` and `TEAMS_CHANNEL_ID` and links to your Entra app registrations and the server's
 [setup guide](https://github.com/InditexTech/mcp-teams-server/blob/main/doc/MS-Teams-setup.md); the values are saved
-once the server has started with them. Setting them in the client's env for mcpkit skips the window.
-Microsoft's own Teams MCP server (Work IQ) is not used: it needs a signed-in Entra OAuth token that mcpkit cannot get.
+once the server has started with them. Setting them in the client's env for usemcpkit skips the window.
+Microsoft's own Teams MCP server (Work IQ) is not used: it needs a signed-in Entra OAuth token that usemcpkit cannot get.
 
 ## Manifest format
 
@@ -279,19 +284,19 @@ saying why. `none` can only be the last entry. Leaving out `auth` means no auth.
 `ui`, see below).
 Env vars always win, so CI keeps working without a browser.
 
-**Credentials form.** `mcpkit serve` starts a one-off server on `127.0.0.1` (a free port), prints its URL to
+**Credentials form.** `usemcpkit serve` starts a one-off server on `127.0.0.1` (a free port), prints its URL to
 stderr and opens the browser. Only the page that was opened can answer: the URL carries a session token in its
 `#fragment` and the server checks it and the `Host` header. Concurrent calls share one form; it closes after
 an answer, on Cancel, or after 5 minutes. Secrets are saved **only after the API accepts them**, so a typo is never
 stored.
 
-**Config file.** The hosts and the saved credentials live together in `~/.mcpkit/config.json`, by category, server and host
+**Config file.** The hosts and the saved credentials live together in `~/.usemcpkit/config.json`, by category, server and host
 (`{ "servers": { "git": { "gitlab": { "hosts": { "git.acme.com": { "secrets": { "GITLAB_TOKEN": "glpat-…" } } }, "projects": { "/work/app": "git.acme.com" } } } } }`),
 which you can edit by hand. Credentials never cross hosts. With several hosts for one server, the host of a call is, in order:
 its env var; the host its project (git root) was bound to the first time you answered the form; the saved host the
 project's `origin` remote points at (servers whose manifest sets `domain.matchGitRemote`, such as GitHub and GitLab);
 otherwise the form asks, and the answer is remembered for that project. Credentials are plain text, with file mode `0600` in a `0700` directory, the way `gh` and `glab` keep
-their tokens. The file carries a `version` (now 2); a file without one is version 1 and, like an older `secrets.json`, is upgraded on first use by the migration list in `auth/config/config-migrations.ts` (a new version is one appended entry), and a file from a newer mcpkit is refused rather than overwritten. There is no password and nothing to unlock. Any program running as your user can read the file, so
+their tokens. The file carries a `version` (now 2); a file without one is version 1 and, like an older `secrets.json`, is upgraded on first use by the migration list in `crates/auth/src/config/config_migrations.rs` (a new version is one appended entry), and a file from a newer usemcpkit is refused rather than overwritten. There is no password and nothing to unlock. Any program running as your user can read the file, so
 protect your account and disk; to forget a credential, delete its entry or the file. Environment variables always win
 over the file.
 
@@ -311,7 +316,7 @@ defineServer({
       ui: defineUI({
         inputs: { GITHUB_TOKEN: { label: 'Token', hint: '…', placeholder: 'ghp_…' } },
         actions: [
-          { type: 'link', label: 'Create on GitHub ↗', url: 'https://{webHost}/settings/tokens/new?name=mcpkit+{server}' },
+          { type: 'link', label: 'Create on GitHub ↗', url: 'https://{webHost}/settings/tokens/new?name=usemcpkit+{server}' },
           { type: 'cli', label: 'Use GitHub CLI', command: 'gh', args: ['auth', 'token', '--hostname', '{webHost}'] },
         ],
       }),
@@ -338,7 +343,7 @@ with a name and the `api` scope.
 
 The CLI button is offered only for options with a single field. A domain typed in the form is used once it is valid. An imported token is saved like a
 typed one: only after the API accepts it. Manifests can be updated remotely (see below), so only use a registry you
-trust: its `cli` buttons name the programs mcpkit runs when you click them.
+trust: its `cli` buttons name the programs usemcpkit runs when you click them.
 
 **Domain.** A server whose host differs per user (GitHub Enterprise, self-hosted GitLab, Jira...) writes
 `{domain}` in `baseUrl` and, if it has them, in the OAuth URLs, and declares `domain`:
@@ -364,9 +369,9 @@ user change it (`host[:port][/path]`, no scheme), unless the env var is set.
 }
 ```
 
-The sign-in starts on the first tool call that has no working token: `mcpkit serve` prints the URL to stderr
+The sign-in starts on the first tool call that has no working token: `usemcpkit serve` prints the URL to stderr
 and opens the browser. The redirect goes to `http://127.0.0.1:<port>/callback`, and the authorization code is
-exchanged with a S256 code verifier. The token is saved to `~/.mcpkit/tokens.json` (`MCPKIT_HOME` overrides)
+exchanged with a S256 code verifier. The token is saved to `~/.usemcpkit/tokens.json` (`USEMCPKIT_HOME` overrides)
 with file mode `0600`, together with the entry that issued it. Tool calls send it as a Bearer token and refresh
 it before it expires. Concurrent calls share one sign-in. If the MCP client gives up waiting, the sign-in still
 finishes and the next call uses the token.
@@ -382,41 +387,53 @@ index.json                  every server: id, version, description, link, sha256
 <category>/<server>/<group>.json  with grouped tool names (git/github.json is a shell listing git/github/<group>.json)
 ```
 
-Only `index.json` is synced by default (into `~/.mcpkit/manifests`, `MCPKIT_HOME` overrides). A manifest is downloaded
+Only `index.json` is synced by default (into `~/.usemcpkit/manifests`, `USEMCPKIT_HOME` overrides). A manifest is downloaded
 the first time a tool of that server is described or called, checked against the `sha256` in the index, and cached.
 
-- `mcpkit install` and the first `serve`/`list` with nothing cached download the index.
+- `usemcpkit install` and the first `serve`/`list` with nothing cached download the index.
 - The cache is always served, and opening a server or calling a tool never asks the registry for changes.
-  `~/.mcpkit/manifests/cache.json` maps each cached file (`index.json`, `git/github.json`,
+  `~/.usemcpkit/manifests/cache.json` maps each cached file (`index.json`, `git/github.json`,
   `git/github/issues.json`, ...) to `updatedAt` (ms, when its content last changed), `checkedAt` (ms, when it was
   last confirmed current) and its `sha256`. Only a download that fails its checksum, because the cached index is
   older than the registry, fetches the index again once.
-- `mcpkit update [--registry <url>]` refreshes the index and re-downloads the manifests and parts that are already
+- `usemcpkit update [--registry <url>]` refreshes the index and re-downloads the manifests and parts that are already
   cached and no longer match it, so an edit published without a version bump still lands. A server or part nobody
-  opened is never downloaded. The URL comes from the flag, `MCPKIT_REGISTRY`, then the default.
-- `mcpkit upgrade` runs that update and then replaces the installed binary. It is what the scheduled job runs every
-  six hours, so manifests and binary stay current without anyone running a command. `MCPKIT_AUTO_UPDATE=0` turns the
+  opened is never downloaded. The URL comes from the flag, `USEMCPKIT_REGISTRY`, then the default.
+- `usemcpkit upgrade` runs that update and then replaces the installed binary. It is what the scheduled job runs every
+  six hours, so manifests and binary stay current without anyone running a command. `USEMCPKIT_AUTO_UPDATE=0` turns the
   scheduled job and the binary auto-update off.
 - Self-hosting a registry is hosting the `packages/servers/build/manifests/` folder (links in `index.json` are built from the
-  registry URL in `apps/cli/vite.config.ts`).
+  registry URL in `packages/servers/vite.config.ts`; the binaries read `DEFAULT_REGISTRY_URL` in `crates/registry`).
 
 ### What the AI client sees
 
 The tool list starts as one **section** per served server (`git_github`, `git_gitlab`, ...). A section is not a tool: its
 description says so, it takes no arguments, and calling it opens it. A server split into groups answers with its groups,
 each one another section (`git_github_issues`); calling a group, or a server that has no groups, puts its tools into the
-list and mcpkit sends `tools/list_changed`. Only what the model opens is downloaded: the index first, then the server's
+list and usemcpkit sends `tools/list_changed`. Only what the model opens is downloaded: the index first, then the server's
 shell, then the one group file. Every real tool is its own MCP tool, with its description and input schema, so the
 client's permission rules apply per tool: `git:github` with `issues:issues:get_issue` is `git_github_issues_get_issue`
-(`mcp__mcpkit__git_github_issues_get_issue` in Claude Code). There are no `call_tool` or `describe_tool` meta-tools,
+(`mcp__usemcpkit__git_github_issues_get_issue` in Claude Code). There are no `call_tool` or `describe_tool` meta-tools,
 and opened sections are forgotten when the server restarts. Tool names cannot contain
-`:` and the API caps a name at 64 characters, 13 of which the client spends on `mcp__mcpkit__`, so a name longer than 51
+`:` and the API caps a name at 64 characters, 13 of which the client spends on `mcp__usemcpkit__`, so a name longer than 51
 characters is cut at a word boundary and ends in a 6-character hash of its full id (`..._comments_create_d9463b`). The
 hash depends only on the id, so a name and the permission rule written for it stay the same from run to run.
 
-Opening a section downloads its file once (cached under `~/.mcpkit/manifests`). A section that cannot be opened stays
+Opening a section downloads its file once (cached under `~/.usemcpkit/manifests`). A section that cannot be opened stays
 closed and the call returns an error saying why. Reads are marked
 read-only, deletes destructive and known writes as writes; any other verb is left unannotated.
 
 Ids still come from `index.json`: `<category>:<server>:<resource>:<action>` selects `<category>/<server>.json`.
-`mcpkit serve [servers…]` limits the catalog to the given ids or bare names.
+`usemcpkit serve [servers…]` limits the catalog to the given ids or bare names.
+
+### Debugging a connection
+
+When a client shows the sections but never the tools a section opens, or a connection drops, turn on the wire log:
+set `USEMCPKIT_DEBUG=1` in the environment the client starts usemcpkit with (the server entry's `env`, or the user
+environment, then quit and reopen the client so its processes see it). Every `serve` process then appends one JSON line
+per message and lifecycle event to its own file under `~/.usemcpkit/logs`, named `<role>-<start time>-<pid>.jsonl`. A
+compiled binary writes two: the `supervisor` that owns the client's stdio and the `server` worker it runs. Each line
+records the time, the process and its parent (`pid`, `ppid`), the event and the message's `id`, `method`, called
+`tool`, the client's name from `initialize`, its error and its size. It never records arguments, results, credentials
+or environment values, so a log can be shared as it is. It can stay on: every start adds new files, so clear old ones
+from time to time, and unset the variable to stop writing them.

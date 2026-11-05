@@ -1,0 +1,23 @@
+mod adopt_legacy_home;
+mod config_files;
+mod config_lock;
+mod config_migrations;
+mod is_usemcpkit_config;
+mod list_known_hosts;
+mod load_config;
+mod migrate_config;
+pub(crate) mod migrations;
+mod needs_migration;
+mod read_config;
+mod read_server_config;
+mod save_server_domain;
+mod update_server_config;
+
+pub use adopt_legacy_home::adopt_legacy_home;
+pub use config_files::{config_file, legacy_secrets_file};
+pub use config_migrations::{CONFIG_MIGRATIONS, CONFIG_VERSION};
+pub use list_known_hosts::list_known_hosts;
+pub use load_config::load_config;
+pub use read_server_config::read_server_config;
+pub use save_server_domain::save_server_domain;
+pub use update_server_config::update_server_config;

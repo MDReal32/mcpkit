@@ -39,7 +39,7 @@ export const GITHUB_BASE: Omit<Manifest, "name" | "description" | "tools"> = {
   headers: {
     Accept: "application/vnd.github+json",
     "X-GitHub-Api-Version": GITHUB_API_VERSION,
-    "User-Agent": "mcpkit",
+    "User-Agent": "usemcpkit",
   },
   auth: [
     {
@@ -53,12 +53,12 @@ export const GITHUB_BASE: Omit<Manifest, "name" | "description" | "tools"> = {
           {
             type: "link",
             label: "Create fine-grained token ↗",
-            url: "https://{webHost}/settings/personal-access-tokens/new?name=mcpkit+{server}&description=Used+by+mcpkit",
+            url: "https://{webHost}/settings/personal-access-tokens/new?name=usemcpkit+{server}&description=Used+by+usemcpkit",
           },
           {
             type: "link",
             label: "Create classic token ↗",
-            url: `https://{webHost}/settings/tokens/new?description=mcpkit+{server}&scopes=${GITHUB_CLASSIC_SCOPES.join(",")}`,
+            url: `https://{webHost}/settings/tokens/new?description=usemcpkit+{server}&scopes=${GITHUB_CLASSIC_SCOPES.join(",")}`,
           },
           {
             type: "cli",

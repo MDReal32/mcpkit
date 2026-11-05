@@ -1,0 +1,12 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "usemcpkit-http",
+  "projectType": "library",
+  "implicitDependencies": ["usemcpkit-core", "usemcpkit-manifest"],
+  "targets": {
+    "lint": {
+      "command": "cargo fmt -p usemcpkit-http --check && cargo clippy -p usemcpkit-http --all-targets",
+      "inputs": ["default", "^production", "cargo"]
+    }
+  }
+}

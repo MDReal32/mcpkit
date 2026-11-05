@@ -27,7 +27,7 @@ export const ConnectedPanel = () => {
         {SERVER_NAME} is connected
       </div>
       <div style={{ fontFamily: SANS, fontSize: 22, color: COLORS.muted }}>
-        Saved to <span style={{ fontFamily: MONO, color: COLORS.text }}>~/.mcpkit/config.json</span>
+        Saved to <span style={{ fontFamily: MONO, color: COLORS.text }}>~/.usemcpkit/config.json</span>
       </div>
     </div>
   );

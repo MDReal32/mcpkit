@@ -8,7 +8,7 @@ export default defineConfig({
     outDir: "build",
     emptyOutDir: true,
     rolldownOptions: {
-      input: "mcpkit.ui.html",
+      input: "usemcpkit.ui.html",
     },
   },
   test: {

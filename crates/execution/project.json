@@ -1,0 +1,25 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "usemcpkit-execution",
+  "projectType": "library",
+  "implicitDependencies": [
+    "usemcpkit-auth",
+    "usemcpkit-core",
+    "usemcpkit-http",
+    "usemcpkit-manifest",
+    "usemcpkit-testing",
+    "usemcpkit-upstream",
+    "@usemcpkit/servers"
+  ],
+  "targets": {
+    "test": {
+      "command": "cargo test -p usemcpkit-execution",
+      "inputs": ["default", "^production", "cargo", "{workspaceRoot}/packages/servers/build/manifests/**/*"],
+      "dependsOn": ["^build"]
+    },
+    "lint": {
+      "command": "cargo fmt -p usemcpkit-execution --check && cargo clippy -p usemcpkit-execution --all-targets",
+      "inputs": ["default", "^production", "cargo"]
+    }
+  }
+}

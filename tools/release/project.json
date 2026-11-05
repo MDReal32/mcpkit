@@ -1,0 +1,15 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "release",
+  "projectType": "application",
+  "targets": {
+    "typecheck": {
+      "command": "tsc --noEmit",
+      "options": { "cwd": "{projectRoot}" }
+    },
+    "lint": {
+      "command": "biome check .",
+      "options": { "cwd": "{projectRoot}" }
+    }
+  }
+}

@@ -1,0 +1,67 @@
+[workspace]
+resolver = "3"
+members = ["apps/runner", "apps/server", "crates/*"]
+
+[workspace.package]
+version = "0.10.0"
+edition = "2024"
+license = "MIT"
+repository = "https://github.com/MDReal32/mcpkit"
+
+[workspace.dependencies]
+usemcpkit-auth = { path = "crates/auth" }
+usemcpkit-binary = { path = "crates/binary" }
+usemcpkit-clients = { path = "crates/clients" }
+usemcpkit-core = { path = "crates/core" }
+usemcpkit-credentials-form = { path = "crates/credentials-form" }
+usemcpkit-execution = { path = "crates/execution" }
+usemcpkit-http = { path = "crates/http" }
+usemcpkit-manifest = { path = "crates/manifest" }
+usemcpkit-registry = { path = "crates/registry" }
+usemcpkit-testing = { path = "crates/testing" }
+usemcpkit-upstream = { path = "crates/upstream" }
+usemcpkit-validation = { path = "crates/validation" }
+usemcpkit-runner = { path = "apps/runner" }
+usemcpkit-wire-log = { path = "crates/wire-log" }
+base64 = "0.23"
+bytes = "1.12"
+flate2 = "1.1"
+cliclack = "0.5.7"
+clap = { version = "4.6", features = ["derive", "env"] }
+futures-util = { version = "0.3", default-features = false, features = ["std"] }
+getrandom = "0.4"
+http-body-util = "0.1"
+humantime = "2.4"
+hyper = { version = "1.12", features = ["http1", "server"] }
+hyper-util = { version = "0.1", features = ["tokio"] }
+indexmap = { version = "2.14", features = ["serde"] }
+percent-encoding = "2.3"
+regex = "1.11"
+reqwest = { version = "0.13", default-features = false, features = ["rustls", "http2", "charset", "system-proxy", "multipart", "gzip"] }
+sha2 = "0.10"
+rustix = { version = "1.1", features = ["process"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = { version = "1.0", features = ["preserve_order"] }
+tao = "0.37"
+tempfile = "3.27"
+url = "2.5"
+wry = "0.57"
+tokio = { version = "1.54", features = ["fs", "io-std", "io-util", "macros", "net", "process", "rt", "signal", "sync", "time"] }
+windows-sys = { version = "0.61", features = ["Win32_Foundation", "Win32_System_Diagnostics_ToolHelp", "Win32_System_Threading"] }
+
+[workspace.lints.rust]
+unsafe_code = "deny"
+
+[workspace.lints.clippy]
+all = { level = "deny", priority = -1 }
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = true
+
+[profile.napi]
+inherits = "release"
+panic = "unwind"

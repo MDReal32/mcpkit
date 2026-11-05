@@ -23,7 +23,8 @@ yarn nx run @usemcpkit/analytics:db:schema
 yarn nx run @usemcpkit/analytics:deploy
 ```
 
-Route the Worker to the host in `DEFAULT_ANALYTICS_URL` (`apps/cli/src/analytics/const.ts`). With Cloudflare's git integration leave the build command empty and use `npx wrangler deploy --config apps/analytics/wrangler.toml` as the deploy command.
+Route the Worker to the host the TypeScript CLI of `0.9.0` reported to (its `DEFAULT_ANALYTICS_URL`); the Rust CLI sends
+no usage reports yet (`docs/rust-port.md`). With Cloudflare's git integration leave the build command empty and use `npx wrangler deploy --config apps/analytics/wrangler.toml` as the deploy command.
 
 ## Read the numbers
 

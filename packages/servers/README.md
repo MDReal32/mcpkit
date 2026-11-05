@@ -1,6 +1,6 @@
 # @usemcpkit/servers
 
-The server definitions mcpkit ships, and the generators that write most of them. Private: the build turns
+The server definitions usemcpkit ships, and the generators that write most of them. Private: the build turns
 `src/servers` into the JSON registry that CI publishes to GitHub Pages.
 
 ```

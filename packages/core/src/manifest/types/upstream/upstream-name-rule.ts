@@ -1,4 +1,4 @@
-/** Renames the tools of an upstream server into mcpkit's `<group>:<resource>:<action>` form. */
+/** Renames the tools of an upstream server into usemcpkit's `<group>:<resource>:<action>` form. */
 export interface UpstreamNameRule {
   /** A regular expression tested against the upstream tool name; the first rule that matches names the tool. */
   match: string;

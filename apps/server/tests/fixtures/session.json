@@ -1,0 +1,2813 @@
+[
+ {
+  "line": "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-03-26\",\"capabilities\":{},\"clientInfo\":{\"name\":\"parity\",\"version\":\"1\"}}}",
+  "response": {
+   "jsonrpc": "2.0",
+   "id": 1,
+   "result": {
+    "protocolVersion": "2025-03-26",
+    "capabilities": {
+     "tools": {
+      "listChanged": true
+     }
+    },
+    "serverInfo": {
+     "name": "usemcpkit",
+     "version": "0.10.0"
+    }
+   }
+  },
+  "toolsChanged": false
+ },
+ {
+  "line": "{\"jsonrpc\":\"2.0\",\"method\":\"notifications/initialized\"}",
+  "response": null,
+  "toolsChanged": false
+ },
+ {
+  "line": "{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"ping\"}",
+  "response": {
+   "jsonrpc": "2.0",
+   "id": 2,
+   "result": {}
+  },
+  "toolsChanged": false
+ },
+ {
+  "line": "{\"jsonrpc\":\"2.0\",\"id\":3,\"method\":\"tools/list\"}",
+  "response": {
+   "jsonrpc": "2.0",
+   "id": 3,
+   "result": {
+    "tools": [
+     {
+      "name": "security_bitwarden",
+      "description": "Bitwarden password manager through its own MCP server (github.com/bitwarden/mcp-server), cloned on first use into ~/.usemcpkit/repos/security/bitwarden, built there and run locally: vault items, folders, attachments, Send, password and TOTP tools. Needs git, Node.js and npm on PATH, the Bitwarden CLI (`bw`) for the vault tools, and a vault unlocked with its `unlock` tool (a native password dialog; BW_SESSION, BW_CLIENT_ID and BW_CLIENT_SECRET from the client's env are passed along when set). It reads and changes real credentials, so allow only the tools you trust.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "productivity_clickup",
+      "description": "ClickUp REST API (v2 and v3): tasks, checklists, comments and custom fields, the Workspace hierarchy (spaces, folders, lists, views), time tracking, goals, users and guests, chat, docs, webhooks and audit logs. Tools are named '<group>:<resource>:<action>'. The v2 endpoints call the Workspace id `team_id`; list the Workspaces with hierarchy:workspaces:get_authorized_workspaces.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "cloud_cloudflare",
+      "description": "The Cloudflare API through Cloudflare's own remote MCP server (github.com/cloudflare/mcp, mcp.cloudflare.com), in code mode: search the OpenAPI spec and run API calls from JavaScript, so every product (Workers, KV, R2, D1, Pages, DNS, firewall, load balancers, Access and more) is reachable through a few tools, plus Cloudflare documentation search and whoami. `execute` can change or delete anything the token allows, so give the token only the permissions you want the AI to have.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "atlassian_confluence",
+      "description": "Confluence REST API for Cloud and Data Center. Tools are named '<group>:<resource>:<action>': group cloud is Cloud REST v2 (/wiki/api/v2), cloud_v1 is Cloud REST v1 (/wiki/rest/api) and datacenter is Data Center / Server REST (/rest/api); call the group that matches the configured host.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "communication_discord",
+      "description": "Discord HTTP API v10, called as a bot: channels, messages, reactions, threads and pins, guilds (members, roles, bans, emojis, stickers, scheduled events, auto moderation, audit logs), users and DMs, application commands, webhooks, invites and lobbies. Tools are named '<group>:<resource>:<action>'. Ids are snowflakes passed as strings; list the bot's guilds with users:guilds:list_my_guilds.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "design_figma",
+      "description": "Figma REST API: files and their nodes, rendered images and image fills, versions, comments and reactions, dev resources, published components, component sets, styles and variables, library analytics, teams' projects and folders, webhooks and the current user. Tools are named '<group>:<resource>:<action>'. A file key is the part after /design/ in a Figma link, and a node id looks like 1:2 (a link carries it as node-id=1-2). files:files:get_file returns the whole document and can be enormous: prefer files:files:get_file_nodes with ids, or pass depth. Variables need an Enterprise plan; operations that need an OAuth app or an organization token are not included.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_github",
+      "description": "GitHub REST API: repositories, issues and pull requests, Actions, security, organizations, users, apps, Copilot and meta endpoints. Tools are named '<group>:<resource>:<action>'.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_gitlab",
+      "description": "GitLab REST API (gitlab.com and self-managed): projects, issues and merge requests, CI/CD, packages, security, groups, users, administration, AI and meta endpoints. Tools are named '<group>:<resource>:<action>'.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "atlassian_jira",
+      "description": "Jira REST API (Cloud and Data Center): issues, projects, users, workflows, fields, dashboards and filters, administration, apps and Jira Software boards and sprints. Tools are named '<group>:<resource>:<action>' and use the /rest/api/2 endpoints (Jira Software: /rest/agile/1.0), so endpoints that exist only on Cloud fail on Data Center. Issue search picks the endpoint of the deployment.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "communication_medium",
+      "description": "Medium's API (api.medium.com/v1), which Medium has archived and no longer supports: it needs an integration token you already have, since Medium stopped issuing new ones. Get the authenticated user (account:me:get_me), list their publications and a publication's contributors, publish posts as HTML or Markdown to the profile or a publication (as a draft, unlisted or public), and upload an image. The API cannot read, edit or delete posts. Tools are named '<group>:<resource>:<action>'. `posts:posts:create_*` publishes under the token owner's name, so prefer publishStatus draft.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "communication_reddit",
+      "description": "Reddit's OAuth API (read-only): a subreddit's posts, a post with its comment tree, search for posts and subreddits, subreddit info and rules, user profiles and their posts and comments. Tools are named '<group>:<resource>:<action>'. Posts and comments are identified by fullnames (t3_<id>, t1_<id>); listings page with `after` set to the last item's `name`.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "communication_teams",
+      "description": "Microsoft Teams through the community MCP server by Inditex (github.com/InditexTech/mcp-teams-server), cloned on first use into ~/.usemcpkit/repos/communication/teams, set up with uv and run locally on a Python that uv installs for it (the system Python is never used). It works in the one team and channel it is configured for: start a thread, reply to it, read a thread or the channel's threads, and look up team members to mention. It signs in as a Microsoft Entra application (a bot) and needs git and uv on PATH. The first call opens a form for TEAMS_APP_ID, TEAMS_APP_PASSWORD, TEAMS_APP_TENANT_ID, TEAM_ID and TEAMS_CHANNEL_ID (or set them in the client's env for usemcpkit). It posts as the bot into a real channel, so allow the write tools only when you want that.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     }
+    ]
+   }
+  },
+  "toolsChanged": false
+ },
+ {
+  "line": "{",
+  "response": {
+   "jsonrpc": "2.0",
+   "id": null,
+   "error": {
+    "code": -32700,
+    "message": "parse error: EOF while parsing an object at line 1 column 1"
+   }
+  },
+  "toolsChanged": false
+ },
+ {
+  "line": "",
+  "response": null,
+  "toolsChanged": false
+ },
+ {
+  "line": "{\"jsonrpc\":\"2.0\",\"id\":4,\"method\":\"resources/list\"}",
+  "response": {
+   "jsonrpc": "2.0",
+   "id": 4,
+   "error": {
+    "code": -32601,
+    "message": "method not found: resources/list"
+   }
+  },
+  "toolsChanged": false
+ },
+ {
+  "line": "{\"jsonrpc\":\"2.0\",\"id\":5,\"method\":\"tools/call\",\"params\":{\"name\":\"nope_missing\"}}",
+  "response": {
+   "jsonrpc": "2.0",
+   "id": 5,
+   "error": {
+    "code": -32602,
+    "message": "unknown tool: nope_missing; open its section first, the tool list shows the sections"
+   }
+  },
+  "toolsChanged": false
+ },
+ {
+  "line": "{\"jsonrpc\":\"2.0\",\"id\":6,\"method\":\"tools/call\",\"params\":{}}",
+  "response": {
+   "jsonrpc": "2.0",
+   "id": 6,
+   "error": {
+    "code": -32602,
+    "message": "unknown tool: undefined; open its section first, the tool list shows the sections"
+   }
+  },
+  "toolsChanged": false
+ },
+ {
+  "line": "{\"jsonrpc\":\"2.0\",\"id\":7,\"method\":\"tools/call\",\"params\":{\"name\":\"communication_medium\"}}",
+  "response": {
+   "jsonrpc": "2.0",
+   "id": 7,
+   "result": {
+    "content": [
+     {
+      "type": "text",
+      "text": "communication:medium is a section, not a tool. It has 4 groups, each one another section.\nCall a group (no arguments) to load its tools into the tool list:\n- communication_medium_account\n- communication_medium_publications\n- communication_medium_posts\n- communication_medium_images"
+     }
+    ]
+   }
+  },
+  "toolsChanged": true
+ },
+ {
+  "line": "{\"jsonrpc\":\"2.0\",\"id\":8,\"method\":\"tools/call\",\"params\":{\"name\":\"communication_medium\"}}",
+  "response": {
+   "jsonrpc": "2.0",
+   "id": 8,
+   "result": {
+    "content": [
+     {
+      "type": "text",
+      "text": "communication:medium is a section, not a tool. It has 4 groups, each one another section.\nCall a group (no arguments) to load its tools into the tool list:\n- communication_medium_account\n- communication_medium_publications\n- communication_medium_posts\n- communication_medium_images"
+     }
+    ]
+   }
+  },
+  "toolsChanged": false
+ },
+ {
+  "line": "{\"jsonrpc\":\"2.0\",\"id\":9,\"method\":\"tools/call\",\"params\":{\"name\":\"communication_medium_account\"}}",
+  "response": {
+   "jsonrpc": "2.0",
+   "id": 9,
+   "result": {
+    "content": [
+     {
+      "type": "text",
+      "text": "communication:medium:account: 1 tools are now in the tool list. Call them by these names:\n- communication_medium_account_me_get_me"
+     }
+    ]
+   }
+  },
+  "toolsChanged": true
+ },
+ {
+  "line": "{\"jsonrpc\":\"2.0\",\"id\":10,\"method\":\"tools/call\",\"params\":{\"name\":\"communication_medium_images\"}}",
+  "response": {
+   "jsonrpc": "2.0",
+   "id": 10,
+   "result": {
+    "content": [
+     {
+      "type": "text",
+      "text": "communication:medium:images: 1 tools are now in the tool list. Call them by these names:\n- communication_medium_images_upload_image"
+     }
+    ]
+   }
+  },
+  "toolsChanged": true
+ },
+ {
+  "line": "{\"jsonrpc\":\"2.0\",\"id\":11,\"method\":\"tools/call\",\"params\":{\"name\":\"communication_medium_posts\"}}",
+  "response": {
+   "jsonrpc": "2.0",
+   "id": 11,
+   "result": {
+    "content": [
+     {
+      "type": "text",
+      "text": "communication:medium:posts: 2 tools are now in the tool list. Call them by these names:\n- communication_medium_posts_create_post\n- communication_medium_posts_create_18965c"
+     }
+    ]
+   }
+  },
+  "toolsChanged": true
+ },
+ {
+  "line": "{\"jsonrpc\":\"2.0\",\"id\":12,\"method\":\"tools/call\",\"params\":{\"name\":\"communication_medium_publications\"}}",
+  "response": {
+   "jsonrpc": "2.0",
+   "id": 12,
+   "result": {
+    "content": [
+     {
+      "type": "text",
+      "text": "communication:medium:publications: 2 tools are now in the tool list. Call them by these names:\n- communication_medium_publications_d6c262\n- communication_medium_publications_list_420b57"
+     }
+    ]
+   }
+  },
+  "toolsChanged": true
+ },
+ {
+  "line": "{\"jsonrpc\":\"2.0\",\"id\":13,\"method\":\"tools/call\",\"params\":{\"name\":\"communication_reddit\"}}",
+  "response": {
+   "jsonrpc": "2.0",
+   "id": 13,
+   "result": {
+    "content": [
+     {
+      "type": "text",
+      "text": "communication:reddit is a section, not a tool. It has 4 groups, each one another section.\nCall a group (no arguments) to load its tools into the tool list:\n- communication_reddit_posts\n- communication_reddit_subreddits\n- communication_reddit_users\n- communication_reddit_account"
+     }
+    ]
+   }
+  },
+  "toolsChanged": true
+ },
+ {
+  "line": "{\"jsonrpc\":\"2.0\",\"id\":14,\"method\":\"tools/call\",\"params\":{\"name\":\"communication_reddit_posts\"}}",
+  "response": {
+   "jsonrpc": "2.0",
+   "id": 14,
+   "result": {
+    "content": [
+     {
+      "type": "text",
+      "text": "communication:reddit:posts: 4 tools are now in the tool list. Call them by these names:\n- communication_reddit_posts_comments_get_25ac44\n- communication_reddit_posts_get_posts_by_id\n- communication_reddit_posts_list_subreddit_posts\n- communication_reddit_posts_search_posts"
+     }
+    ]
+   }
+  },
+  "toolsChanged": true
+ },
+ {
+  "line": "{\"jsonrpc\":\"2.0\",\"id\":15,\"method\":\"tools/call\",\"params\":{\"name\":\"communication_reddit_subreddits\"}}",
+  "response": {
+   "jsonrpc": "2.0",
+   "id": 15,
+   "result": {
+    "content": [
+     {
+      "type": "text",
+      "text": "communication:reddit:subreddits: 3 tools are now in the tool list. Call them by these names:\n- communication_reddit_subreddits_rules_514325\n- communication_reddit_subreddits_get_subreddit\n- communication_reddit_subreddits_search_3423f9"
+     }
+    ]
+   }
+  },
+  "toolsChanged": true
+ },
+ {
+  "line": "{\"jsonrpc\":\"2.0\",\"id\":16,\"method\":\"tools/call\",\"params\":{\"name\":\"productivity_clickup\"}}",
+  "response": {
+   "jsonrpc": "2.0",
+   "id": 16,
+   "result": {
+    "content": [
+     {
+      "type": "text",
+      "text": "productivity:clickup is a section, not a tool. It has 8 groups, each one another section.\nCall a group (no arguments) to load its tools into the tool list:\n- productivity_clickup_tasks\n- productivity_clickup_hierarchy\n- productivity_clickup_time\n- productivity_clickup_goals\n- productivity_clickup_users\n- productivity_clickup_chat\n- productivity_clickup_docs\n- productivity_clickup_admin"
+     }
+    ]
+   }
+  },
+  "toolsChanged": true
+ },
+ {
+  "line": "{\"jsonrpc\":\"2.0\",\"id\":17,\"method\":\"tools/call\",\"params\":{\"name\":\"productivity_clickup_goals\"}}",
+  "response": {
+   "jsonrpc": "2.0",
+   "id": 17,
+   "result": {
+    "content": [
+     {
+      "type": "text",
+      "text": "productivity:clickup:goals: 8 tools are now in the tool list. Call them by these names:\n- productivity_clickup_goals_create_goal\n- productivity_clickup_goals_create_key_result\n- productivity_clickup_goals_delete_goal\n- productivity_clickup_goals_delete_key_result\n- productivity_clickup_goals_edit_key_result\n- productivity_clickup_goals_get_goal\n- productivity_clickup_goals_get_goals\n- productivity_clickup_goals_update_goal"
+     }
+    ]
+   }
+  },
+  "toolsChanged": true
+ },
+ {
+  "line": "{\"jsonrpc\":\"2.0\",\"id\":18,\"method\":\"tools/call\",\"params\":{\"name\":\"productivity_clickup_docs\"}}",
+  "response": {
+   "jsonrpc": "2.0",
+   "id": 18,
+   "result": {
+    "content": [
+     {
+      "type": "text",
+      "text": "productivity:clickup:docs: 8 tools are now in the tool list. Call them by these names:\n- productivity_clickup_docs_create_a_doc\n- productivity_clickup_docs_create_a_page\n- productivity_clickup_docs_edit_a_page\n- productivity_clickup_docs_fetch_a_doc\n- productivity_clickup_docs_fetch_02c698\n- productivity_clickup_docs_fetch_pages_78efc5\n- productivity_clickup_docs_get_page\n- productivity_clickup_docs_search_for_docs"
+     }
+    ]
+   }
+  },
+  "toolsChanged": true
+ },
+ {
+  "line": "{\"jsonrpc\":\"2.0\",\"id\":19,\"method\":\"tools/call\",\"params\":{\"name\":\"atlassian_jira\"}}",
+  "response": {
+   "jsonrpc": "2.0",
+   "id": 19,
+   "result": {
+    "content": [
+     {
+      "type": "text",
+      "text": "atlassian:jira is a section, not a tool. It has 9 groups, each one another section.\nCall a group (no arguments) to load its tools into the tool list:\n- atlassian_jira_issues\n- atlassian_jira_projects\n- atlassian_jira_users\n- atlassian_jira_workflows\n- atlassian_jira_fields\n- atlassian_jira_collaboration\n- atlassian_jira_administration\n- atlassian_jira_apps\n- atlassian_jira_software"
+     }
+    ]
+   }
+  },
+  "toolsChanged": true
+ },
+ {
+  "line": "{\"jsonrpc\":\"2.0\",\"id\":20,\"method\":\"tools/call\",\"params\":{\"name\":\"atlassian_jira_administration\"}}",
+  "response": {
+   "jsonrpc": "2.0",
+   "id": 20,
+   "result": {
+    "content": [
+     {
+      "type": "text",
+      "text": "atlassian:jira:administration: 20 tools are now in the tool list. Call them by these names:\n- atlassian_jira_administration_15b8d4\n- atlassian_jira_administration_86b521\n- atlassian_jira_administration_audit_9de5d7\n- atlassian_jira_administration_issue_473d2d\n- atlassian_jira_administration_issue_85faec\n- atlassian_jira_administration_jira_25e198\n- atlassian_jira_administration_jira_1d05ce\n- atlassian_jira_administration_jira_662f32\n- atlassian_jira_administration_jira_2b70a3\n- atlassian_jira_administration_license_a0b242\n- atlassian_jira_administration_license_43780e\n- atlassian_jira_administration_license_6a2a28\n- atlassian_jira_administration_policies_a3a960\n- atlassian_jira_administration_policies_379315\n- atlassian_jira_administration_policies_4654c7\n- atlassian_jira_administration_policies_576184\n- atlassian_jira_administration_policies_0d564a\n- atlassian_jira_administration_policies_018146\n- atlassian_jira_administration_policies_2daf99\n- atlassian_jira_administration_server_9af8ea"
+     }
+    ]
+   }
+  },
+  "toolsChanged": true
+ },
+ {
+  "line": "{\"jsonrpc\":\"2.0\",\"id\":21,\"method\":\"tools/call\",\"params\":{\"name\":\"git_github\"}}",
+  "response": {
+   "jsonrpc": "2.0",
+   "id": 21,
+   "result": {
+    "content": [
+     {
+      "type": "text",
+      "text": "git:github is a section, not a tool. It has 9 groups, each one another section.\nCall a group (no arguments) to load its tools into the tool list:\n- git_github_repos\n- git_github_issues\n- git_github_actions\n- git_github_security\n- git_github_orgs\n- git_github_users\n- git_github_apps\n- git_github_copilot\n- git_github_meta"
+     }
+    ]
+   }
+  },
+  "toolsChanged": true
+ },
+ {
+  "line": "{\"jsonrpc\":\"2.0\",\"id\":22,\"method\":\"tools/call\",\"params\":{\"name\":\"git_github_meta\"}}",
+  "response": {
+   "jsonrpc": "2.0",
+   "id": 22,
+   "result": {
+    "content": [
+     {
+      "type": "text",
+      "text": "git:github:meta: 16 tools are now in the tool list. Call them by these names:\n- git_github_meta_codes_of_conduct_get_all_b62877\n- git_github_meta_codes_of_conduct_get_89e32d\n- git_github_meta_emojis_get\n- git_github_meta_gitignore_get_all_templates\n- git_github_meta_gitignore_get_template\n- git_github_meta_licenses_get\n- git_github_meta_licenses_get_all_commonly_used\n- git_github_meta_licenses_get_for_repo\n- git_github_meta_markdown_render\n- git_github_meta_markdown_render_raw\n- git_github_meta_get\n- git_github_meta_get_all_versions\n- git_github_meta_get_octocat\n- git_github_meta_get_zen\n- git_github_meta_root\n- git_github_meta_rate_limit_get"
+     }
+    ]
+   }
+  },
+  "toolsChanged": true
+ },
+ {
+  "line": "{\"jsonrpc\":\"2.0\",\"id\":23,\"method\":\"tools/list\"}",
+  "response": {
+   "jsonrpc": "2.0",
+   "id": 23,
+   "result": {
+    "tools": [
+     {
+      "name": "security_bitwarden",
+      "description": "Bitwarden password manager through its own MCP server (github.com/bitwarden/mcp-server), cloned on first use into ~/.usemcpkit/repos/security/bitwarden, built there and run locally: vault items, folders, attachments, Send, password and TOTP tools. Needs git, Node.js and npm on PATH, the Bitwarden CLI (`bw`) for the vault tools, and a vault unlocked with its `unlock` tool (a native password dialog; BW_SESSION, BW_CLIENT_ID and BW_CLIENT_SECRET from the client's env are passed along when set). It reads and changes real credentials, so allow only the tools you trust.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "productivity_clickup",
+      "description": "ClickUp REST API (v2 and v3): tasks, checklists, comments and custom fields, the Workspace hierarchy (spaces, folders, lists, views), time tracking, goals, users and guests, chat, docs, webhooks and audit logs. Tools are named '<group>:<resource>:<action>'. The v2 endpoints call the Workspace id `team_id`; list the Workspaces with hierarchy:workspaces:get_authorized_workspaces.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "productivity_clickup_tasks",
+      "description": "Group \"tasks\" of productivity:clickup. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "productivity_clickup_hierarchy",
+      "description": "Group \"hierarchy\" of productivity:clickup. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "productivity_clickup_time",
+      "description": "Group \"time\" of productivity:clickup. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "productivity_clickup_goals",
+      "description": "Group \"goals\" of productivity:clickup. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "productivity_clickup_goals_create_goal",
+      "description": "Create Goal. Add a new Goal to a Workspace.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "team_id": {
+         "type": "number",
+         "description": "Workspace ID"
+        },
+        "name": {
+         "type": "string"
+        },
+        "due_date": {
+         "type": "integer"
+        },
+        "description": {
+         "type": "string"
+        },
+        "multiple_owners": {
+         "type": "boolean"
+        },
+        "owners": {
+         "type": "array",
+         "description": "Array of user IDs.",
+         "items": {
+          "type": "integer"
+         }
+        },
+        "color": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "team_id",
+        "name",
+        "due_date",
+        "description",
+        "multiple_owners",
+        "owners",
+        "color"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": false
+      }
+     },
+     {
+      "name": "productivity_clickup_goals_create_key_result",
+      "description": "Create Key Result. Add a Target to a Goal.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "goal_id": {
+         "type": "string",
+         "description": "900e-462d-a849-4a216b06d930 (uuid)"
+        },
+        "name": {
+         "type": "string"
+        },
+        "owners": {
+         "type": "array",
+         "items": {
+          "type": "integer"
+         }
+        },
+        "type": {
+         "type": "string",
+         "description": "Target (key result) types include: `number`, `currency`, `boolean`, `percentage`, or `automatic`."
+        },
+        "steps_start": {
+         "type": "integer"
+        },
+        "steps_end": {
+         "type": "integer"
+        },
+        "unit": {
+         "type": "string"
+        },
+        "task_ids": {
+         "type": "array",
+         "description": "Enter an array of task IDs to link this target with one or more tasks.",
+         "items": {
+          "type": "string"
+         }
+        },
+        "list_ids": {
+         "type": "array",
+         "description": "Enter an array of List IDs to link this target with one or more Lists.",
+         "items": {
+          "type": "string"
+         }
+        }
+       },
+       "required": [
+        "goal_id",
+        "name",
+        "owners",
+        "type",
+        "steps_start",
+        "steps_end",
+        "unit",
+        "task_ids",
+        "list_ids"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": false
+      }
+     },
+     {
+      "name": "productivity_clickup_goals_delete_goal",
+      "description": "Delete Goal. Remove a Goal from your Workspace.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "goal_id": {
+         "type": "string",
+         "description": "900e-462d-a849-4a216b06d930 (uuid)"
+        }
+       },
+       "required": [
+        "goal_id"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": false,
+       "destructiveHint": true
+      }
+     },
+     {
+      "name": "productivity_clickup_goals_delete_key_result",
+      "description": "Delete Key Result. Delete a target from a Goal.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "key_result_id": {
+         "type": "string",
+         "description": "8480-49bc-8c57-e569747efe93 (uuid)"
+        }
+       },
+       "required": [
+        "key_result_id"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": false,
+       "destructiveHint": true
+      }
+     },
+     {
+      "name": "productivity_clickup_goals_edit_key_result",
+      "description": "Edit Key Result. Update a Target.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "key_result_id": {
+         "type": "string",
+         "description": "8480-49bc-8c57-e569747efe93 (uuid)"
+        },
+        "steps_current": {
+         "type": "integer"
+        },
+        "note": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "key_result_id",
+        "steps_current",
+        "note"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": false
+      }
+     },
+     {
+      "name": "productivity_clickup_goals_get_goal",
+      "description": "Get Goal. View the details of a Goal including its Targets.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "goal_id": {
+         "type": "string",
+         "description": "900e-462d-a849-4a216b06d930 (uuid)"
+        }
+       },
+       "required": [
+        "goal_id"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "productivity_clickup_goals_get_goals",
+      "description": "Get Goals. View the Goals available in a Workspace.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "team_id": {
+         "type": "number",
+         "description": "Workspace ID"
+        },
+        "include_completed": {
+         "type": "boolean"
+        }
+       },
+       "required": [
+        "team_id"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "productivity_clickup_goals_update_goal",
+      "description": "Update Goal. Rename a Goal, set the due date, replace the description, add or remove owners, and set the Goal color.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "goal_id": {
+         "type": "string",
+         "description": "900e-462d-a849-4a216b06d930 (uuid)"
+        },
+        "name": {
+         "type": "string"
+        },
+        "due_date": {
+         "type": "integer"
+        },
+        "description": {
+         "type": "string"
+        },
+        "rem_owners": {
+         "type": "array",
+         "description": "Array of user IDs.",
+         "items": {
+          "type": "integer"
+         }
+        },
+        "add_owners": {
+         "type": "array",
+         "description": "Array of user IDs.",
+         "items": {
+          "type": "integer"
+         }
+        },
+        "color": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "goal_id",
+        "name",
+        "due_date",
+        "description",
+        "rem_owners",
+        "add_owners",
+        "color"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": false
+      }
+     },
+     {
+      "name": "productivity_clickup_users",
+      "description": "Group \"users\" of productivity:clickup. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "productivity_clickup_chat",
+      "description": "Group \"chat\" of productivity:clickup. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "productivity_clickup_docs",
+      "description": "Group \"docs\" of productivity:clickup. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "productivity_clickup_docs_create_a_doc",
+      "description": "Create a Doc. Create a new Doc.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "workspace_id": {
+         "type": "number",
+         "description": "The ID of the Workspace."
+        },
+        "name": {
+         "type": "string",
+         "description": "The name of the new Doc.",
+         "default": ""
+        },
+        "parent": {
+         "type": "object",
+         "description": "The parent of the new Doc.",
+         "properties": {
+          "id": {
+           "type": "string"
+          },
+          "type": {
+           "type": "number",
+           "description": "The parent Doc type. Use `4` for Space, `5` for Folder, `6` for List, `7` for Everything, and `12` for Workspace."
+          }
+         },
+         "required": [
+          "id",
+          "type"
+         ]
+        },
+        "visibility": {
+         "description": "The visibility of the new Doc. For example, `PUBLIC` or `PRIVATE`."
+        },
+        "create_page": {
+         "type": "boolean",
+         "description": "Create a new page when creating the Doc.",
+         "default": true
+        }
+       },
+       "required": [
+        "workspace_id"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": false
+      }
+     },
+     {
+      "name": "productivity_clickup_docs_create_a_page",
+      "description": "Create a Page. Create a page in a Doc.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "workspace_id": {
+         "type": "number",
+         "description": "The ID of the Workspace."
+        },
+        "doc_id": {
+         "type": "string",
+         "description": "The ID of the doc."
+        },
+        "parent_page_id": {
+         "type": "string",
+         "description": "The ID of the parent page. If this is a root page in the Doc, `parent_page_id` will not be returned."
+        },
+        "name": {
+         "type": "string",
+         "description": "The name of the new page.",
+         "default": ""
+        },
+        "sub_title": {
+         "type": "string",
+         "description": "The subtitle of the new page."
+        },
+        "content": {
+         "type": "string",
+         "description": "The content of the new page.",
+         "default": ""
+        },
+        "content_format": {
+         "type": "string",
+         "description": "The format the page content is in. For example, `text/md` for markdown or `text/plain` for plain text.",
+         "default": "text/md",
+         "enum": [
+          "text/md",
+          "text/plain"
+         ]
+        }
+       },
+       "required": [
+        "workspace_id",
+        "doc_id"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": false
+      }
+     },
+     {
+      "name": "productivity_clickup_docs_edit_a_page",
+      "description": "Edit a Page. Edit a page in a Doc.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "workspace_id": {
+         "type": "number",
+         "description": "The ID of the Workspace."
+        },
+        "doc_id": {
+         "type": "string",
+         "description": "The ID of the doc."
+        },
+        "page_id": {
+         "type": "string",
+         "description": "The ID of the page"
+        },
+        "name": {
+         "type": "string",
+         "description": "The updated name of the page.",
+         "default": ""
+        },
+        "sub_title": {
+         "type": "string",
+         "description": "The updateds ubtitle of the page."
+        },
+        "content": {
+         "type": "string",
+         "description": "The updated content of the page.",
+         "default": ""
+        },
+        "content_edit_mode": {
+         "type": "string",
+         "description": "The strategy for updating content on the page. For example, `replace`, `append`, or `prepend`.",
+         "default": "replace",
+         "enum": [
+          "replace",
+          "append",
+          "prepend"
+         ]
+        },
+        "content_format": {
+         "type": "string",
+         "description": "The format the page content is in. For example, `text/md` for markdown or `text/plain` for plain text.",
+         "default": "text/md",
+         "enum": [
+          "text/md",
+          "text/plain"
+         ]
+        }
+       },
+       "required": [
+        "workspace_id",
+        "doc_id",
+        "page_id"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": false
+      }
+     },
+     {
+      "name": "productivity_clickup_docs_fetch_a_doc",
+      "description": "Fetch a Doc. View information about a Doc.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "workspace_id": {
+         "type": "number",
+         "description": "The ID of the Workspace."
+        },
+        "doc_id": {
+         "type": "string",
+         "description": "The ID of the doc."
+        }
+       },
+       "required": [
+        "workspace_id",
+        "doc_id"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "productivity_clickup_docs_fetch_02c698",
+      "description": "Fetch PageListing for a Doc. View the PageListing for a Doc.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "workspace_id": {
+         "type": "number",
+         "description": "The ID of the Workspace."
+        },
+        "doc_id": {
+         "type": "string",
+         "description": "The ID of the doc."
+        },
+        "max_page_depth": {
+         "type": "number",
+         "default": -1,
+         "description": "The maximum depth to retrieve pages and subpages. Use `-1` to return pages and subpages with no depth limit."
+        }
+       },
+       "required": [
+        "workspace_id",
+        "doc_id"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "productivity_clickup_docs_fetch_pages_78efc5",
+      "description": "Fetch Pages belonging to a Doc. View the pages belonging to a Doc.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "workspace_id": {
+         "type": "number",
+         "description": "The ID of the Workspace."
+        },
+        "doc_id": {
+         "type": "string",
+         "description": "The ID of the doc."
+        },
+        "max_page_depth": {
+         "type": "number",
+         "default": -1,
+         "description": "The maximum depth to retrieve pages and subpages. Use `-1` to return pages and subpages with no depth limit."
+        },
+        "content_format": {
+         "type": "string",
+         "default": "text/md",
+         "enum": [
+          "text/md",
+          "text/plain"
+         ],
+         "description": "The format to return the page content in. For example, `text/md` for markdown or `text/plain` for plain text."
+        }
+       },
+       "required": [
+        "workspace_id",
+        "doc_id"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "productivity_clickup_docs_get_page",
+      "description": "Get page. View the information about a page in a Doc. Due to markdown format limitations, some content elements will not be displayed exactly as they appear in ClickUp.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "workspace_id": {
+         "type": "number",
+         "description": "The ID of the Workspace."
+        },
+        "doc_id": {
+         "type": "string",
+         "description": "The ID of the doc."
+        },
+        "page_id": {
+         "type": "string",
+         "description": "The ID of the page"
+        },
+        "content_format": {
+         "type": "string",
+         "default": "text/md",
+         "enum": [
+          "text/md",
+          "text/plain"
+         ],
+         "description": "The format to return the page content in. For example, `text/md` for markdown or `text/plain` for plain text."
+        }
+       },
+       "required": [
+        "workspace_id",
+        "doc_id",
+        "page_id"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "productivity_clickup_docs_search_for_docs",
+      "description": "Search for Docs. View the Docs in your Workspace. You can only view information of Docs you can access.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "workspace_id": {
+         "type": "number",
+         "description": "The ID of the Workspace."
+        },
+        "id": {
+         "type": "string",
+         "description": "Filter results to Docs created by the user with the given Doc ID."
+        },
+        "creator": {
+         "type": "number",
+         "description": "Filter results to Docs created by the user with the given user ID."
+        },
+        "deleted": {
+         "type": "boolean",
+         "default": false,
+         "description": "Filter results to return deleted Docs."
+        },
+        "archived": {
+         "type": "boolean",
+         "default": false,
+         "description": "Filter results to return archived Docs."
+        },
+        "parent_id": {
+         "type": "string",
+         "description": "Filter results to children of a parent Doc with the given parent Doc ID."
+        },
+        "parent_type": {
+         "type": "string",
+         "enum": [
+          "4",
+          "5",
+          "6",
+          "7",
+          "12",
+          "SPACE",
+          "FOLDER",
+          "LIST",
+          "EVERYTHING",
+          "WORKSPACE"
+         ],
+         "description": "Filter results to children of the given parent Doc type. For example, `SPACE`, `FOLDER`, `LIST`, `EVERYTHING`, `WORKSPACE`."
+        },
+        "limit": {
+         "type": "number",
+         "default": 50,
+         "description": "The maximum number of results to fetch for this page."
+        },
+        "cursor": {
+         "type": "string",
+         "description": "The cursor to use to fetch the next page of results."
+        },
+        "next_cursor": {
+         "type": "string",
+         "description": "The cursor to use to fetch the next page of results. [deprecated]"
+        }
+       },
+       "required": [
+        "workspace_id"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "productivity_clickup_admin",
+      "description": "Group \"admin\" of productivity:clickup. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "cloud_cloudflare",
+      "description": "The Cloudflare API through Cloudflare's own remote MCP server (github.com/cloudflare/mcp, mcp.cloudflare.com), in code mode: search the OpenAPI spec and run API calls from JavaScript, so every product (Workers, KV, R2, D1, Pages, DNS, firewall, load balancers, Access and more) is reachable through a few tools, plus Cloudflare documentation search and whoami. `execute` can change or delete anything the token allows, so give the token only the permissions you want the AI to have.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "atlassian_confluence",
+      "description": "Confluence REST API for Cloud and Data Center. Tools are named '<group>:<resource>:<action>': group cloud is Cloud REST v2 (/wiki/api/v2), cloud_v1 is Cloud REST v1 (/wiki/rest/api) and datacenter is Data Center / Server REST (/rest/api); call the group that matches the configured host.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "communication_discord",
+      "description": "Discord HTTP API v10, called as a bot: channels, messages, reactions, threads and pins, guilds (members, roles, bans, emojis, stickers, scheduled events, auto moderation, audit logs), users and DMs, application commands, webhooks, invites and lobbies. Tools are named '<group>:<resource>:<action>'. Ids are snowflakes passed as strings; list the bot's guilds with users:guilds:list_my_guilds.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "design_figma",
+      "description": "Figma REST API: files and their nodes, rendered images and image fills, versions, comments and reactions, dev resources, published components, component sets, styles and variables, library analytics, teams' projects and folders, webhooks and the current user. Tools are named '<group>:<resource>:<action>'. A file key is the part after /design/ in a Figma link, and a node id looks like 1:2 (a link carries it as node-id=1-2). files:files:get_file returns the whole document and can be enormous: prefer files:files:get_file_nodes with ids, or pass depth. Variables need an Enterprise plan; operations that need an OAuth app or an organization token are not included.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_github",
+      "description": "GitHub REST API: repositories, issues and pull requests, Actions, security, organizations, users, apps, Copilot and meta endpoints. Tools are named '<group>:<resource>:<action>'.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_github_repos",
+      "description": "Group \"repos\" of git:github. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_github_issues",
+      "description": "Group \"issues\" of git:github. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_github_actions",
+      "description": "Group \"actions\" of git:github. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_github_security",
+      "description": "Group \"security\" of git:github. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_github_orgs",
+      "description": "Group \"orgs\" of git:github. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_github_users",
+      "description": "Group \"users\" of git:github. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_github_apps",
+      "description": "Group \"apps\" of git:github. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_github_copilot",
+      "description": "Group \"copilot\" of git:github. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_github_meta",
+      "description": "Group \"meta\" of git:github. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_github_meta_codes_of_conduct_get_all_b62877",
+      "description": "Get all codes of conduct. Returns array of all GitHub's codes of conduct.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_github_meta_codes_of_conduct_get_89e32d",
+      "description": "Get a code of conduct. Returns information about the specified GitHub code of conduct.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "key": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "key"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_github_meta_emojis_get",
+      "description": "Get emojis. Lists all the emojis available to use on GitHub.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_github_meta_gitignore_get_all_templates",
+      "description": "Get all gitignore templates. List all templates available to pass as an option when creating a repository.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_github_meta_gitignore_get_template",
+      "description": "Get a gitignore template. Get the content of a gitignore template.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "name": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "name"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_github_meta_licenses_get",
+      "description": "Get a license. Gets information about a specific license. For more information, see \"Licensing a repository .\"",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "license": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "license"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_github_meta_licenses_get_all_commonly_used",
+      "description": "Get all commonly used licenses. Lists the most commonly used licenses on GitHub. For more information, see \"Licensing a repository .\"",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "featured": {
+         "type": "boolean"
+        },
+        "per_page": {
+         "type": "integer",
+         "default": 30,
+         "description": "The number of results per page (max 100). For more information, see \"Using pagination in the REST API.\""
+        },
+        "page": {
+         "type": "integer",
+         "default": 1,
+         "description": "The page number of the results to fetch. For more information, see \"Using pagination in the REST API.\""
+        }
+       }
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_github_meta_licenses_get_for_repo",
+      "description": "Get the license for a repository. This method returns the contents of the repository's license file, if one is detected.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "owner": {
+         "type": "string",
+         "description": "The account owner of the repository. The name is not case sensitive."
+        },
+        "repo": {
+         "type": "string",
+         "description": "The name of the repository without the `.git` extension. The name is not case sensitive."
+        },
+        "ref": {
+         "type": "string",
+         "description": "The Git reference for the results you want to list. The `ref` for a branch can be formatted either as `refs/heads/<branch name>` or simply `<branch name>`. To reference a pull request use `refs/pull/<number>/merge`."
+        }
+       },
+       "required": [
+        "owner",
+        "repo"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_github_meta_markdown_render",
+      "description": "Render a Markdown document. Depending on what is rendered in the Markdown, you may need to provide additional token scopes for labels, such as `issues:read` or `pull_requests:read`.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "text": {
+         "type": "string",
+         "description": "The Markdown text to render in HTML."
+        },
+        "mode": {
+         "type": "string",
+         "description": "The rendering mode.",
+         "default": "markdown",
+         "enum": [
+          "markdown",
+          "gfm"
+         ]
+        },
+        "context": {
+         "type": "string",
+         "description": "The repository context to use when creating references in `gfm` mode. For example, setting `context` to `octo-org/octo-repo` will change the text `#42` into an HTML link to issue 42 in the `octo-org/octo-repo` repository."
+        }
+       },
+       "required": [
+        "text"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_github_meta_markdown_render_raw",
+      "description": "Render a Markdown document in raw mode. You must send Markdown as plain text (using a `Content-Type` header of `text/plain` or `text/x-markdown`) to this endpoint, rather than using JSON format. In raw mode, GitHub Flavored Markdown is not supported and Markdown will be rendered in plain format like a README.md file. Markdown content must be 400 KB or less.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "body": {
+         "type": "string"
+        }
+       }
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_github_meta_get",
+      "description": "Get GitHub meta information. Returns meta information about GitHub, including a list of GitHub's IP addresses. For more information, see \"About GitHub's IP addresses.\"",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_github_meta_get_all_versions",
+      "description": "Get all API versions. Get all supported GitHub API versions.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_github_meta_get_octocat",
+      "description": "Get Octocat. Get the octocat as ASCII art",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "s": {
+         "type": "string",
+         "description": "The words to show in Octocat's speech bubble"
+        },
+        "save_to": {
+         "type": "string",
+         "description": "Local path the downloaded file is saved to."
+        }
+       },
+       "required": [
+        "save_to"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_github_meta_get_zen",
+      "description": "Get the Zen of GitHub. Get a random sentence from the Zen of GitHub",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_github_meta_root",
+      "description": "GitHub API Root. Get Hypermedia links to resources accessible in GitHub's REST API",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_github_meta_rate_limit_get",
+      "description": "Get rate limit status for the authenticated user. > [!NOTE] > Accessing this endpoint does not count against your REST API rate limit.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "git_gitlab",
+      "description": "GitLab REST API (gitlab.com and self-managed): projects, issues and merge requests, CI/CD, packages, security, groups, users, administration, AI and meta endpoints. Tools are named '<group>:<resource>:<action>'.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "atlassian_jira",
+      "description": "Jira REST API (Cloud and Data Center): issues, projects, users, workflows, fields, dashboards and filters, administration, apps and Jira Software boards and sprints. Tools are named '<group>:<resource>:<action>' and use the /rest/api/2 endpoints (Jira Software: /rest/agile/1.0), so endpoints that exist only on Cloud fail on Data Center. Issue search picks the endpoint of the deployment.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "atlassian_jira_issues",
+      "description": "Group \"issues\" of atlassian:jira. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "atlassian_jira_projects",
+      "description": "Group \"projects\" of atlassian:jira. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "atlassian_jira_users",
+      "description": "Group \"users\" of atlassian:jira. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "atlassian_jira_workflows",
+      "description": "Group \"workflows\" of atlassian:jira. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "atlassian_jira_fields",
+      "description": "Group \"fields\" of atlassian:jira. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "atlassian_jira_collaboration",
+      "description": "Group \"collaboration\" of atlassian:jira. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "atlassian_jira_administration",
+      "description": "Group \"administration\" of atlassian:jira. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "atlassian_jira_administration_15b8d4",
+      "description": "Get announcement banner configuration. Returns the current announcement banner configuration.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "atlassian_jira_administration_86b521",
+      "description": "Update announcement banner configuration. Updates the announcement banner configuration.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "isDismissible": {
+         "type": "boolean",
+         "description": "Flag indicating if the announcement banner can be dismissed by the user."
+        },
+        "isEnabled": {
+         "type": "boolean",
+         "description": "Flag indicating if the announcement banner is enabled or not."
+        },
+        "message": {
+         "type": "string",
+         "description": "The text on the announcement banner."
+        },
+        "visibility": {
+         "type": "string",
+         "description": "Visibility of the announcement banner. Can be public or private."
+        }
+       }
+      },
+      "annotations": {
+       "readOnlyHint": false
+      }
+     },
+     {
+      "name": "atlassian_jira_administration_audit_9de5d7",
+      "description": "Get audit records. Returns a list of audit records. The list can be filtered to include items:",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "offset": {
+         "type": "integer",
+         "default": 0,
+         "description": "The number of records to skip before returning the first result."
+        },
+        "limit": {
+         "type": "integer",
+         "default": 1000,
+         "description": "The maximum number of results to return."
+        },
+        "filter": {
+         "type": "string",
+         "description": "The strings to match with audit field content, space separated."
+        },
+        "from": {
+         "type": "string",
+         "description": "The date and time on or after which returned audit records must have been created. If `to` is provided `from` must be before `to` or no audit records are returned."
+        },
+        "to": {
+         "type": "string",
+         "description": "The date and time on or before which returned audit results must have been created. If `from` is provided `to` must be after `from` or no audit records are returned."
+        }
+       }
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "atlassian_jira_administration_issue_473d2d",
+      "description": "Bulk pin or unpin issue panel to projects. Bulk pin or unpin an issue panel (added by a Forge app) to or from multiple projects.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "moduleId": {
+         "type": "string",
+         "description": "The moduleId of the Forge panel in the format `ari:cloud:ecosystem::extension/{app-id}/{environment-id}/static/{module-key}`"
+        },
+        "projectList": {
+         "type": "array",
+         "description": "The list of projects to pin or unpin the issue panel to or from.",
+         "items": {
+          "type": "object",
+          "description": "The list of projects to pin or unpin the issue panel to or from.",
+          "properties": {
+           "action": {
+            "type": "string",
+            "description": "The action to perform: PIN or UNPIN.",
+            "enum": [
+             "PIN",
+             "UNPIN"
+            ]
+           },
+           "projectIdOrKey": {
+            "type": "string",
+            "description": "The project ID or key."
+           }
+          },
+          "required": [
+           "action",
+           "projectIdOrKey"
+          ]
+         }
+        }
+       },
+       "required": [
+        "moduleId",
+        "projectList"
+       ]
+      }
+     },
+     {
+      "name": "atlassian_jira_administration_issue_85faec",
+      "description": "Get issue panel pin status for projects. Get the pin status of an issue panel (added by a Forge app) for multiple projects.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "moduleId": {
+         "type": "string",
+         "description": "The moduleId of the Forge panel in the format `ari:cloud:ecosystem::extension/{app-id}/{environment-id}/static/{module-key}`"
+        },
+        "projectList": {
+         "type": "array",
+         "description": "The IDs or keys of the projects to check the issue panel pin status for.",
+         "items": {
+          "type": "string",
+          "description": "The IDs or keys of the projects to check the issue panel pin status for."
+         }
+        }
+       },
+       "required": [
+        "moduleId",
+        "projectList"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "atlassian_jira_administration_jira_25e198",
+      "description": "Get advanced settings. Returns the application properties that are accessible on the *Advanced Settings* page. To navigate to the *Advanced Settings* page in Jira, choose the Jira icon > **Jira settings** > **System**, **General Configuration** and then click **Advanced Settings** (in the upper right).",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "atlassian_jira_administration_jira_1d05ce",
+      "description": "Get application property. Returns all application properties or an application property.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "key": {
+         "type": "string",
+         "description": "The key of the application property."
+        },
+        "permissionLevel": {
+         "type": "string",
+         "description": "The permission level of all items being returned in the list."
+        },
+        "keyFilter": {
+         "type": "string",
+         "description": "When a `key` isn't provided, this filters the list of results by the application property `key` using a regular expression. For example, using `jira.lf.*` will return all application properties with keys that start with *jira.lf.*."
+        }
+       }
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "atlassian_jira_administration_jira_662f32",
+      "description": "Get global settings. Returns the global settings in Jira. These settings determine whether optional features (for example, subtasks, time tracking, and others) are enabled. If time tracking is enabled, this operation also returns the time tracking configuration.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "atlassian_jira_administration_jira_2b70a3",
+      "description": "Set application property. Changes the value of an application property. For example, you can change the value of the `jira.clone.prefix` from its default value of *CLONE -* to *Clone -* if you prefer sentence case capitalization. Editable properties are described below along with their default values.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "id": {
+         "type": "string",
+         "description": "The key of the application property to update."
+        },
+        "body_id": {
+         "type": "string",
+         "description": "The ID of the application property."
+        },
+        "value": {
+         "type": "string",
+         "description": "The new value."
+        }
+       },
+       "required": [
+        "id"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": false
+      }
+     },
+     {
+      "name": "atlassian_jira_administration_license_a0b242",
+      "description": "Get approximate application license count. Returns the total approximate number of user accounts for a single Jira license. Note that this information is cached with a 7-day lifecycle and could be stale at the time of call.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "applicationKey": {
+         "type": "string",
+         "enum": [
+          "jira-core",
+          "jira-product-discovery",
+          "jira-software",
+          "jira-servicedesk"
+         ],
+         "description": "The ID of the application, represents a specific version of Jira."
+        }
+       },
+       "required": [
+        "applicationKey"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "atlassian_jira_administration_license_43780e",
+      "description": "Get approximate license count. Returns the approximate number of user accounts across all Jira licenses. Note that this information is cached with a 7-day lifecycle and could be stale at the time of call.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "atlassian_jira_administration_license_6a2a28",
+      "description": "Get license. Returns licensing information about the Jira instance.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "atlassian_jira_administration_policies_a3a960",
+      "description": "Apply a policy to projects. Adds a policy to a set of projects. Handles partial results: each project is processed independently, and failures on individual projects do not prevent the operation from proceeding on the remaining projects.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "policyId": {
+         "type": "string",
+         "description": "the policy ID to add"
+        },
+        "projectIds": {
+         "type": "array",
+         "items": {
+          "type": "integer"
+         }
+        }
+       },
+       "required": [
+        "policyId"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": false
+      }
+     },
+     {
+      "name": "atlassian_jira_administration_policies_379315",
+      "description": "Get project policy state. Returns the policies applied to a project.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "projectIdOrKey": {
+         "type": "string",
+         "description": "project ID or project key"
+        }
+       },
+       "required": [
+        "projectIdOrKey"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "atlassian_jira_administration_policies_4654c7",
+      "description": "Get project policy rules. Returns the configuration of the queried rule type IDs for a given project.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "projectIdOrKey": {
+         "type": "string",
+         "description": "project ID or project key"
+        },
+        "ruleTypeIds": {
+         "type": "string",
+         "description": "the set of rule type IDs to query (comma-separated)"
+        }
+       },
+       "required": [
+        "projectIdOrKey"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "atlassian_jira_administration_policies_576184",
+      "description": "Get all policies. Returns a paginated summary of all known policies, including their names, descriptions, and which projects each policy is assigned to.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "startAt": {
+         "type": "integer",
+         "default": 0,
+         "description": "the index of the first item to return (0-based, default 0)"
+        },
+        "maxResults": {
+         "type": "integer",
+         "default": 50,
+         "description": "the maximum number of items to return per page (default 50, max 200)"
+        }
+       }
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "atlassian_jira_administration_policies_0d564a",
+      "description": "Remove a policy from projects. Removes a policy from a set of projects. Handles partial results: each project is processed independently, and failures on individual projects do not prevent the operation from proceeding on the remaining projects.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "policyId": {
+         "type": "string",
+         "description": "the policy ID to remove"
+        },
+        "projectIds": {
+         "type": "array",
+         "items": {
+          "type": "integer"
+         }
+        }
+       },
+       "required": [
+        "policyId"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": false,
+       "destructiveHint": true
+      }
+     },
+     {
+      "name": "atlassian_jira_administration_policies_018146",
+      "description": "Set the policies applied to a project. Sets the complete set of policies on a project (full replacement).",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "projectIdOrKey": {
+         "type": "string",
+         "description": "project ID or project key"
+        },
+        "policyIds": {
+         "type": "array",
+         "items": {
+          "type": "string"
+         }
+        }
+       },
+       "required": [
+        "projectIdOrKey"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": false
+      }
+     },
+     {
+      "name": "atlassian_jira_administration_policies_2daf99",
+      "description": "Validate policy application to a project. Validates whether a set of policies can be applied to a project without actually applying them.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "projectIdOrKey": {
+         "type": "string",
+         "description": "project ID or project key"
+        },
+        "policyIds": {
+         "type": "array",
+         "items": {
+          "type": "string"
+         }
+        }
+       },
+       "required": [
+        "projectIdOrKey"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "atlassian_jira_administration_server_9af8ea",
+      "description": "Get Jira instance info. Returns information about the Jira instance.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "atlassian_jira_apps",
+      "description": "Group \"apps\" of atlassian:jira. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "atlassian_jira_software",
+      "description": "Group \"software\" of atlassian:jira. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "communication_medium",
+      "description": "Medium's API (api.medium.com/v1), which Medium has archived and no longer supports: it needs an integration token you already have, since Medium stopped issuing new ones. Get the authenticated user (account:me:get_me), list their publications and a publication's contributors, publish posts as HTML or Markdown to the profile or a publication (as a draft, unlisted or public), and upload an image. The API cannot read, edit or delete posts. Tools are named '<group>:<resource>:<action>'. `posts:posts:create_*` publishes under the token owner's name, so prefer publishStatus draft.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "communication_medium_account",
+      "description": "Group \"account\" of communication:medium. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "communication_medium_account_me_get_me",
+      "description": "Get the authenticated user. The Medium user the integration token belongs to; its `id` is the user id other tools take.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "communication_medium_publications",
+      "description": "Group \"publications\" of communication:medium. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "communication_medium_publications_d6c262",
+      "description": "List a publication's contributors with their role, `editor` or `writer`. Take the publication id from publications:publications:list_user_publications.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "publicationId": {
+         "type": "string",
+         "description": "Publication id (from publications:publications:list_user_publications)."
+        }
+       },
+       "required": [
+        "publicationId"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "communication_medium_publications_list_420b57",
+      "description": "List the publications a user can contribute to (as editor or writer). Only the authenticated user's id is accepted.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "userId": {
+         "type": "string",
+         "description": "Id of the authenticated user (from account:me:get_me)."
+        }
+       },
+       "required": [
+        "userId"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "communication_medium_posts",
+      "description": "Group \"posts\" of communication:medium. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "communication_medium_posts_create_post",
+      "description": "Publish a post on the authenticated user's profile. It goes out under their name; use publishStatus draft to keep it private. The title field is used for SEO and listings only: put the title in the content as well for it to show on the page.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "authorId": {
+         "type": "string",
+         "description": "Id of the authenticated user (from account:me:get_me)."
+        },
+        "title": {
+         "type": "string",
+         "description": "Post title for SEO and listings; titles over 100 characters are ignored and made from the content."
+        },
+        "contentFormat": {
+         "type": "string",
+         "description": "Format of `content`.",
+         "enum": [
+          "html",
+          "markdown"
+         ]
+        },
+        "content": {
+         "type": "string",
+         "description": "The post body as an HTML fragment or Markdown. Medium side-loads images given by <img src>."
+        },
+        "tags": {
+         "type": "array",
+         "description": "Tags for the post; only the first three are used and tags over 25 characters are ignored.",
+         "items": {
+          "type": "string"
+         }
+        },
+        "canonicalUrl": {
+         "type": "string",
+         "description": "The original URL of the content, if it was published elsewhere first."
+        },
+        "publishStatus": {
+         "type": "string",
+         "description": "Defaults to public, which publishes at once.",
+         "enum": [
+          "public",
+          "draft",
+          "unlisted"
+         ]
+        },
+        "license": {
+         "type": "string",
+         "description": "Defaults to all-rights-reserved.",
+         "enum": [
+          "all-rights-reserved",
+          "cc-40-by",
+          "cc-40-by-sa",
+          "cc-40-by-nd",
+          "cc-40-by-nc",
+          "cc-40-by-nc-nd",
+          "cc-40-by-nc-sa",
+          "cc-40-zero",
+          "public-domain"
+         ]
+        },
+        "notifyFollowers": {
+         "type": "boolean",
+         "description": "Whether to notify the user's followers that the post was published."
+        }
+       },
+       "required": [
+        "authorId",
+        "title",
+        "contentFormat",
+        "content"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": false
+      }
+     },
+     {
+      "name": "communication_medium_posts_create_18965c",
+      "description": "Publish a post under a publication. The user must be an editor or writer of the publication; a writer's post may wait for an editor. Use publishStatus draft to keep it private.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "publicationId": {
+         "type": "string",
+         "description": "Publication id (from publications:publications:list_user_publications)."
+        },
+        "title": {
+         "type": "string",
+         "description": "Post title for SEO and listings; titles over 100 characters are ignored and made from the content."
+        },
+        "contentFormat": {
+         "type": "string",
+         "description": "Format of `content`.",
+         "enum": [
+          "html",
+          "markdown"
+         ]
+        },
+        "content": {
+         "type": "string",
+         "description": "The post body as an HTML fragment or Markdown. Medium side-loads images given by <img src>."
+        },
+        "tags": {
+         "type": "array",
+         "description": "Tags for the post; only the first three are used and tags over 25 characters are ignored.",
+         "items": {
+          "type": "string"
+         }
+        },
+        "canonicalUrl": {
+         "type": "string",
+         "description": "The original URL of the content, if it was published elsewhere first."
+        },
+        "publishStatus": {
+         "type": "string",
+         "description": "Defaults to public, which publishes at once.",
+         "enum": [
+          "public",
+          "draft",
+          "unlisted"
+         ]
+        },
+        "license": {
+         "type": "string",
+         "description": "Defaults to all-rights-reserved.",
+         "enum": [
+          "all-rights-reserved",
+          "cc-40-by",
+          "cc-40-by-sa",
+          "cc-40-by-nd",
+          "cc-40-by-nc",
+          "cc-40-by-nc-nd",
+          "cc-40-by-nc-sa",
+          "cc-40-zero",
+          "public-domain"
+         ]
+        },
+        "notifyFollowers": {
+         "type": "boolean",
+         "description": "Whether to notify the user's followers that the post was published."
+        }
+       },
+       "required": [
+        "publicationId",
+        "title",
+        "contentFormat",
+        "content"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": false
+      }
+     },
+     {
+      "name": "communication_medium_images",
+      "description": "Group \"images\" of communication:medium. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "communication_medium_images_upload_image",
+      "description": "Upload a local image to Medium and get its URL, to use in a post. Medium also side-loads <img src> images in a post, so this is only needed for local files. JPEG, PNG, GIF and TIFF.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "image": {
+         "type": "string",
+         "description": "Path of a local file to upload."
+        }
+       },
+       "required": [
+        "image"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": false
+      }
+     },
+     {
+      "name": "communication_reddit",
+      "description": "Reddit's OAuth API (read-only): a subreddit's posts, a post with its comment tree, search for posts and subreddits, subreddit info and rules, user profiles and their posts and comments. Tools are named '<group>:<resource>:<action>'. Posts and comments are identified by fullnames (t3_<id>, t1_<id>); listings page with `after` set to the last item's `name`.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "communication_reddit_posts",
+      "description": "Group \"posts\" of communication:reddit. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "communication_reddit_posts_comments_get_25ac44",
+      "description": "Get a post and its comment tree. Returns Reddit's two listings: [0] holds the post, [1] the top-level comments, each with nested `replies`; `more` entries mark comments left out by `limit` or `depth`.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "article": {
+         "type": "string",
+         "description": "Post id without the t3_ prefix, e.g. 1abcde."
+        },
+        "sort": {
+         "type": "string",
+         "enum": [
+          "confidence",
+          "top",
+          "new",
+          "controversial",
+          "old",
+          "qa"
+         ]
+        },
+        "limit": {
+         "type": "integer",
+         "description": "Most comments to return."
+        },
+        "depth": {
+         "type": "integer",
+         "description": "Deepest reply level to include."
+        },
+        "comment": {
+         "type": "string",
+         "description": "Id of a comment to focus the tree on."
+        },
+        "context": {
+         "type": "integer",
+         "description": "Parent comments to include above `comment`, 0-8."
+        }
+       },
+       "required": [
+        "article"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "communication_reddit_posts_get_posts_by_id",
+      "description": "Get posts by fullname. Up to 100 posts at once.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "id": {
+         "type": "string",
+         "description": "Post fullnames (t3_ followed by the post id), e.g. t3_1abcde,t3_1fghij. (comma-separated)"
+        }
+       },
+       "required": [
+        "id"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "communication_reddit_posts_list_subreddit_posts",
+      "description": "List a subreddit's posts by sort order. Read a post's comments with posts:comments:get_post_comments using its `id`.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "subreddit": {
+         "type": "string",
+         "description": "Subreddit name without the r/ prefix; `all` and `popular` work for listings."
+        },
+        "sort": {
+         "type": "string",
+         "default": "hot",
+         "enum": [
+          "hot",
+          "new",
+          "top",
+          "rising",
+          "controversial"
+         ]
+        },
+        "t": {
+         "type": "string",
+         "enum": [
+          "hour",
+          "day",
+          "week",
+          "month",
+          "year",
+          "all"
+         ],
+         "description": "Time window for `top`, `controversial` and search."
+        },
+        "limit": {
+         "type": "integer",
+         "description": "Items to return, 1-100 (Reddit's default is 25)."
+        },
+        "after": {
+         "type": "string",
+         "description": "Fullname of the last item seen (its `name`, e.g. t3_abc) to get the next page."
+        },
+        "before": {
+         "type": "string",
+         "description": "Fullname of the first item seen to get the previous page."
+        }
+       },
+       "required": [
+        "subreddit",
+        "sort"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "communication_reddit_posts_search_posts",
+      "description": "Search posts across Reddit. Narrow the search with Reddit's syntax in `q`, e.g. `subreddit:rust async`, `author:spez`, `title:release`.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "q": {
+         "type": "string",
+         "description": "Search query."
+        },
+        "sort": {
+         "type": "string",
+         "enum": [
+          "relevance",
+          "hot",
+          "top",
+          "new",
+          "comments"
+         ]
+        },
+        "t": {
+         "type": "string",
+         "enum": [
+          "hour",
+          "day",
+          "week",
+          "month",
+          "year",
+          "all"
+         ],
+         "description": "Time window for `top`, `controversial` and search."
+        },
+        "limit": {
+         "type": "integer",
+         "description": "Items to return, 1-100 (Reddit's default is 25)."
+        },
+        "after": {
+         "type": "string",
+         "description": "Fullname of the last item seen (its `name`, e.g. t3_abc) to get the next page."
+        },
+        "before": {
+         "type": "string",
+         "description": "Fullname of the first item seen to get the previous page."
+        }
+       },
+       "required": [
+        "q"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "communication_reddit_subreddits",
+      "description": "Group \"subreddits\" of communication:reddit. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "communication_reddit_subreddits_rules_514325",
+      "description": "Get a subreddit's posting rules",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "subreddit": {
+         "type": "string",
+         "description": "Subreddit name without the r/ prefix; `all` and `popular` work for listings."
+        }
+       },
+       "required": [
+        "subreddit"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "communication_reddit_subreddits_get_subreddit",
+      "description": "Get a subreddit's description, subscriber count and type",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "subreddit": {
+         "type": "string",
+         "description": "Subreddit name without the r/ prefix; `all` and `popular` work for listings."
+        }
+       },
+       "required": [
+        "subreddit"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "communication_reddit_subreddits_search_3423f9",
+      "description": "Find subreddits by name and description",
+      "inputSchema": {
+       "type": "object",
+       "properties": {
+        "q": {
+         "type": "string",
+         "description": "Search query."
+        },
+        "sort": {
+         "type": "string",
+         "enum": [
+          "relevance",
+          "activity"
+         ]
+        },
+        "limit": {
+         "type": "integer",
+         "description": "Items to return, 1-100 (Reddit's default is 25)."
+        },
+        "after": {
+         "type": "string",
+         "description": "Fullname of the last item seen (its `name`, e.g. t3_abc) to get the next page."
+        },
+        "before": {
+         "type": "string",
+         "description": "Fullname of the first item seen to get the previous page."
+        }
+       },
+       "required": [
+        "q"
+       ]
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "communication_reddit_users",
+      "description": "Group \"users\" of communication:reddit. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "communication_reddit_account",
+      "description": "Group \"account\" of communication:reddit. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "communication_teams",
+      "description": "Microsoft Teams through the community MCP server by Inditex (github.com/InditexTech/mcp-teams-server), cloned on first use into ~/.usemcpkit/repos/communication/teams, set up with uv and run locally on a Python that uv installs for it (the system Python is never used). It works in the one team and channel it is configured for: start a thread, reply to it, read a thread or the channel's threads, and look up team members to mention. It signs in as a Microsoft Entra application (a bot) and needs git and uv on PATH. The first call opens a form for TEAMS_APP_ID, TEAMS_APP_PASSWORD, TEAMS_APP_TENANT_ID, TEAM_ID and TEAMS_CHANNEL_ID (or set them in the client's env for usemcpkit). It posts as the bot into a real channel, so allow the write tools only when you want that.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     }
+    ]
+   }
+  },
+  "toolsChanged": false
+ }
+]

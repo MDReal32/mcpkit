@@ -14,7 +14,7 @@ export default defineConfig({
     emptyOutDir: true,
     rolldownOptions: {
       output: {
-        entryFileNames: "mcpkit.core.js",
+        entryFileNames: "usemcpkit.core.js",
       },
     },
   },

@@ -1,0 +1,13 @@
+use crate::ui::UiSpec;
+use serde::{Deserialize, Serialize};
+
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct BasicAuth {
+    pub username_env: String,
+    pub password_env: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub label: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub ui: Option<UiSpec>,
+}

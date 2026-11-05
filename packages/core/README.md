@@ -1,10 +1,12 @@
 # @usemcpkit/core
 
-Library behind mcpkit: the manifest format and its validation, the server SDK (`defineServer`, `defineTool`,
-`defineUI`), the HTTP executor with response mapping, and auth (fallbacks, OAuth 2.0 PKCE, the credentials form
-contract). Published to npm. It contains no per-provider code: a server differs from another only in its manifest.
+The authoring side of usemcpkit: the manifest format, the server SDK (`defineServer`,
+`defineTool`, `defineUI`), the upstream naming rules (`nameUpstreamTool`) and the credentials form contract the
+page uses (`CREDENTIALS_FORM_API`, the `Credential*` types). Published to npm. It runs nothing: the `usemcpkit`
+binaries (Rust, `apps/runner` and `apps/server`) execute the manifests, sign in and keep the credentials, as
+described below. It contains no per-provider code: a server differs from another only in its manifest.
 
-Public surface: `src/main.ts` (built to `build/mcpkit.core.js` with bundled types in `build/mcpkit.core.d.ts`).
+Public surface: `src/main.ts` (built to `build/usemcpkit.core.js` with bundled types in `build/usemcpkit.core.d.ts`).
 
 ## Manifest format
 
@@ -98,19 +100,19 @@ saying why. `none` can only be the last entry. Leaving out `auth` means no auth.
 `ui`, see below).
 Env vars always win, so CI keeps working without a browser.
 
-**Credentials form.** `mcpkit serve` starts a one-off server on `127.0.0.1` (a free port), prints its URL to
+**Credentials form.** `usemcpkit serve` starts a one-off server on `127.0.0.1` (a free port), prints its URL to
 stderr and opens the browser. Only the page that was opened can answer: the URL carries a session token in its
 `#fragment` and the server checks it and the `Host` header. Concurrent calls share one form; it closes after
 an answer, on Cancel, or after 5 minutes. Secrets are saved **only after the API accepts them**, so a typo is never
 stored.
 
-**Config file.** The hosts and the saved credentials live together in `~/.mcpkit/config.json`, by category, server and host
+**Config file.** The hosts and the saved credentials live together in `~/.usemcpkit/config.json`, by category, server and host
 (`{ "servers": { "git": { "gitlab": { "hosts": { "git.acme.com": { "secrets": { "GITLAB_TOKEN": "glpat-…" } } }, "projects": { "/work/app": "git.acme.com" } } } } }`),
 which you can edit by hand. Credentials never cross hosts. With several hosts for one server, the host of a call is, in order:
 its env var; the host its project (git root) was bound to the first time you answered the form; the saved host the
 project's `origin` remote points at (servers whose manifest sets `domain.matchGitRemote`, such as GitHub and GitLab);
 otherwise the form asks, and the answer is remembered for that project. Credentials are plain text, with file mode `0600` in a `0700` directory, the way `gh` and `glab` keep
-their tokens. The file carries a `version` (now 2); a file without one is version 1 and, like an older `secrets.json`, is upgraded on first use by the migration list in `auth/config/config-migrations.ts` (a new version is one appended entry), and a file from a newer mcpkit is refused rather than overwritten. There is no password and nothing to unlock. Any program running as your user can read the file, so
+their tokens. The file carries a `version` (now 2); a file without one is version 1 and, like an older `secrets.json`, is upgraded on first use by the migration list in `crates/auth/src/config/config_migrations.rs` (a new version is one appended entry), and a file from a newer usemcpkit is refused rather than overwritten. There is no password and nothing to unlock. Any program running as your user can read the file, so
 protect your account and disk; to forget a credential, delete its entry or the file. Environment variables always win
 over the file.
 
@@ -130,7 +132,7 @@ defineServer({
       ui: defineUI({
         inputs: { GITHUB_TOKEN: { label: 'Token', hint: '…', placeholder: 'ghp_…' } },
         actions: [
-          { type: 'link', label: 'Create on GitHub ↗', url: 'https://{webHost}/settings/tokens/new?name=mcpkit+{server}' },
+          { type: 'link', label: 'Create on GitHub ↗', url: 'https://{webHost}/settings/tokens/new?name=usemcpkit+{server}' },
           { type: 'cli', label: 'Use GitHub CLI', command: 'gh', args: ['auth', 'token', '--hostname', '{webHost}'] },
         ],
       }),
@@ -157,7 +159,7 @@ with a name and the `api` scope.
 
 The CLI button is offered only for options with a single field. A domain typed in the form is used once it is valid. An imported token is saved like a
 typed one: only after the API accepts it. Manifests can be updated remotely (see below), so only use a registry you
-trust: its `cli` buttons name the programs mcpkit runs when you click them.
+trust: its `cli` buttons name the programs usemcpkit runs when you click them.
 
 **Domain.** A server whose host differs per user (GitHub Enterprise, self-hosted GitLab, Jira...) writes
 `{domain}` in `baseUrl` and, if it has them, in the OAuth URLs, and declares `domain`:
@@ -183,9 +185,9 @@ user change it (`host[:port][/path]`, no scheme), unless the env var is set.
 }
 ```
 
-The sign-in starts on the first tool call that has no working token: `mcpkit serve` prints the URL to stderr
+The sign-in starts on the first tool call that has no working token: `usemcpkit serve` prints the URL to stderr
 and opens the browser. The redirect goes to `http://127.0.0.1:<port>/callback`, and the authorization code is
-exchanged with a S256 code verifier. The token is saved to `~/.mcpkit/tokens.json` (`MCPKIT_HOME` overrides)
+exchanged with a S256 code verifier. The token is saved to `~/.usemcpkit/tokens.json` (`USEMCPKIT_HOME` overrides)
 with file mode `0600`, together with the entry that issued it. Tool calls send it as a Bearer token and refresh
 it before it expires. Concurrent calls share one sign-in. If the MCP client gives up waiting, the sign-in still
 finishes and the next call uses the token.

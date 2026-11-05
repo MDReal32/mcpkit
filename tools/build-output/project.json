@@ -1,0 +1,30 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "build-output",
+  "projectType": "application",
+  "implicitDependencies": [
+    "@usemcpkit/analytics",
+    "@usemcpkit/core",
+    "@usemcpkit/native",
+    "@usemcpkit/servers",
+    "@usemcpkit/ui",
+    "usemcpkit",
+    "usemcpkit-runner",
+    "usemcpkit-servers"
+  ],
+  "targets": {
+    "build": {
+      "command": "node src/main.ts",
+      "options": { "cwd": "{projectRoot}" },
+      "cache": false
+    },
+    "typecheck": {
+      "command": "tsc --noEmit",
+      "options": { "cwd": "{projectRoot}" }
+    },
+    "lint": {
+      "command": "biome check .",
+      "options": { "cwd": "{projectRoot}" }
+    }
+  }
+}

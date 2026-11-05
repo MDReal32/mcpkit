@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
-# Publishes mcpkit packages whose version is not on npm yet. The release workflow runs the steps in parallel jobs:
+# Publishes usemcpkit packages whose version is not on npm yet. The release workflow runs the steps in parallel jobs:
 #   platforms            prints the per-OS package dirs as a JSON array (the job matrix)
-#   pack <dir>           `yarn pack` core, cli and the wrapper into <dir> (rewrites `workspace:*` and `publishConfig`)
+#   pack <dir>           `yarn pack` core and the wrapper into <dir> (rewrites `workspace:*` and `publishConfig`)
 #   publish-dir <dir>    publish one package directory
-#   publish-lib <dir> <tarballs>  publish one workspace (packages/core, apps/cli, apps/npx) from the `pack` tarballs
+#   publish-lib <dir> <tarballs>  publish one workspace (packages/core, apps/npx) from the `pack` tarballs
+# The platform packages are written to release/npm by tools/release, which also lists them in the wrapper.
 set -euo pipefail
 
-LIB_DIRS=(packages/core apps/cli apps/npx)
+LIB_DIRS=(packages/core apps/npx)
+PLATFORMS_DIR=release/npm
 
 read_field() {
   node -p "require(process.argv[1]).$2" "$PWD/$1/package.json"
@@ -33,9 +35,9 @@ command="${1:?usage: publish-npm.sh platforms|pack <dir>|publish-dir <dir>|publi
 case "$command" in
   platforms)
     shopt -s nullglob
-    dirs=(apps/cli/build/npm/cli-*/)
+    dirs=("$PLATFORMS_DIR"/cli-*/)
     if [ "${#dirs[@]}" -eq 0 ]; then
-      echo "no platform packages in apps/cli/build/npm; run yarn package first" >&2
+      echo "no platform packages in $PLATFORMS_DIR; run tools/release first" >&2
       exit 1
     fi
     printf '%s\n' "${dirs[@]%/}" | node -e 'console.log(JSON.stringify(require("fs").readFileSync(0, "utf8").trim().split("\n")))'

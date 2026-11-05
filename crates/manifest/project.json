@@ -1,0 +1,17 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "usemcpkit-manifest",
+  "projectType": "library",
+  "implicitDependencies": ["@usemcpkit/servers"],
+  "targets": {
+    "test": {
+      "command": "cargo test -p usemcpkit-manifest",
+      "inputs": ["default", "^production", "cargo", "{workspaceRoot}/packages/servers/build/manifests/**/*"],
+      "dependsOn": ["^build"]
+    },
+    "lint": {
+      "command": "cargo fmt -p usemcpkit-manifest --check && cargo clippy -p usemcpkit-manifest --all-targets",
+      "inputs": ["default", "^production", "cargo"]
+    }
+  }
+}

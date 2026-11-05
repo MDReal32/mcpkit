@@ -3,7 +3,7 @@
   "info": {
     "title": "Medium API",
     "version": "1.0.0",
-    "description": "Written by hand for mcpkit: Medium publishes no OpenAPI description, only the documentation at https://github.com/Medium/medium-api-docs (archived: the API is no longer supported). Each operation's tags are [group, resource]; a 200 schema is a `data` envelope that lists the fields its tool returns."
+    "description": "Written by hand for usemcpkit: Medium publishes no OpenAPI description, only the documentation at https://github.com/Medium/medium-api-docs (archived: the API is no longer supported). Each operation's tags are [group, resource]; a 200 schema is a `data` envelope that lists the fields its tool returns."
   },
   "servers": [
     {

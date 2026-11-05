@@ -1,5 +1,5 @@
 {
-  "name": "mcpkit-workspace",
+  "name": "usemcpkit-workspace",
   "private": true,
   "type": "module",
   "workspaces": [
@@ -12,8 +12,7 @@
     "test": "nx run-many -t test",
     "typecheck": "nx run-many -t typecheck",
     "lint": "nx run-many -t lint",
-    "format": "biome check --write",
-    "package": "nx run @usemcpkit/cli:package"
+    "format": "biome check --write"
   },
   "engines": {
     "node": ">=22.18"

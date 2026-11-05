@@ -1,0 +1,17 @@
+[package]
+name = "usemcpkit-http"
+description = "The HTTP requests usemcpkit sends to the APIs its servers front: plain request and response data, and the client that sends them."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+indexmap.workspace = true
+usemcpkit-core.workspace = true
+usemcpkit-manifest.workspace = true
+reqwest.workspace = true
+serde.workspace = true
+
+[lints]
+workspace = true

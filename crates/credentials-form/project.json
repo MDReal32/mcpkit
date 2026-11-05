@@ -1,0 +1,16 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "usemcpkit-credentials-form",
+  "projectType": "library",
+  "implicitDependencies": ["usemcpkit-auth", "usemcpkit-core", "usemcpkit-manifest"],
+  "targets": {
+    "test": {
+      "command": "cargo test -p usemcpkit-credentials-form",
+      "inputs": ["default", "^production", "cargo"]
+    },
+    "lint": {
+      "command": "cargo fmt -p usemcpkit-credentials-form --check && cargo clippy -p usemcpkit-credentials-form --all-targets",
+      "inputs": ["default", "^production", "cargo"]
+    }
+  }
+}

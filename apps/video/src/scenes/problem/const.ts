@@ -11,9 +11,9 @@ export const SCATTERED_ENTRIES: readonly ScatteredEntryData[] = [
   { name: "bitwarden", command: "npx", args: ["bitwarden-mcp"], env: "BW_SESSION", x: 40, y: 255, rotate: 3 },
 ];
 
-export const MCPKIT_ENTRY: ConfigEntryData = {
-  name: "mcpkit",
-  command: "~/.mcpkit/bin/mcpkit",
+export const USEMCPKIT_ENTRY: ConfigEntryData = {
+  name: "usemcpkit",
+  command: "~/.usemcpkit/bin/usemcpkit",
   args: ["serve"],
 };
 

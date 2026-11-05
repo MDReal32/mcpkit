@@ -3,7 +3,7 @@
   "info": {
     "title": "Reddit API (read subset)",
     "version": "1.0.0",
-    "description": "Written by hand for mcpkit: Reddit publishes no OpenAPI description. Each operation's tags are [group, resource]; a 200 schema shaped as a listing or a thing ({ kind, data }) lists the fields its tool returns. Reference: https://www.reddit.com/dev/api"
+    "description": "Written by hand for usemcpkit: Reddit publishes no OpenAPI description. Each operation's tags are [group, resource]; a 200 schema shaped as a listing or a thing ({ kind, data }) lists the fields its tool returns. Reference: https://www.reddit.com/dev/api"
   },
   "servers": [{ "url": "https://oauth.reddit.com" }],
   "paths": {

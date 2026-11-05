@@ -1,0 +1,4689 @@
+{
+  "cases": [
+    {
+      "manifest": {
+        "name": "tracker",
+        "category": "test",
+        "version": "1.0.0",
+        "description": "",
+        "baseUrl": "https://{domain}",
+        "auth": [
+          {
+            "type": "bearer",
+            "env": "TOKEN",
+            "label": "Personal access token"
+          }
+        ],
+        "tools": [
+          {
+            "name": "search",
+            "description": "Search",
+            "input": {
+              "type": "object",
+              "properties": {
+                "jql": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "jql"
+              ]
+            },
+            "request": {
+              "method": "GET",
+              "path": "/rest/api/2/search",
+              "query": [
+                "jql"
+              ],
+              "fixedQuery": {
+                "fields": "summary"
+              }
+            },
+            "response": {
+              "root": "issues",
+              "fields": {
+                "key": "key"
+              }
+            },
+            "editions": {
+              "cloud": {
+                "request": {
+                  "method": "GET",
+                  "path": "/rest/api/2/search/jql",
+                  "query": [
+                    "jql"
+                  ],
+                  "fixedQuery": {
+                    "fields": "summary"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "domain": {
+          "env": "TRACKER_HOST"
+        },
+        "editions": {
+          "cloud": {
+            "label": "Cloud",
+            "hosts": [
+              ".atlassian.net"
+            ]
+          }
+        }
+      },
+      "errors": []
+    },
+    {
+      "manifest": {
+        "name": "valid_domain",
+        "category": "test",
+        "version": "1.0.0",
+        "description": "",
+        "baseUrl": "https://{domain}/api",
+        "auth": [
+          {
+            "type": "bearer",
+            "env": "DEMO_TOKEN"
+          }
+        ],
+        "tools": [
+          {
+            "name": "ping:run",
+            "description": "Ping",
+            "input": {
+              "type": "object",
+              "properties": {}
+            },
+            "request": {
+              "method": "GET",
+              "path": "/ping"
+            }
+          }
+        ],
+        "domain": {
+          "label": "API host",
+          "default": "api.example.com",
+          "env": "DEMO_DOMAIN"
+        }
+      },
+      "errors": []
+    },
+    {
+      "manifest": {
+        "name": "tracker",
+        "category": "test",
+        "version": "1.0.0",
+        "description": "",
+        "baseUrl": "https://{domain}",
+        "auth": [
+          {
+            "type": "bearer",
+            "env": "TOKEN",
+            "label": 1
+          }
+        ],
+        "tools": [
+          {
+            "name": "search",
+            "description": "Search",
+            "input": {
+              "type": "object",
+              "properties": {
+                "jql": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "jql"
+              ]
+            },
+            "request": {
+              "method": "GET",
+              "path": "/rest/api/2/search",
+              "query": [
+                "jql"
+              ],
+              "fixedQuery": {
+                "fields": "summary"
+              }
+            },
+            "response": {
+              "root": "issues",
+              "fields": {
+                "key": "key"
+              }
+            },
+            "editions": {
+              "server": {
+                "request": {
+                  "method": "GET",
+                  "path": "/x/{missing}",
+                  "fixedQuery": {
+                    "a": {}
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "domain": {
+          "env": "TRACKER_HOST"
+        },
+        "editions": {
+          "Cloud": {
+            "hosts": []
+          }
+        }
+      },
+      "errors": [
+        "editions.Cloud: name must match /^[a-z][a-z0-9-]*$/",
+        "auth[0].label must be a string",
+        "tools[0] (search).editions.server: \"server\" is not in the manifest's editions"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "valid_domain",
+        "category": "test",
+        "version": "1.0.0",
+        "description": "",
+        "baseUrl": "https://{domain}/api",
+        "auth": [
+          {
+            "type": "bearer",
+            "env": "DEMO_TOKEN"
+          }
+        ],
+        "tools": [
+          {
+            "name": "ping:run",
+            "description": "Ping",
+            "input": {
+              "type": "object",
+              "properties": {}
+            },
+            "request": {
+              "method": "GET",
+              "path": "/ping"
+            }
+          }
+        ]
+      },
+      "errors": [
+        "domain is required when a URL uses {domain}"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "valid_domain",
+        "category": "test",
+        "version": "1.0.0",
+        "description": "",
+        "baseUrl": "https://api.example.com",
+        "auth": [
+          {
+            "type": "bearer",
+            "env": "DEMO_TOKEN"
+          }
+        ],
+        "tools": [
+          {
+            "name": "ping:run",
+            "description": "Ping",
+            "input": {
+              "type": "object",
+              "properties": {}
+            },
+            "request": {
+              "method": "GET",
+              "path": "/ping"
+            }
+          }
+        ],
+        "domain": {
+          "default": "a b"
+        }
+      },
+      "errors": [
+        "domain is set but no URL uses {domain}",
+        "domain.default must look like host[:port][/path]"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "headers": {
+          "Accept": "application/json"
+        },
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "state": {
+                  "type": "string",
+                  "default": "open"
+                },
+                "page": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "owner"
+              ]
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items",
+              "query": {
+                "s": "state",
+                "page": "page"
+              }
+            },
+            "response": {
+              "root": "data",
+              "fields": {
+                "id": "id",
+                "author": "user.login"
+              }
+            }
+          },
+          {
+            "name": "create_item",
+            "description": "Create an item",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "owner",
+                "title"
+              ]
+            },
+            "request": {
+              "method": "POST",
+              "path": "/owners/{owner}/items",
+              "body": [
+                "title"
+              ]
+            }
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "manifest": {
+        "name": "Bad-Name",
+        "baseUrl": "http://x",
+        "auth": [
+          {
+            "type": "bearer"
+          }
+        ],
+        "tools": []
+      },
+      "errors": [
+        "name must match /^[a-z][a-z0-9_]*$/",
+        "category must match /^[a-z][a-z0-9-]*$/",
+        "version is required",
+        "baseUrl must be an https:// URL",
+        "auth[0].env is required for auth type \"bearer\"",
+        "tools must be a non-empty array"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://{domain}",
+        "headers": {
+          "Accept": "application/json"
+        },
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "state": {
+                  "type": "string",
+                  "default": "open"
+                },
+                "page": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "owner"
+              ]
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items",
+              "query": {
+                "s": "state",
+                "page": "page"
+              }
+            },
+            "response": {
+              "root": "data",
+              "fields": {
+                "id": "id",
+                "author": "user.login"
+              }
+            }
+          },
+          {
+            "name": "create_item",
+            "description": "Create an item",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "owner",
+                "title"
+              ]
+            },
+            "request": {
+              "method": "POST",
+              "path": "/owners/{owner}/items",
+              "body": [
+                "title"
+              ]
+            }
+          }
+        ],
+        "domain": {
+          "default": "api.example.com"
+        },
+        "auth": [
+          {
+            "type": "bearer",
+            "env": "T",
+            "ui": {
+              "inputs": {
+                "T": {
+                  "label": "Token",
+                  "hint": "From settings",
+                  "placeholder": "ghp_…"
+                }
+              },
+              "actions": [
+                {
+                  "type": "link",
+                  "label": "Create on GitHub",
+                  "url": "https://{webHost}/settings/personal-access-tokens/new?name=usemcpkit+{server}"
+                },
+                {
+                  "type": "cli",
+                  "label": "Use GitHub CLI",
+                  "command": "gh",
+                  "args": [
+                    "auth",
+                    "token",
+                    "--hostname",
+                    "{webHost}"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "headers": {
+          "Accept": "application/json"
+        },
+        "tools": [
+          {
+            "name": "create_item",
+            "description": "Create an item",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "owner",
+                "title"
+              ]
+            },
+            "request": {
+              "method": "POST",
+              "path": "/x",
+              "bodyArg": "ghost"
+            }
+          },
+          {
+            "name": "second",
+            "description": "Create an item",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "owner",
+                "title"
+              ]
+            },
+            "request": {
+              "method": "POST",
+              "path": "/x",
+              "bodyArg": "title",
+              "body": [
+                "title"
+              ]
+            }
+          }
+        ]
+      },
+      "errors": [
+        "tools[0] (create_item).request.bodyArg must name a declared arg",
+        "tools[1] (second).request.bodyArg cannot be combined with body or fixedBody"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "headers": {
+          "Accept": "application/json"
+        },
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "state": {
+                  "type": "string",
+                  "default": "open"
+                },
+                "page": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "owner"
+              ]
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items",
+              "query": {
+                "s": "state",
+                "page": "page"
+              }
+            },
+            "response": {
+              "root": "data",
+              "fields": {
+                "id": "id",
+                "author": "user.login"
+              }
+            }
+          },
+          {
+            "name": "create_item",
+            "description": "Create an item",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "owner",
+                "title"
+              ]
+            },
+            "request": {
+              "method": "POST",
+              "path": "/owners/{owner}/items",
+              "body": [
+                "title"
+              ]
+            }
+          }
+        ],
+        "ui": {
+          "texts": {
+            "title": "Connect {server}",
+            "cancel": "Back"
+          }
+        }
+      },
+      "errors": []
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "headers": {
+          "Accept": "application/json"
+        },
+        "tools": [
+          {
+            "name": "create_item",
+            "description": "Create an item",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "owner",
+                "title"
+              ]
+            },
+            "request": {
+              "method": "POST",
+              "path": "/x/{nope}",
+              "body": [
+                "ghost"
+              ]
+            }
+          }
+        ]
+      },
+      "errors": [
+        "tools[0] (create_item).request.path uses undeclared arg \"nope\"",
+        "tools[0] (create_item).request.body uses undeclared arg \"ghost\""
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "headers": {
+          "Accept": "application/json"
+        },
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "state": {
+                  "type": "string",
+                  "default": "open"
+                },
+                "page": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "owner"
+              ]
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items",
+              "query": {
+                "s": "state",
+                "page": "page"
+              }
+            },
+            "response": {
+              "root": "data",
+              "fields": {
+                "id": "id",
+                "author": "user.login"
+              }
+            }
+          },
+          {
+            "name": "create_item",
+            "description": "Create an item",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "owner",
+                "title"
+              ]
+            },
+            "request": {
+              "method": "POST",
+              "path": "/owners/{owner}/items",
+              "body": [
+                "title"
+              ]
+            }
+          }
+        ],
+        "ui": {
+          "texts": {
+            "nope": "x",
+            "cancel": 1
+          }
+        }
+      },
+      "errors": [
+        "ui.texts.nope is not a text of the page, use one of: brand, pageTitle, title, intro, domainLabel, domainHint, domainPlaceholder, domainNewHost, domainShowHosts, signInLabel, tokenDivider, credentialLegend, fieldHint, tokenLabel, usernameLabel, passwordLabel, headerLabel, queryLabel, actionsDivider, cancel, submit, checking, requiredField, savedTitle, savedBody, signingInTitle, signingInBody, cancelledTitle, cancelledBody, failedTitle, requestFailed",
+        "ui.texts.cancel must be a string"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "headers": {
+          "Accept": "application/json"
+        },
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "state": {
+                  "type": "string",
+                  "default": "open"
+                },
+                "page": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "owner"
+              ]
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items",
+              "query": {
+                "s": "state",
+                "page": "page"
+              }
+            },
+            "response": {
+              "root": "data",
+              "fields": {
+                "id": "id",
+                "author": "user.login"
+              }
+            }
+          },
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "state": {
+                  "type": "string",
+                  "default": "open"
+                },
+                "page": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "owner"
+              ]
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items",
+              "query": {
+                "s": "state",
+                "page": "page"
+              }
+            },
+            "response": {
+              "root": "data",
+              "fields": {
+                "id": "id",
+                "author": "user.login"
+              }
+            }
+          }
+        ]
+      },
+      "errors": [
+        "duplicate tool names: list_items"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://{domain}",
+        "headers": {
+          "Accept": "application/json"
+        },
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "state": {
+                  "type": "string",
+                  "default": "open"
+                },
+                "page": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "owner"
+              ]
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items",
+              "query": {
+                "s": "state",
+                "page": "page"
+              }
+            },
+            "response": {
+              "root": "data",
+              "fields": {
+                "id": "id",
+                "author": "user.login"
+              }
+            }
+          },
+          {
+            "name": "create_item",
+            "description": "Create an item",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "owner",
+                "title"
+              ]
+            },
+            "request": {
+              "method": "POST",
+              "path": "/owners/{owner}/items",
+              "body": [
+                "title"
+              ]
+            }
+          }
+        ],
+        "domain": {
+          "default": "api.example.com"
+        },
+        "auth": [
+          {
+            "type": "bearer",
+            "env": "T",
+            "ui": {
+              "inputs": {
+                "OTHER": {}
+              }
+            }
+          }
+        ]
+      },
+      "errors": [
+        "auth[0].ui.inputs.OTHER: \"OTHER\" is not a credential of this auth entry (T)"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://{domain}",
+        "headers": {
+          "Accept": "application/json"
+        },
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "state": {
+                  "type": "string",
+                  "default": "open"
+                },
+                "page": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "owner"
+              ]
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items",
+              "query": {
+                "s": "state",
+                "page": "page"
+              }
+            },
+            "response": {
+              "root": "data",
+              "fields": {
+                "id": "id",
+                "author": "user.login"
+              }
+            }
+          },
+          {
+            "name": "create_item",
+            "description": "Create an item",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "owner",
+                "title"
+              ]
+            },
+            "request": {
+              "method": "POST",
+              "path": "/owners/{owner}/items",
+              "body": [
+                "title"
+              ]
+            }
+          }
+        ],
+        "domain": {
+          "default": "api.example.com"
+        },
+        "auth": [
+          {
+            "type": "bearer",
+            "env": "T",
+            "ui": {
+              "actions": [
+                {
+                  "type": "link",
+                  "label": "x",
+                  "url": "https://a/{nope}"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "errors": [
+        "auth[0].ui.actions[0].url has unknown placeholders: {nope}"
+      ]
+    },
+    {
+      "manifest": null,
+      "errors": [
+        "manifest must be a JSON object"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://{domain}",
+        "headers": {
+          "Accept": "application/json"
+        },
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "state": {
+                  "type": "string",
+                  "default": "open"
+                },
+                "page": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "owner"
+              ]
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items",
+              "query": {
+                "s": "state",
+                "page": "page"
+              }
+            },
+            "response": {
+              "root": "data",
+              "fields": {
+                "id": "id",
+                "author": "user.login"
+              }
+            }
+          },
+          {
+            "name": "create_item",
+            "description": "Create an item",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "owner",
+                "title"
+              ]
+            },
+            "request": {
+              "method": "POST",
+              "path": "/owners/{owner}/items",
+              "body": [
+                "title"
+              ]
+            }
+          }
+        ],
+        "domain": {
+          "default": "api.example.com"
+        },
+        "auth": [
+          {
+            "type": "bearer",
+            "env": "T",
+            "ui": {
+              "actions": [
+                {
+                  "type": "link",
+                  "label": "x",
+                  "url": "http://a"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "errors": [
+        "auth[0].ui.actions[0].url must be an https:// URL"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "description": "",
+        "baseUrl": "https://api.example.com",
+        "tools": [],
+        "upstream": {
+          "type": "http",
+          "url": "https://mcp.example.com/mcp"
+        }
+      },
+      "errors": []
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://{domain}",
+        "headers": {
+          "Accept": "application/json"
+        },
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "state": {
+                  "type": "string",
+                  "default": "open"
+                },
+                "page": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "owner"
+              ]
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items",
+              "query": {
+                "s": "state",
+                "page": "page"
+              }
+            },
+            "response": {
+              "root": "data",
+              "fields": {
+                "id": "id",
+                "author": "user.login"
+              }
+            }
+          },
+          {
+            "name": "create_item",
+            "description": "Create an item",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "owner",
+                "title"
+              ]
+            },
+            "request": {
+              "method": "POST",
+              "path": "/owners/{owner}/items",
+              "body": [
+                "title"
+              ]
+            }
+          }
+        ],
+        "domain": {
+          "default": "api.example.com"
+        },
+        "auth": [
+          {
+            "type": "bearer",
+            "env": "T",
+            "ui": {
+              "actions": [
+                {
+                  "type": "cli",
+                  "label": "x",
+                  "command": "/tmp/x",
+                  "args": [
+                    "{token}"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "errors": [
+        "auth[0].ui.actions[0].command must be a program name found on PATH, without a path or arguments",
+        "auth[0].ui.actions[0].args has unknown placeholders: {token}"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://{domain}",
+        "headers": {
+          "Accept": "application/json"
+        },
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "state": {
+                  "type": "string",
+                  "default": "open"
+                },
+                "page": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "owner"
+              ]
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items",
+              "query": {
+                "s": "state",
+                "page": "page"
+              }
+            },
+            "response": {
+              "root": "data",
+              "fields": {
+                "id": "id",
+                "author": "user.login"
+              }
+            }
+          },
+          {
+            "name": "create_item",
+            "description": "Create an item",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "owner",
+                "title"
+              ]
+            },
+            "request": {
+              "method": "POST",
+              "path": "/owners/{owner}/items",
+              "body": [
+                "title"
+              ]
+            }
+          }
+        ],
+        "domain": {
+          "default": "api.example.com"
+        },
+        "auth": [
+          {
+            "type": "bearer",
+            "env": "T",
+            "ui": {
+              "texts": {}
+            }
+          }
+        ]
+      },
+      "errors": [
+        "auth[0].ui.texts is not allowed here, use it on the manifest"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "description": "",
+        "baseUrl": "https://api.example.com",
+        "tools": [],
+        "upstream": {
+          "type": "stdio",
+          "command": "npx",
+          "args": [
+            "-y",
+            "demo-mcp"
+          ]
+        }
+      },
+      "errors": []
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://{domain}",
+        "headers": {
+          "Accept": "application/json"
+        },
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "state": {
+                  "type": "string",
+                  "default": "open"
+                },
+                "page": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "owner"
+              ]
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items",
+              "query": {
+                "s": "state",
+                "page": "page"
+              }
+            },
+            "response": {
+              "root": "data",
+              "fields": {
+                "id": "id",
+                "author": "user.login"
+              }
+            }
+          },
+          {
+            "name": "create_item",
+            "description": "Create an item",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "owner",
+                "title"
+              ]
+            },
+            "request": {
+              "method": "POST",
+              "path": "/owners/{owner}/items",
+              "body": [
+                "title"
+              ]
+            }
+          }
+        ],
+        "domain": {
+          "default": "api.example.com"
+        },
+        "auth": [
+          {
+            "type": "none",
+            "ui": {}
+          }
+        ]
+      },
+      "errors": [
+        "auth[0].ui is only allowed for auth types: bearer, header, query, basic"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "description": "",
+        "baseUrl": "https://api.example.com",
+        "tools": [],
+        "upstream": {
+          "type": "stdio",
+          "command": "uv",
+          "forwardEnv": [
+            "DEMO_ID"
+          ],
+          "ui": {
+            "inputs": {
+              "DEMO_ID": {
+                "label": "Id",
+                "secret": false
+              }
+            },
+            "actions": [
+              {
+                "type": "link",
+                "label": "Portal",
+                "url": "https://portal.example.com"
+              }
+            ]
+          }
+        }
+      },
+      "errors": []
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "headers": {
+          "Accept": "application/json"
+        },
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "state": {
+                  "type": "string",
+                  "default": "open"
+                },
+                "page": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "owner"
+              ]
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items",
+              "query": {
+                "s": "state",
+                "page": "page"
+              }
+            },
+            "response": {
+              "root": "data",
+              "fields": {
+                "id": "id",
+                "author": "user.login"
+              }
+            }
+          },
+          {
+            "name": "create_item",
+            "description": "Create an item",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "owner",
+                "title"
+              ]
+            },
+            "request": {
+              "method": "POST",
+              "path": "/owners/{owner}/items",
+              "body": [
+                "title"
+              ]
+            }
+          }
+        ],
+        "auth": [
+          {
+            "type": "bearer",
+            "env": "T",
+            "ui": {
+              "actions": [
+                {
+                  "type": "link",
+                  "label": "x",
+                  "url": "https://{domain}/t"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "errors": [
+        "auth[0].ui.actions[0].url uses the domain, so the manifest needs a domain"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "description": "",
+        "baseUrl": "https://api.example.com",
+        "tools": [],
+        "upstream": {
+          "type": "stdio",
+          "command": "uv",
+          "forwardEnv": [
+            "DEMO_ID"
+          ],
+          "ui": {
+            "inputs": {
+              "OTHER": {
+                "label": "x"
+              },
+              "DEMO_ID": {
+                "secret": "yes"
+              }
+            },
+            "texts": {},
+            "actions": [
+              {
+                "type": "cli",
+                "label": "Get",
+                "command": "demo",
+                "args": []
+              }
+            ]
+          }
+        }
+      },
+      "errors": [
+        "upstream.ui.texts is not allowed here",
+        "upstream.ui.inputs.OTHER: \"OTHER\" is not a credential of this auth entry (DEMO_ID)",
+        "upstream.ui.inputs.DEMO_ID.secret must be a boolean",
+        "upstream.ui.actions[0]: a CLI prints one token, so it needs an auth entry with a single credential"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://{domain}",
+        "headers": {
+          "Accept": "application/json"
+        },
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "state": {
+                  "type": "string",
+                  "default": "open"
+                },
+                "page": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "owner"
+              ]
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items",
+              "query": {
+                "s": "state",
+                "page": "page"
+              }
+            },
+            "response": {
+              "root": "data",
+              "fields": {
+                "id": "id",
+                "author": "user.login"
+              }
+            }
+          },
+          {
+            "name": "create_item",
+            "description": "Create an item",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "owner",
+                "title"
+              ]
+            },
+            "request": {
+              "method": "POST",
+              "path": "/owners/{owner}/items",
+              "body": [
+                "title"
+              ]
+            }
+          }
+        ],
+        "domain": {
+          "default": "api.example.com"
+        },
+        "auth": [
+          {
+            "type": "basic",
+            "usernameEnv": "U",
+            "passwordEnv": "P",
+            "ui": {
+              "actions": [
+                {
+                  "type": "cli",
+                  "label": "Use GitHub CLI",
+                  "command": "gh",
+                  "args": [
+                    "auth",
+                    "token",
+                    "--hostname",
+                    "{webHost}"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "errors": [
+        "auth[0].ui.actions[0]: a CLI prints one token, so it needs an auth entry with a single credential"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "description": "",
+        "baseUrl": "https://api.example.com",
+        "tools": [],
+        "upstream": {
+          "type": "stdio",
+          "command": "node",
+          "args": [
+            "{repo}/dist/index.js"
+          ],
+          "repo": {
+            "url": "https://github.com/acme/demo-mcp.git",
+            "ref": "v1.2.3",
+            "setup": [
+              {
+                "command": "npm",
+                "args": [
+                  "ci"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "errors": []
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "description": "",
+        "baseUrl": "https://api.example.com",
+        "tools": [],
+        "upstream": {
+          "type": "stdio",
+          "command": "node",
+          "args": [
+            "{repo}/dist/index.js"
+          ],
+          "repo": {
+            "url": "git@github.com:acme/demo.git",
+            "ref": "--upload-pack=x",
+            "setup": [
+              {
+                "command": "./run"
+              }
+            ]
+          }
+        }
+      },
+      "errors": [
+        "upstream.repo.url must be an https:// URL",
+        "upstream.repo.ref must be a commit, tag or branch, not starting with '-'",
+        "upstream.repo.setup[0].command must be a program name on PATH, not a path"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "description": "",
+        "baseUrl": "https://api.example.com",
+        "tools": [],
+        "upstream": {
+          "type": "stdio",
+          "command": "node",
+          "naming": [
+            {
+              "match": "^get_(.+)$",
+              "name": "org:$1:get"
+            }
+          ]
+        }
+      },
+      "errors": []
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "description": "",
+        "baseUrl": "https://api.example.com",
+        "tools": [],
+        "upstream": {
+          "type": "stdio",
+          "command": "node",
+          "naming": [
+            {
+              "match": "(",
+              "name": "tools:get"
+            }
+          ]
+        }
+      },
+      "errors": [
+        "upstream.naming[0].match is not a valid regular expression: Invalid regular expression: /(/: Unterminated group",
+        "upstream.naming[0].name must be <group>:<resource>:<action> with $1… or $& for the upstream name"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "description": "",
+        "baseUrl": "https://api.example.com",
+        "tools": [
+          {
+            "name": "ping:run",
+            "description": "Ping",
+            "input": {
+              "type": "object",
+              "properties": {}
+            },
+            "request": {
+              "method": "GET",
+              "path": "/ping"
+            }
+          }
+        ],
+        "upstream": {
+          "type": "stdio",
+          "command": "/bin/sh"
+        }
+      },
+      "errors": [
+        "upstream.command must be a program name on PATH, not a path",
+        "tools must be empty when the manifest has an upstream"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "description": "",
+        "baseUrl": "https://api.example.com",
+        "tools": [],
+        "upstream": {
+          "type": "http",
+          "url": "http://mcp.example.com"
+        }
+      },
+      "errors": [
+        "upstream.url must be an https:// URL"
+      ]
+    },
+    {
+      "manifest": "text",
+      "errors": [
+        "manifest must be a JSON object"
+      ]
+    },
+    {
+      "manifest": [],
+      "errors": [
+        "manifest must be a JSON object"
+      ]
+    },
+    {
+      "manifest": 42,
+      "errors": [
+        "manifest must be a JSON object"
+      ]
+    },
+    {
+      "manifest": {},
+      "errors": [
+        "name must match /^[a-z][a-z0-9_]*$/",
+        "category must match /^[a-z][a-z0-9-]*$/",
+        "version is required",
+        "baseUrl must be an https:// URL",
+        "tools must be a non-empty array"
+      ]
+    },
+    {
+      "manifest": {
+        "name": 5,
+        "category": null,
+        "version": 1,
+        "baseUrl": "https://exa mple.com",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "headers": {
+          "a": 1
+        }
+      },
+      "errors": [
+        "name must match /^[a-z][a-z0-9_]*$/",
+        "category must match /^[a-z][a-z0-9-]*$/",
+        "version is required",
+        "baseUrl must be an https:// URL",
+        "headers must be an object of strings"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "Bad",
+        "category": "Bad_cat",
+        "version": "1.0.0",
+        "baseUrl": "https://{domain}",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ]
+      },
+      "errors": [
+        "name must match /^[a-z][a-z0-9_]*$/",
+        "category must match /^[a-z][a-z0-9-]*$/",
+        "domain is required when a URL uses {domain}"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ]
+      },
+      "errors": [
+        "baseUrl must be an https:// URL"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "headers": "x"
+      },
+      "errors": [
+        "headers must be an object of strings"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "domain": {
+          "label": "Host"
+        }
+      },
+      "errors": [
+        "domain is set but no URL uses {domain}"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://{domain}/api",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "domain": "x"
+      },
+      "errors": [
+        "domain must be an object"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://{domain}/api",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "domain": {
+          "default": "https://x",
+          "label": 1,
+          "env": 2,
+          "hint": 3,
+          "placeholder": 4,
+          "matchGitRemote": "y"
+        }
+      },
+      "errors": [
+        "domain.default must look like host[:port][/path]",
+        "domain.label must be a string",
+        "domain.env must be a string",
+        "domain.hint must be a string",
+        "domain.placeholder must be a string",
+        "domain.matchGitRemote must be a boolean"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://{domain}/api",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "domain": {
+          "default": "ghe.example.com/api/v3",
+          "matchGitRemote": true
+        }
+      },
+      "errors": []
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "editions": "x"
+      },
+      "errors": [
+        "editions must be an object"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "editions": {
+          "Bad": {
+            "hosts": [
+              "a"
+            ]
+          },
+          "cloud": {
+            "hosts": []
+          },
+          "dc": "x",
+          "other": {
+            "hosts": [
+              1
+            ]
+          },
+          "ok": {
+            "hosts": [
+              "a"
+            ],
+            "label": 2
+          }
+        }
+      },
+      "errors": [
+        "editions.Bad: name must match /^[a-z][a-z0-9-]*$/",
+        "editions.cloud.hosts must be a non-empty array of host suffixes",
+        "editions.dc.hosts must be a non-empty array of host suffixes",
+        "editions.other.hosts must be a non-empty array of host suffixes",
+        "editions.ok.label must be a string"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "auth": "bearer"
+      },
+      "errors": [
+        "auth must be a non-empty array, tried from top to bottom"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "auth": []
+      },
+      "errors": [
+        "auth must be a non-empty array, tried from top to bottom"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "auth": [
+          {
+            "type": "nope"
+          },
+          "x",
+          {
+            "type": "header",
+            "env": "A"
+          },
+          {
+            "type": "basic"
+          },
+          {
+            "type": "query",
+            "env": "A",
+            "name": "q",
+            "label": 3
+          }
+        ]
+      },
+      "errors": [
+        "auth[0].type must be one of: none, bearer, header, query, basic, oauth",
+        "auth[1].type must be one of: none, bearer, header, query, basic, oauth",
+        "auth[2].name is required for auth type \"header\"",
+        "auth[3].usernameEnv is required for auth type \"basic\"",
+        "auth[3].passwordEnv is required for auth type \"basic\"",
+        "auth[4].label must be a string"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "auth": [
+          {
+            "type": "bearer",
+            "env": "A"
+          },
+          {
+            "type": "oauth",
+            "authorizationUrl": "https://a",
+            "tokenUrl": "https://b",
+            "clientId": "c"
+          }
+        ]
+      },
+      "errors": [
+        "auth: fallback entries must come after every oauth entry"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "auth": [
+          {
+            "type": "none"
+          },
+          {
+            "type": "bearer",
+            "env": "A"
+          }
+        ]
+      },
+      "errors": [
+        "auth: \"none\" can only be the last entry"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "auth": [
+          {
+            "type": "oauth",
+            "authorizationUrl": "http://a",
+            "tokenUrl": 3,
+            "clientId": "c"
+          }
+        ]
+      },
+      "errors": [
+        "auth[0].tokenUrl is required for auth type \"oauth\""
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "auth": [
+          {
+            "type": "oauth",
+            "authorizationUrl": "https://a",
+            "tokenUrl": "https://b",
+            "clientId": "c",
+            "clientSecretEnv": 3,
+            "clientAuthentication": "header",
+            "scopes": [
+              "a",
+              1
+            ],
+            "redirectPort": 70000
+          }
+        ]
+      },
+      "errors": [
+        "auth[0].clientSecretEnv must be a string",
+        "auth[0].clientAuthentication must be \"body\" or \"basic\"",
+        "auth[0].scopes must be an array of strings",
+        "auth[0].redirectPort must be an integer between 0 and 65535"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "auth": [
+          {
+            "type": "oauth",
+            "authorizationUrl": "https://a",
+            "tokenUrl": "https://b",
+            "clientId": "c",
+            "redirectPort": 8080.5
+          }
+        ]
+      },
+      "errors": [
+        "auth[0].redirectPort must be an integer between 0 and 65535"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "auth": [
+          {
+            "type": "oauth",
+            "authorizationUrl": "https://a",
+            "tokenUrl": "https://b",
+            "clientId": "c",
+            "redirectPort": 8080,
+            "scopes": []
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "auth": [
+          {
+            "type": "oauth",
+            "authorizationUrl": "https://{domain}/a",
+            "tokenUrl": "https://b",
+            "clientId": "c",
+            "ui": {}
+          }
+        ]
+      },
+      "errors": [
+        "domain is required when a URL uses {domain}",
+        "auth[0].ui is only allowed for auth types: bearer, header, query, basic"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "auth": [
+          {
+            "type": "bearer",
+            "env": "A",
+            "ui": "x"
+          }
+        ]
+      },
+      "errors": [
+        "auth[0].ui must be an object"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "auth": [
+          {
+            "type": "bearer",
+            "env": "A",
+            "ui": {
+              "texts": {},
+              "inputs": "x",
+              "actions": "y"
+            }
+          }
+        ]
+      },
+      "errors": [
+        "auth[0].ui.texts is not allowed here, use it on the manifest",
+        "auth[0].ui.inputs must map env var names to objects",
+        "auth[0].ui.actions must be an array"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "auth": [
+          {
+            "type": "bearer",
+            "env": "A",
+            "ui": {
+              "inputs": {
+                "B": {},
+                "A": "x"
+              }
+            }
+          }
+        ]
+      },
+      "errors": [
+        "auth[0].ui.inputs.B: \"B\" is not a credential of this auth entry (A)",
+        "auth[0].ui.inputs.A must be an object"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "auth": [
+          {
+            "type": "basic",
+            "usernameEnv": "U",
+            "passwordEnv": "P",
+            "ui": {
+              "inputs": {
+                "U": {
+                  "label": 1,
+                  "hint": "h",
+                  "placeholder": 2,
+                  "secret": "no"
+                },
+                "P": {
+                  "secret": false
+                }
+              }
+            }
+          }
+        ]
+      },
+      "errors": [
+        "auth[0].ui.inputs.U.label must be a string",
+        "auth[0].ui.inputs.U.placeholder must be a string",
+        "auth[0].ui.inputs.U.secret must be a boolean"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "auth": [
+          {
+            "type": "bearer",
+            "env": "A",
+            "ui": {
+              "actions": [
+                "x",
+                {
+                  "type": "nope"
+                },
+                {
+                  "type": "link",
+                  "label": "  ",
+                  "url": "http://a"
+                },
+                {
+                  "type": "link",
+                  "label": "Open",
+                  "url": "https://{domain}/{bad}/{server}"
+                },
+                {
+                  "type": "link",
+                  "label": "Open",
+                  "url": "https://{webHost}/settings"
+                },
+                {
+                  "type": "link",
+                  "label": "Open",
+                  "url": "https://example.com/{server}"
+                },
+                {
+                  "type": "cli",
+                  "label": "Run",
+                  "command": "/bin/gh",
+                  "args": "auth"
+                },
+                {
+                  "type": "cli",
+                  "label": "Run",
+                  "command": "gh",
+                  "args": [
+                    "auth",
+                    1
+                  ]
+                },
+                {
+                  "type": "cli",
+                  "label": "Run",
+                  "command": "gh",
+                  "args": [
+                    "--host",
+                    "{domain}",
+                    "{nope}"
+                  ]
+                },
+                {
+                  "type": "cli",
+                  "label": "Run",
+                  "command": "gh",
+                  "args": [
+                    "--host",
+                    "{webHost}"
+                  ]
+                },
+                {
+                  "type": "cli",
+                  "label": "Run",
+                  "command": "gh",
+                  "args": [
+                    "auth",
+                    "token"
+                  ]
+                },
+                {
+                  "type": "cli",
+                  "command": "-gh"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "errors": [
+        "auth[0].ui.actions[0].type must be one of: link, cli",
+        "auth[0].ui.actions[1].type must be one of: link, cli",
+        "auth[0].ui.actions[2].label must be a non-empty string",
+        "auth[0].ui.actions[2].url must be an https:// URL",
+        "auth[0].ui.actions[3].url has unknown placeholders: {bad}",
+        "auth[0].ui.actions[4].url uses the domain, so the manifest needs a domain",
+        "auth[0].ui.actions[6].command must be a program name found on PATH, without a path or arguments",
+        "auth[0].ui.actions[6].args must be an array of strings",
+        "auth[0].ui.actions[7].args must be an array of strings",
+        "auth[0].ui.actions[8].args has unknown placeholders: {nope}",
+        "auth[0].ui.actions[9].args uses the domain, so the manifest needs a domain",
+        "auth[0].ui.actions[11].label must be a non-empty string",
+        "auth[0].ui.actions[11].command must be a program name found on PATH, without a path or arguments",
+        "auth[0].ui.actions[11].args must be an array of strings"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://{domain}/api",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "domain": {
+          "label": "Host"
+        },
+        "auth": [
+          {
+            "type": "basic",
+            "usernameEnv": "U",
+            "passwordEnv": "P",
+            "ui": {
+              "actions": [
+                {
+                  "type": "cli",
+                  "label": "Run",
+                  "command": "gh",
+                  "args": [
+                    "{domain}"
+                  ]
+                },
+                {
+                  "type": "link",
+                  "label": "Get",
+                  "url": "https://{domain}/t"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "errors": [
+        "auth[0].ui.actions[0]: a CLI prints one token, so it needs an auth entry with a single credential"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "ui": "x"
+      },
+      "errors": [
+        "ui must be an object"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "ui": {
+          "inputs": {},
+          "texts": "x"
+        }
+      },
+      "errors": [
+        "ui.inputs is not allowed here, use it on an auth entry",
+        "ui.texts must be an object of strings"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "ui": {
+          "texts": {
+            "title": "T",
+            "nope": "x",
+            "intro": 3
+          }
+        }
+      },
+      "errors": [
+        "ui.texts.nope is not a text of the page, use one of: brand, pageTitle, title, intro, domainLabel, domainHint, domainPlaceholder, domainNewHost, domainShowHosts, signInLabel, tokenDivider, credentialLegend, fieldHint, tokenLabel, usernameLabel, passwordLabel, headerLabel, queryLabel, actionsDivider, cancel, submit, checking, requiredField, savedTitle, savedBody, signingInTitle, signingInBody, cancelledTitle, cancelledBody, failedTitle, requestFailed",
+        "ui.texts.intro must be a string"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": "x"
+      },
+      "errors": [
+        "tools must be a non-empty array"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": []
+      },
+      "errors": [
+        "tools must be a non-empty array"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          "x",
+          3,
+          null
+        ]
+      },
+      "errors": [
+        "tools[0] must be an object",
+        "tools[1] must be an object",
+        "tools[2] must be an object",
+        "duplicate tool names: "
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {},
+          {}
+        ]
+      },
+      "errors": [
+        "tools[0].name must match /^[a-z][a-z0-9_]*(:[a-z][a-z0-9_]*)*$/",
+        "tools[0].description is required",
+        "tools[0].input must be a JSON Schema with type \"object\"",
+        "tools[1].name must match /^[a-z][a-z0-9_]*(:[a-z][a-z0-9_]*)*$/",
+        "tools[1].description is required",
+        "tools[1].input must be a JSON Schema with type \"object\"",
+        "duplicate tool names: "
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": 1
+          },
+          {
+            "name": 1
+          },
+          {
+            "name": null
+          },
+          {
+            "name": null
+          },
+          {
+            "name": "a:b"
+          },
+          {
+            "name": "a:b"
+          }
+        ]
+      },
+      "errors": [
+        "tools[0].name must match /^[a-z][a-z0-9_]*(:[a-z][a-z0-9_]*)*$/",
+        "tools[0].description is required",
+        "tools[0].input must be a JSON Schema with type \"object\"",
+        "tools[1].name must match /^[a-z][a-z0-9_]*(:[a-z][a-z0-9_]*)*$/",
+        "tools[1].description is required",
+        "tools[1].input must be a JSON Schema with type \"object\"",
+        "tools[2].name must match /^[a-z][a-z0-9_]*(:[a-z][a-z0-9_]*)*$/",
+        "tools[2].description is required",
+        "tools[2].input must be a JSON Schema with type \"object\"",
+        "tools[3].name must match /^[a-z][a-z0-9_]*(:[a-z][a-z0-9_]*)*$/",
+        "tools[3].description is required",
+        "tools[3].input must be a JSON Schema with type \"object\"",
+        "tools[4] (a:b).description is required",
+        "tools[4] (a:b).input must be a JSON Schema with type \"object\"",
+        "tools[5] (a:b).description is required",
+        "tools[5] (a:b).input must be a JSON Schema with type \"object\"",
+        "duplicate tool names: 1, , a:b"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "Bad:Name",
+            "description": 3,
+            "input": "x",
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            },
+            "response": "x"
+          }
+        ]
+      },
+      "errors": [
+        "tools[0] (Bad:Name).name must match /^[a-z][a-z0-9_]*(:[a-z][a-z0-9_]*)*$/",
+        "tools[0] (Bad:Name).description is required",
+        "tools[0] (Bad:Name).response must be an object",
+        "tools[0] (Bad:Name).input must be a JSON Schema with type \"object\""
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "a::b",
+            "description": "List items",
+            "input": {
+              "type": "string"
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ]
+      },
+      "errors": [
+        "tools[0] (a::b).name must match /^[a-z][a-z0-9_]*(:[a-z][a-z0-9_]*)*$/",
+        "tools[0] (a::b).input must be a JSON Schema with type \"object\""
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "a:b:c",
+            "description": "List items",
+            "input": {
+              "type": "object"
+            },
+            "request": {
+              "method": "GET",
+              "path": "/{owner}"
+            }
+          }
+        ]
+      },
+      "errors": [
+        "tools[0] (a:b:c).request.path uses undeclared arg \"owner\""
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            },
+            "response": {
+              "root": "data"
+            }
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "errors": [
+        "tools[0] (list_items).request is required"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": "x"
+          }
+        ]
+      },
+      "errors": [
+        "tools[0] (list_items).request is required"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "HEAD",
+              "path": "items"
+            }
+          }
+        ]
+      },
+      "errors": [
+        "tools[0] (list_items).request.method must be one of: GET, POST, PUT, PATCH, DELETE",
+        "tools[0] (list_items).request.path must start with \"/\""
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": 3
+            }
+          }
+        ]
+      },
+      "errors": [
+        "tools[0] (list_items).request.path must start with \"/\""
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/{owner}/{ghost}/{{owner}}/{ x}",
+              "query": "x",
+              "body": {
+                "a": "owner",
+                "b": "ghost"
+              }
+            }
+          }
+        ]
+      },
+      "errors": [
+        "tools[0] (list_items).request.path uses undeclared arg \"ghost\"",
+        "tools[0] (list_items).request.query must be an array of arg names or an object of strings",
+        "tools[0] (list_items).request.body uses undeclared arg \"ghost\""
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/x",
+              "query": [
+                "owner",
+                "ghost"
+              ],
+              "body": {
+                "a": 1
+              }
+            }
+          }
+        ]
+      },
+      "errors": [
+        "tools[0] (list_items).request.query uses undeclared arg \"ghost\"",
+        "tools[0] (list_items).request.body must be an array of arg names or an object of strings"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/x",
+              "saveToArg": "ghost",
+              "fileArgs": "file"
+            }
+          }
+        ]
+      },
+      "errors": [
+        "tools[0] (list_items).request.saveToArg must name a declared arg",
+        "tools[0] (list_items).request.fileArgs must be an array of argument names"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/x",
+              "saveToArg": 3,
+              "fileArgs": [
+                "file",
+                "ghost",
+                3,
+                null,
+                {
+                  "a": 1
+                },
+                [
+                  "a",
+                  null
+                ]
+              ]
+            }
+          }
+        ]
+      },
+      "errors": [
+        "tools[0] (list_items).request.saveToArg must name a declared arg",
+        "tools[0] (list_items).request.fileArgs names an undeclared arg: ghost",
+        "tools[0] (list_items).request.fileArgs names an undeclared arg: 3",
+        "tools[0] (list_items).request.fileArgs names an undeclared arg: null",
+        "tools[0] (list_items).request.fileArgs names an undeclared arg: [object Object]",
+        "tools[0] (list_items).request.fileArgs names an undeclared arg: a,"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/x",
+              "saveToArg": "file",
+              "fileArgs": []
+            }
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "POST",
+              "path": "/x",
+              "contentType": 3
+            }
+          }
+        ]
+      },
+      "errors": [
+        "tools[0] (list_items).request.contentType must be a non-empty string"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "POST",
+              "path": "/x",
+              "contentType": "   "
+            }
+          }
+        ]
+      },
+      "errors": [
+        "tools[0] (list_items).request.contentType must be a non-empty string"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "POST",
+              "path": "/x",
+              "contentType": "text/plain"
+            }
+          }
+        ]
+      },
+      "errors": [
+        "tools[0] (list_items).request.contentType text/plain requires bodyArg"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "POST",
+              "path": "/x",
+              "contentType": "text/plain",
+              "bodyArg": "file"
+            }
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "POST",
+              "path": "/x",
+              "contentType": "multipart/form-data",
+              "bodyArg": "file"
+            }
+          }
+        ]
+      },
+      "errors": [
+        "tools[0] (list_items).request.contentType multipart/form-data cannot be combined with bodyArg"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "POST",
+              "path": "/x",
+              "contentType": "application/json",
+              "bodyArg": 3
+            }
+          }
+        ]
+      },
+      "errors": [
+        "tools[0] (list_items).request.bodyArg must name a declared arg"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "POST",
+              "path": "/x",
+              "bodyArg": "file",
+              "fixedBody": {
+                "a": 1
+              }
+            }
+          }
+        ]
+      },
+      "errors": [
+        "tools[0] (list_items).request.bodyArg cannot be combined with body or fixedBody"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "POST",
+              "path": "/x",
+              "bodyArg": "file",
+              "body": null
+            }
+          }
+        ]
+      },
+      "errors": [
+        "tools[0] (list_items).request.body must be an array of arg names or an object of strings",
+        "tools[0] (list_items).request.bodyArg cannot be combined with body or fixedBody"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/x",
+              "fixedQuery": "x",
+              "commaQuery": "y",
+              "fixedHeaders": [],
+              "fixedBody": 3
+            }
+          }
+        ]
+      },
+      "errors": [
+        "tools[0] (list_items).request.fixedQuery must be an object",
+        "tools[0] (list_items).request.commaQuery must be an array of strings",
+        "tools[0] (list_items).request.fixedHeaders must be an object",
+        "tools[0] (list_items).request.fixedBody must be an object"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/x",
+              "fixedQuery": {
+                "a": 1,
+                "b": "x",
+                "c": true,
+                "d": null,
+                "e": []
+              },
+              "commaQuery": [
+                "a",
+                1
+              ]
+            }
+          }
+        ]
+      },
+      "errors": [
+        "tools[0] (list_items).request.fixedQuery.d must be a string, number or boolean",
+        "tools[0] (list_items).request.fixedQuery.e must be a string, number or boolean",
+        "tools[0] (list_items).request.commaQuery must be an array of strings"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/x",
+              "fixedHeaders": {
+                "A": "x",
+                "B": 1,
+                "C": null
+              },
+              "fixedBody": {
+                "a": {
+                  "b": 1
+                }
+              },
+              "commaQuery": []
+            }
+          }
+        ]
+      },
+      "errors": [
+        "tools[0] (list_items).request.fixedHeaders.B must be a string",
+        "tools[0] (list_items).request.fixedHeaders.C must be a string",
+        "tools[0] (list_items).request.fixedBody.a must be a string, number or boolean"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            },
+            "editions": "x"
+          }
+        ]
+      },
+      "errors": [
+        "tools[0] (list_items).editions must be an object"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            },
+            "editions": {
+              "dc": {},
+              "cloud": "x"
+            }
+          }
+        ],
+        "editions": {
+          "cloud": {
+            "hosts": [
+              "a"
+            ]
+          }
+        }
+      },
+      "errors": [
+        "tools[0] (list_items).editions.dc: \"dc\" is not in the manifest's editions",
+        "tools[0] (list_items).editions.cloud must be an object"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            },
+            "editions": {
+              "cloud": {
+                "request": {
+                  "method": "GET",
+                  "path": "/{ghost}"
+                },
+                "response": "x"
+              }
+            }
+          }
+        ],
+        "editions": {
+          "cloud": {
+            "hosts": [
+              "a"
+            ]
+          }
+        }
+      },
+      "errors": [
+        "tools[0] (list_items).editions.cloud.request.path uses undeclared arg \"ghost\"",
+        "tools[0] (list_items).editions.cloud.response must be an object"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            },
+            "editions": {
+              "cloud": {}
+            }
+          }
+        ],
+        "editions": {
+          "cloud": {
+            "hosts": [
+              "a"
+            ]
+          }
+        }
+      },
+      "errors": [
+        "tools[0] (list_items).editions.cloud.request is required"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [],
+        "upstream": "x"
+      },
+      "errors": [
+        "upstream must be an object"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [],
+        "upstream": {
+          "type": "ws"
+        }
+      },
+      "errors": [
+        "upstream.type must be \"http\" or \"stdio\""
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [],
+        "upstream": {
+          "type": "http"
+        }
+      },
+      "errors": [
+        "upstream.url must be an https:// URL"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "upstream": {
+          "type": "http",
+          "url": "https://a/mcp"
+        }
+      },
+      "errors": [
+        "tools must be empty when the manifest has an upstream"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "upstream": {
+          "type": "http",
+          "url": "https://a/mcp"
+        }
+      },
+      "errors": [
+        "tools must be empty when the manifest has an upstream"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [],
+        "upstream": {
+          "type": "stdio",
+          "command": "/usr/bin/uv",
+          "args": "x",
+          "forwardEnv": [
+            1
+          ],
+          "optionalEnv": {}
+        }
+      },
+      "errors": [
+        "upstream.command must be a program name on PATH, not a path",
+        "upstream.args must be a list of strings",
+        "upstream.forwardEnv must be a list of strings",
+        "upstream.optionalEnv must be a list of strings"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [],
+        "upstream": {
+          "type": "stdio",
+          "command": ""
+        }
+      },
+      "errors": [
+        "upstream.command must be a program name on PATH, not a path"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [],
+        "upstream": {
+          "type": "stdio",
+          "command": "uv",
+          "repo": "x"
+        }
+      },
+      "errors": [
+        "upstream.repo must be an object"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [],
+        "upstream": {
+          "type": "stdio",
+          "command": "uv",
+          "repo": {
+            "url": "http://x",
+            "ref": "-main",
+            "setup": "x"
+          }
+        }
+      },
+      "errors": [
+        "upstream.repo.url must be an https:// URL",
+        "upstream.repo.ref must be a commit, tag or branch, not starting with '-'",
+        "upstream.repo.setup must be a list of steps"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [],
+        "upstream": {
+          "type": "stdio",
+          "command": "uv",
+          "repo": {
+            "url": "https://x",
+            "ref": "v1.2/x",
+            "setup": [
+              "x",
+              {
+                "command": "a/b",
+                "args": [
+                  1
+                ]
+              },
+              {
+                "command": "uv",
+                "args": [
+                  "sync"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "errors": [
+        "upstream.repo.setup[0] must be an object",
+        "upstream.repo.setup[1].command must be a program name on PATH, not a path",
+        "upstream.repo.setup[1].args must be a list of strings"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [],
+        "upstream": {
+          "type": "stdio",
+          "command": "uv",
+          "repo": {
+            "url": "https://x",
+            "ref": 3
+          }
+        }
+      },
+      "errors": [
+        "upstream.repo.ref must be a commit, tag or branch, not starting with '-'"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [],
+        "upstream": {
+          "type": "stdio",
+          "command": "uv",
+          "ui": "x"
+        }
+      },
+      "errors": [
+        "upstream.ui must be an object"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [],
+        "upstream": {
+          "type": "stdio",
+          "command": "uv",
+          "forwardEnv": [
+            "A",
+            1,
+            null
+          ],
+          "ui": {
+            "texts": {},
+            "inputs": {
+              "1": {},
+              "A": {
+                "label": "A"
+              },
+              "B": {}
+            },
+            "actions": [
+              {
+                "type": "cli",
+                "label": "x",
+                "command": "gh",
+                "args": []
+              }
+            ]
+          }
+        }
+      },
+      "errors": [
+        "upstream.forwardEnv must be a list of strings",
+        "upstream.ui.texts is not allowed here",
+        "upstream.ui.inputs.B: \"B\" is not a credential of this auth entry (A, 1, null)",
+        "upstream.ui.actions[0]: a CLI prints one token, so it needs an auth entry with a single credential"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [],
+        "upstream": {
+          "type": "stdio",
+          "command": "uv",
+          "forwardEnv": "A",
+          "ui": {
+            "inputs": {
+              "A": {}
+            },
+            "actions": [
+              {
+                "type": "link",
+                "label": "x",
+                "url": "https://{domain}/x"
+              }
+            ]
+          }
+        }
+      },
+      "errors": [
+        "upstream.forwardEnv must be a list of strings",
+        "upstream.ui.inputs.A: \"A\" is not a credential of this auth entry ()",
+        "upstream.ui.actions[0].url uses the domain, so the manifest needs a domain"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [],
+        "upstream": {
+          "type": "stdio",
+          "command": "uv",
+          "naming": "x"
+        }
+      },
+      "errors": [
+        "upstream.naming must be a list of rules"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [],
+        "upstream": {
+          "type": "stdio",
+          "command": "uv",
+          "naming": [
+            "x",
+            {},
+            {
+              "match": "",
+              "name": "a:b:c"
+            },
+            {
+              "match": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+              "name": "a:b"
+            },
+            {
+              "match": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+              "name": "a:b:c:d"
+            },
+            {
+              "match": "^(\\w+)_(\\w+)$",
+              "name": "items:$1:$2"
+            },
+            {
+              "match": "^get_(.*)$",
+              "name": "Items:$1:get"
+            },
+            {
+              "match": "^x$",
+              "name": "a::b"
+            },
+            {
+              "match": "^x$",
+              "name": "$&:$1:x"
+            }
+          ]
+        }
+      },
+      "errors": [
+        "upstream.naming[0] must be an object",
+        "upstream.naming[1].match must be a regular expression of at most 200 characters",
+        "upstream.naming[1].name must be <group>:<resource>:<action> with $1… or $& for the upstream name",
+        "upstream.naming[2].match must be a regular expression of at most 200 characters",
+        "upstream.naming[3].match must be a regular expression of at most 200 characters",
+        "upstream.naming[3].name must be <group>:<resource>:<action> with $1… or $& for the upstream name",
+        "upstream.naming[6].name must be <group>:<resource>:<action> with $1… or $& for the upstream name",
+        "upstream.naming[7].name must be <group>:<resource>:<action> with $1… or $& for the upstream name"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [],
+        "upstream": {
+          "type": "http",
+          "url": "https://a",
+          "naming": [
+            {
+              "match": "^a",
+              "name": "a:b:c"
+            }
+          ]
+        }
+      },
+      "errors": []
+    }
+  ]
+}

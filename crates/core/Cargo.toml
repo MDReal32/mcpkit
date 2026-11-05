@@ -1,0 +1,15 @@
+[package]
+name = "usemcpkit-core"
+description = "What the usemcpkit runner and server share: the usemcpkit home folder, the environment, content hashes and JavaScript-compatible value printing."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+percent-encoding.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+
+[lints]
+workspace = true

@@ -13,7 +13,7 @@ export const InstallScene = () => (
     <SceneCopy
       eyebrow="Install"
       title="One command."
-      body="Finds the AI clients on this computer and adds mcpkit to each."
+      body="Finds the AI clients on this computer and adds usemcpkit to each."
       width={640}
       delay={0.02}
     />
@@ -28,7 +28,7 @@ export const InstallScene = () => (
             <ClientRow key={client.name} client={client} delay={ROWS_AT + index * ROW_STEP} />
           ))}
           <TerminalLine delay={ROWS_AT + DETECTED_CLIENTS.length * ROW_STEP + 0.35}>
-            Restart the clients to load mcpkit.
+            Restart the clients to load usemcpkit.
           </TerminalLine>
         </div>
       </WindowFrame>

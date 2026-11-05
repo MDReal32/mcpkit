@@ -1,0 +1,20 @@
+[package]
+name = "usemcpkit-testing"
+description = "Shared test fixtures of the usemcpkit crates: fake HTTP clients and small manifests."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+
+[dependencies]
+indexmap.workspace = true
+usemcpkit-core.workspace = true
+usemcpkit-http.workspace = true
+usemcpkit-manifest.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+url.workspace = true
+
+[lints]
+workspace = true

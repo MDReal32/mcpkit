@@ -1,0 +1,27 @@
+mod build_repo;
+mod consts;
+mod ensure_repo;
+mod is_pinned_commit;
+mod parse_repo_state;
+mod pick_remote_commit;
+mod prepare_repo;
+mod read_failure_output;
+mod read_remote_commit;
+mod read_repo_state;
+mod remove_directory;
+mod replace_directory;
+mod repo_options;
+mod repo_signature;
+mod repo_state;
+mod run_program;
+mod set_up_clone;
+mod sibling_path;
+mod update_repo;
+mod write_repo_state;
+
+pub use consts::REPO_CHECK_INTERVAL_MS;
+pub use ensure_repo::ensure_repo;
+pub(crate) use prepare_repo::prepare_repo;
+pub use read_repo_state::read_repo_state;
+pub use repo_options::RepoOptions;
+pub use repo_state::RepoState;

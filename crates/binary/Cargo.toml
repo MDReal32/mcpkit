@@ -1,0 +1,29 @@
+[package]
+name = "usemcpkit-binary"
+description = "Installs and self-updates the usemcpkit binaries (the runner and the server next to it), schedules `usemcpkit upgrade`, and names the build targets and their npm packages."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+base64.workspace = true
+flate2.workspace = true
+indexmap.workspace = true
+usemcpkit-core.workspace = true
+usemcpkit-http.workspace = true
+usemcpkit-manifest.workspace = true
+regex.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+tokio.workspace = true
+
+[target.'cfg(unix)'.dependencies]
+rustix.workspace = true
+
+[dev-dependencies]
+usemcpkit-testing.workspace = true
+tempfile.workspace = true
+
+[lints]
+workspace = true

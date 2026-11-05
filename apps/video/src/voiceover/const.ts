@@ -12,13 +12,13 @@ export const VOICE_LINES: readonly VoiceLineData[] = [
   {
     scene: "install",
     at: 0.25,
-    text: "One command adds mcpkit to every AI client.",
+    text: "One command adds usemcpkit to every AI client.",
     speech: "One command adds MCP kit to every AI client.",
   },
   {
     scene: "assistant",
     at: 0.3,
-    text: "Just ask. mcpkit opens only the tools it needs.",
+    text: "Just ask. usemcpkit opens only the tools it needs.",
     speech: "Just ask, and MCP kit opens only the tools it needs.",
   },
   {

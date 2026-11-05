@@ -1,0 +1,20 @@
+[package]
+name = "usemcpkit-validation"
+description = "The semantic validation of usemcpkit manifests, which treats a manifest as untrusted JSON."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+regex.workspace = true
+serde_json.workspace = true
+url.workspace = true
+usemcpkit-core.workspace = true
+usemcpkit-manifest.workspace = true
+
+[dev-dependencies]
+serde.workspace = true
+
+[lints]
+workspace = true

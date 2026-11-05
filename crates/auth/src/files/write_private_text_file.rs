@@ -1,0 +1,28 @@
+use crate::AuthError;
+use std::path::Path;
+use tokio::io::AsyncWriteExt;
+
+/// Writes `text` through a temp file and a rename, so a crash never leaves a half-written file; on unix the folder is
+/// created 0700 and the file 0600.
+pub async fn write_private_text_file(file: &Path, text: &str) -> Result<(), AuthError> {
+    let fail = |error: std::io::Error| AuthError(format!("Cannot write {}: {error}", file.display()));
+    if let Some(dir) = file.parent() {
+        let mut dir_builder = tokio::fs::DirBuilder::new();
+        dir_builder.recursive(true);
+        #[cfg(unix)]
+        dir_builder.mode(crate::consts::PRIVATE_DIR_MODE);
+        dir_builder.create(dir).await.map_err(fail)?;
+    }
+    let mut temp_name = file.as_os_str().to_owned();
+    temp_name.push(format!(".{}.tmp", std::process::id()));
+    let temp_file = Path::new(&temp_name);
+    let mut options = tokio::fs::OpenOptions::new();
+    options.write(true).create(true).truncate(true);
+    #[cfg(unix)]
+    options.mode(crate::consts::PRIVATE_FILE_MODE);
+    let mut handle = options.open(temp_file).await.map_err(fail)?;
+    handle.write_all(text.as_bytes()).await.map_err(fail)?;
+    handle.flush().await.map_err(fail)?;
+    drop(handle);
+    tokio::fs::rename(temp_file, file).await.map_err(fail)
+}
