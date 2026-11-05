@@ -256,6 +256,7 @@ build/
 /release/
 /release-binaries/
 /release-tarballs/
+/release-registry/
 
 # macOS
 .DS_Store

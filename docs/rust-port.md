@@ -162,7 +162,11 @@ TS and Rust handle them the same way:
 `.github/workflows/release-build.yml` runs `yarn build` (every lint, test and build gate) on Ubuntu; the registry is
 deployed from it alone. `release-binaries.yml` then builds the two binaries per target on that target's own runner
 (`linux-x64`, `linux-arm64`, `darwin-x64`, `darwin-arm64`, `windows-x64`) from the credentials page the first job
-built, checks that each prints `--version`, and `tools/release` writes each
+built, checks that each prints `--version` and runs `tools/smoke-test` against them (`node tools/smoke-test/src/main.ts
+<usemcpkit binary> <registry dir>`: the real `usemcpkit serve`, with the server next to it, over stdio in a temp home
+seeded from the first job's registry, auto-update off and the registry unreachable; it initializes, lists one section
+per indexed server, opens `git:github` and expects the `list_changed` notice and its groups; it does not open the
+credentials window or reach the network), and `tools/release` writes each
 `@usemcpkit/cli-<target>` package with `bin/usemcpkit[.exe]` and `bin/usemcpkit-servers[.exe]`, the GitHub Release
 assets (`usemcpkit-<target>[.exe]`, `usemcpkit-servers-<target>[.exe]`) and the wrapper's `optionalDependencies` at the
 release version, beside the core and wrapper builds of the first job. It fails unless `apps/npx` and the Cargo workspace have the same version. `publish-npm.sh` skips any

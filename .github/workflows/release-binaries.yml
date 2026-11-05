@@ -54,11 +54,26 @@ jobs:
       - name: Build
         run: cargo build --release --locked -p usemcpkit-runner -p usemcpkit-servers
 
-      - name: Smoke test
+      - name: Print the versions
         shell: bash
         run: |
           target/release/usemcpkit${{ matrix.extension }} --version
           target/release/usemcpkit-servers${{ matrix.extension }} --version
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          package-manager-cache: false
+
+      - name: Download the registry
+        uses: actions/download-artifact@v8
+        with:
+          name: registry
+          path: release-registry
+
+      - name: Smoke test
+        run: node tools/smoke-test/src/main.ts target/release/usemcpkit${{ matrix.extension }} release-registry
 
       - name: Upload the binaries
         uses: actions/upload-artifact@v7
