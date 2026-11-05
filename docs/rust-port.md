@@ -168,6 +168,10 @@ assets (`usemcpkit-<target>[.exe]`, `usemcpkit-servers-<target>[.exe]`) and the 
 release version, beside the core and wrapper builds of the first job. It fails unless `apps/npx` and the Cargo workspace have the same version. `publish-npm.sh` skips any
 version npm already has, so a release only publishes what was bumped.
 
+The first Rust release is `0.10.0`, for the binaries, the wrapper and `@usemcpkit/core` alike: npm already has a TS
+`0.9.0` of each, with no server in the platform packages. Before `1.0.0` a minor bump is the breaking one, which core
+needs for losing its runtime exports (executor, auth, mapping) and `validateManifest`/`isValidManifest`.
+
 ## Release work still open
 
 - No musl packages: the server links WebKitGTK dynamically, which has no static build, so `@usemcpkit/cli-*-musl`
@@ -175,11 +179,7 @@ version npm already has, so a release only publishes what was bumped.
   start at all, even when no window is opened.
 - Decide whether the first release also ships the runner as `package/bin/mcpkit[.exe]`, so TS `0.9.0` installs update
   themselves into it, or whether those users reinstall with `npx usemcpkit` (see "Moving users from the `mcpkit` name").
-- npm already has a TS `0.9.0`, which has no server in it, so the first Rust release must be newer than `0.9.0`.
 - Homebrew and winget packages must ship `usemcpkit-servers` next to `usemcpkit`.
-- `@usemcpkit/core` lost its runtime exports (executor, auth, mapping) and `validateManifest`/`isValidManifest`, a
-  breaking change for anyone who imported them:
-  its next release needs a major version bump.
 
 ## Testing hazards
 
