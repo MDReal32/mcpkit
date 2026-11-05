@@ -151,6 +151,17 @@
       }
      },
      {
+      "name": "api_postman",
+      "description": "Postman through Postman's own remote MCP server (github.com/postmanlabs/postman-mcp-server, mcp.postman.com) in its Full mode: workspaces, collections with their folders, requests, responses, comments, forks and pull requests, environments, mock servers, monitors, specs, the API catalog, governance rules, SDKs, teams and search. Tools that create, change or delete act with the API key's permissions.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
       "name": "communication_reddit",
       "description": "Reddit's OAuth API (read-only): a subreddit's posts, a post with its comment tree, search for posts and subreddits, subreddit info and rules, user profiles and their posts and comments. Tools are named '<group>:<resource>:<action>'. Posts and comments are identified by fullnames (t3_<id>, t1_<id>); listings page with `after` set to the last item's `name`.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
       "inputSchema": {
@@ -2488,6 +2499,17 @@
       },
       "annotations": {
        "readOnlyHint": false
+      }
+     },
+     {
+      "name": "api_postman",
+      "description": "Postman through Postman's own remote MCP server (github.com/postmanlabs/postman-mcp-server, mcp.postman.com) in its Full mode: workspaces, collections with their folders, requests, responses, comments, forks and pull requests, environments, mock servers, monitors, specs, the API catalog, governance rules, SDKs, teams and search. Tools that create, change or delete act with the API key's permissions.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
       }
      },
      {

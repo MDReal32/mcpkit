@@ -37617,6 +37617,15 @@
   }
  },
  {
+  "name": "api_postman",
+  "id": "api:postman",
+  "kind": "section",
+  "description": "Postman through Postman's own remote MCP server (github.com/postmanlabs/postman-mcp-server, mcp.postman.com) in its Full mode: workspaces, collections with their folders, requests, responses, comments, forks and pull requests, environments, mock servers, monitors, specs, the API catalog, governance rules, SDKs, teams and search. Tools that create, change or delete act with the API key's permissions.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
   "name": "communication_reddit",
   "id": "communication:reddit",
   "kind": "section",

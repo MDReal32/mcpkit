@@ -8,6 +8,7 @@ import { github } from "./github/github";
 import { gitlab } from "./gitlab/gitlab";
 import { jira } from "./jira/jira";
 import { medium } from "./medium/medium";
+import { postman } from "./postman/postman";
 import { reddit } from "./reddit/reddit";
 import { teams } from "./teams/teams";
 
@@ -22,6 +23,7 @@ export const servers = [
   gitlab,
   jira,
   medium,
+  postman,
   reddit,
   teams,
 ];
