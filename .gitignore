@@ -252,5 +252,10 @@ credentials.json
 # build output
 build/
 
+# release files CI writes (tools/release, publish-npm.sh)
+/release/
+/release-binaries/
+/release-tarballs/
+
 # macOS
 .DS_Store

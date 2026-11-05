@@ -157,23 +157,25 @@ TS and Rust handle them the same way:
   the new names. Until a release ships that path too, those installs stay on `0.9.0`, and `npx usemcpkit` moves them
   over once.
 
+## Releasing
+
+`.github/workflows/release-build.yml` runs `yarn build` (every lint, test and build gate) on Ubuntu, then builds the two
+binaries per target on that target's own runner (`linux-x64`, `linux-arm64`, `darwin-x64`, `darwin-arm64`,
+`windows-x64`) from the credentials page the first job built, then `tools/release` writes each
+`@usemcpkit/cli-<target>` package with `bin/usemcpkit[.exe]` and `bin/usemcpkit-servers[.exe]`, the GitHub Release
+assets (`usemcpkit-<target>[.exe]`, `usemcpkit-servers-<target>[.exe]`) and the wrapper's `optionalDependencies` at the
+release version. It fails unless `apps/npx` and the Cargo workspace have the same version. `publish-npm.sh` skips any
+version npm already has, so a release only publishes what was bumped.
+
 ## Release work still open
 
-- The Bun packaging (`apps/cli/plugins/binaries`) went with the TS CLI, so nothing builds the per-target binaries or
-  writes the npm platform packages now. Add a `cargo build --release` per target (`cargo-zigbuild` or a CI matrix for
-  Linux musl and ARM) and a writer for each `@usemcpkit/cli-<target>` package (`name`, `version`, `os`/`cpu`/`libc`,
-  `files: ["bin"]`, `publishConfig`; the deleted `apps/cli/plugins/binaries/write-platform-package.ts` in git history
-  has the layout).
-- `.github/workflows/release-build.yml` (`yarn package`), the CLI publish job of `release.yml`,
-  `.github/scripts/publish-npm.sh` and `.github/scripts/publish-github-release.sh` still read `apps/cli/build`; they fail
-  until they are rewritten for the Rust binaries.
-- Each npm platform package must ship `package/bin/usemcpkit[.exe]` and `package/bin/usemcpkit-servers[.exe]` together.
+- No musl packages: the server links WebKitGTK dynamically, which has no static build, so `@usemcpkit/cli-*-musl`
+  stay at TS `0.9.0` and `npx usemcpkit` finds no binary on musl. The glibc server also needs WebKitGTK installed to
+  start at all, even when no window is opened.
 - Decide whether the first release also ships the runner as `package/bin/mcpkit[.exe]`, so TS `0.9.0` installs update
   themselves into it, or whether those users reinstall with `npx usemcpkit` (see "Moving users from the `mcpkit` name").
 - npm already has a TS `0.9.0`, which has no server in it, so the first Rust release must be newer than `0.9.0`.
 - Homebrew and winget packages must ship `usemcpkit-servers` next to `usemcpkit`.
-- The `usemcpkit` npx wrapper spawns the platform binary, but its `package.json` lists no platform packages yet:
-  publishing must add each `@usemcpkit/cli-<target>` to its `optionalDependencies` at the release version.
 - `@usemcpkit/core` lost its runtime exports (executor, auth, mapping) and `validateManifest`/`isValidManifest`, a
   breaking change for anyone who imported them:
   its next release needs a major version bump.

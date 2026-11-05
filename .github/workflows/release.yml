@@ -41,19 +41,9 @@ jobs:
       contents: read
       id-token: write
 
-  cli:
-    name: npm cli
-    needs: platforms
-    uses: ./.github/workflows/release-npm-package.yml
-    with:
-      dir: apps/cli
-    permissions:
-      contents: read
-      id-token: write
-
   wrapper:
     name: npm wrapper
-    needs: cli
+    needs: platforms
     uses: ./.github/workflows/release-npm-package.yml
     with:
       dir: apps/npx
