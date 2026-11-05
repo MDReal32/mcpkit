@@ -35,6 +35,8 @@ const DISCORD: &[(&str, &str)] = &[("DISCORD_BOT_TOKEN", "MTA.bot")];
 
 const REDDIT: &[(&str, &str)] = &[("REDDIT_ACCESS_TOKEN", "t")];
 
+const FIGMA: &[(&str, &str)] = &[("FIGMA_ACCESS_TOKEN", "figd_t")];
+
 fn manifests_dir() -> PathBuf {
     Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/servers/build/manifests")
 }
@@ -547,4 +549,40 @@ async fn confluence_reaches_the_cloud_v1_api_under_wiki_rest_api() {
         request.url,
         "https://acme.atlassian.net/wiki/rest/api/search?cql=type+%3D+page&limit=5"
     );
+}
+
+#[tokio::test]
+async fn figma_reads_nodes_of_a_file_with_the_token_in_x_figma_token() {
+    let figma = built_server("design/figma");
+
+    let request = send(
+        &figma,
+        "files:files:get_file_nodes",
+        json!({ "file_key": "abc", "ids": "1:2,3:4", "depth": 2 }),
+        FIGMA,
+    )
+    .await;
+
+    assert_eq!(request.method, HttpMethod::Get);
+    assert_eq!(endpoint(&request), "https://api.figma.com/v1/files/abc/nodes");
+    assert_eq!(query_value(&request, "ids").as_deref(), Some("1:2,3:4"));
+    assert_eq!(query_value(&request, "depth").as_deref(), Some("2"));
+    assert_eq!(header(&request, "X-Figma-Token"), Some("figd_t"));
+}
+
+#[tokio::test]
+async fn figma_posts_a_comment_as_the_token_owner() {
+    let figma = built_server("design/figma");
+
+    let request = send(
+        &figma,
+        "files:comments:post_comment",
+        json!({ "file_key": "abc", "message": "hi" }),
+        FIGMA,
+    )
+    .await;
+
+    assert_eq!(request.method, HttpMethod::Post);
+    assert_eq!(request.url, "https://api.figma.com/v1/files/abc/comments");
+    assert_eq!(body(&request)["message"], json!("hi"));
 }

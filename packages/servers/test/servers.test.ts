@@ -3,13 +3,14 @@ import { describe, expect, it } from "vitest";
 import { clickup } from "../src/servers/clickup/clickup";
 import { confluence } from "../src/servers/confluence/confluence";
 import { discord } from "../src/servers/discord/discord";
+import { figma } from "../src/servers/figma/figma";
 import { github } from "../src/servers/github/github";
 import { gitlab } from "../src/servers/gitlab/gitlab";
 import { jira } from "../src/servers/jira/jira";
 import { reddit } from "../src/servers/reddit/reddit";
 
 describe("bundled servers", () => {
-  it.each([github, gitlab, jira, confluence, clickup, discord, reddit])(
+  it.each([github, gitlab, jira, confluence, clickup, discord, figma, reddit])(
     "$name compiles to a valid manifest",
     (server) => {
       expect(validateManifest(JSON.parse(JSON.stringify(server)))).toEqual([]);
@@ -24,6 +25,15 @@ describe("discord", () => {
     expect(actions).toContain("list_my_guilds");
     expect(actions).not.toContain("get_my_guild_member");
     expect(actions).not.toContain("get_application_user_role_connection");
+  });
+});
+
+describe("figma", () => {
+  it("leaves out operations a personal access token cannot call", () => {
+    const names = figma.tools.map((tool) => tool.name);
+
+    expect(names).toContain("users:users:get_me");
+    expect(names).not.toContain("projects:folders:post_team_folder");
   });
 });
 

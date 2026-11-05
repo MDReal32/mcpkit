@@ -7969,6 +7969,464 @@
   }
  },
  {
+  "name": "design_figma",
+  "id": "design:figma",
+  "kind": "section",
+  "description": "Figma REST API: files and their nodes, rendered images and image fills, versions, comments and reactions, dev resources, published components, component sets, styles and variables, library analytics, teams' projects and folders, webhooks and the current user. Tools are named '<group>:<resource>:<action>'. A file key is the part after /design/ in a Figma link, and a node id looks like 1:2 (a link carries it as node-id=1-2). files:files:get_file returns the whole document and can be enormous: prefer files:files:get_file_nodes with ids, or pass depth. Variables need an Enterprise plan; operations that need an OAuth app or an organization token are not included.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_files",
+  "id": "design:figma:files",
+  "kind": "section",
+  "description": "Group \"files\" of design:figma. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_files_comment_reactions_0f9009",
+  "id": "design:figma:files:comment_reactions:delete_comment_reaction",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false,
+   "destructiveHint": true
+  }
+ },
+ {
+  "name": "design_figma_files_comment_reactions_get_8f33c2",
+  "id": "design:figma:files:comment_reactions:get_comment_reactions",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_files_comment_reactions_0e72be",
+  "id": "design:figma:files:comment_reactions:post_comment_reaction",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "design_figma_files_comments_delete_comment",
+  "id": "design:figma:files:comments:delete_comment",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false,
+   "destructiveHint": true
+  }
+ },
+ {
+  "name": "design_figma_files_comments_get_comments",
+  "id": "design:figma:files:comments:get_comments",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_files_comments_post_comment",
+  "id": "design:figma:files:comments:post_comment",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "design_figma_files_dev_resources_delete_3c7118",
+  "id": "design:figma:files:dev_resources:delete_dev_resource",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false,
+   "destructiveHint": true
+  }
+ },
+ {
+  "name": "design_figma_files_dev_resources_get_dev_f10c59",
+  "id": "design:figma:files:dev_resources:get_dev_resources",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_files_dev_resources_post_5c9240",
+  "id": "design:figma:files:dev_resources:post_dev_resources",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "design_figma_files_dev_resources_put_dev_089c0a",
+  "id": "design:figma:files:dev_resources:put_dev_resources",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "design_figma_files_get_file",
+  "id": "design:figma:files:files:get_file",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_files_get_file_meta",
+  "id": "design:figma:files:files:get_file_meta",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_files_get_file_nodes",
+  "id": "design:figma:files:files:get_file_nodes",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_files_get_file_versions",
+  "id": "design:figma:files:files:get_file_versions",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_files_get_image_fills",
+  "id": "design:figma:files:files:get_image_fills",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_files_get_images",
+  "id": "design:figma:files:files:get_images",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_files_oembed_get_o_embed",
+  "id": "design:figma:files:oembed:get_o_embed",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_library",
+  "id": "design:figma:library",
+  "kind": "section",
+  "description": "Group \"library\" of design:figma. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_library_component_sets_get_ac292b",
+  "id": "design:figma:library:component_sets:get_component_set",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_library_component_sets_get_cb968b",
+  "id": "design:figma:library:component_sets:get_file_component_sets",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_library_component_sets_get_2f0a47",
+  "id": "design:figma:library:component_sets:get_team_component_sets",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_library_components_get_component",
+  "id": "design:figma:library:components:get_component",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_library_components_get_file_4837ad",
+  "id": "design:figma:library:components:get_file_components",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_library_components_get_team_114afa",
+  "id": "design:figma:library:components:get_team_components",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_library_library_analytics_540e69",
+  "id": "design:figma:library:library_analytics:get_library_analytics_component_actions",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_library_library_analytics_8a04d2",
+  "id": "design:figma:library:library_analytics:get_library_analytics_component_usages",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_library_library_analytics_89eb64",
+  "id": "design:figma:library:library_analytics:get_library_analytics_style_actions",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_library_library_analytics_cba192",
+  "id": "design:figma:library:library_analytics:get_library_analytics_style_usages",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_library_library_analytics_6ae72e",
+  "id": "design:figma:library:library_analytics:get_library_analytics_variable_actions",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_library_library_analytics_999e6d",
+  "id": "design:figma:library:library_analytics:get_library_analytics_variable_usages",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_library_styles_get_file_styles",
+  "id": "design:figma:library:styles:get_file_styles",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_library_styles_get_style",
+  "id": "design:figma:library:styles:get_style",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_library_styles_get_team_styles",
+  "id": "design:figma:library:styles:get_team_styles",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_library_variables_get_local_1a1b5a",
+  "id": "design:figma:library:variables:get_local_variables",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_library_variables_get_1e896b",
+  "id": "design:figma:library:variables:get_published_variables",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_library_variables_post_variables",
+  "id": "design:figma:library:variables:post_variables",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "design_figma_projects",
+  "id": "design:figma:projects",
+  "kind": "section",
+  "description": "Group \"projects\" of design:figma. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_projects_folders_get_folder_files",
+  "id": "design:figma:projects:folders:get_folder_files",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_projects_folders_get_folder_folders",
+  "id": "design:figma:projects:folders:get_folder_folders",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_projects_folders_get_team_folders",
+  "id": "design:figma:projects:folders:get_team_folders",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_projects_get_project_files",
+  "id": "design:figma:projects:projects:get_project_files",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_projects_get_project_meta",
+  "id": "design:figma:projects:projects:get_project_meta",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_projects_get_team_projects",
+  "id": "design:figma:projects:projects:get_team_projects",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_users",
+  "id": "design:figma:users",
+  "kind": "section",
+  "description": "Group \"users\" of design:figma. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_users_payments_get_payments",
+  "id": "design:figma:users:payments:get_payments",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_users_get_me",
+  "id": "design:figma:users:users:get_me",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_webhooks",
+  "id": "design:figma:webhooks",
+  "kind": "section",
+  "description": "Group \"webhooks\" of design:figma. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_webhooks_delete_webhook",
+  "id": "design:figma:webhooks:webhooks:delete_webhook",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false,
+   "destructiveHint": true
+  }
+ },
+ {
+  "name": "design_figma_webhooks_get_team_webhooks",
+  "id": "design:figma:webhooks:webhooks:get_team_webhooks",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_webhooks_get_webhook",
+  "id": "design:figma:webhooks:webhooks:get_webhook",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_webhooks_get_webhook_requests",
+  "id": "design:figma:webhooks:webhooks:get_webhook_requests",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_webhooks_get_webhooks",
+  "id": "design:figma:webhooks:webhooks:get_webhooks",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "design_figma_webhooks_post_webhook",
+  "id": "design:figma:webhooks:webhooks:post_webhook",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "design_figma_webhooks_put_webhook",
+  "id": "design:figma:webhooks:webhooks:put_webhook",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
   "name": "git_github",
   "id": "git:github",
   "kind": "section",

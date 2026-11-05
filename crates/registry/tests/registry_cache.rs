@@ -89,7 +89,7 @@ async fn syncs_the_index_and_downloads_nothing_nobody_opened() {
 
     let report = sync_registry(&fixture.context).await.expect("a sync");
 
-    assert_eq!(report.servers, 11);
+    assert_eq!(report.servers, 12);
     assert!(report.refreshed.is_empty() && report.failed.is_empty());
     assert_eq!(*fixture.fetched.borrow(), [link("index.json")]);
     assert_eq!(cache_keys(&fixture), ["index.json"]);
