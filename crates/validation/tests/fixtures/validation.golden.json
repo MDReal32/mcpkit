@@ -2132,7 +2132,11 @@
           "env": 2,
           "hint": 3,
           "placeholder": 4,
-          "matchGitRemote": "y"
+          "matchGitRemote": "y",
+          "suggestedHosts": [
+            "https://x"
+          ],
+          "loopbackHttp": "y"
         }
       },
       "errors": [
@@ -2141,7 +2145,9 @@
         "domain.env must be a string",
         "domain.hint must be a string",
         "domain.placeholder must be a string",
-        "domain.matchGitRemote must be a boolean"
+        "domain.matchGitRemote must be a boolean",
+        "domain.suggestedHosts must be a list of host[:port][/path]",
+        "domain.loopbackHttp must be a boolean"
       ]
     },
     {
@@ -2173,7 +2179,12 @@
         ],
         "domain": {
           "default": "ghe.example.com/api/v3",
-          "matchGitRemote": true
+          "matchGitRemote": true,
+          "suggestedHosts": [
+            "ghe.example.com/api/v3",
+            "localhost:8080"
+          ],
+          "loopbackHttp": true
         }
       },
       "errors": []

@@ -59,7 +59,9 @@ Figma reads a personal access token in `FIGMA_ACCESS_TOKEN` and sends it as `X-F
 group and the resource; operations that do not accept a personal access token (OAuth apps, organization plan tokens) are
 skipped. `files:files:get_file` returns the whole document: read parts with `get_file_nodes` and `ids`, or pass `depth`.
 
-n8n reads its host in `N8N_HOST` and an API key in `N8N_API_KEY`, sent as `X-N8N-API-KEY` to `https://<host>/api/v1`.
+n8n reads its host in `N8N_HOST` and an API key in `N8N_API_KEY`, sent as `X-N8N-API-KEY` to `https://<host>/api/v1`
+(`http://` for `localhost` and `127.0.0.1`, `domain.loopbackHttp`); the host field offers `app.n8n.cloud` and
+`localhost:5678` (`domain.suggestedHosts`).
 The spec is the bundled one n8n ships in its npm package (`dist/public-api/v1/openapi.yml`, version pinned in
 `SPEC_URL`). Each operation's tag picks the group (`SERVER_GROUPS`) and the resource (`TAG_RESOURCES`); deprecated
 operations are skipped, and the n8n package imports are `multipart/form-data` uploads with one file part.

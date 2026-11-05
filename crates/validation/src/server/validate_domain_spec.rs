@@ -1,3 +1,4 @@
+use crate::guards::is_domain_value_list;
 use crate::server::consts::DOMAIN_TEXT_KEYS;
 use crate::server::read_templatable_urls::read_templatable_urls;
 use serde_json::{Map, Value};
@@ -34,6 +35,15 @@ pub fn validate_domain_spec(manifest: &Map<String, Value>) -> Vec<String> {
     }
     if domain.get("matchGitRemote").is_some_and(|value| !value.is_boolean()) {
         errors.push("domain.matchGitRemote must be a boolean".to_owned());
+    }
+    if domain
+        .get("suggestedHosts")
+        .is_some_and(|hosts| !is_domain_value_list(hosts))
+    {
+        errors.push("domain.suggestedHosts must be a list of host[:port][/path]".to_owned());
+    }
+    if domain.get("loopbackHttp").is_some_and(|value| !value.is_boolean()) {
+        errors.push("domain.loopbackHttp must be a boolean".to_owned());
     }
     errors
 }

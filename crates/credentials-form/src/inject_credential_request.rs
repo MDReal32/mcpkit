@@ -41,6 +41,7 @@ mod tests {
             texts: IndexMap::new(),
             domain: None,
             domain_in_use: None,
+            loopback_http: false,
             options: Vec::new(),
             sign_in: false,
         }

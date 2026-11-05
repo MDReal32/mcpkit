@@ -7,5 +7,12 @@ export const HTTP_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE"] as const;
 
 export const DOMAIN_PLACEHOLDER = "{domain}";
 
+/** Hosts a `domain.loopbackHttp` server reaches over `http://`. */
+export const LOOPBACK_HOSTS: readonly string[] = ["localhost", "127.0.0.1"];
+
+export const HTTPS_PREFIX = "https://";
+
+export const HTTP_PREFIX = "http://";
+
 /** A host with an optional port and path, for example `ghe.example.com/api/v3`. */
 export const DOMAIN_VALUE_PATTERN = /^[a-z0-9]([a-z0-9.-]*[a-z0-9])?(:\d{1,5})?(\/[a-z0-9._~-]+)*$/i;

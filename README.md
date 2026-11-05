@@ -175,9 +175,11 @@ whole document and can be enormous: read parts with `files:files:get_file_nodes`
 operations that accept only an OAuth app or an organization plan token (teams, folder metadata, logs, AI usage,
 duplicating a file) are left out, and variables need an Enterprise plan.
 
-n8n asks for the instance host first (`N8N_HOST`, for example `acme.app.n8n.cloud` or `n8n.example.com/automation`), then
-for an API key (n8n → Settings → n8n API) in `N8N_API_KEY`, sent as `X-N8N-API-KEY` to `https://<host>/api/v1`. The
-instance must have the public API enabled and be served over HTTPS, so a plain `http://localhost:5678` does not work.
+n8n asks for the instance host first (`N8N_HOST`, for example `acme.app.n8n.cloud` or `n8n.example.com/automation`; the
+field also offers `app.n8n.cloud` and `localhost:5678`, neither picked by default), then for an API key (n8n → Settings →
+n8n API) in `N8N_API_KEY`, sent as `X-N8N-API-KEY` to `https://<host>/api/v1`. A `localhost` or `127.0.0.1` host is
+reached over `http://`, since a local n8n has no certificate; any other host needs HTTPS. The instance must have the
+public API enabled.
 The key's scopes (enterprise plans) or its user's role decide what the AI can do, and licensed features (source control,
 SSO, LDAP, log streaming, promotions, policies) answer 403 on instances without them. Deprecated operations
 (`activateWorkflow`, `deactivateWorkflow`) are left out; publish and unpublish a workflow instead.
@@ -368,6 +370,10 @@ trust: its `cli` buttons name the programs usemcpkit runs when you click them.
 
 The domain comes from the env var, else `config.json`, else `default`. The form shows it prefilled and lets the
 user change it (`host[:port][/path]`, no scheme), unless the env var is set.
+`suggestedHosts` lists hosts the field offers after the saved ones (n8n offers `app.n8n.cloud` and `localhost:5678`);
+offering one does not pick it. With `loopbackHttp: true`, a `localhost` or `127.0.0.1` domain is reached over
+`http://` in `baseUrl`, the upstream and OAuth URLs and `{domain}` links; every other server stays on `https://`, even on
+localhost.
 
 **OAuth 2.0 with PKCE.** The user signs in once in the browser against the provider directly:
 

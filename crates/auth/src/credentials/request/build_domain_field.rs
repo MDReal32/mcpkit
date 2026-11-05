@@ -22,5 +22,6 @@ pub fn build_domain_field(
         placeholder: spec.placeholder.clone().unwrap_or_else(|| text("domainPlaceholder")),
         value: domain.unwrap_or_default().to_owned(),
         known_hosts,
+        suggested_hosts: spec.suggested_hosts.clone().unwrap_or_default(),
     })
 }

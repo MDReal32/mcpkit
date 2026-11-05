@@ -3,7 +3,7 @@ use crate::credentials::request::build_domain_field::build_domain_field;
 use crate::credentials::request::to_credential_option::to_credential_option;
 use crate::ui::build_ui_texts;
 use usemcpkit_core::env::Env;
-use usemcpkit_manifest::Manifest;
+use usemcpkit_manifest::{DomainSpec, Manifest};
 
 /// What the credentials page shows for the server: its texts, the domain field, the fallback entries to fill in and
 /// whether it can sign in.
@@ -19,6 +19,7 @@ pub fn build_credential_request(
         server_name: manifest.name.clone(),
         domain: build_domain_field(manifest, domain, known_hosts, env, &texts),
         domain_in_use: domain.map(str::to_owned),
+        loopback_http: manifest.domain.as_ref().is_some_and(DomainSpec::allows_loopback_http),
         options: auth
             .iter()
             .enumerate()

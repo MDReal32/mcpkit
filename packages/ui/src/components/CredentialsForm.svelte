@@ -77,6 +77,7 @@
       newHostHint={texts.domainNewHost}
       showHostsLabel={texts.domainShowHosts}
       knownHosts={request.domain.knownHosts}
+      suggestedHosts={request.domain.suggestedHosts ?? []}
       bind:value={draft.domain}
     />
   {/if}

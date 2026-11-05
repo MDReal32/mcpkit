@@ -18,4 +18,16 @@ pub struct DomainSpec {
     /// Picks the saved host the git remote of the working directory points at.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub match_git_remote: Option<bool>,
+    /// Hosts the domain field offers besides the saved ones; offering one does not pick it.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub suggested_hosts: Option<Vec<String>>,
+    /// Reaches a `localhost` or `127.0.0.1` domain over `http://`, for servers that usually run locally without TLS.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub loopback_http: Option<bool>,
+}
+
+impl DomainSpec {
+    pub fn allows_loopback_http(&self) -> bool {
+        self.loopback_http == Some(true)
+    }
 }

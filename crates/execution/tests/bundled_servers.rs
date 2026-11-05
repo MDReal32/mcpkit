@@ -627,3 +627,33 @@ async fn n8n_retries_an_execution_with_the_body_it_was_given() {
     );
     assert_eq!(body(&request), json!({ "loadWorkflow": true }));
 }
+
+#[tokio::test]
+async fn n8n_reaches_a_local_instance_over_http() {
+    let n8n = built_server("automation/n8n");
+
+    let request = send(
+        &n8n,
+        "workflows:workflows:get_workflows",
+        json!({}),
+        &[("N8N_HOST", "localhost:5678"), ("N8N_API_KEY", "n8n_key")],
+    )
+    .await;
+
+    assert_eq!(endpoint(&request), "http://localhost:5678/api/v1/workflows");
+}
+
+#[tokio::test]
+async fn a_server_without_loopback_http_keeps_https_on_localhost() {
+    let gitlab = built_server("git/gitlab");
+
+    let request = send(
+        &gitlab,
+        "projects:projects:list_projects",
+        json!({}),
+        &[("GITLAB_HOST", "localhost:8443"), ("GITLAB_TOKEN", "t")],
+    )
+    .await;
+
+    assert_eq!(endpoint(&request), "https://localhost:8443/api/v4/projects");
+}

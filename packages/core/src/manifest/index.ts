@@ -5,6 +5,7 @@ export { listAuthEnvNames } from "./auth/list-auth-env-names";
 export { SERVER_NAME_PATTERN, TOOL_NAME_PATTERN } from "./const";
 export { applyDomain } from "./domain/apply-domain";
 export { isDomainValue } from "./domain/is-domain-value";
+export { toLoopbackHttpUrl } from "./domain/to-loopback-http-url";
 export { toNameMapping } from "./to-name-mapping";
 export type { AuthSpec } from "./types/auth/auth-spec";
 export type { FallbackAuth } from "./types/auth/fallback-auth";

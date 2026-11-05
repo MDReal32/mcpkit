@@ -10,6 +10,8 @@ export interface CredentialRequest {
   domain?: DomainField;
   /** The domain in use when the form opened; the form's own domain field wins when it has one. */
   domainInUse?: string;
+  /** Links to a `localhost` or `127.0.0.1` domain open over `http://` (the manifest's `domain.loopbackHttp`). */
+  loopbackHttp?: boolean;
   options: readonly CredentialOption[];
   /** Whether the server offers an OAuth2 browser sign-in. */
   signIn: boolean;

@@ -10,4 +10,8 @@ export interface DomainSpec {
   env?: string;
   /** Picks the saved host the git remote of the working directory points at, so a repository needs no question. */
   matchGitRemote?: boolean;
+  /** Hosts the domain field offers besides the saved ones; offering one does not pick it. */
+  suggestedHosts?: readonly string[];
+  /** Reaches a `localhost` or `127.0.0.1` domain over `http://`, for servers that usually run locally without TLS. */
+  loopbackHttp?: boolean;
 }

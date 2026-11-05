@@ -20,7 +20,7 @@ export const resolveVisibleActions = (
       visible.push({ index, type: "cli", label: action.label });
       return;
     }
-    const href = resolveLinkUrl(action.url, domain);
+    const href = resolveLinkUrl(action.url, domain, request.loopbackHttp === true);
     if (href) {
       visible.push({ index, type: "link", label: action.label, href });
     }
