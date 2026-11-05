@@ -6,7 +6,7 @@ The server definitions usemcpkit ships, and the generators that write most of th
 ```
 src/servers/<name>/<name>.ts            one defineServer export per server
 src/servers/<name>/tools/<resource>/<action>.ts      one tool per file
-src/servers/<name>/tools/<group>/<resource>/<action>.ts   grouped servers (github, gitlab, jira, confluence, clickup, discord, figma, reddit)
+src/servers/<name>/tools/<group>/<resource>/<action>.ts   grouped servers (github, gitlab, jira, confluence, clickup, discord, figma, n8n, reddit)
 src/providers/<name>/                   manifest base shared by a provider's tools (host, headers, auth, editions)
 generator/                              OpenAPI → server definitions
 plugins/manifests/                      Vite plugin: compiles and validates src/servers, writes build/manifests
@@ -36,6 +36,7 @@ params in `const.ts`. Servers that live in a category folder (`servers/<category
 | `clickup` | `productivity` | ClickUp (`api.clickup.com`) | the ClickUp REST API v2 and v3 (171 operations) in eight groups, for example `tasks:tasks:get_tasks`, `hierarchy:lists:create_list`, `docs:docs:search_for_docs` |
 | `discord` | `communication` | Discord (`discord.com/api/v10`) | the Discord HTTP API v10 as a bot (241 operations) in eight groups, for example `channels:messages:create_message`, `guilds:roles:list_guild_roles`, `webhooks:webhooks:execute_webhook` |
 | `figma` | `design` | Figma (`api.figma.com`) | the Figma REST API with a personal access token (50 operations) in five groups, for example `files:files:get_file_nodes`, `files:comments:post_comment`, `library:components:get_file_components` |
+| `n8n` | `automation` | n8n Cloud, self-hosted n8n (HTTPS) | the n8n public REST API (169 operations) in seven groups, for example `workflows:workflows:get_workflows`, `workflows:executions:retry_execution`, `data_tables:tables:create_data_table_rows` |
 | `reddit` | `communication` | Reddit (`oauth.reddit.com`) | 11 read tools in four groups from a hand-written OpenAPI subset, for example `posts:posts:list_subreddit_posts`, `posts:comments:get_post_comments`, `users:comments:list_user_comments` |
 
 GitLab reads `GITLAB_HOST` (default `gitlab.com`) and a personal access token in `GITLAB_TOKEN`. Tools take a project
@@ -58,6 +59,11 @@ Figma reads a personal access token in `FIGMA_ACCESS_TOKEN` and sends it as `X-F
 group and the resource; operations that do not accept a personal access token (OAuth apps, organization plan tokens) are
 skipped. `files:files:get_file` returns the whole document: read parts with `get_file_nodes` and `ids`, or pass `depth`.
 
+n8n reads its host in `N8N_HOST` and an API key in `N8N_API_KEY`, sent as `X-N8N-API-KEY` to `https://<host>/api/v1`.
+The spec is the bundled one n8n ships in its npm package (`dist/public-api/v1/openapi.yml`, version pinned in
+`SPEC_URL`). Each operation's tag picks the group (`SERVER_GROUPS`) and the resource (`TAG_RESOURCES`); deprecated
+operations are skipped, and the n8n package imports are `multipart/form-data` uploads with one file part.
+
 Reddit reads an OAuth access token in `REDDIT_ACCESS_TOKEN` (scopes `read`, `identity`) and sends a descriptive
 `User-Agent`, which Reddit requires. Reddit publishes no OpenAPI description, so the generator reads one written by hand
 in `generator/providers/reddit/openapi.json`; add an endpoint there and regenerate. Each operation's tags are
@@ -66,7 +72,7 @@ listings come back trimmed; page with `after` set to the last item's `name`.
 
 ## Generators
 
-`github`, `gitlab`, `jira`, `confluence`, `clickup`, `discord`, `figma` and `reddit` are generated from OpenAPI descriptions (Reddit's written by hand, since it publishes none). Never edit the
+`github`, `gitlab`, `jira`, `confluence`, `clickup`, `discord`, `figma`, `n8n` and `reddit` are generated from OpenAPI descriptions (Reddit's written by hand, since it publishes none). Never edit the
 generated files by hand; change the generator and run it again. The generator formats its own output with Biome.
 
 ```bash
@@ -78,10 +84,11 @@ yarn workspace @usemcpkit/servers generate jira platform.json software.json
 yarn workspace @usemcpkit/servers generate clickup v2.json v3.yaml
 yarn workspace @usemcpkit/servers generate discord openapi.json
 yarn workspace @usemcpkit/servers generate figma openapi.yaml
+yarn workspace @usemcpkit/servers generate n8n openapi.yml
 ```
 
 Local spec paths are matched, in order, to the provider's specs: `github` one OpenAPI JSON, `gitlab` one OpenAPI YAML,
-`jira` the platform and software documents, `confluence` Cloud v2, Cloud v1 and Data Center, `clickup` the v2 and v3 documents, `discord` one OpenAPI JSON, `figma` one OpenAPI YAML. Without paths the
+`jira` the platform and software documents, `confluence` Cloud v2, Cloud v1 and Data Center, `clickup` the v2 and v3 documents, `discord` one OpenAPI JSON, `figma` and `n8n` one OpenAPI YAML. Without paths the
 generator downloads them (URLs in each provider's `const.ts`).
 
 Layout:

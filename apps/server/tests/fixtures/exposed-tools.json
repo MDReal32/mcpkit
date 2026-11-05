@@ -37617,6 +37617,1385 @@
   }
  },
  {
+  "name": "automation_n8n",
+  "id": "automation:n8n",
+  "kind": "section",
+  "description": "n8n public REST API of an n8n Cloud or self-hosted instance: workflows (create, update, publish, activate, archive, transfer, history, tags), executions (list, read, retry, stop), evaluation test runs, credentials and credential type policies, data tables with their columns and rows, projects with their folders, members and variables, users, roles and role mapping rules, instance settings (LDAP, SSO, log streaming, OpenTelemetry, security and node type policies), the security audit, community packages, source control, insights and environment promotions. Tools are named '<group>:<resource>:<action>'. Which tools work depends on the instance's plan and version and on the API key's scopes; enterprise features answer 403 without a license. Deprecated operations are not included.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_workflows",
+  "id": "automation:n8n:workflows",
+  "kind": "section",
+  "description": "Group \"workflows\" of automation:n8n. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_executions_1f0c0b",
+  "id": "automation:n8n:workflows:executions:delete_execution",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false,
+   "destructiveHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_executions_get_363675",
+  "id": "automation:n8n:workflows:executions:get_execution",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_executions_get_292044",
+  "id": "automation:n8n:workflows:executions:get_execution_tags",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_executions_get_cd3063",
+  "id": "automation:n8n:workflows:executions:get_executions",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_executions_80bb4f",
+  "id": "automation:n8n:workflows:executions:retry_execution",
+  "kind": "tool"
+ },
+ {
+  "name": "automation_n8n_workflows_executions_stop_ef53b2",
+  "id": "automation:n8n:workflows:executions:stop_execution",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_executions_stop_374c9d",
+  "id": "automation:n8n:workflows:executions:stop_many_executions",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_executions_47d1af",
+  "id": "automation:n8n:workflows:executions:update_execution_tags",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_tags_create_tag",
+  "id": "automation:n8n:workflows:tags:create_tag",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_tags_delete_tag",
+  "id": "automation:n8n:workflows:tags:delete_tag",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false,
+   "destructiveHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_tags_get_tag",
+  "id": "automation:n8n:workflows:tags:get_tag",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_tags_get_tags",
+  "id": "automation:n8n:workflows:tags:get_tags",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_tags_update_tag",
+  "id": "automation:n8n:workflows:tags:update_tag",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_test_runs_c515ce",
+  "id": "automation:n8n:workflows:test_runs:cancel_test_run",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false,
+   "destructiveHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_test_runs_bd8283",
+  "id": "automation:n8n:workflows:test_runs:create_test_run",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_test_runs_get_e3d0ed",
+  "id": "automation:n8n:workflows:test_runs:get_test_cases",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_test_runs_get_test_run",
+  "id": "automation:n8n:workflows:test_runs:get_test_run",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_test_runs_get_test_runs",
+  "id": "automation:n8n:workflows:test_runs:get_test_runs",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_archive_workflow",
+  "id": "automation:n8n:workflows:workflows:archive_workflow",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_create_workflow",
+  "id": "automation:n8n:workflows:workflows:create_workflow",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_delete_workflow",
+  "id": "automation:n8n:workflows:workflows:delete_workflow",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false,
+   "destructiveHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_get_workflow",
+  "id": "automation:n8n:workflows:workflows:get_workflow",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_get_workflow_becc7b",
+  "id": "automation:n8n:workflows:workflows:get_workflow_dependencies",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_get_workflow_history",
+  "id": "automation:n8n:workflows:workflows:get_workflow_history",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_get_workflow_tags",
+  "id": "automation:n8n:workflows:workflows:get_workflow_tags",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_get_workflow_version",
+  "id": "automation:n8n:workflows:workflows:get_workflow_version",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_get_workflows",
+  "id": "automation:n8n:workflows:workflows:get_workflows",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_publish_workflow",
+  "id": "automation:n8n:workflows:workflows:publish_workflow",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_transfer_workflow",
+  "id": "automation:n8n:workflows:workflows:transfer_workflow",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_unarchive_workflow",
+  "id": "automation:n8n:workflows:workflows:unarchive_workflow",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_unpublish_workflow",
+  "id": "automation:n8n:workflows:workflows:unpublish_workflow",
+  "kind": "tool"
+ },
+ {
+  "name": "automation_n8n_workflows_update_workflow",
+  "id": "automation:n8n:workflows:workflows:update_workflow",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_workflows_update_workflow_tags",
+  "id": "automation:n8n:workflows:workflows:update_workflow_tags",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_credentials",
+  "id": "automation:n8n:credentials",
+  "kind": "section",
+  "description": "Group \"credentials\" of automation:n8n. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_credentials_create_credential",
+  "id": "automation:n8n:credentials:credentials:create_credential",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_credentials_delete_credential",
+  "id": "automation:n8n:credentials:credentials:delete_credential",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false,
+   "destructiveHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_credentials_get_credential",
+  "id": "automation:n8n:credentials:credentials:get_credential",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_credentials_get_ab2578",
+  "id": "automation:n8n:credentials:credentials:get_credential_dependencies",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_credentials_get_credential_type",
+  "id": "automation:n8n:credentials:credentials:get_credential_type",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_credentials_get_credentials",
+  "id": "automation:n8n:credentials:credentials:get_credentials",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_credentials_test_credential",
+  "id": "automation:n8n:credentials:credentials:test_credential",
+  "kind": "tool"
+ },
+ {
+  "name": "automation_n8n_credentials_transfer_credential",
+  "id": "automation:n8n:credentials:credentials:transfer_credential",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_credentials_update_credential",
+  "id": "automation:n8n:credentials:credentials:update_credential",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_credentials_type_policies_77852f",
+  "id": "automation:n8n:credentials:type_policies:create_credential_type_policy_document",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_credentials_type_policies_ffae7d",
+  "id": "automation:n8n:credentials:type_policies:delete_credential_type_policy_document",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false,
+   "destructiveHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_credentials_type_policies_861ae7",
+  "id": "automation:n8n:credentials:type_policies:get_credential_type_instance_policy",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_credentials_type_policies_b4ea72",
+  "id": "automation:n8n:credentials:type_policies:get_credential_type_policy_attachments",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_credentials_type_policies_ca15f5",
+  "id": "automation:n8n:credentials:type_policies:get_credential_type_policy_document",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_credentials_type_policies_59a4c4",
+  "id": "automation:n8n:credentials:type_policies:get_credential_type_project_policy",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_credentials_type_policies_aaa38e",
+  "id": "automation:n8n:credentials:type_policies:list_credential_type_policy_documents",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_credentials_type_policies_0a376e",
+  "id": "automation:n8n:credentials:type_policies:put_credential_type_instance_policy",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_credentials_type_policies_204b14",
+  "id": "automation:n8n:credentials:type_policies:put_credential_type_project_policy",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_credentials_type_policies_09bfcc",
+  "id": "automation:n8n:credentials:type_policies:replace_credential_type_policy_attachments",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_credentials_type_policies_58e204",
+  "id": "automation:n8n:credentials:type_policies:update_credential_type_policy_document",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_data_tables",
+  "id": "automation:n8n:data_tables",
+  "kind": "section",
+  "description": "Group \"data_tables\" of automation:n8n. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_data_tables_tables_clear_a510de",
+  "id": "automation:n8n:data_tables:tables:clear_data_table_rows",
+  "kind": "tool"
+ },
+ {
+  "name": "automation_n8n_data_tables_tables_create_d07184",
+  "id": "automation:n8n:data_tables:tables:create_data_table",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_data_tables_tables_create_afe4d0",
+  "id": "automation:n8n:data_tables:tables:create_data_table_column",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_data_tables_tables_create_8cd78f",
+  "id": "automation:n8n:data_tables:tables:create_data_table_rows",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_data_tables_tables_delete_2d0b72",
+  "id": "automation:n8n:data_tables:tables:delete_data_table",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false,
+   "destructiveHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_data_tables_tables_delete_4bc6f0",
+  "id": "automation:n8n:data_tables:tables:delete_data_table_column",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false,
+   "destructiveHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_data_tables_tables_delete_50a845",
+  "id": "automation:n8n:data_tables:tables:delete_data_table_rows",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false,
+   "destructiveHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_data_tables_tables_get_data_table",
+  "id": "automation:n8n:data_tables:tables:get_data_table",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_data_tables_tables_get_119c98",
+  "id": "automation:n8n:data_tables:tables:get_data_table_dependencies",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_data_tables_tables_list_989946",
+  "id": "automation:n8n:data_tables:tables:list_data_table_columns",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_data_tables_tables_list_187258",
+  "id": "automation:n8n:data_tables:tables:list_data_table_rows",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_data_tables_tables_list_5e5cb7",
+  "id": "automation:n8n:data_tables:tables:list_data_tables",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_data_tables_tables_update_c88162",
+  "id": "automation:n8n:data_tables:tables:update_data_table",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_data_tables_tables_update_d8cc11",
+  "id": "automation:n8n:data_tables:tables:update_data_table_column",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_data_tables_tables_update_8fefef",
+  "id": "automation:n8n:data_tables:tables:update_data_table_rows",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_data_tables_tables_upsert_7cbaba",
+  "id": "automation:n8n:data_tables:tables:upsert_data_table_row",
+  "kind": "tool"
+ },
+ {
+  "name": "automation_n8n_projects",
+  "id": "automation:n8n:projects",
+  "kind": "section",
+  "description": "Group \"projects\" of automation:n8n. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_projects_folders_create_folder",
+  "id": "automation:n8n:projects:folders:create_folder",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_projects_folders_delete_folder",
+  "id": "automation:n8n:projects:folders:delete_folder",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false,
+   "destructiveHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_projects_folders_get_folder",
+  "id": "automation:n8n:projects:folders:get_folder",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_projects_folders_list_folders",
+  "id": "automation:n8n:projects:folders:list_folders",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_projects_folders_update_folder",
+  "id": "automation:n8n:projects:folders:update_folder",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_projects_add_users_to_project",
+  "id": "automation:n8n:projects:projects:add_users_to_project",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_projects_change_user_role_c12c88",
+  "id": "automation:n8n:projects:projects:change_user_role_in_project",
+  "kind": "tool"
+ },
+ {
+  "name": "automation_n8n_projects_create_project",
+  "id": "automation:n8n:projects:projects:create_project",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_projects_delete_project",
+  "id": "automation:n8n:projects:projects:delete_project",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false,
+   "destructiveHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_projects_delete_user_from_project",
+  "id": "automation:n8n:projects:projects:delete_user_from_project",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false,
+   "destructiveHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_projects_get_project_users",
+  "id": "automation:n8n:projects:projects:get_project_users",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_projects_get_projects",
+  "id": "automation:n8n:projects:projects:get_projects",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_projects_update_project",
+  "id": "automation:n8n:projects:projects:update_project",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_projects_variables_create_3f102a",
+  "id": "automation:n8n:projects:variables:create_variable",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_projects_variables_delete_ea515f",
+  "id": "automation:n8n:projects:variables:delete_variable",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false,
+   "destructiveHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_projects_variables_get_variables",
+  "id": "automation:n8n:projects:variables:get_variables",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_projects_variables_update_e299a3",
+  "id": "automation:n8n:projects:variables:update_variable",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_users",
+  "id": "automation:n8n:users",
+  "kind": "section",
+  "description": "Group \"users\" of automation:n8n. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_users_role_mapping_rules_9e7d7e",
+  "id": "automation:n8n:users:role_mapping_rules:create_role_mapping_rule",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_users_role_mapping_rules_e2a952",
+  "id": "automation:n8n:users:role_mapping_rules:delete_role_mapping_rule",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false,
+   "destructiveHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_users_role_mapping_rules_47a168",
+  "id": "automation:n8n:users:role_mapping_rules:get_role_mapping_rules",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_users_role_mapping_rules_07d605",
+  "id": "automation:n8n:users:role_mapping_rules:move_role_mapping_rule",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_users_role_mapping_rules_64bdbb",
+  "id": "automation:n8n:users:role_mapping_rules:update_role_mapping_rule",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_users_roles_create_role",
+  "id": "automation:n8n:users:roles:create_role",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_users_roles_delete_role",
+  "id": "automation:n8n:users:roles:delete_role",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false,
+   "destructiveHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_users_roles_get_all_roles",
+  "id": "automation:n8n:users:roles:get_all_roles",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_users_roles_get_role",
+  "id": "automation:n8n:users:roles:get_role",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_users_roles_update_role",
+  "id": "automation:n8n:users:roles:update_role",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_users_change_role",
+  "id": "automation:n8n:users:users:change_role",
+  "kind": "tool"
+ },
+ {
+  "name": "automation_n8n_users_create_user",
+  "id": "automation:n8n:users:users:create_user",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_users_delete_user",
+  "id": "automation:n8n:users:users:delete_user",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false,
+   "destructiveHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_users_get_user",
+  "id": "automation:n8n:users:users:get_user",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_users_get_users",
+  "id": "automation:n8n:users:users:get_users",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_settings",
+  "id": "automation:n8n:settings",
+  "kind": "section",
+  "description": "Group \"settings\" of automation:n8n. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_settings_ldap_get_ldap_40c642",
+  "id": "automation:n8n:settings:ldap:get_ldap_configuration",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_settings_ldap_get_ldap_sync",
+  "id": "automation:n8n:settings:ldap:get_ldap_sync",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_settings_ldap_run_ldap_sync",
+  "id": "automation:n8n:settings:ldap:run_ldap_sync",
+  "kind": "tool"
+ },
+ {
+  "name": "automation_n8n_settings_ldap_update_ldap_b42d45",
+  "id": "automation:n8n:settings:ldap:update_ldap_configuration",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_settings_log_streaming_2959a4",
+  "id": "automation:n8n:settings:log_streaming:create_log_streaming_destination",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_settings_log_streaming_66ddd4",
+  "id": "automation:n8n:settings:log_streaming:delete_log_streaming_destination",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false,
+   "destructiveHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_settings_log_streaming_947aee",
+  "id": "automation:n8n:settings:log_streaming:get_log_streaming_destination",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_settings_log_streaming_e421c6",
+  "id": "automation:n8n:settings:log_streaming:get_log_streaming_destinations",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_settings_log_streaming_956fec",
+  "id": "automation:n8n:settings:log_streaming:get_log_streaming_event_types",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_settings_log_streaming_2749cb",
+  "id": "automation:n8n:settings:log_streaming:test_log_streaming_destination",
+  "kind": "tool"
+ },
+ {
+  "name": "automation_n8n_settings_log_streaming_7b0c1b",
+  "id": "automation:n8n:settings:log_streaming:update_log_streaming_destination",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_settings_node_type_100291",
+  "id": "automation:n8n:settings:node_type_policies:create_node_type_policy_document",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_settings_node_type_8d44e9",
+  "id": "automation:n8n:settings:node_type_policies:delete_node_type_policy_document",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false,
+   "destructiveHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_settings_node_type_e70303",
+  "id": "automation:n8n:settings:node_type_policies:get_node_type_instance_policy",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_settings_node_type_63f16f",
+  "id": "automation:n8n:settings:node_type_policies:get_node_type_policy_attachments",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_settings_node_type_e38776",
+  "id": "automation:n8n:settings:node_type_policies:get_node_type_policy_document",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_settings_node_type_5f1a88",
+  "id": "automation:n8n:settings:node_type_policies:get_node_type_project_policy",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_settings_node_type_fecdb2",
+  "id": "automation:n8n:settings:node_type_policies:list_node_type_policy_documents",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_settings_node_type_c82cf1",
+  "id": "automation:n8n:settings:node_type_policies:put_node_type_instance_policy",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_settings_node_type_45481e",
+  "id": "automation:n8n:settings:node_type_policies:put_node_type_project_policy",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_settings_node_type_daf518",
+  "id": "automation:n8n:settings:node_type_policies:replace_node_type_policy_attachments",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_settings_node_type_8f3060",
+  "id": "automation:n8n:settings:node_type_policies:update_node_type_policy_document",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_settings_oidc_get_oidc_7a5201",
+  "id": "automation:n8n:settings:oidc:get_oidc_configuration",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_settings_oidc_set_oidc_7645a9",
+  "id": "automation:n8n:settings:oidc:set_oidc_configuration",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_settings_otel_get_otel_settings",
+  "id": "automation:n8n:settings:otel:get_otel_settings",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_settings_otel_test_otel_trace",
+  "id": "automation:n8n:settings:otel:test_otel_trace",
+  "kind": "tool"
+ },
+ {
+  "name": "automation_n8n_settings_otel_update_otel_795f80",
+  "id": "automation:n8n:settings:otel:update_otel_settings",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_settings_saml_get_saml_c72025",
+  "id": "automation:n8n:settings:saml:get_saml_configuration",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_settings_saml_update_saml_1420f0",
+  "id": "automation:n8n:settings:saml:update_saml_configuration",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_settings_security_policy_1f17de",
+  "id": "automation:n8n:settings:security_policy:get_security_policy",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_settings_security_policy_fb44fe",
+  "id": "automation:n8n:settings:security_policy:update_security_policy",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_instance",
+  "id": "automation:n8n:instance",
+  "kind": "section",
+  "description": "Group \"instance\" of automation:n8n. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to load its tools into the tool list.",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_instance_audit_generate_audit",
+  "id": "automation:n8n:instance:audit:generate_audit",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_instance_community_550fff",
+  "id": "automation:n8n:instance:community_packages:get_installed_packages",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_instance_community_6cfc6f",
+  "id": "automation:n8n:instance:community_packages:install_package",
+  "kind": "tool"
+ },
+ {
+  "name": "automation_n8n_instance_community_abbd86",
+  "id": "automation:n8n:instance:community_packages:uninstall_package",
+  "kind": "tool"
+ },
+ {
+  "name": "automation_n8n_instance_community_a42f83",
+  "id": "automation:n8n:instance:community_packages:update_package",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_instance_discover_get_discover",
+  "id": "automation:n8n:instance:discover:get_discover",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_instance_insights_get_13b165",
+  "id": "automation:n8n:instance:insights:get_insights_summary",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_instance_packages_export_package",
+  "id": "automation:n8n:instance:packages:export_package",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_instance_packages_import_package",
+  "id": "automation:n8n:instance:packages:import_package",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_instance_packages_import_fead11",
+  "id": "automation:n8n:instance:packages:import_package_selection",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_instance_promotions_add_58704f",
+  "id": "automation:n8n:instance:promotions:add_project_to_promotion_environment",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_instance_promotions_apply_package",
+  "id": "automation:n8n:instance:promotions:apply_package",
+  "kind": "tool"
+ },
+ {
+  "name": "automation_n8n_instance_promotions_apply_fdf63e",
+  "id": "automation:n8n:instance:promotions:apply_project_selection",
+  "kind": "tool"
+ },
+ {
+  "name": "automation_n8n_instance_promotions_83c3b9",
+  "id": "automation:n8n:instance:promotions:connect_promotion_checkout",
+  "kind": "tool"
+ },
+ {
+  "name": "automation_n8n_instance_promotions_fb8e03",
+  "id": "automation:n8n:instance:promotions:continue_apply_package",
+  "kind": "tool"
+ },
+ {
+  "name": "automation_n8n_instance_promotions_a247b4",
+  "id": "automation:n8n:instance:promotions:continue_apply_project_selection",
+  "kind": "tool"
+ },
+ {
+  "name": "automation_n8n_instance_promotions_eba404",
+  "id": "automation:n8n:instance:promotions:create_promotion_environment",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_instance_promotions_26806c",
+  "id": "automation:n8n:instance:promotions:create_promotion_provider",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_instance_promotions_b90f14",
+  "id": "automation:n8n:instance:promotions:delete_promotion_environment",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false,
+   "destructiveHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_instance_promotions_eb7714",
+  "id": "automation:n8n:instance:promotions:delete_promotion_provider",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false,
+   "destructiveHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_instance_promotions_8d4ac8",
+  "id": "automation:n8n:instance:promotions:disconnect_promotion_checkout",
+  "kind": "tool"
+ },
+ {
+  "name": "automation_n8n_instance_promotions_get_3bdcde",
+  "id": "automation:n8n:instance:promotions:get_promotion_changes",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_instance_promotions_get_ca3321",
+  "id": "automation:n8n:instance:promotions:get_promotion_environment",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_instance_promotions_get_4237fc",
+  "id": "automation:n8n:instance:promotions:get_promotion_environment_projects",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_instance_promotions_get_515104",
+  "id": "automation:n8n:instance:promotions:get_promotion_environments",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_instance_promotions_get_923d31",
+  "id": "automation:n8n:instance:promotions:get_promotion_provider",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_instance_promotions_get_09c378",
+  "id": "automation:n8n:instance:promotions:get_promotion_provider_repositories",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_instance_promotions_get_72f186",
+  "id": "automation:n8n:instance:promotions:get_promotion_provider_repository_branches",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_instance_promotions_get_c8fa86",
+  "id": "automation:n8n:instance:promotions:get_promotion_providers",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_instance_promotions_30edf2",
+  "id": "automation:n8n:instance:promotions:promote_package",
+  "kind": "tool"
+ },
+ {
+  "name": "automation_n8n_instance_promotions_53a443",
+  "id": "automation:n8n:instance:promotions:promote_project_selection",
+  "kind": "tool"
+ },
+ {
+  "name": "automation_n8n_instance_promotions_884aa1",
+  "id": "automation:n8n:instance:promotions:remove_project_from_promotion_environment",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false,
+   "destructiveHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_instance_promotions_97970c",
+  "id": "automation:n8n:instance:promotions:update_promotion_environment",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_instance_promotions_c64f4b",
+  "id": "automation:n8n:instance:promotions:update_promotion_provider",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": false
+  }
+ },
+ {
+  "name": "automation_n8n_instance_source_control_3dd35e",
+  "id": "automation:n8n:instance:source_control:get_source_control_status",
+  "kind": "tool",
+  "annotations": {
+   "readOnlyHint": true
+  }
+ },
+ {
+  "name": "automation_n8n_instance_source_control_371c38",
+  "id": "automation:n8n:instance:source_control:pull_source_control",
+  "kind": "tool"
+ },
+ {
+  "name": "automation_n8n_instance_source_control_9fe363",
+  "id": "automation:n8n:instance:source_control:push_source_control",
+  "kind": "tool"
+ },
+ {
   "name": "api_postman",
   "id": "api:postman",
   "kind": "section",

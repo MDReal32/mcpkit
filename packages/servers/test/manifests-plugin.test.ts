@@ -36,6 +36,7 @@ describe("compileServers", () => {
       "gitlab",
       "jira",
       "medium",
+      "n8n",
       "postman",
       "reddit",
       "teams",
