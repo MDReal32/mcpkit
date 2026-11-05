@@ -6,4 +6,6 @@ export interface DomainField {
   value: string;
   /** Hosts already used with this server, offered for picking; the user can still type a new one. */
   knownHosts: readonly string[];
+  /** Hosts the server suggests (`domain.suggestedHosts`), offered after the known ones; none is picked for the user. */
+  suggestedHosts?: readonly string[];
 }

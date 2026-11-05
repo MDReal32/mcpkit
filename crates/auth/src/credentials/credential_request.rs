@@ -14,6 +14,9 @@ pub struct CredentialRequest {
     /// The domain in use when the form opened; the form's own domain field wins when it has one.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub domain_in_use: Option<String>,
+    /// Links to a `localhost` or `127.0.0.1` domain open over `http://` (the manifest's `domain.loopbackHttp`).
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub loopback_http: bool,
     pub options: Vec<CredentialOption>,
     /// Whether the server offers an OAuth2 browser sign-in.
     pub sign_in: bool,

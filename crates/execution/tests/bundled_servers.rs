@@ -37,6 +37,8 @@ const REDDIT: &[(&str, &str)] = &[("REDDIT_ACCESS_TOKEN", "t")];
 
 const FIGMA: &[(&str, &str)] = &[("FIGMA_ACCESS_TOKEN", "figd_t")];
 
+const N8N: &[(&str, &str)] = &[("N8N_HOST", "n8n.acme.com/automation"), ("N8N_API_KEY", "n8n_key")];
+
 fn manifests_dir() -> PathBuf {
     Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/servers/build/manifests")
 }
@@ -585,4 +587,73 @@ async fn figma_posts_a_comment_as_the_token_owner() {
     assert_eq!(request.method, HttpMethod::Post);
     assert_eq!(request.url, "https://api.figma.com/v1/files/abc/comments");
     assert_eq!(body(&request)["message"], json!("hi"));
+}
+
+#[tokio::test]
+async fn n8n_lists_workflows_of_a_self_hosted_instance_with_the_key_in_x_n8n_api_key() {
+    let n8n = built_server("automation/n8n");
+
+    let request = send(
+        &n8n,
+        "workflows:workflows:get_workflows",
+        json!({ "active": true, "limit": 10 }),
+        N8N,
+    )
+    .await;
+
+    assert_eq!(request.method, HttpMethod::Get);
+    assert_eq!(endpoint(&request), "https://n8n.acme.com/automation/api/v1/workflows");
+    assert_eq!(query_value(&request, "active").as_deref(), Some("true"));
+    assert_eq!(query_value(&request, "limit").as_deref(), Some("10"));
+    assert_eq!(header(&request, "X-N8N-API-KEY"), Some("n8n_key"));
+}
+
+#[tokio::test]
+async fn n8n_retries_an_execution_with_the_body_it_was_given() {
+    let n8n = built_server("automation/n8n");
+
+    let request = send(
+        &n8n,
+        "workflows:executions:retry_execution",
+        json!({ "executionId": 42, "loadWorkflow": true }),
+        N8N,
+    )
+    .await;
+
+    assert_eq!(request.method, HttpMethod::Post);
+    assert_eq!(
+        request.url,
+        "https://n8n.acme.com/automation/api/v1/executions/42/retry"
+    );
+    assert_eq!(body(&request), json!({ "loadWorkflow": true }));
+}
+
+#[tokio::test]
+async fn n8n_reaches_a_local_instance_over_http() {
+    let n8n = built_server("automation/n8n");
+
+    let request = send(
+        &n8n,
+        "workflows:workflows:get_workflows",
+        json!({}),
+        &[("N8N_HOST", "localhost:5678"), ("N8N_API_KEY", "n8n_key")],
+    )
+    .await;
+
+    assert_eq!(endpoint(&request), "http://localhost:5678/api/v1/workflows");
+}
+
+#[tokio::test]
+async fn a_server_without_loopback_http_keeps_https_on_localhost() {
+    let gitlab = built_server("git/gitlab");
+
+    let request = send(
+        &gitlab,
+        "projects:projects:list_projects",
+        json!({}),
+        &[("GITLAB_HOST", "localhost:8443"), ("GITLAB_TOKEN", "t")],
+    )
+    .await;
+
+    assert_eq!(endpoint(&request), "https://localhost:8443/api/v4/projects");
 }

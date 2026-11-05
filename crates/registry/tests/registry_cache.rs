@@ -45,6 +45,14 @@ fn link(path: &str) -> String {
     format!("{DEFAULT_REGISTRY_URL}/{path}")
 }
 
+/// The servers of the built registry, so a new server needs no change here.
+fn indexed_server_count() -> usize {
+    let index: Value =
+        serde_json::from_str(&fs::read_to_string(registry_root().join("index.json")).expect("index.json"))
+            .expect("an index");
+    index["servers"].as_array().expect("a server list").len()
+}
+
 fn fixture(overrides: HashMap<String, String>) -> Fixture {
     let cache = TempDir::new().expect("a temp folder");
     let fetched = Rc::new(RefCell::new(Vec::new()));
@@ -89,7 +97,7 @@ async fn syncs_the_index_and_downloads_nothing_nobody_opened() {
 
     let report = sync_registry(&fixture.context).await.expect("a sync");
 
-    assert_eq!(report.servers, 12);
+    assert_eq!(report.servers, indexed_server_count());
     assert!(report.refreshed.is_empty() && report.failed.is_empty());
     assert_eq!(*fixture.fetched.borrow(), [link("index.json")]);
     assert_eq!(cache_keys(&fixture), ["index.json"]);

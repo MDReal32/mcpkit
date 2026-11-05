@@ -7,10 +7,11 @@ import { figma } from "../src/servers/figma/figma";
 import { github } from "../src/servers/github/github";
 import { gitlab } from "../src/servers/gitlab/gitlab";
 import { jira } from "../src/servers/jira/jira";
+import { n8n } from "../src/servers/n8n/n8n";
 import { reddit } from "../src/servers/reddit/reddit";
 
 describe("bundled servers", () => {
-  it.each([github, gitlab, jira, confluence, clickup, discord, figma, reddit])(
+  it.each([github, gitlab, jira, confluence, clickup, discord, figma, n8n, reddit])(
     "$name compiles to a valid manifest",
     (server) => {
       expect(validateManifest(JSON.parse(JSON.stringify(server)))).toEqual([]);
@@ -34,6 +35,17 @@ describe("figma", () => {
 
     expect(names).toContain("users:users:get_me");
     expect(names).not.toContain("projects:folders:post_team_folder");
+  });
+});
+
+describe("n8n", () => {
+  it("leaves out deprecated operations and uploads n8n packages as files", () => {
+    const names = n8n.tools.map((tool) => tool.name);
+    const importPackage = n8n.tools.find((tool) => tool.name === "instance:packages:import_package");
+
+    expect(names).toContain("workflows:workflows:get_workflows");
+    expect(names).not.toContain("workflows:workflows:activate_workflow");
+    expect(importPackage?.request.fileArgs).toEqual(["package"]);
   });
 });
 

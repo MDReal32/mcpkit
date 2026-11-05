@@ -1,14 +1,14 @@
 import type { AuthSpec } from "../types/auth/auth-spec";
-import { fillDomain } from "./fill-domain";
+import { fillDomainUrl } from "./fill-domain-url";
 
-export const applyAuthDomain = (auth: AuthSpec, domain: string) => {
+export const applyAuthDomain = (auth: AuthSpec, domain: string, loopbackHttp: boolean) => {
   if (auth.type !== "oauth") {
     return auth;
   }
   const resolved: AuthSpec = {
     ...auth,
-    authorizationUrl: fillDomain(auth.authorizationUrl, domain),
-    tokenUrl: fillDomain(auth.tokenUrl, domain),
+    authorizationUrl: fillDomainUrl(auth.authorizationUrl, domain, loopbackHttp),
+    tokenUrl: fillDomainUrl(auth.tokenUrl, domain, loopbackHttp),
   };
   return resolved;
 };

@@ -7,6 +7,7 @@
     newHostHint: string;
     showHostsLabel: string;
     knownHosts: readonly string[];
+    suggestedHosts: readonly string[];
     value: string;
   }
 
@@ -18,12 +19,14 @@
     newHostHint,
     showHostsLabel,
     knownHosts,
+    suggestedHosts,
     value = $bindable(),
   }: Props = $props();
 
   let open = $state(false);
   const listId = $derived(`${id}-hosts`);
   const typed = $derived(value.trim());
+  const offeredHosts = $derived([...knownHosts, ...suggestedHosts.filter((host) => !knownHosts.includes(host))]);
   const isNew = $derived(typed !== "" && !knownHosts.includes(typed));
 
   const pick = (host: string) => {
@@ -52,12 +55,12 @@
       spellcheck="false"
       {placeholder}
       bind:value
-      onfocus={() => (open = knownHosts.length > 0)}
-      oninput={() => (open = knownHosts.length > 0)}
+      onfocus={() => (open = offeredHosts.length > 0)}
+      oninput={() => (open = offeredHosts.length > 0)}
       onblur={() => (open = false)}
       onkeydown={closeOnEscape}
     />
-    {#if knownHosts.length > 0}
+    {#if offeredHosts.length > 0}
       <button
         type="button"
         class="combobox-toggle"
@@ -73,7 +76,7 @@
     {/if}
     {#if open}
       <ul class="combobox-list" id={listId} role="listbox">
-        {#each knownHosts as host (host)}
+        {#each offeredHosts as host (host)}
           <li role="presentation">
             <button
               type="button"

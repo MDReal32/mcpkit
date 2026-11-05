@@ -13,7 +13,7 @@
     },
     "serverInfo": {
      "name": "usemcpkit",
-     "version": "0.10.0"
+     "version": "0.11.0"
     }
    }
   },
@@ -142,6 +142,28 @@
      {
       "name": "communication_medium",
       "description": "Medium's API (api.medium.com/v1), which Medium has archived and no longer supports: it needs an integration token you already have, since Medium stopped issuing new ones. Get the authenticated user (account:me:get_me), list their publications and a publication's contributors, publish posts as HTML or Markdown to the profile or a publication (as a draft, unlisted or public), and upload an image. The API cannot read, edit or delete posts. Tools are named '<group>:<resource>:<action>'. `posts:posts:create_*` publishes under the token owner's name, so prefer publishStatus draft.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "automation_n8n",
+      "description": "n8n public REST API of an n8n Cloud or self-hosted instance: workflows (create, update, publish, activate, archive, transfer, history, tags), executions (list, read, retry, stop), evaluation test runs, credentials and credential type policies, data tables with their columns and rows, projects with their folders, members and variables, users, roles and role mapping rules, instance settings (LDAP, SSO, log streaming, OpenTelemetry, security and node type policies), the security audit, community packages, source control, insights and environment promotions. Tools are named '<group>:<resource>:<action>'. Which tools work depends on the instance's plan and version and on the API key's scopes; enterprise features answer 403 without a license. Deprecated operations are not included.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "api_postman",
+      "description": "Postman through Postman's own remote MCP server (github.com/postmanlabs/postman-mcp-server, mcp.postman.com) in its Full mode: workspaces, collections with their folders, requests, responses, comments, forks and pull requests, environments, mock servers, monitors, specs, the API catalog, governance rules, SDKs, teams and search. Tools that create, change or delete act with the API key's permissions.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
       "inputSchema": {
        "type": "object",
        "properties": {}
@@ -2488,6 +2510,28 @@
       },
       "annotations": {
        "readOnlyHint": false
+      }
+     },
+     {
+      "name": "automation_n8n",
+      "description": "n8n public REST API of an n8n Cloud or self-hosted instance: workflows (create, update, publish, activate, archive, transfer, history, tags), executions (list, read, retry, stop), evaluation test runs, credentials and credential type policies, data tables with their columns and rows, projects with their folders, members and variables, users, roles and role mapping rules, instance settings (LDAP, SSO, log streaming, OpenTelemetry, security and node type policies), the security audit, community packages, source control, insights and environment promotions. Tools are named '<group>:<resource>:<action>'. Which tools work depends on the instance's plan and version and on the API key's scopes; enterprise features answer 403 without a license. Deprecated operations are not included.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
+      }
+     },
+     {
+      "name": "api_postman",
+      "description": "Postman through Postman's own remote MCP server (github.com/postmanlabs/postman-mcp-server, mcp.postman.com) in its Full mode: workspaces, collections with their folders, requests, responses, comments, forks and pull requests, environments, mock servers, monitors, specs, the API catalog, governance rules, SDKs, teams and search. Tools that create, change or delete act with the API key's permissions.. This is a SECTION of usemcpkit, not a callable tool. Call it with no arguments to open it: it lists its groups (each one another section) or, when it has none, loads its tools into the tool list.",
+      "inputSchema": {
+       "type": "object",
+       "properties": {}
+      },
+      "annotations": {
+       "readOnlyHint": true
       }
      },
      {

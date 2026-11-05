@@ -170,6 +170,10 @@ trust: its `cli` buttons name the programs usemcpkit runs when you click them.
 
 The domain comes from the env var, else `config.json`, else `default`. The form shows it prefilled and lets the
 user change it (`host[:port][/path]`, no scheme), unless the env var is set.
+`suggestedHosts` lists hosts the field offers after the saved ones (n8n offers `app.n8n.cloud` and `localhost:5678`);
+offering one does not pick it. With `loopbackHttp: true`, a `localhost` or `127.0.0.1` domain is reached over
+`http://` in `baseUrl`, the upstream and OAuth URLs and `{domain}` links; every other server stays on `https://`, even on
+localhost.
 
 **OAuth 2.0 with PKCE.** The user signs in once in the browser against the provider directly:
 

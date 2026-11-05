@@ -43,6 +43,7 @@ pub async fn request_forwarded_credentials(
         texts,
         domain: None,
         domain_in_use: None,
+        loopback_http: false,
         options: vec![option],
         sign_in: false,
     };
