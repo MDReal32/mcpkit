@@ -2,36 +2,34 @@ mod support;
 
 use serde_json::{Map, Value, json};
 use sha2::{Digest, Sha256};
-use std::collections::{BTreeMap, HashSet};
+use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
 use std::rc::Rc;
-use support::{FolderFetcher, call_context, registry_root};
+use support::{FolderFetcher, call_context, registry_root, run_code};
 use tempfile::TempDir;
+use usemcpkit_execution::CallContext;
 use usemcpkit_http::HttpResponse;
 use usemcpkit_registry::{DEFAULT_REGISTRY_URL, RegistryContext};
-use usemcpkit_servers::catalog::load_catalog;
-use usemcpkit_servers::mcp::{McpServer, ToolLoading};
+use usemcpkit_servers::catalog::{RegistryCatalog, load_catalog};
+use usemcpkit_servers::mcp::{McpServer, SEARCH_TOOL};
 use usemcpkit_testing::{FixedClient, updates_goldens, write_golden};
-use usemcpkit_wire_log::{WireLog, WireLogRole};
-
-const SECTION_MARKER: &str = "SECTION of usemcpkit";
 
 const PARSE_ERROR: i64 = -32700;
 
-async fn built_registry_server(cache: &TempDir) -> McpServer<FolderFetcher> {
+/// The catalog of every server in the built registry, cached in `cache`.
+async fn built_registry_catalog(cache: &TempDir) -> (RegistryCatalog<FolderFetcher>, CallContext) {
     let context = RegistryContext::new(
         cache.path().join("manifests"),
         DEFAULT_REGISTRY_URL.into(),
         FolderFetcher::new(registry_root(), DEFAULT_REGISTRY_URL),
     );
     let calls = call_context(cache.path(), &[], Rc::new(FixedClient::new(HttpResponse::default())));
-    let catalog = load_catalog(&[], context, calls.clone()).await.unwrap();
-    McpServer::new(
-        catalog,
-        Rc::new(WireLog::disabled(WireLogRole::Server)),
-        calls,
-        ToolLoading::Partial,
-    )
+    (load_catalog(&[], context, calls.clone()).await.unwrap(), calls)
+}
+
+async fn built_registry_server(cache: &TempDir) -> McpServer<FolderFetcher> {
+    let (catalog, calls) = built_registry_catalog(cache).await;
+    McpServer::new(catalog, calls)
 }
 
 fn fixture_path(name: &str) -> PathBuf {
@@ -68,8 +66,8 @@ fn digest(tool: &Value) -> String {
         .collect()
 }
 
-/// Only the code and the prefix of a parse error are compared, and never the server version: the fixture was first
-/// written by the TypeScript CLI, whose JSON syntax errors and version differ.
+/// Only the code and the prefix of a parse error are compared, and never the server version, which change with the
+/// JSON parser and every release.
 fn without_build_details(response: &Value) -> Value {
     let mut response = response.clone();
     if let Some(version) = response.pointer_mut("/result/serverInfo/version") {
@@ -81,12 +79,6 @@ fn without_build_details(response: &Value) -> Value {
         response["error"]["message"] = json!("parse error: ...");
     }
     response
-}
-
-async fn list_tools(server: &McpServer<FolderFetcher>) -> Vec<Value> {
-    let line = json!({ "jsonrpc": "2.0", "id": 1, "method": "tools/list" }).to_string();
-    let response = server.handle_line(&line).await.response.unwrap();
-    response["result"]["tools"].as_array().unwrap().clone()
 }
 
 /// Rewrite both fixtures with `UPDATE_GOLDENS=1 cargo test -p usemcpkit-servers` whenever the registry changes.
@@ -110,7 +102,7 @@ async fn answers_the_recorded_client_session() {
 
         let actual = handled.response.unwrap_or(Value::Null);
         if updates_goldens() {
-            recorded.push(json!({ "line": line, "response": actual, "toolsChanged": handled.tools_changed }));
+            recorded.push(json!({ "line": line, "response": actual }));
             continue;
         }
         assert_eq!(
@@ -118,63 +110,52 @@ async fn answers_the_recorded_client_session() {
             without_build_details(&step["response"]),
             "response to {line}"
         );
-        assert_eq!(
-            handled.tools_changed, step["toolsChanged"],
-            "tools changed after {line}"
-        );
     }
     if updates_goldens() {
         write_golden(&fixture_path("session.json"), &Value::Array(recorded));
     }
 }
 
+/// What `search` hands the model for every tool of the built registry, as `codemode.tools` describes it, keyed by id.
 #[tokio::test]
-async fn lists_every_tool_of_the_built_registry() {
+async fn describes_every_tool_of_the_built_registry() {
     let cache = TempDir::new().unwrap();
+    let (catalog, _calls) = built_registry_catalog(&cache).await;
     let server = built_registry_server(&cache).await;
-    let index: Value =
-        serde_json::from_str(&std::fs::read_to_string(registry_root().join("index.json")).unwrap()).unwrap();
-    let upstream_sections: HashSet<String> = index["servers"]
-        .as_array()
-        .unwrap()
-        .iter()
-        .filter(|entry| entry["upstream"] == json!(true))
-        .map(|entry| entry["id"].as_str().unwrap().replacen(':', "_", 1))
-        .collect();
-    let mut opened = HashSet::new();
+    let mut actual = Map::new();
 
-    let tools = loop {
-        let tools = list_tools(&server).await;
-        let closed: Vec<String> = tools
-            .iter()
-            .filter(|tool| {
-                tool["description"]
-                    .as_str()
-                    .is_some_and(|text| text.contains(SECTION_MARKER))
-            })
-            .filter_map(|tool| tool["name"].as_str().map(str::to_owned))
-            .filter(|name| !opened.contains(name) && !upstream_sections.contains(name))
-            .collect();
-        if closed.is_empty() {
-            break tools;
+    for registry_server in catalog.servers.iter().filter(|entry| !entry.upstream) {
+        let id = &registry_server.id;
+        let groups = catalog.load_groups(id).await.unwrap();
+        let groups: Vec<Option<&str>> = if groups.is_empty() {
+            vec![None]
+        } else {
+            groups.iter().map(|group| Some(group.as_str())).collect()
+        };
+        let mut count = 0;
+        for group in groups {
+            let manifest = catalog.load_group_manifest(id, group).await.unwrap();
+            for tool in manifest.tools {
+                let tool_id = format!("{id}:{}", tool.name);
+                let described = json!({ "id": tool_id, "description": tool.description, "inputSchema": tool.input });
+                actual.insert(tool_id, json!(digest(&described)));
+                count += 1;
+            }
         }
-        for name in closed {
-            let line = json!({ "jsonrpc": "2.0", "id": 2, "method": "tools/call", "params": { "name": name } });
-            server.handle_line(&line.to_string()).await;
-            opened.insert(name);
-        }
-    };
+        let code = format!(
+            "async () => (await codemode.tools({})).length",
+            Value::String(id.clone())
+        );
+        let found = run_code(&server, SEARCH_TOOL, &code).await;
+        assert_eq!(found["content"][0]["text"], json!(count.to_string()), "search on {id}");
+    }
 
-    let expected = read_fixture("tool-digests.json");
-    let expected = expected.as_object().unwrap();
-    let actual: Map<String, Value> = tools
-        .iter()
-        .map(|tool| (tool["name"].as_str().unwrap().to_owned(), json!(digest(tool))))
-        .collect();
     if updates_goldens() {
         write_golden(&fixture_path("tool-digests.json"), &Value::Object(actual));
         return;
     }
+    let expected = read_fixture("tool-digests.json");
+    let expected = expected.as_object().unwrap();
     let differing: Vec<&String> = expected
         .iter()
         .filter(|(name, sum)| actual.get(*name) != Some(sum))

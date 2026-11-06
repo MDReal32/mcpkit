@@ -1,5 +1,4 @@
 use crate::mcp::mcp_server::McpServer;
-use crate::mcp::stdio::outgoing_line::OutgoingLine;
 use crate::mcp::stdio::read_line_text::read_line_text;
 use crate::mcp::stdio::reap_finished_tasks::reap_finished_tasks;
 use crate::mcp::stdio::rethrow_task_panic::rethrow_task_panic;
@@ -9,16 +8,14 @@ use std::rc::Rc;
 use tokio::io::{AsyncBufReadExt, AsyncRead, AsyncWrite, BufReader};
 use tokio::sync::mpsc;
 use tokio::task::JoinSet;
-use usemcpkit_core::mcp::TOOLS_LIST_CHANGED;
 use usemcpkit_registry::Fetch;
 use usemcpkit_wire_log::{WireLog, describe_wire_line};
 
 const WRITER_OUTLIVES_SENDERS: &str = "the writer runs until every sender is dropped";
 
 /// Serves newline-delimited JSON-RPC until input closes; `output` carries protocol messages only. Each line is
-/// answered on its own task, so a slow section never holds up a ping. The `tools/list_changed` notice is queued right
-/// after the response of the call that opened a section, so the client lists again afterwards. Once input closed, the
-/// requests in flight are answered before it returns. Runs its tasks with `spawn_local`, so it needs a `LocalSet`.
+/// answered on its own task, so a slow tool call never holds up a ping. Once input closed, the requests in flight are
+/// answered before it returns. Runs its tasks with `spawn_local`, so it needs a `LocalSet`.
 pub async fn serve_stdio<F, R, W>(
     server: Rc<McpServer<F>>,
     input: R,
@@ -50,21 +47,7 @@ where
         tasks.spawn_local(async move {
             let handled = server.handle_line(&line).await;
             if let Some(response) = handled.response {
-                let text = response.to_string();
-                queue
-                    .send(OutgoingLine {
-                        text,
-                        event: "response-out",
-                    })
-                    .expect(WRITER_OUTLIVES_SENDERS);
-            }
-            if handled.tools_changed {
-                queue
-                    .send(OutgoingLine {
-                        text: TOOLS_LIST_CHANGED.to_owned(),
-                        event: "notice-out",
-                    })
-                    .expect(WRITER_OUTLIVES_SENDERS);
+                queue.send(response.to_string()).expect(WRITER_OUTLIVES_SENDERS);
             }
         });
     };

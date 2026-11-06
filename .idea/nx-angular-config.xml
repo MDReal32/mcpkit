@@ -3,7 +3,27 @@
   <component name="NxAngularConfigService" workspaceLocation="file://$PROJECT_DIR$/nx.json">
     <projects>
       <project name="@usemcpkit/analytics" file="file://$PROJECT_DIR$/apps/analytics/project.json" />
-      <project name="@usemcpkit/cli" file="file://$PROJECT_DIR$/apps/cli/project.json" />
+      <project name="@usemcpkit/native" file="file://$PROJECT_DIR$/packages/native/project.json" />
+      <project name="@usemcpkit/servers" file="file://$PROJECT_DIR$/packages/servers/project.json" />
+      <project name="build-output" file="file://$PROJECT_DIR$/tools/build-output/project.json" />
+      <project name="release" file="file://$PROJECT_DIR$/tools/release/project.json" />
+      <project name="smoke-test" file="file://$PROJECT_DIR$/tools/smoke-test/project.json" />
+      <project name="usemcpkit-auth" file="file://$PROJECT_DIR$/crates/auth/project.json" />
+      <project name="usemcpkit-binary" file="file://$PROJECT_DIR$/crates/binary/project.json" />
+      <project name="usemcpkit-clients" file="file://$PROJECT_DIR$/crates/clients/project.json" />
+      <project name="usemcpkit-core" file="file://$PROJECT_DIR$/crates/core/project.json" />
+      <project name="usemcpkit-credentials-form" file="file://$PROJECT_DIR$/crates/credentials-form/project.json" />
+      <project name="usemcpkit-execution" file="file://$PROJECT_DIR$/crates/execution/project.json" />
+      <project name="usemcpkit-http" file="file://$PROJECT_DIR$/crates/http/project.json" />
+      <project name="usemcpkit-manifest" file="file://$PROJECT_DIR$/crates/manifest/project.json" />
+      <project name="usemcpkit-napi" file="file://$PROJECT_DIR$/crates/napi/project.json" />
+      <project name="usemcpkit-registry" file="file://$PROJECT_DIR$/crates/registry/project.json" />
+      <project name="usemcpkit-runner" file="file://$PROJECT_DIR$/apps/runner/project.json" />
+      <project name="usemcpkit-servers" file="file://$PROJECT_DIR$/apps/server/project.json" />
+      <project name="usemcpkit-testing" file="file://$PROJECT_DIR$/crates/testing/project.json" />
+      <project name="usemcpkit-upstream" file="file://$PROJECT_DIR$/crates/upstream/project.json" />
+      <project name="usemcpkit-validation" file="file://$PROJECT_DIR$/crates/validation/project.json" />
+      <project name="usemcpkit-wire-log" file="file://$PROJECT_DIR$/crates/wire-log/project.json" />
     </projects>
   </component>
 </project>

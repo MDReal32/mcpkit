@@ -1,0 +1,13 @@
+workspace:
+  id: 32f5e32f-d0cd-429e-902b-f2bd2b5db74c
+
+localResources:
+  specs:
+    - ../packages/servers/generator/providers/reddit/openapi.json
+    - ../packages/servers/generator/providers/medium/openapi.json
+
+# Each entry here maps a local resource to one or more corresponding objects in Postman Cloud
+
+cloudResources:
+  globals:
+    ../postman/globals/workspace.globals.yaml: 164880ee-f4d9-4318-8717-443b95b9e351

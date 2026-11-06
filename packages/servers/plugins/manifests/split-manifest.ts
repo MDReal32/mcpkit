@@ -23,10 +23,10 @@ const groupByFirstSegment = ({ tools }: Manifest) => {
 
 /**
  * A server whose tools are all named `<group>:<resource>:<action>` is shipped as a shell (the manifest without tools,
- * listing its parts (name, url, checksum, linked like the index entries)) plus one `<name>/<group>.json` per group, so a client downloads only the
+ * listing its parts (name, url relative to the registry folder, checksum)) plus one `<name>/<group>.json` per group, so a client downloads only the
  * groups it calls.
  */
-export const splitManifest = (manifest: Manifest, registryUrl?: string) => {
+export const splitManifest = (manifest: Manifest) => {
   if (!isSplittable(manifest)) {
     return undefined;
   }
@@ -35,7 +35,7 @@ export const splitManifest = (manifest: Manifest, registryUrl?: string) => {
     const json = toRegistryJson({ tools });
     const path = `${manifest.category}/${manifest.name}/${name}.json`;
     files.push({ path, json });
-    return { name, url: registryUrl ? `${registryUrl.replace(/\/+$/, "")}/${path}` : path, sha256: sha256Of(json) };
+    return { name, url: path, sha256: sha256Of(json) };
   });
   const { tools: _tools, ...shell } = manifest;
   const split: SplitManifest = { shellJson: toRegistryJson({ ...shell, parts }), files };

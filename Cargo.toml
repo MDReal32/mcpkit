@@ -3,7 +3,7 @@ resolver = "3"
 members = ["apps/runner", "apps/server", "crates/*"]
 
 [workspace.package]
-version = "0.12.0"
+version = "0.13.0"
 edition = "2024"
 license = "MIT"
 repository = "https://github.com/MDReal32/mcpkit"
@@ -38,6 +38,7 @@ indexmap = { version = "2.14", features = ["serde"] }
 percent-encoding = "2.3"
 regex = "1.11"
 reqwest = { version = "0.13", default-features = false, features = ["rustls", "http2", "charset", "system-proxy", "multipart", "gzip"] }
+rquickjs = { version = "0.14", features = ["futures"] }
 sha2 = "0.10"
 rustix = { version = "1.1", features = ["process"] }
 serde = { version = "1.0", features = ["derive"] }

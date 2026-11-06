@@ -1,22 +1,36 @@
 import { strict as assert } from "node:assert";
 import { rm } from "node:fs/promises";
 import {
-  OPENED_GROUP_TOOL,
+  EXECUTE_CODE,
+  EXECUTE_RESULT,
+  EXECUTE_TOOL,
+  GITHUB_GROUP,
+  GITHUB_GROUPS_CODE,
+  LISTED_TOOLS,
   PROTOCOL_VERSION,
   RESPONSE_TIMEOUT_MS,
-  SECTION_TEXT_PREFIX,
-  SECTION_TOOL,
+  SEARCH_TOOL,
+  SERVER_COUNT_CODE,
   SERVER_NAME,
-  TOOLS_CHANGED_METHOD,
   UNREACHABLE_REGISTRY,
 } from "./const.ts";
 import { readIndexedServerCount } from "./read-indexed-server-count.ts";
+import { readRegistryVersionDir } from "./read-registry-version-dir.ts";
 import { seedHome } from "./seed-home.ts";
 import { startStdioSession } from "./start-stdio-session.ts";
 import type { CallToolResult } from "./types/call-tool-result.ts";
 import type { InitializeResult } from "./types/initialize-result.ts";
 import type { StdioSession } from "./types/stdio-session.ts";
 import type { ToolsListResult } from "./types/tools-list-result.ts";
+
+const runCode = async (session: StdioSession, id: number, name: string, code: string) => {
+  session.send({ jsonrpc: "2.0", id, method: "tools/call", params: { name, arguments: { code } } });
+  const answered = await session.receive<CallToolResult>();
+  assert.equal(answered.id, id);
+  const text = answered.result?.content[0]?.text ?? "";
+  assert.equal(answered.result?.isError, undefined, text);
+  return text;
+};
 
 const talkToServer = async (session: StdioSession, serverCount: number) => {
   session.send({ jsonrpc: "2.0", id: 0, method: "initialize", params: { protocolVersion: PROTOCOL_VERSION } });
@@ -27,31 +41,27 @@ const talkToServer = async (session: StdioSession, serverCount: number) => {
 
   session.send({ jsonrpc: "2.0", id: 1, method: "tools/list" });
   const listed = await session.receive<ToolsListResult>();
-  assert.equal(listed.result?.tools.length, serverCount, "tools/list lists one section per indexed server");
+  assert.deepEqual(
+    listed.result?.tools.map((tool) => tool.name),
+    LISTED_TOOLS,
+  );
 
-  session.send({ jsonrpc: "2.0", id: 2, method: "tools/call", params: { name: SECTION_TOOL } });
-  const opened = await session.receive<CallToolResult>();
-  assert.equal(opened.id, 2);
-  assert.equal(opened.result?.isError, undefined);
-  const text = opened.result?.content[0]?.text ?? "";
-  assert.ok(text.startsWith(SECTION_TEXT_PREFIX), text);
-  const notice = await session.receive();
-  assert.equal(notice.method, TOOLS_CHANGED_METHOD);
-
-  session.send({ jsonrpc: "2.0", id: 3, method: "tools/list" });
-  const relisted = await session.receive<ToolsListResult>();
-  const names = relisted.result?.tools.map((tool) => tool.name) ?? [];
-  assert.ok(names.includes(OPENED_GROUP_TOOL), `${OPENED_GROUP_TOOL} missing from ${names.join(", ")}`);
+  const servers = await runCode(session, 2, SEARCH_TOOL, SERVER_COUNT_CODE);
+  assert.equal(servers, String(serverCount), "search sees every indexed server");
+  const groups: string[] = JSON.parse(await runCode(session, 3, SEARCH_TOOL, GITHUB_GROUPS_CODE));
+  assert.ok(groups.includes(GITHUB_GROUP), `${GITHUB_GROUP} missing from ${groups.join(", ")}`);
+  assert.equal(await runCode(session, 4, EXECUTE_TOOL, EXECUTE_CODE), EXECUTE_RESULT);
 };
 
 /**
  * Runs `usemcpkit serve` from `runner` (which starts the `usemcpkit-servers` next to it) against a home seeded from
- * `registryDir`: initialize, list the sections, open `git:github` and list again. Partial loading is on, so the list
- * starts with sections; auto-update is off and the registry unreachable, so nothing is installed, scheduled or fetched.
+ * `registryDir`: initialize, list `search` and `execute`, search the servers and the groups of `git:github`, and run a
+ * piece of code with `execute`. Auto-update is off and the registry unreachable, so nothing is installed, scheduled or
+ * fetched.
  */
 export const runSmokeTest = async (runner: string, registryDir: string) => {
   const serverCount = await readIndexedServerCount(registryDir);
-  const home = await seedHome(registryDir);
+  const home = await seedHome(registryDir, await readRegistryVersionDir(runner));
   const session = startStdioSession({
     command: runner,
     args: ["serve"],
@@ -59,9 +69,8 @@ export const runSmokeTest = async (runner: string, registryDir: string) => {
       ...process.env,
       USEMCPKIT_HOME: home,
       USEMCPKIT_REGISTRY: UNREACHABLE_REGISTRY,
-      USEMCPKIT_AUTO_UPDATE: "0",
+      USEMCPKIT_AUTOUPDATE: "0",
       USEMCPKIT_DEBUG: "0",
-      USEMCPKIT_BETA_PARTIAL_LOADING: "1",
     },
     timeoutMs: RESPONSE_TIMEOUT_MS,
   });

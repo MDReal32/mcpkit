@@ -13,7 +13,8 @@
   "targets": {
     "build": {
       "command": "cargo build --release -p usemcpkit-runner",
-      "cache": false
+      "inputs": ["production", "^production", "cargo"],
+      "outputs": ["{workspaceRoot}/target/release/usemcpkit", "{workspaceRoot}/target/release/usemcpkit.exe"]
     },
     "test": {
       "command": "cargo test -p usemcpkit-runner",

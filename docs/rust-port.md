@@ -15,7 +15,7 @@ in the golden fixtures below.
 | Path                     | Crate                     | What it owns                                                                                                                                   |
 | ------------------------ | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | `apps/runner`            | `usemcpkit-runner` (`usemcpkit`) | The commands (`install`, which a bare `usemcpkit` runs, plus `uninstall`, `list`, `update`, `upgrade` and `serve`) and the supervisor that owns the client's stdio and swaps the server when its binary changes. |
-| `apps/server`            | `usemcpkit-servers`           | `serve [servers...] --worker`, which runs the catalog, sections and tool calls over stdio, and `window <url>`, the wry/tao credentials window. `build.rs` embeds `packages/ui/build/usemcpkit.ui.html`. |
+| `apps/server`            | `usemcpkit-servers`           | `serve [servers...] --worker`, which runs the catalog and the `search` and `execute` tools over stdio, and `window <url>`, the wry/tao credentials window. `build.rs` embeds `packages/ui/build/usemcpkit.ui.html`. |
 | `crates/core`            | `usemcpkit-core`             | The usemcpkit home, `Env`, versions, `find_program`, config migrations, and JavaScript-compatible number, string and JSON printing.             |
 | `crates/manifest`        | `usemcpkit-manifest`         | Manifest and registry types (serde), domains and editions, and UI texts.                                                                       |
 | `crates/registry`        | `usemcpkit-registry`         | The index and manifest cache in `~/.usemcpkit/manifests`: sync, checksums, lazy shell and part downloads, `ensure_manifest_index`.                |
@@ -51,7 +51,6 @@ generators went with the TypeScript CLI, so Rust owns the fixtures now:
 
 | Fixture                                                            | Rust test               | Kept up by        |
 | ------------------------------------------------------------------ | ----------------------- | ----------------- |
-| `apps/server/tests/fixtures/exposed-tools.json`                    | `exposed_tools.rs`      | `UPDATE_GOLDENS=1` |
 | `apps/server/tests/fixtures/session.json`, `tool-digests.json`     | `session_parity.rs`     | `UPDATE_GOLDENS=1` |
 | `apps/server/tests/fixtures/upstream-naming.json`                  | `upstream_naming.rs`    | `UPDATE_GOLDENS=1` |
 | `crates/execution/tests/fixtures/teams-forwarded-credentials.json` | `upstream_access.rs`    | `UPDATE_GOLDENS=1` |
@@ -71,13 +70,14 @@ through the TypeScript executor).
 **What `session_parity.rs` covers.** It replays a fixed client session through `McpServer::handle_line`. The session
 includes:
 - protocol errors;
-- section opens for Medium, Reddit, ClickUp, Jira and GitHub groups;
-- tool listings with their descriptions and input schemas.
+- the `search` and `execute` tool list;
+- `search` calls that list the servers, the groups of GitHub and the tools of Medium, and one that tries to call a tool;
+- `execute` calls that fail on an unknown tool and that log and return a value.
 
-Then it opens every section of every server that is not an upstream and compares a sha256 of each tool as `tools/list`
-sends it. It allows only two differences: the JSON syntax error text (compared by code and `parse error:` prefix) and
-`serverInfo.version`, which each side takes from its own build. Mutation-checked: dropping `required` from the schemas
-fails 4076 tool digests.
+Then it reads every tool of every server that is not an upstream from the catalog, compares a sha256 of each as
+`codemode.tools` describes it (`{ id, description, inputSchema }`) and checks that `search` finds as many tools per
+server. It allows only two differences in the session: the JSON syntax error text (compared by code and
+`parse error:` prefix) and `serverInfo.version`, which changes with every release.
 
 ## Behavior that differs from TypeScript
 
@@ -152,7 +152,7 @@ TS and Rust handle them the same way:
   once, while the new home has none of them (`adopt_legacy_home`). It never does with `USEMCPKIT_HOME` set, and it
   leaves the old folder alone. Caches, cloned repos and logs are not copied: they come back on first use.
 - The old `MCPKIT_*` variables are no longer read. The old entry is replaced as a whole, its `env` (Codex
-  `[mcp_servers.mcpkit.env]` included) with it: `MCPKIT_AUTO_UPDATE=0` must become `USEMCPKIT_AUTO_UPDATE=0`, and
+  `[mcp_servers.mcpkit.env]` included) with it: `MCPKIT_AUTO_UPDATE=0` must become `USEMCPKIT_AUTOUPDATE=0` (named `USEMCPKIT_AUTO_UPDATE` up to 0.12), and
   credentials under a custom `MCPKIT_HOME` are not adopted, since only `~/.mcpkit` is looked at.
 - An installed TS `0.9.0` updates itself from `package/bin/mcpkit[.exe]` of the platform package and knows nothing of
   the new names. Until a release ships that path too, those installs stay on `0.9.0`, and `npx usemcpkit` moves them
@@ -165,8 +165,9 @@ deployed from it alone. `release-binaries.yml` then builds the two binaries per 
 (`linux-x64`, `linux-arm64`, `darwin-x64`, `darwin-arm64`, `windows-x64`) from the credentials page the first job
 built, checks that each prints `--version` and runs `tools/smoke-test` against them (`node tools/smoke-test/src/main.ts
 <usemcpkit binary> <registry dir>`: the real `usemcpkit serve`, with the server next to it, over stdio in a temp home
-seeded from the first job's registry, partial loading on, auto-update off and the registry unreachable; it initializes, lists one section
-per indexed server, opens `git:github` and expects the `list_changed` notice and its groups; it does not open the
+seeded from the first job's registry, auto-update off and the registry unreachable; it initializes, expects `search` and
+`execute` as the only tools, searches the indexed servers and the groups of `git:github` and runs a piece of code with
+`execute`; it does not open the
 credentials window or reach the network; the package job runs it once more on the packaged `cli-linux-x64`, with only
 the WebKitGTK runtime installed), and `tools/release` writes each
 `@usemcpkit/cli-<target>` package with `bin/usemcpkit[.exe]` and `bin/usemcpkit-servers[.exe]`, the GitHub Release
@@ -191,7 +192,7 @@ needs for losing its runtime exports (executor, auth, mapping) and `validateMani
 
 - The upgrade schedule is per user, not per `USEMCPKIT_HOME`: on Windows it is the Task Scheduler task "usemcpkit upgrade",
   elsewhere a launch agent or crontab line. Running `install`, `uninstall` or `serve` from the installed binary by
-  hand, even with a sandboxed home, creates or deletes the real job. `USEMCPKIT_AUTO_UPDATE=0` stops it from being created,
-  not from being removed. The tests only build the scheduler commands and never run them.
+  hand, even with a sandboxed home, creates or deletes the real job: `serve` creates it, and with `USEMCPKIT_AUTOUPDATE=0`
+  removes it. The tests only build the scheduler commands and never run them.
 - When you mutation-check a test, restore the file in a way that gives it a new modification time. Cargo otherwise
   keeps the mutated build.

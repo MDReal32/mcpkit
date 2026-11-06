@@ -5,7 +5,7 @@ on:
 
 jobs:
   registry:
-    name: Publish manifests and the promo video to GitHub Pages
+    name: Publish the manifests of every version and the promo video to GitHub Pages
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -58,13 +58,18 @@ jobs:
           yarn workspace @usemcpkit/video remotion browser ensure
           yarn workspace @usemcpkit/video pages
 
+      - name: Assemble the versioned registry
+        run: .github/scripts/assemble-registry-site.sh packages/servers/build/manifests site
+        env:
+          GH_TOKEN: ${{ github.token }}
+
       - name: Add promo video to the site
-        run: cp -R apps/video/build/pages packages/servers/build/manifests/video
+        run: cp -R apps/video/build/pages site/video
 
       - name: Upload registry
         uses: actions/upload-pages-artifact@v5
         with:
-          path: packages/servers/build/manifests
+          path: site
 
       - name: Deploy
         id: deployment

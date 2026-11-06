@@ -46,18 +46,16 @@ touched: comments and other keys stay, and the previous file is kept as `<config
 also sets `"agentPushNotifEnabled": true` in `~/.claude/settings.json`, the same way. Restart the clients afterwards
 (later updates reload live).
 
-Install also asks whether to turn on **partial loading** (beta, off by default) and writes the answer into each entry's
-environment as `USEMCPKIT_BETA_PARTIAL_LOADING=1` or `0` (`environment` for opencode, an `[mcp_servers.mcpkit.env]`
-table for Codex). Off, the client gets every tool from the start; on, it gets one section per server and the tools of the
-ones the model opens, which needs a client that lists tools again after `tools/list_changed`. `--partial-loading` (or
-`--partial-loading=false`) answers it without asking; `--all` and `--clients` leave it off unless the flag is given.
+The client sees two tools, `search` and `execute`, whatever the servers (see "What the AI client sees").
+Install then asks whether usemcpkit keeps itself **up to date** (on by default) and writes `USEMCPKIT_AUTOUPDATE=1` or `0` the
+same way; `--auto-update` (or `--auto-update=false`) answers it without asking, and `--all` and `--clients` leave it on.
 Running install again rewrites the whole entry, so set any other variable of yours there again afterwards.
 
 ```bash
 npx usemcpkit --all                         # every detected client, no checklist (needed without a terminal)
 npx usemcpkit --clients cursor,codex        # only these
 usemcpkit install --binary ./usemcpkit         # install a local binary instead of downloading one
-usemcpkit install --all --partial-loading      # every client, with the beta partial loading on
+usemcpkit install --all --auto-update=false    # every client, no scheduled upgrade and no self-update
 usemcpkit uninstall [--all | --clients ...] # remove the entry; the binary stays
 usemcpkit update                            # refresh the cached manifests now
 usemcpkit upgrade                           # update the cached manifests, then the installed binary
@@ -78,7 +76,8 @@ it and `usemcpkit-servers`. Installing copies both. A runner with no `usemcpkit-
 **Auto-update.** `usemcpkit serve`, when it is the installed binary, checks the npm registry at most every six hours
 (`~/.usemcpkit/update-state.json`) in the background: at start, and then every hour for as long as it runs, so a server
 that stays up for days still finds a new release. A newer release replaces the binary and is picked up without
-restarting the client, see Live reload. `USEMCPKIT_AUTO_UPDATE=0` turns this off, `USEMCPKIT_NPM_REGISTRY` points at another
+restarting the client, see Live reload. `USEMCPKIT_AUTOUPDATE=0` turns this off and unloads the scheduled
+`usemcpkit upgrade` (the next `serve` removes it), `1` or unset loads it again; `USEMCPKIT_NPM_REGISTRY` points at another
 registry.
 
 **Live reload.** A compiled `usemcpkit serve` is a small supervisor: it keeps the client's stdio connection and runs the
@@ -86,11 +85,11 @@ real server as a worker (`usemcpkit serve --worker`). It polls its own binary fi
 stayed the same for two polls (3 s each), starts the new binary as a second worker, replays the client's `initialize`
 handshake to it and only then switches new requests over. The old worker finishes the requests it already has (up to
 5 minutes) and exits. The client is told with `notifications/tools/list_changed`, which the server advertises as
-`tools.listChanged`, so new and changed tools show up without a restart. The same applies when you copy a rebuilt
+`tools.listChanged`, so a changed server list in the description of `search` shows up without a restart. The same applies when you copy a rebuilt
 binary over `~/.usemcpkit/bin/usemcpkit` or when auto-update downloads a release. If the new binary fails to answer
 `initialize` within 15 s, the running server stays and the reason is logged to stderr. The supervisor itself is not
 swapped: a release that changes it needs one client restart. Clients that ignore `list_changed` need a restart to see
-changed tool lists; calls always run on the new server. A Homebrew upgrade moves the binary to a new `Cellar/<version>`
+a changed server list; calls always run on the new server. A Homebrew upgrade moves the binary to a new `Cellar/<version>`
 folder, so that install is not reloaded live.
 
 **Homebrew and winget.** The package only installs the binary. Running `usemcpkit` afterwards shows the same client
@@ -139,7 +138,8 @@ Put each tool in `packages/servers/src/<name>/tools/<resource>/<action>.ts` (the
 }
 ```
 
-`usemcpkit serve` with no names serves every server; `usemcpkit serve github` only some. Tools are named `<server>_<tool>`.
+`usemcpkit serve` with no names serves every server; `usemcpkit serve github` only some. The client sees `search` and
+`execute`, which find and call the tools of those servers.
 
 ### Bundled servers
 
@@ -411,62 +411,67 @@ finishes and the next call uses the token.
 No manifest ships inside the binary. They live in a registry (by default the repository's GitHub Pages, published by
 `.github/workflows/release-registry.yml`, a job of the Release workflow that deploys the manifests the Release build already produced; the build restores the Nx cache, so only changed projects are built):
 
+Each release reads only the manifests published with it: a binary of version `X.Y.Z` reads
+`https://mdreal32.github.io/mcpkit/vX.Y.Z/`, so a binary that stays on an old version never gets manifests a newer
+one changed. Every deploy publishes the registry it just built both at the root (what 0.12.0 and older read) and under
+`v<version>/` of the version being released, and unpacks the `registry.tar.gz` asset of every earlier GitHub Release into
+its own `v<version>/` again, since GitHub Pages replaces the whole site
+(`.github/scripts/assemble-registry-site.sh`). Each folder holds:
+
 ```
 index.json                  every server: id, version, description, link, sha256 (no tools, so it stays small)
 <category>/<server>.json    one manifest, for example git/gitlab.json
 <category>/<server>/<group>.json  with grouped tool names (git/github.json is a shell listing git/github/<group>.json)
 ```
 
-Only `index.json` is synced by default (into `~/.usemcpkit/manifests`, `USEMCPKIT_HOME` overrides). A manifest is downloaded
+Only `index.json` is synced by default (into `~/.usemcpkit/manifests/v<version>`, one folder per release, `USEMCPKIT_HOME`
+overrides the home). A manifest is downloaded
 the first time a tool of that server is described or called, checked against the `sha256` in the index, and cached.
 
 - `usemcpkit install` and the first `serve`/`list` with nothing cached download the index.
 - The cache is always served, and opening a server or calling a tool never asks the registry for changes.
-  `~/.usemcpkit/manifests/cache.json` maps each cached file (`index.json`, `git/github.json`,
+  `~/.usemcpkit/manifests/v<version>/cache.json` maps each cached file (`index.json`, `git/github.json`,
   `git/github/issues.json`, ...) to `updatedAt` (ms, when its content last changed), `checkedAt` (ms, when it was
   last confirmed current) and its `sha256`. Only a download that fails its checksum, because the cached index is
   older than the registry, fetches the index again once.
 - `usemcpkit update [--registry <url>]` refreshes the index and re-downloads the manifests and parts that are already
   cached and no longer match it, so an edit published without a version bump still lands. A server or part nobody
-  opened is never downloaded. The URL comes from the flag, `USEMCPKIT_REGISTRY`, then the default.
+  opened is never downloaded. The URL comes from the flag, `USEMCPKIT_REGISTRY` (both name the registry folder itself,
+  no version is added), then the folder of this version.
 - `usemcpkit upgrade` runs that update and then replaces the installed binary. It is what the scheduled job runs every
-  six hours, so manifests and binary stay current without anyone running a command. `USEMCPKIT_AUTO_UPDATE=0` turns the
-  scheduled job and the binary auto-update off.
-- Self-hosting a registry is hosting the `packages/servers/build/manifests/` folder (links in `index.json` are built from the
-  registry URL in `packages/servers/vite.config.ts`; the binaries read `DEFAULT_REGISTRY_URL` in `crates/registry`).
+  six hours, so manifests and binary stay current without anyone running a command. `USEMCPKIT_AUTOUPDATE=0` turns the
+  binary auto-update off and removes the scheduled job.
+- Self-hosting a registry is hosting the `packages/servers/build/manifests/` folder and pointing `USEMCPKIT_REGISTRY` at
+  it; every link in it is relative to that folder (the binaries default to `DEFAULT_REGISTRY_URL` in `crates/registry`
+  plus `v<version>`).
 
 ### What the AI client sees
 
-By default (`USEMCPKIT_BETA_PARTIAL_LOADING` unset or not `1`) the first `tools/list` answers only once every server's
-tools are loaded: each manifest and group file is downloaded once into the cache, then served from it, and every real
-tool is listed from the start, with no sections. Clients that never list again after `tools/list_changed` (the Claude
-desktop app hands Claude Code sessions a fixed list) see every tool this way. An upstream server (Bitwarden, Cloudflare,
-Postman, Teams) is not started for that: its tools are listed when its tool cache exists, and it stays a section until
-it is opened once. A server whose files cannot be downloaded also stays a section, so calling it reports why.
+The client sees two tools whatever the servers, in the style of Cloudflare's Code Mode, and nothing is loaded when the
+server starts:
 
-With `USEMCPKIT_BETA_PARTIAL_LOADING=1` the tool list starts as one **section** per served server (`git_github`, `git_gitlab`, ...). A section is not a tool: its
-description says so, it takes no arguments, and calling it opens it. A server split into groups answers with its groups,
-each one another section (`git_github_issues`); calling a group, or a server that has no groups, puts its tools into the
-list and usemcpkit sends `tools/list_changed`. Only what the model opens is downloaded: the index first, then the server's
-shell, then the one group file. Every real tool is its own MCP tool, with its description and input schema, so the
-client's permission rules apply per tool: `git:github` with `issues:issues:get_issue` is `git_github_issues_get_issue`
-(`mcp__mcpkit__git_github_issues_get_issue` in Claude Code). There are no `call_tool` or `describe_tool` meta-tools,
-and opened sections are forgotten when the server restarts. Tool names cannot contain
-`:` and the API caps a name at 64 characters, of which the client spends 13 on `mcp__mcpkit__` (16 on the
-`mcp__usemcpkit__` of an entry 0.10 or 0.11 wrote), so a name longer than 48 characters is cut at a word boundary and
-ends in a 6-character hash of its full id (`..._comments_create_d9463b`). The hash depends only on the id, so a name and
-the permission rule written for it stay the same from run to run.
+- `search` (read-only) runs an async arrow function, such as `async () => { ... }`, that looks the tools up:
+  `codemode.servers()`, `codemode.groups(server)` and `codemode.tools(server, group?)`, which resolves to
+  `{ id, description, inputSchema }` for each tool. Its description lists the served servers.
+- `execute` runs the same kind of function with `codemode.call(id, args)` as well, which runs a tool by its full id
+  (`git:github:repos:repos:list_branches`) and resolves to its result: a registry tool's JSON, or an upstream tool's
+  structured content or text (parsed when it is JSON). A tool that fails throws an `Error`.
 
-Opening a section downloads its file once (cached under `~/.usemcpkit/manifests`). A section that cannot be opened stays
-closed and the call returns an error saying why. Reads are marked
-read-only, deletes destructive and known writes as writes; any other verb is left unannotated.
+A server's shell, group files and upstream tools are loaded only when the code asks for them: each file is downloaded
+once into `~/.usemcpkit/manifests`, and an upstream server (Bitwarden, Cloudflare, Postman, Teams) is started only when
+the code looks up or calls its tools. A server that cannot be loaded makes the code throw, with the reason, and the next
+call tries again. The code runs in QuickJS (`rquickjs`), a fresh runtime per call with no network, file or module
+access, 64 MB of memory and a 120-second limit that interrupts a busy loop as well as a slow tool. `console.log` lines
+come back before the returned value, which is printed as JSON; an output longer than 24000 characters (about 6000
+tokens) is cut and ends in `--- TRUNCATED ---`, so the code should filter and pick fields before it returns. The
+client's permission rules only see `search` and `execute`, not the tools the code calls.
 
 Ids still come from `index.json`: `<category>:<server>:<resource>:<action>` selects `<category>/<server>.json`.
 `usemcpkit serve [servers…]` limits the catalog to the given ids or bare names.
 
 ### Debugging a connection
 
-When a client shows the sections but never the tools a section opens, or a connection drops, turn on the wire log:
+When a client does not show usemcpkit's tools, a call never returns, or a connection drops, turn on the wire log:
 set `USEMCPKIT_DEBUG=1` in the environment the client starts usemcpkit with (the server entry's `env`, or the user
 environment, then quit and reopen the client so its processes see it). Every `serve` process then appends one JSON line
 per message and lifecycle event to its own file under `~/.usemcpkit/logs`, named `<role>-<start time>-<pid>.jsonl`. A

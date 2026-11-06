@@ -9,17 +9,14 @@ import type { SplitManifest } from "./types/split-manifest";
 
 const toManifestPath = ({ manifest }: CompiledManifest) => `${manifest.category}/${manifest.name}.json`;
 
-const toIndexEntry = (entry: CompiledManifest, shellJson: string, registryUrl: string | undefined) => {
-  const path = toManifestPath(entry);
-  return {
-    id: `${entry.manifest.category}:${entry.manifest.name}`,
-    version: entry.manifest.version,
-    description: entry.manifest.description,
-    ...(entry.manifest.upstream ? { upstream: true } : {}),
-    url: registryUrl ? `${registryUrl.replace(/\/+$/, "")}/${path}` : path,
-    sha256: createHash("sha256").update(shellJson).digest("hex"),
-  };
-};
+const toIndexEntry = (entry: CompiledManifest, shellJson: string) => ({
+  id: `${entry.manifest.category}:${entry.manifest.name}`,
+  version: entry.manifest.version,
+  description: entry.manifest.description,
+  ...(entry.manifest.upstream ? { upstream: true } : {}),
+  url: toManifestPath(entry),
+  sha256: createHash("sha256").update(shellJson).digest("hex"),
+});
 
 const writeText = async (file: string, text: string) => {
   await mkdir(dirname(file), { recursive: true });
@@ -33,13 +30,12 @@ const writeEntry = async (entry: CompiledManifest, outDir: string, split: SplitM
 
 /**
  * Writes `<category>/<name>.json` per manifest plus the index.json the CLI syncs; the index lists servers only, their parts and tools live in their own files.
+ * Every link is relative to the registry folder, so the same files serve the root and each `v<version>/` copy.
  * A server with grouped tool names is written as a shell plus one file per group (see splitManifest).
  */
-export const writeManifests = async (compiled: readonly CompiledManifest[], outDir: string, registryUrl?: string) => {
-  const splits = compiled.map((entry) => splitManifest(entry.manifest, registryUrl));
+export const writeManifests = async (compiled: readonly CompiledManifest[], outDir: string) => {
+  const splits = compiled.map((entry) => splitManifest(entry.manifest));
   await Promise.all(compiled.map((entry, position) => writeEntry(entry, outDir, splits[position])));
-  const servers = compiled.map((entry, position) =>
-    toIndexEntry(entry, splits[position]?.shellJson ?? entry.json, registryUrl),
-  );
+  const servers = compiled.map((entry, position) => toIndexEntry(entry, splits[position]?.shellJson ?? entry.json));
   await writeText(join(outDir, INDEX_FILE_NAME), toRegistryJson({ servers }));
 };

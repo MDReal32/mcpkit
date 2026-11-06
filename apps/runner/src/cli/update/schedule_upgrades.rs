@@ -1,11 +1,20 @@
-use usemcpkit_binary::schedule::ensure_upgrade_schedule;
+use crate::cli::update::upgrade_schedule_change::UpgradeScheduleChange;
+use usemcpkit_binary::schedule::{ensure_upgrade_schedule, remove_upgrade_schedule};
 use usemcpkit_binary::{BinaryContext, BinaryError};
-use usemcpkit_core::update::AUTO_UPDATE_ENV;
 
-/// `Some(true)` when a new scheduled job was registered; `None` when auto-update is turned off.
-pub async fn schedule_upgrades(context: &BinaryContext) -> Result<Option<bool>, BinaryError> {
-    if context.env.get(AUTO_UPDATE_ENV) == Some("0") {
-        return Ok(None);
-    }
-    ensure_upgrade_schedule(context).await.map(Some)
+/// Loads the scheduled `usemcpkit upgrade` when auto-update is on and unloads it when it is off.
+pub async fn schedule_upgrades(
+    context: &BinaryContext,
+    auto_update: bool,
+) -> Result<UpgradeScheduleChange, BinaryError> {
+    let changed = if auto_update {
+        ensure_upgrade_schedule(context).await?
+    } else {
+        remove_upgrade_schedule(context).await?
+    };
+    Ok(match (changed, auto_update) {
+        (false, _) => UpgradeScheduleChange::Unchanged,
+        (true, true) => UpgradeScheduleChange::Added,
+        (true, false) => UpgradeScheduleChange::Removed,
+    })
 }

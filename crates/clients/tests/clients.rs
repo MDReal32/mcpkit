@@ -22,7 +22,7 @@ fn launch() -> LaunchCommand {
 
 fn launch_with_env() -> LaunchCommand {
     LaunchCommand {
-        env: BTreeMap::from([("USEMCPKIT_BETA_PARTIAL_LOADING".to_owned(), "0".to_owned())]),
+        env: BTreeMap::from([("USEMCPKIT_AUTOUPDATE".to_owned(), "0".to_owned())]),
         ..launch()
     }
 }
@@ -188,7 +188,7 @@ fn writes_opencode_commands_as_one_array() {
 #[test]
 fn writes_the_launch_environment_under_each_client_env_key() {
     let home = TempDir::new().unwrap();
-    let env = json!({ "USEMCPKIT_BETA_PARTIAL_LOADING": "0" });
+    let env = json!({ "USEMCPKIT_AUTOUPDATE": "0" });
     let cases = [
         ("vscode", "servers", "env"),
         ("cline", "mcpServers", "env"),
@@ -220,7 +220,7 @@ fn writes_the_codex_environment_as_a_subtable_and_replaces_an_old_one() {
     assert_eq!(
         read(&path),
         format!(
-            "[mcp_servers.mcpkit]\ncommand = \"{LAUNCH_COMMAND}\"\nargs = [\"serve\"]\n\n[mcp_servers.mcpkit.env]\nUSEMCPKIT_BETA_PARTIAL_LOADING = \"0\"\n\n[mcp_servers.mcpkit.tools.x]\na = 1\n\n[profiles.x]\nmodel = \"y\"\n"
+            "[mcp_servers.mcpkit]\ncommand = \"{LAUNCH_COMMAND}\"\nargs = [\"serve\"]\n\n[mcp_servers.mcpkit.env]\nUSEMCPKIT_AUTOUPDATE = \"0\"\n\n[mcp_servers.mcpkit.tools.x]\na = 1\n\n[profiles.x]\nmodel = \"y\"\n"
         )
     );
 
@@ -239,7 +239,7 @@ fn appends_a_new_codex_table_with_its_environment() {
     assert_eq!(
         read(&path),
         format!(
-            "model = \"o3\"\n\n[mcp_servers.mcpkit]\ncommand = \"{LAUNCH_COMMAND}\"\nargs = [\"serve\"]\n\n[mcp_servers.mcpkit.env]\nUSEMCPKIT_BETA_PARTIAL_LOADING = \"0\"\n"
+            "model = \"o3\"\n\n[mcp_servers.mcpkit]\ncommand = \"{LAUNCH_COMMAND}\"\nargs = [\"serve\"]\n\n[mcp_servers.mcpkit.env]\nUSEMCPKIT_AUTOUPDATE = \"0\"\n"
         )
     );
 }
