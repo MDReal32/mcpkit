@@ -1,5 +1,4 @@
 use crate::cli::consts::{EXIT_FAILURE, VERSION, WORKER_FLAG};
-use crate::cli::distribution::Distribution;
 use crate::cli::run_local::run_local;
 use crate::cli::serve::prepare_server_binary;
 use crate::cli::update::{create_binary_context, start_auto_update, start_upgrade_schedule};
@@ -11,9 +10,9 @@ use usemcpkit_wire_log::{WireLog, WireLogRole};
 
 /// The process the client starts: it keeps the connection, runs the server as a worker and swaps it when the server
 /// binary changes. Ctrl-C stops it the way closing stdin does.
-pub fn serve_command(servers: Vec<String>, server: Option<PathBuf>, distribution: Distribution) -> i32 {
+pub fn serve_command(servers: Vec<String>, server: Option<PathBuf>) -> i32 {
     run_local(async move {
-        let command = match prepare_server_binary(server, distribution.layout).await {
+        let command = match prepare_server_binary(server).await {
             Ok(command) => command,
             Err(error) => {
                 eprintln!("usemcpkit: {error}");
@@ -24,7 +23,7 @@ pub fn serve_command(servers: Vec<String>, server: Option<PathBuf>, distribution
             "usemcpkit {VERSION}: supervising {}, it reloads when that binary is replaced",
             command.display()
         );
-        match create_binary_context(distribution.layout) {
+        match create_binary_context() {
             Ok(context) => {
                 start_auto_update(context.clone());
                 start_upgrade_schedule(context);

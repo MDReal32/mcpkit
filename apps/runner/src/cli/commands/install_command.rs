@@ -1,7 +1,6 @@
 use crate::cli::clients::{ClientSelectionMode, apply_to_clients, create_client_context, select_clients};
 use crate::cli::command::InstallArgs;
 use crate::cli::consts::{BINARY_FLAG, EXIT_FAILURE, EXIT_SUCCESS};
-use crate::cli::distribution::Distribution;
 use crate::cli::launch_env::create_launch_env;
 use crate::cli::output::print_detected_clients_missing;
 use crate::cli::registry::sync_quietly;
@@ -15,7 +14,7 @@ use usemcpkit_clients::{
 /// Copies the binaries to ~/.usemcpkit/bin (or uses the Homebrew/winget one in place), points each chosen client's
 /// single `mcpkit` entry at the runner, with partial loading and auto-update on or off as chosen, loads or unloads the
 /// scheduled upgrade to match and sets the client settings usemcpkit needs.
-pub fn install_command(args: InstallArgs, distribution: Distribution) -> i32 {
+pub fn install_command(args: InstallArgs) -> i32 {
     run_command(async move {
         if let Some(binary) = &args.binary {
             let exists = binary
@@ -46,8 +45,8 @@ pub fn install_command(args: InstallArgs, distribution: Distribution) -> i32 {
             println!("Nothing changed.");
             return Ok(EXIT_SUCCESS);
         };
-        let binary_context = create_binary_context(distribution.layout)?;
-        let Some(auto_update) = choose_auto_update(&args, distribution.layout)? else {
+        let binary_context = create_binary_context()?;
+        let Some(auto_update) = choose_auto_update(&args)? else {
             println!("Nothing changed.");
             return Ok(EXIT_SUCCESS);
         };
@@ -64,7 +63,7 @@ pub fn install_command(args: InstallArgs, distribution: Distribution) -> i32 {
         if !binary.managed {
             announce_upgrade_schedule(&binary_context, auto_update).await;
         }
-        sync_quietly(distribution.registry).await;
+        sync_quietly().await;
         println!("Restart the clients to load usemcpkit. {}", binary.update_hint);
         Ok(if failed == 0 { EXIT_SUCCESS } else { EXIT_FAILURE })
     })

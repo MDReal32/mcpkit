@@ -13,7 +13,6 @@
       <project name="usemcpkit-clients" file="file://$PROJECT_DIR$/crates/clients/project.json" />
       <project name="usemcpkit-core" file="file://$PROJECT_DIR$/crates/core/project.json" />
       <project name="usemcpkit-credentials-form" file="file://$PROJECT_DIR$/crates/credentials-form/project.json" />
-      <project name="usemcpkit-dev" file="file://$PROJECT_DIR$/apps/dev/project.json" />
       <project name="usemcpkit-execution" file="file://$PROJECT_DIR$/crates/execution/project.json" />
       <project name="usemcpkit-http" file="file://$PROJECT_DIR$/crates/http/project.json" />
       <project name="usemcpkit-manifest" file="file://$PROJECT_DIR$/crates/manifest/project.json" />

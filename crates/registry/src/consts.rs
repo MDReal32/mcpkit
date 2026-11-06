@@ -13,14 +13,6 @@ pub const DEFAULT_REGISTRY_URL: &str = "https://mdreal32.github.io/mcpkit";
 /// reads only the manifests published with its own version.
 pub const REGISTRY_VERSION_DIR: &str = concat!("v", env!("CARGO_PKG_VERSION"));
 
-/// The registry folder a dev binary carries; links in it resolve under this base like under a published folder.
-pub const EMBEDDED_REGISTRY_URL: &str = "usemcpkit-dev://registry";
-
-/// A dev binary caches under `manifests/dev-<the first characters of its index's sha256>`.
-pub const EMBEDDED_CACHE_DIR_PREFIX: &str = "dev-";
-
-pub const EMBEDDED_CACHE_HASH_LENGTH: usize = 12;
-
 pub const INDEX_FILE_NAME: &str = "index.json";
 
 pub const CACHE_FILE_NAME: &str = "cache.json";

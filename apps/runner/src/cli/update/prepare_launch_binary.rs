@@ -1,7 +1,7 @@
 use crate::cli::consts::VERSION;
 use crate::cli::update::launch_binary::LaunchBinary;
 use std::path::{Path, PathBuf};
-use usemcpkit_binary::{BinaryContext, BinaryLayout, BinarySource, detect_package_manager_install, install_binary};
+use usemcpkit_binary::{BinaryContext, BinarySource, detect_package_manager_install, install_binary};
 
 /// A Homebrew or winget binary is used where it is so its package manager keeps updating it; any other runner is
 /// copied to ~/.usemcpkit/bin with the server next to it.
@@ -37,13 +37,9 @@ pub fn prepare_launch_binary(context: &BinaryContext, binary: Option<PathBuf>) -
         installed.version,
         installed.path.display()
     );
-    let update_hint = match context.layout {
-        BinaryLayout::Pair => "It updates itself in the background.",
-        BinaryLayout::Combined => "It is a dev build: install it again after rebuilding it.",
-    };
     Ok(LaunchBinary {
         path: installed.path,
-        update_hint: update_hint.to_owned(),
+        update_hint: "It updates itself in the background.".to_owned(),
         managed: false,
     })
 }

@@ -9,7 +9,6 @@
     "@usemcpkit/servers",
     "@usemcpkit/ui",
     "usemcpkit",
-    "usemcpkit-dev",
     "usemcpkit-runner",
     "usemcpkit-servers"
   ],

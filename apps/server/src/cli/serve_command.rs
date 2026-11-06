@@ -6,12 +6,12 @@ use std::rc::Rc;
 use tokio::runtime::Builder;
 use tokio::task::LocalSet;
 use usemcpkit_core::mcp::PARTIAL_LOADING_ENV;
-use usemcpkit_registry::{RegistrySource, open_registry_context};
+use usemcpkit_registry::{HttpFetcher, RegistryContext};
 use usemcpkit_wire_log::{WireLog, WireLogRole};
 
 /// One thread serves every request: the work is waiting on the network and the client, and staying on one thread lets
 /// the catalog and the tool list be shared without locks.
-pub fn serve_command(servers: &[String], registry: RegistrySource) -> i32 {
+pub fn serve_command(servers: &[String]) -> i32 {
     let runtime = match Builder::new_current_thread().enable_all().build() {
         Ok(runtime) => runtime,
         Err(error) => {
@@ -19,7 +19,7 @@ pub fn serve_command(servers: &[String], registry: RegistrySource) -> i32 {
             return 1;
         }
     };
-    match LocalSet::new().block_on(&runtime, serve(servers, registry)) {
+    match LocalSet::new().block_on(&runtime, serve(servers)) {
         Ok(()) => 0,
         Err(error) => {
             eprintln!("usemcpkit: {error}");
@@ -28,11 +28,12 @@ pub fn serve_command(servers: &[String], registry: RegistrySource) -> i32 {
     }
 }
 
-async fn serve(servers: &[String], registry: RegistrySource) -> Result<(), String> {
+async fn serve(servers: &[String]) -> Result<(), String> {
     let wire_log = Rc::new(WireLog::from_env(WireLogRole::Server));
     let calls = create_call_context()?;
     adopt_legacy_credentials(&calls.auth.env, &calls.auth.home).await;
-    let context = open_registry_context(None, registry).map_err(|error| error.to_string())?;
+    let fetcher = HttpFetcher::new().map_err(|error| error.to_string())?;
+    let context = RegistryContext::from_env(None, fetcher).map_err(|error| error.to_string())?;
     let catalog = load_catalog(servers, context, calls.clone()).await?;
     let ids: Vec<&str> = catalog.servers.iter().map(|server| server.id.as_str()).collect();
     eprintln!("usemcpkit {}: serving {}", env!("CARGO_PKG_VERSION"), ids.join(", "));

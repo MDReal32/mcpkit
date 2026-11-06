@@ -12,7 +12,6 @@ packages/ui        @usemcpkit/ui         Svelte pages the server shows, e.g. the
 packages/testing   @usemcpkit/testing    shared test fixtures (private)
 apps/runner        usemcpkit-runner      the usemcpkit binary: commands, installing, the supervisor (Rust)
 apps/server        usemcpkit-servers     the usemcpkit-servers binary: MCP stdio server, credentials window (Rust)
-apps/dev           usemcpkit-dev         one binary: the runner and the server with the built manifests inside (Rust)
 apps/npx           usemcpkit             wrapper so `npx usemcpkit` runs the binary of this platform
 apps/analytics     @usemcpkit/analytics  usage-reporting Worker
 crates/*                                 the Rust libraries behind the binaries
@@ -23,7 +22,7 @@ repository root.
 
 ```bash
 yarn install
-yarn build          # every package; packages/servers/build/manifests/ + target/release/usemcpkit[-servers|-dev]
+yarn build          # every package; packages/servers/build/manifests/ + target/release/usemcpkit[-servers]
                     #   then a copy of every build and the Rust release binaries in build/
 yarn test
 yarn typecheck
@@ -114,16 +113,7 @@ packages/servers/src/servers/gitlab/gitlab.ts   author servers in TypeScript (on
 cargo build --release                    apps/runner + apps/server, no manifests inside
   ├─ target/release/usemcpkit            commands and the supervisor that owns the client's stdio
   └─ target/release/usemcpkit-servers    the MCP server it runs, which downloads manifests from the registry
-cargo build --release -p usemcpkit-dev   apps/dev: both in one binary, build/manifests compiled in
-  └─ target/release/usemcpkit-dev        reads only the manifests it carries; never fetched, never self-updated
 ```
-
-`usemcpkit-dev` is for trying unreleased manifests and code: it is the runner and its own server, and reads the
-registry `packages/servers` built when it was compiled, never the published one (`USEMCPKIT_REGISTRY` is not read and
-`--registry` is refused); it caches under `~/.usemcpkit/manifests/dev-<hash of its index>`, so a rebuild with other
-manifests starts a fresh cache. `build/usemcpkit-dev` (or `usemcpkit-dev install`) installs like a release: it copies itself
-to `~/.usemcpkit/bin/usemcpkit` and `usemcpkit-servers`, points the clients at `usemcpkit`, and turns auto-update off,
-since a release would replace it. Rebuild and install it again to pick up changes; `npx usemcpkit` puts a release back.
 
 An invalid server definition fails the build. The build log lists each compiled manifest:
 

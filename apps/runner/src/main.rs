@@ -1,7 +1,7 @@
 use clap::Parser;
-use usemcpkit_runner::cli::{Cli, Distribution, run};
+use usemcpkit_runner::cli::{Cli, run};
 
 fn main() {
-    let code = run(Cli::parse(), Distribution::RELEASE);
+    let code = run(Cli::parse());
     std::process::exit(code);
 }
