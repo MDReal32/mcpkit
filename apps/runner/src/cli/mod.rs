@@ -8,6 +8,7 @@ mod run;
 mod run_command;
 mod run_local;
 mod serve;
+mod tool_loading;
 mod update;
 
 pub use command::{Cli, Command};

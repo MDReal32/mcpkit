@@ -1,4 +1,5 @@
 use crate::cache::cache_entry::CacheEntry;
+use crate::cache::cache_map_lock::CACHE_MAP_LOCK;
 use crate::cache::read_cache_map::read_cache_map;
 use crate::cache::to_cache_path::to_cache_path;
 use crate::cache::write_cache_map::write_cache_map;
@@ -15,6 +16,7 @@ pub async fn record_cache_entry<F>(
     now: u64,
 ) -> Result<(), RegistryError> {
     let path = to_cache_path(&context.dir, file);
+    let _locked = CACHE_MAP_LOCK.lock().await;
     let mut map = read_cache_map(context).await;
     let sha256 = sha256_hex(text);
     let updated_at = match map.get(&path) {

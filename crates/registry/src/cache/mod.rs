@@ -1,5 +1,6 @@
 mod cache_entry;
 mod cache_map;
+mod cache_map_lock;
 mod now_millis;
 mod parse_cache_map;
 mod read_cache_map;

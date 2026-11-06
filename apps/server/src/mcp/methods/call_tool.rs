@@ -16,6 +16,7 @@ pub async fn call_tool<F: Fetch>(
     params: Option<&Map<String, Value>>,
     context: &CallContext,
 ) -> Result<MethodOutcome, RpcError> {
+    exposure.settle().await;
     let name = to_js_string(params.and_then(|params| params.get("name")));
     let Some(found) = exposure.find(&name) else {
         return Err(RpcError::new(

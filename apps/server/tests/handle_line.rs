@@ -9,7 +9,7 @@ use usemcpkit_http::HttpResponse;
 use usemcpkit_manifest::registry::RegistryServer;
 use usemcpkit_registry::{Fetch, RegistryContext, RegistryError};
 use usemcpkit_servers::catalog::RegistryCatalog;
-use usemcpkit_servers::mcp::McpServer;
+use usemcpkit_servers::mcp::{McpServer, ToolLoading};
 use usemcpkit_testing::FixedClient;
 use usemcpkit_wire_log::{WireLog, WireLogRole};
 
@@ -26,6 +26,10 @@ impl Fetch for OfflineFetcher {
 }
 
 fn offline_server(calls: &Rc<Cell<usize>>, cache: &TempDir) -> McpServer<OfflineFetcher> {
+    offline_server_loading(calls, cache, ToolLoading::Partial)
+}
+
+fn offline_server_loading(calls: &Rc<Cell<usize>>, cache: &TempDir, loading: ToolLoading) -> McpServer<OfflineFetcher> {
     let context = RegistryContext::new(
         cache.path().join("manifests"),
         "https://registry.invalid".into(),
@@ -46,6 +50,7 @@ fn offline_server(calls: &Rc<Cell<usize>>, cache: &TempDir) -> McpServer<Offline
         RegistryCatalog::new(servers, context, calls.clone()),
         Rc::new(WireLog::disabled(WireLogRole::Server)),
         calls,
+        loading,
     )
 }
 
@@ -99,4 +104,36 @@ async fn reports_a_section_that_cannot_open_and_tries_again_on_the_next_call() {
     assert!(!first.tools_changed);
     assert_eq!(second["result"]["isError"], json!(true));
     assert!(calls.get() >= 2, "the second call did not try the registry again");
+}
+
+#[tokio::test]
+async fn full_loading_keeps_a_server_it_cannot_load_as_a_section() {
+    let calls = Rc::new(Cell::new(0));
+    let cache = TempDir::new().unwrap();
+    let server = offline_server_loading(&calls, &cache, ToolLoading::Full);
+
+    let listed = answer(&server, json!({ "id": 1, "method": "tools/list" }))
+        .await
+        .unwrap();
+    let tried = calls.get();
+    let opened = answer(
+        &server,
+        json!({ "id": 2, "method": "tools/call", "params": { "name": "git_github" } }),
+    )
+    .await
+    .unwrap();
+
+    let names: Vec<&Value> = listed["result"]["tools"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|tool| &tool["name"])
+        .collect();
+    assert_eq!(names, vec![&json!("git_github")]);
+    assert!(tried >= 1, "the first listing did not try to load the server");
+    assert_eq!(opened["result"]["isError"], json!(true));
+    assert!(
+        calls.get() > tried,
+        "opening the section did not try the registry again"
+    );
 }

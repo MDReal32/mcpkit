@@ -12,7 +12,7 @@ use usemcpkit_http::{HttpClient, HttpError, HttpRequest, HttpResponse};
 use usemcpkit_manifest::registry::RegistryServer;
 use usemcpkit_registry::RegistryContext;
 use usemcpkit_servers::catalog::RegistryCatalog;
-use usemcpkit_servers::mcp::McpServer;
+use usemcpkit_servers::mcp::{McpServer, ToolLoading};
 use usemcpkit_testing::json_response;
 use usemcpkit_wire_log::{WireLog, WireLogRole};
 
@@ -90,6 +90,7 @@ fn tracker_server(registry: &TempDir, http: Rc<TrackerApi>) -> McpServer<FolderF
         RegistryCatalog::new(servers, context, calls.clone()),
         Rc::new(WireLog::disabled(WireLogRole::Server)),
         calls,
+        ToolLoading::Partial,
     )
 }
 

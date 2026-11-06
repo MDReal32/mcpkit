@@ -6,6 +6,7 @@ mod format_toml_value;
 mod has_toml_table;
 mod is_toml_table_start;
 mod read_toml_header;
+mod remove_toml_subtables;
 mod remove_toml_table;
 mod to_toml_table_key;
 mod toml_table_range;

@@ -1,6 +1,6 @@
 use crate::catalog::RegistryCatalog;
 use crate::mcp::consts::METHOD_NOT_FOUND;
-use crate::mcp::exposed::ToolExposure;
+use crate::mcp::exposed::{ToolExposure, ToolLoading};
 use crate::mcp::handled_line::HandledLine;
 use crate::mcp::methods::{MethodOutcome, call_tool, initialize, list_tools};
 use crate::mcp::rpc::{RpcError, RpcMessage, create_error_response, create_result_response, parse_rpc_message};
@@ -19,10 +19,10 @@ pub struct McpServer<F> {
 
 impl<F: Fetch> McpServer<F> {
     /// `calls` is shared by every tool call of the process.
-    pub fn new(catalog: RegistryCatalog<F>, wire_log: Rc<WireLog>, calls: CallContext) -> Self {
+    pub fn new(catalog: RegistryCatalog<F>, wire_log: Rc<WireLog>, calls: CallContext, loading: ToolLoading) -> Self {
         let catalog = Rc::new(catalog);
         McpServer {
-            exposure: ToolExposure::new(Rc::clone(&catalog), wire_log),
+            exposure: ToolExposure::new(Rc::clone(&catalog), wire_log, loading),
             catalog,
             calls,
         }
@@ -70,7 +70,10 @@ impl<F: Fetch> McpServer<F> {
         match message.method.as_str() {
             "initialize" => Ok(MethodOutcome::unchanged(initialize(params))),
             "ping" => Ok(MethodOutcome::unchanged(json!({}))),
-            "tools/list" => Ok(MethodOutcome::unchanged(list_tools(&self.exposure))),
+            "tools/list" => {
+                self.exposure.settle().await;
+                Ok(MethodOutcome::unchanged(list_tools(&self.exposure)))
+            }
             "tools/call" => call_tool(&self.catalog, &self.exposure, params, &self.calls).await,
             method => Err(RpcError::new(METHOD_NOT_FOUND, format!("method not found: {method}"))),
         }

@@ -15,7 +15,7 @@ use usemcpkit_manifest::registry::RegistryServer;
 use usemcpkit_manifest::tool::HttpMethod;
 use usemcpkit_registry::{Fetch, RegistryContext, RegistryError};
 use usemcpkit_servers::catalog::RegistryCatalog;
-use usemcpkit_servers::mcp::McpServer;
+use usemcpkit_servers::mcp::{McpServer, ToolLoading};
 use usemcpkit_testing::json_response;
 use usemcpkit_wire_log::{WireLog, WireLogRole};
 
@@ -148,6 +148,7 @@ fn remote_server(registry: &Path, http: Rc<RemoteMcp>, env: &[(&str, &str)]) -> 
         RegistryCatalog::new(servers, context, calls.clone()),
         Rc::new(WireLog::disabled(WireLogRole::Server)),
         calls,
+        ToolLoading::Partial,
     )
 }
 

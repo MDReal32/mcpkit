@@ -165,7 +165,7 @@ deployed from it alone. `release-binaries.yml` then builds the two binaries per 
 (`linux-x64`, `linux-arm64`, `darwin-x64`, `darwin-arm64`, `windows-x64`) from the credentials page the first job
 built, checks that each prints `--version` and runs `tools/smoke-test` against them (`node tools/smoke-test/src/main.ts
 <usemcpkit binary> <registry dir>`: the real `usemcpkit serve`, with the server next to it, over stdio in a temp home
-seeded from the first job's registry, auto-update off and the registry unreachable; it initializes, lists one section
+seeded from the first job's registry, partial loading on, auto-update off and the registry unreachable; it initializes, lists one section
 per indexed server, opens `git:github` and expects the `list_changed` notice and its groups; it does not open the
 credentials window or reach the network; the package job runs it once more on the packaged `cli-linux-x64`, with only
 the WebKitGTK runtime installed), and `tools/release` writes each

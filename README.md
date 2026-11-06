@@ -46,10 +46,18 @@ touched: comments and other keys stay, and the previous file is kept as `<config
 also sets `"agentPushNotifEnabled": true` in `~/.claude/settings.json`, the same way. Restart the clients afterwards
 (later updates reload live).
 
+Install also asks whether to turn on **partial loading** (beta, off by default) and writes the answer into each entry's
+environment as `USEMCPKIT_BETA_PARTIAL_LOADING=1` or `0` (`environment` for opencode, an `[mcp_servers.mcpkit.env]`
+table for Codex). Off, the client gets every tool from the start; on, it gets one section per server and the tools of the
+ones the model opens, which needs a client that lists tools again after `tools/list_changed`. `--partial-loading` (or
+`--partial-loading=false`) answers it without asking; `--all` and `--clients` leave it off unless the flag is given.
+Running install again rewrites the whole entry, so set any other variable of yours there again afterwards.
+
 ```bash
 npx usemcpkit --all                         # every detected client, no checklist (needed without a terminal)
 npx usemcpkit --clients cursor,codex        # only these
 usemcpkit install --binary ./usemcpkit         # install a local binary instead of downloading one
+usemcpkit install --all --partial-loading      # every client, with the beta partial loading on
 usemcpkit uninstall [--all | --clients ...] # remove the entry; the binary stays
 usemcpkit update                            # refresh the cached manifests now
 usemcpkit upgrade                           # update the cached manifests, then the installed binary
@@ -429,7 +437,14 @@ the first time a tool of that server is described or called, checked against the
 
 ### What the AI client sees
 
-The tool list starts as one **section** per served server (`git_github`, `git_gitlab`, ...). A section is not a tool: its
+By default (`USEMCPKIT_BETA_PARTIAL_LOADING` unset or not `1`) the first `tools/list` answers only once every server's
+tools are loaded: each manifest and group file is downloaded once into the cache, then served from it, and every real
+tool is listed from the start, with no sections. Clients that never list again after `tools/list_changed` (the Claude
+desktop app hands Claude Code sessions a fixed list) see every tool this way. An upstream server (Bitwarden, Cloudflare,
+Postman, Teams) is not started for that: its tools are listed when its tool cache exists, and it stays a section until
+it is opened once. A server whose files cannot be downloaded also stays a section, so calling it reports why.
+
+With `USEMCPKIT_BETA_PARTIAL_LOADING=1` the tool list starts as one **section** per served server (`git_github`, `git_gitlab`, ...). A section is not a tool: its
 description says so, it takes no arguments, and calling it opens it. A server split into groups answers with its groups,
 each one another section (`git_github_issues`); calling a group, or a server that has no groups, puts its tools into the
 list and usemcpkit sends `tools/list_changed`. Only what the model opens is downloaded: the index first, then the server's

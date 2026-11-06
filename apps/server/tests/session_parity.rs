@@ -10,7 +10,7 @@ use tempfile::TempDir;
 use usemcpkit_http::HttpResponse;
 use usemcpkit_registry::{DEFAULT_REGISTRY_URL, RegistryContext};
 use usemcpkit_servers::catalog::load_catalog;
-use usemcpkit_servers::mcp::McpServer;
+use usemcpkit_servers::mcp::{McpServer, ToolLoading};
 use usemcpkit_testing::{FixedClient, updates_goldens, write_golden};
 use usemcpkit_wire_log::{WireLog, WireLogRole};
 
@@ -26,7 +26,12 @@ async fn built_registry_server(cache: &TempDir) -> McpServer<FolderFetcher> {
     );
     let calls = call_context(cache.path(), &[], Rc::new(FixedClient::new(HttpResponse::default())));
     let catalog = load_catalog(&[], context, calls.clone()).await.unwrap();
-    McpServer::new(catalog, Rc::new(WireLog::disabled(WireLogRole::Server)), calls)
+    McpServer::new(
+        catalog,
+        Rc::new(WireLog::disabled(WireLogRole::Server)),
+        calls,
+        ToolLoading::Partial,
+    )
 }
 
 fn fixture_path(name: &str) -> PathBuf {

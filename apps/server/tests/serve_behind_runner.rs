@@ -46,6 +46,7 @@ async fn opens_a_section_through_the_runner_and_announces_the_new_tools_after_th
             ("USEMCPKIT_HOME".into(), home.path().into()),
             ("USEMCPKIT_REGISTRY".into(), "http://127.0.0.1:9".into()),
             ("USEMCPKIT_DEBUG".into(), "0".into()),
+            ("USEMCPKIT_BETA_PARTIAL_LOADING".into(), "1".into()),
         ],
     };
     let (mut client, input) = tokio::io::duplex(1 << 20);

@@ -65,4 +65,8 @@ pub struct InstallArgs {
     /// Install this usemcpkit binary (with usemcpkit-servers next to it) instead of the running one
     #[arg(long)]
     pub binary: Option<PathBuf>,
+    /// Beta: list one tool per server and load its tools when the model opens it (`--partial-loading=false` lists every
+    /// tool, the default); without it install asks
+    #[arg(long, num_args = 0..=1, default_missing_value = "true", require_equals = true)]
+    pub partial_loading: Option<bool>,
 }

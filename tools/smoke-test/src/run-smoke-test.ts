@@ -46,8 +46,8 @@ const talkToServer = async (session: StdioSession, serverCount: number) => {
 
 /**
  * Runs `usemcpkit serve` from `runner` (which starts the `usemcpkit-servers` next to it) against a home seeded from
- * `registryDir`: initialize, list the sections, open `git:github` and list again. Auto-update is off and the registry
- * unreachable, so nothing is installed, scheduled or fetched.
+ * `registryDir`: initialize, list the sections, open `git:github` and list again. Partial loading is on, so the list
+ * starts with sections; auto-update is off and the registry unreachable, so nothing is installed, scheduled or fetched.
  */
 export const runSmokeTest = async (runner: string, registryDir: string) => {
   const serverCount = await readIndexedServerCount(registryDir);
@@ -61,6 +61,7 @@ export const runSmokeTest = async (runner: string, registryDir: string) => {
       USEMCPKIT_REGISTRY: UNREACHABLE_REGISTRY,
       USEMCPKIT_AUTO_UPDATE: "0",
       USEMCPKIT_DEBUG: "0",
+      USEMCPKIT_BETA_PARTIAL_LOADING: "1",
     },
     timeoutMs: RESPONSE_TIMEOUT_MS,
   });
