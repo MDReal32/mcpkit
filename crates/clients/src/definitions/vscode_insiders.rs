@@ -11,4 +11,5 @@ pub const VSCODE_INSIDERS: ClientDefinition = ClientDefinition {
     config_path: |context| resolve_vscode_user_dir(context, "Code - Insiders").join("mcp.json"),
     servers_path: &["servers"],
     create_entry: create_stdio_entry,
+    settings: &[],
 };

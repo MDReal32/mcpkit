@@ -40,9 +40,11 @@ npx usemcpkit
 ```
 
 This finds the AI clients installed for the current user, asks which ones to set up, copies the usemcpkit binary for
-this OS to `~/.usemcpkit/bin/usemcpkit` and adds one `usemcpkit` entry (`<binary> serve`, every server) to each chosen client.
-Running it again updates the entries in place. Only the `usemcpkit` key is touched: comments and other keys stay, and the
-previous file is kept as `<config>.usemcpkit-backup`. Restart the clients afterwards (later updates reload live).
+this OS to `~/.usemcpkit/bin/usemcpkit` and adds one `mcpkit` entry (`<binary> serve`, every server) to each chosen client.
+Running it again updates the entries in place, and replaces a `usemcpkit` entry 0.10 or 0.11 wrote. Only that key is
+touched: comments and other keys stay, and the previous file is kept as `<config>.usemcpkit-backup`. For Claude Code it
+also sets `"agentPushNotifEnabled": true` in `~/.claude/settings.json`, the same way. Restart the clients afterwards
+(later updates reload live).
 
 ```bash
 npx usemcpkit --all                         # every detected client, no checklist (needed without a terminal)
@@ -121,7 +123,7 @@ Put each tool in `packages/servers/src/<name>/tools/<resource>/<action>.ts` (the
 ```json
 {
   "mcpServers": {
-    "usemcpkit": {
+    "mcpkit": {
       "command": "/Users/me/.usemcpkit/bin/usemcpkit",
       "args": ["serve"]
     }
@@ -433,11 +435,12 @@ each one another section (`git_github_issues`); calling a group, or a server tha
 list and usemcpkit sends `tools/list_changed`. Only what the model opens is downloaded: the index first, then the server's
 shell, then the one group file. Every real tool is its own MCP tool, with its description and input schema, so the
 client's permission rules apply per tool: `git:github` with `issues:issues:get_issue` is `git_github_issues_get_issue`
-(`mcp__usemcpkit__git_github_issues_get_issue` in Claude Code). There are no `call_tool` or `describe_tool` meta-tools,
+(`mcp__mcpkit__git_github_issues_get_issue` in Claude Code). There are no `call_tool` or `describe_tool` meta-tools,
 and opened sections are forgotten when the server restarts. Tool names cannot contain
-`:` and the API caps a name at 64 characters, 13 of which the client spends on `mcp__usemcpkit__`, so a name longer than 51
-characters is cut at a word boundary and ends in a 6-character hash of its full id (`..._comments_create_d9463b`). The
-hash depends only on the id, so a name and the permission rule written for it stay the same from run to run.
+`:` and the API caps a name at 64 characters, of which the client spends 13 on `mcp__mcpkit__` (16 on the
+`mcp__usemcpkit__` of an entry 0.10 or 0.11 wrote), so a name longer than 48 characters is cut at a word boundary and
+ends in a 6-character hash of its full id (`..._comments_create_d9463b`). The hash depends only on the id, so a name and
+the permission rule written for it stay the same from run to run.
 
 Opening a section downloads its file once (cached under `~/.usemcpkit/manifests`). A section that cannot be opened stays
 closed and the call returns an error saying why. Reads are marked

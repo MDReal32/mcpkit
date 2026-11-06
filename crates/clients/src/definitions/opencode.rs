@@ -29,4 +29,5 @@ pub const OPENCODE: ClientDefinition = ClientDefinition {
             ("enabled".to_owned(), Value::Bool(true)),
         ])
     },
+    settings: &[],
 };

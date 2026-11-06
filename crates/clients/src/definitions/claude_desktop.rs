@@ -20,4 +20,5 @@ pub const CLAUDE_DESKTOP: ClientDefinition = ClientDefinition {
     config_path: |context| context.app_data_dir.join("Claude").join("claude_desktop_config.json"),
     servers_path: &["mcpServers"],
     create_entry: create_command_entry,
+    settings: &[],
 };

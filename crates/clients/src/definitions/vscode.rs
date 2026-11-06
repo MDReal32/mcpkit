@@ -11,4 +11,5 @@ pub const VSCODE: ClientDefinition = ClientDefinition {
     config_path: |context| resolve_vscode_user_dir(context, "Code").join("mcp.json"),
     servers_path: &["servers"],
     create_entry: create_stdio_entry,
+    settings: &[],
 };

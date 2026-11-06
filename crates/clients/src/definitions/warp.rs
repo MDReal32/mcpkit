@@ -10,4 +10,5 @@ pub const WARP: ClientDefinition = ClientDefinition {
     config_path: |context| context.home_dir.join(".warp").join(".mcp.json"),
     servers_path: &["mcpServers"],
     create_entry: create_command_entry,
+    settings: &[],
 };

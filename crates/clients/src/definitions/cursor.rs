@@ -10,4 +10,5 @@ pub const CURSOR: ClientDefinition = ClientDefinition {
     config_path: |context| context.home_dir.join(".cursor").join("mcp.json"),
     servers_path: &["mcpServers"],
     create_entry: create_stdio_entry,
+    settings: &[],
 };

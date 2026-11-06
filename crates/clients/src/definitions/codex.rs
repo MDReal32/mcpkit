@@ -11,4 +11,5 @@ pub const CODEX: ClientDefinition = ClientDefinition {
     config_path: |context| resolve_codex_home(context).join("config.toml"),
     servers_path: &["mcp_servers"],
     create_entry: create_command_entry,
+    settings: &[],
 };

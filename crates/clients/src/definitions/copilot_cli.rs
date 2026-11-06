@@ -20,4 +20,5 @@ pub const COPILOT_CLI: ClientDefinition = ClientDefinition {
             ("tools".to_owned(), Value::from(vec!["*"])),
         ])
     },
+    settings: &[],
 };

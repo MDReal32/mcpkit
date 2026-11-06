@@ -3,8 +3,8 @@ use std::fs;
 use std::path::{Path, PathBuf};
 use tempfile::TempDir;
 use usemcpkit_clients::{
-    CLIENT_DEFINITIONS, ClientContext, ClientDefinition, LaunchCommand, detect_clients, remove_client_entry,
-    set_client_entry,
+    CLIENT_DEFINITIONS, ClientContext, ClientDefinition, LaunchCommand, apply_client_settings, detect_clients,
+    remove_client_entry, set_client_entry,
 };
 use usemcpkit_core::env::Env;
 use usemcpkit_core::platform::Platform;
@@ -47,7 +47,7 @@ fn finds_clients_by_their_directories_and_reports_existing_entries() {
     write_config(
         home.path(),
         &find_definition("gemini-cli"),
-        r#"{ "mcpServers": { "usemcpkit": {} } }"#,
+        r#"{ "mcpServers": { "mcpkit": {} } }"#,
     );
 
     let detected = detect_clients(&create_context(home.path()), CLIENT_DEFINITIONS).unwrap();
@@ -132,7 +132,7 @@ fn creates_the_config_file_with_the_client_specific_entry_shape() {
     let written: Value = serde_json::from_str(&read(&path)).unwrap();
     assert_eq!(
         written,
-        json!({ "servers": { "usemcpkit": { "type": "stdio", "command": LAUNCH_COMMAND, "args": ["serve"] } } })
+        json!({ "servers": { "mcpkit": { "type": "stdio", "command": LAUNCH_COMMAND, "args": ["serve"] } } })
     );
 }
 
@@ -156,7 +156,7 @@ fn keeps_comments_and_other_keys_backs_up_and_removes_only_its_entry() {
 
     assert!(remove_client_entry(&definition, &path).unwrap());
     let removed = read(&path);
-    assert!(!removed.contains("usemcpkit"));
+    assert!(!removed.contains("mcpkit"));
     assert!(removed.contains("// theme"));
     assert!(!remove_client_entry(&definition, &path).unwrap());
 }
@@ -171,7 +171,7 @@ fn writes_opencode_commands_as_one_array() {
 
     let written: Value = serde_json::from_str(&read(&path)).unwrap();
     assert_eq!(
-        written["mcp"]["usemcpkit"],
+        written["mcp"]["mcpkit"],
         json!({ "type": "local", "command": [LAUNCH_COMMAND, "serve"], "enabled": true })
     );
 }
@@ -195,7 +195,7 @@ fn appends_the_codex_table_and_replaces_it_in_place_later() {
 
     assert_eq!(
         read(&path),
-        "model = \"o3\" # pick\n\n[mcp_servers.other]\ncommand = \"x\"\n\n[mcp_servers.usemcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\"]\n"
+        "model = \"o3\" # pick\n\n[mcp_servers.other]\ncommand = \"x\"\n\n[mcp_servers.mcpkit]\ncommand = \"C:\\\\usemcpkit.exe\"\nargs = [\"serve\"]\n"
     );
 }
 
@@ -206,11 +206,11 @@ fn keeps_codex_subtables_on_update_and_removes_them_with_the_entry() {
     let path = write_config(
         home.path(),
         &codex,
-        "[mcp_servers.usemcpkit]\ncommand = \"old\"\n\n[mcp_servers.usemcpkit.env]\nA = \"1\"\n\n[profiles.x]\nmodel = \"y\"\n",
+        "[mcp_servers.mcpkit]\ncommand = \"old\"\n\n[mcp_servers.mcpkit.env]\nA = \"1\"\n\n[profiles.x]\nmodel = \"y\"\n",
     );
 
     set_client_entry(&codex, &path, &launch()).unwrap();
-    let expected = format!("command = \"{LAUNCH_COMMAND}\"\nargs = [\"serve\"]\n\n[mcp_servers.usemcpkit.env]");
+    let expected = format!("command = \"{LAUNCH_COMMAND}\"\nargs = [\"serve\"]\n\n[mcp_servers.mcpkit.env]");
     assert!(read(&path).contains(&expected));
 
     remove_client_entry(&codex, &path).unwrap();
@@ -221,7 +221,7 @@ fn keeps_codex_subtables_on_update_and_removes_them_with_the_entry() {
 fn refuses_to_edit_an_inline_codex_table_entry() {
     let home = TempDir::new().unwrap();
     let codex = find_definition("codex");
-    let path = write_config(home.path(), &codex, "[mcp_servers]\nusemcpkit = { command = \"x\" }\n");
+    let path = write_config(home.path(), &codex, "[mcp_servers]\nmcpkit = { command = \"x\" }\n");
 
     let error = set_client_entry(&codex, &path, &launch()).unwrap_err();
 
@@ -229,13 +229,13 @@ fn refuses_to_edit_an_inline_codex_table_entry() {
 }
 
 #[test]
-fn replaces_an_entry_written_under_the_old_mcpkit_name() {
+fn replaces_an_entry_written_under_the_old_usemcpkit_name() {
     let home = TempDir::new().unwrap();
     let definition = find_definition("gemini-cli");
     let path = write_config(
         home.path(),
         &definition,
-        r#"{ "mcpServers": { "mcpkit": { "command": "old" }, "other": {} } }"#,
+        r#"{ "mcpServers": { "usemcpkit": { "command": "old" }, "other": {} } }"#,
     );
 
     let detected = detect_clients(&create_context(home.path()), &[definition]).unwrap();
@@ -243,21 +243,65 @@ fn replaces_an_entry_written_under_the_old_mcpkit_name() {
 
     set_client_entry(&definition, &path, &launch()).unwrap();
     let written: Value = serde_json::from_str(&read(&path)).unwrap();
-    assert_eq!(written["mcpServers"]["usemcpkit"]["command"], LAUNCH_COMMAND);
-    assert!(written["mcpServers"].get("mcpkit").is_none());
+    assert_eq!(written["mcpServers"]["mcpkit"]["command"], LAUNCH_COMMAND);
+    assert!(written["mcpServers"].get("usemcpkit").is_none());
     assert!(written["mcpServers"].get("other").is_some());
 }
 
 #[test]
-fn uninstalls_the_old_mcpkit_codex_table_with_the_new_one() {
+fn uninstalls_the_old_usemcpkit_codex_table_with_the_new_one() {
     let home = TempDir::new().unwrap();
     let codex = find_definition("codex");
     let path = write_config(
         home.path(),
         &codex,
-        "[mcp_servers.mcpkit]\ncommand = \"old\"\n\n[mcp_servers.mcpkit.env]\nA = \"1\"\n\n[mcp_servers.usemcpkit]\ncommand = \"new\"\n\n[profiles.x]\nmodel = \"y\"\n",
+        "[mcp_servers.usemcpkit]\ncommand = \"old\"\n\n[mcp_servers.usemcpkit.env]\nA = \"1\"\n\n[mcp_servers.mcpkit]\ncommand = \"new\"\n\n[profiles.x]\nmodel = \"y\"\n",
     );
 
     assert!(remove_client_entry(&codex, &path).unwrap());
     assert_eq!(read(&path), "[profiles.x]\nmodel = \"y\"\n");
+}
+
+#[test]
+fn turns_on_claude_code_push_notifications_and_keeps_other_settings() {
+    let home = TempDir::new().unwrap();
+    let settings = home.path().join(".claude").join("settings.json");
+    fs::create_dir_all(settings.parent().unwrap()).unwrap();
+    fs::write(
+        &settings,
+        "{\n  // mine\n  \"model\": \"opus\",\n  \"agentPushNotifEnabled\": false\n}\n",
+    )
+    .unwrap();
+
+    apply_client_settings(&find_definition("claude-code"), &create_context(home.path())).unwrap();
+
+    let written = read(&settings);
+    assert!(written.contains("// mine"));
+    assert!(written.contains("\"model\": \"opus\""));
+    assert!(written.contains("\"agentPushNotifEnabled\": true"));
+}
+
+#[test]
+fn creates_claude_code_settings_and_leaves_a_file_that_already_has_them() {
+    let home = TempDir::new().unwrap();
+    let context = create_context(home.path());
+    let settings = home.path().join(".claude").join("settings.json");
+
+    apply_client_settings(&find_definition("claude-code"), &context).unwrap();
+    let written: Value = serde_json::from_str(&read(&settings)).unwrap();
+    assert_eq!(written, json!({ "agentPushNotifEnabled": true }));
+
+    apply_client_settings(&find_definition("claude-code"), &context).unwrap();
+    let mut backup = settings.clone().into_os_string();
+    backup.push(".usemcpkit-backup");
+    assert!(!Path::new(&backup).exists());
+}
+
+#[test]
+fn sets_no_settings_for_a_client_without_any() {
+    let home = TempDir::new().unwrap();
+
+    apply_client_settings(&find_definition("cursor"), &create_context(home.path())).unwrap();
+
+    assert!(fs::read_dir(home.path()).unwrap().next().is_none());
 }
