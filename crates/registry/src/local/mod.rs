@@ -1,3 +1,4 @@
+mod format_cached_json;
 mod read_cached_index;
 mod read_cached_manifest_text;
 mod read_cached_part_text;

@@ -3,7 +3,7 @@ import { basename, relative } from "node:path";
 import { describeError } from "@usemcpkit/core";
 import { checkManifestJson } from "./check-manifest-json";
 import { loadServerDefinition } from "./load-server-definition";
-import { toManifestJson } from "./to-manifest-json";
+import { toRegistryJson } from "./to-registry-json";
 import type { ServerEntry } from "./types/server-entry";
 import type { ServerOutcome } from "./types/server-outcome";
 
@@ -14,7 +14,7 @@ export const compileServer = async ({ dir, file }: ServerEntry) => {
   }
   try {
     const { definition, dependencies } = await loadServerDefinition(file);
-    const json = toManifestJson(definition);
+    const json = toRegistryJson(definition);
     const { manifest, errors } = checkManifestJson(json, dir);
     const outcome: ServerOutcome = {
       dir,

@@ -134,6 +134,15 @@ async fn opens_a_group_with_its_shell_and_part_alone_and_then_from_the_cache() {
         cache_keys(&fixture),
         ["index.json", "git/github.json", "git/github/repos.json"]
     );
+    for file in ["git/github.json", "git/github/repos.json"] {
+        let shipped = fs::read_to_string(registry_root().join(file)).expect("the built file");
+        let cached = fs::read_to_string(fixture.context.dir.join(file)).expect("the cached file");
+        assert!(!shipped.contains('\n'), "{file} ships minified");
+        assert!(
+            cached.starts_with("{\n  \"") && cached.ends_with("}\n"),
+            "{file} is cached formatted"
+        );
+    }
     assert!(fixture.warnings.borrow().is_empty());
 }
 
@@ -202,7 +211,9 @@ async fn sync_replaces_only_the_cached_parts_that_went_stale() {
     );
     let restored = fs::read_to_string(&part).expect("the part");
     let published = fs::read_to_string(registry_root().join("git/github/repos.json")).expect("the published part");
-    assert_eq!(restored, published);
+    let parse = |text: &str| serde_json::from_str::<Value>(text).expect("JSON");
+    assert_eq!(parse(&restored), parse(&published));
+    assert!(restored.ends_with("}\n") && restored.contains("\n  \"tools\": [\n"));
 }
 
 #[tokio::test]

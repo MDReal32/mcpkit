@@ -95,6 +95,7 @@ describe("writeManifests", () => {
     expect(plain.url).toBe("git/github.json");
     expect(linked.tools).toBeUndefined();
     const shell = JSON.parse(file);
+    expect(file).toBe(JSON.stringify(shell));
     expect(shell.tools).toBeUndefined();
     const issues = shell.parts.find((part: { name: string }) => part.name === "issues");
     expect(issues.url).toBe("https://reg.example/usemcpkit/git/github/issues.json");

@@ -1,3 +1,4 @@
+use crate::cache::matches_cached_checksum;
 use crate::catalog::parse_part_tools::parse_part_tools;
 use crate::local::{read_cached_part_text, write_cached_part};
 use crate::registry_context::RegistryContext;
@@ -14,7 +15,7 @@ pub async fn load_part_tools<F: Fetch>(
     context: &RegistryContext<F>,
 ) -> Result<Vec<ToolSpec>, RegistryError> {
     if let Some(cached) = read_cached_part_text(&context.dir, &server.id, &part.name).await?
-        && sha256_hex(&cached) == part.sha256
+        && matches_cached_checksum(&cached, &part.sha256)
     {
         return parse_part_tools(server, part, &cached);
     }
