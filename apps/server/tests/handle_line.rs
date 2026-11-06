@@ -3,15 +3,14 @@ mod support;
 use serde_json::{Value, json};
 use std::cell::Cell;
 use std::rc::Rc;
-use support::call_context;
+use support::{call_context, run_code};
 use tempfile::TempDir;
 use usemcpkit_http::HttpResponse;
 use usemcpkit_manifest::registry::RegistryServer;
 use usemcpkit_registry::{Fetch, RegistryContext, RegistryError};
 use usemcpkit_servers::catalog::RegistryCatalog;
-use usemcpkit_servers::mcp::{McpServer, ToolLoading};
+use usemcpkit_servers::mcp::{McpServer, SEARCH_TOOL};
 use usemcpkit_testing::FixedClient;
-use usemcpkit_wire_log::{WireLog, WireLogRole};
 
 /// A registry that is never reachable, counting how often it was asked.
 struct OfflineFetcher {
@@ -26,10 +25,6 @@ impl Fetch for OfflineFetcher {
 }
 
 fn offline_server(calls: &Rc<Cell<usize>>, cache: &TempDir) -> McpServer<OfflineFetcher> {
-    offline_server_loading(calls, cache, ToolLoading::Partial)
-}
-
-fn offline_server_loading(calls: &Rc<Cell<usize>>, cache: &TempDir, loading: ToolLoading) -> McpServer<OfflineFetcher> {
     let context = RegistryContext::new(
         cache.path().join("manifests"),
         "https://registry.invalid".into(),
@@ -46,12 +41,7 @@ fn offline_server_loading(calls: &Rc<Cell<usize>>, cache: &TempDir, loading: Too
         upstream: false,
     }];
     let calls = call_context(cache.path(), &[], Rc::new(FixedClient::new(HttpResponse::default())));
-    McpServer::new(
-        RegistryCatalog::new(servers, context, calls.clone()),
-        Rc::new(WireLog::disabled(WireLogRole::Server)),
-        calls,
-        loading,
-    )
+    McpServer::new(RegistryCatalog::new(servers, context, calls.clone()), calls)
 }
 
 async fn answer(server: &McpServer<OfflineFetcher>, message: Value) -> Option<Value> {
@@ -59,7 +49,7 @@ async fn answer(server: &McpServer<OfflineFetcher>, message: Value) -> Option<Va
 }
 
 #[tokio::test]
-async fn answers_protocol_mistakes_with_the_errors_the_typescript_server_sends() {
+async fn answers_protocol_mistakes_with_json_rpc_errors() {
     let cache = TempDir::new().unwrap();
     let server = offline_server(&Rc::new(Cell::new(0)), &cache);
 
@@ -71,7 +61,7 @@ async fn answers_protocol_mistakes_with_the_errors_the_typescript_server_sends()
         answer(&server, json!({ "id": "a", "method": "tools/call" })).await,
         Some(json!({ "jsonrpc": "2.0", "id": "a", "error": {
             "code": -32602,
-            "message": "unknown tool: undefined; open its section first, the tool list shows the sections",
+            "message": "unknown tool: undefined; the tools are search and execute",
         } }))
     );
     assert_eq!(answer(&server, json!({ "method": "nope" })).await, None);
@@ -86,54 +76,22 @@ async fn answers_protocol_mistakes_with_the_errors_the_typescript_server_sends()
 }
 
 #[tokio::test]
-async fn reports_a_section_that_cannot_open_and_tries_again_on_the_next_call() {
+async fn reports_a_server_that_cannot_load_and_tries_again_on_the_next_search() {
     let calls = Rc::new(Cell::new(0));
     let cache = TempDir::new().unwrap();
     let server = offline_server(&calls, &cache);
-    let call = json!({ "id": 2, "method": "tools/call", "params": { "name": "git_github" } });
+    let code = r#"async () => codemode.groups("git:github")"#;
 
-    let first = server.handle_line(&call.to_string()).await;
-    let second = answer(&server, call).await.unwrap();
-
-    let result = &first.response.unwrap()["result"];
-    assert_eq!(result["isError"], json!(true));
-    assert_eq!(
-        result["content"][0]["text"],
-        json!("could not open git_github: GET https://registry.invalid/git/github.json failed: offline")
-    );
-    assert!(!first.tools_changed);
-    assert_eq!(second["result"]["isError"], json!(true));
-    assert!(calls.get() >= 2, "the second call did not try the registry again");
-}
-
-#[tokio::test]
-async fn full_loading_keeps_a_server_it_cannot_load_as_a_section() {
-    let calls = Rc::new(Cell::new(0));
-    let cache = TempDir::new().unwrap();
-    let server = offline_server_loading(&calls, &cache, ToolLoading::Full);
-
-    let listed = answer(&server, json!({ "id": 1, "method": "tools/list" }))
-        .await
-        .unwrap();
+    let first = run_code(&server, SEARCH_TOOL, code).await;
     let tried = calls.get();
-    let opened = answer(
-        &server,
-        json!({ "id": 2, "method": "tools/call", "params": { "name": "git_github" } }),
-    )
-    .await
-    .unwrap();
+    let second = run_code(&server, SEARCH_TOOL, code).await;
 
-    let names: Vec<&Value> = listed["result"]["tools"]
-        .as_array()
-        .unwrap()
-        .iter()
-        .map(|tool| &tool["name"])
-        .collect();
-    assert_eq!(names, vec![&json!("git_github")]);
-    assert!(tried >= 1, "the first listing did not try to load the server");
-    assert_eq!(opened["result"]["isError"], json!(true));
+    assert_eq!(first["isError"], json!(true), "{first}");
+    let text = first["content"][0]["text"].as_str().unwrap();
     assert!(
-        calls.get() > tried,
-        "opening the section did not try the registry again"
+        text.contains("GET https://registry.invalid/git/github.json failed: offline"),
+        "{text}"
     );
+    assert_eq!(second["isError"], json!(true), "{second}");
+    assert!(calls.get() > tried, "the second search did not try the registry again");
 }

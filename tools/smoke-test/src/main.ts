@@ -7,4 +7,4 @@ if (runner === undefined || registryDir === undefined) {
   process.exit(1);
 }
 const serverCount = await runSmokeTest(resolve(runner), resolve(registryDir));
-process.stdout.write(`${resolve(runner)} served ${serverCount} sections and opened git:github\n`);
+process.stdout.write(`${resolve(runner)} served ${serverCount} servers through search and execute\n`);

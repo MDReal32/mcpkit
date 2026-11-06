@@ -1,11 +1,10 @@
 use crate::catalog::load_catalog;
 use crate::cli::adopt_legacy_credentials::adopt_legacy_credentials;
 use crate::cli::create_call_context::create_call_context;
-use crate::mcp::{McpServer, ToolLoading, serve_stdio};
+use crate::mcp::{McpServer, serve_stdio};
 use std::rc::Rc;
 use tokio::runtime::Builder;
 use tokio::task::LocalSet;
-use usemcpkit_core::mcp::PARTIAL_LOADING_ENV;
 use usemcpkit_registry::{HttpFetcher, RegistryContext};
 use usemcpkit_wire_log::{WireLog, WireLogRole};
 
@@ -37,8 +36,7 @@ async fn serve(servers: &[String]) -> Result<(), String> {
     let catalog = load_catalog(servers, context, calls.clone()).await?;
     let ids: Vec<&str> = catalog.servers.iter().map(|server| server.id.as_str()).collect();
     eprintln!("usemcpkit {}: serving {}", env!("CARGO_PKG_VERSION"), ids.join(", "));
-    let loading = ToolLoading::from_env_value(calls.auth.env.get(PARTIAL_LOADING_ENV));
-    let server = Rc::new(McpServer::new(catalog, Rc::clone(&wire_log), calls, loading));
+    let server = Rc::new(McpServer::new(catalog, calls));
     let served = serve_stdio(Rc::clone(&server), tokio::io::stdin(), tokio::io::stdout(), wire_log).await;
     server.close().await;
     served

@@ -5,14 +5,13 @@ use crate::cli::launch_env::create_launch_env;
 use crate::cli::output::print_detected_clients_missing;
 use crate::cli::registry::sync_quietly;
 use crate::cli::run_command::run_command;
-use crate::cli::tool_loading::choose_partial_loading;
 use crate::cli::update::{announce_upgrade_schedule, choose_auto_update, create_binary_context, prepare_launch_binary};
 use usemcpkit_clients::{
     CLIENT_DEFINITIONS, LaunchCommand, SERVE_ARGS, apply_client_settings, detect_clients, set_client_entry,
 };
 
 /// Copies the binaries to ~/.usemcpkit/bin (or uses the Homebrew/winget one in place), points each chosen client's
-/// single `mcpkit` entry at the runner, with partial loading and auto-update on or off as chosen, loads or unloads the
+/// single `mcpkit` entry at the runner, with auto-update as chosen, loads or unloads the
 /// scheduled upgrade to match and sets the client settings usemcpkit needs.
 pub fn install_command(args: InstallArgs) -> i32 {
     run_command(async move {
@@ -41,10 +40,6 @@ pub fn install_command(args: InstallArgs) -> i32 {
             println!("Nothing selected, nothing changed.");
             return Ok(EXIT_SUCCESS);
         };
-        let Some(partial_loading) = choose_partial_loading(&args)? else {
-            println!("Nothing changed.");
-            return Ok(EXIT_SUCCESS);
-        };
         let binary_context = create_binary_context()?;
         let Some(auto_update) = choose_auto_update(&args)? else {
             println!("Nothing changed.");
@@ -54,7 +49,7 @@ pub fn install_command(args: InstallArgs) -> i32 {
         let launch = LaunchCommand {
             command: binary.path.display().to_string(),
             args: SERVE_ARGS.iter().map(|arg| (*arg).to_owned()).collect(),
-            env: create_launch_env(partial_loading, auto_update),
+            env: create_launch_env(auto_update),
         };
         let failed = apply_to_clients(&selected, &context.home_dir, |client| {
             set_client_entry(&client.definition, &client.config_path, &launch)?;

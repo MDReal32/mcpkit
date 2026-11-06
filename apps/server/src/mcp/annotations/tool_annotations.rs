@@ -16,11 +16,6 @@ impl ToolAnnotations {
         destructive_hint: None,
     };
 
-    pub const DESTRUCTIVE: ToolAnnotations = ToolAnnotations {
-        read_only_hint: Some(false),
-        destructive_hint: Some(true),
-    };
-
     pub const WRITES: ToolAnnotations = ToolAnnotations {
         read_only_hint: Some(false),
         destructive_hint: None,

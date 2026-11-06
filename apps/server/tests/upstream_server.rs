@@ -6,7 +6,7 @@ use std::cell::RefCell;
 use std::path::{Path, PathBuf};
 use std::rc::Rc;
 use std::time::Duration;
-use support::call_context;
+use support::{call_context, run_code};
 use tempfile::TempDir;
 use tokio::task::LocalSet;
 use usemcpkit_core::LocalFuture;
@@ -15,9 +15,8 @@ use usemcpkit_manifest::registry::RegistryServer;
 use usemcpkit_manifest::tool::HttpMethod;
 use usemcpkit_registry::{Fetch, RegistryContext, RegistryError};
 use usemcpkit_servers::catalog::RegistryCatalog;
-use usemcpkit_servers::mcp::{McpServer, ToolLoading};
+use usemcpkit_servers::mcp::{EXECUTE_TOOL, McpServer, SEARCH_TOOL};
 use usemcpkit_testing::json_response;
-use usemcpkit_wire_log::{WireLog, WireLogRole};
 
 const REGISTRY_URL: &str = "https://registry.test";
 
@@ -144,30 +143,16 @@ fn remote_server(registry: &Path, http: Rc<RemoteMcp>, env: &[(&str, &str)]) -> 
         },
     );
     let calls = call_context(&registry.join("home"), env, http);
-    McpServer::new(
-        RegistryCatalog::new(servers, context, calls.clone()),
-        Rc::new(WireLog::disabled(WireLogRole::Server)),
-        calls,
-        ToolLoading::Partial,
-    )
+    McpServer::new(RegistryCatalog::new(servers, context, calls.clone()), calls)
 }
 
-async fn call(server: &McpServer<FolderFetcher>, name: &str, arguments: Value) -> Value {
-    let message = json!({ "jsonrpc": "2.0", "id": 1, "method": "tools/call", "params": { "name": name, "arguments": arguments } });
-    let response = server.handle_line(&message.to_string()).await.response.unwrap();
-    response["result"].clone()
-}
+const GROUPS: &str = r#"async () => codemode.groups("test:remote")"#;
 
-async fn tool_names(server: &McpServer<FolderFetcher>) -> Vec<String> {
-    let listed = server
-        .handle_line(r#"{"jsonrpc":"2.0","id":2,"method":"tools/list"}"#)
-        .await;
-    listed.response.unwrap()["result"]["tools"]
-        .as_array()
-        .unwrap()
-        .iter()
-        .map(|tool| tool["name"].as_str().unwrap().to_owned())
-        .collect()
+/// The JSON a successful `search` or `execute` returned.
+async fn run_json(server: &McpServer<FolderFetcher>, tool: &str, code: &str) -> Value {
+    let result = run_code(server, tool, code).await;
+    assert_eq!(result.get("isError"), None, "{result}");
+    serde_json::from_str(result["content"][0]["text"].as_str().unwrap()).unwrap()
 }
 
 fn cache_file(registry: &Path) -> PathBuf {
@@ -175,28 +160,39 @@ fn cache_file(registry: &Path) -> PathBuf {
 }
 
 #[tokio::test]
-async fn discovers_the_tools_on_first_open_groups_them_and_calls_the_upstream() {
+async fn discovers_the_tools_on_first_use_groups_them_and_calls_the_upstream() {
     let registry = TempDir::new().unwrap();
     let http = Rc::new(RemoteMcp::default());
     let server = remote_server(registry.path(), Rc::clone(&http), TOKENS);
-    assert!(http.methods().is_empty(), "nothing is started before a section opens");
+    assert!(
+        http.methods().is_empty(),
+        "nothing is started before the code asks for it"
+    );
 
-    call(&server, "test_remote", json!({})).await;
-    let sections = tool_names(&server).await;
-    call(&server, "test_remote_store", json!({})).await;
-    let names = tool_names(&server).await;
-    let list = names.iter().find(|name| name.ends_with("list")).unwrap().clone();
-    let result = call(&server, &list, json!({ "q": "x" })).await;
-    let again = call(&server, &list, json!({})).await;
+    let groups = run_json(&server, SEARCH_TOOL, GROUPS).await;
+    let ids = run_json(
+        &server,
+        SEARCH_TOOL,
+        r#"async () => (await codemode.tools("test:remote", "store")).map((tool) => tool.id)"#,
+    )
+    .await;
+    let results = run_json(
+        &server,
+        EXECUTE_TOOL,
+        r#"async () => [
+            await codemode.call("test:remote:store:items:list", { q: "x" }),
+            await codemode.call("test:remote:store:items:list"),
+        ]"#,
+    )
+    .await;
     server.close().await;
 
-    assert!(sections.contains(&"test_remote_store".to_owned()), "{sections:?}");
-    assert!(sections.contains(&"test_remote_docs".to_owned()), "{sections:?}");
+    assert_eq!(groups, json!(["store", "docs"]));
     assert_eq!(
-        result,
-        json!({ "content": [{ "type": "text", "text": "ran list_items" }] })
+        ids,
+        json!(["test:remote:store:items:list", "test:remote:store:items:get"])
     );
-    assert_eq!(again, result);
+    assert_eq!(results, json!(["ran list_items", "ran list_items"]));
     assert_eq!(
         *http.sent.borrow(),
         [
@@ -219,12 +215,11 @@ async fn discovers_the_tools_on_first_open_groups_them_and_calls_the_upstream() 
 async fn caches_the_tools_in_the_typescript_cli_format_and_reads_them_back_without_the_upstream() {
     let registry = TempDir::new().unwrap();
     let first = remote_server(registry.path(), Rc::new(RemoteMcp::default()), TOKENS);
-    call(&first, "test_remote", json!({})).await;
+    run_json(&first, SEARCH_TOOL, GROUPS).await;
     let http = Rc::new(RemoteMcp::default());
     let second = remote_server(registry.path(), Rc::clone(&http), TOKENS);
 
-    call(&second, "test_remote", json!({})).await;
-    let sections = tool_names(&second).await;
+    let groups = run_json(&second, SEARCH_TOOL, GROUPS).await;
 
     let text = std::fs::read_to_string(cache_file(registry.path())).unwrap();
     assert!(text.starts_with("{\n  \"discoveredAt\": \""), "{text}");
@@ -248,7 +243,7 @@ async fn caches_the_tools_in_the_typescript_cli_format_and_reads_them_back_witho
     assert_eq!(cache["tools"][0]["name"], "store:items:list");
     assert_eq!(cache["tools"][2]["upstreamName"], "docs_search");
     assert!(http.methods().is_empty(), "a cached list is not asked for again");
-    assert!(sections.contains(&"test_remote_docs".to_owned()), "{sections:?}");
+    assert_eq!(groups, json!(["store", "docs"]));
 }
 
 #[tokio::test]
@@ -265,9 +260,12 @@ async fn names_cached_tools_by_the_current_rules_and_refreshes_a_day_old_list_in
             let http = Rc::new(RemoteMcp::default());
             let server = remote_server(registry.path(), Rc::clone(&http), TOKENS);
 
-            call(&server, "test_remote", json!({})).await;
-            call(&server, "test_remote_store", json!({})).await;
-            let opened = tool_names(&server).await;
+            let ids = run_json(
+                &server,
+                SEARCH_TOOL,
+                r#"async () => (await codemode.tools("test:remote")).map((tool) => tool.id)"#,
+            )
+            .await;
             let read_cache = || std::fs::read_to_string(cache_file(registry.path())).unwrap();
             for _ in 0..200 {
                 if !read_cache().contains("2020-01-01") {
@@ -276,9 +274,10 @@ async fn names_cached_tools_by_the_current_rules_and_refreshes_a_day_old_list_in
                 tokio::time::sleep(Duration::from_millis(10)).await;
             }
 
-            assert!(
-                opened.iter().any(|name| name.ends_with("get")),
-                "the cached tool takes its name from the rules: {opened:?}"
+            assert_eq!(
+                ids,
+                json!(["test:remote:store:items:get"]),
+                "the cached tool takes its name from the rules"
             );
             assert!(
                 http.methods().contains(&"tools/list".to_owned()),
@@ -301,7 +300,7 @@ async fn answers_an_upstream_nobody_can_reach_with_an_error_result() {
         &[("FIRST_TOKEN", "revoked")],
     );
 
-    let result = call(&server, "test_remote", json!({})).await;
+    let result = run_code(&server, SEARCH_TOOL, GROUPS).await;
 
     let message = result["content"][0]["text"].as_str().unwrap_or_default().to_owned();
     assert_eq!(result["isError"], true, "{result}");

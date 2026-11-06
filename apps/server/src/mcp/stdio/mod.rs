@@ -1,4 +1,3 @@
-mod outgoing_line;
 mod read_line_text;
 mod reap_finished_tasks;
 mod rethrow_task_panic;

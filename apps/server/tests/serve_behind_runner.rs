@@ -8,12 +8,6 @@ use tokio::io::{AsyncBufReadExt, AsyncWriteExt, BufReader, DuplexStream, Lines};
 use usemcpkit_registry::REGISTRY_VERSION_DIR;
 use usemcpkit_runner::supervisor::{SuperviseOptions, WorkerLaunch, supervise_serve};
 
-fn indexed_server_count() -> usize {
-    let index: Value =
-        serde_json::from_str(&std::fs::read_to_string(registry_root().join("index.json")).unwrap()).unwrap();
-    index["servers"].as_array().unwrap().len()
-}
-
 /// The server's cache as `usemcpkit update` and a first look at GitHub leave it, so nothing is fetched while serving.
 fn seed_home(home: &Path) {
     for file in ["index.json", "git/github.json"] {
@@ -37,7 +31,7 @@ async fn receive(responses: &mut Lines<BufReader<DuplexStream>>) -> Value {
 }
 
 #[tokio::test]
-async fn opens_a_section_through_the_runner_and_announces_the_new_tools_after_the_response() {
+async fn searches_the_tools_through_the_runner() {
     let home = tempfile::tempdir().unwrap();
     seed_home(home.path());
     let launch = WorkerLaunch {
@@ -47,7 +41,6 @@ async fn opens_a_section_through_the_runner_and_announces_the_new_tools_after_th
             ("USEMCPKIT_HOME".into(), home.path().into()),
             ("USEMCPKIT_REGISTRY".into(), "http://127.0.0.1:9".into()),
             ("USEMCPKIT_DEBUG".into(), "0".into()),
-            ("USEMCPKIT_BETA_PARTIAL_LOADING".into(), "1".into()),
         ],
     };
     let (mut client, input) = tokio::io::duplex(1 << 20);
@@ -79,17 +72,15 @@ async fn opens_a_section_through_the_runner_and_announces_the_new_tools_after_th
     let listed = receive(&mut responses).await;
     send(
         &mut client,
-        json!({ "jsonrpc": "2.0", "id": 2, "method": "tools/call", "params": { "name": "git_github" } }),
+        json!({
+            "jsonrpc": "2.0",
+            "id": 2,
+            "method": "tools/call",
+            "params": { "name": "search", "arguments": { "code": "async () => codemode.groups(\"git:github\")" } },
+        }),
     )
     .await;
-    let opened = receive(&mut responses).await;
-    let notice = receive(&mut responses).await;
-    send(
-        &mut client,
-        json!({ "jsonrpc": "2.0", "id": 3, "method": "tools/list" }),
-    )
-    .await;
-    let relisted = receive(&mut responses).await;
+    let searched = receive(&mut responses).await;
     drop(client);
     let code = tokio::time::timeout(Duration::from_secs(20), runner)
         .await
@@ -98,24 +89,16 @@ async fn opens_a_section_through_the_runner_and_announces_the_new_tools_after_th
 
     assert_eq!(initialized["result"]["protocolVersion"], json!("2025-03-26"));
     assert_eq!(initialized["result"]["serverInfo"]["name"], json!("usemcpkit"));
-    assert_eq!(
-        listed["result"]["tools"].as_array().unwrap().len(),
-        indexed_server_count()
-    );
-    assert_eq!(opened["id"], json!(2));
-    let text = opened["result"]["content"][0]["text"].as_str().unwrap();
-    assert!(text.starts_with("git:github is a section, not a tool."), "{text}");
-    assert_eq!(opened["result"].get("isError"), None);
-    assert_eq!(
-        notice,
-        json!({ "jsonrpc": "2.0", "method": "notifications/tools/list_changed" })
-    );
-    let names: Vec<&str> = relisted["result"]["tools"]
+    let names: Vec<&str> = listed["result"]["tools"]
         .as_array()
         .unwrap()
         .iter()
         .map(|tool| tool["name"].as_str().unwrap())
         .collect();
-    assert!(names.contains(&"git_github_repos"), "{names:?}");
+    assert_eq!(names, ["search", "execute"]);
+    assert_eq!(searched["id"], json!(2));
+    assert_eq!(searched["result"].get("isError"), None, "{searched}");
+    let groups = searched["result"]["content"][0]["text"].as_str().unwrap();
+    assert!(groups.contains("\"repos\""), "{groups}");
     assert_eq!(code, 0);
 }

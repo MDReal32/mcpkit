@@ -18,6 +18,7 @@ clap.workspace = true
 futures-util.workspace = true
 humantime.workspace = true
 indexmap.workspace = true
+rquickjs.workspace = true
 usemcpkit-auth.workspace = true
 usemcpkit-core.workspace = true
 usemcpkit-credentials-form.workspace = true

@@ -5,16 +5,15 @@ use sha2::{Digest, Sha256};
 use std::cell::RefCell;
 use std::rc::Rc;
 use std::time::Duration;
-use support::{FolderFetcher, call_context};
+use support::{FolderFetcher, call_context, run_code};
 use tempfile::TempDir;
 use usemcpkit_core::LocalFuture;
 use usemcpkit_http::{HttpClient, HttpError, HttpRequest, HttpResponse};
 use usemcpkit_manifest::registry::RegistryServer;
 use usemcpkit_registry::RegistryContext;
 use usemcpkit_servers::catalog::RegistryCatalog;
-use usemcpkit_servers::mcp::{McpServer, ToolLoading};
+use usemcpkit_servers::mcp::{EXECUTE_TOOL, McpServer};
 use usemcpkit_testing::json_response;
-use usemcpkit_wire_log::{WireLog, WireLogRole};
 
 const REGISTRY_URL: &str = "https://registry.test";
 
@@ -86,27 +85,7 @@ fn tracker_server(registry: &TempDir, http: Rc<TrackerApi>) -> McpServer<FolderF
         ("SECOND_TOKEN", "second"),
     ];
     let calls = call_context(&registry.path().join("home"), &env, http);
-    McpServer::new(
-        RegistryCatalog::new(servers, context, calls.clone()),
-        Rc::new(WireLog::disabled(WireLogRole::Server)),
-        calls,
-        ToolLoading::Partial,
-    )
-}
-
-async fn call(server: &McpServer<FolderFetcher>, id: u64, name: &str, arguments: Value) -> Value {
-    let message = json!({ "jsonrpc": "2.0", "id": id, "method": "tools/call", "params": { "name": name, "arguments": arguments } });
-    let response = server.handle_line(&message.to_string()).await.response.unwrap();
-    response["result"].clone()
-}
-
-fn tool_names(server_list: &Value) -> Vec<String> {
-    server_list["tools"]
-        .as_array()
-        .unwrap()
-        .iter()
-        .map(|tool| tool["name"].as_str().unwrap().to_owned())
-        .collect()
+    McpServer::new(RegistryCatalog::new(servers, context, calls.clone()), calls)
 }
 
 #[tokio::test]
@@ -115,17 +94,18 @@ async fn runs_a_tool_on_its_edition_and_keeps_the_auth_that_worked() {
     let http = Rc::new(TrackerApi::default());
     let server = tracker_server(&registry, Rc::clone(&http));
 
-    let opened =
-        server.handle_line(r#"{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"test_tracker"}}"#);
-    assert!(opened.await.tools_changed);
-    let listed = server
-        .handle_line(r#"{"jsonrpc":"2.0","id":2,"method":"tools/list"}"#)
-        .await;
-    let names = tool_names(&listed.response.unwrap()["result"]);
-    let tool = names.iter().find(|name| name.ends_with("search")).unwrap();
-
-    let first = call(&server, 3, tool, json!({ "jql": "x" })).await;
-    let second = call(&server, 4, tool, json!({ "jql": "x" })).await;
+    let first = run_code(
+        &server,
+        EXECUTE_TOOL,
+        r#"async () => codemode.call("test:tracker:search", { jql: "x" })"#,
+    )
+    .await;
+    let second = run_code(
+        &server,
+        EXECUTE_TOOL,
+        r#"async () => codemode.call("test:tracker:search", { jql: "x" })"#,
+    )
+    .await;
 
     let found = json!({ "content": [{ "type": "text", "text": "[\n  {\n    \"key\": \"A-1\"\n  }\n]" }] });
     assert_eq!(first, found);
@@ -145,19 +125,15 @@ async fn runs_a_tool_on_its_edition_and_keeps_the_auth_that_worked() {
 async fn answers_a_failing_tool_with_an_error_result() {
     let registry = TempDir::new().unwrap();
     let server = tracker_server(&registry, Rc::new(TrackerApi::default()));
-    server
-        .handle_line(r#"{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"test_tracker"}}"#)
-        .await;
-    let listed = server
-        .handle_line(r#"{"jsonrpc":"2.0","id":2,"method":"tools/list"}"#)
-        .await;
-    let names = tool_names(&listed.response.unwrap()["result"]);
-    let tool = names.iter().find(|name| name.ends_with("search")).unwrap();
 
-    let result = call(&server, 3, tool, json!({})).await;
+    let result = run_code(
+        &server,
+        EXECUTE_TOOL,
+        r#"async () => codemode.call("test:tracker:search", {})"#,
+    )
+    .await;
 
-    assert_eq!(
-        result,
-        json!({ "content": [{ "type": "text", "text": "missing required argument(s): jql" }], "isError": true })
-    );
+    assert_eq!(result["isError"], json!(true), "{result}");
+    let text = result["content"][0]["text"].as_str().unwrap();
+    assert!(text.contains("missing required argument(s): jql"), "{text}");
 }
