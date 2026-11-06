@@ -1,0 +1,20 @@
+$kind: mcp-request
+transport: stdio
+command: /Users/mdrealiyev/Projects/mcpkit/build/usemcpkit serve
+message: |-
+  {
+    "method": "tools/call",
+    "params": {
+      "name": "git_github_repos_checks_create",
+      "arguments": {
+        "owner": "",
+        "repo": "",
+        "name": "",
+        "head_sha": ""
+      }
+    }
+  }
+settings:
+  version: auto
+  requestTimeout: 0
+order: 1000
