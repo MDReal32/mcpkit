@@ -212,6 +212,31 @@ async fn discovers_the_tools_on_first_use_groups_them_and_calls_the_upstream() {
 }
 
 #[tokio::test]
+async fn lists_an_upstream_among_every_tool_only_once_it_was_started() {
+    let registry = TempDir::new().unwrap();
+    let http = Rc::new(RemoteMcp::default());
+    let server = remote_server(registry.path(), Rc::clone(&http), TOKENS);
+    let every_tool = r#"async () => (await codemode.tools()).map((tool) => tool.id)"#;
+
+    let before = run_json(&server, SEARCH_TOOL, every_tool).await;
+    let started_nothing = http.methods().is_empty();
+    run_json(&server, SEARCH_TOOL, GROUPS).await;
+    let after = run_json(&server, SEARCH_TOOL, every_tool).await;
+    server.close().await;
+
+    assert_eq!(before, json!([]));
+    assert!(started_nothing, "listing every tool never starts an upstream");
+    assert_eq!(
+        after,
+        json!([
+            "test:remote:store:items:list",
+            "test:remote:store:items:get",
+            "test:remote:docs:docs:search",
+        ])
+    );
+}
+
+#[tokio::test]
 async fn caches_the_tools_in_the_typescript_cli_format_and_reads_them_back_without_the_upstream() {
     let registry = TempDir::new().unwrap();
     let first = remote_server(registry.path(), Rc::new(RemoteMcp::default()), TOKENS);
