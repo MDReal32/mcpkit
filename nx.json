@@ -36,5 +36,6 @@
       "continuous": true
     }
   },
+  "parallel": 5,
   "analytics": false
 }
