@@ -411,29 +411,39 @@ finishes and the next call uses the token.
 No manifest ships inside the binary. They live in a registry (by default the repository's GitHub Pages, published by
 `.github/workflows/release-registry.yml`, a job of the Release workflow that deploys the manifests the Release build already produced; the build restores the Nx cache, so only changed projects are built):
 
+Each release reads only the manifests published with it: a binary of version `X.Y.Z` reads
+`https://mdreal32.github.io/mcpkit/vX.Y.Z/`, so a binary that stays on an old version never gets manifests a newer
+one changed. Every deploy publishes the registry it just built both at the root (what 0.12.0 and older read) and under
+`v<version>/` of the version being released, and unpacks the `registry.tar.gz` asset of every earlier GitHub Release into
+its own `v<version>/` again, since GitHub Pages replaces the whole site
+(`.github/scripts/assemble-registry-site.sh`). Each folder holds:
+
 ```
 index.json                  every server: id, version, description, link, sha256 (no tools, so it stays small)
 <category>/<server>.json    one manifest, for example git/gitlab.json
 <category>/<server>/<group>.json  with grouped tool names (git/github.json is a shell listing git/github/<group>.json)
 ```
 
-Only `index.json` is synced by default (into `~/.usemcpkit/manifests`, `USEMCPKIT_HOME` overrides). A manifest is downloaded
+Only `index.json` is synced by default (into `~/.usemcpkit/manifests/v<version>`, one folder per release, `USEMCPKIT_HOME`
+overrides the home). A manifest is downloaded
 the first time a tool of that server is described or called, checked against the `sha256` in the index, and cached.
 
 - `usemcpkit install` and the first `serve`/`list` with nothing cached download the index.
 - The cache is always served, and opening a server or calling a tool never asks the registry for changes.
-  `~/.usemcpkit/manifests/cache.json` maps each cached file (`index.json`, `git/github.json`,
+  `~/.usemcpkit/manifests/v<version>/cache.json` maps each cached file (`index.json`, `git/github.json`,
   `git/github/issues.json`, ...) to `updatedAt` (ms, when its content last changed), `checkedAt` (ms, when it was
   last confirmed current) and its `sha256`. Only a download that fails its checksum, because the cached index is
   older than the registry, fetches the index again once.
 - `usemcpkit update [--registry <url>]` refreshes the index and re-downloads the manifests and parts that are already
   cached and no longer match it, so an edit published without a version bump still lands. A server or part nobody
-  opened is never downloaded. The URL comes from the flag, `USEMCPKIT_REGISTRY`, then the default.
+  opened is never downloaded. The URL comes from the flag, `USEMCPKIT_REGISTRY` (both name the registry folder itself,
+  no version is added), then the folder of this version.
 - `usemcpkit upgrade` runs that update and then replaces the installed binary. It is what the scheduled job runs every
   six hours, so manifests and binary stay current without anyone running a command. `USEMCPKIT_AUTO_UPDATE=0` turns the
   scheduled job and the binary auto-update off.
-- Self-hosting a registry is hosting the `packages/servers/build/manifests/` folder (links in `index.json` are built from the
-  registry URL in `packages/servers/vite.config.ts`; the binaries read `DEFAULT_REGISTRY_URL` in `crates/registry`).
+- Self-hosting a registry is hosting the `packages/servers/build/manifests/` folder and pointing `USEMCPKIT_REGISTRY` at
+  it; every link in it is relative to that folder (the binaries default to `DEFAULT_REGISTRY_URL` in `crates/registry`
+  plus `v<version>`).
 
 ### What the AI client sees
 
