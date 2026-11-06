@@ -15,4 +15,5 @@ pub const ROO_CODE: ClientDefinition = ClientDefinition {
     },
     servers_path: &["mcpServers"],
     create_entry: create_enabled_entry,
+    settings: &[],
 };

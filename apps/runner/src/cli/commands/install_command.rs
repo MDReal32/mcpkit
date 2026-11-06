@@ -5,10 +5,12 @@ use crate::cli::output::print_detected_clients_missing;
 use crate::cli::registry::sync_quietly;
 use crate::cli::run_command::run_command;
 use crate::cli::update::{announce_upgrade_schedule, create_binary_context, prepare_launch_binary};
-use usemcpkit_clients::{CLIENT_DEFINITIONS, LaunchCommand, SERVE_ARGS, detect_clients, set_client_entry};
+use usemcpkit_clients::{
+    CLIENT_DEFINITIONS, LaunchCommand, SERVE_ARGS, apply_client_settings, detect_clients, set_client_entry,
+};
 
-/// Copies the binaries to ~/.usemcpkit/bin (or uses the Homebrew/winget one in place) and points each chosen client's
-/// single `usemcpkit` entry at the runner.
+/// Copies the binaries to ~/.usemcpkit/bin (or uses the Homebrew/winget one in place), points each chosen client's
+/// single `mcpkit` entry at the runner and sets the client settings usemcpkit needs.
 pub fn install_command(args: InstallArgs) -> i32 {
     run_command(async move {
         if let Some(binary) = &args.binary {
@@ -43,7 +45,8 @@ pub fn install_command(args: InstallArgs) -> i32 {
             args: SERVE_ARGS.iter().map(|arg| (*arg).to_owned()).collect(),
         };
         let failed = apply_to_clients(&selected, &context.home_dir, |client| {
-            set_client_entry(&client.definition, &client.config_path, &launch)
+            set_client_entry(&client.definition, &client.config_path, &launch)?;
+            apply_client_settings(&client.definition, &context)
         });
         if !binary.managed {
             announce_upgrade_schedule(&binary_context).await;

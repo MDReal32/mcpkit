@@ -143,8 +143,9 @@ Releases up to TS `0.9.0` were named `mcpkit`: the command `mcpkit`, the home `~
 and the scheduled job "mcpkit upgrade" (launchd `org.mdreal.mcpkit.upgrade`, cron marker `# mcpkit: scheduled upgrade`).
 TS and Rust handle them the same way:
 
-- Installing writes the `usemcpkit` entry and drops a `mcpkit` one from the same config, so the client never starts
-  both; uninstalling removes both. A client with only the old entry counts as configured (`LEGACY_ENTRY_NAMES`).
+- The client entry is `mcpkit` again: 0.10 and 0.11 wrote `usemcpkit`, so installing writes `mcpkit` and drops a
+  `usemcpkit` one from the same config, and the client never starts both; uninstalling removes both. A client with only
+  the `usemcpkit` entry counts as configured (`LEGACY_ENTRY_NAMES`).
 - Every update of the upgrade schedule also removes the old job, so it stops upgrading the old binary; uninstalling
   removes both.
 - `serve` (the worker) copies `config.json`, `secrets.json` and `tokens.json` from `~/.mcpkit` into `~/.usemcpkit`

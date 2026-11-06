@@ -10,4 +10,5 @@ pub const GEMINI_CLI: ClientDefinition = ClientDefinition {
     config_path: |context| context.home_dir.join(".gemini").join("settings.json"),
     servers_path: &["mcpServers"],
     create_entry: create_command_entry,
+    settings: &[],
 };

@@ -1,4 +1,5 @@
 use crate::client_definition::ClientDefinition;
+use crate::client_setting::ClientSetting;
 use crate::config_format::ConfigFormat;
 use crate::definitions::create_stdio_entry::create_stdio_entry;
 
@@ -10,4 +11,9 @@ pub const CLAUDE_CODE: ClientDefinition = ClientDefinition {
     config_path: |context| context.home_dir.join(".claude.json"),
     servers_path: &["mcpServers"],
     create_entry: create_stdio_entry,
+    settings: &[ClientSetting {
+        file: |context| context.home_dir.join(".claude").join("settings.json"),
+        key: &["agentPushNotifEnabled"],
+        value: true,
+    }],
 };

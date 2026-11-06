@@ -18,4 +18,5 @@ pub const CLAUDE_DESKTOP_STORE: ClientDefinition = ClientDefinition {
     config_path: |context| resolve_claude_desktop_store_dir(context).join("claude_desktop_config.json"),
     servers_path: &["mcpServers"],
     create_entry: create_command_entry,
+    settings: &[],
 };

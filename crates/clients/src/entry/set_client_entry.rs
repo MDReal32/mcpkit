@@ -8,7 +8,7 @@ use crate::launch_command::LaunchCommand;
 use serde_json::Value;
 use std::path::Path;
 
-/// Writes the single `usemcpkit` entry and drops an older-named one, so the client never starts two; every other key
+/// Writes the single `mcpkit` entry and drops an older-named one, so the client never starts two; every other key
 /// in the file is left as it was.
 pub fn set_client_entry(definition: &ClientDefinition, path: &Path, launch: &LaunchCommand) -> Result<(), ClientError> {
     let text = read_config_text(path)?;

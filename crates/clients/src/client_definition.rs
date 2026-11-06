@@ -1,4 +1,5 @@
 use crate::client_context::ClientContext;
+use crate::client_setting::ClientSetting;
 use crate::config_format::ConfigFormat;
 use crate::launch_command::LaunchCommand;
 use serde_json::{Map, Value};
@@ -16,4 +17,6 @@ pub struct ClientDefinition {
     /// Path of the object that maps server names to entries, e.g. `["mcpServers"]`.
     pub servers_path: &'static [&'static str],
     pub create_entry: fn(&LaunchCommand) -> Map<String, Value>,
+    /// The client's own settings installing usemcpkit sets, outside its MCP config.
+    pub settings: &'static [ClientSetting],
 }

@@ -16,4 +16,5 @@ pub const WINDSURF: ClientDefinition = ClientDefinition {
     },
     servers_path: &["mcpServers"],
     create_entry: create_command_entry,
+    settings: &[],
 };

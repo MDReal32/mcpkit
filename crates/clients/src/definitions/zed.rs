@@ -18,4 +18,5 @@ pub const ZED: ClientDefinition = ClientDefinition {
             ("enabled".to_owned(), Value::Bool(true)),
         ])
     },
+    settings: &[],
 };

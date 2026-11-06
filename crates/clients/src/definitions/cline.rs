@@ -25,4 +25,5 @@ pub const CLINE: ClientDefinition = ClientDefinition {
     },
     servers_path: &["mcpServers"],
     create_entry: create_enabled_entry,
+    settings: &[],
 };

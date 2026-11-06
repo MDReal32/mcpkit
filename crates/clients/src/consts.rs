@@ -1,8 +1,8 @@
 /// The single entry usemcpkit owns in every client config; it serves every server of the registry.
-pub const ENTRY_NAME: &str = "usemcpkit";
+pub const ENTRY_NAME: &str = "mcpkit";
 
-/// Entry names older releases wrote (the brand was `mcpkit`); installing replaces them and uninstalling removes them.
-pub const LEGACY_ENTRY_NAMES: &[&str] = &["mcpkit"];
+/// Entry names older releases wrote (0.10 and 0.11 wrote `usemcpkit`); installing replaces them and uninstalling removes them.
+pub const LEGACY_ENTRY_NAMES: &[&str] = &["usemcpkit"];
 
 pub const SERVE_ARGS: &[&str] = &["serve"];
 
