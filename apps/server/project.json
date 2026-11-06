@@ -20,7 +20,11 @@
   "targets": {
     "build": {
       "command": "cargo build --release -p usemcpkit-servers",
-      "cache": false
+      "inputs": ["production", "^production", "cargo", "{workspaceRoot}/packages/ui/build/usemcpkit.ui.html"],
+      "outputs": [
+        "{workspaceRoot}/target/release/usemcpkit-servers",
+        "{workspaceRoot}/target/release/usemcpkit-servers.exe"
+      ]
     },
     "test": {
       "command": "cargo test -p usemcpkit-servers",
