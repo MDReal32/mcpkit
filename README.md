@@ -51,6 +51,8 @@ environment as `USEMCPKIT_BETA_PARTIAL_LOADING=1` or `0` (`environment` for open
 table for Codex). Off, the client gets every tool from the start; on, it gets one section per server and the tools of the
 ones the model opens, which needs a client that lists tools again after `tools/list_changed`. `--partial-loading` (or
 `--partial-loading=false`) answers it without asking; `--all` and `--clients` leave it off unless the flag is given.
+It then asks whether usemcpkit keeps itself **up to date** (on by default) and writes `USEMCPKIT_AUTOUPDATE=1` or `0` the
+same way; `--auto-update` (or `--auto-update=false`) answers it without asking, and `--all` and `--clients` leave it on.
 Running install again rewrites the whole entry, so set any other variable of yours there again afterwards.
 
 ```bash
@@ -58,6 +60,7 @@ npx usemcpkit --all                         # every detected client, no checklis
 npx usemcpkit --clients cursor,codex        # only these
 usemcpkit install --binary ./usemcpkit         # install a local binary instead of downloading one
 usemcpkit install --all --partial-loading      # every client, with the beta partial loading on
+usemcpkit install --all --auto-update=false    # every client, no scheduled upgrade and no self-update
 usemcpkit uninstall [--all | --clients ...] # remove the entry; the binary stays
 usemcpkit update                            # refresh the cached manifests now
 usemcpkit upgrade                           # update the cached manifests, then the installed binary
@@ -78,7 +81,8 @@ it and `usemcpkit-servers`. Installing copies both. A runner with no `usemcpkit-
 **Auto-update.** `usemcpkit serve`, when it is the installed binary, checks the npm registry at most every six hours
 (`~/.usemcpkit/update-state.json`) in the background: at start, and then every hour for as long as it runs, so a server
 that stays up for days still finds a new release. A newer release replaces the binary and is picked up without
-restarting the client, see Live reload. `USEMCPKIT_AUTO_UPDATE=0` turns this off, `USEMCPKIT_NPM_REGISTRY` points at another
+restarting the client, see Live reload. `USEMCPKIT_AUTOUPDATE=0` turns this off and unloads the scheduled
+`usemcpkit upgrade` (the next `serve` removes it), `1` or unset loads it again; `USEMCPKIT_NPM_REGISTRY` points at another
 registry.
 
 **Live reload.** A compiled `usemcpkit serve` is a small supervisor: it keeps the client's stdio connection and runs the
@@ -439,8 +443,8 @@ the first time a tool of that server is described or called, checked against the
   opened is never downloaded. The URL comes from the flag, `USEMCPKIT_REGISTRY` (both name the registry folder itself,
   no version is added), then the folder of this version.
 - `usemcpkit upgrade` runs that update and then replaces the installed binary. It is what the scheduled job runs every
-  six hours, so manifests and binary stay current without anyone running a command. `USEMCPKIT_AUTO_UPDATE=0` turns the
-  scheduled job and the binary auto-update off.
+  six hours, so manifests and binary stay current without anyone running a command. `USEMCPKIT_AUTOUPDATE=0` turns the
+  binary auto-update off and removes the scheduled job.
 - Self-hosting a registry is hosting the `packages/servers/build/manifests/` folder and pointing `USEMCPKIT_REGISTRY` at
   it; every link in it is relative to that folder (the binaries default to `DEFAULT_REGISTRY_URL` in `crates/registry`
   plus `v<version>`).

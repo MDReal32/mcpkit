@@ -1,17 +1,21 @@
 mod announce_upgrade_schedule;
 mod check_for_update;
+mod choose_auto_update;
 mod create_binary_context;
 mod launch_binary;
 mod now_ms;
 mod parse_binary_version;
 mod prepare_launch_binary;
+mod prompt_auto_update;
 mod read_binary_version;
 mod schedule_upgrades;
 mod start_auto_update;
 mod start_upgrade_schedule;
 mod upgrade_binary;
+mod upgrade_schedule_change;
 
 pub use announce_upgrade_schedule::announce_upgrade_schedule;
+pub use choose_auto_update::choose_auto_update;
 pub use create_binary_context::create_binary_context;
 pub use prepare_launch_binary::prepare_launch_binary;
 pub use start_auto_update::start_auto_update;

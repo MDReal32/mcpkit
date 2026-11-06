@@ -152,7 +152,7 @@ TS and Rust handle them the same way:
   once, while the new home has none of them (`adopt_legacy_home`). It never does with `USEMCPKIT_HOME` set, and it
   leaves the old folder alone. Caches, cloned repos and logs are not copied: they come back on first use.
 - The old `MCPKIT_*` variables are no longer read. The old entry is replaced as a whole, its `env` (Codex
-  `[mcp_servers.mcpkit.env]` included) with it: `MCPKIT_AUTO_UPDATE=0` must become `USEMCPKIT_AUTO_UPDATE=0`, and
+  `[mcp_servers.mcpkit.env]` included) with it: `MCPKIT_AUTO_UPDATE=0` must become `USEMCPKIT_AUTOUPDATE=0` (named `USEMCPKIT_AUTO_UPDATE` up to 0.12), and
   credentials under a custom `MCPKIT_HOME` are not adopted, since only `~/.mcpkit` is looked at.
 - An installed TS `0.9.0` updates itself from `package/bin/mcpkit[.exe]` of the platform package and knows nothing of
   the new names. Until a release ships that path too, those installs stay on `0.9.0`, and `npx usemcpkit` moves them
@@ -191,7 +191,7 @@ needs for losing its runtime exports (executor, auth, mapping) and `validateMani
 
 - The upgrade schedule is per user, not per `USEMCPKIT_HOME`: on Windows it is the Task Scheduler task "usemcpkit upgrade",
   elsewhere a launch agent or crontab line. Running `install`, `uninstall` or `serve` from the installed binary by
-  hand, even with a sandboxed home, creates or deletes the real job. `USEMCPKIT_AUTO_UPDATE=0` stops it from being created,
-  not from being removed. The tests only build the scheduler commands and never run them.
+  hand, even with a sandboxed home, creates or deletes the real job: `serve` creates it, and with `USEMCPKIT_AUTOUPDATE=0`
+  removes it. The tests only build the scheduler commands and never run them.
 - When you mutation-check a test, restore the file in a way that gives it a new modification time. Cargo otherwise
   keeps the mutated build.

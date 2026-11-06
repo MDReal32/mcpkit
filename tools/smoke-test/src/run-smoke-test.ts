@@ -60,7 +60,7 @@ export const runSmokeTest = async (runner: string, registryDir: string) => {
       ...process.env,
       USEMCPKIT_HOME: home,
       USEMCPKIT_REGISTRY: UNREACHABLE_REGISTRY,
-      USEMCPKIT_AUTO_UPDATE: "0",
+      USEMCPKIT_AUTOUPDATE: "0",
       USEMCPKIT_DEBUG: "0",
       USEMCPKIT_BETA_PARTIAL_LOADING: "1",
     },

@@ -14,6 +14,9 @@ pub const BINARY_FLAG: &str = "--binary";
 pub const PARTIAL_LOADING_QUESTION: &str = "Turn on partial loading (beta)? Clients see one tool per server and load a \
 server's tools when it is opened; only for clients that list tools again after tools/list_changed";
 
+pub const AUTO_UPDATE_QUESTION: &str = "Keep usemcpkit up to date automatically? It schedules \"usemcpkit upgrade\" \
+every few hours and lets a running usemcpkit update itself";
+
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 
 pub const EXIT_SUCCESS: i32 = 0;

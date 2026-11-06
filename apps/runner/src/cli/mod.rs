@@ -2,6 +2,7 @@ mod clients;
 mod command;
 mod commands;
 mod consts;
+mod launch_env;
 mod output;
 mod registry;
 mod run;

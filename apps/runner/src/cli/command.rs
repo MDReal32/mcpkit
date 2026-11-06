@@ -69,4 +69,8 @@ pub struct InstallArgs {
     /// tool, the default); without it install asks
     #[arg(long, num_args = 0..=1, default_missing_value = "true", require_equals = true)]
     pub partial_loading: Option<bool>,
+    /// Keep the binary up to date: schedule "usemcpkit upgrade" and let "serve" update itself (`--auto-update=false`
+    /// turns both off and removes the scheduled job); without it install asks
+    #[arg(long, num_args = 0..=1, default_missing_value = "true", require_equals = true)]
+    pub auto_update: Option<bool>,
 }
