@@ -13,7 +13,10 @@ export const PROJECT_BUILDS: readonly BuildCopy[] = [
   { from: "packages/ui/build", to: "ui" },
 ];
 
-/** The Rust release binaries, copied from Cargo's `target/release` to the top of {@link BUILD_OUTPUT_DIR}. */
-export const RELEASE_BINARIES = ["usemcpkit", "usemcpkit-servers"] as const;
+/**
+ * The Rust binaries Cargo builds with its release profile, copied from `target/release` to the top of
+ * {@link BUILD_OUTPUT_DIR}: the released pair and `usemcpkit-dev`, the one binary that carries both with the manifests.
+ */
+export const RELEASE_BINARIES = ["usemcpkit", "usemcpkit-servers", "usemcpkit-dev"] as const;
 
 export const CARGO_RELEASE_DIR = "target/release";

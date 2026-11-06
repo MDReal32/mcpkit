@@ -1,0 +1,21 @@
+[package]
+name = "usemcpkit-dev"
+description = "The usemcpkit dev build: the runner and the server in one binary, with the manifests packages/servers built compiled in."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+
+[[bin]]
+name = "usemcpkit-dev"
+path = "src/main.rs"
+
+[dependencies]
+clap.workspace = true
+usemcpkit-registry.workspace = true
+usemcpkit-runner.workspace = true
+usemcpkit-servers.workspace = true
+
+[lints]
+workspace = true

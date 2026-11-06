@@ -12,9 +12,10 @@ use tempfile::TempDir;
 use usemcpkit_binary::platform::Target;
 use usemcpkit_binary::tar::{TAR_BLOCK_SIZE, extract_tar_file};
 use usemcpkit_binary::{
-    BinaryContext, BinarySource, BinaryUpdateResult, InstalledBinary, PackageManagerInstall, PackageRelease,
-    UPDATE_CHECK_INTERVAL_MS, auto_update_binary, check_for_binary_update, find_package_manager_install,
-    install_binary, read_package_release, restore_server_binary, update_binary, verify_integrity,
+    BinaryContext, BinaryLayout, BinarySource, BinaryUpdateResult, InstalledBinary, PackageManagerInstall,
+    PackageRelease, UPDATE_CHECK_INTERVAL_MS, auto_update_binary, check_for_binary_update,
+    find_package_manager_install, install_binary, read_package_release, restore_server_binary, update_binary,
+    verify_integrity,
 };
 use usemcpkit_core::env::Env;
 use usemcpkit_http::HttpResponse;
@@ -369,6 +370,42 @@ fn install_binary_copies_the_running_runner_and_the_server_next_to_it() {
 
     assert_eq!(read(&installed.path), "running");
     assert_eq!(read(&installed.server_path), "running server");
+}
+
+#[test]
+fn install_binary_writes_a_running_dev_build_as_the_runner_and_its_server() {
+    let home = TempDir::new().unwrap();
+    let running = home.path().join("usemcpkit-dev");
+    fs::write(&running, "dev").unwrap();
+    let mut context = create_context(home.path(), empty_client(), running);
+    context.layout = BinaryLayout::Combined;
+
+    let installed = install_binary(
+        &context,
+        &BinarySource {
+            path: None,
+            version: "0.1.0".to_owned(),
+        },
+    )
+    .unwrap();
+
+    assert_eq!(installed.path, home.path().join("bin").join("usemcpkit"));
+    assert_eq!(read(&installed.path), "dev");
+    assert_eq!(read(&installed.server_path), "dev");
+}
+
+#[tokio::test(flavor = "current_thread")]
+async fn a_dev_build_never_replaces_itself_with_a_release() {
+    let home = TempDir::new().unwrap();
+    let path = write_installed_pair(&home.path().join("bin"));
+    let mut context = create_context(home.path(), release_client("0.2.0", "new", "new server"), path.clone());
+    context.layout = BinaryLayout::Combined;
+
+    let error = update_binary(&context, &path, "0.1.0").await.unwrap_err();
+
+    assert!(error.0.contains("dev build"), "{error}");
+    assert_eq!(auto_update_binary(&context, "0.1.0", 0).await.unwrap(), None);
+    assert_eq!(read(&path), "old");
 }
 
 #[test]

@@ -2,6 +2,7 @@ mod clients;
 mod command;
 mod commands;
 mod consts;
+mod distribution;
 mod launch_env;
 mod output;
 mod registry;
@@ -13,4 +14,5 @@ mod tool_loading;
 mod update;
 
 pub use command::{Cli, Command};
+pub use distribution::Distribution;
 pub use run::run;

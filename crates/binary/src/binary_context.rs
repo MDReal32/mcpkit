@@ -1,9 +1,11 @@
 use crate::binary_error::BinaryError;
+use crate::binary_layout::BinaryLayout;
 use crate::platform::{Target, detect_target};
 use std::path::PathBuf;
 use std::rc::Rc;
 use usemcpkit_core::env::Env;
 use usemcpkit_core::home::resolve_env_home_dir;
+use usemcpkit_core::update::is_auto_update_enabled;
 use usemcpkit_http::HttpClient;
 
 /// What installing and updating read: the machine's target, the variables, the usemcpkit home, the running runner and
@@ -16,6 +18,7 @@ pub struct BinaryContext {
     /// The runner binary of this process; tests point it anywhere.
     pub exec_path: PathBuf,
     pub http: Rc<dyn HttpClient>,
+    pub layout: BinaryLayout,
 }
 
 impl BinaryContext {
@@ -27,7 +30,13 @@ impl BinaryContext {
             home_dir,
             exec_path,
             http,
+            layout: BinaryLayout::Pair,
         })
+    }
+
+    /// A release updates itself unless `USEMCPKIT_AUTOUPDATE` is `0`; a dev build never does.
+    pub fn updates_itself(&self) -> bool {
+        self.layout == BinaryLayout::Pair && is_auto_update_enabled(&self.env)
     }
 
     /// The context of this process: the target it was built for and the running executable.

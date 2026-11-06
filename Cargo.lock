@@ -3550,6 +3550,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "usemcpkit-dev"
+version = "0.12.0"
+dependencies = [
+ "clap",
+ "usemcpkit-registry",
+ "usemcpkit-runner",
+ "usemcpkit-servers",
+]
+
+[[package]]
 name = "usemcpkit-execution"
 version = "0.12.0"
 dependencies = [

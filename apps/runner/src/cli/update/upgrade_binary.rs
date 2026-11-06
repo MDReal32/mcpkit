@@ -2,13 +2,13 @@ use crate::cli::consts::{EXIT_FAILURE, EXIT_SUCCESS};
 use crate::cli::update::create_binary_context::create_binary_context;
 use crate::cli::update::read_binary_version::read_binary_version;
 use usemcpkit_binary::{
-    BinaryUpdateResult, detect_package_manager_install, resolve_installed_binary_path, update_binary,
+    BinaryLayout, BinaryUpdateResult, detect_package_manager_install, resolve_installed_binary_path, update_binary,
 };
 
 /// Homebrew and winget installs are left to their package manager. Otherwise replaces ~/.usemcpkit/bin/usemcpkit, and the
 /// server next to it, with the latest published release.
-pub async fn upgrade_binary() -> Result<i32, String> {
-    let context = create_binary_context()?;
+pub async fn upgrade_binary(layout: BinaryLayout) -> Result<i32, String> {
+    let context = create_binary_context(layout)?;
     if let Some(managed) = detect_package_manager_install(&context.exec_path).map_err(|error| error.0)? {
         println!(
             "usemcpkit was installed with {}; update it with \"{}\"",

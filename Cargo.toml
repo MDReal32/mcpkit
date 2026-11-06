@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-members = ["apps/runner", "apps/server", "crates/*"]
+members = ["apps/dev", "apps/runner", "apps/server", "crates/*"]
 
 [workspace.package]
 version = "0.12.0"
@@ -22,6 +22,7 @@ usemcpkit-testing = { path = "crates/testing" }
 usemcpkit-upstream = { path = "crates/upstream" }
 usemcpkit-validation = { path = "crates/validation" }
 usemcpkit-runner = { path = "apps/runner" }
+usemcpkit-servers = { path = "apps/server" }
 usemcpkit-wire-log = { path = "crates/wire-log" }
 base64 = "0.23"
 bytes = "1.12"
