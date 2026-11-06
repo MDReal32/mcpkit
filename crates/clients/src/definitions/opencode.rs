@@ -1,5 +1,7 @@
 use crate::client_definition::ClientDefinition;
 use crate::config_format::ConfigFormat;
+use crate::definitions::consts::OPENCODE_ENV_KEY;
+use crate::definitions::insert_launch_env::insert_launch_env;
 use serde_json::{Map, Value};
 
 /// Reads `opencode.jsonc` when there is one, like opencode itself.
@@ -23,11 +25,13 @@ pub const OPENCODE: ClientDefinition = ClientDefinition {
             .into_iter()
             .chain(launch.args.iter().cloned())
             .collect();
-        Map::from_iter([
+        let mut entry = Map::from_iter([
             ("type".to_owned(), Value::from("local")),
             ("command".to_owned(), Value::from(command)),
-            ("enabled".to_owned(), Value::Bool(true)),
-        ])
+        ]);
+        insert_launch_env(&mut entry, OPENCODE_ENV_KEY, launch);
+        entry.insert("enabled".to_owned(), Value::Bool(true));
+        entry
     },
     settings: &[],
 };

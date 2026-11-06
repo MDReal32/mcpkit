@@ -1,9 +1,9 @@
+use crate::cache::matches_cached_checksum;
 use crate::catalog::{load_part_tools, read_manifest_file};
 use crate::local::read_cached_part_text;
 use crate::registry_context::RegistryContext;
 use crate::registry_error::RegistryError;
 use crate::remote::Fetch;
-use usemcpkit_core::hash::sha256_hex;
 use usemcpkit_manifest::registry::RegistryServer;
 
 /// Re-downloads the parts of a server that are already cached and no longer match their shell; a part nobody opened
@@ -18,7 +18,7 @@ pub async fn refresh_cached_parts<F: Fetch>(
     let mut refreshed = Vec::new();
     for part in &parts {
         match read_cached_part_text(&context.dir, &server.id, &part.name).await? {
-            Some(cached) if sha256_hex(&cached) != part.sha256 => {
+            Some(cached) if !matches_cached_checksum(&cached, &part.sha256) => {
                 load_part_tools(server, part, context).await?;
                 refreshed.push(format!("{}/{}", server.id, part.name));
             }

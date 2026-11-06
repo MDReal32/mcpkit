@@ -3,6 +3,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { INDEX_FILE_NAME } from "./const";
 import { splitManifest } from "./split-manifest";
+import { toRegistryJson } from "./to-registry-json";
 import type { CompiledManifest } from "./types/compiled-manifest";
 import type { SplitManifest } from "./types/split-manifest";
 
@@ -40,5 +41,5 @@ export const writeManifests = async (compiled: readonly CompiledManifest[], outD
   const servers = compiled.map((entry, position) =>
     toIndexEntry(entry, splits[position]?.shellJson ?? entry.json, registryUrl),
   );
-  await writeText(join(outDir, INDEX_FILE_NAME), `${JSON.stringify({ servers }, null, 2)}\n`);
+  await writeText(join(outDir, INDEX_FILE_NAME), toRegistryJson({ servers }));
 };

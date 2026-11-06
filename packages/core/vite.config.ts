@@ -6,17 +6,11 @@ export default defineConfig({
   build: {
     ssr: true,
     lib: {
-      entry: "src/main.ts",
+      entry: { "usemcpkit.core": "src/main.ts" },
       formats: ["es"],
     },
-    target: "node20",
     outDir: "build",
     emptyOutDir: true,
-    rolldownOptions: {
-      output: {
-        entryFileNames: "usemcpkit.core.js",
-      },
-    },
   },
   test: {
     include: ["test/**/*.test.ts"],

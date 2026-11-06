@@ -11,4 +11,7 @@ pub const NAME_PART_SEPARATOR: char = '_';
 
 pub const HASH_LENGTH: usize = 6;
 
+/// How many sections full loading downloads at once.
+pub const PARALLEL_SECTION_LOADS: usize = 8;
+
 pub const SECTION_NOTICE: &str = "This is a SECTION of usemcpkit, not a callable tool.";

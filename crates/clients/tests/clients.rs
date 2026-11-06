@@ -1,4 +1,5 @@
 use serde_json::{Value, json};
+use std::collections::BTreeMap;
 use std::fs;
 use std::path::{Path, PathBuf};
 use tempfile::TempDir;
@@ -15,6 +16,14 @@ fn launch() -> LaunchCommand {
     LaunchCommand {
         command: LAUNCH_COMMAND.to_owned(),
         args: vec!["serve".to_owned()],
+        env: BTreeMap::new(),
+    }
+}
+
+fn launch_with_env() -> LaunchCommand {
+    LaunchCommand {
+        env: BTreeMap::from([("USEMCPKIT_BETA_PARTIAL_LOADING".to_owned(), "0".to_owned())]),
+        ..launch()
     }
 }
 
@@ -177,6 +186,65 @@ fn writes_opencode_commands_as_one_array() {
 }
 
 #[test]
+fn writes_the_launch_environment_under_each_client_env_key() {
+    let home = TempDir::new().unwrap();
+    let env = json!({ "USEMCPKIT_BETA_PARTIAL_LOADING": "0" });
+    let cases = [
+        ("vscode", "servers", "env"),
+        ("cline", "mcpServers", "env"),
+        ("opencode", "mcp", "environment"),
+    ];
+
+    for (id, servers_key, env_key) in cases {
+        let definition = find_definition(id);
+        let path = (definition.config_path)(&create_context(home.path()));
+        set_client_entry(&definition, &path, &launch_with_env()).unwrap();
+
+        let written: Value = serde_json::from_str(&read(&path)).unwrap();
+        assert_eq!(written[servers_key]["mcpkit"][env_key], env, "{id}");
+    }
+}
+
+#[test]
+fn writes_the_codex_environment_as_a_subtable_and_replaces_an_old_one() {
+    let home = TempDir::new().unwrap();
+    let codex = find_definition("codex");
+    let path = write_config(
+        home.path(),
+        &codex,
+        "[mcp_servers.mcpkit]\ncommand = \"old\"\n\n[mcp_servers.mcpkit.env]\nUSEMCPKIT_DEBUG = \"1\"\n\n[mcp_servers.mcpkit.tools.x]\na = 1\n\n[profiles.x]\nmodel = \"y\"\n",
+    );
+
+    set_client_entry(&codex, &path, &launch_with_env()).unwrap();
+
+    assert_eq!(
+        read(&path),
+        format!(
+            "[mcp_servers.mcpkit]\ncommand = \"{LAUNCH_COMMAND}\"\nargs = [\"serve\"]\n\n[mcp_servers.mcpkit.env]\nUSEMCPKIT_BETA_PARTIAL_LOADING = \"0\"\n\n[mcp_servers.mcpkit.tools.x]\na = 1\n\n[profiles.x]\nmodel = \"y\"\n"
+        )
+    );
+
+    remove_client_entry(&codex, &path).unwrap();
+    assert_eq!(read(&path), "[profiles.x]\nmodel = \"y\"\n");
+}
+
+#[test]
+fn appends_a_new_codex_table_with_its_environment() {
+    let home = TempDir::new().unwrap();
+    let codex = find_definition("codex");
+    let path = write_config(home.path(), &codex, "model = \"o3\"\n");
+
+    set_client_entry(&codex, &path, &launch_with_env()).unwrap();
+
+    assert_eq!(
+        read(&path),
+        format!(
+            "model = \"o3\"\n\n[mcp_servers.mcpkit]\ncommand = \"{LAUNCH_COMMAND}\"\nargs = [\"serve\"]\n\n[mcp_servers.mcpkit.env]\nUSEMCPKIT_BETA_PARTIAL_LOADING = \"0\"\n"
+        )
+    );
+}
+
+#[test]
 fn appends_the_codex_table_and_replaces_it_in_place_later() {
     let home = TempDir::new().unwrap();
     let codex = find_definition("codex");
@@ -190,6 +258,7 @@ fn appends_the_codex_table_and_replaces_it_in_place_later() {
     let windows_launch = LaunchCommand {
         command: "C:\\usemcpkit.exe".to_owned(),
         args: vec!["serve".to_owned()],
+        env: BTreeMap::new(),
     };
     set_client_entry(&codex, &path, &windows_launch).unwrap();
 

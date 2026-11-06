@@ -1,5 +1,7 @@
 use crate::client_definition::ClientDefinition;
 use crate::config_format::ConfigFormat;
+use crate::definitions::consts::ENV_KEY;
+use crate::definitions::insert_launch_env::insert_launch_env;
 use crate::definitions::launch_args::launch_args;
 use crate::definitions::resolve_copilot_home::resolve_copilot_home;
 use serde_json::{Map, Value};
@@ -13,12 +15,14 @@ pub const COPILOT_CLI: ClientDefinition = ClientDefinition {
     config_path: |context| resolve_copilot_home(context).join("mcp-config.json"),
     servers_path: &["mcpServers"],
     create_entry: |launch| {
-        Map::from_iter([
+        let mut entry = Map::from_iter([
             ("type".to_owned(), Value::from("local")),
             ("command".to_owned(), Value::from(launch.command.clone())),
             ("args".to_owned(), launch_args(launch)),
-            ("tools".to_owned(), Value::from(vec!["*"])),
-        ])
+        ]);
+        insert_launch_env(&mut entry, ENV_KEY, launch);
+        entry.insert("tools".to_owned(), Value::from(vec!["*"]));
+        entry
     },
     settings: &[],
 };
