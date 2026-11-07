@@ -1,6 +1,6 @@
 {
   "name": "usemcpkit",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "description": "npx usemcpkit: runs the usemcpkit binary of this machine, which adds usemcpkit to every AI client with no command.",
   "repository": {
     "type": "git",
