@@ -162,14 +162,16 @@ TS and Rust handle them the same way:
 
 ## Releasing
 
-Three workflows run on every push to `master`, none waiting for another. `release.yml` ("Release", the file npm's
-trusted publisher is set to, so it keeps its name) publishes to npm only; `registry.yml` deploys the registry to GitHub
-Pages; `github-release.yml` runs when "Release" succeeds (or by hand with a run id) and turns that run's `release` and
-`registry` artifacts into the GitHub Release. `.github/workflows/release-build.yml`, which both `release.yml` and
-`registry.yml` call, runs `yarn build` (every lint, test and build gate) on Ubuntu. `release-binaries.yml` builds
-`usemcpkit-window` first on each target, then the two binaries (the server embeds the window program) on that target's own runner
-(`linux-x64`, `linux-arm64`, `darwin-x64`, `darwin-arm64`, `windows-x64`) from the credentials page the first job
-built, checks that each prints `--version` and runs `tools/smoke-test` against them (`node tools/smoke-test/src/main.ts
+Two workflows, each running from its first build to its last deploy, each started only by the directories it ships.
+`release.yml` ("Release", the file npm's trusted publisher is set to, so it keeps its name) runs on changes to the
+binaries, the wrapper, core, the registry and their build files: its `build` job runs `yarn build` (every lint, test and
+build gate) on Ubuntu, the `binaries` jobs build `usemcpkit-window` first on each target, then the two binaries (the
+server embeds the window program), `package` writes the npm packages and release assets, then the npm jobs and the
+GitHub Release job publish them. `pages.yml` ("Pages") runs on changes to the registry's sources (`packages/servers`,
+core, the native validator, `apps/video`) or a version bump, builds the manifests and the promo video and deploys them
+to GitHub Pages. Each `binaries` job runs on its target's own runner
+(`linux-x64`, `linux-arm64`, `darwin-x64`, `darwin-arm64`, `windows-x64`), builds from the credentials page the first job
+built, checks that each binary prints `--version` and runs `tools/smoke-test` against them (`node tools/smoke-test/src/main.ts
 <usemcpkit binary> <registry dir>`: the real `usemcpkit serve`, with the server next to it, over stdio in a temp home
 seeded from the first job's registry, auto-update off and the registry unreachable; it initializes, expects `search` and
 `execute` as the only tools, searches the indexed servers and the groups of `git:github` and runs a piece of code with

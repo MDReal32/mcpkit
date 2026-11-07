@@ -4,13 +4,30 @@ on:
   push:
     branches:
       - master
-    paths-ignore:
-      - "**/*.md"
+    paths:
+      - apps/npx/**
+      - apps/runner/**
+      - apps/server/**
+      - apps/window/**
+      - crates/**
+      - packages/core/**
+      - packages/native/**
+      - packages/servers/**
+      - tools/release/**
+      - tools/smoke-test/**
+      - Cargo.toml
+      - Cargo.lock
+      - package.json
+      - yarn.lock
+      - nx.json
+      - tsconfig.base.json
+      - .github/scripts/publish-npm.sh
+      - .github/scripts/publish-github-release.sh
+      - .github/workflows/release.yml
   workflow_dispatch:
 
 permissions:
   contents: read
-  id-token: write
 
 concurrency:
   group: release-${{ github.ref }}
@@ -18,40 +35,365 @@ concurrency:
 
 jobs:
   build:
-    name: Build
-    uses: ./.github/workflows/release-build.yml
+    name: Build and test
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          package-manager-cache: false
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+
+      - name: Install WebKitGTK
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libgtk-3-dev
+
+      - name: Restore the Cargo cache
+        uses: Swatinem/rust-cache@v2
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Restore the Nx cache
+        uses: actions/cache@v6
+        with:
+          path: .nx/cache
+          key: nx-${{ runner.os }}-${{ github.sha }}
+          restore-keys: nx-${{ runner.os }}-
+
+      - name: Build
+        run: yarn build
+
+      - name: Upload the credentials page
+        uses: actions/upload-artifact@v7
+        with:
+          name: ui
+          path: apps/window/ui/build/usemcpkit.ui.html
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: Upload the libraries
+        uses: actions/upload-artifact@v7
+        with:
+          name: libraries
+          path: |
+            packages/core/build
+            apps/npx/build
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: Upload the registry
+        uses: actions/upload-artifact@v7
+        with:
+          name: registry
+          path: packages/servers/build/manifests
+          if-no-files-found: error
+          retention-days: 1
 
   binaries:
-    name: Binaries
+    name: Binaries ${{ matrix.target }}
     needs: build
-    uses: ./.github/workflows/release-binaries.yml
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - target: linux-x64
+            runner: ubuntu-24.04
+          - target: linux-arm64
+            runner: ubuntu-24.04-arm
+          - target: darwin-x64
+            runner: macos-15-intel
+          - target: darwin-arm64
+            runner: macos-15
+          - target: windows-x64
+            runner: windows-2025
+            extension: .exe
 
-  platforms:
-    name: npm platforms
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Download the credentials page
+        uses: actions/download-artifact@v8
+        with:
+          name: ui
+          path: apps/window/ui/build
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install WebKitGTK
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libgtk-3-dev
+
+      - name: Restore the Cargo cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          key: ${{ matrix.target }}
+
+      - name: Build the credentials window
+        run: cargo build --release --locked -p usemcpkit-window
+
+      - name: Build
+        run: cargo build --release --locked -p usemcpkit-runner -p usemcpkit-servers
+
+      - name: Print the versions
+        shell: bash
+        run: |
+          target/release/usemcpkit${{ matrix.extension }} --version
+          target/release/usemcpkit-servers${{ matrix.extension }} --version
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          package-manager-cache: false
+
+      - name: Download the registry
+        uses: actions/download-artifact@v8
+        with:
+          name: registry
+          path: release-registry
+
+      - name: Smoke test
+        run: node tools/smoke-test/src/main.ts target/release/usemcpkit${{ matrix.extension }} release-registry
+
+      - name: Upload the binaries
+        uses: actions/upload-artifact@v7
+        with:
+          name: binaries-${{ matrix.target }}
+          path: |
+            target/release/usemcpkit${{ matrix.extension }}
+            target/release/usemcpkit-servers${{ matrix.extension }}
+          if-no-files-found: error
+          retention-days: 1
+
+  package:
+    name: Package
     needs: binaries
-    uses: ./.github/workflows/release-npm-platforms.yml
-    with:
-      platforms: ${{ needs.binaries.outputs.platforms }}
+    runs-on: ubuntu-24.04
+    outputs:
+      platforms: ${{ steps.platforms.outputs.dirs }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          package-manager-cache: false
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Download the libraries
+        uses: actions/download-artifact@v8
+        with:
+          name: libraries
+
+      - name: Download the binaries
+        uses: actions/download-artifact@v8
+        with:
+          pattern: binaries-*
+          path: release-binaries
+
+      - name: Write the platform packages and the release assets
+        run: node tools/release/src/main.ts release-binaries release
+
+      - name: List the WebKitGTK runtime packages
+        id: webkitgtk
+        run: |
+          sudo apt-get update
+          sudo apt-get install --print-uris -qq libwebkit2gtk-4.1-0 | cut -d' ' -f2 | sort > "$RUNNER_TEMP/webkitgtk-packages.txt"
+          echo "hash=$(sha256sum "$RUNNER_TEMP/webkitgtk-packages.txt" | cut -c1-16)" >> "$GITHUB_OUTPUT"
+
+      - name: Restore the WebKitGTK runtime packages
+        uses: actions/cache@v6
+        with:
+          path: ~/apt-archives
+          key: webkitgtk-runtime-${{ runner.os }}-${{ runner.arch }}-${{ steps.webkitgtk.outputs.hash }}
+          restore-keys: webkitgtk-runtime-${{ runner.os }}-${{ runner.arch }}-
+
+      - name: Install the WebKitGTK runtime
+        run: |
+          mkdir -p ~/apt-archives/partial
+          sudo apt-get install -y -o Acquire::Retries=3 -o Dir::Cache::Archives="$HOME/apt-archives" libwebkit2gtk-4.1-0
+          sudo apt-get autoclean -o Dir::Cache::Archives="$HOME/apt-archives"
+          sudo chown -R "$(id -u):$(id -g)" ~/apt-archives
+
+      - name: Download the registry
+        uses: actions/download-artifact@v8
+        with:
+          name: registry
+          path: release-registry
+
+      - name: Smoke test the packaged Linux binaries
+        run: node tools/smoke-test/src/main.ts release/npm/cli-linux-x64/bin/usemcpkit release-registry
+
+      - name: Pack libraries
+        run: .github/scripts/publish-npm.sh pack release-tarballs
+
+      - name: List platform packages
+        id: platforms
+        run: echo "dirs=$(.github/scripts/publish-npm.sh platforms)" >> "$GITHUB_OUTPUT"
+
+      - name: Archive the release files
+        run: tar -cf release.tar release release-tarballs
+
+      - name: Upload the release files
+        uses: actions/upload-artifact@v7
+        with:
+          name: release
+          path: release.tar
+          retention-days: 1
+
+  npm-platforms:
+    name: npm ${{ matrix.dir }}
+    needs: package
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    strategy:
+      fail-fast: false
+      matrix:
+        dir: ${{ fromJSON(needs.package.outputs.platforms) }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+          package-manager-cache: false
+
+      - name: Download the release files
+        uses: actions/download-artifact@v8
+        with:
+          name: release
+
+      - name: Extract
+        run: tar -xf release.tar
+
+      - name: Publish
+        run: .github/scripts/publish-npm.sh publish-dir "${{ matrix.dir }}"
+
+  npm-core:
+    name: npm packages/core
+    needs: package
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       id-token: write
 
-  core:
-    name: npm core
-    needs: binaries
-    uses: ./.github/workflows/release-npm-package.yml
-    with:
-      dir: packages/core
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+          package-manager-cache: false
+
+      - name: Download the release files
+        uses: actions/download-artifact@v8
+        with:
+          name: release
+
+      - name: Extract
+        run: tar -xf release.tar
+
+      - name: Publish
+        run: .github/scripts/publish-npm.sh publish-lib packages/core release-tarballs
+
+  npm-wrapper:
+    name: npm apps/npx
+    needs: npm-platforms
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       id-token: write
 
-  wrapper:
-    name: npm wrapper
-    needs: platforms
-    uses: ./.github/workflows/release-npm-package.yml
-    with:
-      dir: apps/npx
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
+          package-manager-cache: false
+
+      - name: Download the release files
+        uses: actions/download-artifact@v8
+        with:
+          name: release
+
+      - name: Extract
+        run: tar -xf release.tar
+
+      - name: Publish
+        run: .github/scripts/publish-npm.sh publish-lib apps/npx release-tarballs
+
+  github-release:
+    name: GitHub Release
+    needs: package
+    runs-on: ubuntu-latest
     permissions:
-      contents: read
-      id-token: write
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Download the release files
+        uses: actions/download-artifact@v8
+        with:
+          name: release
+
+      - name: Extract
+        run: tar -xf release.tar
+
+      - name: Download the registry
+        uses: actions/download-artifact@v8
+        with:
+          name: registry
+          path: registry
+
+      - name: Pack the registry
+        run: tar -czf registry.tar.gz -C registry .
+
+      - name: GitHub Release
+        run: .github/scripts/publish-github-release.sh
+        env:
+          GH_TOKEN: ${{ github.token }}
