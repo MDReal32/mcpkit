@@ -76,7 +76,7 @@ includes:
 
 Then it reads every tool of every server that is not an upstream from the catalog, compares a sha256 of each as
 `codemode.tools` describes it (`{ id, description, inputSchema }`) and checks that `search` finds as many tools per
-server. It allows only two differences in the session: the JSON syntax error text (compared by code and
+server, and all of them once each through `codemode.tools()` with no server. It allows only two differences in the session: the JSON syntax error text (compared by code and
 `parse error:` prefix) and `serverInfo.version`, which changes with every release.
 
 ## Behavior that differs from TypeScript

@@ -1,9 +1,11 @@
 use crate::catalog::RegistryCatalog;
-use crate::mcp::code_mode::consts::MAX_OUTPUT_CHARS;
+use crate::mcp::code_mode::consts::{GROUP_WITHOUT_SERVER, MAX_OUTPUT_CHARS};
+use crate::mcp::code_mode::load_all_tools::load_all_tools;
 use crate::mcp::code_mode::load_group_names::load_group_names;
 use crate::mcp::code_mode::load_server_tools::load_server_tools;
 use crate::mcp::code_mode::read_outcome_value::read_outcome_value;
-use crate::mcp::tools::{create_tool_id, run_server_tool};
+use crate::mcp::code_mode::server_tool::ServerTool;
+use crate::mcp::tools::run_server_tool;
 use serde_json::{Map, Value, json};
 use std::cell::{Cell, RefCell};
 use std::rc::Rc;
@@ -52,20 +54,24 @@ impl<F: Fetch> CodeModeHost<F> {
         Ok(json!(load_group_names(&self.catalog, server).await?))
     }
 
-    pub async fn tools(&self, server: &str, group: Option<&str>) -> Result<Value, String> {
-        let server = self.catalog.find_server(server)?;
-        let tools: Vec<Value> = load_server_tools(&self.catalog, server, group)
-            .await?
-            .into_iter()
-            .map(|descriptor| {
-                json!({
-                    "id": create_tool_id(&server.id, &descriptor.tool),
-                    "description": descriptor.description,
-                    "inputSchema": descriptor.input_schema,
-                })
-            })
-            .collect();
-        Ok(Value::Array(tools))
+    /// The tools of one group or server; with no server, every tool that can be listed without starting an upstream.
+    pub async fn tools(&self, server: Option<&str>, group: Option<&str>) -> Result<Value, String> {
+        let tools = match (server, group) {
+            (Some(server), _) => {
+                let server = self.catalog.find_server(server)?;
+                load_server_tools(&self.catalog, server, group)
+                    .await?
+                    .into_iter()
+                    .map(|descriptor| ServerTool {
+                        server_id: server.id.clone(),
+                        descriptor,
+                    })
+                    .collect()
+            }
+            (None, Some(_)) => return Err(GROUP_WITHOUT_SERVER.to_owned()),
+            (None, None) => load_all_tools(&self.catalog).await?,
+        };
+        Ok(Value::Array(tools.into_iter().map(ServerTool::into_json).collect()))
     }
 
     /// `args` is the JSON of the arguments object the code passed.

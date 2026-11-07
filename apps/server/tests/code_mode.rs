@@ -130,6 +130,31 @@ async fn search_finds_tools_with_their_ids_and_schemas() {
 }
 
 #[tokio::test]
+async fn search_lists_every_tool_when_no_server_is_named() {
+    let registry = TempDir::new().unwrap();
+    let server = tracker_server(&registry);
+
+    let found = run_code(
+        &server,
+        SEARCH_TOOL,
+        r#"async () => (await codemode.tools()).map((tool) => tool.id)"#,
+    )
+    .await;
+    let picked_group = run_code(
+        &server,
+        SEARCH_TOOL,
+        r#"async () => codemode.tools(undefined, "issues")"#,
+    )
+    .await;
+
+    assert_eq!(found, text_result("[\n  \"test:tracker:issues:search\"\n]"));
+    assert!(
+        error_text(&picked_group).starts_with("Error: codemode.tools needs a server to pick a group from\n"),
+        "{picked_group}"
+    );
+}
+
+#[tokio::test]
 async fn search_cannot_call_tools() {
     let registry = TempDir::new().unwrap();
     let server = tracker_server(&registry);
