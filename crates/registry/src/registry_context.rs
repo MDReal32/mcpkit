@@ -22,7 +22,7 @@ impl<F> RegistryContext<F> {
         }
     }
 
-    /// `~/.usemcpkit/manifests/v<version>` (or under `USEMCPKIT_HOME`) and the registry named by `flag`,
+    /// `~/.usemcpkit/manifests` (or under `USEMCPKIT_HOME`) and the registry named by `flag`,
     /// `USEMCPKIT_REGISTRY` or the published folder of this version.
     pub fn from_env(flag: Option<&str>, fetcher: F) -> Result<Self, RegistryError> {
         Ok(Self::new(resolve_user_dir()?, resolve_registry_url(flag), fetcher))

@@ -8,11 +8,13 @@ use crate::registry_error::RegistryError;
 use std::path::Path;
 use usemcpkit_core::hash::sha256_hex;
 
-/// Notes that `text` is what `file` holds now and is current; `updated_at` moves only when the content differs from the last one noted.
+/// Notes that `text` is what `file` holds now and is current, fetched from `registry` when given; `updated_at` moves
+/// only when the content differs from the last one noted.
 pub async fn record_cache_entry<F>(
     context: &RegistryContext<F>,
     file: &Path,
     text: &str,
+    registry: Option<&str>,
     now: u64,
 ) -> Result<(), RegistryError> {
     let path = to_cache_path(&context.dir, file);
@@ -29,6 +31,7 @@ pub async fn record_cache_entry<F>(
             updated_at,
             checked_at: now,
             sha256,
+            registry: registry.map(str::to_owned),
         },
     );
     write_cache_map(&context.dir, &map).await

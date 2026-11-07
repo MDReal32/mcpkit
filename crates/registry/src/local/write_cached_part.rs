@@ -15,5 +15,5 @@ pub async fn write_cached_part<F>(
     let file = resolve_part_path(&context.dir, id, part_name)?;
     let formatted = format_cached_json(text)?;
     write_text(&file, &formatted).await?;
-    record_cache_entry(context, &file, &formatted, now_millis()).await
+    record_cache_entry(context, &file, &formatted, None, now_millis()).await
 }

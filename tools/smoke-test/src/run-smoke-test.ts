@@ -15,7 +15,6 @@ import {
   UNREACHABLE_REGISTRY,
 } from "./const.ts";
 import { readIndexedServerCount } from "./read-indexed-server-count.ts";
-import { readRegistryVersionDir } from "./read-registry-version-dir.ts";
 import { seedHome } from "./seed-home.ts";
 import { startStdioSession } from "./start-stdio-session.ts";
 import type { CallToolResult } from "./types/call-tool-result.ts";
@@ -61,7 +60,7 @@ const talkToServer = async (session: StdioSession, serverCount: number) => {
  */
 export const runSmokeTest = async (runner: string, registryDir: string) => {
   const serverCount = await readIndexedServerCount(registryDir);
-  const home = await seedHome(registryDir, await readRegistryVersionDir(runner));
+  const home = await seedHome(registryDir);
   const session = startStdioSession({
     command: runner,
     args: ["serve"],

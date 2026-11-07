@@ -9,8 +9,8 @@ pub const REGISTRY_ENV: &str = "USEMCPKIT_REGISTRY";
 /// Where CI publishes the compiled manifests; the same value as `DEFAULT_REGISTRY_URL` in `packages/servers`.
 pub const DEFAULT_REGISTRY_URL: &str = "https://mdreal32.github.io/mcpkit";
 
-/// The folder of the published registry, and of the manifest cache, that holds the manifests of this release: a binary
-/// reads only the manifests published with its own version.
+/// The folder of the published registry that holds the manifests of this release: a binary reads only the manifests
+/// published with its own version.
 pub const REGISTRY_VERSION_DIR: &str = concat!("v", env!("CARGO_PKG_VERSION"));
 
 pub const INDEX_FILE_NAME: &str = "index.json";
