@@ -162,8 +162,12 @@ TS and Rust handle them the same way:
 
 ## Releasing
 
-`.github/workflows/release-build.yml` runs `yarn build` (every lint, test and build gate) on Ubuntu; the registry is
-deployed from it alone. `release-binaries.yml` then builds the two binaries per target on that target's own runner
+Three workflows run on every push to `master`, none waiting for another. `release.yml` ("Release", the file npm's
+trusted publisher is set to, so it keeps its name) publishes to npm only; `registry.yml` deploys the registry to GitHub
+Pages; `github-release.yml` runs when "Release" succeeds (or by hand with a run id) and turns that run's `release` and
+`registry` artifacts into the GitHub Release. `.github/workflows/release-build.yml`, which both `release.yml` and
+`registry.yml` call, runs `yarn build` (every lint, test and build gate) on Ubuntu. `release-binaries.yml` builds
+`usemcpkit-window` first on each target, then the two binaries (the server embeds the window program) on that target's own runner
 (`linux-x64`, `linux-arm64`, `darwin-x64`, `darwin-arm64`, `windows-x64`) from the credentials page the first job
 built, checks that each prints `--version` and runs `tools/smoke-test` against them (`node tools/smoke-test/src/main.ts
 <usemcpkit binary> <registry dir>`: the real `usemcpkit serve`, with the server next to it, over stdio in a temp home
@@ -183,9 +187,9 @@ needs for losing its runtime exports (executor, auth, mapping) and `validateMani
 
 ## Release work still open
 
-- No musl packages: the server links WebKitGTK dynamically, which has no static build, so `@usemcpkit/cli-*-musl`
-  stay at TS `0.9.0` and `npx usemcpkit` finds no binary on musl. The glibc server also needs WebKitGTK installed to
-  start at all, even when no window is opened.
+- No musl packages: the window program links WebKitGTK dynamically, which has no static build, so `@usemcpkit/cli-*-musl`
+  stay at TS `0.9.0` and `npx usemcpkit` finds no binary on musl. The server itself no longer links WebKitGTK: only
+  the window program needs it, and without it the credentials form opens in the default browser.
 - Decide whether the first release also ships the runner as `package/bin/mcpkit[.exe]`, so TS `0.9.0` installs update
   themselves into it, or whether those users reinstall with `npx usemcpkit` (see "Moving users from the `mcpkit` name").
 - Homebrew and winget packages must ship `usemcpkit-servers` next to `usemcpkit`.
