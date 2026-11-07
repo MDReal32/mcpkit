@@ -1,0 +1,30 @@
+name: Registry
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - "**/*.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: registry-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build
+    uses: ./.github/workflows/release-build.yml
+
+  registry:
+    name: Registry
+    needs: build
+    uses: ./.github/workflows/release-registry.yml
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
