@@ -9,8 +9,10 @@ pub fn validate_auth_spec(auth: &Value, location: &str, has_domain: bool) -> Vec
         return vec![format!("{location}.type must be one of: {}", AUTH_TYPES.join(", "))];
     };
     let auth_type = object.get("type").and_then(Value::as_str).unwrap_or_default();
+    let discovers = auth_type == "oauth" && object.contains_key("discovery");
     let required = AUTH_REQUIRED_KEYS
         .iter()
+        .filter(|_| !discovers)
         .find(|(name, _)| *name == auth_type)
         .map_or(&[][..], |(_, keys)| keys);
     let missing: Vec<String> = required

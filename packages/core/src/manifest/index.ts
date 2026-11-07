@@ -10,7 +10,7 @@ export { toNameMapping } from "./to-name-mapping";
 export type { AuthSpec } from "./types/auth/auth-spec";
 export type { FallbackAuth } from "./types/auth/fallback-auth";
 export type { InteractiveAuth } from "./types/auth/interactive-auth";
-export type { OAuthAuth } from "./types/auth/oauth-auth";
+export type { OAuthAuth, OAuthDiscoveryAuth, OAuthEndpointsAuth } from "./types/auth/oauth-auth";
 export type { Manifest } from "./types/manifest";
 export type { DomainSpec } from "./types/server/domain-spec";
 export type { EditionSpec } from "./types/server/edition-spec";

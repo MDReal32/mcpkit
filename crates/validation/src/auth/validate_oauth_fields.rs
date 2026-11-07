@@ -4,11 +4,17 @@ use serde_json::{Map, Value};
 
 pub fn validate_oauth_fields(auth: &Map<String, Value>, location: &str) -> Vec<String> {
     let mut errors = Vec::new();
-    if !is_https_url(auth.get("authorizationUrl")) {
-        errors.push(format!("{location}.authorizationUrl must be an https:// URL"));
-    }
-    if !is_https_url(auth.get("tokenUrl")) {
-        errors.push(format!("{location}.tokenUrl must be an https:// URL"));
+    if auth.contains_key("discovery") {
+        if !is_https_url(auth.get("discovery")) {
+            errors.push(format!("{location}.discovery must be an https:// URL"));
+        }
+    } else {
+        if !is_https_url(auth.get("authorizationUrl")) {
+            errors.push(format!("{location}.authorizationUrl must be an https:// URL"));
+        }
+        if !is_https_url(auth.get("tokenUrl")) {
+            errors.push(format!("{location}.tokenUrl must be an https:// URL"));
+        }
     }
     if auth.get("clientSecretEnv").is_some_and(|env| !env.is_string()) {
         errors.push(format!("{location}.clientSecretEnv must be a string"));

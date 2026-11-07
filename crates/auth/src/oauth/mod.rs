@@ -1,4 +1,5 @@
 mod consts;
+mod discovery;
 mod is_token_expired;
 mod now_epoch_ms;
 mod parse_token_response;
@@ -11,6 +12,7 @@ mod refresh_stored_token;
 mod request_token;
 mod sign_in;
 
+pub use discovery::resolve_oauth_endpoints;
 pub use is_token_expired::is_token_expired;
 pub use now_epoch_ms::now_epoch_ms;
 pub use pending_token::PendingToken;

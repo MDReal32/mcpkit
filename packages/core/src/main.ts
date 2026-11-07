@@ -34,6 +34,8 @@ export type {
   Manifest,
   NameMapping,
   OAuthAuth,
+  OAuthDiscoveryAuth,
+  OAuthEndpointsAuth,
   RepoSetupStep,
   ResponseSpec,
   StdioUpstream,

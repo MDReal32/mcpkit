@@ -1,3 +1,4 @@
+use crate::oauth::discovery::resolve_oauth_endpoints;
 use crate::oauth::request_token::request_token;
 use crate::token_store::{StoredToken, save_token};
 use crate::{AuthContext, AuthError};
@@ -20,7 +21,8 @@ pub async fn refresh_stored_token(
         )));
     };
     let grant = [("grant_type", "refresh_token"), ("refresh_token", refresh_token)];
-    let fresh = request_token(auth, &grant, server_name, context).await?;
+    let auth = resolve_oauth_endpoints(server_name, auth, None, context).await?;
+    let fresh = request_token(&auth, &grant, server_name, context).await?;
     let refreshed = StoredToken {
         refresh_token: fresh.refresh_token.or_else(|| token.refresh_token.clone()),
         auth_key: token.auth_key.clone(),
