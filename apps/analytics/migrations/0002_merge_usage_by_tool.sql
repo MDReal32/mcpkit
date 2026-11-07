@@ -17,3 +17,5 @@ SELECT COALESCE((SELECT SUM(count) FROM usage), 0) = COALESCE((SELECT SUM(count)
   AND (SELECT COUNT(*) FROM usage) = (SELECT COUNT(DISTINCT tool) FROM usage_legacy);
 
 DROP TABLE usage_merge_check;
+
+DROP TABLE usage_legacy;

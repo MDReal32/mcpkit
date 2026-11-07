@@ -23,12 +23,7 @@ yarn nx run @usemcpkit/analytics:db:migrate
 yarn nx run @usemcpkit/analytics:deploy
 ```
 
-`deploy` runs `db:migrate` first. The schema lives in `migrations/`, applied once each, in a transaction, by `wrangler d1 migrations apply`. `0002_merge_usage_by_tool.sql` turns the old rows per day, tool, version and OS into one row per tool: the counts are summed, so the total stays the same, and the migration rolls back if the sums or the tool counts differ. The old table is kept as `usage_legacy` until you drop it, after comparing the totals:
-
-```bash
-yarn workspace @usemcpkit/analytics exec wrangler d1 execute usemcpkit-analytics --remote --command "SELECT (SELECT SUM(count) FROM usage) AS now, (SELECT SUM(count) FROM usage_legacy) AS before"
-yarn workspace @usemcpkit/analytics exec wrangler d1 execute usemcpkit-analytics --remote --command "DROP TABLE usage_legacy"
-```
+`deploy` runs `db:migrate` first. The schema lives in `migrations/`, applied once each, in a transaction, by `wrangler d1 migrations apply`. `0002_merge_usage_by_tool.sql` turns the old rows per day, tool, version and OS into one row per tool: the counts are summed, and the old table is dropped only after a check that the total count and the number of tools match. If either differs, the migration rolls back and the old table stays as it was. D1 Time Travel can still restore the database to a point before the migration.
 
 Route the Worker to the host the TypeScript CLI of `0.9.0` reported to (its `DEFAULT_ANALYTICS_URL`); the Rust CLI sends
 no usage reports yet (`docs/rust-port.md`). With Cloudflare's git integration leave the build command empty and use `npx wrangler deploy --config apps/analytics/wrangler.toml` as the deploy command.
