@@ -16,17 +16,20 @@ describe("handleRequest", () => {
     const { env, bind } = createEnv();
     const response = await handleRequest(post('{"tool":"git:github:repos:get","version":"0.3.2","os":"darwin"}'), env);
     expect(response.status).toBe(204);
-    expect(bind).toHaveBeenCalledWith(
-      expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/),
-      "git:github:repos:get",
-      "0.3.2",
-      "darwin",
-    );
+    expect(bind).toHaveBeenCalledWith("git:github:repos:get");
+  });
+
+  it("counts a tool alone and ignores the version and OS of an event", async () => {
+    const { env, bind } = createEnv();
+    const alone = await handleRequest(post('{"tool":"git:github:repos:get"}'), env);
+    const withOthers = await handleRequest(post('{"tool":"git:gitlab:issues:list","version":"?","os":"plan9"}'), env);
+    expect([alone.status, withOthers.status]).toEqual([204, 204]);
+    expect(bind.mock.calls).toEqual([["git:github:repos:get"], ["git:gitlab:issues:list"]]);
   });
 
   it.each([
     '{"tool":"x","version":"1","os":"darwin"}',
-    '{"tool":"a:b:c","version":"1","os":"plan9"}',
+    '{"version":"1","os":"darwin"}',
     '{"tool":"a:b:c","version":"1","os":"linux","token":"secret"} garbage',
     "not json",
   ])("rejects %s", async (body) => {
