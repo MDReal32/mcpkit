@@ -1,0 +1,187 @@
+name: GitHub Release
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - apps/npx/package.json
+      - apps/runner/**
+      - apps/server/**
+      - apps/window/**
+      - crates/**
+      - packages/core/**
+      - packages/native/**
+      - packages/servers/**
+      - tools/release/**
+      - Cargo.toml
+      - Cargo.lock
+      - yarn.lock
+      - .github/scripts/publish-github-release.sh
+      - .github/workflows/github-release.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  page:
+    name: Credentials page
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          package-manager-cache: false
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Build core
+        run: yarn workspace @usemcpkit/core build
+
+      - name: Build the credentials page
+        run: yarn workspace @usemcpkit/ui build
+
+      - name: Upload the credentials page
+        uses: actions/upload-artifact@v7
+        with:
+          name: ui
+          path: apps/window/ui/build/usemcpkit.ui.html
+          if-no-files-found: error
+          retention-days: 1
+
+  binaries:
+    name: Binaries ${{ matrix.target }}
+    needs: page
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - target: linux-x64
+            runner: ubuntu-24.04
+          - target: linux-arm64
+            runner: ubuntu-24.04-arm
+          - target: darwin-x64
+            runner: macos-15-intel
+          - target: darwin-arm64
+            runner: macos-15
+          - target: windows-x64
+            runner: windows-2025
+            extension: .exe
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Download the credentials page
+        uses: actions/download-artifact@v8
+        with:
+          name: ui
+          path: apps/window/ui/build
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install WebKitGTK
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libgtk-3-dev
+
+      - name: Restore the Cargo cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          key: github-release-${{ matrix.target }}
+
+      - name: Build the credentials window
+        run: cargo build --release --locked -p usemcpkit-window
+
+      - name: Build
+        run: cargo build --release --locked -p usemcpkit-runner -p usemcpkit-servers
+
+      - name: Print the versions
+        shell: bash
+        run: |
+          target/release/usemcpkit${{ matrix.extension }} --version
+          target/release/usemcpkit-servers${{ matrix.extension }} --version
+
+      - name: Upload the binaries
+        uses: actions/upload-artifact@v7
+        with:
+          name: binaries-${{ matrix.target }}
+          path: |
+            target/release/usemcpkit${{ matrix.extension }}
+            target/release/usemcpkit-servers${{ matrix.extension }}
+          if-no-files-found: error
+          retention-days: 1
+
+  release:
+    name: GitHub Release
+    needs: binaries
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          package-manager-cache: false
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Restore the Cargo cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          key: github-release-registry
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Build core
+        run: yarn workspace @usemcpkit/core build
+
+      - name: Build the native validator
+        run: yarn workspace @usemcpkit/native build
+
+      - name: Build the registry
+        run: yarn workspace @usemcpkit/servers build
+
+      - name: Pack the registry
+        run: tar -czf registry.tar.gz -C packages/servers/build/manifests .
+
+      - name: Download the binaries
+        uses: actions/download-artifact@v8
+        with:
+          pattern: binaries-*
+          path: release-binaries
+
+      - name: Write the release assets
+        run: node tools/release/src/main.ts release-binaries release
+
+      - name: GitHub Release
+        run: .github/scripts/publish-github-release.sh
+        env:
+          GH_TOKEN: ${{ github.token }}

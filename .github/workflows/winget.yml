@@ -1,17 +1,6 @@
-name: Release winget
+name: winget
 
 on:
-  workflow_call:
-    inputs:
-      tag:
-        description: Release tag to publish, for example v1.2.3; the latest release when empty
-        type: string
-        required: false
-        default: ""
-    secrets:
-      WINGET_TOKEN:
-        description: Classic personal access token with the public_repo scope, owner of the winget-pkgs fork
-        required: false
   workflow_dispatch:
     inputs:
       tag:

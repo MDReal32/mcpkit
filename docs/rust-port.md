@@ -162,14 +162,14 @@ TS and Rust handle them the same way:
 
 ## Releasing
 
-Two workflows, each running from its first build to its last deploy, each started only by the directories it ships.
-`release.yml` ("Release", the file npm's trusted publisher is set to, so it keeps its name) runs on changes to the
-binaries, the wrapper, core, the registry and their build files: its `build` job runs `yarn build` (every lint, test and
-build gate) on Ubuntu, the `binaries` jobs build `usemcpkit-window` first on each target, then the two binaries (the
-server embeds the window program), `package` writes the npm packages and release assets, then the npm jobs and the
-GitHub Release job publish them. `pages.yml` ("Pages") runs on changes to the registry's sources (`packages/servers`,
-core, the native validator, `apps/video`) or a version bump, builds the manifests and the promo video and deploys them
-to GitHub Pages. Each `binaries` job runs on its target's own runner
+One workflow per thing shipped, each running from its first build to its last step and started only by the
+directories it ships; they share no jobs and no artifacts. `release.yml` ("Release", the file npm's trusted publisher is
+set to, so it keeps its name) releases the npm packages and nothing else: its `build` job runs `yarn build` (every lint,
+test and build gate) on Ubuntu, the `binaries` jobs build `usemcpkit-window` first on each target, then the two binaries
+(the server embeds the window program), `package` writes the npm packages, and the npm jobs publish them.
+`github-release.yml` builds the binaries and the registry itself and creates the GitHub Release with them. `pages.yml`
+builds the manifests and the promo video and deploys them to GitHub Pages. `winget.yml` opens the winget-pkgs pull
+request (by hand for now). Homebrew will be a workflow of its own. Each `binaries` job runs on its target's own runner
 (`linux-x64`, `linux-arm64`, `darwin-x64`, `darwin-arm64`, `windows-x64`), builds from the credentials page the first job
 built, checks that each binary prints `--version` and runs `tools/smoke-test` against them (`node tools/smoke-test/src/main.ts
 <usemcpkit binary> <registry dir>`: the real `usemcpkit serve`, with the server next to it, over stdio in a temp home

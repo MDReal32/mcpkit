@@ -22,7 +22,6 @@ on:
       - nx.json
       - tsconfig.base.json
       - .github/scripts/publish-npm.sh
-      - .github/scripts/publish-github-release.sh
       - .github/workflows/release.yml
   workflow_dispatch:
 
@@ -364,36 +363,3 @@ jobs:
 
       - name: Publish
         run: .github/scripts/publish-npm.sh publish-lib apps/npx release-tarballs
-
-  github-release:
-    name: GitHub Release
-    needs: package
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-
-      - name: Download the release files
-        uses: actions/download-artifact@v8
-        with:
-          name: release
-
-      - name: Extract
-        run: tar -xf release.tar
-
-      - name: Download the registry
-        uses: actions/download-artifact@v8
-        with:
-          name: registry
-          path: registry
-
-      - name: Pack the registry
-        run: tar -czf registry.tar.gz -C registry .
-
-      - name: GitHub Release
-        run: .github/scripts/publish-github-release.sh
-        env:
-          GH_TOKEN: ${{ github.token }}
