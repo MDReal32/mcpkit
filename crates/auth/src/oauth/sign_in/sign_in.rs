@@ -1,4 +1,5 @@
 use crate::oauth::consts::{DEFAULT_REDIRECT_PORT, SIGN_IN_TIMEOUT};
+use crate::oauth::discovery::resolve_oauth_endpoints;
 use crate::oauth::pkce::{AuthorizationRequest, PkcePair, build_authorization_url, create_random_token};
 use crate::oauth::request_token::request_token;
 use crate::oauth::sign_in::callback_listener::CallbackListener;
@@ -18,9 +19,15 @@ pub async fn sign_in(
 ) -> Result<SignInResult, AuthError> {
     let pkce = PkcePair::create()?;
     let state = create_random_token()?;
-    let mut listener = CallbackListener::bind(auth.redirect_port.unwrap_or(DEFAULT_REDIRECT_PORT)).await?;
+    let default_port = if auth.discovery.is_some() {
+        0
+    } else {
+        DEFAULT_REDIRECT_PORT
+    };
+    let mut listener = CallbackListener::bind(auth.redirect_port.unwrap_or(default_port)).await?;
     let signing_in = async {
         let redirect_uri = listener.redirect_uri.clone();
+        let auth = &resolve_oauth_endpoints(server_name, auth, Some(&redirect_uri), context).await?;
         let request = AuthorizationRequest {
             redirect_uri: &redirect_uri,
             challenge: &pkce.challenge,

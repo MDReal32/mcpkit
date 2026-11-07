@@ -194,15 +194,15 @@ The key's scopes (enterprise plans) or its user's role decide what the AI can do
 SSO, LDAP, log streaming, promotions, policies) answer 403 on instances without them. Deprecated operations
 (`activateWorkflow`, `deactivateWorkflow`) are left out; publish and unpublish a workflow instead.
 
-Cloudflare reads an API token (Cloudflare dashboard → My Profile → API Tokens, user or account token) in
+Cloudflare signs in with one click: the first call opens the credentials window, whose "Sign in with OAuth2" button runs Cloudflare's own sign-in in the browser (see "OAuth for MCP servers" below). It also reads an API token (Cloudflare dashboard → My Profile → API Tokens, user or account token) in
 `CLOUDFLARE_API_TOKEN` and sends it as a bearer token to `https://mcp.cloudflare.com/mcp`. The token decides what the AI
 can do: `api:requests:execute` runs any call it allows, so grant only the permissions you want, and give an account
 token Account Resources: Read so the server finds the account id. Tokens with Client IP Address Filtering are not
 supported.
 
-Postman reads an API key (Postman → Settings → API keys, `PMAK-…`) in `POSTMAN_API_KEY` and sends it as a bearer token to
+Postman signs in with one click through its own OAuth (see "OAuth for MCP servers" below), or reads an API key (Postman → Settings → API keys, `PMAK-…`) in `POSTMAN_API_KEY` and sends it as a bearer token to
 `https://mcp.postman.com/mcp`, the Full mode of Postman's server; the key decides what the AI can see and change. The EU
-region (`mcp.eu.postman.com`) and Postman's OAuth sign-in are not used. A tool Postman adds later stays `tools:<name>`
+region (`mcp.eu.postman.com`) is not used. A tool Postman adds later stays `tools:<name>`
 until `servers/postman/const.ts` names it, and the server then opens as one flat list.
 
 Medium reads an integration token (medium.com → Settings → Security and apps → Integration tokens) in
@@ -405,6 +405,22 @@ exchanged with a S256 code verifier. The token is saved to `~/.usemcpkit/tokens.
 with file mode `0600`, together with the entry that issued it. Tool calls send it as a Bearer token and refresh
 it before it expires. Concurrent calls share one sign-in. If the MCP client gives up waiting, the sign-in still
 finishes and the next call uses the token.
+
+**OAuth for MCP servers (one click, no app to register).** An `oauth` entry that names only the MCP server needs no
+endpoints and no client id:
+
+```jsonc
+{ "type": "oauth", "discovery": "https://mcp.example.com/mcp" }   // https only
+```
+
+On the first call without a token, usemcpkit asks the server where it signs in (the protected resource metadata of
+RFC 9728 named by its `/.well-known/oauth-protected-resource`, then the authorization server's metadata of RFC 8414),
+registers itself there as a public client (RFC 7591, no secret) for a loopback redirect on a free port, and runs the
+same PKCE sign-in as above: one click on "Sign in with OAuth2" in the credentials window, or none when the entry is the
+server's only auth, approve in the browser tab that opens, and the tab closes itself where the browser allows it. The registered client id is saved
+in `~/.usemcpkit/oauth-clients.json` (0600) by issuer, and refreshes use it. A `clientId` next to `discovery` skips the
+registration, for a server that does not register clients itself. `cloud:cloudflare` and `api:postman` carry this entry
+before their token fallback.
 
 ## Server manifests
 

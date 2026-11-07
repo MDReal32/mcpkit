@@ -2,7 +2,7 @@ import type { AuthSpec } from "../types/auth/auth-spec";
 import { fillDomainUrl } from "./fill-domain-url";
 
 export const applyAuthDomain = (auth: AuthSpec, domain: string, loopbackHttp: boolean) => {
-  if (auth.type !== "oauth") {
+  if (auth.type !== "oauth" || "discovery" in auth) {
     return auth;
   }
   const resolved: AuthSpec = {
