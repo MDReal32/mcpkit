@@ -2,7 +2,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "targets": {
     "deploy": {
-      "dependsOn": ["...", "db:schema"]
+      "dependsOn": ["...", "db:migrate"]
     }
   }
 }

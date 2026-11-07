@@ -3,7 +3,7 @@ import { parseUsageEvent } from "../usage";
 import { INCREMENT_USAGE_SQL, MAX_BODY_BYTES, USAGE_PATH } from "./const";
 import { respond } from "./respond";
 
-/** Stores a per-day count only; the request IP and headers are never read or kept. */
+/** Stores one overall count per tool; the request IP and headers are never read or kept. */
 export const handleRequest = async (request: Request, env: WorkerEnv) => {
   if (request.method !== "POST" || new URL(request.url).pathname !== USAGE_PATH) {
     return respond(404);
@@ -22,7 +22,6 @@ export const handleRequest = async (request: Request, env: WorkerEnv) => {
   if (!event) {
     return respond(400);
   }
-  const day = new Date().toISOString().slice(0, 10);
-  await env.DB.prepare(INCREMENT_USAGE_SQL).bind(day, event.tool, event.version, event.os).run();
+  await env.DB.prepare(INCREMENT_USAGE_SQL).bind(event.tool).run();
   return respond(204);
 };

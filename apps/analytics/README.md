@@ -4,7 +4,7 @@ A Cloudflare Worker that counts which tools the CLI is used with. Private, not p
 
 ## What is collected
 
-Per `call_tool` request the CLI sends `{ tool, version, os }`: the tool id (for example `git:github:repos:get`), the CLI version and the OS. No arguments, results, credentials, install id or IP address are sent or stored. The Worker keeps one row per day, tool, version and OS with a counter.
+Per `call_tool` request the CLI sends the tool id (for example `git:github:repos:get`); older CLIs also send their version and OS, which the Worker ignores. No arguments, results, credentials, install id or IP address are sent or stored. The Worker keeps one row per tool with its overall count: no day, version or OS.
 
 Users turn it off with `USEMCPKIT_TELEMETRY=0` or `DO_NOT_TRACK=1`; `usemcpkit serve` prints this notice on stderr when it is on. `USEMCPKIT_ANALYTICS_URL` overrides the endpoint.
 
@@ -19,9 +19,11 @@ yarn nx run @usemcpkit/analytics:init
 Put the printed `database_id` into `wrangler.toml`, then:
 
 ```bash
-yarn nx run @usemcpkit/analytics:db:schema
+yarn nx run @usemcpkit/analytics:db:migrate
 yarn nx run @usemcpkit/analytics:deploy
 ```
+
+`deploy` runs `db:migrate` first. The schema lives in `migrations/`, applied once each, in a transaction, by `wrangler d1 migrations apply`. `0002_merge_usage_by_tool.sql` turns the old rows per day, tool, version and OS into one row per tool: the counts are summed, and the old table is dropped only after a check that the total count and the number of tools match. If either differs, the migration rolls back and the old table stays as it was. D1 Time Travel can still restore the database to a point before the migration.
 
 Route the Worker to the host the TypeScript CLI of `0.9.0` reported to (its `DEFAULT_ANALYTICS_URL`); the Rust CLI sends
 no usage reports yet (`docs/rust-port.md`). With Cloudflare's git integration leave the build command empty and use `npx wrangler deploy --config apps/analytics/wrangler.toml` as the deploy command.
