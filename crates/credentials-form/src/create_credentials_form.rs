@@ -16,7 +16,7 @@ pub fn create_credentials_form(options: CredentialsFormOptions) -> CredentialReq
             let request = keep_installed_cli_actions(request, &options.env).await?;
             let page = inject_credential_request(&options.page, &request)?;
             let mut server = FormServer::start(request, page, options.env.clone()).await?;
-            (options.on_url)(&server.url);
+            (options.on_url)(&server.url, server.request());
             let answer = tokio::time::timeout(options.timeout, server.wait_for_answer()).await;
             server.close().await;
             answer.unwrap_or_else(|_| Err(AuthError::new(FORM_TIMED_OUT_MESSAGE)))

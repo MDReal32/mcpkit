@@ -30,10 +30,8 @@ usemcpkit-upstream.workspace = true
 usemcpkit-wire-log.workspace = true
 serde.workspace = true
 serde_json.workspace = true
-tao.workspace = true
 tokio.workspace = true
 url.workspace = true
-wry.workspace = true
 
 [dev-dependencies]
 usemcpkit-runner.workspace = true

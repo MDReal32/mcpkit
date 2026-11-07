@@ -13,10 +13,11 @@ use usemcpkit_http::ReqwestClient;
 pub fn create_call_context() -> Result<CallContext, String> {
     let env = Env::from_process();
     let home = resolve_env_home_dir(&env)?;
+    let window_home = home.clone();
     let http = ReqwestClient::new().map_err(|error| error.0)?;
     let request_credentials = create_credentials_form(CredentialsFormOptions {
         page: Rc::from(CREDENTIALS_FORM_PAGE),
-        on_url: Rc::new(announce_credentials_form_url),
+        on_url: Rc::new(move |url, request| announce_credentials_form_url(&window_home, url, request)),
         timeout: CREDENTIALS_FORM_TIMEOUT,
         env: env.clone(),
     });

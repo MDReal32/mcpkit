@@ -10,7 +10,7 @@ export const PROJECT_BUILDS: readonly BuildCopy[] = [
   { from: "packages/core/build", to: "core" },
   { from: "packages/native/build", to: "native" },
   { from: "packages/servers/build", to: "servers" },
-  { from: "packages/ui/build", to: "ui" },
+  { from: "apps/window/ui/build", to: "ui" },
 ];
 
 /** The Rust release binaries, copied from Cargo's `target/release` to the top of {@link BUILD_OUTPUT_DIR}. */

@@ -43,6 +43,11 @@ impl FormServer {
         })
     }
 
+    /// The request the form asks.
+    pub fn request(&self) -> &CredentialRequest {
+        &self.session.request
+    }
+
     /// The first valid answer, or the error of a cancel.
     pub async fn wait_for_answer(&mut self) -> Result<Value, AuthError> {
         let accepting = async {

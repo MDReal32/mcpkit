@@ -3447,9 +3447,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@usemcpkit/ui@workspace:packages/ui":
+"@usemcpkit/ui@workspace:apps/window/ui":
   version: 0.0.0-use.local
-  resolution: "@usemcpkit/ui@workspace:packages/ui"
+  resolution: "@usemcpkit/ui@workspace:apps/window/ui"
   dependencies:
     "@biomejs/biome": "npm:2.5.15"
     "@sveltejs/vite-plugin-svelte": "npm:7.3.1"

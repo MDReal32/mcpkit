@@ -35,7 +35,7 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           name: ui
-          path: packages/ui/build
+          path: apps/window/ui/build
 
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
@@ -50,6 +50,9 @@ jobs:
         uses: Swatinem/rust-cache@v2
         with:
           key: ${{ matrix.target }}
+
+      - name: Build the credentials window
+        run: cargo build --release --locked -p usemcpkit-window
 
       - name: Build
         run: cargo build --release --locked -p usemcpkit-runner -p usemcpkit-servers

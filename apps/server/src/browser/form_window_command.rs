@@ -1,13 +1,14 @@
-use std::path::PathBuf;
+use std::path::Path;
 use std::process::Stdio;
 use tokio::process::Command;
 
-/// `<program> window <url>`, with only stderr kept so a window that cannot open can say why.
-pub fn form_window_command(program: PathBuf, url: &str) -> Command {
+/// `<program> <url>` with the request on its piped stdin and only stderr kept, so a window that cannot open can say
+/// why.
+pub fn form_window_command(program: &Path, url: &str) -> Command {
     let mut command = Command::new(program);
     command
-        .args(["window", url])
-        .stdin(Stdio::null())
+        .arg(url)
+        .stdin(Stdio::piped())
         .stdout(Stdio::null())
         .stderr(Stdio::piped());
     #[cfg(windows)]

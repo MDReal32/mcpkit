@@ -1,0 +1,24 @@
+[package]
+name = "usemcpkit-window"
+description = "The usemcpkit credentials window: a Tauri app that shows the credentials page and answers the server's loopback form API."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[[bin]]
+name = "usemcpkit-window"
+path = "src/main.rs"
+
+[dependencies]
+clap.workspace = true
+serde_json.workspace = true
+tauri.workspace = true
+url.workspace = true
+usemcpkit-core.workspace = true
+
+[build-dependencies]
+tauri-build.workspace = true
+
+[lints]
+workspace = true

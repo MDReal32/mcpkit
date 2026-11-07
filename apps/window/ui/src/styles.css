@@ -1,0 +1,428 @@
+:root {
+  color-scheme: dark;
+  --bg: #08090b;
+  --card: #0f1114;
+  --field: #0a0b0d;
+  --raised: #14171c;
+  --text: #eef0f4;
+  --muted: #8b92a0;
+  --faint: #555c69;
+  --border: #22262e;
+  --border-strong: #30353f;
+  --accent: #6b8cff;
+  --accent-text: #08090b;
+  --accent-soft: rgba(107, 140, 255, 0.14);
+  --accent-glow: rgba(107, 140, 255, 0.35);
+  --error: #ff7a73;
+  --sans: "Geist", "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "Geist Mono", ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 20px 16px;
+  background: radial-gradient(1200px 600px at 20% -10%, rgba(107, 140, 255, 0.08), transparent 60%), var(--bg);
+  color: var(--text);
+}
+
+.card {
+  width: 100%;
+  max-width: 460px;
+  padding: 32px 32px 28px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--card);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.04) inset,
+    0 30px 80px rgba(0, 0, 0, 0.55);
+}
+
+.brand {
+  margin: 0 0 10px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+h1 {
+  margin: 0 0 6px;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+}
+
+.muted,
+.hint {
+  color: var(--muted);
+}
+
+.muted {
+  margin: 0;
+}
+
+.hint {
+  margin: 6px 0 0;
+  font-size: 12.5px;
+  color: var(--faint);
+}
+
+form {
+  display: grid;
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.field label,
+legend {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13.5px;
+  font-weight: 500;
+}
+
+select,
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--field);
+  color: inherit;
+  font-family: var(--mono);
+  font-size: 14px;
+  transition:
+    border-color 120ms ease,
+    box-shadow 120ms ease;
+}
+
+input::placeholder {
+  color: var(--faint);
+}
+
+input[type="password"] {
+  letter-spacing: 0.18em;
+}
+
+select:focus-visible,
+input:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+button:focus-visible,
+a.button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.methods {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.method-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1px;
+  padding: 1px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--border-strong);
+}
+
+.method-option {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 40px;
+  padding: 8px 12px;
+  background: var(--raised);
+  color: var(--muted);
+  font-size: 13.5px;
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+}
+
+.method-options:has(> :nth-child(5)) > .method-option {
+  flex-basis: calc(100% / 3 - 1px);
+}
+
+@media (max-width: 540px) {
+  .method-options:has(> :nth-child(5)) > .method-option {
+    flex-basis: calc(50% - 1px);
+  }
+}
+
+.method-option span {
+  overflow-wrap: anywhere;
+}
+
+.method-option input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: inherit;
+}
+
+.method-option:hover {
+  background: #191c22;
+  color: var(--text);
+}
+
+.method-option:has(input:checked) {
+  background: var(--accent-soft);
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.method-option:has(input:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: -4px;
+}
+
+.method-option:has(input:disabled) {
+  cursor: default;
+  opacity: 0.65;
+}
+
+@media (forced-colors: active) {
+  .method-options {
+    border: 1px solid ButtonBorder;
+  }
+
+  .method-option:has(input:checked) {
+    color: Highlight;
+    outline: 1px solid Highlight;
+    outline-offset: -1px;
+  }
+
+  .method-option:has(input:focus-visible) {
+    outline: 2px solid Highlight;
+    outline-offset: -4px;
+  }
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--faint);
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-top: 1px solid var(--border);
+}
+
+.token-source {
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-auto-flow: column;
+  gap: 8px;
+}
+
+a.button {
+  height: 40px;
+  display: grid;
+  place-items: center;
+  padding: 0 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--raised);
+  color: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+a.button:hover {
+  border-color: var(--border-strong);
+  background: #191c22;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+button {
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--raised);
+  color: inherit;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    transform 80ms ease,
+    background 120ms ease,
+    box-shadow 120ms ease;
+}
+
+button:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+button:disabled {
+  cursor: progress;
+}
+
+button.primary {
+  height: 44px;
+  padding: 0 20px;
+  border-color: transparent;
+  background: var(--accent);
+  color: var(--accent-text);
+  font-weight: 600;
+  box-shadow: 0 8px 30px var(--accent-glow);
+}
+
+button.primary:hover:not(:disabled) {
+  background: #7d9aff;
+}
+
+button.primary:disabled {
+  opacity: 0.85;
+}
+
+button.secondary {
+  height: 44px;
+}
+
+button.ghost {
+  border-color: transparent;
+  background: transparent;
+  color: var(--muted);
+}
+
+button.ghost:hover:not(:disabled) {
+  color: var(--text);
+}
+
+.spinner {
+  width: 15px;
+  height: 15px;
+  flex: none;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 700ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.error {
+  margin: 0;
+  padding: 10px 12px 10px 28px;
+  border: 1px solid rgba(255, 122, 115, 0.25);
+  border-radius: 10px;
+  background: rgba(255, 122, 115, 0.08);
+  color: var(--error);
+  font-size: 13.5px;
+}
+
+.combobox-control {
+  position: relative;
+}
+
+.combobox-control input {
+  padding-right: 42px;
+}
+
+.combobox-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  height: auto;
+  padding: 0 14px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+}
+
+.combobox-list {
+  position: absolute;
+  z-index: 1;
+  top: calc(100% + 6px);
+  right: 0;
+  left: 0;
+  margin: 0;
+  padding: 6px;
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  background: var(--raised);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+  list-style: none;
+}
+
+.combobox-list button {
+  width: 100%;
+  height: 38px;
+  justify-content: flex-start;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 14px;
+}
+
+.combobox-list button:hover,
+.combobox-list button[aria-selected="true"] {
+  background: var(--accent-soft);
+  color: var(--text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 2s;
+  }
+}

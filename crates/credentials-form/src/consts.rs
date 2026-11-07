@@ -19,3 +19,10 @@ pub const CLI_TOKEN_TIMEOUT: Duration = Duration::from_secs(15);
 pub const PENDING_TOKEN_VALUE: &str = "pending";
 
 pub const CANNOT_IMPORT_MESSAGE: &str = "this credential cannot be fetched automatically";
+
+/// The origins a page of the credentials window app (`usemcpkit-window`) has: Tauri serves it from `tauri://localhost`
+/// on macOS and Linux and from `tauri.localhost` on Windows. Only these may call the form API from another origin.
+pub const WINDOW_APP_ORIGINS: [&str; 3] = ["tauri://localhost", "http://tauri.localhost", "https://tauri.localhost"];
+
+/// How long a browser may reuse the answer to a preflight request.
+pub const PREFLIGHT_MAX_AGE_SECONDS: &str = "600";

@@ -13,6 +13,7 @@ export {
   CREDENTIALS_FORM_SESSION_HEADER,
   CREDENTIALS_REQUEST_ELEMENT_ID,
   FORM_WINDOW_BINDINGS,
+  FORM_WINDOW_CONTEXT,
   resolveLinkUrl,
 } from "./credentials-form";
 export { describeError } from "./errors";
