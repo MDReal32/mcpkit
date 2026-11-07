@@ -10,5 +10,5 @@ pub async fn write_cached_manifest<F>(context: &RegistryContext<F>, id: &str, te
     let file = resolve_manifest_path(&context.dir, id)?;
     let formatted = format_cached_json(text)?;
     write_text(&file, &formatted).await?;
-    record_cache_entry(context, &file, &formatted, now_millis()).await
+    record_cache_entry(context, &file, &formatted, None, now_millis()).await
 }

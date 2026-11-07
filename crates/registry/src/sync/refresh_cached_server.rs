@@ -20,7 +20,7 @@ pub async fn refresh_cached_server<F: Fetch>(
     let mut refreshed = Vec::new();
     if matches_cached_checksum(&cached, &server.sha256) {
         let file = resolve_manifest_path(&context.dir, &server.id)?;
-        record_cache_entry(context, &file, &cached, now_millis()).await?;
+        record_cache_entry(context, &file, &cached, None, now_millis()).await?;
     } else {
         download_manifest(server, context).await?;
         refreshed.push(server.id.clone());

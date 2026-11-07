@@ -5,11 +5,12 @@ use crate::registry_context::RegistryContext;
 use crate::registry_error::RegistryError;
 use usemcpkit_manifest::registry::RegistryIndex;
 
-/// Written the way the CLI writes it, two-space JSON and a final newline, so both read and hash the same file.
+/// Written the way the CLI writes it, two-space JSON and a final newline, so both read and hash the same file, and
+/// noted as fetched from the context's registry.
 pub async fn write_cached_index<F>(context: &RegistryContext<F>, index: &RegistryIndex) -> Result<(), RegistryError> {
     let file = context.dir.join(INDEX_FILE_NAME);
     let json = serde_json::to_string_pretty(index).map_err(|error| RegistryError::failed(error.to_string()))?;
     let text = format!("{json}\n");
     write_text(&file, &text).await?;
-    record_cache_entry(context, &file, &text, now_millis()).await
+    record_cache_entry(context, &file, &text, Some(&context.registry_url), now_millis()).await
 }

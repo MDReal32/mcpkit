@@ -6,8 +6,8 @@ use std::path::{Path, PathBuf};
 use std::rc::Rc;
 use tempfile::TempDir;
 use usemcpkit_registry::{
-    DEFAULT_REGISTRY_URL, Fetch, RegistryContext, RegistryError, load_group_manifest, load_groups, read_cached_index,
-    sync_registry,
+    DEFAULT_REGISTRY_URL, Fetch, RegistryContext, RegistryError, ensure_manifest_index, load_group_manifest,
+    load_groups, read_cached_index, sync_registry,
 };
 
 /// Serves the registry `packages/servers` builds as if it were published, logging every URL asked for.
@@ -237,4 +237,71 @@ async fn rebuilds_an_unreadable_cache_map_with_a_warning() {
             .all(|warning| warning.contains("is unreadable and will be rebuilt"))
     );
     assert!(fixture.cache.path().exists());
+}
+
+fn index_registry(fixture: &Fixture) -> Option<String> {
+    let text = fs::read_to_string(fixture.context.dir.join("cache.json")).expect("cache.json");
+    let map: Value = serde_json::from_str(&text).expect("a cache map");
+    map["index.json"]["registry"].as_str().map(str::to_owned)
+}
+
+fn note_index_registry(fixture: &Fixture, registry: Option<&str>) {
+    let file = fixture.context.dir.join("cache.json");
+    let mut map: Value = serde_json::from_str(&fs::read_to_string(&file).expect("cache.json")).expect("a cache map");
+    let entry = map["index.json"].as_object_mut().expect("the index entry");
+    match registry {
+        Some(registry) => entry.insert("registry".to_owned(), Value::from(registry)),
+        None => entry.remove("registry"),
+    };
+    fs::write(&file, map.to_string()).expect("the cache map");
+}
+
+#[tokio::test]
+async fn serves_an_index_fetched_from_the_same_registry_without_asking_it() {
+    let fixture = fixture(HashMap::new());
+    sync_registry(&fixture.context).await.expect("a sync");
+    assert_eq!(index_registry(&fixture).as_deref(), Some(DEFAULT_REGISTRY_URL));
+    fixture.fetched.borrow_mut().clear();
+
+    ensure_manifest_index(&fixture.context).await.expect("the index");
+
+    assert!(fixture.fetched.borrow().is_empty());
+}
+
+#[tokio::test]
+async fn syncs_an_index_fetched_from_another_registry_or_none_noted_once() {
+    for previous in [Some("https://mdreal32.github.io/mcpkit/v0.12.0"), None] {
+        let fixture = fixture(HashMap::new());
+        sync_registry(&fixture.context).await.expect("a sync");
+        note_index_registry(&fixture, previous);
+        fixture.fetched.borrow_mut().clear();
+
+        ensure_manifest_index(&fixture.context).await.expect("the index");
+        ensure_manifest_index(&fixture.context).await.expect("the index again");
+
+        assert_eq!(*fixture.fetched.borrow(), [link("index.json")], "after {previous:?}");
+        assert_eq!(index_registry(&fixture).as_deref(), Some(DEFAULT_REGISTRY_URL));
+    }
+}
+
+#[tokio::test]
+async fn keeps_serving_an_index_from_another_registry_when_the_sync_fails() {
+    let mut fixture = fixture(HashMap::new());
+    sync_registry(&fixture.context).await.expect("a sync");
+    note_index_registry(&fixture, Some("https://mdreal32.github.io/mcpkit/v0.12.0"));
+    fixture.context.registry_url = "https://unreachable.test".into();
+
+    ensure_manifest_index(&fixture.context).await.expect("the index");
+
+    assert!(
+        read_cached_index(&fixture.context.dir)
+            .await
+            .expect("readable")
+            .is_some()
+    );
+    let warnings = fixture.warnings.borrow();
+    assert!(
+        warnings.iter().any(|warning| warning.contains("registry sync failed")),
+        "{warnings:?}"
+    );
 }

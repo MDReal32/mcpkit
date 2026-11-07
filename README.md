@@ -424,16 +424,18 @@ index.json                  every server: id, version, description, link, sha256
 <category>/<server>/<group>.json  with grouped tool names (git/github.json is a shell listing git/github/<group>.json)
 ```
 
-Only `index.json` is synced by default (into `~/.usemcpkit/manifests/v<version>`, one folder per release, `USEMCPKIT_HOME`
+Only `index.json` is synced by default (into `~/.usemcpkit/manifests`, one cache for every version, `USEMCPKIT_HOME`
 overrides the home). A manifest is downloaded
 the first time a tool of that server is described or called, checked against the `sha256` in the index, and cached.
 
 - `usemcpkit install` and the first `serve`/`list` with nothing cached download the index.
 - The cache is always served, and opening a server or calling a tool never asks the registry for changes.
-  `~/.usemcpkit/manifests/v<version>/cache.json` maps each cached file (`index.json`, `git/github.json`,
+  `~/.usemcpkit/manifests/cache.json` maps each cached file (`index.json`, `git/github.json`,
   `git/github/issues.json`, ...) to `updatedAt` (ms, when its content last changed), `checkedAt` (ms, when it was
-  last confirmed current) and its `sha256`. Only a download that fails its checksum, because the cached index is
-  older than the registry, fetches the index again once.
+  last confirmed current) and its `sha256`; the index entry also notes the `registry` folder it was fetched from. Only
+  a download that fails its checksum, because the cached index is older than the registry, fetches the index again
+  once, and an index fetched from another registry folder (another version after an upgrade, or another
+  `USEMCPKIT_REGISTRY`) is synced once before it is served, and kept if that sync fails.
 - `usemcpkit update [--registry <url>]` refreshes the index and re-downloads the manifests and parts that are already
   cached and no longer match it, so an edit published without a version bump still lands. A server or part nobody
   opened is never downloaded. The URL comes from the flag, `USEMCPKIT_REGISTRY` (both name the registry folder itself,

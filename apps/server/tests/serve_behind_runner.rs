@@ -5,13 +5,12 @@ use std::path::Path;
 use std::time::Duration;
 use support::registry_root;
 use tokio::io::{AsyncBufReadExt, AsyncWriteExt, BufReader, DuplexStream, Lines};
-use usemcpkit_registry::REGISTRY_VERSION_DIR;
 use usemcpkit_runner::supervisor::{SuperviseOptions, WorkerLaunch, supervise_serve};
 
 /// The server's cache as `usemcpkit update` and a first look at GitHub leave it, so nothing is fetched while serving.
 fn seed_home(home: &Path) {
     for file in ["index.json", "git/github.json"] {
-        let target = home.join("manifests").join(REGISTRY_VERSION_DIR).join(file);
+        let target = home.join("manifests").join(file);
         std::fs::create_dir_all(target.parent().unwrap()).unwrap();
         std::fs::copy(registry_root().join(file), target).unwrap();
     }
