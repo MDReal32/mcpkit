@@ -3552,7 +3552,7 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-auth"
-version = "0.13.1"
+version = "0.13.2"
 dependencies = [
  "base64",
  "bytes",
@@ -3576,7 +3576,7 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-binary"
-version = "0.13.1"
+version = "0.13.2"
 dependencies = [
  "base64",
  "flate2",
@@ -3595,7 +3595,7 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-clients"
-version = "0.13.1"
+version = "0.13.2"
 dependencies = [
  "regex",
  "serde_json",
@@ -3605,7 +3605,7 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-core"
-version = "0.13.1"
+version = "0.13.2"
 dependencies = [
  "percent-encoding",
  "serde_json",
@@ -3614,7 +3614,7 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-credentials-form"
-version = "0.13.1"
+version = "0.13.2"
 dependencies = [
  "bytes",
  "http-body-util",
@@ -3631,7 +3631,7 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-execution"
-version = "0.13.1"
+version = "0.13.2"
 dependencies = [
  "futures-util",
  "indexmap",
@@ -3651,7 +3651,7 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-http"
-version = "0.13.1"
+version = "0.13.2"
 dependencies = [
  "indexmap",
  "reqwest",
@@ -3662,7 +3662,7 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-manifest"
-version = "0.13.1"
+version = "0.13.2"
 dependencies = [
  "indexmap",
  "serde",
@@ -3671,7 +3671,7 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-napi"
-version = "0.13.1"
+version = "0.13.2"
 dependencies = [
  "napi",
  "napi-build",
@@ -3682,7 +3682,7 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-registry"
-version = "0.13.1"
+version = "0.13.2"
 dependencies = [
  "indexmap",
  "reqwest",
@@ -3697,7 +3697,7 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-runner"
-version = "0.13.1"
+version = "0.13.2"
 dependencies = [
  "clap",
  "cliclack",
@@ -3714,7 +3714,7 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-servers"
-version = "0.13.1"
+version = "0.13.2"
 dependencies = [
  "clap",
  "futures-util",
@@ -3745,7 +3745,7 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-testing"
-version = "0.13.1"
+version = "0.13.2"
 dependencies = [
  "indexmap",
  "serde",
@@ -3758,7 +3758,7 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-upstream"
-version = "0.13.1"
+version = "0.13.2"
 dependencies = [
  "indexmap",
  "serde",
@@ -3773,7 +3773,7 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-validation"
-version = "0.13.1"
+version = "0.13.2"
 dependencies = [
  "regex",
  "serde",
@@ -3785,7 +3785,7 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-wire-log"
-version = "0.13.1"
+version = "0.13.2"
 dependencies = [
  "humantime",
  "serde_json",
