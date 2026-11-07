@@ -36,34 +36,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: "24"
-          package-manager-cache: false
-
-      - name: Enable Corepack
-        run: corepack enable
-
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@stable
-
-      - name: Restore the Cargo cache
-        uses: Swatinem/rust-cache@v2
-        with:
-          key: pages
-
-      - name: Install dependencies
-        run: yarn install --immutable
-
-      - name: Build core
-        run: yarn workspace @usemcpkit/core build
-
-      - name: Build the native validator
-        run: yarn workspace @usemcpkit/native build
+      - name: Setup workspace
+        uses: ./.github/actions/setup-workspace
 
       - name: Build the registry
-        run: yarn workspace @usemcpkit/servers build
+        uses: ./.github/actions/build-registry
+        with:
+          cache-key: pages
 
       - name: Restore the promo video
         id: video-cache

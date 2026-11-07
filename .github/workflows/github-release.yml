@@ -37,17 +37,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: "24"
-          package-manager-cache: false
-
-      - name: Enable Corepack
-        run: corepack enable
-
-      - name: Install dependencies
-        run: yarn install --immutable
+      - name: Setup workspace
+        uses: ./.github/actions/setup-workspace
 
       - name: Build core
         run: yarn workspace @usemcpkit/core build
@@ -87,37 +78,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Download the credentials page
-        uses: actions/download-artifact@v8
+      - name: Build binaries
+        uses: ./.github/actions/build-binaries
         with:
-          name: ui
-          path: apps/window/ui/build
-
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@stable
-
-      - name: Install WebKitGTK
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libwebkit2gtk-4.1-dev libgtk-3-dev
-
-      - name: Restore the Cargo cache
-        uses: Swatinem/rust-cache@v2
-        with:
-          key: github-release-${{ matrix.target }}
-
-      - name: Build the credentials window
-        run: cargo build --release --locked -p usemcpkit-window
-
-      - name: Build
-        run: cargo build --release --locked -p usemcpkit-runner -p usemcpkit-servers
-
-      - name: Print the versions
-        shell: bash
-        run: |
-          target/release/usemcpkit${{ matrix.extension }} --version
-          target/release/usemcpkit-servers${{ matrix.extension }} --version
+          target: ${{ matrix.target }}
+          extension: ${{ matrix.extension }}
 
       - name: Upload the binaries
         uses: actions/upload-artifact@v7
@@ -140,34 +105,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: "24"
-          package-manager-cache: false
-
-      - name: Enable Corepack
-        run: corepack enable
-
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@stable
-
-      - name: Restore the Cargo cache
-        uses: Swatinem/rust-cache@v2
-        with:
-          key: github-release-registry
-
-      - name: Install dependencies
-        run: yarn install --immutable
-
-      - name: Build core
-        run: yarn workspace @usemcpkit/core build
-
-      - name: Build the native validator
-        run: yarn workspace @usemcpkit/native build
+      - name: Setup workspace
+        uses: ./.github/actions/setup-workspace
 
       - name: Build the registry
-        run: yarn workspace @usemcpkit/servers build
+        uses: ./.github/actions/build-registry
+        with:
+          cache-key: github-release-registry
 
       - name: Pack the registry
         run: tar -czf registry.tar.gz -C packages/servers/build/manifests .

@@ -1,0 +1,30 @@
+name: Build registry
+description: Builds core, the native validator and the servers into packages/servers/build/manifests (needs the workspace set up)
+
+inputs:
+  cache-key:
+    description: Key of the Cargo cache the native validator builds with
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Setup Rust
+      uses: dtolnay/rust-toolchain@stable
+
+    - name: Restore the Cargo cache
+      uses: Swatinem/rust-cache@v2
+      with:
+        key: ${{ inputs.cache-key }}
+
+    - name: Build core
+      shell: bash
+      run: yarn workspace @usemcpkit/core build
+
+    - name: Build the native validator
+      shell: bash
+      run: yarn workspace @usemcpkit/native build
+
+    - name: Build the registry
+      shell: bash
+      run: yarn workspace @usemcpkit/servers build
