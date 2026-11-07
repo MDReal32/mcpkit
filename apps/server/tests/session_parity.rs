@@ -149,6 +149,18 @@ async fn describes_every_tool_of_the_built_registry() {
         let found = run_code(&server, SEARCH_TOOL, &code).await;
         assert_eq!(found["content"][0]["text"], json!(count.to_string()), "search on {id}");
     }
+    let every_tool = run_code(
+        &server,
+        SEARCH_TOOL,
+        "async () => { const ids = (await codemode.tools()).map((tool) => tool.id); return [ids.length, new Set(ids).size]; }",
+    )
+    .await;
+    let every_tool: Value = serde_json::from_str(every_tool["content"][0]["text"].as_str().unwrap()).unwrap();
+    assert_eq!(
+        every_tool,
+        json!([actual.len(), actual.len()]),
+        "codemode.tools() lists every tool of the registry once, leaving out the upstreams nobody started"
+    );
 
     if updates_goldens() {
         write_golden(&fixture_path("tool-digests.json"), &Value::Object(actual));

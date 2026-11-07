@@ -22,6 +22,7 @@ mod write_tool_cache;
 pub use consts::MIN_SEGMENTS_TO_GROUP;
 pub use discovered_tool::DiscoveredTool;
 pub use hydrate_upstream_server::hydrate_upstream_server;
+pub use read_tool_cache::read_tool_cache;
 pub use to_catalog_tool_names::to_catalog_tool_names;
 pub use tool_cache::ToolCache;
 pub use upstream_server::UpstreamServer;

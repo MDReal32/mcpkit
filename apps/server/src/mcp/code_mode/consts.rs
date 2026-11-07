@@ -24,6 +24,11 @@ pub const TRUNCATED_MARKER: &str = "--- TRUNCATED ---";
 /// How many group files `codemode.tools` downloads at once for a server split into groups.
 pub const PARALLEL_GROUP_LOADS: usize = 8;
 
+/// How many servers `codemode.tools()` with no server loads at once.
+pub const PARALLEL_SERVER_LOADS: usize = 4;
+
+pub const GROUP_WITHOUT_SERVER: &str = "codemode.tools needs a server to pick a group from";
+
 /// Called with the host object; defines `codemode` and `console` and keeps the host out of the globals.
 pub const PRELUDE: &str = include_str!("prelude.js");
 
@@ -39,16 +44,17 @@ after anything it wrote with console.log. Return only what is needed: output lon
 pub const SEARCH_API: &str = "In the code:
 - codemode.servers(): Promise<{ id: string, description: string, upstream: boolean }[]>
 - codemode.groups(server: string): Promise<string[]>, the groups a large server is split into (empty when it is not)
-- codemode.tools(server: string, group?: string): Promise<{ id: string, description: string, inputSchema: object }[]>, \
-the tools of one group, or of the whole server";
+- codemode.tools(server?: string, group?: string): Promise<{ id: string, description: string, inputSchema: object }[]>, \
+every tool when called with no server (an upstream server is in it once it was started, so call codemode.tools(server) \
+for one marked upstream that is missing), or the tools of one server or one of its groups";
 
 pub const SEARCH_INTRO: &str = "Finds the tools of the servers below by running JavaScript: write an async arrow function, \
 such as async () => { ... }.";
 
 pub const SEARCH_EXAMPLE: &str = "Example:
 async () => {
-  const tools = await codemode.tools(\"git:github\", \"repos\");
-  return tools.filter((tool) => tool.id.includes(\"branches\")).map(({ id, description }) => ({ id, description }));
+  const tools = await codemode.tools();
+  return tools.filter((tool) => /branch/.test(tool.id)).map(({ id, description }) => ({ id, description }));
 }";
 
 pub const EXECUTE_INTRO: &str = "Calls the tools of the servers by running JavaScript: write an async arrow function, \

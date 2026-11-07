@@ -32,9 +32,9 @@ pub fn create_host_object<'js, F: Fetch + 'static>(
         "tools",
         Function::new(
             ctx.clone(),
-            Async(move |server: String, group: Option<String>| {
+            Async(move |server: Option<String>, group: Option<String>| {
                 let host = Rc::clone(&tools_host);
-                async move { create_envelope(host.tools(&server, group.as_deref()).await) }
+                async move { create_envelope(host.tools(server.as_deref(), group.as_deref()).await) }
             }),
         )?,
     )?;

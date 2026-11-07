@@ -11,7 +11,8 @@
   globalThis.codemode = Object.freeze({
     servers: async () => unwrap(host.servers()),
     groups: async (server) => unwrap(await host.groups(String(server))),
-    tools: async (server, group) => unwrap(await host.tools(String(server), group == null ? null : String(group))),
+    tools: async (server, group) =>
+      unwrap(await host.tools(server == null ? null : String(server), group == null ? null : String(group))),
     call: async (id, args) => unwrap(await host.call(String(id), JSON.stringify(args ?? {}))),
   });
   globalThis.console = Object.freeze({ log, info: log, warn: log, error: log, debug: log });

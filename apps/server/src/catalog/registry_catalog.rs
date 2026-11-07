@@ -1,4 +1,4 @@
-use crate::upstream::{UpstreamServer, hydrate_upstream_server};
+use crate::upstream::{UpstreamServer, hydrate_upstream_server, read_tool_cache};
 use std::cell::RefCell;
 use std::collections::HashMap;
 use std::rc::Rc;
@@ -76,6 +76,20 @@ impl<F: Fetch> RegistryCatalog<F> {
             })
             .await?;
         Ok(Some(Rc::clone(upstream)))
+    }
+
+    /// Whether the tools of a server can be listed without starting anything: always for a registry server, and for an
+    /// upstream once it was started in this run or its tools were cached by an earlier one.
+    pub async fn lists_tools_without_starting(&self, id: &str) -> Result<bool, String> {
+        let server = self.find_server(id)?;
+        if !server.upstream {
+            return Ok(true);
+        }
+        let started = self.upstreams.borrow().get(id).is_some_and(|cell| cell.initialized());
+        if started {
+            return Ok(true);
+        }
+        Ok(read_tool_cache(&self.context.dir, id).await?.is_some())
     }
 
     /// Stops what serving started, such as upstream server processes.

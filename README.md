@@ -451,8 +451,11 @@ The client sees two tools whatever the servers, in the style of Cloudflare's Cod
 server starts:
 
 - `search` (read-only) runs an async arrow function, such as `async () => { ... }`, that looks the tools up:
-  `codemode.servers()`, `codemode.groups(server)` and `codemode.tools(server, group?)`, which resolves to
-  `{ id, description, inputSchema }` for each tool. Its description lists the served servers.
+  `codemode.servers()`, `codemode.groups(server)` and `codemode.tools(server?, group?)`, which resolves to
+  `{ id, description, inputSchema }` for each tool. With no server, `codemode.tools()` returns every tool at once, so
+  the code can filter all of them in one pass; an upstream server is in that list once it was started, in this run or
+  an earlier one whose tool list is cached, and `codemode.tools("<id>")` starts one that is not. Its description lists
+  the served servers.
 - `execute` runs the same kind of function with `codemode.call(id, args)` as well, which runs a tool by its full id
   (`git:github:repos:repos:list_branches`) and resolves to its result: a registry tool's JSON, or an upstream tool's
   structured content or text (parsed when it is JSON). A tool that fails throws an `Error`.
