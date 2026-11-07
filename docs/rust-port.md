@@ -5,7 +5,7 @@ The `usemcpkit` binary was a Bun-compiled TypeScript CLI of about 113 MB. On bra
 - `usemcpkit`, the runner, is what clients start;
 - `usemcpkit-servers`, the MCP server, runs behind it.
 
-The servers, their generators, `packages/ui` and the `@usemcpkit/core` authoring API stay in TypeScript. The built JSON
+The servers, their generators, `apps/window/ui` and the `@usemcpkit/core` authoring API stay in TypeScript. The built JSON
 manifests and the built UI page are the contract between the two sides. The TypeScript CLI (`apps/cli` and the packages
 it bundled) is gone, and `@usemcpkit/core` keeps only the authoring API; what the TypeScript CLI of `0.9.0` did is kept
 in the golden fixtures below.
@@ -15,7 +15,8 @@ in the golden fixtures below.
 | Path                     | Crate                     | What it owns                                                                                                                                   |
 | ------------------------ | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | `apps/runner`            | `usemcpkit-runner` (`usemcpkit`) | The commands (`install`, which a bare `usemcpkit` runs, plus `uninstall`, `list`, `update`, `upgrade` and `serve`) and the supervisor that owns the client's stdio and swaps the server when its binary changes. |
-| `apps/server`            | `usemcpkit-servers`           | `serve [servers...] --worker`, which runs the catalog and the `search` and `execute` tools over stdio, and `window <url>`, the wry/tao credentials window. `build.rs` embeds `packages/ui/build/usemcpkit.ui.html`. |
+| `apps/server`            | `usemcpkit-servers`           | `serve [servers...] --worker`, which runs the catalog and the `search` and `execute` tools over stdio, and the launch of the credentials window: the `usemcpkit-window` program it embeds. `build.rs` embeds that program and `apps/window/ui/build/usemcpkit.ui.html` (the page for the browser fallback). |
+| `apps/window`            | `usemcpkit-window`            | The credentials window, a Tauri 2 app with the Svelte page (`apps/window/ui`, `@usemcpkit/ui`) bundled as its frontend. `usemcpkit-servers` embeds its binary, writes it to `~/.usemcpkit/window/<version>-<checksum>/` and runs it with the form URL and the request on stdin. |
 | `crates/core`            | `usemcpkit-core`             | The usemcpkit home, `Env`, versions, `find_program`, config migrations, and JavaScript-compatible number, string and JSON printing.             |
 | `crates/manifest`        | `usemcpkit-manifest`         | Manifest and registry types (serde), domains and editions, and UI texts.                                                                       |
 | `crates/registry`        | `usemcpkit-registry`         | The index and manifest cache in `~/.usemcpkit/manifests`: sync, checksums, lazy shell and part downloads, `ensure_manifest_index`.                |
@@ -34,7 +35,8 @@ registry:
 
 1. `yarn workspace @usemcpkit/ui build`
 2. `yarn workspace @usemcpkit/servers build`
-3. `cargo build`
+3. `cargo build -p usemcpkit-window` (the server embeds this program; `--release` for a release server)
+4. `cargo build`
 
 Or let Nx order it: every crate is an Nx project named after it (a `project.json`, `implicitDependencies` taken from
 its Cargo dependencies), so `yarn nx run usemcpkit-servers:build` builds the UI page and the registry first. The

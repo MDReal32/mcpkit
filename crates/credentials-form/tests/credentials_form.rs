@@ -25,6 +25,7 @@ struct FormUrl {
 
 struct HttpAnswer {
     status: u16,
+    head: String,
     body: String,
 }
 
@@ -99,7 +100,7 @@ fn open_form(
     let sender = Rc::new(RefCell::new(Some(sender)));
     let requester = create_credentials_form(CredentialsFormOptions {
         page: Rc::from(page),
-        on_url: Rc::new(move |url: &str| {
+        on_url: Rc::new(move |url: &str, _request: &CredentialRequest| {
             let (address, token) = url
                 .strip_prefix("http://")
                 .and_then(|rest| rest.split_once("/#"))
@@ -133,6 +134,7 @@ async fn send(host: &str, request_line: &str, headers: &[(&str, &str)], body: &s
     let (head, body) = raw.split_once("\r\n\r\n").unwrap();
     HttpAnswer {
         status: head.split(' ').nth(1).unwrap().parse().unwrap(),
+        head: head.to_ascii_lowercase(),
         body: body.to_owned(),
     }
 }
@@ -225,6 +227,53 @@ async fn refuses_api_calls_without_the_session_token_and_requests_for_another_ho
             json!(["this request does not belong to the open credentials form"])
         );
         call_api(&url, CREDENTIALS_FORM_CANCEL_PATH, &json!({})).await;
+    };
+
+    let (answer, ()) = tokio::join!(answer, page);
+
+    assert!(answer.is_err());
+}
+
+#[tokio::test]
+async fn lets_only_the_window_app_call_the_api_from_its_own_origin() {
+    let (announced, answer) = open_form(demo_request(), PAGE, CREDENTIALS_FORM_TIMEOUT, Env::default());
+    let page = async {
+        let url = announced.await.unwrap();
+        let preflight = |origin: &'static str| {
+            let headers = [("host", url.host.as_str()), ("origin", origin)];
+            let line = format!("OPTIONS {CREDENTIALS_FORM_SUBMIT_PATH}");
+            let host = url.host.clone();
+            async move { send(&host, &line, &headers, "").await }
+        };
+        let window = preflight("tauri://localhost").await;
+        assert_eq!(window.status, 204);
+        assert!(window.head.contains("access-control-allow-origin: tauri://localhost"));
+        assert!(
+            window
+                .head
+                .contains("access-control-allow-headers: x-usemcpkit-session, content-type")
+        );
+        let stranger = preflight("https://evil.example.com").await;
+        assert_eq!(stranger.status, 403);
+        assert!(!stranger.head.contains("access-control-allow-origin"));
+        let headers = [
+            ("host", url.host.as_str()),
+            ("origin", "tauri://localhost"),
+            (CREDENTIALS_FORM_SESSION_HEADER, url.token.as_str()),
+        ];
+        let cancelled = send(
+            &url.host,
+            &format!("POST {CREDENTIALS_FORM_CANCEL_PATH}"),
+            &headers,
+            "{}",
+        )
+        .await;
+        assert_eq!(cancelled.status, 200);
+        assert!(
+            cancelled
+                .head
+                .contains("access-control-allow-origin: tauri://localhost")
+        );
     };
 
     let (answer, ()) = tokio::join!(answer, page);

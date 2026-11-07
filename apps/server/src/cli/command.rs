@@ -22,9 +22,4 @@ pub enum Command {
         #[arg(long)]
         worker: bool,
     },
-    /// Internal: show a local credentials page in a native window until it closes
-    Window {
-        /// The loopback URL of the page
-        url: String,
-    },
 }

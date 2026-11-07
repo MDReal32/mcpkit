@@ -13,6 +13,7 @@
     "usemcpkit-runner",
     "usemcpkit-testing",
     "usemcpkit-upstream",
+    "usemcpkit-window",
     "usemcpkit-wire-log",
     "@usemcpkit/servers",
     "@usemcpkit/ui"
@@ -20,7 +21,7 @@
   "targets": {
     "build": {
       "command": "cargo build --release -p usemcpkit-servers",
-      "inputs": ["production", "^production", "cargo", "{workspaceRoot}/packages/ui/build/usemcpkit.ui.html"],
+      "inputs": ["production", "^production", "cargo", "{workspaceRoot}/apps/window/ui/build/usemcpkit.ui.html"],
       "outputs": [
         "{workspaceRoot}/target/release/usemcpkit-servers",
         "{workspaceRoot}/target/release/usemcpkit-servers.exe"

@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "form",
+  "description": "The credentials page may close, fit and link out of its own window.",
+  "windows": ["form"],
+  "permissions": ["allow-close-window", "allow-fit-window", "allow-open-link"]
+}

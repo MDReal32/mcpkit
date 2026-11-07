@@ -1,5 +1,5 @@
-/// The Svelte credentials page, built by `packages/ui` into one HTML file with an empty request element.
+/// The Svelte credentials page, built by `apps/window/ui` into one HTML file with an empty request element.
 pub const CREDENTIALS_FORM_PAGE: &str = include_str!(concat!(
     env!("CARGO_MANIFEST_DIR"),
-    "/../../packages/ui/build/usemcpkit.ui.html"
+    "/../window/ui/build/usemcpkit.ui.html"
 ));

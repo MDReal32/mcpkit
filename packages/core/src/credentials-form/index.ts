@@ -3,6 +3,7 @@ export {
   CREDENTIALS_FORM_SESSION_HEADER,
   CREDENTIALS_REQUEST_ELEMENT_ID,
   FORM_WINDOW_BINDINGS,
+  FORM_WINDOW_CONTEXT,
 } from "./const";
 export { resolveLinkUrl } from "./resolve-link-url";
 export type { CredentialField } from "./types/credential-field";

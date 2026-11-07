@@ -4,7 +4,8 @@
   "type": "module",
   "workspaces": [
     "packages/*",
-    "apps/*"
+    "apps/*",
+    "apps/window/ui"
   ],
   "scripts": {
     "build": "nx run-many -t build",

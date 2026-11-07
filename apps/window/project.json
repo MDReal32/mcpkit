@@ -1,0 +1,26 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "usemcpkit-window",
+  "projectType": "application",
+  "implicitDependencies": ["usemcpkit-core", "@usemcpkit/ui"],
+  "targets": {
+    "build": {
+      "command": "cargo build --release -p usemcpkit-window",
+      "inputs": ["production", "^production", "cargo", "{projectRoot}/ui/build/usemcpkit.ui.html"],
+      "outputs": [
+        "{workspaceRoot}/target/release/usemcpkit-window",
+        "{workspaceRoot}/target/release/usemcpkit-window.exe"
+      ]
+    },
+    "test": {
+      "command": "cargo test -p usemcpkit-window",
+      "inputs": ["default", "^production", "cargo", "{projectRoot}/ui/build/usemcpkit.ui.html"],
+      "dependsOn": ["^build"]
+    },
+    "lint": {
+      "command": "cargo fmt -p usemcpkit-window --check && cargo clippy -p usemcpkit-window --all-targets",
+      "inputs": ["default", "^production", "cargo"],
+      "dependsOn": ["^build"]
+    }
+  }
+}

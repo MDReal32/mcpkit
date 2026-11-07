@@ -8,10 +8,10 @@ API, auth, tools and response mapping. A generic executor runs those manifests.
 ```
 packages/core      @usemcpkit/core       library: manifest format, SDK, form contract (publishable)
 packages/servers   @usemcpkit/servers    server definitions and generators, compiled into the registry (private)
-packages/ui        @usemcpkit/ui         Svelte pages the server shows, e.g. the credentials form (private)
 packages/testing   @usemcpkit/testing    shared test fixtures (private)
 apps/runner        usemcpkit-runner      the usemcpkit binary: commands, installing, the supervisor (Rust)
-apps/server        usemcpkit-servers     the usemcpkit-servers binary: MCP stdio server, credentials window (Rust)
+apps/server        usemcpkit-servers     the usemcpkit-servers binary: MCP stdio server; embeds and launches the credentials window (Rust)
+apps/window        usemcpkit-window      the credentials window: a Tauri app with the Svelte page in apps/window/ui (@usemcpkit/ui, private)
 apps/npx           usemcpkit             wrapper so `npx usemcpkit` runs the binary of this platform
 apps/analytics     @usemcpkit/analytics  usage-reporting Worker
 crates/*                                 the Rust libraries behind the binaries
@@ -105,7 +105,8 @@ command instead. The Homebrew formula's `caveats` and the winget manifest's `Ins
 packages/servers/src/servers/gitlab/gitlab.ts   author servers in TypeScript (one folder per server, one tool per file)
   └─ vite build                          packages/servers: plugins/manifests/ compiles + validates src/servers/*
        └─ build/manifests/*.json          compiled manifests + index.json (the registry; CI publishes it to GitHub Pages)
-cargo build --release                    apps/runner + apps/server, no manifests inside
+cargo build --release -p usemcpkit-window  apps/window: the Tauri credentials window, with its Svelte page inside
+cargo build --release                    apps/runner + apps/server (embeds the window), no manifests inside
   ├─ target/release/usemcpkit            commands and the supervisor that owns the client's stdio
   └─ target/release/usemcpkit-servers    the MCP server it runs, which downloads manifests from the registry
 ```
