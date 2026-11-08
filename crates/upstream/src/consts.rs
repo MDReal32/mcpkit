@@ -15,5 +15,8 @@ pub const FORWARDED_ENV_NAMES: [&str; 7] = ["PATH", "HOME", "USERPROFILE", "Syst
 
 pub const HTTP_UNAUTHORIZED: u16 = 401;
 
+/// Streamable HTTP: the answer to a request whose session the server ended, after which the client starts a new one.
+pub const HTTP_NOT_FOUND: u16 = 404;
+
 /// The headers the HTTP transport sets itself; a manifest header of the same name, in any case, is replaced.
 pub const TRANSPORT_HEADERS: [&str; 4] = ["accept", "content-type", PROTOCOL_HEADER, SESSION_HEADER];

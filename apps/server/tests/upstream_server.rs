@@ -2,7 +2,7 @@ mod support;
 
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
-use std::cell::RefCell;
+use std::cell::{Cell, RefCell};
 use std::path::{Path, PathBuf};
 use std::rc::Rc;
 use std::time::Duration;
@@ -38,11 +38,17 @@ impl Fetch for FolderFetcher {
     }
 }
 
-/// A Streamable HTTP MCP server that only lets `Bearer second` in, recording the Authorization and JSON-RPC method of
-/// every request (`DELETE` for the one that ends the session).
+/// A Streamable HTTP MCP server that lets `Bearer second` and the `also_allowed` headers in, recording the
+/// Authorization and JSON-RPC method of every request (`DELETE` for the one that ends the session). Each `initialize`
+/// starts a new session; `refuses_calls` answers every `tools/call` with 401 and `end_session` makes the latest
+/// session answer 404.
 #[derive(Default)]
 struct RemoteMcp {
     sent: RefCell<Vec<(String, String)>>,
+    also_allowed: RefCell<Vec<String>>,
+    refuses_calls: Cell<bool>,
+    sessions: Cell<u32>,
+    ended_session: RefCell<Option<String>>,
 }
 
 impl RemoteMcp {
@@ -50,8 +56,14 @@ impl RemoteMcp {
         self.sent.borrow().iter().map(|(_, method)| method.clone()).collect()
     }
 
+    fn end_session(&self) {
+        self.ended_session
+            .replace(Some(format!("session-{}", self.sessions.get())));
+    }
+
     fn answer(&self, request: &HttpRequest) -> HttpResponse {
         let authorization = request.headers.get("Authorization").cloned().unwrap_or_default();
+        let session = request.headers.get("mcp-session-id").cloned();
         let message: Value = match &request.body {
             Some(RequestBody::Text(text)) => serde_json::from_str(text).unwrap(),
             _ => Value::Null,
@@ -61,7 +73,11 @@ impl RemoteMcp {
             _ => message["method"].as_str().unwrap_or_default().to_owned(),
         };
         self.sent.borrow_mut().push((authorization.clone(), method.clone()));
-        if authorization != "Bearer second" {
+        if session.is_some() && *self.ended_session.borrow() == session {
+            return json_response(404, &json!({ "error": "session not found" }));
+        }
+        let allowed = authorization == "Bearer second" || self.also_allowed.borrow().contains(&authorization);
+        if !allowed || (self.refuses_calls.get() && method == "tools/call") {
             return json_response(401, &json!({ "error": "invalid token" }));
         }
         let Some(id) = message.get("id").cloned() else {
@@ -83,9 +99,10 @@ impl RemoteMcp {
         };
         let mut response = json_response(200, &json!({ "jsonrpc": "2.0", "id": id, "result": result }));
         if method == "initialize" {
+            self.sessions.set(self.sessions.get() + 1);
             response
                 .headers
-                .push(("mcp-session-id".to_owned(), "session-1".to_owned()));
+                .push(("mcp-session-id".to_owned(), format!("session-{}", self.sessions.get())));
         }
         response
     }
@@ -147,6 +164,15 @@ fn remote_server(registry: &Path, http: Rc<RemoteMcp>, env: &[(&str, &str)]) -> 
 }
 
 const GROUPS: &str = r#"async () => codemode.groups("test:remote")"#;
+
+const LIST_ITEMS: &str = r#"async () => codemode.call("test:remote:store:items:list")"#;
+
+fn to_sent(pairs: &[(&str, &str)]) -> Vec<(String, String)> {
+    pairs
+        .iter()
+        .map(|(authorization, method)| ((*authorization).to_owned(), (*method).to_owned()))
+        .collect()
+}
 
 /// The JSON a successful `search` or `execute` returned.
 async fn run_json(server: &McpServer<FolderFetcher>, tool: &str, code: &str) -> Value {
@@ -314,6 +340,82 @@ async fn names_cached_tools_by_the_current_rules_and_refreshes_a_day_old_list_in
             assert_eq!(refreshed["tools"].as_array().unwrap().len(), 3);
         })
         .await;
+}
+
+#[tokio::test]
+async fn reopens_a_kept_connection_whose_token_was_revoked_and_sends_the_call_once_more() {
+    let registry = TempDir::new().unwrap();
+    let http = Rc::new(RemoteMcp::default());
+    http.also_allowed.borrow_mut().push("Bearer revoked".to_owned());
+    let server = remote_server(registry.path(), Rc::clone(&http), TOKENS);
+    run_json(&server, SEARCH_TOOL, GROUPS).await;
+    run_json(&server, EXECUTE_TOOL, LIST_ITEMS).await;
+    http.also_allowed.borrow_mut().clear();
+    http.sent.borrow_mut().clear();
+
+    let result = run_json(&server, EXECUTE_TOOL, LIST_ITEMS).await;
+    server.close().await;
+
+    assert_eq!(result, json!("ran list_items"));
+    assert_eq!(
+        *http.sent.borrow(),
+        to_sent(&[
+            ("Bearer revoked", "tools/call"),
+            ("Bearer revoked", "DELETE"),
+            ("Bearer revoked", "initialize"),
+            ("Bearer second", "initialize"),
+            ("Bearer second", "notifications/initialized"),
+            ("Bearer second", "tools/call"),
+            ("Bearer second", "DELETE"),
+        ])
+    );
+}
+
+#[tokio::test]
+async fn starts_a_new_session_when_the_upstream_ended_the_kept_one() {
+    let registry = TempDir::new().unwrap();
+    let http = Rc::new(RemoteMcp::default());
+    let server = remote_server(registry.path(), Rc::clone(&http), TOKENS);
+    run_json(&server, SEARCH_TOOL, GROUPS).await;
+    run_json(&server, EXECUTE_TOOL, LIST_ITEMS).await;
+    http.end_session();
+    http.sent.borrow_mut().clear();
+
+    let result = run_json(&server, EXECUTE_TOOL, LIST_ITEMS).await;
+    server.close().await;
+
+    assert_eq!(result, json!("ran list_items"));
+    assert_eq!(
+        *http.sent.borrow(),
+        to_sent(&[
+            ("Bearer second", "tools/call"),
+            ("Bearer second", "DELETE"),
+            ("Bearer second", "initialize"),
+            ("Bearer second", "notifications/initialized"),
+            ("Bearer second", "tools/call"),
+            ("Bearer second", "DELETE"),
+        ])
+    );
+}
+
+#[tokio::test]
+async fn gives_up_without_a_loop_when_every_new_connection_is_turned_away_too() {
+    let registry = TempDir::new().unwrap();
+    let http = Rc::new(RemoteMcp::default());
+    let server = remote_server(registry.path(), Rc::clone(&http), TOKENS);
+    run_json(&server, SEARCH_TOOL, GROUPS).await;
+    run_json(&server, EXECUTE_TOOL, LIST_ITEMS).await;
+    http.refuses_calls.set(true);
+    http.sent.borrow_mut().clear();
+
+    let result = run_code(&server, EXECUTE_TOOL, LIST_ITEMS).await;
+    server.close().await;
+
+    let message = result["content"][0]["text"].as_str().unwrap_or_default().to_owned();
+    assert_eq!(result["isError"], true, "{result}");
+    assert!(message.contains("remote: no auth option worked"), "{message}");
+    let calls = http.methods().iter().filter(|method| *method == "tools/call").count();
+    assert_eq!(calls, 2, "the kept connection's call and one on the new connection");
 }
 
 #[tokio::test]

@@ -1,6 +1,6 @@
 use indexmap::IndexMap;
 use serde_json::{Value, json};
-use std::cell::RefCell;
+use std::cell::{Cell, RefCell};
 use std::rc::Rc;
 use std::time::Duration;
 use usemcpkit_core::LocalFuture;
@@ -13,9 +13,11 @@ use usemcpkit_upstream::{UpstreamError, UpstreamOptions, connect_upstream};
 const URL: &str = "http://127.0.0.1:9/mcp";
 
 /// Answers like the TypeScript test's server: a session id on `initialize`, event-stream replies after it, 202 for a
-/// notification, 204 for the closing DELETE; every request is recorded.
+/// notification, 204 for the closing DELETE, 404 for any request of the session once it `ended`; every request is
+/// recorded.
 struct FakeMcpServer {
     status: u16,
+    ended: Cell<bool>,
     requests: RefCell<Vec<HttpRequest>>,
 }
 
@@ -23,6 +25,7 @@ impl FakeMcpServer {
     fn new(status: u16) -> Rc<Self> {
         Rc::new(FakeMcpServer {
             status,
+            ended: Cell::new(false),
             requests: RefCell::new(Vec::new()),
         })
     }
@@ -34,6 +37,9 @@ impl FakeMcpServer {
         };
         if self.status != 200 {
             return empty(self.status);
+        }
+        if self.ended.get() && request.headers.contains_key("mcp-session-id") {
+            return empty(404);
         }
         if request.method == HttpMethod::Delete {
             return empty(204);
@@ -177,4 +183,25 @@ async fn reports_a_401_as_unauthorized_and_other_failures_as_failed() {
         Some(UpstreamError::Unauthorized(format!("{URL} answered 401")))
     );
     assert_eq!(broken.err(), Some(UpstreamError::Failed(format!("{URL} answered 500"))));
+}
+
+#[tokio::test]
+async fn reports_a_404_as_an_ended_session_only_when_the_request_carried_one() {
+    let server = FakeMcpServer::new(200);
+    let connection = connect_upstream(&http_spec(), &options(&server)).await.unwrap();
+    server.ended.set(true);
+
+    let ended = connection.call_tool("search", None).await;
+    let missing = connect_upstream(&http_spec(), &options(&FakeMcpServer::new(404))).await;
+
+    assert_eq!(
+        ended.err(),
+        Some(UpstreamError::SessionExpired(format!(
+            "{URL} answered 404: the session ended"
+        )))
+    );
+    assert_eq!(
+        missing.err(),
+        Some(UpstreamError::Failed(format!("{URL} answered 404")))
+    );
 }
