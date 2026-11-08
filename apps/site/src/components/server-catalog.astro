@@ -1,0 +1,244 @@
+---
+import { REGISTRY_INDEX_URL } from "../const";
+---
+
+<section class="section" id="servers">
+  <div class="container">
+    <p class="eyebrow">Integrations</p>
+    <div class="catalog-head">
+      <div>
+        <h2 class="section-title">The apps your AI can use</h2>
+        <p class="section-lead">
+          Connect once, then just ask. New apps appear here as soon as they are added, no update needed.
+        </p>
+      </div>
+      <label class="search">
+        <span class="visually-hidden">Search integrations</span>
+        <input type="search" placeholder="Search integrations" autocomplete="off" data-catalog-search />
+      </label>
+    </div>
+
+    <div class="catalog" data-catalog data-index-url={REGISTRY_INDEX_URL} data-state="loading">
+      <p class="status" data-when="loading" role="status">Loading integrations…</p>
+      <div class="status status-error" data-when="error" role="alert">
+        <p>Could not load the list of integrations: <span data-catalog-error></span></p>
+        <button type="button" data-catalog-retry>Try again</button>
+      </div>
+      <p class="status" data-when="empty">No integrations are listed right now.</p>
+      <p class="status" data-when="no-match">Nothing matches that search.</p>
+      <p class="summary" data-when="ready"><span data-catalog-count></span> integrations</p>
+      <ul class="grid" data-catalog-list></ul>
+    </div>
+
+    <template data-catalog-card>
+      <li class="card" data-server>
+        <div class="card-top">
+          <span class="mark" data-slot="mark" aria-hidden="true"></span>
+          <span class="category" data-slot="category"></span>
+        </div>
+        <h3 data-slot="name"></h3>
+        <p class="description" data-slot="description"></p>
+      </li>
+    </template>
+  </div>
+</section>
+
+<script>
+  import { type CatalogElements, filterServerCards, mountServerCatalog } from "../catalog";
+  import { queryRequiredElement } from "../dom";
+
+  const elements: CatalogElements = {
+    root: queryRequiredElement("[data-catalog]", HTMLElement),
+    list: queryRequiredElement("[data-catalog-list]", HTMLElement),
+    template: queryRequiredElement("[data-catalog-card]", HTMLTemplateElement),
+    search: queryRequiredElement("[data-catalog-search]", HTMLInputElement),
+    count: queryRequiredElement("[data-catalog-count]", HTMLElement),
+    error: queryRequiredElement("[data-catalog-error]", HTMLElement),
+  };
+  const indexUrl = elements.root.dataset.indexUrl ?? "";
+
+  elements.search.addEventListener("input", () => {
+    const state = elements.root.dataset.state;
+    if (state !== "ready" && state !== "no-match") {
+      return;
+    }
+    const shown = filterServerCards(elements.list, elements.search.value);
+    elements.root.dataset.state = shown > 0 ? "ready" : "no-match";
+  });
+  queryRequiredElement("[data-catalog-retry]", HTMLButtonElement).addEventListener("click", () => {
+    void mountServerCatalog(elements, indexUrl);
+  });
+  void mountServerCatalog(elements, indexUrl);
+</script>
+
+<style>
+  .catalog-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .section-lead a {
+    color: var(--text);
+  }
+
+  .search input {
+    width: min(280px, 100%);
+    padding: 10px 16px;
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    background: var(--surface);
+    color: var(--text);
+    font: 15px var(--sans);
+  }
+
+  .search {
+    flex: 0 1 280px;
+  }
+
+  .search input:focus {
+    outline: none;
+    border-color: var(--accent-border);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+
+  .catalog {
+    margin-top: 40px;
+  }
+
+  [data-when] {
+    display: none;
+  }
+
+  .catalog[data-state="loading"] [data-when="loading"],
+  .catalog[data-state="error"] [data-when="error"],
+  .catalog[data-state="empty"] [data-when="empty"],
+  .catalog[data-state="no-match"] [data-when="no-match"],
+  .catalog[data-state="ready"] [data-when="ready"] {
+    display: block;
+  }
+
+  .catalog[data-state="loading"] .grid,
+  .catalog[data-state="error"] .grid {
+    display: none;
+  }
+
+  .status {
+    margin: 0;
+    padding: 32px;
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius);
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .status-error {
+    border-color: var(--danger);
+  }
+
+  .status-error p {
+    margin: 0 0 16px;
+  }
+
+  .status-error span {
+    color: var(--danger);
+    font-family: var(--mono);
+    font-size: 14px;
+  }
+
+  .status button {
+    padding: 8px 18px;
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--text);
+    font: 14px var(--sans);
+    cursor: pointer;
+  }
+
+  .summary {
+    margin: 0 0 16px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 13px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 22px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    transition:
+      border-color 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  .card[hidden] {
+    display: none;
+  }
+
+  .card:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-2px);
+  }
+
+  .mark {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid #474068;
+    border-radius: 8px;
+    background: #24223a;
+    color: #c4b8ff;
+    font-weight: 700;
+  }
+
+  .card-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .category {
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .description {
+    display: -webkit-box;
+    flex: 1;
+    margin: 0;
+    overflow: hidden;
+    color: var(--muted);
+    font-size: 14px;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+  }
+</style>

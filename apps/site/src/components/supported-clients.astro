@@ -1,0 +1,51 @@
+---
+import { SUPPORTED_CLIENTS } from "../const";
+import InstallCommand from "./install-command.astro";
+---
+
+<section class="section" id="clients">
+  <div class="container">
+    <p class="eyebrow">Supported clients</p>
+    <h2 class="section-title">Works in the AI client you already use</h2>
+    <p class="section-lead">
+      usemcpkit finds the AI apps on your computer and asks which ones to set up. One command, about a minute, and
+      you are done.
+    </p>
+    <ul class="clients">
+      {
+        SUPPORTED_CLIENTS.map((client) => (
+          <li title={client.id}>{client.name}</li>
+        ))
+      }
+    </ul>
+    <div class="cta">
+      <InstallCommand />
+    </div>
+  </div>
+</section>
+
+<style>
+  .clients {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 40px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .clients li {
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .cta {
+    display: flex;
+    justify-content: center;
+    margin-top: 64px;
+  }
+</style>

@@ -1,0 +1,75 @@
+---
+import { REPOSITORY_URL } from "../const";
+---
+
+<header class="header">
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label="usemcpkit home">
+      <img src="/favicon.svg" alt="" width="28" height="28" />
+      <span>usemcpkit</span>
+    </a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#servers">Integrations</a>
+      <a href="#how-it-works">How it works</a>
+      <a href="#clients">Clients</a>
+      <a class="cta" href={REPOSITORY_URL}>GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px solid var(--border);
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter: blur(12px);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    height: 64px;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    text-decoration: none;
+  }
+
+  .nav {
+    display: flex;
+    gap: 24px;
+    font-size: 14px;
+  }
+
+  .nav a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  .nav a:hover {
+    color: var(--text);
+  }
+
+  .nav .cta {
+    padding: 6px 14px;
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    color: var(--text);
+  }
+
+  @media (max-width: 640px) {
+    .nav a:not(:last-child) {
+      display: none;
+    }
+  }
+</style>

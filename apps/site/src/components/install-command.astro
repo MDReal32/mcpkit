@@ -1,0 +1,52 @@
+---
+import { INSTALL_COMMAND } from "../const";
+---
+
+<div class="install">
+  <code><span class="prompt" aria-hidden="true">$</span> {INSTALL_COMMAND}</code>
+  <button type="button" data-copy-install data-command={INSTALL_COMMAND} data-label="Copy">Copy</button>
+</div>
+
+<script>
+  import { copyInstallCommand } from "../install";
+
+  for (const button of document.querySelectorAll<HTMLButtonElement>("[data-copy-install]")) {
+    button.addEventListener("click", () => {
+      void copyInstallCommand(button, button.dataset.command ?? "");
+    });
+  }
+</script>
+
+<style>
+  .install {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    max-width: 100%;
+    padding: 8px 8px 8px 20px;
+    border: 1px solid var(--accent-border);
+    border-radius: 12px;
+    background: var(--surface);
+    font-size: 17px;
+  }
+
+  .prompt {
+    margin-right: 6px;
+    color: var(--accent);
+  }
+
+  button {
+    flex: none;
+    padding: 9px 18px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font: 600 14px var(--sans);
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: var(--accent-strong);
+  }
+</style>
