@@ -14,10 +14,12 @@ apps/server        usemcpkit-servers     the usemcpkit-servers binary: MCP stdio
 apps/window        usemcpkit-window      the credentials window: a Tauri app with the Svelte page in apps/window/ui (@usemcpkit/ui, private)
 apps/npx           usemcpkit             wrapper so `npx usemcpkit` runs the binary of this platform
 apps/analytics     @usemcpkit/analytics  usage-reporting Worker
+apps/site          @usemcpkit/site       the landing page at mcpkit.mdreal.org (Astro, served by a Cloudflare Worker)
+apps/video         @usemcpkit/video      the promo video (Remotion), shipped with the landing page
 crates/*                                 the Rust libraries behind the binaries
 ```
 
-Yarn 4 workspaces and Nx, Node 22.18+, and a Rust toolchain with `cargo` on PATH. Every command below runs from the
+Yarn 4 workspaces and Nx, Node 22.23.4+ (what Astro 7 in `apps/site` needs), and a Rust toolchain with `cargo` on PATH. Every command below runs from the
 repository root.
 
 ```bash
