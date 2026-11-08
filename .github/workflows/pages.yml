@@ -6,7 +6,6 @@ on:
       - master
     paths:
       - apps/npx/package.json
-      - apps/video/**
       - crates/core/**
       - crates/manifest/**
       - crates/napi/**
@@ -44,35 +43,12 @@ jobs:
         with:
           cache-key: pages
 
-      - name: Restore the promo video
-        id: video-cache
-        uses: actions/cache@v6
-        with:
-          path: apps/video/build/pages
-          key: video-${{ hashFiles('apps/video/src/**', 'apps/video/scripts/**', 'apps/video/public/sfx/**', 'apps/video/public/voiceover/**', 'apps/video/site/**', 'apps/video/package.json', 'apps/video/remotion.config.ts', 'yarn.lock') }}
-
-      - name: Install Chrome Headless Shell dependencies
-        if: steps.video-cache.outputs.cache-hit != 'true'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libnss3 libdbus-1-3 libatk1.0-0 libasound2t64 libxrandr2 libxkbcommon-dev \
-            libxfixes3 libxcomposite1 libxdamage1 libgbm-dev libcups2 libcairo2 libpango-1.0-0 libatk-bridge2.0-0
-
-      - name: Render the promo video
-        if: steps.video-cache.outputs.cache-hit != 'true'
-        run: |
-          yarn workspace @usemcpkit/video remotion browser ensure
-          yarn workspace @usemcpkit/video pages
-
       - name: Assemble the versioned registry
         run: .github/scripts/assemble-registry-site.sh packages/servers/build/manifests site
         env:
           GH_TOKEN: ${{ github.token }}
 
-      - name: Add the promo video to the site
-        run: cp -R apps/video/build/pages site/video
-
-      - name: Upload the site
+      - name: Upload the registry
         uses: actions/upload-pages-artifact@v5
         with:
           path: site
