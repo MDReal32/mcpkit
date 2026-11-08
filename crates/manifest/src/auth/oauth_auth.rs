@@ -16,7 +16,8 @@ pub struct OAuthAuth {
     #[serde(default, skip_serializing_if = "String::is_empty")]
     pub client_id: String,
     /// The MCP server url to discover the sign-in from (RFC 9728 and RFC 8414), registering usemcpkit as a client
-    /// with the authorization server (RFC 7591), so no endpoint or client id is written in the manifest.
+    /// with the authorization server (RFC 7591), so no endpoint or client id is written in the manifest. May contain
+    /// `{domain}`.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub discovery: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]

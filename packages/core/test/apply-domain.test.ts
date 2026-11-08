@@ -20,4 +20,18 @@ describe("applyDomain", () => {
       "https://acme.app.n8n.cloud/api/v1",
     );
   });
+
+  it("fills an HTTP upstream and its discovery url, over http for a loopback domain", () => {
+    const manifest: Manifest = {
+      ...createLocalManifest(true),
+      auth: [{ type: "oauth", discovery: "https://{domain}/mcp" }],
+      upstream: { type: "http", url: "https://{domain}/mcp" },
+      tools: [],
+    };
+
+    const resolved = applyDomain(manifest, "localhost:5678");
+
+    expect(resolved.upstream).toEqual({ type: "http", url: "http://localhost:5678/mcp" });
+    expect(resolved.auth).toEqual([{ type: "oauth", discovery: "http://localhost:5678/mcp" }]);
+  });
 });

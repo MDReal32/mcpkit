@@ -29,7 +29,7 @@ where
         return Err(UpstreamError::new(format!("{} has no upstream", manifest.name)));
     };
     let UpstreamSpec::Stdio(stdio) = &upstream else {
-        return with_http_upstream_access(manifest, upstream, domain.as_deref(), run, context).await;
+        return with_http_upstream_access(manifest, domain.as_deref(), run, context).await;
     };
     let forwarded = read_forwarded_env(manifest, stdio, domain.as_deref(), &context.auth)
         .await

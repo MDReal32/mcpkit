@@ -15,7 +15,8 @@ pub struct Manifest {
     pub version: String,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
-    /// May contain `{domain}`, as may the oauth URLs; `domain` then says where the value comes from.
+    /// May contain `{domain}`, as may the oauth URLs (`discovery` included) and an HTTP upstream's `url`; `domain` then
+    /// says where the value comes from.
     pub base_url: String,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub domain: Option<DomainSpec>,
