@@ -1,5 +1,6 @@
 use crate::consts::{
-    HTTP_UNAUTHORIZED, MCP_PROTOCOL_VERSION, PROTOCOL_HEADER, REQUEST_TIMEOUT, SESSION_HEADER, TRANSPORT_HEADERS,
+    HTTP_NOT_FOUND, HTTP_UNAUTHORIZED, MCP_PROTOCOL_VERSION, PROTOCOL_HEADER, REQUEST_TIMEOUT, SESSION_HEADER,
+    TRANSPORT_HEADERS,
 };
 use crate::transport::create_json_rpc_message::create_json_rpc_message;
 use crate::transport::mcp_transport::McpTransport;
@@ -64,6 +65,7 @@ impl HttpTransport {
             headers: self.request_headers(),
             body: Some(RequestBody::Text(to_js_json(message))),
         };
+        let sent_session = request.headers.contains_key(SESSION_HEADER);
         let response = self
             .http
             .send(&request, REQUEST_TIMEOUT)
@@ -75,6 +77,12 @@ impl HttpTransport {
         if response.status == HTTP_UNAUTHORIZED {
             return Err(UpstreamError::Unauthorized(format!(
                 "{} answered {HTTP_UNAUTHORIZED}",
+                self.url
+            )));
+        }
+        if response.status == HTTP_NOT_FOUND && sent_session {
+            return Err(UpstreamError::SessionExpired(format!(
+                "{} answered {HTTP_NOT_FOUND}: the session ended",
                 self.url
             )));
         }
