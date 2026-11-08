@@ -26,7 +26,7 @@ export interface OAuthEndpointsAuth extends OAuthSignInOptions {
  */
 export interface OAuthDiscoveryAuth extends OAuthSignInOptions {
   type: "oauth";
-  /** The MCP server url, https only. */
+  /** The MCP server url, https only; may contain `{domain}`. */
   discovery: string;
   clientId?: string;
 }

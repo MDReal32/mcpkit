@@ -12,6 +12,7 @@ use usemcpkit_execution::upstream::{UpstreamAccess, with_upstream_access};
 use usemcpkit_execution::{CallContext, DEFAULT_TIMEOUT, ExecutorState};
 use usemcpkit_http::HttpResponse;
 use usemcpkit_manifest::Manifest;
+use usemcpkit_manifest::upstream::UpstreamSpec;
 use usemcpkit_testing::{FixedClient, updates_goldens, write_golden};
 use usemcpkit_upstream::UpstreamError;
 
@@ -194,6 +195,59 @@ async fn takes_the_env_over_the_store_and_an_empty_env_var_as_unset() {
             ("SET".to_owned(), "on".to_owned()),
             ("STORED".to_owned(), "from-store".to_owned()),
         ]
+    );
+}
+
+fn upstream_url(access: &UpstreamAccess) -> &str {
+    match &access.upstream {
+        UpstreamSpec::Http(upstream) => &upstream.url,
+        UpstreamSpec::Stdio(_) => panic!("{:?} is not an HTTP upstream", access.upstream),
+    }
+}
+
+/// Answers the form with a domain and the MCP access token, as a user who has no host saved yet would.
+fn domain_and_token_answer() -> CredentialRequester {
+    Rc::new(move |_| {
+        Box::pin(async move {
+            Ok::<_, AuthError>(json!({
+                "method": "token",
+                "option": 1,
+                "domain": "acme.app.n8n.cloud",
+                "values": { "N8N_MCP_TOKEN": "mcp-token" },
+            }))
+        })
+    })
+}
+
+#[tokio::test]
+async fn reaches_an_upstream_on_the_host_in_use_over_http_for_a_loopback_host() {
+    let home = TempDir::new().unwrap();
+    let context = context(
+        home.path(),
+        &[("N8N_HOST", "localhost:5678"), ("N8N_MCP_TOKEN", "mcp-token")],
+        None,
+    );
+
+    let access = start(&built_manifest("automation/n8n_mcp"), &context).await.unwrap();
+
+    assert_eq!(upstream_url(&access), "http://localhost:5678/mcp-server/http");
+    assert_eq!(
+        access.headers.get("Authorization").map(String::as_str),
+        Some("Bearer mcp-token")
+    );
+}
+
+#[tokio::test]
+async fn reaches_an_upstream_on_the_host_the_credentials_form_chose() {
+    let home = TempDir::new().unwrap();
+    let context = context(home.path(), &[], Some(domain_and_token_answer()));
+
+    let access = start(&built_manifest("automation/n8n_mcp"), &context).await.unwrap();
+
+    assert_eq!(upstream_url(&access), "https://acme.app.n8n.cloud/mcp-server/http");
+    assert_eq!(
+        access.headers.get("Authorization").map(String::as_str),
+        Some("Bearer mcp-token")
     );
 }
 

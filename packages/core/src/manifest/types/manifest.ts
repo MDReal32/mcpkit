@@ -11,7 +11,7 @@ export interface Manifest {
   category: string;
   version: string;
   description?: string;
-  /** May contain `{domain}`, as may the oauth URLs; `domain` then says where the value comes from. An `upstream` manifest never requests it, so it only names the service's https home. */
+  /** May contain `{domain}`, as may the oauth URLs (`discovery` included) and an HTTP upstream's `url`; `domain` then says where the value comes from. An `upstream` manifest never requests it, so it only names the service's https home. */
   baseUrl: string;
   domain?: DomainSpec;
   /** Deployments picked by the domain's host; a domain matching none uses the tools' own requests. */
