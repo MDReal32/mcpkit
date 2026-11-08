@@ -1,0 +1,45 @@
+name: Build binaries
+description: Builds the credentials window, then the usemcpkit and usemcpkit-servers binaries for this runner, from the credentials page of the `ui` artifact
+
+inputs:
+  target:
+    description: The release target of this runner, for example linux-x64; it keys the Cargo cache
+    required: true
+  extension:
+    description: The executable extension of the target, .exe on Windows
+    required: false
+    default: ""
+
+runs:
+  using: composite
+  steps:
+    - name: Download the credentials page
+      uses: actions/download-artifact@v8
+      with:
+        name: ui
+        path: apps/window/ui/build
+
+    - name: Setup Rust
+      uses: dtolnay/rust-toolchain@stable
+
+    - name: Install WebKitGTK
+      uses: ./.github/actions/install-webkitgtk-dev
+
+    - name: Restore the Cargo cache
+      uses: Swatinem/rust-cache@v2
+      with:
+        key: ${{ inputs.target }}
+
+    - name: Build the credentials window
+      shell: bash
+      run: cargo build --release --locked -p usemcpkit-window
+
+    - name: Build
+      shell: bash
+      run: cargo build --release --locked -p usemcpkit-runner -p usemcpkit-servers
+
+    - name: Print the versions
+      shell: bash
+      run: |
+        target/release/usemcpkit${{ inputs.extension }} --version
+        target/release/usemcpkit-servers${{ inputs.extension }} --version

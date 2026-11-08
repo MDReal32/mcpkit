@@ -162,14 +162,18 @@ TS and Rust handle them the same way:
 
 ## Releasing
 
-Three workflows run on every push to `master`, none waiting for another. `release.yml` ("Release", the file npm's
-trusted publisher is set to, so it keeps its name) publishes to npm only; `registry.yml` deploys the registry to GitHub
-Pages; `github-release.yml` runs when "Release" succeeds (or by hand with a run id) and turns that run's `release` and
-`registry` artifacts into the GitHub Release. `.github/workflows/release-build.yml`, which both `release.yml` and
-`registry.yml` call, runs `yarn build` (every lint, test and build gate) on Ubuntu. `release-binaries.yml` builds
-`usemcpkit-window` first on each target, then the two binaries (the server embeds the window program) on that target's own runner
-(`linux-x64`, `linux-arm64`, `darwin-x64`, `darwin-arm64`, `windows-x64`) from the credentials page the first job
-built, checks that each prints `--version` and runs `tools/smoke-test` against them (`node tools/smoke-test/src/main.ts
+One workflow per thing shipped, each running from its first build to its last step and started only by the
+directories it ships; they share no jobs and no artifacts. `release.yml` ("Release", the file npm's trusted publisher is
+set to, so it keeps its name) releases the npm packages and nothing else: its `build` job runs `yarn build` (every lint,
+test and build gate) on Ubuntu, the `binaries` jobs build `usemcpkit-window` first on each target, then the two binaries
+(the server embeds the window program), `package` writes the npm packages, and the npm jobs publish them.
+`github-release.yml` builds the binaries and the registry itself and creates the GitHub Release with them. `pages.yml`
+builds the manifests and the promo video and deploys them to GitHub Pages. `winget.yml` opens the winget-pkgs pull
+request (by hand for now). Homebrew will be a workflow of its own. Steps that more than one workflow repeats are
+composite actions in `.github/actions/<name>/action.yml` (`setup-workspace`, `install-webkitgtk-dev`, `build-binaries`,
+`build-registry`, `setup-npm-publish`), not shared jobs. Each `binaries` job runs on its target's own runner
+(`linux-x64`, `linux-arm64`, `darwin-x64`, `darwin-arm64`, `windows-x64`), builds from the credentials page the first job
+built, checks that each binary prints `--version` and runs `tools/smoke-test` against them (`node tools/smoke-test/src/main.ts
 <usemcpkit binary> <registry dir>`: the real `usemcpkit serve`, with the server next to it, over stdio in a temp home
 seeded from the first job's registry, auto-update off and the registry unreachable; it initializes, expects `search` and
 `execute` as the only tools, searches the indexed servers and the groups of `git:github` and runs a piece of code with

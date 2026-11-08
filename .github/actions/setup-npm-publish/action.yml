@@ -1,0 +1,21 @@
+name: Setup npm publish
+description: Node.js with the npm registry and the files of the `release` artifact, ready for publish-npm.sh
+
+runs:
+  using: composite
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v7
+      with:
+        node-version: "24"
+        registry-url: "https://registry.npmjs.org"
+        package-manager-cache: false
+
+    - name: Download the release files
+      uses: actions/download-artifact@v8
+      with:
+        name: release
+
+    - name: Extract
+      shell: bash
+      run: tar -xf release.tar

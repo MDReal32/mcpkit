@@ -1,77 +1,131 @@
 name: GitHub Release
 
 on:
-  workflow_run:
-    workflows: [Release]
-    types: [completed]
+  push:
+    branches:
+      - master
+    paths:
+      - apps/npx/package.json
+      - apps/runner/**
+      - apps/server/**
+      - apps/window/**
+      - crates/**
+      - packages/core/**
+      - packages/native/**
+      - packages/servers/**
+      - tools/release/**
+      - Cargo.toml
+      - Cargo.lock
+      - yarn.lock
+      - .github/scripts/publish-github-release.sh
+      - .github/workflows/github-release.yml
   workflow_dispatch:
-    inputs:
-      run-id:
-        description: The Release run whose binaries and registry become the GitHub Release
-        required: true
 
 permissions:
-  contents: write
-  actions: read
+  contents: read
 
 concurrency:
-  group: github-release-${{ github.event.workflow_run.head_sha || inputs.run-id }}
+  group: github-release-${{ github.ref }}
   cancel-in-progress: false
 
-env:
-  RUN_ID: ${{ github.event.workflow_run.id || inputs.run-id }}
-
 jobs:
-  github-release:
-    name: GitHub Release
-    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
-    runs-on: ubuntu-latest
+  page:
+    name: Credentials page
+    runs-on: ubuntu-24.04
 
     steps:
-      - name: Find the commit of the Release run
-        id: release-run
-        run: echo "sha=$(gh run view "$RUN_ID" --repo "$GITHUB_REPOSITORY" --json headSha --jq .headSha)" >> "$GITHUB_OUTPUT"
-        env:
-          GH_TOKEN: ${{ github.token }}
-
       - name: Checkout
         uses: actions/checkout@v7
-        with:
-          ref: ${{ steps.release-run.outputs.sha }}
 
-      - name: Download the release files
-        uses: actions/download-artifact@v8
-        with:
-          name: release
-          run-id: ${{ env.RUN_ID }}
-          github-token: ${{ github.token }}
+      - name: Setup workspace
+        uses: ./.github/actions/setup-workspace
 
-      - name: Extract
-        run: tar -xf release.tar
+      - name: Build core
+        run: yarn workspace @usemcpkit/core build
 
-      - name: Download the registry
-        uses: actions/download-artifact@v8
+      - name: Build the credentials page
+        run: yarn workspace @usemcpkit/ui build
+
+      - name: Upload the credentials page
+        uses: actions/upload-artifact@v7
         with:
-          name: registry
-          path: registry
-          run-id: ${{ env.RUN_ID }}
-          github-token: ${{ github.token }}
+          name: ui
+          path: apps/window/ui/build/usemcpkit.ui.html
+          if-no-files-found: error
+          retention-days: 1
+
+  binaries:
+    name: Binaries ${{ matrix.target }}
+    needs: page
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - target: linux-x64
+            runner: ubuntu-24.04
+          - target: linux-arm64
+            runner: ubuntu-24.04-arm
+          - target: darwin-x64
+            runner: macos-15-intel
+          - target: darwin-arm64
+            runner: macos-15
+          - target: windows-x64
+            runner: windows-2025
+            extension: .exe
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Build binaries
+        uses: ./.github/actions/build-binaries
+        with:
+          target: ${{ matrix.target }}
+          extension: ${{ matrix.extension }}
+
+      - name: Upload the binaries
+        uses: actions/upload-artifact@v7
+        with:
+          name: binaries-${{ matrix.target }}
+          path: |
+            target/release/usemcpkit${{ matrix.extension }}
+            target/release/usemcpkit-servers${{ matrix.extension }}
+          if-no-files-found: error
+          retention-days: 1
+
+  release:
+    name: GitHub Release
+    needs: binaries
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup workspace
+        uses: ./.github/actions/setup-workspace
+
+      - name: Build the registry
+        uses: ./.github/actions/build-registry
+        with:
+          cache-key: github-release-registry
 
       - name: Pack the registry
-        run: tar -czf registry.tar.gz -C registry .
+        run: tar -czf registry.tar.gz -C packages/servers/build/manifests .
+
+      - name: Download the binaries
+        uses: actions/download-artifact@v8
+        with:
+          pattern: binaries-*
+          path: release-binaries
+
+      - name: Write the release assets
+        run: node tools/release/src/main.ts release-binaries release
 
       - name: GitHub Release
         run: .github/scripts/publish-github-release.sh
         env:
           GH_TOKEN: ${{ github.token }}
-          GITHUB_SHA: ${{ steps.release-run.outputs.sha }}
-
-  # winget is disabled for now; re-enable once the first MDReal32.UseMCPKit version is merged in winget-pkgs
-  # winget:
-  #   name: winget
-  #   needs: github-release
-  #   uses: ./.github/workflows/release-winget.yml
-  #   secrets:
-  #     WINGET_TOKEN: ${{ secrets.WINGET_TOKEN }}
-  #   permissions:
-  #     contents: read

@@ -1,49 +1,55 @@
-name: Release registry
+name: Pages
 
 on:
-  workflow_call:
+  push:
+    branches:
+      - master
+    paths:
+      - apps/npx/package.json
+      - apps/video/**
+      - crates/core/**
+      - crates/manifest/**
+      - crates/napi/**
+      - crates/validation/**
+      - packages/core/**
+      - packages/native/**
+      - packages/servers/**
+      - Cargo.toml
+      - yarn.lock
+      - .github/scripts/assemble-registry-site.sh
+      - .github/workflows/pages.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
-  registry:
-    name: Publish the manifests of every version and the promo video to GitHub Pages
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
+    name: Build the registry
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Download the registry
-        uses: actions/download-artifact@v8
-        with:
-          name: registry
-          path: packages/servers/build/manifests
+      - name: Setup workspace
+        uses: ./.github/actions/setup-workspace
 
-      - name: Restore promo video
+      - name: Build the registry
+        uses: ./.github/actions/build-registry
+        with:
+          cache-key: pages
+
+      - name: Restore the promo video
         id: video-cache
         uses: actions/cache@v6
         with:
           path: apps/video/build/pages
           key: video-${{ hashFiles('apps/video/src/**', 'apps/video/scripts/**', 'apps/video/public/sfx/**', 'apps/video/public/voiceover/**', 'apps/video/site/**', 'apps/video/package.json', 'apps/video/remotion.config.ts', 'yarn.lock') }}
-
-      - name: Setup Node.js
-        if: steps.video-cache.outputs.cache-hit != 'true'
-        uses: actions/setup-node@v7
-        with:
-          node-version: "24"
-          package-manager-cache: false
-
-      - name: Install
-        if: steps.video-cache.outputs.cache-hit != 'true'
-        run: |
-          corepack enable
-          yarn install --immutable
 
       - name: Install Chrome Headless Shell dependencies
         if: steps.video-cache.outputs.cache-hit != 'true'
@@ -52,7 +58,7 @@ jobs:
           sudo apt-get install -y libnss3 libdbus-1-3 libatk1.0-0 libasound2t64 libxrandr2 libxkbcommon-dev \
             libxfixes3 libxcomposite1 libxdamage1 libgbm-dev libcups2 libcairo2 libpango-1.0-0 libatk-bridge2.0-0
 
-      - name: Render promo video
+      - name: Render the promo video
         if: steps.video-cache.outputs.cache-hit != 'true'
         run: |
           yarn workspace @usemcpkit/video remotion browser ensure
@@ -63,14 +69,26 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
 
-      - name: Add promo video to the site
+      - name: Add the promo video to the site
         run: cp -R apps/video/build/pages site/video
 
-      - name: Upload registry
+      - name: Upload the site
         uses: actions/upload-pages-artifact@v5
         with:
           path: site
 
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v5
