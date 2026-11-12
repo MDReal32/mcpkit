@@ -139,9 +139,32 @@ fn remote_manifest() -> Value {
     })
 }
 
-/// A server over `registry`, whose manifests cache is `registry/manifests`, so a second one reads the first's cache.
+/// The remote server with a tool of its own, signed in with `OWN_TOKEN`, while its upstream keeps the bearer tokens.
+fn combined_manifest() -> Value {
+    let mut manifest = remote_manifest();
+    manifest["auth"] = json!([{ "type": "bearer", "env": "OWN_TOKEN" }]);
+    manifest["upstream"]["auth"] = json!([{ "type": "bearer", "env": "SECOND_TOKEN" }]);
+    manifest["tools"] = json!([{
+        "name": "store:own:ping",
+        "description": "A tool of the manifest itself",
+        "input": { "type": "object", "properties": {} },
+        "request": { "method": "GET", "path": "/ping" },
+    }]);
+    manifest
+}
+
 fn remote_server(registry: &Path, http: Rc<RemoteMcp>, env: &[(&str, &str)]) -> McpServer<FolderFetcher> {
-    let text = remote_manifest().to_string();
+    server_for(registry, http, env, &remote_manifest())
+}
+
+/// A server over `registry`, whose manifests cache is `registry/manifests`, so a second one reads the first's cache.
+fn server_for(
+    registry: &Path,
+    http: Rc<RemoteMcp>,
+    env: &[(&str, &str)],
+    manifest: &Value,
+) -> McpServer<FolderFetcher> {
+    let text = manifest.to_string();
     std::fs::create_dir_all(registry.join("registry/test")).unwrap();
     std::fs::write(registry.join("registry/test/remote.json"), &text).unwrap();
     let servers = vec![RegistryServer {
@@ -435,4 +458,124 @@ async fn answers_an_upstream_nobody_can_reach_with_an_error_result() {
         message.contains("test:remote is unavailable: remote: no auth option worked\n  auth[0] "),
         "{message}"
     );
+}
+
+const COMBINED_TOKENS: &[(&str, &str)] = &[("OWN_TOKEN", "own"), ("SECOND_TOKEN", "second")];
+
+fn combined_server(registry: &Path, http: Rc<RemoteMcp>, env: &[(&str, &str)]) -> McpServer<FolderFetcher> {
+    http.also_allowed.borrow_mut().push("Bearer own".to_owned());
+    server_for(registry, http, env, &combined_manifest())
+}
+
+const OWN_PING: &str = r#"async () => codemode.call("test:remote:store:own:ping")"#;
+
+const SERVER_TOOLS: &str = r#"async () => (await codemode.tools("test:remote")).map((tool) => tool.id)"#;
+
+#[tokio::test]
+async fn runs_a_tool_of_the_manifest_without_starting_its_upstream() {
+    let registry = TempDir::new().unwrap();
+    let http = Rc::new(RemoteMcp::default());
+    let server = combined_server(registry.path(), Rc::clone(&http), COMBINED_TOKENS);
+
+    run_json(&server, EXECUTE_TOOL, OWN_PING).await;
+    server.close().await;
+
+    assert_eq!(*http.sent.borrow(), to_sent(&[("Bearer own", "")]));
+}
+
+#[tokio::test]
+async fn lists_the_own_tools_before_the_upstream_started_and_both_after() {
+    let registry = TempDir::new().unwrap();
+    let http = Rc::new(RemoteMcp::default());
+    let server = combined_server(registry.path(), Rc::clone(&http), COMBINED_TOKENS);
+    let every_tool = r#"async () => (await codemode.tools()).map((tool) => tool.id)"#;
+
+    let before = run_json(&server, SEARCH_TOOL, every_tool).await;
+    let started_nothing = http.methods().is_empty();
+    let server_tools = run_json(&server, SEARCH_TOOL, SERVER_TOOLS).await;
+    let after = run_json(&server, SEARCH_TOOL, every_tool).await;
+    server.close().await;
+
+    assert_eq!(before, json!(["test:remote:store:own:ping"]));
+    assert!(started_nothing, "listing every tool never starts an upstream");
+    let both = json!([
+        "test:remote:store:own:ping",
+        "test:remote:store:items:list",
+        "test:remote:store:items:get",
+        "test:remote:docs:docs:search",
+    ]);
+    assert_eq!(server_tools, both);
+    assert_eq!(after, both);
+}
+
+#[tokio::test]
+async fn calls_the_upstream_tools_with_the_auth_of_the_upstream() {
+    let registry = TempDir::new().unwrap();
+    let http = Rc::new(RemoteMcp::default());
+    let server = combined_server(registry.path(), Rc::clone(&http), COMBINED_TOKENS);
+
+    let results = run_json(
+        &server,
+        EXECUTE_TOOL,
+        r#"async () => [await codemode.call("test:remote:store:items:list"), await codemode.call("test:remote:store:own:ping")]"#,
+    )
+    .await;
+    server.close().await;
+
+    assert_eq!(results[0], json!("ran list_items"));
+    let signed: Vec<String> = http
+        .sent
+        .borrow()
+        .iter()
+        .map(|(authorization, method)| format!("{authorization}:{method}"))
+        .collect();
+    assert_eq!(
+        signed,
+        [
+            "Bearer second:initialize",
+            "Bearer second:notifications/initialized",
+            "Bearer second:tools/list",
+            "Bearer second:DELETE",
+            "Bearer second:initialize",
+            "Bearer second:notifications/initialized",
+            "Bearer second:tools/call",
+            "Bearer own:",
+            "Bearer second:DELETE",
+        ]
+    );
+}
+
+#[tokio::test]
+async fn keeps_the_own_tools_and_says_why_when_the_upstream_cannot_start() {
+    let registry = TempDir::new().unwrap();
+    let http = Rc::new(RemoteMcp::default());
+    let server = combined_server(registry.path(), Rc::clone(&http), &[("OWN_TOKEN", "own")]);
+
+    let result = run_code(&server, SEARCH_TOOL, SERVER_TOOLS).await;
+    server.close().await;
+
+    assert_eq!(result.get("isError"), None, "{result}");
+    let text = result["content"][0]["text"].as_str().unwrap();
+    assert!(text.contains("warning: test:remote is unavailable"), "{text}");
+    assert!(text.contains("test:remote:store:own:ping"), "{text}");
+}
+
+#[tokio::test]
+async fn hides_an_upstream_tool_that_shares_its_name_with_an_own_tool() {
+    let registry = TempDir::new().unwrap();
+    let http = Rc::new(RemoteMcp::default());
+    let mut manifest = combined_manifest();
+    manifest["tools"][0]["name"] = json!("store:items:list");
+    http.also_allowed.borrow_mut().push("Bearer own".to_owned());
+    let server = server_for(registry.path(), Rc::clone(&http), COMBINED_TOKENS, &manifest);
+
+    let result = run_code(&server, SEARCH_TOOL, SERVER_TOOLS).await;
+    server.close().await;
+
+    let text = result["content"][0]["text"].as_str().unwrap();
+    assert!(
+        text.contains("warning: test:remote: the upstream tools store:items:list share a name"),
+        "{text}"
+    );
+    assert_eq!(text.matches("test:remote:store:items:list").count(), 1, "{text}");
 }

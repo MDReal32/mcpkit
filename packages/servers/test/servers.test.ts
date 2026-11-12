@@ -8,11 +8,10 @@ import { github } from "../src/servers/github/github";
 import { gitlab } from "../src/servers/gitlab/gitlab";
 import { jira } from "../src/servers/jira/jira";
 import { n8n } from "../src/servers/n8n/n8n";
-import { n8nMcp } from "../src/servers/n8n-mcp/n8n-mcp";
 import { reddit } from "../src/servers/reddit/reddit";
 
 describe("bundled servers", () => {
-  it.each([github, gitlab, jira, confluence, clickup, discord, figma, n8n, n8nMcp, reddit])(
+  it.each([github, gitlab, jira, confluence, clickup, discord, figma, n8n, reddit])(
     "$name compiles to a valid manifest",
     (server) => {
       expect(validateManifest(JSON.parse(JSON.stringify(server)))).toEqual([]);
@@ -49,10 +48,12 @@ describe("n8n", () => {
     expect(importPackage?.request.fileArgs).toEqual(["package"]);
   });
 
-  it("signs in to the MCP server of the same host the REST API server uses, with an MCP access token as the fallback", () => {
-    expect(n8nMcp.domain).toEqual(n8n.domain);
-    expect(n8nMcp.auth?.map((auth) => auth.type)).toEqual(["oauth", "bearer"]);
-    expect(n8nMcp.upstream).toMatchObject({ type: "http", url: "https://{domain}/mcp-server/http" });
+  it("signs the REST tools with the API key and its MCP server, on the same host, with its own OAuth or an MCP access token", () => {
+    const upstream = n8n.upstream?.type === "http" ? n8n.upstream : undefined;
+
+    expect(n8n.auth?.map((auth) => auth.type)).toEqual(["header"]);
+    expect(upstream).toMatchObject({ type: "http", url: "https://{domain}/mcp-server/http" });
+    expect(upstream?.auth?.map((auth) => auth.type)).toEqual(["oauth", "bearer"]);
   });
 });
 

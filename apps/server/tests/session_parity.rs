@@ -124,8 +124,11 @@ async fn describes_every_tool_of_the_built_registry() {
     let server = built_registry_server(&cache).await;
     let mut actual = Map::new();
 
-    for registry_server in catalog.servers.iter().filter(|entry| !entry.upstream) {
+    for registry_server in &catalog.servers {
         let id = &registry_server.id;
+        if registry_server.upstream && !catalog.has_own_tools(id).await.unwrap() {
+            continue;
+        }
         let groups = catalog.load_groups(id).await.unwrap();
         let groups: Vec<Option<&str>> = if groups.is_empty() {
             vec![None]
@@ -141,6 +144,9 @@ async fn describes_every_tool_of_the_built_registry() {
                 actual.insert(tool_id, json!(digest(&described)));
                 count += 1;
             }
+        }
+        if registry_server.upstream {
+            continue;
         }
         let code = format!(
             "async () => (await codemode.tools({})).length",
@@ -159,7 +165,7 @@ async fn describes_every_tool_of_the_built_registry() {
     assert_eq!(
         every_tool,
         json!([actual.len(), actual.len()]),
-        "codemode.tools() lists every tool of the registry once, leaving out the upstreams nobody started"
+        "codemode.tools() lists every tool of the registry once, leaving out the tools of the upstreams nobody started"
     );
 
     if updates_goldens() {

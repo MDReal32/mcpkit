@@ -7,7 +7,7 @@ use std::rc::Rc;
 use tempfile::TempDir;
 use usemcpkit_registry::{
     DEFAULT_REGISTRY_URL, Fetch, RegistryContext, RegistryError, ensure_manifest_index, load_group_manifest,
-    load_groups, read_cached_index, sync_registry,
+    load_groups, load_server_manifest, read_cached_index, sync_registry,
 };
 
 /// Serves the registry `packages/servers` builds as if it were published, logging every URL asked for.
@@ -79,7 +79,7 @@ fn cache_keys(fixture: &Fixture) -> Vec<String> {
     map.keys().cloned().collect()
 }
 
-async fn github(fixture: &Fixture) -> usemcpkit_manifest::registry::RegistryServer {
+async fn indexed(fixture: &Fixture, id: &str) -> usemcpkit_manifest::registry::RegistryServer {
     let index = read_cached_index(&fixture.context.dir)
         .await
         .expect("readable")
@@ -87,8 +87,12 @@ async fn github(fixture: &Fixture) -> usemcpkit_manifest::registry::RegistryServ
     index
         .servers
         .into_iter()
-        .find(|server| server.id == "git:github")
-        .expect("git:github in the index")
+        .find(|server| server.id == id)
+        .unwrap_or_else(|| panic!("{id} in the index"))
+}
+
+async fn github(fixture: &Fixture) -> usemcpkit_manifest::registry::RegistryServer {
+    indexed(fixture, "git:github").await
 }
 
 #[tokio::test]
@@ -144,6 +148,25 @@ async fn opens_a_group_with_its_shell_and_part_alone_and_then_from_the_cache() {
         );
     }
     assert!(fixture.warnings.borrow().is_empty());
+}
+
+#[tokio::test]
+async fn loads_the_shell_of_a_split_server_with_its_upstream_and_none_of_its_parts() {
+    let fixture = fixture(HashMap::new());
+    sync_registry(&fixture.context).await.expect("a sync");
+    let server = indexed(&fixture, "automation:n8n").await;
+
+    let manifest = load_server_manifest(&server, &fixture.context)
+        .await
+        .expect("the shell");
+
+    assert!(manifest.tools.is_empty(), "the tools live in the parts");
+    assert!(manifest.upstream.is_some(), "the shell carries the upstream");
+    assert!(manifest.auth.is_some_and(|auth| !auth.is_empty()));
+    assert_eq!(
+        *fixture.fetched.borrow(),
+        [link("index.json"), link("automation/n8n.json")]
+    );
 }
 
 #[tokio::test]

@@ -2,6 +2,7 @@ mod consts;
 mod read_templatable_urls;
 mod validate_domain_spec;
 mod validate_editions;
+mod validate_http_upstream;
 mod validate_naming_rule;
 mod validate_server_fields;
 mod validate_setup_step;

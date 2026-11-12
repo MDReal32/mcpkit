@@ -1,5 +1,6 @@
 import type { DomainSpec, Manifest } from "@usemcpkit/core";
 import { defineUI } from "@usemcpkit/core";
+import { N8N_MCP_UPSTREAM } from "./mcp";
 
 export const N8N_API_KEY_ENV = "N8N_API_KEY";
 
@@ -28,7 +29,7 @@ export const N8N_API_KEY_UI = defineUI({
   ],
 });
 
-/** The host of an n8n instance, shared by the REST API server and the instance-level MCP server. */
+/** The host of an n8n instance, shared by the REST API tools and the instance-level MCP server. */
 export const N8N_DOMAIN: DomainSpec = {
   label: "n8n host (n8n Cloud: <name>.app.n8n.cloud; self-hosted: <host>[:<port>][/<path>])",
   placeholder: "acme.app.n8n.cloud",
@@ -39,6 +40,7 @@ export const N8N_DOMAIN: DomainSpec = {
 
 export const N8N_CATEGORY = "automation";
 
+/** The REST API tools are signed with the API key; the MCP server beside them has its own sign-in. */
 export const N8N_BASE: Omit<Manifest, "name" | "description" | "tools"> = {
   category: N8N_CATEGORY,
   version: "1.0.0",
@@ -46,4 +48,5 @@ export const N8N_BASE: Omit<Manifest, "name" | "description" | "tools"> = {
   domain: N8N_DOMAIN,
   headers: { Accept: "application/json" },
   auth: [{ type: "header", name: "X-N8N-API-KEY", env: N8N_API_KEY_ENV, label: "API key", ui: N8N_API_KEY_UI }],
+  upstream: N8N_MCP_UPSTREAM,
 };
