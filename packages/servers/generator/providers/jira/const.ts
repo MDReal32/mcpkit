@@ -34,7 +34,9 @@ export const EDITION_PAIRS: EditionPair[] = [
 
 /**
  * Cloud downloads an attachment from `/rest/api/2/attachment/content/{id}`; Data Center has no such endpoint and
- * serves the file from `/secure/attachment/{id}/{filename}`, the `content` URL of the attachment's own metadata.
+ * serves the file from `/secure/attachment/{id}/{filename}`, the `content` URL of the attachment's own metadata. The
+ * same goes for the thumbnail, which Data Center keeps at `/secure/thumbnail/{id}/_thumb_{id}.png`, the `thumbnail` URL
+ * of the metadata.
  */
 export const DATA_CENTER_REQUEST_OVERRIDES: DataCenterRequestOverride[] = [
   {
@@ -53,6 +55,17 @@ export const DATA_CENTER_REQUEST_OVERRIDES: DataCenterRequestOverride[] = [
     },
     required: [],
     cloudOnlyArguments: ["redirect"],
+  },
+  {
+    tool: "issues:issue_attachments:get_attachment_thumbnail",
+    request: {
+      method: "GET",
+      path: "/secure/thumbnail/{id}/_thumb_{id}.png",
+      saveToArg: "save_to",
+    },
+    properties: {},
+    required: [],
+    cloudOnlyArguments: ["redirect", "fallbackToDefault", "width", "height"],
   },
 ];
 

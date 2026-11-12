@@ -14,20 +14,21 @@ export const issuesIssueAttachmentsGetAttachmentThumbnail = defineTool({
         type: "boolean",
         default: true,
         description:
-          "Whether a redirect is provided for the attachment download. Clients that do not automatically follow redirects can set this to `false` to avoid making multiple requests to download the attachment.",
+          "Whether a redirect is provided for the attachment download. Clients that do not automatically follow redirects can set this to `false` to avoid making multiple requests to download the attachment. (Jira Cloud only)",
       },
       fallbackToDefault: {
         type: "boolean",
         default: true,
-        description: "Whether a default thumbnail is returned when the requested thumbnail is not found.",
+        description:
+          "Whether a default thumbnail is returned when the requested thumbnail is not found. (Jira Cloud only)",
       },
       width: {
         type: "integer",
-        description: "The maximum width to scale the thumbnail to.",
+        description: "The maximum width to scale the thumbnail to. (Jira Cloud only)",
       },
       height: {
         type: "integer",
-        description: "The maximum height to scale the thumbnail to.",
+        description: "The maximum height to scale the thumbnail to. (Jira Cloud only)",
       },
       save_to: {
         type: "string",
@@ -38,8 +39,17 @@ export const issuesIssueAttachmentsGetAttachmentThumbnail = defineTool({
   },
   request: {
     method: "GET",
-    path: "/rest/api/2/attachment/thumbnail/{id}",
-    query: ["redirect", "fallbackToDefault", "width", "height"],
+    path: "/secure/thumbnail/{id}/_thumb_{id}.png",
     saveToArg: "save_to",
+  },
+  editions: {
+    cloud: {
+      request: {
+        method: "GET",
+        path: "/rest/api/2/attachment/thumbnail/{id}",
+        query: ["redirect", "fallbackToDefault", "width", "height"],
+        saveToArg: "save_to",
+      },
+    },
   },
 });
