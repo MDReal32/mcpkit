@@ -3,6 +3,8 @@
 
 pub mod auth;
 pub mod domain;
+pub mod naming;
+pub mod openapi;
 pub mod registry;
 pub mod tool;
 pub mod ui;

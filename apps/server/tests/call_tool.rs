@@ -73,6 +73,7 @@ fn tracker_server(registry: &TempDir, http: Rc<TrackerApi>) -> McpServer<FolderF
         sha256: format!("{:x}", Sha256::digest(text.as_bytes())),
         description: Some("Issues".into()),
         upstream: false,
+        openapi: false,
     }];
     let context = RegistryContext::new(
         registry.path().join("manifests"),

@@ -1,4 +1,5 @@
 use crate::auth::AuthSpec;
+use crate::openapi::OpenApiSpec;
 use crate::tool::ToolSpec;
 use crate::ui::UiSpec;
 use crate::upstream::UpstreamSpec;
@@ -34,6 +35,10 @@ pub struct Manifest {
     /// `tools`, which may be empty. An HTTP upstream may have its own `auth`.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub upstream: Option<UpstreamSpec>,
+    /// Tools built on the user's machine from the OpenAPI document of the server's version; the hand-written `tools`
+    /// replace built ones of the same name where their `applies` says.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub openapi: Option<OpenApiSpec>,
     /// Empty in a shell, whose tools live in its parts.
     #[serde(default)]
     pub tools: Vec<ToolSpec>,

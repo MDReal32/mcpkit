@@ -1,4 +1,4 @@
-use crate::tool::{RequestSpec, ResponseSpec, ToolEdition};
+use crate::tool::{RequestSpec, ResponseSpec, ToolApplies, ToolEdition};
 use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
 use serde_json::{Map, Value};
@@ -15,4 +15,7 @@ pub struct ToolSpec {
     /// Per-edition overrides, keyed by the manifest's `editions`.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub editions: Option<IndexMap<String, ToolEdition>>,
+    /// In an OpenAPI manifest, the sources and versions this hand-written tool applies to.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub applies: Option<ToolApplies>,
 }

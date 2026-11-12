@@ -1,4 +1,4 @@
-use crate::upstream::consts::MIN_CATALOG_NAME_SEGMENTS;
+use crate::naming::consts::MIN_CATALOG_NAME_SEGMENTS;
 
 /// `<group>:<resource>:<action>` or longer, every segment lowercase snake case starting with a letter.
 pub fn is_catalog_tool_name(name: &str) -> bool {

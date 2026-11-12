@@ -34,6 +34,11 @@ pub fn parse_registry_server(entry: &Value, position: usize) -> Result<RegistryS
         Some(Value::Bool(upstream)) => *upstream,
         Some(_) => return Err(format!("{label} ({id}).upstream must be a boolean")),
     };
+    let openapi = match fields.get("openapi") {
+        None => false,
+        Some(Value::Bool(openapi)) => *openapi,
+        Some(_) => return Err(format!("{label} ({id}).openapi must be a boolean")),
+    };
     Ok(RegistryServer {
         id: id.to_owned(),
         version: version.to_owned(),
@@ -41,5 +46,6 @@ pub fn parse_registry_server(entry: &Value, position: usize) -> Result<RegistryS
         sha256: sha256.to_owned(),
         description,
         upstream,
+        openapi,
     })
 }
