@@ -1,4 +1,5 @@
 import { DEFAULT_SCHEMA_OPTIONS } from "../../utils/schema/const";
+import type { DataCenterRequestOverride } from "./types/data-center-request-override";
 import type { EditionPair } from "./types/edition-pair";
 import type { OperationNameOverride } from "./types/operation-name-override";
 import type { SpecSource } from "./types/spec-source";
@@ -29,6 +30,43 @@ export const SPEC_SOURCES: SpecSource[] = [
 export const EDITION_PAIRS: EditionPair[] = [
   { cloud: "searchAndReconsileIssuesUsingJql", dataCenter: "searchForIssuesUsingJql" },
   { cloud: "searchAndReconsileIssuesUsingJqlPost", dataCenter: "searchForIssuesUsingJqlPost" },
+];
+
+/**
+ * Cloud downloads an attachment from `/rest/api/2/attachment/content/{id}`; Data Center has no such endpoint and
+ * serves the file from `/secure/attachment/{id}/{filename}`, the `content` URL of the attachment's own metadata. The
+ * same goes for the thumbnail, which Data Center keeps at `/secure/thumbnail/{id}/_thumb_{id}.png`, the `thumbnail` URL
+ * of the metadata.
+ */
+export const DATA_CENTER_REQUEST_OVERRIDES: DataCenterRequestOverride[] = [
+  {
+    tool: "issues:issue_attachments:get_attachment_content",
+    request: {
+      method: "GET",
+      path: "/secure/attachment/{id}/{filename}",
+      saveToArg: "save_to",
+    },
+    properties: {
+      filename: {
+        type: "string",
+        description:
+          "The file name of the attachment, as its metadata gives it; the Data Center download cannot do without it.",
+      },
+    },
+    required: [],
+    cloudOnlyArguments: ["redirect"],
+  },
+  {
+    tool: "issues:issue_attachments:get_attachment_thumbnail",
+    request: {
+      method: "GET",
+      path: "/secure/thumbnail/{id}/_thumb_{id}.png",
+      saveToArg: "save_to",
+    },
+    properties: {},
+    required: [],
+    cloudOnlyArguments: ["redirect", "fallbackToDefault", "width", "height"],
+  },
 ];
 
 export const SCHEMA_OPTIONS = DEFAULT_SCHEMA_OPTIONS;

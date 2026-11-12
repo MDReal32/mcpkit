@@ -23,6 +23,7 @@
       <project name="usemcpkit-testing" file="file://$PROJECT_DIR$/crates/testing/project.json" />
       <project name="usemcpkit-upstream" file="file://$PROJECT_DIR$/crates/upstream/project.json" />
       <project name="usemcpkit-validation" file="file://$PROJECT_DIR$/crates/validation/project.json" />
+      <project name="usemcpkit-window" file="file://$PROJECT_DIR$/apps/window/project.json" />
       <project name="usemcpkit-wire-log" file="file://$PROJECT_DIR$/crates/wire-log/project.json" />
     </projects>
   </component>
