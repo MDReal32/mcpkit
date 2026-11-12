@@ -15,19 +15,33 @@ export const issuesIssueAttachmentsGetAttachmentContent = defineTool({
         type: "boolean",
         default: true,
         description:
-          "Whether a redirect is provided for the attachment download. Clients that do not automatically follow redirects can set this to `false` to avoid making multiple requests to download the attachment.",
+          "Whether a redirect is provided for the attachment download. Clients that do not automatically follow redirects can set this to `false` to avoid making multiple requests to download the attachment. (Jira Cloud only)",
       },
       save_to: {
         type: "string",
         description: "Local path the downloaded file is saved to.",
+      },
+      filename: {
+        type: "string",
+        description:
+          "The file name of the attachment, as its metadata gives it; the Data Center download cannot do without it. (Data Center only)",
       },
     },
     required: ["id", "save_to"],
   },
   request: {
     method: "GET",
-    path: "/rest/api/2/attachment/content/{id}",
-    query: ["redirect"],
+    path: "/secure/attachment/{id}/{filename}",
     saveToArg: "save_to",
+  },
+  editions: {
+    cloud: {
+      request: {
+        method: "GET",
+        path: "/rest/api/2/attachment/content/{id}",
+        query: ["redirect"],
+        saveToArg: "save_to",
+      },
+    },
   },
 });
