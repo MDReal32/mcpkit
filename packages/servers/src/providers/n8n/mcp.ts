@@ -1,4 +1,4 @@
-import type { UpstreamNameRule } from "@usemcpkit/core";
+import type { AuthSpec, HttpUpstream, UpstreamNameRule } from "@usemcpkit/core";
 import { defineUI } from "@usemcpkit/core";
 
 /** The instance-level MCP server of n8n (Settings → Instance-level MCP); its OAuth sign-in exists from n8n 1.120.0. */
@@ -87,3 +87,20 @@ export const N8N_MCP_NAMING: readonly UpstreamNameRule[] = [
   { match: "^get_user_preferences$", name: "preferences:preferences:get" },
   { match: "^(save|update|undo)_user_preference$", name: "preferences:preferences:$1" },
 ];
+
+/**
+ * The sign-in of the MCP server, tried instead of the API key the REST tools use: n8n's REST API takes no OAuth token
+ * and its MCP server takes no API key.
+ */
+export const N8N_MCP_AUTH: AuthSpec[] = [
+  { type: "oauth", discovery: N8N_MCP_URL },
+  { type: "bearer", env: N8N_MCP_TOKEN_ENV, label: "MCP access token", ui: N8N_MCP_TOKEN_UI },
+];
+
+/** The MCP server beside the REST tools of the one `n8n` server: its tools are discovered when it is first opened. */
+export const N8N_MCP_UPSTREAM: HttpUpstream = {
+  type: "http",
+  url: N8N_MCP_URL,
+  naming: N8N_MCP_NAMING,
+  auth: N8N_MCP_AUTH,
+};

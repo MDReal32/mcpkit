@@ -1844,8 +1844,7 @@
         }
       },
       "errors": [
-        "upstream.command must be a program name on PATH, not a path",
-        "tools must be empty when the manifest has an upstream"
+        "upstream.command must be a program name on PATH, not a path"
       ]
     },
     {
@@ -4358,9 +4357,7 @@
           "url": "https://a/mcp"
         }
       },
-      "errors": [
-        "tools must be empty when the manifest has an upstream"
-      ]
+      "errors": []
     },
     {
       "manifest": {
@@ -4373,9 +4370,7 @@
           "url": "https://a/mcp"
         }
       },
-      "errors": [
-        "tools must be empty when the manifest has an upstream"
-      ]
+      "errors": []
     },
     {
       "manifest": {

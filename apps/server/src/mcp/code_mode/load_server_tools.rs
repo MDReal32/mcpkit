@@ -1,31 +1,34 @@
 use crate::catalog::RegistryCatalog;
-use crate::mcp::code_mode::consts::PARALLEL_GROUP_LOADS;
-use crate::mcp::code_mode::load_group_tools::load_group_tools;
+use crate::mcp::code_mode::filter_by_group::filter_by_group;
+use crate::mcp::code_mode::listed::Listed;
+use crate::mcp::code_mode::load_own_tools::load_own_tools;
+use crate::mcp::code_mode::load_upstream_tools::load_upstream_tools;
+use crate::mcp::code_mode::merge_upstream_tools::merge_upstream_tools;
 use crate::mcp::code_mode::tool_descriptor::ToolDescriptor;
-use futures_util::{StreamExt, TryStreamExt, stream};
+use crate::mcp::code_mode::upstream_listing::UpstreamListing;
 use usemcpkit_manifest::registry::RegistryServer;
 use usemcpkit_registry::Fetch;
 
-/// The tools of one group, or of the whole server: a server split into groups downloads every group.
+/// The tools of one group, or of the whole server: its manifest's own tools and, for a server with an upstream, the
+/// upstream's. When a manifest has tools of its own, a failing upstream does not take them away: they are listed
+/// with the failure as a warning; for a manifest that only fronts an upstream the failure is the error.
 pub async fn load_server_tools<F: Fetch>(
     catalog: &RegistryCatalog<F>,
     server: &RegistryServer,
     group: Option<&str>,
-) -> Result<Vec<ToolDescriptor>, String> {
-    if group.is_some() || server.upstream {
-        return load_group_tools(catalog, server, group).await;
+    listing: UpstreamListing,
+) -> Result<Listed<ToolDescriptor>, String> {
+    let own = load_own_tools(catalog, server, group).await?;
+    if !server.upstream {
+        return Ok(Listed::new(own));
     }
-    let groups = catalog.load_groups(&server.id).await?;
-    if groups.is_empty() {
-        return load_group_tools(catalog, server, None).await;
+    let has_own = !own.is_empty() || catalog.has_own_tools(&server.id).await?;
+    if has_own && listing == UpstreamListing::CachedOnly && !catalog.has_cached_upstream_tools(&server.id).await? {
+        return Ok(Listed::new(own));
     }
-    let loaded: Vec<Vec<ToolDescriptor>> = stream::iter(
-        groups
-            .iter()
-            .map(|group| load_group_tools(catalog, server, Some(group))),
-    )
-    .buffered(PARALLEL_GROUP_LOADS)
-    .try_collect()
-    .await?;
-    Ok(loaded.into_iter().flatten().collect())
+    match load_upstream_tools(catalog, server).await {
+        Ok(upstream) => Ok(merge_upstream_tools(&server.id, own, filter_by_group(upstream, group))),
+        Err(error) if has_own => Ok(Listed::with_warning(own, error)),
+        Err(error) => Err(error),
+    }
 }

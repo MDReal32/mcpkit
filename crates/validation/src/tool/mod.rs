@@ -15,7 +15,5 @@ mod validate_tool;
 mod validate_tool_editions;
 mod validate_tool_fields;
 mod validate_tools;
-mod validate_upstream_tools;
 
 pub use validate_tools::validate_tools;
-pub use validate_upstream_tools::validate_upstream_tools;

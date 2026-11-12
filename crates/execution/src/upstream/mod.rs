@@ -10,6 +10,7 @@ mod request_forwarded_credentials;
 mod upstream_access;
 mod with_http_upstream_access;
 mod with_upstream_access;
+mod with_upstream_auth;
 
 pub use name_upstream_tool::name_upstream_tool;
 pub use upstream_access::UpstreamAccess;

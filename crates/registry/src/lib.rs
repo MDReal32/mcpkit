@@ -13,7 +13,7 @@ mod remote;
 mod sync;
 mod warn_on_stderr;
 
-pub use catalog::{load_group_manifest, load_groups, load_manifest};
+pub use catalog::{load_group_manifest, load_groups, load_manifest, load_server_manifest};
 pub use consts::{DEFAULT_REGISTRY_URL, REGISTRY_ENV, REGISTRY_VERSION_DIR, TOOL_NAME_SEPARATOR};
 pub use local::{read_cached_index, resolve_user_dir};
 pub use registry_context::RegistryContext;

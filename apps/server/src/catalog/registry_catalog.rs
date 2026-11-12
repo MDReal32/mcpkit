@@ -6,7 +6,10 @@ use tokio::sync::OnceCell;
 use usemcpkit_execution::CallContext;
 use usemcpkit_manifest::Manifest;
 use usemcpkit_manifest::registry::RegistryServer;
-use usemcpkit_registry::{Fetch, RegistryContext, load_group_manifest, load_groups, load_manifest};
+use usemcpkit_manifest::tool::ToolSpec;
+use usemcpkit_registry::{
+    Fetch, RegistryContext, TOOL_NAME_SEPARATOR, load_group_manifest, load_groups, load_manifest,
+};
 
 /// What the server knows without downloading anything, plus a way to get one server's manifest, and the upstream
 /// servers it started.
@@ -78,18 +81,49 @@ impl<F: Fetch> RegistryCatalog<F> {
         Ok(Some(Rc::clone(upstream)))
     }
 
-    /// Whether the tools of a server can be listed without starting anything: always for a registry server, and for an
-    /// upstream once it was started in this run or its tools were cached by an earlier one.
+    /// Whether some of a server's tools can be listed without starting anything: always for a registry server, and for
+    /// an upstream once it was started in this run or its tools were cached by an earlier one, or when the manifest
+    /// has tools of its own.
     pub async fn lists_tools_without_starting(&self, id: &str) -> Result<bool, String> {
         let server = self.find_server(id)?;
         if !server.upstream {
             return Ok(true);
         }
+        if self.has_cached_upstream_tools(id).await? {
+            return Ok(true);
+        }
+        self.has_own_tools(id).await
+    }
+
+    /// Whether the tools of an upstream were discovered already, in this run or an earlier one, so that listing them
+    /// starts nothing.
+    pub async fn has_cached_upstream_tools(&self, id: &str) -> Result<bool, String> {
         let started = self.upstreams.borrow().get(id).is_some_and(|cell| cell.initialized());
         if started {
             return Ok(true);
         }
         Ok(read_tool_cache(&self.context.dir, id).await?.is_some())
+    }
+
+    /// Whether the manifest has tools of its own, besides the ones of its upstream.
+    pub async fn has_own_tools(&self, id: &str) -> Result<bool, String> {
+        if !self.load_groups(id).await?.is_empty() {
+            return Ok(true);
+        }
+        Ok(!self.load_group_manifest(id, None).await?.tools.is_empty())
+    }
+
+    /// The manifest's own tool called `tool`, with the manifest holding it; `None` when the manifest has no such tool,
+    /// which for an upstream server leaves the tool to the upstream.
+    pub async fn load_own_tool(&self, id: &str, tool: &str) -> Result<Option<(Manifest, ToolSpec)>, String> {
+        let group = tool.split(TOOL_NAME_SEPARATOR).next().unwrap_or_default();
+        let groups = self.load_groups(id).await?;
+        if !groups.is_empty() && !groups.iter().any(|candidate| candidate == group) {
+            return Ok(None);
+        }
+        let manifest = self.load_manifest(id, tool).await?;
+        let found = manifest.tools.iter().find(|candidate| candidate.name == tool).cloned();
+        Ok(found.map(|spec| (manifest, spec)))
     }
 
     /// Stops what serving started, such as upstream server processes.
