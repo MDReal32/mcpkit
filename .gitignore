@@ -260,3 +260,6 @@ build/
 
 # macOS
 .DS_Store
+
+# Local copy of the promo video for the site preview; the deploy copies it into build/video
+apps/site/public/video/

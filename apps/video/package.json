@@ -9,7 +9,7 @@
     "voiceover": "node --env-file-if-exists=.env scripts/voiceover/generate-voiceover.ts",
     "studio": "yarn audio && remotion studio",
     "render": "yarn audio && remotion render Promo build/usemcpkit.video.mp4",
-    "pages": "yarn audio && rm -rf build/pages && remotion render Promo build/pages/usemcpkit.mp4 && remotion still Promo build/pages/poster.jpg --frame=1900 --image-format=jpeg --jpeg-quality=90 && cp site/index.html build/pages/index.html",
+    "site": "yarn audio && rm -rf build/site && remotion render Promo build/site/usemcpkit.mp4 && remotion still Promo build/site/poster.jpg --frame=1900 --image-format=jpeg --jpeg-quality=90",
     "typecheck": "tsc --noEmit",
     "lint": "biome check ."
   },

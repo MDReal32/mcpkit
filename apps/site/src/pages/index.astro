@@ -1,0 +1,23 @@
+---
+import Hero from "../components/hero.astro";
+import HowItWorks from "../components/how-it-works.astro";
+import ServerCatalog from "../components/server-catalog.astro";
+import SiteFooter from "../components/site-footer.astro";
+import SiteHeader from "../components/site-header.astro";
+import SupportedClients from "../components/supported-clients.astro";
+import PageLayout from "../layouts/page-layout.astro";
+---
+
+<PageLayout
+  title="usemcpkit · Connect your AI to every tool"
+  description="One install gives Claude, Cursor, Codex and more access to GitHub, Jira, Figma, Cloudflare and thousands of other tools. Open source. Run npx usemcpkit."
+>
+  <SiteHeader />
+  <main>
+    <Hero />
+    <ServerCatalog />
+    <HowItWorks />
+    <SupportedClients />
+  </main>
+  <SiteFooter />
+</PageLayout>
