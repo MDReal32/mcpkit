@@ -6,6 +6,7 @@ mod find_duplicates;
 mod guards;
 mod is_strictly_equal;
 mod is_valid_manifest;
+mod openapi;
 mod server;
 mod tool;
 mod ui;

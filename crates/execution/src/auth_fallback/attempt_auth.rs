@@ -45,6 +45,7 @@ pub async fn attempt_auth(
             .join(": ");
         return Ok(AuthAttempt::Rejected(reason));
     }
+    let chosen_domain = resolution.save.as_ref().and_then(|answer| answer.domain.clone());
     if let Some(answer) = &resolution.save {
         save_form_answer(&resolution.manifest, answer, &context.auth)
             .await
@@ -53,5 +54,6 @@ pub async fn attempt_auth(
     Ok(AuthAttempt::Accepted(Box::new(AcceptedAuthAttempt {
         response,
         tool: sent_tool,
+        domain: chosen_domain,
     })))
 }

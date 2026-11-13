@@ -14,4 +14,9 @@ export interface DomainSpec {
   suggestedHosts?: readonly string[];
   /** Reaches a `localhost` or `127.0.0.1` domain over `http://`, for servers that usually run locally without TLS. */
   loopbackHttp?: boolean;
+  /**
+   * Puts a Check button after the host field of the credentials form, which asks the server its version when the
+   * OpenAPI source matching the host has a version probe.
+   */
+  check?: boolean;
 }

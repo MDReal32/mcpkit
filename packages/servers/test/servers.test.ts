@@ -7,77 +7,92 @@ import { figma } from "../src/servers/figma/figma";
 import { github } from "../src/servers/github/github";
 import { gitlab } from "../src/servers/gitlab/gitlab";
 import { jira } from "../src/servers/jira/jira";
+import { medium } from "../src/servers/medium/medium";
 import { n8n } from "../src/servers/n8n/n8n";
 import { reddit } from "../src/servers/reddit/reddit";
 
-describe("bundled servers", () => {
-  it.each([github, gitlab, jira, confluence, clickup, discord, figma, n8n, reddit])(
-    "$name compiles to a valid manifest",
+const OPENAPI_SERVERS = [github, gitlab, jira, confluence, clickup, discord, figma, n8n, reddit, medium];
+
+describe("bundled OpenAPI servers", () => {
+  it.each(OPENAPI_SERVERS)("$name compiles to a valid manifest", (server) => {
+    expect(validateManifest(JSON.parse(JSON.stringify(server)))).toEqual([]);
+  });
+
+  it.each(OPENAPI_SERVERS)(
+    "$name pins every document without versions that it does not take from its vendor's site",
     (server) => {
-      expect(validateManifest(JSON.parse(JSON.stringify(server)))).toEqual([]);
+      const unpinned = (server.openapi?.sources ?? []).filter(
+        (source) =>
+          source.version === undefined && source.sha256 === undefined && source.url.includes("githubusercontent"),
+      );
+
+      expect(unpinned).toEqual([]);
     },
   );
-});
 
-describe("discord", () => {
-  it("leaves out endpoints that only take a user's OAuth2 token", () => {
-    const actions = discord.tools.map((tool) => tool.name.split(":").at(-1));
-
-    expect(actions).toContain("list_my_guilds");
-    expect(actions).not.toContain("get_my_guild_member");
-    expect(actions).not.toContain("get_application_user_role_connection");
+  it.each(OPENAPI_SERVERS)("$name names its hand-written tools after the endpoint they replace", (server) => {
+    for (const tool of server.tools) {
+      expect(tool.name, tool.name).toMatch(/^[^/\s][^\s]*:(get|post|put|patch|delete)$/);
+    }
   });
 });
 
-describe("figma", () => {
-  it("leaves out operations a personal access token cannot call", () => {
-    const names = figma.tools.map((tool) => tool.name);
+describe("deployments", () => {
+  it("builds github.com and gitlab.com from pinned documents and the self-hosted ones from their own version's", () => {
+    for (const server of [github, gitlab]) {
+      const [hosted, selfHosted] = server.openapi?.sources ?? [];
+      expect(hosted?.hosts).toBeDefined();
+      expect(hosted?.sha256).toMatch(/^[0-9a-f]{64}$/);
+      expect(selfHosted?.hosts).toBeUndefined();
+      expect(selfHosted?.url).toContain("{version}");
+      expect(server.domain?.check).toBe(true);
+    }
+  });
 
-    expect(names).toContain("users:users:get_me");
-    expect(names).not.toContain("projects:folders:post_team_folder");
+  it("merges the two Cloud documents of Jira and Confluence and offers each sign-in where it works", () => {
+    for (const server of [jira, confluence]) {
+      const sources = server.openapi?.sources ?? [];
+      expect(sources.filter((source) => source.hosts?.includes(".atlassian.net")).length).toBe(2);
+      expect(sources.at(-1)).toMatchObject({ name: "datacenter", version: { known: expect.any(Object) } });
+      expect(server.auth?.map((auth) => ("applies" in auth ? auth.applies?.sources : undefined))).toEqual([
+        sources.slice(0, 2).map((source) => source.name),
+        ["datacenter"],
+      ]);
+    }
+  });
+});
+
+describe("jira", () => {
+  it("downloads attachments and thumbnails on Data Center from the servlets its metadata points at", () => {
+    const fixes = jira.tools.filter((tool) => tool.applies?.if === undefined);
+    expect(fixes.map((tool) => [tool.name, tool.request.path, tool.applies])).toEqual([
+      ["rest/api/2/attachment/content/{id}:get", "/secure/attachment/{id}/{filename}", { sources: ["datacenter"] }],
+      [
+        "rest/api/2/attachment/thumbnail/{id}:get",
+        "/secure/thumbnail/{id}/_thumb_{id}.png",
+        { sources: ["datacenter"] },
+      ],
+    ]);
+  });
+
+  it("covers Data Center 9.x, which has no published description, with core tools of their own names", () => {
+    const legacy = jira.tools.filter((tool) => tool.applies?.if !== undefined);
+    expect(legacy.length).toBe(25);
+    expect(new Set(legacy.map((tool) => tool.name)).size).toBe(legacy.length);
+    for (const tool of legacy) {
+      expect(tool.applies).toEqual({ sources: ["datacenter"], if: "9.0 <= {version} < 10" });
+      expect(tool.request.path.replace(/^\//, "")).toBe(tool.name.slice(0, tool.name.lastIndexOf(":")));
+      expect(tool.request.method.toLowerCase()).toBe(tool.name.slice(tool.name.lastIndexOf(":") + 1));
+    }
   });
 });
 
 describe("n8n", () => {
-  it("leaves out deprecated operations and uploads n8n packages as files", () => {
-    const names = n8n.tools.map((tool) => tool.name);
-    const importPackage = n8n.tools.find((tool) => tool.name === "instance:packages:import_package");
-
-    expect(names).toContain("workflows:workflows:get_workflows");
-    expect(names).not.toContain("workflows:workflows:activate_workflow");
-    expect(importPackage?.request.fileArgs).toEqual(["package"]);
-  });
-
   it("signs the REST tools with the API key and its MCP server, on the same host, with its own OAuth or an MCP access token", () => {
     const upstream = n8n.upstream?.type === "http" ? n8n.upstream : undefined;
 
     expect(n8n.auth?.map((auth) => auth.type)).toEqual(["header"]);
     expect(upstream).toMatchObject({ type: "http", url: "https://{domain}/mcp-server/http" });
     expect(upstream?.auth?.map((auth) => auth.type)).toEqual(["oauth", "bearer"]);
-  });
-});
-
-describe("reddit", () => {
-  it("trims listings to the post fields the spec declares", () => {
-    const tool = reddit.tools.find((candidate) => candidate.name === "users:posts:list_user_posts");
-
-    expect(tool?.response?.root).toBe("data.children");
-    expect(tool?.response?.fields).toMatchObject({ title: "data.title", name: "data.name" });
-  });
-});
-
-describe("confluence", () => {
-  it("declares the Cloud edition and prefixes every tool path by its API", () => {
-    const roots: Record<string, string> = {
-      cloud: "/wiki/api/v2/",
-      cloud_v1: "/wiki/rest/api/",
-      datacenter: "/rest/api/",
-    };
-
-    expect(confluence.editions).toEqual({ cloud: { label: "Cloud", hosts: [".atlassian.net"] } });
-    for (const tool of confluence.tools) {
-      const [group = ""] = tool.name.split(":");
-      expect(tool.request.path.startsWith(roots[group] ?? "unknown group"), tool.name).toBe(true);
-    }
   });
 });

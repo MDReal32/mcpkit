@@ -25,6 +25,7 @@ usemcpkit-credentials-form.workspace = true
 usemcpkit-execution.workspace = true
 usemcpkit-http.workspace = true
 usemcpkit-manifest.workspace = true
+usemcpkit-openapi.workspace = true
 usemcpkit-registry.workspace = true
 usemcpkit-upstream.workspace = true
 usemcpkit-wire-log.workspace = true

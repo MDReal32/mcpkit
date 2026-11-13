@@ -6,6 +6,7 @@ mod consts;
 mod create_credentials_form;
 mod credentials_form_options;
 mod form_url_announcer;
+mod host_check;
 mod inject_credential_request;
 mod server;
 mod submit_answer;

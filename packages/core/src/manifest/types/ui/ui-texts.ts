@@ -1,6 +1,6 @@
 /**
- * Every string the credentials page shows. `{server}` is filled in by usemcpkit; `{key}`, `{name}`, `{label}` and
- * `{status}` are filled in where the text is used.
+ * Every string the credentials page shows. `{server}` is filled in by usemcpkit; `{key}`, `{name}`, `{label}`,
+ * `{status}`, `{source}` and `{version}` are filled in where the text is used.
  */
 export interface UiTexts {
   brand: string;
@@ -12,6 +12,9 @@ export interface UiTexts {
   domainPlaceholder: string;
   domainNewHost: string;
   domainShowHosts: string;
+  domainCheck: string;
+  domainChecking: string;
+  domainChecked: string;
   signInLabel: string;
   tokenDivider: string;
   credentialLegend: string;

@@ -33,6 +33,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "annotate-snippets"
+version = "0.12.18"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0258346f92c78dbc5b336b9a5b27c64447aa10643bc64e651db2edb145361564"
+dependencies = [
+ "anstyle",
+ "memchr",
+ "unicode-width",
+]
+
+[[package]]
 name = "anstream"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -87,6 +98,12 @@ name = "anyhow"
 version = "1.0.104"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "330a5ed07fa54e4702c9d6c4174f74427fc0ef6e214bbd677ae50a5099946470"
+
+[[package]]
+name = "arraydeque"
+version = "0.5.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7d902e3d592a523def97af8f317b08ce16b7ab854c1985a0c671e6f15cebc236"
 
 [[package]]
 name = "async-compression"
@@ -935,6 +952,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "encoding_rs_io"
+version = "0.1.8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fba3fe847045ecff794b9c138293a80db914678c453ad63fbf0c6a9eb6e00b22"
+dependencies = [
+ "encoding_rs",
+]
+
+[[package]]
 name = "equivalent"
 version = "1.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1405,6 +1431,16 @@ dependencies = [
  "glib-sys",
  "libc",
  "system-deps",
+]
+
+[[package]]
+name = "granit-parser"
+version = "2.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "05f05586d4d4df3d47123207826c40b252728b438a1a07bad3c01ee6bea401df"
+dependencies = [
+ "arraydeque",
+ "smallvec",
 ]
 
 [[package]]
@@ -3411,6 +3447,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "serde-saphyr"
+version = "2.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d43fb82d550b07e6f929a58d7d0935182602f48ddead875f5ee313c41c8f07fe"
+dependencies = [
+ "annotate-snippets",
+ "base64 0.23.1",
+ "encoding_rs_io",
+ "granit-parser",
+ "nohash-hasher",
+ "num-traits",
+ "serde_core",
+ "smallvec",
+ "zmij",
+]
+
+[[package]]
 name = "serde-untagged"
 version = "0.1.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4544,7 +4597,7 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-auth"
-version = "0.13.5"
+version = "0.14.0"
 dependencies = [
  "base64 0.23.1",
  "bytes",
@@ -4568,7 +4621,7 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-binary"
-version = "0.13.5"
+version = "0.14.0"
 dependencies = [
  "base64 0.23.1",
  "flate2",
@@ -4587,7 +4640,7 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-clients"
-version = "0.13.5"
+version = "0.14.0"
 dependencies = [
  "regex",
  "serde_json",
@@ -4597,7 +4650,7 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-core"
-version = "0.13.5"
+version = "0.14.0"
 dependencies = [
  "percent-encoding",
  "serde_json",
@@ -4606,28 +4659,31 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-credentials-form"
-version = "0.13.5"
+version = "0.14.0"
 dependencies = [
  "bytes",
  "http-body-util",
  "hyper",
  "hyper-util",
  "indexmap 2.14.2",
+ "reqwest",
+ "serde",
  "serde_json",
  "tempfile",
  "tokio",
+ "url",
  "usemcpkit-auth",
  "usemcpkit-core",
  "usemcpkit-manifest",
+ "usemcpkit-openapi",
 ]
 
 [[package]]
 name = "usemcpkit-execution"
-version = "0.13.5"
+version = "0.14.0"
 dependencies = [
  "futures-util",
  "indexmap 2.14.2",
- "regex",
  "serde",
  "serde_json",
  "tempfile",
@@ -4637,13 +4693,14 @@ dependencies = [
  "usemcpkit-core",
  "usemcpkit-http",
  "usemcpkit-manifest",
+ "usemcpkit-openapi",
  "usemcpkit-testing",
  "usemcpkit-upstream",
 ]
 
 [[package]]
 name = "usemcpkit-http"
-version = "0.13.5"
+version = "0.14.0"
 dependencies = [
  "indexmap 2.14.2",
  "reqwest",
@@ -4654,16 +4711,17 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-manifest"
-version = "0.13.5"
+version = "0.14.0"
 dependencies = [
  "indexmap 2.14.2",
+ "regex",
  "serde",
  "serde_json",
 ]
 
 [[package]]
 name = "usemcpkit-napi"
-version = "0.13.5"
+version = "0.14.0"
 dependencies = [
  "napi",
  "napi-build",
@@ -4673,8 +4731,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "usemcpkit-openapi"
+version = "0.14.0"
+dependencies = [
+ "indexmap 2.14.2",
+ "regex",
+ "serde-saphyr",
+ "serde_json",
+ "usemcpkit-manifest",
+]
+
+[[package]]
 name = "usemcpkit-registry"
-version = "0.13.5"
+version = "0.14.0"
 dependencies = [
  "indexmap 2.14.2",
  "reqwest",
@@ -4689,7 +4758,7 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-runner"
-version = "0.13.5"
+version = "0.14.0"
 dependencies = [
  "clap",
  "cliclack",
@@ -4706,7 +4775,7 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-servers"
-version = "0.13.5"
+version = "0.14.0"
 dependencies = [
  "clap",
  "futures-util",
@@ -4726,6 +4795,7 @@ dependencies = [
  "usemcpkit-execution",
  "usemcpkit-http",
  "usemcpkit-manifest",
+ "usemcpkit-openapi",
  "usemcpkit-registry",
  "usemcpkit-runner",
  "usemcpkit-testing",
@@ -4735,7 +4805,7 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-testing"
-version = "0.13.5"
+version = "0.14.0"
 dependencies = [
  "indexmap 2.14.2",
  "serde",
@@ -4748,7 +4818,7 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-upstream"
-version = "0.13.5"
+version = "0.14.0"
 dependencies = [
  "indexmap 2.14.2",
  "serde",
@@ -4763,7 +4833,7 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-validation"
-version = "0.13.5"
+version = "0.14.0"
 dependencies = [
  "regex",
  "serde",
@@ -4775,7 +4845,7 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-window"
-version = "0.13.5"
+version = "0.14.0"
 dependencies = [
  "clap",
  "serde_json",
@@ -4787,7 +4857,7 @@ dependencies = [
 
 [[package]]
 name = "usemcpkit-wire-log"
-version = "0.13.5"
+version = "0.14.0"
 dependencies = [
  "humantime",
  "serde_json",

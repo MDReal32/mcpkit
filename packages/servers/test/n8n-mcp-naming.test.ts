@@ -32,12 +32,6 @@ describe("n8n MCP naming rules", () => {
     expect(new Set(names).size).toBe(UPSTREAM_TOOLS.length);
   });
 
-  it("never give an MCP tool the name of a REST tool, which the REST tool would hide", () => {
-    const restNames = new Set(n8n.tools.map((tool) => tool.name));
-
-    expect(names.filter((name) => name !== undefined && restNames.has(name))).toEqual([]);
-  });
-
   it("keep every MCP tool name within the client's limit", () => {
     const tooLong = names.filter((name) => `automation_n8n_${name?.replaceAll(":", "_")}`.length > MAX_NAME_LENGTH);
 

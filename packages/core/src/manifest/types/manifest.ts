@@ -1,4 +1,5 @@
 import type { AuthSpec } from "./auth/auth-spec";
+import type { OpenApiSpec } from "./openapi/open-api-spec";
 import type { DomainSpec } from "./server/domain-spec";
 import type { EditionSpec } from "./server/edition-spec";
 import type { ToolSpec } from "./tool/tool-spec";
@@ -23,5 +24,7 @@ export interface Manifest {
   ui?: UiSpec;
   /** Another MCP server this one fronts: its tools are discovered at runtime and listed beside `tools`, which may be empty. An HTTP upstream may have its own `auth`. */
   upstream?: UpstreamSpec;
+  /** Tools built on the user's machine from the OpenAPI document of the server's version; the hand-written `tools` replace built ones of the same name where their `applies` says. */
+  openapi?: OpenApiSpec;
   tools: readonly ToolSpec[];
 }

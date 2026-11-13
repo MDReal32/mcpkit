@@ -1,11 +1,9 @@
 mod ask_for_missing_credentials;
 mod consts;
 mod forwarded_env;
-mod is_catalog_tool_name;
 mod name_upstream_tool;
 mod read_forwarded_env;
 mod read_forwarded_value;
-mod replace_first_match;
 mod request_forwarded_credentials;
 mod upstream_access;
 mod with_http_upstream_access;

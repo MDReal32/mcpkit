@@ -1,3 +1,4 @@
+use crate::Applies;
 use crate::ui::UiSpec;
 use serde::{Deserialize, Serialize};
 
@@ -11,4 +12,7 @@ pub struct HeaderAuth {
     pub prefix: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub ui: Option<UiSpec>,
+    /// In an OpenAPI manifest, the sources and versions the credentials form offers this entry for.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub applies: Option<Applies>,
 }

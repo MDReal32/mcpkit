@@ -174,6 +174,7 @@ fn server_for(
         sha256: format!("{:x}", Sha256::digest(text.as_bytes())),
         description: Some("A remote MCP server".into()),
         upstream: true,
+        openapi: false,
     }];
     let context = RegistryContext::new(
         registry.join("manifests"),

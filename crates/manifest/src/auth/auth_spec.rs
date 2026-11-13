@@ -1,3 +1,4 @@
+use crate::Applies;
 use crate::auth::{BasicAuth, BearerAuth, HeaderAuth, OAuthAuth, QueryAuth};
 use crate::ui::UiSpec;
 use serde::{Deserialize, Serialize};
@@ -69,6 +70,17 @@ impl AuthSpec {
             AuthSpec::Header(auth) => auth.ui.as_ref(),
             AuthSpec::Query(auth) => auth.ui.as_ref(),
             AuthSpec::Basic(auth) => auth.ui.as_ref(),
+            AuthSpec::None | AuthSpec::OAuth(_) => None,
+        }
+    }
+
+    /// Where the credentials form offers a fallback entry; everywhere when absent.
+    pub fn applies(&self) -> Option<&Applies> {
+        match self {
+            AuthSpec::Bearer(auth) => auth.applies.as_ref(),
+            AuthSpec::Header(auth) => auth.applies.as_ref(),
+            AuthSpec::Query(auth) => auth.applies.as_ref(),
+            AuthSpec::Basic(auth) => auth.applies.as_ref(),
             AuthSpec::None | AuthSpec::OAuth(_) => None,
         }
     }
