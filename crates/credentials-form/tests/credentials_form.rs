@@ -398,7 +398,7 @@ fn jira_manifest() -> usemcpkit_manifest::Manifest {
             "type": "bearer",
             "env": "JIRA_TOKEN",
             "label": "Personal access token",
-            "applies": { "sources": ["datacenter"], "from": "8.14" },
+            "applies": { "sources": ["datacenter"], "if": "{version} >= 8.14" },
         }],
         "openapi": {
             "sources": [
@@ -429,7 +429,7 @@ async fn checks_the_typed_host_with_the_typed_token_and_keeps_the_manifest_out_o
         assert_eq!(injected["domain"]["sources"][1]["versioned"], json!(true));
         assert_eq!(
             injected["options"][0]["applies"],
-            json!({ "sources": ["datacenter"], "from": "8.14" })
+            json!({ "sources": ["datacenter"], "if": "{version} >= 8.14" })
         );
         assert!(injected.get("manifest").is_none());
 

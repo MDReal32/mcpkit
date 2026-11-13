@@ -1,4 +1,4 @@
-use crate::version::version_numbers::version_numbers;
+use crate::condition::version_numbers::version_numbers;
 use std::cmp::Ordering;
 
 /// Compares versions by their numbers (`3.9` < `3.14`, `10.3.27` > `10.3`); a missing number counts as 0.

@@ -43,7 +43,13 @@ fn pets_manifest() -> Value {
             "description": "Gets a pet the way 2.2 and 2.3 really answer",
             "input": { "type": "object", "properties": { "id": { "type": "string" } }, "required": ["id"] },
             "request": { "method": "GET", "path": "/pets/{id}/details" },
-            "applies": { "from": "2.2", "below": "2.4" },
+            "applies": { "if": "2.2 <= {version} < 2.4" },
+        }, {
+            "name": "pets:get",
+            "description": "Lists the pets of a server older than every published document",
+            "input": { "type": "object", "properties": {} },
+            "request": { "method": "GET", "path": "/legacy/pets" },
+            "applies": { "sources": ["selfhosted"], "if": "1.0 <= {version} < 2.1" },
         }],
     })
 }
@@ -124,10 +130,18 @@ fn pets_server(home: &TempDir, http: Rc<RouteClient>) -> McpServer<FolderFetcher
 }
 
 fn pets_api() -> Rc<RouteClient> {
+    pets_api_at("2.3.7")
+}
+
+fn pets_api_at(version: &str) -> Rc<RouteClient> {
     Rc::new(RouteClient::new([
         (
             VERSION_URL.to_owned(),
-            json_response(200, &json!({ "version": "2.3.7" })),
+            json_response(200, &json!({ "version": version })),
+        ),
+        (
+            "https://pets.test/legacy/pets".to_owned(),
+            json_response(200, &json!([{ "id": "1", "name": "Old Rex" }])),
         ),
         (
             "https://pets.test/pets/7/details".to_owned(),
@@ -224,4 +238,60 @@ async fn builds_the_tools_of_every_source_from_the_nearest_older_document_and_ke
     .await;
     assert!(text_of(&cached).contains("\"test:pets:pets:get\""), "{cached}");
     assert!(later_http.requests.borrow().is_empty());
+}
+
+#[tokio::test]
+async fn serves_only_the_hand_written_tools_of_a_version_older_than_every_document() {
+    let home = TempDir::new().unwrap();
+    let http = pets_api_at("1.9.2");
+    let server = pets_server(&home, Rc::clone(&http));
+
+    let listed = run_code(
+        &server,
+        SEARCH_TOOL,
+        r#"async () => (await codemode.tools("test:pets")).map((tool) => [tool.id, tool.description])"#,
+    )
+    .await;
+    let called = run_code(
+        &server,
+        EXECUTE_TOOL,
+        r#"async () => codemode.call("test:pets:pets:get", {})"#,
+    )
+    .await;
+
+    let text = text_of(&listed);
+    assert!(
+        text.contains(
+            "no OpenAPI document of selfhosted is published for 1.9 or older; only its hand-written tools are served"
+        ),
+        "{text}"
+    );
+    assert!(
+        text.contains("\"Lists the pets of a server older than every published document\""),
+        "{text}"
+    );
+    assert!(text.contains("\"test:pets:owners:get\""), "{text}");
+    assert!(!text.contains("pets/{petId}:get"), "{text}");
+    assert!(text_of(&called).contains("Old Rex"), "{called}");
+
+    let dir = home.path().join("manifests/openapi/test/pets");
+    let hosts: Value = serde_json::from_str(&std::fs::read_to_string(dir.join("hosts.json")).unwrap()).unwrap();
+    assert_eq!(
+        hosts["pets.test"]["sources"],
+        json!([{ "source": "selfhosted", "version": "1.9" }, { "source": "owners" }])
+    );
+}
+
+#[tokio::test]
+async fn reports_a_version_older_than_every_document_that_no_hand_written_tool_covers() {
+    let home = TempDir::new().unwrap();
+    let server = pets_server(&home, pets_api_at("0.9"));
+
+    let listed = run_code(&server, SEARCH_TOOL, r#"async () => codemode.tools("test:pets")"#).await;
+
+    let text = text_of(&listed);
+    assert!(
+        text.contains("test:pets is unavailable: no OpenAPI document of selfhosted is published for 0.9 or older"),
+        "{text}"
+    );
 }

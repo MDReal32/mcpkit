@@ -1,3 +1,4 @@
+use crate::condition::VersionCondition;
 use serde::{Deserialize, Serialize};
 
 /// Where a hand-written tool or an auth entry of an OpenAPI manifest applies: a tool replaces the built tool of the
@@ -7,10 +8,7 @@ pub struct Applies {
     /// Names of the OpenAPI sources; every source when absent.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub sources: Option<Vec<String>>,
-    /// The first version it applies to.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub from: Option<String>,
-    /// The first version it no longer applies to.
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub below: Option<String>,
+    /// The versions, as in `9.0 <= {version} < 10`; every version when absent.
+    #[serde(rename = "if", default, skip_serializing_if = "Option::is_none")]
+    pub condition: Option<VersionCondition>,
 }

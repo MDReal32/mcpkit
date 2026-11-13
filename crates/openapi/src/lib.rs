@@ -1,5 +1,5 @@
 //! Builds the tools of an OpenAPI manifest on the user's machine: reads the OpenAPI 3 or Swagger 2.0 document of the
-//! version the user's server runs, turns each endpoint into a tool and names it with the manifest's rules.
+//! version the user's server runs, turns each endpoint into a tool named after it.
 
 pub mod document;
 pub mod merge;

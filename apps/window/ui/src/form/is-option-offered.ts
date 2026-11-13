@@ -1,5 +1,5 @@
 import type { Applies } from "@usemcpkit/core";
-import { compareVersions } from "./compare-versions";
+import { matchesVersionCondition } from "./matches-version-condition";
 
 /**
  * Whether an auth option fits the host's source and version. What is not known yet does not hide anything: before a
@@ -12,10 +12,8 @@ export const isOptionOffered = (applies: Applies | undefined, source?: string, v
   if (source !== undefined && applies.sources !== undefined && !applies.sources.includes(source)) {
     return false;
   }
-  if (version === undefined) {
+  if (version === undefined || applies.if === undefined) {
     return true;
   }
-  const fromOk = applies.from === undefined || compareVersions(version, applies.from) >= 0;
-  const belowOk = applies.below === undefined || compareVersions(version, applies.below) < 0;
-  return fromOk && belowOk;
+  return matchesVersionCondition(applies.if, version);
 };

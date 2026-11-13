@@ -93,7 +93,7 @@ export const CONFLUENCE_BASE: Omit<Manifest, "name" | "description" | "tools"> =
       type: "bearer",
       env: "CONFLUENCE_PERSONAL_TOKEN",
       label: "Data Center: personal access token",
-      applies: { sources: ["datacenter"], from: "7.9" },
+      applies: { sources: ["datacenter"], if: "{version} >= 7.9" },
       ui: defineUI({
         inputs: {
           CONFLUENCE_PERSONAL_TOKEN: { label: "Personal access token", placeholder: "Paste the token" },

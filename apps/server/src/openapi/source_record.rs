@@ -8,7 +8,8 @@ pub struct SourceRecord {
     /// The version the server answered, or the one its env var sets; absent for a source without versions.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub version: Option<String>,
-    /// The version of the document the tools were built from: `version`, or the nearest older one published.
+    /// The version of the document the tools were built from: `version`, or the nearest older one published; absent
+    /// beside `version` when no document is published for it or an older one, and only hand-written tools are served.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub spec_version: Option<String>,
 }

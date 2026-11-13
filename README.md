@@ -153,7 +153,7 @@ and grouped by its first segment.
 | --- | --- | --- | --- |
 | `github` | `git` | github.com, GitHub Enterprise Server | the GitHub REST API, built from the description of github.com or of the Enterprise Server version the host runs, for example `repos/{owner}/{repo}/pulls:get`, `repos/{owner}/{repo}/issues:post` |
 | `gitlab` | `git` | gitlab.com, self-managed GitLab (`<host>[/<relative url root>]`) | the GitLab REST API, built from the description of gitlab.com or of the release the host runs (its Swagger 2.0 file), for example `api/v4/projects/{id}/issues:get`, `api/v4/projects/{id}/merge_requests/{merge_request_iid}/notes:post` |
-| `jira` | `atlassian` | Jira Cloud (`<site>.atlassian.net`), Jira Data Center 10.0 and later | the Jira platform REST API (`/rest/api/2`) and Jira Software boards and sprints, built from the Cloud descriptions or from the one of the Data Center release the host runs, for example `rest/api/2/issue:post`, `rest/api/2/search:get` (Data Center) or `rest/api/2/search/jql:get` (Cloud), `rest/agile/1.0/board:get` |
+| `jira` | `atlassian` | Jira Cloud (`<site>.atlassian.net`), Jira Data Center 10.0 and later, and 9.x with a core set of hand-written tools | the Jira platform REST API (`/rest/api/2`) and Jira Software boards and sprints, built from the Cloud descriptions or from the one of the Data Center release the host runs, for example `rest/api/2/issue:post`, `rest/api/2/search:get` (Data Center) or `rest/api/2/search/jql:get` (Cloud), `rest/agile/1.0/board:get` |
 | `confluence` | `atlassian` | Confluence Cloud (`<site>.atlassian.net`), Confluence Data Center 9.0 and later | the Confluence REST APIs, built from the Cloud v2 and v1 descriptions or from the one of the Data Center release the host runs, for example `wiki/api/v2/pages:post` and `wiki/rest/api/search:get` on Cloud, `rest/api/content:post` on Data Center |
 | `clickup` | `productivity` | ClickUp (`api.clickup.com`) | the ClickUp REST API v2 and v3, for example `api/v2/list/{list_id}/task:get`, `api/v2/folder/{folder_id}/list:post`, `api/v3/workspaces/{workspace_id}/docs:get` |
 | `discord` | `communication` | Discord (`discord.com/api/v10`) | the Discord HTTP API v10 as a bot, for example `channels/{channel_id}/messages:post`, `guilds/{guild_id}/members:get`, `users/@me/guilds:get` |
@@ -336,14 +336,18 @@ and a new manifest builds them again. Until then `search` lists the server with 
 
 - A url without `{version}` should carry its `sha256`; a url without a scheme names a document in the server's folder,
   which the registry publishes next to the manifest (Reddit and Medium, which publish no description).
-- With no description for the exact version, the nearest older one is used, with a warning.
+- With no description for the exact version, the nearest older one is used, with a warning. A version older than
+  every description gets only the hand-written tools that apply to it (also with a warning), and is an error when none
+  does: Jira Data Center 9.x has a core set (issues, JQL search, comments, transitions, attachments, worklogs, links,
+  fields, projects, users, boards and sprints) under the names 10.0 builds.
 - Swagger 2.0 descriptions (GitLab releases) are converted to OpenAPI 3 first.
 - `options` tunes the conversion: `maxDepth`, `includeDefaults`, `stripBold`, `widenMixedScalars`,
   `keepsExplodedArrays`, `descriptionPrefix`, `downloadPaths`, `filePartName`, `skip` (regexes over `METHOD /path`),
   `skipDeprecated`, `security` (the schemes the auth satisfies) and `fixedQuery`.
 - A tool is named `<path>:<method>` after the path its requests go to below the base URL. The manifest's own `tools`
-  replace built tools of the same name; `applies` (`sources`, `from`, `below`, compared with the version the host runs)
-  limits one to some deployments, which is how a mistake of a description is fixed. A tool of the server's MCP
+  replace built tools of the same name; `applies` limits one to some deployments, which is how a mistake of a
+  description is fixed: `sources` names OpenAPI sources and `if` is a condition on the version the host runs,
+  `9.0 <= {version} < 10` or `{version} >= 9.0 && {version} < 10` (`<`, `<=`, `>`, `>=`, `==`, `!=`). A tool of the server's MCP
   upstream wins over a built one of the same name.
 - An auth entry's `applies` limits it to some sources and versions in the credentials form. `domain.check: true` puts
   a Check button after the host field, which asks the host its version with what was typed so far and offers only the

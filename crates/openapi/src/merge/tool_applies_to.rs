@@ -1,9 +1,7 @@
-use crate::version::compare_versions;
-use std::cmp::Ordering;
 use usemcpkit_manifest::Applies;
 
 /// Whether a hand-written tool applies to the server built from `source` at `version`. A tool without `applies`
-/// applies everywhere; a version range applies only to a server whose version is known and in it.
+/// applies everywhere; a condition on the version applies only to a server whose version is known and meets it.
 pub fn tool_applies_to(applies: Option<&Applies>, source: &str, version: Option<&str>) -> bool {
     let Some(applies) = applies else {
         return true;
@@ -13,21 +11,10 @@ pub fn tool_applies_to(applies: Option<&Applies>, source: &str, version: Option<
     {
         return false;
     }
-    if applies.from.is_none() && applies.below.is_none() {
-        return true;
+    match &applies.condition {
+        None => true,
+        Some(condition) => version.is_some_and(|version| condition.matches(version)),
     }
-    let Some(version) = version else {
-        return false;
-    };
-    let from_ok = applies
-        .from
-        .as_deref()
-        .is_none_or(|from| compare_versions(version, from) != Ordering::Less);
-    let below_ok = applies
-        .below
-        .as_deref()
-        .is_none_or(|below| compare_versions(version, below) == Ordering::Less);
-    from_ok && below_ok
 }
 
 #[cfg(test)]
@@ -36,11 +23,10 @@ mod tests {
     use usemcpkit_manifest::Applies;
 
     #[test]
-    fn applies_within_its_sources_and_range() {
+    fn applies_within_its_sources_and_versions() {
         let applies = Applies {
             sources: Some(vec!["datacenter".into()]),
-            from: Some("9.0".into()),
-            below: Some("10.4".into()),
+            condition: Some("9.0 <= {version} < 10.4".to_owned().try_into().unwrap()),
         };
         assert!(tool_applies_to(None, "cloud", None));
         assert!(tool_applies_to(Some(&applies), "datacenter", Some("10.3.5")));

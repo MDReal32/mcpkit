@@ -1,7 +1,10 @@
-import type { Manifest, OpenApiSource } from "@usemcpkit/core";
+import type { Applies, Manifest, OpenApiSource } from "@usemcpkit/core";
 import { defineUI } from "@usemcpkit/core";
 
 export const JIRA_FILE_PART_NAME = "file";
+
+/** The Data Center releases older than every published description, which get the hand-written core tools. */
+export const JIRA_DATA_CENTER_9: Applies = { sources: ["datacenter"], if: "9.0 <= {version} < 10" };
 
 /** The Data Center releases Atlassian publishes a description for, by version, with the number its file is named by. */
 export const JIRA_DATA_CENTER_SPECS: Readonly<Record<string, string>> = {
@@ -98,7 +101,7 @@ export const JIRA_BASE: Omit<Manifest, "name" | "description" | "tools"> = {
       type: "bearer",
       env: "JIRA_PERSONAL_TOKEN",
       label: "Data Center: personal access token",
-      applies: { sources: ["datacenter"], from: "8.14" },
+      applies: { sources: ["datacenter"], if: "{version} >= 8.14" },
       ui: defineUI({
         inputs: {
           JIRA_PERSONAL_TOKEN: { label: "Personal access token", placeholder: "Paste the token" },

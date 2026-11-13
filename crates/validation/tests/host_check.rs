@@ -34,7 +34,7 @@ fn datacenter() -> Value {
 fn accepts_a_check_and_applies_that_name_the_sources() {
     let errors = validate_manifest(&manifest_with(
         json!({ "check": true }),
-        json!({ "sources": ["datacenter"], "from": "8.14" }),
+        json!({ "sources": ["datacenter"], "if": "{version} >= 8.14" }),
         json!([datacenter()]),
     ));
 
@@ -45,7 +45,7 @@ fn accepts_a_check_and_applies_that_name_the_sources() {
 fn reports_a_check_without_a_versioned_source_and_unknown_or_malformed_applies() {
     let errors = validate_manifest(&manifest_with(
         json!({ "check": true }),
-        json!({ "sources": ["server"], "below": 9 }),
+        json!({ "sources": ["server"], "if": 9, "below": "9" }),
         json!([{ "name": "cloud", "url": "cloud.json" }]),
     ));
 
@@ -54,7 +54,8 @@ fn reports_a_check_without_a_versioned_source_and_unknown_or_malformed_applies()
         [
             "domain.check needs an OpenAPI source with a version probe",
             "auth[0].applies.sources names \"server\", which is not an OpenAPI source",
-            "auth[0].applies.below must be a string",
+            "auth[0].applies.if must be a string",
+            "auth[0].applies.below is not allowed; use sources and if",
         ]
     );
 }

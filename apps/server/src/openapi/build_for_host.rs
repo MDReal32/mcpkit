@@ -9,17 +9,20 @@ use crate::openapi::read_version_override::read_version_override;
 use crate::openapi::save_host_record::save_host_record;
 use crate::openapi::source_record::SourceRecord;
 use crate::openapi::to_probe_request::to_probe_request;
+use crate::openapi::write_hand_written_only::write_hand_written_only;
 use std::path::Path;
 use std::time::SystemTime;
 use usemcpkit_execution::CallContext;
 use usemcpkit_manifest::Manifest;
 use usemcpkit_manifest::openapi::OpenApiSpec;
 use usemcpkit_manifest::registry::RegistryServer;
+use usemcpkit_openapi::merge::tool_applies_to;
 use usemcpkit_registry::{Fetch, RegistryContext};
 
 /// Finds the host's sources and their versions and builds their tools. The server is asked for a version, signing in
 /// as a tool call does, unless the source has no versions or its env var sets one; sources asking the same path share
-/// the answer. With no host known yet, the sign-in asks for one.
+/// the answer. With no host known yet, the sign-in asks for one. A version older than every published document keeps
+/// only the hand-written tools that apply to it, and is an error when none does.
 pub async fn build_for_host<F: Fetch>(
     server: &RegistryServer,
     manifest: &Manifest,
@@ -68,12 +71,31 @@ pub async fn build_for_host<F: Fetch>(
                 Some(read_probed_version(answer, versioning)?)
             }
         };
-        let choice = choose_spec(source, version.as_deref(), context).await?;
-        built.push(build_spec_tools(server, source, &choice, dir, &context.fetcher).await?);
+        let spec_version = match choose_spec(source, version.as_deref(), context).await? {
+            Some(choice) => {
+                built.push(build_spec_tools(server, source, &choice, dir, &context.fetcher).await?);
+                choice.spec_version
+            }
+            None => {
+                let hand_written = manifest
+                    .tools
+                    .iter()
+                    .any(|tool| tool_applies_to(tool.applies.as_ref(), &source.name, version.as_deref()));
+                if !hand_written {
+                    return Err(format!(
+                        "no OpenAPI document of {} is published for {} or older",
+                        source.name,
+                        version.as_deref().unwrap_or_default()
+                    ));
+                }
+                built.push(write_hand_written_only(server, source, dir).await?);
+                None
+            }
+        };
         records.push(SourceRecord {
             source: source.name.clone(),
             version,
-            spec_version: choice.spec_version,
+            spec_version,
         });
     }
     let record = HostRecord {

@@ -5,8 +5,9 @@
 export interface Applies {
   /** Names of the OpenAPI sources; every source when absent. */
   sources?: readonly string[];
-  /** The first version it applies to. */
-  from?: string;
-  /** The first version it no longer applies to. */
-  below?: string;
+  /**
+   * The versions, as a condition on `{version}`: `9.0 <= {version} < 10`, or `{version} >= 9.0 && {version} < 10`
+   * (operators `<`, `<=`, `>`, `>=`, `==`, `!=`); every version when absent.
+   */
+  if?: string;
 }

@@ -6,7 +6,7 @@ use url::Url;
 use usemcpkit_auth::{AuthContext, AuthState};
 use usemcpkit_core::env::Env;
 use usemcpkit_execution::{CallContext, DEFAULT_TIMEOUT, ExecutorState, execute_tool};
-use usemcpkit_http::{HttpRequest, RequestBody};
+use usemcpkit_http::{FormPart, FormValue, HttpRequest, RequestBody};
 use usemcpkit_manifest::Manifest;
 use usemcpkit_manifest::tool::HttpMethod;
 use usemcpkit_openapi::build_tools;
@@ -337,6 +337,79 @@ async fn jira_data_center_downloads_attachments_from_the_servlet() {
             .tools
             .iter()
             .any(|tool| tool.name == "rest/api/2/attachment/content/{id}:get")
+    );
+}
+
+#[tokio::test]
+async fn jira_data_center_uploads_attachments_as_file_parts() {
+    let mut operation = json!({ "parameters": path_parameters(&["issueIdOrKey"]) });
+    operation["requestBody"] =
+        json!({ "content": { "multipart/form-data": { "schema": { "type": "string", "format": "binary" } } } });
+    let spec = document(
+        "http://{baseurl}/rest",
+        "/api/2/issue/{issueIdOrKey}/attachments",
+        "post",
+        &operation,
+    );
+    let jira = built_server("atlassian/jira", "datacenter", &spec, Some("10.3"));
+    let dir = tempfile::tempdir().unwrap();
+    let file = dir.path().join("notes.txt");
+    std::fs::write(&file, "hi").unwrap();
+
+    let request = send(
+        &jira,
+        "rest/api/2/issue/{issueIdOrKey}/attachments:post",
+        json!({ "issueIdOrKey": "A-1", "file": [file] }),
+        JIRA_DATA_CENTER,
+    )
+    .await;
+
+    assert_eq!(
+        request.url,
+        "https://jira.acme.com/jira/rest/api/2/issue/A-1/attachments"
+    );
+    assert_eq!(
+        request.body,
+        Some(RequestBody::Form(vec![FormPart {
+            name: "file".into(),
+            value: FormValue::File {
+                file_name: "notes.txt".into(),
+                data: b"hi".to_vec(),
+            },
+        }]))
+    );
+}
+
+#[tokio::test]
+async fn jira_data_center_9_has_hand_written_core_tools_of_the_names_10_builds() {
+    let empty = json!({
+        "openapi": "3.0.1",
+        "info": { "title": "none", "version": "1" },
+        "servers": [{ "url": "http://{baseurl}/rest" }],
+        "paths": {},
+    });
+    let jira = built_server("atlassian/jira", "datacenter", &empty, Some("9.4"));
+
+    let request = send(
+        &jira,
+        "rest/api/2/search:get",
+        json!({ "jql": "project = VOEN", "maxResults": 5 }),
+        JIRA_DATA_CENTER,
+    )
+    .await;
+
+    assert_eq!(request.method, HttpMethod::Get);
+    assert_eq!(endpoint(&request), "https://jira.acme.com/jira/rest/api/2/search");
+    assert_eq!(query_value(&request, "jql").as_deref(), Some("project = VOEN"));
+    assert_eq!(query_value(&request, "maxResults").as_deref(), Some("5"));
+    assert_eq!(jira.tools.len(), 27);
+    let ten = built_server("atlassian/jira", "datacenter", &empty, Some("10.0"));
+    assert_eq!(
+        ten.tools.iter().map(|tool| tool.name.as_str()).collect::<Vec<_>>(),
+        [
+            "rest/api/2/attachment/content/{id}:get",
+            "rest/api/2/attachment/thumbnail/{id}:get"
+        ]
     );
 }
 

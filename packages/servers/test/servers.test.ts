@@ -64,7 +64,8 @@ describe("deployments", () => {
 
 describe("jira", () => {
   it("downloads attachments and thumbnails on Data Center from the servlets its metadata points at", () => {
-    expect(jira.tools.map((tool) => [tool.name, tool.request.path, tool.applies])).toEqual([
+    const fixes = jira.tools.filter((tool) => tool.applies?.if === undefined);
+    expect(fixes.map((tool) => [tool.name, tool.request.path, tool.applies])).toEqual([
       ["rest/api/2/attachment/content/{id}:get", "/secure/attachment/{id}/{filename}", { sources: ["datacenter"] }],
       [
         "rest/api/2/attachment/thumbnail/{id}:get",
@@ -72,6 +73,17 @@ describe("jira", () => {
         { sources: ["datacenter"] },
       ],
     ]);
+  });
+
+  it("covers Data Center 9.x, which has no published description, with core tools of their own names", () => {
+    const legacy = jira.tools.filter((tool) => tool.applies?.if !== undefined);
+    expect(legacy.length).toBe(25);
+    expect(new Set(legacy.map((tool) => tool.name)).size).toBe(legacy.length);
+    for (const tool of legacy) {
+      expect(tool.applies).toEqual({ sources: ["datacenter"], if: "9.0 <= {version} < 10" });
+      expect(tool.request.path.replace(/^\//, "")).toBe(tool.name.slice(0, tool.name.lastIndexOf(":")));
+      expect(tool.request.method.toLowerCase()).toBe(tool.name.slice(tool.name.lastIndexOf(":") + 1));
+    }
   });
 });
 

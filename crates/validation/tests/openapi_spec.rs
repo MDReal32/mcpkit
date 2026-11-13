@@ -55,12 +55,21 @@ fn checks_hand_written_tools_and_their_applies() {
         "description": "Latest release",
         "input": { "type": "object", "properties": {} },
         "request": { "method": "GET", "path": "/api/v3/repos/a/b/releases/latest" },
-        "applies": { "sources": ["dotcom"], "below": "3.10" },
+        "applies": { "sources": ["dotcom"], "if": "{version} < 3.10" },
+    }, {
+        "name": "meta:get",
+        "description": "Meta",
+        "input": { "type": "object", "properties": {} },
+        "request": { "method": "GET", "path": "/api/v3/meta" },
+        "applies": { "if": "3.0 <= 3.10" },
     }]);
 
     assert_eq!(
         validate_manifest(&manifest_with(openapi, tools)),
-        ["tools[0].applies.sources names \"dotcom\", which is not an OpenAPI source"]
+        [
+            "tools[0].applies.sources names \"dotcom\", which is not an OpenAPI source",
+            "tools[1].applies.if is not a version condition: every comparison must have {version} on one side and a version on the other",
+        ]
     );
 }
 

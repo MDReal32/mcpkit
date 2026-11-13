@@ -1,7 +1,8 @@
 use crate::guards::is_string_list;
 use serde_json::Value;
+use usemcpkit_manifest::condition::parse_version_condition;
 
-/// An `applies` object: `sources` naming OpenAPI sources of the manifest, `from` and `below` versions.
+/// An `applies` object: `sources` naming OpenAPI sources of the manifest, `if` a condition on the version.
 pub fn validate_applies(applies: &Value, location: &str, source_names: &[&str]) -> Vec<String> {
     let Some(applies) = applies.as_object() else {
         return vec![format!("{location} must be an object")];
@@ -23,10 +24,17 @@ pub fn validate_applies(applies: &Value, location: &str, source_names: &[&str]) 
         }
         Some(_) => errors.push(format!("{location}.sources must be a list of strings")),
     }
-    for key in ["from", "below"] {
-        if applies.get(key).is_some_and(|value| !value.is_string()) {
-            errors.push(format!("{location}.{key} must be a string"));
+    match applies.get("if") {
+        None => {}
+        Some(Value::String(condition)) => {
+            if let Err(error) = parse_version_condition(condition) {
+                errors.push(format!("{location}.if is not a version condition: {error}"));
+            }
         }
+        Some(_) => errors.push(format!("{location}.if must be a string")),
+    }
+    for key in applies.keys().filter(|key| !["sources", "if"].contains(&key.as_str())) {
+        errors.push(format!("{location}.{key} is not allowed; use sources and if"));
     }
     errors
 }
