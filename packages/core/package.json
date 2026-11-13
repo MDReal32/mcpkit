@@ -1,6 +1,6 @@
 {
   "name": "@usemcpkit/core",
-  "version": "0.13.5",
+  "version": "0.14.0",
   "description": "The usemcpkit manifest format: types, the server SDK and the credentials form contract.",
   "repository": {
     "type": "git",
