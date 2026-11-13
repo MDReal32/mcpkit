@@ -25,6 +25,7 @@ export type {
   Applies,
   ArgSpec,
   AuthSpec,
+  ConversionOptions,
   DomainSpec,
   EditionSpec,
   FallbackAuth,
@@ -41,8 +42,11 @@ export type {
   OAuthAuth,
   OAuthDiscoveryAuth,
   OAuthEndpointsAuth,
+  OpenApiSource,
+  OpenApiSpec,
   RepoSetupStep,
   ResponseSpec,
+  SpecVersioning,
   StdioUpstream,
   ToolArgs,
   ToolEdition,
@@ -56,6 +60,8 @@ export type {
   UpstreamNameRule,
   UpstreamRepo,
   UpstreamSpec,
+  VersionList,
+  VersionProbe,
 } from "./manifest";
 export {
   applyDomain,
