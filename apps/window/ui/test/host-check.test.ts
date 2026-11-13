@@ -15,6 +15,13 @@ describe("findHostSource", () => {
     expect(findHostSource([cloud, datacenter], "jira.acme.com:8443")).toBe(datacenter);
   });
 
+  it("prefers a matching source with versions, wherever the catch-all stands", () => {
+    const software: DomainSource = { name: "software", label: "Software", hosts: [".atlassian.net"], versioned: true };
+    const agile: DomainSource = { name: "agile", label: "Agile", versioned: false };
+    expect(findHostSource([datacenter, cloud, software], "acme.atlassian.net")).toBe(software);
+    expect(findHostSource([agile, cloud, datacenter], "jira.acme.com")).toBe(datacenter);
+  });
+
   it("finds nothing for a host that is not valid yet", () => {
     expect(findHostSource([cloud, datacenter], "")).toBeUndefined();
     expect(findHostSource([cloud, datacenter], "https://jira.acme.com")).toBeUndefined();

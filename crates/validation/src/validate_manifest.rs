@@ -25,11 +25,11 @@ pub fn validate_manifest(manifest: &Value) -> Vec<String> {
         .is_some_and(|tools| tools.as_array().is_none_or(|list| !list.is_empty()));
     let tool_errors = match manifest.get("upstream") {
         None if builds_tools && !has_tools => Vec::new(),
-        None => validate_tools(manifest.get("tools"), &edition_names),
+        None => validate_tools(manifest.get("tools"), &edition_names, builds_tools),
         Some(upstream) => {
             let mut errors = validate_upstream(upstream, has_domain);
             if has_tools {
-                errors.extend(validate_tools(manifest.get("tools"), &edition_names));
+                errors.extend(validate_tools(manifest.get("tools"), &edition_names, builds_tools));
             }
             errors
         }

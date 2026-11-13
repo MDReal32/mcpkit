@@ -20,6 +20,7 @@ url.workspace = true
 
 [dev-dependencies]
 futures-util.workspace = true
+usemcpkit-openapi.workspace = true
 usemcpkit-testing.workspace = true
 tempfile.workspace = true
 

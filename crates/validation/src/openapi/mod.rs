@@ -5,7 +5,6 @@ mod validate_applies;
 mod validate_auth_applies;
 mod validate_conversion_options;
 mod validate_open_api_source;
-mod validate_openapi_naming;
 mod validate_openapi_spec;
 mod validate_pattern;
 mod validate_spec_versioning;

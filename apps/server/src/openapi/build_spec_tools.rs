@@ -5,7 +5,6 @@ use crate::openapi::read_json_file::read_json_file;
 use crate::openapi::spec_choice::SpecChoice;
 use crate::openapi::to_cache_file_stem::to_cache_file_stem;
 use crate::openapi::write_json_file::write_json_file;
-use indexmap::IndexMap;
 use std::path::Path;
 use std::time::SystemTime;
 use usemcpkit_manifest::openapi::OpenApiSource;
@@ -18,7 +17,6 @@ use usemcpkit_registry::Fetch;
 pub async fn build_spec_tools<F: Fetch>(
     server: &RegistryServer,
     source: &OpenApiSource,
-    naming: &IndexMap<String, String>,
     choice: &SpecChoice,
     dir: &Path,
     fetcher: &F,
@@ -34,7 +32,7 @@ pub async fn build_spec_tools<F: Fetch>(
     }
     let spec_file = dir.join(format!("{stem}.{SPEC_FILE_EXTENSION}"));
     let document = download_spec(&choice.url, source.sha256.as_deref(), &spec_file, fetcher).await?;
-    let built = build_tools(&document, source, naming).map_err(|error| error.0)?;
+    let built = build_tools(&document, source).map_err(|error| error.0)?;
     let cache = BuiltToolsCache {
         manifest_sha256: server.sha256.clone(),
         spec_url: choice.url.clone(),

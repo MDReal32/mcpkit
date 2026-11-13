@@ -4,15 +4,16 @@ use serde_json::Value;
 use std::collections::HashSet;
 use usemcpkit_core::js::to_js_string;
 
-/// Duplicate names are listed like JavaScript's `join`, which leaves a missing or `null` name empty.
-pub fn validate_tools(tools: Option<&Value>, edition_names: &HashSet<&str>) -> Vec<String> {
+/// Duplicate names are listed like JavaScript's `join`, which leaves a missing or `null` name empty. `endpoint_names`:
+/// the manifest builds tools from OpenAPI documents, whose names its own tools may take.
+pub fn validate_tools(tools: Option<&Value>, edition_names: &HashSet<&str>, endpoint_names: bool) -> Vec<String> {
     let Some(tools) = tools.and_then(Value::as_array).filter(|tools| !tools.is_empty()) else {
         return vec!["tools must be a non-empty array".to_owned()];
     };
     let mut errors: Vec<String> = tools
         .iter()
         .enumerate()
-        .flat_map(|(index, tool)| validate_tool(tool, index, edition_names))
+        .flat_map(|(index, tool)| validate_tool(tool, index, edition_names, endpoint_names))
         .collect();
     let names: Vec<Option<&Value>> = tools
         .iter()

@@ -8,10 +8,10 @@ use usemcpkit_manifest::Manifest;
 use usemcpkit_manifest::openapi::OpenApiSource;
 
 /// Signs in to the server the way a tool call does (saved credentials, then the credentials form, which also asks for
-/// the host when none is known) and sends the probe of the source matching the host.
+/// the host when none is known) and sends the probe of the primary source of the host.
 pub async fn probe_server(
     manifest: &Manifest,
-    sources: &[OpenApiSource],
+    sources: &[&OpenApiSource],
     calls: &CallContext,
 ) -> Result<ProbeAnswer, String> {
     let probe_manifest = build_probe_manifest(manifest, sources)?;

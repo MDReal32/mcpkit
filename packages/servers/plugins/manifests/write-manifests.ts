@@ -14,6 +14,7 @@ const toIndexEntry = (entry: CompiledManifest, shellJson: string) => ({
   version: entry.manifest.version,
   description: entry.manifest.description,
   ...(entry.manifest.upstream ? { upstream: true } : {}),
+  ...(entry.manifest.openapi ? { openapi: true } : {}),
   url: toManifestPath(entry),
   sha256: createHash("sha256").update(shellJson).digest("hex"),
 });
@@ -25,13 +26,15 @@ const writeText = async (file: string, text: string) => {
 
 const writeEntry = async (entry: CompiledManifest, outDir: string, split: SplitManifest | undefined) => {
   await writeText(join(outDir, toManifestPath(entry)), split?.shellJson ?? entry.json);
-  await Promise.all((split?.files ?? []).map((part) => writeText(join(outDir, part.path), part.json)));
+  const files = [...(split?.files ?? []), ...entry.specs];
+  await Promise.all(files.map((part) => writeText(join(outDir, part.path), part.json)));
 };
 
 /**
  * Writes `<category>/<name>.json` per manifest plus the index.json the CLI syncs; the index lists servers only, their parts and tools live in their own files.
  * Every link is relative to the registry folder, so the same files serve the root and each `v<version>/` copy.
- * A server with grouped tool names is written as a shell plus one file per group (see splitManifest).
+ * A server with grouped tool names is written as a shell plus one file per group (see splitManifest), and a server's
+ * hand-written OpenAPI documents next to it (see publishLocalSpecs).
  */
 export const writeManifests = async (compiled: readonly CompiledManifest[], outDir: string) => {
   const splits = compiled.map((entry) => splitManifest(entry.manifest));

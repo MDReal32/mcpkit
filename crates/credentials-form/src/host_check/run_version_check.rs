@@ -6,7 +6,7 @@ use usemcpkit_manifest::Manifest;
 use usemcpkit_manifest::domain::{apply_domain, is_domain_value};
 use usemcpkit_openapi::version::read_version;
 
-/// Finds the source of the typed host and asks its server for the version, with the credentials typed so far.
+/// Finds the primary source of the typed host and asks its server for the version, with the credentials typed so far.
 pub async fn run_version_check(manifest: &Manifest, body: &Map<String, Value>) -> Result<HostCheckResult, String> {
     let domain = body
         .get("domain")
@@ -20,8 +20,7 @@ pub async fn run_version_check(manifest: &Manifest, body: &Map<String, Value>) -
     let source = manifest
         .openapi
         .iter()
-        .flat_map(|openapi| &openapi.sources)
-        .find(|source| source.matches_domain(Some(domain)))
+        .find_map(|openapi| openapi.primary_source(Some(domain)))
         .ok_or_else(|| format!("{} does not know the host {domain}", manifest.name))?;
     let label = source.label.clone().unwrap_or_else(|| source.name.clone());
     let Some(versioning) = &source.version else {

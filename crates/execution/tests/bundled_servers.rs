@@ -1,4 +1,5 @@
 use serde_json::{Map, Value, json};
+use std::collections::HashSet;
 use std::path::{Path, PathBuf};
 use std::rc::Rc;
 use url::Url;
@@ -8,6 +9,8 @@ use usemcpkit_execution::{CallContext, DEFAULT_TIMEOUT, ExecutorState, execute_t
 use usemcpkit_http::{HttpRequest, RequestBody};
 use usemcpkit_manifest::Manifest;
 use usemcpkit_manifest::tool::HttpMethod;
+use usemcpkit_openapi::build_tools;
+use usemcpkit_openapi::merge::{HostSource, merge_tools};
 use usemcpkit_testing::{FixedClient, json_response};
 
 const JIRA_CLOUD: &[(&str, &str)] = &[
@@ -23,11 +26,6 @@ const CONFLUENCE_CLOUD: &[(&str, &str)] = &[
     ("CONFLUENCE_USERNAME", "me"),
     ("CONFLUENCE_API_TOKEN", "t"),
 ];
-
-const CONFLUENCE_DATA_CENTER: &[(&str, &str)] =
-    &[("CONFLUENCE_HOST", "wiki.acme.com"), ("CONFLUENCE_PERSONAL_TOKEN", "t")];
-
-const GITLAB: &[(&str, &str)] = &[("GITLAB_TOKEN", "t")];
 
 const CLICKUP: &[(&str, &str)] = &[("CLICKUP_API_TOKEN", "pk_1_ABC")];
 
@@ -47,22 +45,53 @@ fn read_json(file: &Path) -> Value {
     serde_json::from_str(&std::fs::read_to_string(file).unwrap()).unwrap()
 }
 
-/// The built manifest `path` (`<category>/<name>`) with the tools of all its parts, as the CLI assembles a server.
-fn built_server(path: &str) -> Manifest {
-    let mut shell = read_json(&manifests_dir().join(format!("{path}.json")));
-    let parts = shell
-        .as_object_mut()
-        .unwrap()
-        .remove("parts")
-        .expect("the server is split into parts");
-    let mut tools = Vec::new();
-    for part in parts.as_array().unwrap() {
-        let name = part["name"].as_str().unwrap();
-        let file = manifests_dir().join(format!("{path}/{name}.json"));
-        tools.extend(read_json(&file)["tools"].as_array().unwrap().iter().cloned());
-    }
-    shell["tools"] = Value::Array(tools);
-    serde_json::from_value(shell).unwrap()
+/// The built manifest `path` (`<category>/<name>`) with the tools its source `source` builds from `document` (an
+/// excerpt of the real one, or a document the registry publishes) and its hand-written tools, as the CLI assembles a
+/// server for a host that runs `version`.
+fn built_server(path: &str, source: &str, document: &Value, version: Option<&str>) -> Manifest {
+    let mut manifest: Manifest =
+        serde_json::from_value(read_json(&manifests_dir().join(format!("{path}.json")))).unwrap();
+    let spec = manifest
+        .openapi
+        .clone()
+        .expect("the server builds its tools from OpenAPI");
+    let source = spec
+        .sources
+        .iter()
+        .find(|candidate| candidate.name == source)
+        .unwrap_or_else(|| panic!("{path} has no source {source}"));
+    let built = build_tools(document, source).unwrap();
+    let host = HostSource {
+        name: source.name.clone(),
+        version: version.map(str::to_owned),
+    };
+    manifest.tools = merge_tools(vec![built.tools], &manifest.tools, &HashSet::new(), &[host]);
+    manifest
+}
+
+/// A document with the `servers` of a real one and one operation, answering 200.
+fn document(server: &str, path: &str, method: &str, operation: &Value) -> Value {
+    let mut operation = operation.clone();
+    operation["responses"] = json!({ "200": { "description": "OK" } });
+    json!({
+        "openapi": "3.0.1",
+        "info": { "title": "excerpt", "version": "1" },
+        "servers": [{ "url": server }],
+        "paths": { path: { method: operation } },
+    })
+}
+
+fn path_parameters(names: &[&str]) -> Value {
+    Value::Array(
+        names
+            .iter()
+            .map(|name| json!({ "name": name, "in": "path", "required": true, "schema": { "type": "string" } }))
+            .collect(),
+    )
+}
+
+fn json_body(properties: &Value) -> Value {
+    json!({ "content": { "application/json": { "schema": { "type": "object", "properties": properties } } } })
 }
 
 /// Calls `tool_name` against an API that answers `{}`, and returns the one request it sent.
@@ -135,163 +164,145 @@ fn body(request: &HttpRequest) -> Value {
 }
 
 #[tokio::test]
-async fn github_fills_path_and_query_parameters_and_sends_the_body_under_renamed_keys() {
-    let github = built_server("git/github");
-    let env = &[("GITHUB_TOKEN", "t")];
+async fn github_builds_dotcom_tools_under_the_api_host_and_sends_the_body() {
+    let spec = document(
+        "https://api.github.com",
+        "/repos/{owner}/{repo}/issues",
+        "post",
+        &json!({
+            "parameters": path_parameters(&["owner", "repo"]),
+            "requestBody": json_body(&json!({ "title": { "type": "string" }, "labels": { "type": "array", "items": { "type": "string" } } })),
+        }),
+    );
+    let github = built_server("git/github", "dotcom", &spec, None);
 
-    let content = send(
+    let request = send(
         &github,
-        "repos:repos:get_content",
-        json!({ "owner": "a", "repo": "b", "path": "x", "ref": "dev" }),
-        env,
+        "repos/{owner}/{repo}/issues:post",
+        json!({ "owner": "acme", "repo": "app", "title": "Bug", "labels": ["x"] }),
+        &[("GITHUB_TOKEN", "t")],
     )
     .await;
-    let created = send(
-        &github,
-        "issues:issues:create",
-        json!({ "owner": "a", "repo": "b", "title": "T", "labels": ["bug"] }),
-        env,
-    )
-    .await;
 
-    assert_eq!(content.url, "https://api.github.com/repos/a/b/contents/x?ref=dev");
-    assert_eq!(created.method, HttpMethod::Post);
-    assert_eq!(body(&created), json!({ "title": "T", "labels": ["bug"] }));
+    assert_eq!(request.url, "https://api.github.com/repos/acme/app/issues");
+    assert_eq!(body(&request), json!({ "title": "Bug", "labels": ["x"] }));
+    assert_eq!(header(&request, "Authorization"), Some("Bearer t"));
 }
 
 #[tokio::test]
-async fn gitlab_encodes_the_project_path_and_targets_the_api_of_the_configured_host() {
-    let gitlab = built_server("git/gitlab");
+async fn github_enterprise_tools_keep_the_names_of_github_com_under_the_hosts_api_path() {
+    let spec = document(
+        "{protocol}://{hostname}/api/v3",
+        "/repos/{owner}/{repo}/pulls",
+        "get",
+        &json!({ "parameters": path_parameters(&["owner", "repo"]) }),
+    );
+    let github = built_server("git/github", "enterprise", &spec, Some("3.14"));
 
-    let saas = send(
-        &gitlab,
-        "projects:projects:get_projects_issues",
-        json!({ "id": "acme/app", "issue_iid": 7 }),
-        GITLAB,
+    let request = send(
+        &github,
+        "repos/{owner}/{repo}/pulls:get",
+        json!({ "owner": "acme", "repo": "app" }),
+        &[("GITHUB_API_HOST", "ghe.acme.com/api/v3"), ("GITHUB_TOKEN", "t")],
     )
     .await;
-    let self_managed = send(
+
+    assert_eq!(request.url, "https://ghe.acme.com/api/v3/repos/acme/app/pulls");
+}
+
+#[tokio::test]
+async fn github_downloads_a_release_asset_with_the_hand_written_tool() {
+    let spec = document(
+        "https://api.github.com",
+        "/repos/{owner}/{repo}/releases/assets/{asset_id}",
+        "get",
+        &json!({ "parameters": path_parameters(&["owner", "repo", "asset_id"]) }),
+    );
+    let github = built_server("git/github", "dotcom", &spec, None);
+    let dir = tempfile::tempdir().unwrap();
+    let save_to = dir.path().join("asset.zip");
+
+    let request = send(
+        &github,
+        "repos/{owner}/{repo}/releases/assets/{asset_id}:get",
+        json!({ "owner": "acme", "repo": "app", "asset_id": 5, "save_to": save_to }),
+        &[("GITHUB_TOKEN", "t")],
+    )
+    .await;
+
+    assert_eq!(request.url, "https://api.github.com/repos/acme/app/releases/assets/5");
+    assert_eq!(header(&request, "Accept"), Some("application/octet-stream"));
+}
+
+#[tokio::test]
+async fn gitlab_encodes_the_project_path_under_the_api_of_the_configured_host() {
+    let spec = json!({
+        "swagger": "2.0",
+        "info": { "title": "GitLab", "version": "v4" },
+        "host": "gitlab.com",
+        "paths": {
+            "/api/v4/projects/{id}/merge_requests": {
+                "get": {
+                    "parameters": [
+                        { "name": "id", "in": "path", "required": true, "type": "string" },
+                        { "name": "state", "in": "query", "type": "string" },
+                    ],
+                    "responses": { "200": { "description": "OK" } },
+                },
+            },
+        },
+    });
+    let gitlab = built_server("git/gitlab", "self-managed", &spec, Some("17.5.2"));
+
+    let request = send(
         &gitlab,
-        "projects:projects:list_projects_issues",
-        json!({ "id": "acme/sub/app", "state": "opened" }),
+        "api/v4/projects/{id}/merge_requests:get",
+        json!({ "id": "group/app", "state": "opened" }),
         &[("GITLAB_HOST", "git.acme.com/gitlab"), ("GITLAB_TOKEN", "t")],
     )
     .await;
 
-    assert_eq!(saas.url, "https://gitlab.com/api/v4/projects/acme%2Fapp/issues/7");
     assert_eq!(
-        endpoint(&self_managed),
-        "https://git.acme.com/gitlab/api/v4/projects/acme%2Fsub%2Fapp/issues"
+        request.url,
+        "https://git.acme.com/gitlab/api/v4/projects/group%2Fapp/merge_requests?state=opened"
     );
-    assert_eq!(query_value(&self_managed, "state").as_deref(), Some("opened"));
 }
 
 #[tokio::test]
-async fn gitlab_lists_projects_and_posts_comment_bodies() {
-    let gitlab = built_server("git/gitlab");
-
-    let projects = send(
-        &gitlab,
-        "projects:projects:list_projects",
-        json!({ "search": "app", "membership": true }),
-        GITLAB,
-    )
-    .await;
-    let comment = send(
-        &gitlab,
-        "issues:notes:create_projects_merge_requests_notes",
-        json!({ "id": "acme/app", "noteable_id": 3, "body": "LGTM" }),
-        GITLAB,
-    )
-    .await;
-
-    assert_eq!(query_value(&projects, "membership").as_deref(), Some("true"));
-    assert_eq!(comment.method, HttpMethod::Post);
-    assert_eq!(
-        comment.url,
-        "https://gitlab.com/api/v4/projects/acme%2Fapp/merge_requests/3/notes"
+async fn jira_cloud_creates_issues_through_rest_api_2() {
+    let spec = document(
+        "https://your-domain.atlassian.net",
+        "/rest/api/2/issue",
+        "post",
+        &json!({ "requestBody": json_body(&json!({ "fields": { "type": "object", "properties": { "summary": { "type": "string" } } } })) }),
     );
-    assert_eq!(body(&comment)["body"], "LGTM");
-}
+    let jira = built_server("atlassian/jira", "cloud", &spec, None);
 
-#[tokio::test]
-async fn jira_searches_with_the_endpoint_of_each_edition() {
-    let jira = built_server("atlassian/jira");
-    let search = "issues:issue_search:search_and_reconsile_issues_using_jql";
-
-    let cloud = send(
+    let request = send(
         &jira,
-        search,
-        json!({ "jql": "project = A", "maxResults": 10, "nextPageToken": "abc" }),
+        "rest/api/2/issue:post",
+        json!({ "fields": { "summary": "Hi" } }),
         JIRA_CLOUD,
     )
     .await;
-    let data_center = send(
-        &jira,
-        search,
-        json!({ "jql": "project = A", "maxResults": 10, "startAt": 5 }),
-        JIRA_DATA_CENTER,
-    )
-    .await;
 
-    assert_eq!(endpoint(&cloud), "https://acme.atlassian.net/rest/api/2/search/jql");
-    assert_eq!(query_value(&cloud, "jql").as_deref(), Some("project = A"));
-    assert_eq!(query_value(&cloud, "nextPageToken").as_deref(), Some("abc"));
-    assert_eq!(query_value(&cloud, "startAt"), None);
-    assert_eq!(endpoint(&data_center), "https://jira.acme.com/jira/rest/api/2/search");
-    assert_eq!(query_value(&data_center, "startAt").as_deref(), Some("5"));
-    assert_eq!(query_value(&data_center, "nextPageToken"), None);
+    assert_eq!(request.url, "https://acme.atlassian.net/rest/api/2/issue");
+    assert_eq!(body(&request), json!({ "fields": { "summary": "Hi" } }));
 }
 
 #[tokio::test]
-async fn jira_posts_the_search_body_to_the_endpoint_of_each_edition() {
-    let jira = built_server("atlassian/jira");
-    let search = "issues:issue_search:search_and_reconsile_issues_using_jql_post";
-
-    let cloud = send(&jira, search, json!({ "jql": "project = A" }), JIRA_CLOUD).await;
-    let data_center = send(&jira, search, json!({ "jql": "project = A" }), JIRA_DATA_CENTER).await;
-
-    assert_eq!(cloud.method, HttpMethod::Post);
-    assert_eq!(cloud.url, "https://acme.atlassian.net/rest/api/2/search/jql");
-    assert_eq!(data_center.method, HttpMethod::Post);
-    assert_eq!(data_center.url, "https://jira.acme.com/jira/rest/api/2/search");
-    assert_eq!(body(&data_center)["jql"], "project = A");
-}
-
-#[tokio::test]
-async fn jira_sends_the_create_issue_fields_object_as_the_nested_body() {
-    let jira = built_server("atlassian/jira");
-    let fields = json!({ "project": { "key": "A" }, "summary": "Broken", "issuetype": { "name": "Task" } });
+async fn jira_data_center_tools_take_the_cloud_names_and_keep_the_context_path() {
+    let spec = document(
+        "http://{baseurl}/rest",
+        "/api/2/issue/{issueIdOrKey}/comment/{id}",
+        "delete",
+        &json!({ "parameters": path_parameters(&["issueIdOrKey", "id"]) }),
+    );
+    let jira = built_server("atlassian/jira", "datacenter", &spec, Some("10.3"));
 
     let request = send(
         &jira,
-        "issues:issues:create_issue",
-        json!({ "fields": fields }),
-        JIRA_DATA_CENTER,
-    )
-    .await;
-
-    assert_eq!(request.method, HttpMethod::Post);
-    assert_eq!(endpoint(&request), "https://jira.acme.com/jira/rest/api/2/issue");
-    assert_eq!(body(&request), json!({ "fields": fields }));
-}
-
-#[tokio::test]
-async fn jira_lists_agile_boards_from_the_agile_endpoint() {
-    let jira = built_server("atlassian/jira");
-
-    let request = send(&jira, "software:board:get_all_boards", json!({}), JIRA_CLOUD).await;
-
-    assert_eq!(endpoint(&request), "https://acme.atlassian.net/rest/agile/1.0/board");
-}
-
-#[tokio::test]
-async fn jira_deletes_a_comment_by_issue_key_and_comment_id() {
-    let jira = built_server("atlassian/jira");
-
-    let request = send(
-        &jira,
-        "issues:issue_comments:delete_comment",
+        "rest/api/2/issue/{issueIdOrKey}/comment/{id}:delete",
         json!({ "issueIdOrKey": "A-1", "id": "10" }),
         JIRA_DATA_CENTER,
     )
@@ -302,190 +313,93 @@ async fn jira_deletes_a_comment_by_issue_key_and_comment_id() {
         request.url,
         "https://jira.acme.com/jira/rest/api/2/issue/A-1/comment/10"
     );
-}
-
-#[tokio::test]
-async fn clickup_sends_the_personal_token_as_the_raw_authorization_header() {
-    let clickup = built_server("productivity/clickup");
-
-    let request = send(&clickup, "tasks:tasks:get_task", json!({ "task_id": "abc" }), CLICKUP).await;
-
-    assert_eq!(request.url, "https://api.clickup.com/api/v2/task/abc");
-    assert_eq!(header(&request, "Authorization"), Some("pk_1_ABC"));
-}
-
-#[tokio::test]
-async fn clickup_repeats_array_filters_under_their_bracketed_names_and_keeps_json_filters_whole() {
-    let clickup = built_server("productivity/clickup");
-    let custom_fields = r#"[{"field_id":"f","operator":"=","value":"1"}]"#;
-
-    let request = send(
-        &clickup,
-        "tasks:tasks:get_tasks",
-        json!({ "list_id": 7, "statuses": ["to do", "in progress"], "custom_fields": custom_fields }),
-        CLICKUP,
-    )
-    .await;
-
-    assert_eq!(url(&request).path(), "/api/v2/list/7/task");
-    assert_eq!(query_values(&request, "statuses[]"), ["to do", "in progress"]);
-    assert_eq!(query_value(&request, "custom_fields").as_deref(), Some(custom_fields));
-}
-
-#[tokio::test]
-async fn clickup_fills_the_workspace_placeholder_of_team_level_v2_paths() {
-    let clickup = built_server("productivity/clickup");
-
-    let request = send(
-        &clickup,
-        "time:time_tracking:get_time_entries_within_a_date_range",
-        json!({ "team_Id": 9 }),
-        CLICKUP,
-    )
-    .await;
-
-    assert_eq!(request.url, "https://api.clickup.com/api/v2/team/9/time_entries");
-}
-
-#[tokio::test]
-async fn clickup_reaches_the_v3_api_under_the_same_base_url() {
-    let clickup = built_server("productivity/clickup");
-
-    let request = send(
-        &clickup,
-        "docs:docs:search_for_docs",
-        json!({ "workspace_id": "9", "limit": 5 }),
-        CLICKUP,
-    )
-    .await;
-
-    assert_eq!(endpoint(&request), "https://api.clickup.com/api/v3/workspaces/9/docs");
-    assert_eq!(query_value(&request, "limit").as_deref(), Some("5"));
-}
-
-#[tokio::test]
-async fn discord_posts_a_message_as_the_bot() {
-    let discord = built_server("communication/discord");
-
-    let request = send(
-        &discord,
-        "channels:messages:create_message",
-        json!({ "channel_id": "123", "content": "hi" }),
-        DISCORD,
-    )
-    .await;
-
-    assert_eq!(request.method, HttpMethod::Post);
-    assert_eq!(request.url, "https://discord.com/api/v10/channels/123/messages");
-    assert_eq!(body(&request), json!({ "content": "hi" }));
-    assert_eq!(header(&request, "Authorization"), Some("Bot MTA.bot"));
-}
-
-#[tokio::test]
-async fn discord_repeats_search_filter_arrays_as_one_query_key_per_item() {
-    let discord = built_server("communication/discord");
-
-    let request = send(
-        &discord,
-        "guilds:messages:guild_search",
-        json!({ "guild_id": "1", "author_id": ["2", "3"] }),
-        DISCORD,
-    )
-    .await;
-
-    assert_eq!(url(&request).path(), "/api/v10/guilds/1/messages/search");
-    assert_eq!(query_values(&request, "author_id"), ["2", "3"]);
-}
-
-#[tokio::test]
-async fn discord_encodes_a_custom_emoji_in_the_reaction_path() {
-    let discord = built_server("communication/discord");
-
-    let request = send(
-        &discord,
-        "channels:messages:add_my_message_reaction",
-        json!({ "channel_id": "1", "message_id": "2", "emoji_name": "party:42" }),
-        DISCORD,
-    )
-    .await;
-
-    assert_eq!(
-        request.url,
-        "https://discord.com/api/v10/channels/1/messages/2/reactions/party%3A42/@me"
-    );
-}
-
-#[tokio::test]
-async fn reddit_lists_a_subreddits_hot_posts_with_the_bearer_token_and_a_descriptive_user_agent() {
-    let reddit = built_server("communication/reddit");
-
-    let request = send(
-        &reddit,
-        "posts:posts:list_subreddit_posts",
-        json!({ "subreddit": "rust", "limit": 5 }),
-        REDDIT,
-    )
-    .await;
-
-    assert_eq!(endpoint(&request), "https://oauth.reddit.com/r/rust/hot");
-    assert_eq!(query_value(&request, "limit").as_deref(), Some("5"));
-    assert_eq!(query_value(&request, "raw_json").as_deref(), Some("1"));
     assert_eq!(header(&request, "Authorization"), Some("Bearer t"));
+}
+
+#[tokio::test]
+async fn jira_data_center_downloads_attachments_from_the_servlet() {
+    let spec = document("http://{baseurl}/rest", "/api/2/serverInfo", "get", &json!({}));
+    let jira = built_server("atlassian/jira", "datacenter", &spec, Some("10.3"));
+    let dir = tempfile::tempdir().unwrap();
+
+    let request = send(
+        &jira,
+        "rest/api/2/attachment/content/{id}:get",
+        json!({ "id": "7", "filename": "a b.png", "save_to": dir.path().join("a.png") }),
+        JIRA_DATA_CENTER,
+    )
+    .await;
+
+    assert_eq!(request.url, "https://jira.acme.com/jira/secure/attachment/7/a%20b.png");
+    let cloud = built_server("atlassian/jira", "cloud", &spec, None);
     assert!(
-        header(&request, "User-Agent")
-            .unwrap()
-            .starts_with("usemcpkit:communication.reddit:")
+        !cloud
+            .tools
+            .iter()
+            .any(|tool| tool.name == "rest/api/2/attachment/content/{id}:get")
     );
 }
 
 #[tokio::test]
-async fn reddit_reads_a_posts_comment_tree_by_article_id() {
-    let reddit = built_server("communication/reddit");
-
-    let request = send(
-        &reddit,
-        "posts:comments:get_post_comments",
-        json!({ "article": "1abcde", "sort": "top", "depth": 2 }),
-        REDDIT,
-    )
-    .await;
-
-    assert_eq!(endpoint(&request), "https://oauth.reddit.com/comments/1abcde");
-    assert_eq!(query_value(&request, "sort").as_deref(), Some("top"));
-    assert_eq!(query_value(&request, "depth").as_deref(), Some("2"));
-}
-
-#[tokio::test]
-async fn confluence_creates_content_through_the_data_center_api_on_a_data_center_host() {
-    let confluence = built_server("atlassian/confluence");
-    let content = json!({
-        "type": "page",
-        "title": "Notes",
-        "space": { "key": "DOCS" },
-        "body": { "storage": { "value": "<p>Hi</p>", "representation": "storage" } },
-        "ancestors": [{ "id": "7" }],
-    });
+async fn confluence_cloud_reaches_v2_under_wiki_api_v2_and_renames_hyphenated_parameters() {
+    let spec = document(
+        "https://{your-domain}/wiki/api/v2",
+        "/pages/{page-id}/properties",
+        "get",
+        &json!({ "parameters": path_parameters(&["page-id"]) }),
+    );
+    let confluence = built_server("atlassian/confluence", "cloud", &spec, None);
 
     let request = send(
         &confluence,
-        "datacenter:content:create",
-        content.clone(),
-        CONFLUENCE_DATA_CENTER,
+        "wiki/api/v2/pages/{page-id}/properties:get",
+        json!({ "page_id": "7" }),
+        CONFLUENCE_CLOUD,
     )
     .await;
 
-    assert_eq!(request.method, HttpMethod::Post);
-    assert_eq!(request.url, "https://wiki.acme.com/rest/api/content");
-    assert_eq!(body(&request), content);
+    assert_eq!(request.url, "https://acme.atlassian.net/wiki/api/v2/pages/7/properties");
 }
 
 #[tokio::test]
-async fn confluence_keeps_the_context_path_of_a_data_center_host() {
-    let confluence = built_server("atlassian/confluence");
+async fn confluence_cloud_reaches_v1_under_wiki_rest_api() {
+    let spec = document(
+        "//your-domain.atlassian.net",
+        "/wiki/rest/api/content/{id}",
+        "get",
+        &json!({ "parameters": path_parameters(&["id"]) }),
+    );
+    let confluence = built_server("atlassian/confluence", "cloud-v1", &spec, None);
 
     let request = send(
         &confluence,
-        "datacenter:content:get",
+        "wiki/rest/api/content/{id}:get",
+        json!({ "id": "7" }),
+        CONFLUENCE_CLOUD,
+    )
+    .await;
+
+    assert_eq!(request.url, "https://acme.atlassian.net/wiki/rest/api/content/7");
+}
+
+#[tokio::test]
+async fn confluence_data_center_keeps_the_context_path_of_the_host() {
+    let spec = document(
+        "http://{baseurl}/confluence",
+        "/rest/api/content/{id}",
+        "get",
+        &json!({
+            "parameters": [
+                { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } },
+                { "name": "expand", "in": "query", "schema": { "type": "string" } },
+            ],
+        }),
+    );
+    let confluence = built_server("atlassian/confluence", "datacenter", &spec, Some("10.2"));
+
+    let request = send(
+        &confluence,
+        "rest/api/content/{id}:get",
         json!({ "id": "7", "expand": "body.storage" }),
         &[
             ("CONFLUENCE_HOST", "wiki.acme.com/confluence"),
@@ -501,159 +415,138 @@ async fn confluence_keeps_the_context_path_of_a_data_center_host() {
 }
 
 #[tokio::test]
-async fn confluence_creates_pages_through_the_v2_api_on_a_cloud_host() {
-    let confluence = built_server("atlassian/confluence");
-    let page = json!({
-        "spaceId": "123",
-        "parentId": "7",
-        "status": "current",
-        "title": "Notes",
-        "body": { "representation": "storage", "value": "<p>Hi</p>" },
+async fn clickup_reaches_v2_and_v3_under_the_api_host_with_the_raw_token() {
+    let v2 = document(
+        "https://api.clickup.com/api",
+        "/v2/task/{task_id}",
+        "get",
+        &json!({ "parameters": path_parameters(&["task_id"]) }),
+    );
+    let v3 = json!({
+        "openapi": "3.0.0",
+        "info": { "title": "v3", "version": "3" },
+        "paths": {
+            "/api/v3/workspaces/{workspace_id}/docs": {
+                "get": { "parameters": path_parameters(&["workspace_id"]), "responses": { "200": { "description": "OK" } } },
+            },
+        },
     });
 
-    let request = send(&confluence, "cloud:pages:create_page", page.clone(), CONFLUENCE_CLOUD).await;
-
-    assert_eq!(request.url, "https://acme.atlassian.net/wiki/api/v2/pages");
-    assert_eq!(body(&request), page);
-}
-
-#[tokio::test]
-async fn confluence_renames_hyphenated_v2_parameters_and_sends_them_under_the_original_keys() {
-    let confluence = built_server("atlassian/confluence");
-
-    let request = send(
-        &confluence,
-        "cloud:pages:get_page_by_id",
-        json!({ "id": "7", "body_format": "storage", "get_draft": true }),
-        CONFLUENCE_CLOUD,
+    let task = send(
+        &built_server("productivity/clickup", "v2", &v2, None),
+        "api/v2/task/{task_id}:get",
+        json!({ "task_id": "abc" }),
+        CLICKUP,
+    )
+    .await;
+    let docs = send(
+        &built_server("productivity/clickup", "v3", &v3, None),
+        "api/v3/workspaces/{workspace_id}/docs:get",
+        json!({ "workspace_id": "9" }),
+        CLICKUP,
     )
     .await;
 
-    assert_eq!(
-        request.url,
-        "https://acme.atlassian.net/wiki/api/v2/pages/7?body-format=storage&get-draft=true"
-    );
+    assert_eq!(task.url, "https://api.clickup.com/api/v2/task/abc");
+    assert_eq!(header(&task, "Authorization"), Some("pk_1_ABC"));
+    assert_eq!(docs.url, "https://api.clickup.com/api/v3/workspaces/9/docs");
 }
 
 #[tokio::test]
-async fn confluence_reaches_the_cloud_v1_api_under_wiki_rest_api() {
-    let confluence = built_server("atlassian/confluence");
+async fn discord_posts_a_message_as_the_bot() {
+    let spec = document(
+        "https://discord.com/api/v10",
+        "/channels/{channel_id}/messages",
+        "post",
+        &json!({
+            "parameters": path_parameters(&["channel_id"]),
+            "requestBody": json_body(&json!({ "content": { "type": "string" } })),
+        }),
+    );
+    let discord = built_server("communication/discord", "v10", &spec, None);
 
     let request = send(
-        &confluence,
-        "cloud_v1:search:search_by_cql",
-        json!({ "cql": "type = page", "limit": 5 }),
-        CONFLUENCE_CLOUD,
+        &discord,
+        "channels/{channel_id}/messages:post",
+        json!({ "channel_id": "1", "content": "hi" }),
+        DISCORD,
     )
     .await;
 
-    assert_eq!(
-        request.url,
-        "https://acme.atlassian.net/wiki/rest/api/search?cql=type+%3D+page&limit=5"
-    );
+    assert_eq!(request.url, "https://discord.com/api/v10/channels/1/messages");
+    assert_eq!(header(&request, "Authorization"), Some("Bot MTA.bot"));
 }
 
 #[tokio::test]
 async fn figma_reads_nodes_of_a_file_with_the_token_in_x_figma_token() {
-    let figma = built_server("design/figma");
+    let spec = document(
+        "https://api.figma.com",
+        "/v1/files/{file_key}/nodes",
+        "get",
+        &json!({
+            "parameters": [
+                { "name": "file_key", "in": "path", "required": true, "schema": { "type": "string" } },
+                { "name": "ids", "in": "query", "required": true, "schema": { "type": "string" } },
+            ],
+        }),
+    );
+    let figma = built_server("design/figma", "rest", &spec, None);
 
     let request = send(
         &figma,
-        "files:files:get_file_nodes",
-        json!({ "file_key": "abc", "ids": "1:2,3:4", "depth": 2 }),
+        "v1/files/{file_key}/nodes:get",
+        json!({ "file_key": "K", "ids": "1:2" }),
         FIGMA,
     )
     .await;
 
-    assert_eq!(request.method, HttpMethod::Get);
-    assert_eq!(endpoint(&request), "https://api.figma.com/v1/files/abc/nodes");
-    assert_eq!(query_value(&request, "ids").as_deref(), Some("1:2,3:4"));
-    assert_eq!(query_value(&request, "depth").as_deref(), Some("2"));
+    assert_eq!(endpoint(&request), "https://api.figma.com/v1/files/K/nodes");
+    assert_eq!(query_value(&request, "ids").as_deref(), Some("1:2"));
     assert_eq!(header(&request, "X-Figma-Token"), Some("figd_t"));
 }
 
 #[tokio::test]
-async fn figma_posts_a_comment_as_the_token_owner() {
-    let figma = built_server("design/figma");
+async fn n8n_lists_workflows_of_a_self_hosted_instance_and_reaches_a_local_one_over_http() {
+    let spec = document("/api/v1", "/workflows", "get", &json!({}));
+    let n8n = built_server("automation/n8n", "public-api", &spec, None);
 
-    let request = send(
-        &figma,
-        "files:comments:post_comment",
-        json!({ "file_key": "abc", "message": "hi" }),
-        FIGMA,
-    )
-    .await;
-
-    assert_eq!(request.method, HttpMethod::Post);
-    assert_eq!(request.url, "https://api.figma.com/v1/files/abc/comments");
-    assert_eq!(body(&request)["message"], json!("hi"));
-}
-
-#[tokio::test]
-async fn n8n_lists_workflows_of_a_self_hosted_instance_with_the_key_in_x_n8n_api_key() {
-    let n8n = built_server("automation/n8n");
-
-    let request = send(
+    let hosted = send(&n8n, "workflows:get", json!({}), N8N).await;
+    let local = send(
         &n8n,
-        "workflows:workflows:get_workflows",
-        json!({ "active": true, "limit": 10 }),
-        N8N,
-    )
-    .await;
-
-    assert_eq!(request.method, HttpMethod::Get);
-    assert_eq!(endpoint(&request), "https://n8n.acme.com/automation/api/v1/workflows");
-    assert_eq!(query_value(&request, "active").as_deref(), Some("true"));
-    assert_eq!(query_value(&request, "limit").as_deref(), Some("10"));
-    assert_eq!(header(&request, "X-N8N-API-KEY"), Some("n8n_key"));
-}
-
-#[tokio::test]
-async fn n8n_retries_an_execution_with_the_body_it_was_given() {
-    let n8n = built_server("automation/n8n");
-
-    let request = send(
-        &n8n,
-        "workflows:executions:retry_execution",
-        json!({ "executionId": 42, "loadWorkflow": true }),
-        N8N,
-    )
-    .await;
-
-    assert_eq!(request.method, HttpMethod::Post);
-    assert_eq!(
-        request.url,
-        "https://n8n.acme.com/automation/api/v1/executions/42/retry"
-    );
-    assert_eq!(body(&request), json!({ "loadWorkflow": true }));
-}
-
-#[tokio::test]
-async fn n8n_reaches_a_local_instance_over_http() {
-    let n8n = built_server("automation/n8n");
-
-    let request = send(
-        &n8n,
-        "workflows:workflows:get_workflows",
+        "workflows:get",
         json!({}),
-        &[("N8N_HOST", "localhost:5678"), ("N8N_API_KEY", "n8n_key")],
+        &[("N8N_HOST", "localhost:5678"), ("N8N_API_KEY", "k")],
     )
     .await;
 
-    assert_eq!(endpoint(&request), "http://localhost:5678/api/v1/workflows");
+    assert_eq!(hosted.url, "https://n8n.acme.com/automation/api/v1/workflows");
+    assert_eq!(header(&hosted, "X-N8N-API-KEY"), Some("n8n_key"));
+    assert_eq!(local.url, "http://localhost:5678/api/v1/workflows");
 }
 
 #[tokio::test]
-async fn a_server_without_loopback_http_keeps_https_on_localhost() {
-    let gitlab = built_server("git/gitlab");
+async fn reddit_lists_a_subreddits_posts_from_its_published_document() {
+    let spec = read_json(&manifests_dir().join("communication/reddit/openapi.json"));
+    let reddit = built_server("communication/reddit", "oauth", &spec, None);
 
     let request = send(
-        &gitlab,
-        "projects:projects:list_projects",
-        json!({}),
-        &[("GITLAB_HOST", "localhost:8443"), ("GITLAB_TOKEN", "t")],
+        &reddit,
+        "r/{subreddit}/{sort}:get",
+        json!({ "subreddit": "rust", "sort": "hot" }),
+        REDDIT,
     )
     .await;
 
-    assert_eq!(endpoint(&request), "https://localhost:8443/api/v4/projects");
+    assert_eq!(endpoint(&request), "https://oauth.reddit.com/r/rust/hot");
+    assert!(header(&request, "User-Agent").is_some_and(|agent| agent.starts_with("usemcpkit:")));
+}
+
+#[tokio::test]
+async fn medium_reads_the_token_owner_from_its_published_document() {
+    let spec = read_json(&manifests_dir().join("communication/medium/openapi.json"));
+    let medium = built_server("communication/medium", "v1", &spec, None);
+
+    let request = send(&medium, "me:get", json!({}), &[("MEDIUM_INTEGRATION_TOKEN", "t")]).await;
+
+    assert_eq!(request.url, "https://api.medium.com/v1/me");
 }

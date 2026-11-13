@@ -38,11 +38,11 @@ pub const PATH_PREFIX: &str = "path_";
 pub const QUERY_PREFIX: &str = "query_";
 pub const BODY_PREFIX: &str = "body_";
 
-/// The group of a fallback name when a path has no literal segment.
-pub const ROOT_SEGMENT: &str = "root";
+/// Between the path and the method of a tool name.
+pub const METHOD_SEPARATOR: char = ':';
 
-/// Put before a name segment that would start with a digit.
-pub const DIGIT_SEGMENT_PREFIX: &str = "v";
+/// The path part of the tool name of the document's root path, which has nothing left once its `/` is dropped.
+pub const ROOT_PATH: &str = "/";
 
 /// Headers the executor sets itself (auth, body type, answer type); a parameter for one is not a reason to skip.
 pub const EXECUTOR_HEADERS: [&str; 3] = ["authorization", "content-type", "accept"];

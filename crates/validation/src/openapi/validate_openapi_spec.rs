@@ -1,10 +1,9 @@
 use crate::find_duplicates::find_duplicates;
 use crate::openapi::validate_open_api_source::validate_open_api_source;
-use crate::openapi::validate_openapi_naming::validate_openapi_naming;
 use serde_json::{Map, Value};
 use usemcpkit_core::js::to_js_string;
 
-/// The manifest's `openapi`: its sources, in order, and the rules that name the tools built from them.
+/// The manifest's `openapi`: its sources, in order.
 pub fn validate_openapi_spec(manifest: &Map<String, Value>) -> Vec<String> {
     let Some(openapi) = manifest.get("openapi") else {
         return Vec::new();
@@ -29,9 +28,6 @@ pub fn validate_openapi_spec(manifest: &Map<String, Value>) -> Vec<String> {
     if !duplicates.is_empty() {
         let listed: Vec<String> = duplicates.into_iter().map(to_js_string).collect();
         errors.push(format!("duplicate OpenAPI source names: {}", listed.join(", ")));
-    }
-    if let Some(naming) = openapi.get("naming") {
-        errors.extend(validate_openapi_naming(naming));
     }
     errors
 }

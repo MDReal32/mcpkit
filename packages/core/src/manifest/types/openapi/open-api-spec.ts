@@ -1,12 +1,14 @@
 import type { OpenApiSource } from "./open-api-source";
 
-/** Tools built on the user's machine from an OpenAPI (or Swagger 2.0) document, for the version the user's server runs. */
+/**
+ * Tools built on the user's machine from OpenAPI (or Swagger 2.0) documents, for the version the user's server runs.
+ * A tool is named after its endpoint, `<path>:<method>` (`repos/{owner}/{repo}/branches:get`); a hand-written tool of
+ * the same name replaces it.
+ */
 export interface OpenApiSpec {
-  /** One document per deployment; the first whose `hosts` match the domain is used, one without `hosts` matches any. */
-  sources: readonly OpenApiSource[];
   /**
-   * Ordered `"regex": "template"` rules over `"METHOD /path"` (`GET /repos/{owner}/{repo}/branches`) that name the
-   * tools, `$1…` being the captures; an endpoint no rule matches gets a name made from its path.
+   * The documents of each deployment: every source whose `hosts` match the domain is used, their tools merged in order;
+   * when none does, every source without `hosts`.
    */
-  naming?: Readonly<Record<string, string>>;
+  sources: readonly OpenApiSource[];
 }

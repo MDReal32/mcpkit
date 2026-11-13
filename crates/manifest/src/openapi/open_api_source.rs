@@ -9,7 +9,7 @@ pub struct OpenApiSource {
     /// What the credentials form calls the deployment, for example `Data Center`; the name when absent.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub label: Option<String>,
-    /// Host suffixes such as `.atlassian.net`; absent, the source matches any host.
+    /// Host suffixes such as `.atlassian.net`; absent, the source serves the hosts no source names.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub hosts: Option<Vec<String>>,
     /// The document, absolute or relative to the registry folder; `{version}` is replaced by the version picked.

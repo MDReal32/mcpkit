@@ -8,14 +8,20 @@ use crate::openapi::to_host_key::to_host_key;
 use indexmap::IndexMap;
 use std::path::Path;
 
-/// The tools built earlier for the host, with its record; `None` when they were never built or their file is gone.
+/// The tools built earlier for the host, with its record; `None` when they were never built or a file is gone.
 pub async fn read_cached_build(dir: &Path, domain: Option<&str>) -> Result<Option<CachedBuild>, String> {
     let records: Option<IndexMap<String, HostRecord>> = read_json_file(&dir.join(HOSTS_FILE_NAME)).await?;
     let Some(record) = records.and_then(|mut records| records.shift_remove(to_host_key(domain))) else {
         return Ok(None);
     };
-    let stem = to_cache_file_stem(&record.source, record.spec_version.as_deref());
-    let file = dir.join(format!("{stem}.{TOOLS_FILE_EXTENSION}"));
-    let built: Option<BuiltToolsCache> = read_json_file(&file).await?;
-    Ok(built.map(|built| CachedBuild { record, built }))
+    let mut built = Vec::with_capacity(record.sources.len());
+    for source in &record.sources {
+        let stem = to_cache_file_stem(&source.source, source.spec_version.as_deref());
+        let file = dir.join(format!("{stem}.{TOOLS_FILE_EXTENSION}"));
+        let Some(tools) = read_json_file::<BuiltToolsCache>(&file).await? else {
+            return Ok(None);
+        };
+        built.push(tools);
+    }
+    Ok(Some(CachedBuild { record, built }))
 }

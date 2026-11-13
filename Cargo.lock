@@ -4693,6 +4693,7 @@ dependencies = [
  "usemcpkit-core",
  "usemcpkit-http",
  "usemcpkit-manifest",
+ "usemcpkit-openapi",
  "usemcpkit-testing",
  "usemcpkit-upstream",
 ]

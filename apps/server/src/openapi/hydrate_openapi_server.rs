@@ -11,7 +11,7 @@ use usemcpkit_auth::domain::resolve_domain;
 use usemcpkit_execution::CallContext;
 use usemcpkit_manifest::Manifest;
 use usemcpkit_manifest::registry::RegistryServer;
-use usemcpkit_openapi::merge::merge_tools;
+use usemcpkit_openapi::merge::{HostSource, merge_tools};
 use usemcpkit_registry::{Fetch, RegistryContext, load_server_manifest};
 
 /// The OpenAPI server behind a catalog entry with the tools of the version its host runs. Without `build`, only tools
@@ -54,13 +54,16 @@ pub async fn hydrate_openapi_server<F: Fetch>(
             _ => return Ok(None),
         };
         warnings.extend(describe_version_fallback(&server.id, &record));
-        let tools = merge_tools(
-            built.tools,
-            &manifest.tools,
-            reserved,
-            &record.source,
-            record.version.as_deref(),
-        );
+        let sources: Vec<HostSource> = record
+            .sources
+            .iter()
+            .map(|source| HostSource {
+                name: source.source.clone(),
+                version: source.version.clone(),
+            })
+            .collect();
+        let built = built.into_iter().map(|built| built.tools).collect();
+        let tools = merge_tools(built, &manifest.tools, reserved, &sources);
         Ok(Some(OpenApiServer {
             manifest: Manifest { tools, ..manifest },
             warnings,

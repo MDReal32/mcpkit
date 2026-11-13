@@ -5,7 +5,7 @@ The `usemcpkit` binary was a Bun-compiled TypeScript CLI of about 113 MB. On bra
 - `usemcpkit`, the runner, is what clients start;
 - `usemcpkit-servers`, the MCP server, runs behind it.
 
-The servers, their generators, `apps/window/ui` and the `@usemcpkit/core` authoring API stay in TypeScript. The built JSON
+The servers, `apps/window/ui` and the `@usemcpkit/core` authoring API stay in TypeScript. The built JSON
 manifests and the built UI page are the contract between the two sides. The TypeScript CLI (`apps/cli` and the packages
 it bundled) is gone, and `@usemcpkit/core` keeps only the authoring API; what the TypeScript CLI of `0.9.0` did is kept
 in the golden fixtures below.

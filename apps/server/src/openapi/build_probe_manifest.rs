@@ -6,17 +6,30 @@ use usemcpkit_manifest::openapi::OpenApiSource;
 use usemcpkit_manifest::tool::{ToolEdition, ToolSpec};
 use usemcpkit_manifest::{EditionSpec, Manifest};
 
-/// The manifest with one tool, the probe: each source with hosts before the first one without is an edition, so the
-/// host the credentials form picks sends the probe of the source that matches it.
-pub fn build_probe_manifest(manifest: &Manifest, sources: &[OpenApiSource]) -> Result<Manifest, String> {
-    let Some(fallback) = sources
+/// The manifest with one tool, the probe: each source with hosts is an edition, the ones with versions first, so the
+/// host the credentials form picks sends the probe of the primary source of that host (see
+/// [`usemcpkit_manifest::openapi::OpenApiSpec::primary_source`]); any other host sends the one of the sources without
+/// hosts.
+pub fn build_probe_manifest(manifest: &Manifest, sources: &[&OpenApiSource]) -> Result<Manifest, String> {
+    let hostless: Vec<&OpenApiSource> = sources
         .iter()
-        .find(|source| source.hosts.is_none())
+        .copied()
+        .filter(|source| source.hosts.is_none())
+        .collect();
+    let Some(fallback) = hostless
+        .iter()
+        .find(|source| source.version.is_some())
+        .or_else(|| hostless.first())
         .or_else(|| sources.first())
     else {
         return Err("the manifest lists no OpenAPI sources".to_owned());
     };
-    let hosted: Vec<&OpenApiSource> = sources.iter().take_while(|source| source.hosts.is_some()).collect();
+    let (versioned, unversioned): (Vec<&OpenApiSource>, Vec<&OpenApiSource>) = sources
+        .iter()
+        .copied()
+        .filter(|source| source.hosts.is_some())
+        .partition(|source| source.version.is_some());
+    let hosted: Vec<&OpenApiSource> = versioned.into_iter().chain(unversioned).collect();
     let editions: IndexMap<String, EditionSpec> = hosted
         .iter()
         .map(|source| {

@@ -3,8 +3,8 @@ workspace:
 
 localResources:
   specs:
-    - ../packages/servers/generator/providers/reddit/openapi.json
-    - ../packages/servers/generator/providers/medium/openapi.json
+    - ../packages/servers/src/servers/reddit/openapi.json
+    - ../packages/servers/src/servers/medium/openapi.json
 
 # Each entry here maps a local resource to one or more corresponding objects in Postman Cloud
 

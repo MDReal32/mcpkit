@@ -43,11 +43,17 @@ describe("compileServers", () => {
     ]);
     const github = compiled.find(({ manifest }) => manifest.name === "github");
     expect(JSON.parse(github?.json ?? "null")).toEqual(github?.manifest);
-    expect(github?.manifest.tools.find((tool) => tool.name === "issues:issues:create")?.input.required).toEqual([
-      "owner",
-      "repo",
-      "title",
-    ]);
+    expect(github?.manifest.openapi?.sources.map((source) => source.name)).toEqual(["dotcom", "enterprise"]);
+    const reddit = compiled.find(({ manifest }) => manifest.name === "reddit");
+    const [spec] = reddit?.specs ?? [];
+    expect(reddit?.manifest.openapi?.sources[0]?.url).toBe("communication/reddit/openapi.json");
+    expect(spec?.path).toBe("communication/reddit/openapi.json");
+    expect(reddit?.manifest.openapi?.sources[0]?.sha256).toBe(
+      createHash("sha256")
+        .update(spec?.json ?? "")
+        .digest("hex"),
+    );
+    expect(dependencies.some((dependency) => dependency.endsWith("servers/reddit/openapi.json"))).toBe(true);
     expect(dependencies.some((dependency) => dependency.endsWith("src/sdk/index.ts"))).toBe(true);
   });
 
@@ -81,7 +87,7 @@ describe("compileServers", () => {
 });
 
 describe("writeManifests", () => {
-  it("writes <category>/<name>.json and a light index of ids, relative links and checksums, without tools", async () => {
+  it("writes <category>/<name>.json, the hand-written documents beside it and a light index of ids, relative links and checksums", async () => {
     const { compiled } = await compileServers(resolve("src/servers"));
 
     await writeManifests(compiled, readDir());
@@ -89,16 +95,36 @@ describe("writeManifests", () => {
     const index = JSON.parse(await readFile(join(readDir(), "index.json"), "utf8"));
     const github = index.servers.find((server: { id: string }) => server.id === "git:github");
     const file = await readFile(join(readDir(), "git", "github.json"), "utf8");
-    expect(github.url).toBe("git/github.json");
+    expect(github).toMatchObject({ url: "git/github.json", openapi: true });
     expect(github.tools).toBeUndefined();
-    const shell = JSON.parse(file);
-    expect(file).toBe(JSON.stringify(shell));
-    expect(shell.tools).toBeUndefined();
-    const issues = shell.parts.find((part: { name: string }) => part.name === "issues");
-    expect(issues.url).toBe("git/github/issues.json");
-    const part = await readFile(join(readDir(), "git", "github", "issues.json"), "utf8");
-    expect(issues.sha256).toBe(createHash("sha256").update(part).digest("hex"));
-    expect(JSON.parse(part).tools.map((tool: { name: string }) => tool.name)).toContain("issues:issues:create");
     expect(github.sha256).toBe(createHash("sha256").update(file).digest("hex"));
+    expect(JSON.parse(file).tools.map((tool: { name: string }) => tool.name)).toEqual([
+      "repos/{owner}/{repo}/releases/assets/{asset_id}:get",
+    ]);
+    const reddit = JSON.parse(await readFile(join(readDir(), "communication", "reddit.json"), "utf8"));
+    const spec = await readFile(join(readDir(), "communication", "reddit", "openapi.json"), "utf8");
+    expect(reddit.openapi.sources[0].sha256).toBe(createHash("sha256").update(spec).digest("hex"));
+    const teams = index.servers.find((server: { id: string }) => server.id === "communication:teams");
+    expect(teams.openapi).toBeUndefined();
+  });
+
+  it("splits a server whose tools are all <group>:<resource>:<action> into a shell and one file per group", async () => {
+    const tool = (name: string) => ({ ...VALID_DEFINITION.tools[0], name });
+    const definition = { name: "grouped", ...VALID_DEFINITION, tools: [tool("a:x:list"), tool("b:y:get")] };
+    await writeServer("grouped", `export const grouped = ${JSON.stringify(definition)};\n`);
+    const { compiled } = await compileServers(readDir());
+    const out = join(readDir(), "out");
+
+    await writeManifests(compiled, out);
+
+    const shell = JSON.parse(await readFile(join(out, "test", "grouped.json"), "utf8"));
+    expect(shell.tools).toBeUndefined();
+    const part = await readFile(join(out, "test", "grouped", "a.json"), "utf8");
+    expect(shell.parts[0]).toEqual({
+      name: "a",
+      url: "test/grouped/a.json",
+      sha256: createHash("sha256").update(part).digest("hex"),
+    });
+    expect(JSON.parse(part).tools.map((found: { name: string }) => found.name)).toEqual(["a:x:list"]);
   });
 });

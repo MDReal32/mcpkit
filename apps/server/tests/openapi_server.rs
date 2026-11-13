@@ -33,14 +33,13 @@ fn pets_manifest() -> Value {
                     "probe": { "path": "/api/version", "field": "version", "match": "^(\\d+\\.\\d+)" },
                     "list": { "url": "specs/versions.json", "match": "^(\\d+\\.\\d+)$" },
                 },
+            }, {
+                "name": "owners",
+                "url": "specs/owners.json",
             }],
-            "naming": {
-                "^GET /pets$": "pets:pets:list",
-                "^GET /pets/\\{[^}]+\\}$": "pets:pets:get",
-            },
         },
         "tools": [{
-            "name": "pets:pets:get",
+            "name": "pets/{petId}:get",
             "description": "Gets a pet the way 2.2 and 2.3 really answer",
             "input": { "type": "object", "properties": { "id": { "type": "string" } }, "required": ["id"] },
             "request": { "method": "GET", "path": "/pets/{id}/details" },
@@ -80,6 +79,17 @@ fn pets_spec(with_delete: bool) -> Value {
     })
 }
 
+fn owners_spec() -> Value {
+    json!({
+        "openapi": "3.0.3",
+        "info": { "title": "Owners", "version": "1" },
+        "paths": {
+            "/owners": { "get": { "summary": "List owners", "responses": { "200": { "description": "Owners" } } } },
+            "/pets": { "get": { "summary": "Pets of the owners", "responses": { "200": { "description": "Pets" } } } },
+        },
+    })
+}
+
 fn write(root: &Path, path: &str, text: &str) {
     let file = root.join(path);
     std::fs::create_dir_all(file.parent().unwrap()).unwrap();
@@ -93,6 +103,7 @@ fn pets_server(home: &TempDir, http: Rc<RouteClient>) -> McpServer<FolderFetcher
     write(&registry, "specs/versions.json", &json!(["2.1", "2.4"]).to_string());
     write(&registry, "specs/pets-2.1.json", &pets_spec(false).to_string());
     write(&registry, "specs/pets-2.4.json", &pets_spec(true).to_string());
+    write(&registry, "specs/owners.json", &owners_spec().to_string());
     let servers = vec![RegistryServer {
         id: "test:pets".into(),
         version: "1.0.0".into(),
@@ -147,7 +158,7 @@ async fn lists_no_tools_with_a_note_before_they_are_built() {
 }
 
 #[tokio::test]
-async fn builds_the_tools_of_the_nearest_older_document_and_keeps_them() {
+async fn builds_the_tools_of_every_source_from_the_nearest_older_document_and_keeps_them() {
     let home = TempDir::new().unwrap();
     let http = pets_api();
     let server = pets_server(&home, Rc::clone(&http));
@@ -161,7 +172,7 @@ async fn builds_the_tools_of_the_nearest_older_document_and_keeps_them() {
     let called = run_code(
         &server,
         EXECUTE_TOOL,
-        r#"async () => codemode.call("test:pets:pets:pets:get", { id: "7" })"#,
+        r#"async () => codemode.call("test:pets:pets/{petId}:get", { id: "7" })"#,
     )
     .await;
 
@@ -171,20 +182,27 @@ async fn builds_the_tools_of_the_nearest_older_document_and_keeps_them() {
         "{text}"
     );
     assert!(
-        text.contains("\"test:pets:pets:pets:get\",\n    \"Gets a pet the way 2.2 and 2.3 really answer\""),
+        text.contains("\"test:pets:pets/{petId}:get\",\n    \"Gets a pet the way 2.2 and 2.3 really answer\""),
         "{text}"
     );
-    assert!(text.contains("\"test:pets:pets:pets:list\""), "{text}");
+    assert!(text.contains("\"test:pets:pets:get\",\n    \"List pets"), "{text}");
+    assert!(text.contains("\"test:pets:owners:get\""), "{text}");
+    assert!(!text.contains("Pets of the owners"), "{text}");
     assert!(!text.contains("delete"), "{text}");
     assert!(text_of(&called).contains("\"name\": \"Rex\""), "{called}");
 
     let dir = home.path().join("manifests/openapi/test/pets");
     let hosts: Value = serde_json::from_str(&std::fs::read_to_string(dir.join("hosts.json")).unwrap()).unwrap();
-    assert_eq!(hosts["pets.test"]["source"], json!("selfhosted"));
-    assert_eq!(hosts["pets.test"]["version"], json!("2.3"));
-    assert_eq!(hosts["pets.test"]["specVersion"], json!("2.1"));
+    assert_eq!(
+        hosts["pets.test"]["sources"],
+        json!([
+            { "source": "selfhosted", "version": "2.3", "specVersion": "2.1" },
+            { "source": "owners" },
+        ])
+    );
     assert!(dir.join("selfhosted@2.1.yaml").is_file());
     assert!(dir.join("selfhosted@2.1.json").is_file());
+    assert!(dir.join("owners.json").is_file());
 
     let probes = |client: &RouteClient| {
         client
@@ -204,6 +222,6 @@ async fn builds_the_tools_of_the_nearest_older_document_and_keeps_them() {
         r#"async () => (await codemode.tools()).map((tool) => tool.id)"#,
     )
     .await;
-    assert!(text_of(&cached).contains("\"test:pets:pets:pets:list\""), "{cached}");
+    assert!(text_of(&cached).contains("\"test:pets:pets:get\""), "{cached}");
     assert!(later_http.requests.borrow().is_empty());
 }

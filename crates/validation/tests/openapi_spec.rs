@@ -33,13 +33,12 @@ fn ghes() -> Value {
 }
 
 #[test]
-fn accepts_sources_and_naming_without_tools_of_its_own() {
+fn accepts_sources_without_tools_of_its_own() {
     let openapi = json!({
         "sources": [
             { "name": "dotcom", "hosts": ["api.github.com"], "url": "github/api.json", "sha256": "a".repeat(64) },
             ghes(),
         ],
-        "naming": { "^GET /repos/\\{[^}]+\\}/\\{[^}]+\\}/(\\w+)$": "repos:$1:list" },
     });
 
     assert_eq!(
@@ -52,7 +51,7 @@ fn accepts_sources_and_naming_without_tools_of_its_own() {
 fn checks_hand_written_tools_and_their_applies() {
     let openapi = json!({ "sources": [ghes()] });
     let tools = json!([{
-        "name": "repos:releases:latest",
+        "name": "repos/{owner}/{repo}/releases/latest:get",
         "description": "Latest release",
         "input": { "type": "object", "properties": {} },
         "request": { "method": "GET", "path": "/api/v3/repos/a/b/releases/latest" },
@@ -66,7 +65,7 @@ fn checks_hand_written_tools_and_their_applies() {
 }
 
 #[test]
-fn reports_broken_sources_and_naming_rules() {
+fn reports_broken_sources() {
     let openapi = json!({
         "sources": [
             { "name": "Cloud", "url": "x-{version}.json", "sha256": "nope" },
@@ -78,7 +77,6 @@ fn reports_broken_sources_and_naming_rules() {
             },
             { "name": "ghes", "url": "z.json" },
         ],
-        "naming": { "^GET /(": "repos:$1:list", "^GET /x$": "Repos" },
     });
 
     assert_eq!(
@@ -94,8 +92,36 @@ fn reports_broken_sources_and_naming_rules() {
             "openapi.sources[1].options.maxDepth must be a positive integer",
             "openapi.sources[1].options.skip[0] is not a valid regular expression: regex parse error:\n    (\n    ^\nerror: unclosed group",
             "duplicate OpenAPI source names: ghes",
-            "openapi.naming[\"^GET /(\"] is not a valid regular expression: regex parse error:\n    ^GET /(\n          ^\nerror: unclosed group",
-            "openapi.naming[\"^GET /x$\"] must name <group>:<resource>:<action> with $1… for the captures",
         ]
+    );
+}
+
+#[test]
+fn takes_endpoint_names_only_beside_openapi_sources() {
+    let tool = |name: &str| {
+        json!([{
+            "name": name,
+            "description": "Fixed",
+            "input": { "type": "object", "properties": {} },
+            "request": { "method": "GET", "path": "/x" },
+        }])
+    };
+    let openapi = json!({ "sources": [ghes()] });
+    assert_eq!(
+        validate_manifest(&manifest_with(openapi.clone(), tool("rest/api/2/attachment/{id}:get"))),
+        Vec::<String>::new()
+    );
+    assert_eq!(
+        validate_manifest(&manifest_with(openapi, tool("/repos:fetch"))),
+        [
+            "tools[0] (/repos:fetch).name must match /^[a-z][a-z0-9_]*(:[a-z][a-z0-9_]*)*$/ or name an endpoint, <path>:<method>"
+        ]
+    );
+    let mut plain = manifest_with(json!(null), tool("repos:get"));
+    plain.as_object_mut().unwrap().remove("openapi");
+    plain["tools"][0]["name"] = json!("repos/{owner}:get");
+    assert_eq!(
+        validate_manifest(&plain),
+        ["tools[0] (repos/{owner}:get).name must match /^[a-z][a-z0-9_]*(:[a-z][a-z0-9_]*)*$/"]
     );
 }
