@@ -31,7 +31,9 @@ pub async fn send_with_auth_fallback(
                 if kind == AuthCandidateKind::Provided {
                     preferred_labels.borrow_mut().insert(manifest.name.clone(), label);
                 }
-                return Ok(*accepted);
+                let mut accepted = *accepted;
+                accepted.domain = accepted.domain.or_else(|| domain.clone());
+                return Ok(accepted);
             }
             AuthAttempt::Rejected(reason) => failures.push(format!("{label}: {reason}")),
         }

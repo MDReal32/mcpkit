@@ -8,6 +8,15 @@
     showHostsLabel: string;
     knownHosts: readonly string[];
     suggestedHosts: readonly string[];
+    /** The host the form opened with; clicking the field while it still holds it selects it whole. */
+    prefilled: string;
+    canCheck: boolean;
+    checkLabel: string;
+    checking: boolean;
+    /** What Check found for the typed host, such as `Data Center 10.3`. */
+    checked: string;
+    checkError: string;
+    oncheck: () => void;
     value: string;
   }
 
@@ -20,10 +29,18 @@
     showHostsLabel,
     knownHosts,
     suggestedHosts,
+    prefilled,
+    canCheck,
+    checkLabel,
+    checking,
+    checked,
+    checkError,
+    oncheck,
     value = $bindable(),
   }: Props = $props();
 
   let open = $state(false);
+  let selectOnMouseUp = false;
   const listId = $derived(`${id}-hosts`);
   const typed = $derived(value.trim());
   const offeredHosts = $derived([...knownHosts, ...suggestedHosts.filter((host) => !knownHosts.includes(host))]);
@@ -32,6 +49,21 @@
   const pick = (host: string) => {
     value = host;
     open = false;
+  };
+
+  const selectPrefilled = (event: FocusEvent) => {
+    open = offeredHosts.length > 0;
+    if (value !== "" && value === prefilled && event.currentTarget instanceof HTMLInputElement) {
+      event.currentTarget.select();
+      selectOnMouseUp = true;
+    }
+  };
+
+  const keepSelection = (event: MouseEvent) => {
+    if (selectOnMouseUp) {
+      event.preventDefault();
+      selectOnMouseUp = false;
+    }
   };
 
   const closeOnEscape = (event: KeyboardEvent) => {
@@ -43,6 +75,7 @@
 
 <div class="field combobox">
   <label for={id}>{label}</label>
+  <div class="domain-row">
   <div class="combobox-control">
     <input
       {id}
@@ -55,7 +88,8 @@
       spellcheck="false"
       {placeholder}
       bind:value
-      onfocus={() => (open = offeredHosts.length > 0)}
+      onfocus={selectPrefilled}
+      onmouseup={keepSelection}
       oninput={() => (open = offeredHosts.length > 0)}
       onblur={() => (open = false)}
       onkeydown={closeOnEscape}
@@ -93,6 +127,21 @@
       </ul>
     {/if}
   </div>
+    {#if canCheck}
+      <button type="button" class="domain-check" disabled={checking} onclick={oncheck}>
+        {#if checking}
+          <span class="spinner" aria-hidden="true"></span>
+        {/if}
+        {checkLabel}
+      </button>
+    {/if}
+  </div>
+  {#if checked}
+    <p class="hint domain-checked">{checked}</p>
+  {/if}
+  {#if checkError}
+    <p class="hint domain-check-error">{checkError}</p>
+  {/if}
   {#if isNew && knownHosts.length > 0}
     <p class="hint">{newHostHint}</p>
   {/if}

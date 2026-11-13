@@ -1,4 +1,5 @@
 use crate::auth::validate_auth;
+use crate::openapi::validate_auth_applies;
 use crate::server::{validate_domain_spec, validate_editions, validate_server_fields, validate_upstream};
 use crate::tool::validate_tools;
 use crate::ui::validate_server_ui;
@@ -35,6 +36,7 @@ pub fn validate_manifest(manifest: &Value) -> Vec<String> {
     errors.extend(validate_domain_spec(manifest));
     errors.extend(validate_editions(manifest.get("editions")));
     errors.extend(validate_auth(manifest.get("auth"), "auth", has_domain));
+    errors.extend(validate_auth_applies(manifest));
     errors.extend(validate_server_ui(manifest));
     errors.extend(tool_errors);
     errors

@@ -4666,12 +4666,16 @@ dependencies = [
  "hyper",
  "hyper-util",
  "indexmap 2.14.2",
+ "reqwest",
+ "serde",
  "serde_json",
  "tempfile",
  "tokio",
+ "url",
  "usemcpkit-auth",
  "usemcpkit-core",
  "usemcpkit-manifest",
+ "usemcpkit-openapi",
 ]
 
 [[package]]
@@ -4790,6 +4794,7 @@ dependencies = [
  "usemcpkit-execution",
  "usemcpkit-http",
  "usemcpkit-manifest",
+ "usemcpkit-openapi",
  "usemcpkit-registry",
  "usemcpkit-runner",
  "usemcpkit-testing",

@@ -9,6 +9,7 @@
     "usemcpkit-execution",
     "usemcpkit-http",
     "usemcpkit-manifest",
+    "usemcpkit-openapi",
     "usemcpkit-registry",
     "usemcpkit-runner",
     "usemcpkit-testing",

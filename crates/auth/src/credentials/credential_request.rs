@@ -1,6 +1,8 @@
 use crate::credentials::{CredentialOption, DomainField};
 use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
+use std::sync::Arc;
+use usemcpkit_manifest::Manifest;
 
 /// Everything the credentials page shows, so the page itself holds no text. Its JSON is what the Svelte page reads.
 #[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
@@ -20,6 +22,10 @@ pub struct CredentialRequest {
     pub options: Vec<CredentialOption>,
     /// Whether the server offers an OAuth2 browser sign-in.
     pub sign_in: bool,
+    /// The manifest the form asks for, which the Check button probes with; kept in the process, never sent to the
+    /// page.
+    #[serde(skip)]
+    pub manifest: Option<Arc<Manifest>>,
 }
 
 impl CredentialRequest {

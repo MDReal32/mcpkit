@@ -737,7 +737,7 @@
         }
       },
       "errors": [
-        "ui.texts.nope is not a text of the page, use one of: brand, pageTitle, title, intro, domainLabel, domainHint, domainPlaceholder, domainNewHost, domainShowHosts, signInLabel, tokenDivider, credentialLegend, fieldHint, tokenLabel, usernameLabel, passwordLabel, headerLabel, queryLabel, actionsDivider, cancel, submit, checking, requiredField, savedTitle, savedBody, signingInTitle, signingInBody, cancelledTitle, cancelledBody, failedTitle, requestFailed",
+        "ui.texts.nope is not a text of the page, use one of: brand, pageTitle, title, intro, domainLabel, domainHint, domainPlaceholder, domainNewHost, domainShowHosts, domainCheck, domainChecking, domainChecked, signInLabel, tokenDivider, credentialLegend, fieldHint, tokenLabel, usernameLabel, passwordLabel, headerLabel, queryLabel, actionsDivider, cancel, submit, checking, requiredField, savedTitle, savedBody, signingInTitle, signingInBody, cancelledTitle, cancelledBody, failedTitle, requestFailed",
         "ui.texts.cancel must be a string"
       ]
     },
@@ -3173,7 +3173,7 @@
         }
       },
       "errors": [
-        "ui.texts.nope is not a text of the page, use one of: brand, pageTitle, title, intro, domainLabel, domainHint, domainPlaceholder, domainNewHost, domainShowHosts, signInLabel, tokenDivider, credentialLegend, fieldHint, tokenLabel, usernameLabel, passwordLabel, headerLabel, queryLabel, actionsDivider, cancel, submit, checking, requiredField, savedTitle, savedBody, signingInTitle, signingInBody, cancelledTitle, cancelledBody, failedTitle, requestFailed",
+        "ui.texts.nope is not a text of the page, use one of: brand, pageTitle, title, intro, domainLabel, domainHint, domainPlaceholder, domainNewHost, domainShowHosts, domainCheck, domainChecking, domainChecked, signInLabel, tokenDivider, credentialLegend, fieldHint, tokenLabel, usernameLabel, passwordLabel, headerLabel, queryLabel, actionsDivider, cancel, submit, checking, requiredField, savedTitle, savedBody, signingInTitle, signingInBody, cancelledTitle, cancelledBody, failedTitle, requestFailed",
         "ui.texts.intro must be a string"
       ]
     },

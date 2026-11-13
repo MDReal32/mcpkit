@@ -2,6 +2,7 @@
 //! version the user's server runs, turns each endpoint into a tool and names it with the manifest's rules.
 
 pub mod document;
+pub mod merge;
 pub mod version;
 
 mod body;

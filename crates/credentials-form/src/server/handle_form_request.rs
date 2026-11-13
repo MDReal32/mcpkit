@@ -1,3 +1,4 @@
+use crate::host_check::check_version;
 use crate::server::allowed_origin::allowed_origin;
 use crate::server::answer_preflight::answer_preflight;
 use crate::server::form_session::FormSession;
@@ -13,7 +14,8 @@ use hyper::header::{ACCESS_CONTROL_ALLOW_ORIGIN, CACHE_CONTROL, CONTENT_TYPE, He
 use hyper::{Method, Request, Response, StatusCode};
 use serde_json::json;
 use usemcpkit_auth::credentials::{
-    CREDENTIALS_FORM_CANCEL_PATH, CREDENTIALS_FORM_IMPORT_PATH, CREDENTIALS_FORM_SUBMIT_PATH,
+    CREDENTIALS_FORM_CANCEL_PATH, CREDENTIALS_FORM_CHECK_PATH, CREDENTIALS_FORM_IMPORT_PATH,
+    CREDENTIALS_FORM_SUBMIT_PATH,
 };
 
 /// The page at `GET /` (Host checked) and the API under `/api` (Host and session token checked). A page of the window
@@ -59,6 +61,7 @@ async fn answer_form_request(
     match path.as_str() {
         CREDENTIALS_FORM_SUBMIT_PATH => submit_answer(session, body).await,
         CREDENTIALS_FORM_IMPORT_PATH => import_token(session, body).await,
+        CREDENTIALS_FORM_CHECK_PATH => check_version(session, body).await,
         CREDENTIALS_FORM_CANCEL_PATH => {
             session.cancel();
             send_json(StatusCode::OK, &json!({}))

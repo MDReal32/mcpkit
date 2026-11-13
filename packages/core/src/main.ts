@@ -4,6 +4,9 @@ export type {
   CredentialRequest,
   CredentialResponse,
   DomainField,
+  DomainSource,
+  HostCheckRequest,
+  HostCheckResult,
   SignInCredentialResponse,
   TokenCredentialResponse,
   TokenImportRequest,
@@ -19,6 +22,7 @@ export {
 export { describeError } from "./errors";
 export { isJsonObject } from "./json";
 export type {
+  Applies,
   ArgSpec,
   AuthSpec,
   DomainSpec,

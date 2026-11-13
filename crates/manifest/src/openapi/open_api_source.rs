@@ -6,6 +6,9 @@ use serde::{Deserialize, Serialize};
 pub struct OpenApiSource {
     /// Names the source in hand-written tools' `applies`, for example `datacenter`.
     pub name: String,
+    /// What the credentials form calls the deployment, for example `Data Center`; the name when absent.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub label: Option<String>,
     /// Host suffixes such as `.atlassian.net`; absent, the source matches any host.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub hosts: Option<Vec<String>>,

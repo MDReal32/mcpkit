@@ -10,11 +10,13 @@ pub mod tool;
 pub mod ui;
 pub mod upstream;
 
+mod applies;
 mod domain_spec;
 mod edition_spec;
 mod manifest;
 mod manifest_document;
 
+pub use applies::Applies;
 pub use domain_spec::DomainSpec;
 pub use edition_spec::EditionSpec;
 pub use manifest::Manifest;

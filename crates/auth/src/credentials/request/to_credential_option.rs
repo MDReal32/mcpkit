@@ -27,5 +27,6 @@ pub fn to_credential_option(
         label,
         actions: to_option_actions(auth.ui(), server_name, fields.len()),
         fields,
+        applies: auth.applies().cloned(),
     })
 }
