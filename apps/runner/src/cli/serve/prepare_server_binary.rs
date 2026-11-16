@@ -2,10 +2,11 @@ use crate::cli::consts::VERSION;
 use crate::cli::serve::resolve_server_binary::resolve_server_binary;
 use crate::cli::update::create_binary_context;
 use std::path::PathBuf;
-use usemcpkit_binary::{is_installed_binary, restore_server_binary};
+use usemcpkit_binary::{is_installed_binary, restore_sibling_binaries};
 
 /// The server `--server` names, or the one next to this runner. An updater from before the server was split out
-/// replaces only the runner; the runner `usemcpkit install` placed then downloads the server of its own version.
+/// replaces only the runner; the runner `usemcpkit install` placed then downloads the server and the credentials
+/// window of its own version.
 pub async fn prepare_server_binary(explicit: Option<PathBuf>) -> Result<PathBuf, String> {
     if let Some(path) = explicit {
         return Ok(path);
@@ -24,11 +25,11 @@ pub async fn prepare_server_binary(explicit: Option<PathBuf>) -> Result<PathBuf,
             path.display()
         ));
     }
-    let restored = restore_server_binary(&context, VERSION)
+    let restored = restore_sibling_binaries(&context, VERSION)
         .await
         .map_err(|error| format!("{} is missing and could not be downloaded: {error}", path.display()))?;
     eprintln!(
-        "usemcpkit: downloaded the missing {} of usemcpkit {VERSION}",
+        "usemcpkit: downloaded the missing {} and the credentials window of usemcpkit {VERSION}",
         restored.display()
     );
     Ok(restored)

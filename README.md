@@ -10,7 +10,7 @@ packages/core      @usemcpkit/core       library: manifest format, SDK, form con
 packages/servers   @usemcpkit/servers    server definitions, compiled into the registry (private)
 packages/testing   @usemcpkit/testing    shared test fixtures (private)
 apps/runner        usemcpkit-runner      the usemcpkit binary: commands, installing, the supervisor (Rust)
-apps/server        usemcpkit-servers     the usemcpkit-servers binary: MCP stdio server; embeds and launches the credentials window (Rust)
+apps/server        usemcpkit-servers     the usemcpkit-servers binary: MCP stdio server; opens the credentials window next to it (Rust)
 apps/window        usemcpkit-window      the credentials window: a Tauri app with the Svelte page in apps/window/ui (@usemcpkit/ui, private)
 apps/npx           usemcpkit             wrapper so `npx usemcpkit` runs the binary of this platform
 apps/analytics     @usemcpkit/analytics  usage-reporting Worker
@@ -69,7 +69,7 @@ client's path and entry shape lives in `crates/clients/src/definitions/<id>.rs`.
 
 **Where the binary comes from.** `npx usemcpkit` runs the `usemcpkit` binary of the `@usemcpkit/cli-<target>` package
 npm installed for this machine (for example `@usemcpkit/cli-darwin-arm64`, `@usemcpkit/cli-linux-x64-musl`), which holds
-it and `usemcpkit-servers`. Installing copies both. A runner with no `usemcpkit-servers` beside it downloads
+it, `usemcpkit-servers` and `usemcpkit-window`. Installing copies all three. A runner with no `usemcpkit-servers` beside it downloads
 `@usemcpkit/cli-<target>` at its own version from the npm registry and checks the tarball against its published
 `sha512` integrity. Building and publishing those packages is release work, see `docs/rust-port.md`.
 
@@ -106,9 +106,10 @@ packages/servers/src/servers/gitlab/gitlab.ts   author servers in TypeScript (on
   └─ vite build                          packages/servers: plugins/manifests/ compiles + validates src/servers/*
        └─ build/manifests/*.json          compiled manifests + index.json (the registry; CI publishes it to GitHub Pages)
 cargo build --release -p usemcpkit-window  apps/window: the Tauri credentials window, with its Svelte page inside
-cargo build --release                    apps/runner + apps/server (embeds the window), no manifests inside
+cargo build --release                    apps/runner + apps/server, no manifests inside
   ├─ target/release/usemcpkit            commands and the supervisor that owns the client's stdio
-  └─ target/release/usemcpkit-servers    the MCP server it runs, which downloads manifests from the registry
+  ├─ target/release/usemcpkit-servers    the MCP server it runs, which downloads manifests from the registry
+  └─ target/release/usemcpkit-window     the credentials window it opens next to itself
 ```
 
 An invalid server definition fails the build. The build log lists each compiled manifest:

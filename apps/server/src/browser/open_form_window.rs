@@ -1,16 +1,15 @@
 use crate::browser::fall_back_to_browser::fall_back_to_browser;
 use crate::browser::form_window_command::form_window_command;
-use crate::window_app::install_window_app;
-use std::path::Path;
+use crate::window_app::find_window_app;
 use tokio::io::AsyncWriteExt;
 use usemcpkit_auth::credentials::CredentialRequest;
 use usemcpkit_core::js::to_js_json;
 
-/// Shows the form in the credentials window program embedded in this binary (`usemcpkit-window <url>` with the request
+/// Shows the form in the credentials window program next to this binary (`usemcpkit-window <url>` with the request
 /// on stdin, a process of its own because the webview blocks its thread). When that window cannot open, it says so and
 /// opens the default browser instead.
-pub fn open_form_window(home: &Path, url: &str, request: &CredentialRequest) {
-    let spawned = start_window(home, url, request);
+pub fn open_form_window(url: &str, request: &CredentialRequest) {
+    let spawned = start_window(url, request);
     let (mut child, request_json) = match spawned {
         Ok(started) => started,
         Err(reason) => return fall_back_to_browser(url, &reason),
@@ -38,12 +37,8 @@ pub fn open_form_window(home: &Path, url: &str, request: &CredentialRequest) {
     });
 }
 
-fn start_window(
-    home: &Path,
-    url: &str,
-    request: &CredentialRequest,
-) -> Result<(tokio::process::Child, String), String> {
-    let program = install_window_app(home)?;
+fn start_window(url: &str, request: &CredentialRequest) -> Result<(tokio::process::Child, String), String> {
+    let program = find_window_app()?;
     let request = serde_json::to_value(request).map_err(|error| error.to_string())?;
     let child = form_window_command(&program, url)
         .spawn()

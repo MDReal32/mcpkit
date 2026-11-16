@@ -14,7 +14,6 @@
     "usemcpkit-runner",
     "usemcpkit-testing",
     "usemcpkit-upstream",
-    "usemcpkit-window",
     "usemcpkit-wire-log",
     "@usemcpkit/servers",
     "@usemcpkit/ui"

@@ -91,6 +91,7 @@ jobs:
           path: |
             target/release/usemcpkit${{ matrix.extension }}
             target/release/usemcpkit-servers${{ matrix.extension }}
+            target/release/usemcpkit-window${{ matrix.extension }}
           if-no-files-found: error
           retention-days: 1
 

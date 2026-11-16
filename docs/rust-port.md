@@ -15,8 +15,8 @@ in the golden fixtures below.
 | Path                     | Crate                     | What it owns                                                                                                                                   |
 | ------------------------ | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | `apps/runner`            | `usemcpkit-runner` (`usemcpkit`) | The commands (`install`, which a bare `usemcpkit` runs, plus `uninstall`, `list`, `update`, `upgrade` and `serve`) and the supervisor that owns the client's stdio and swaps the server when its binary changes. |
-| `apps/server`            | `usemcpkit-servers`           | `serve [servers...] --worker`, which runs the catalog and the `search` and `execute` tools over stdio, and the launch of the credentials window: the `usemcpkit-window` program it embeds. `build.rs` embeds that program and `apps/window/ui/build/usemcpkit.ui.html` (the page for the browser fallback). |
-| `apps/window`            | `usemcpkit-window`            | The credentials window, a Tauri 2 app with the Svelte page (`apps/window/ui`, `@usemcpkit/ui`) bundled as its frontend. `usemcpkit-servers` embeds its binary, writes it to `~/.usemcpkit/window/<version>-<checksum>/` and runs it with the form URL and the request on stdin. |
+| `apps/server`            | `usemcpkit-servers`           | `serve [servers...] --worker`, which runs the catalog and the `search` and `execute` tools over stdio, and the launch of the credentials window: the `usemcpkit-window` program next to it. `build.rs` embeds `apps/window/ui/build/usemcpkit.ui.html` (the page for the browser fallback). |
+| `apps/window`            | `usemcpkit-window`            | The credentials window, a Tauri 2 app with the Svelte page (`apps/window/ui`, `@usemcpkit/ui`) bundled as its frontend. It is the third binary of a release: installing and updating put it beside `usemcpkit` and `usemcpkit-servers`, and the server runs it with the form URL and the request on stdin (the browser opens instead when it is missing). |
 | `crates/core`            | `usemcpkit-core`             | The usemcpkit home, `Env`, versions, `find_program`, config migrations, and JavaScript-compatible number, string and JSON printing.             |
 | `crates/manifest`        | `usemcpkit-manifest`         | Manifest and registry types (serde), domains and editions, and UI texts.                                                                       |
 | `crates/registry`        | `usemcpkit-registry`         | The index and manifest cache in `~/.usemcpkit/manifests`: sync, checksums, lazy shell and part downloads, `ensure_manifest_index`.                |
@@ -35,8 +35,7 @@ registry:
 
 1. `yarn workspace @usemcpkit/ui build`
 2. `yarn workspace @usemcpkit/servers build`
-3. `cargo build -p usemcpkit-window` (the server embeds this program; `--release` for a release server)
-4. `cargo build`
+3. `cargo build` (add `-p usemcpkit-window` for the window; it sits beside the server and is not embedded, so the server builds and tests without it)
 
 Or let Nx order it: every crate is an Nx project named after it (a `project.json`, `implicitDependencies` taken from
 its Cargo dependencies), so `yarn nx run usemcpkit-servers:build` builds the UI page and the registry first. The
@@ -137,7 +136,7 @@ server, and all of them once each through `codemode.tools()` with no server. It 
 - A TS supervisor that is already running restarts whatever binary replaced its own as `serve <names> --worker`. The
   runner accepts that hidden flag and hands the connection on to `usemcpkit-servers` on the same stdio.
 - The TS updater replaces only the runner. When the installed runner finds no `usemcpkit-servers` next to it, it downloads
-  the server of its own version from npm (`restore_server_binary`) before serving.
+  the server and the window of its own version from npm (`restore_sibling_binaries`) before serving.
 
 ## Moving users from the `mcpkit` name
 
@@ -165,8 +164,7 @@ TS and Rust handle them the same way:
 One workflow per thing shipped, each running from its first build to its last step and started only by the
 directories it ships; they share no jobs and no artifacts. `release.yml` ("Release", the file npm's trusted publisher is
 set to, so it keeps its name) releases the npm packages and nothing else: its `build` job runs `yarn build` (every lint,
-test and build gate) on Ubuntu, the `binaries` jobs build `usemcpkit-window` first on each target, then the two binaries
-(the server embeds the window program), `package` writes the npm packages, and the npm jobs publish them.
+test and build gate) on Ubuntu, the `binaries` jobs build the three binaries (the runner, the server and `usemcpkit-window`) on each target, `package` writes the npm packages, and the npm jobs publish them.
 `github-release.yml` builds the binaries and the registry itself and creates the GitHub Release with them. `pages.yml`
 builds the manifests and the promo video and deploys them to GitHub Pages. `winget.yml` opens the winget-pkgs pull
 request (by hand for now). Homebrew will be a workflow of its own. Steps that more than one workflow repeats are
@@ -180,8 +178,8 @@ seeded from the first job's registry, auto-update off and the registry unreachab
 `execute`; it does not open the
 credentials window or reach the network; the package job runs it once more on the packaged `cli-linux-x64`, with only
 the WebKitGTK runtime installed), and `tools/release` writes each
-`@usemcpkit/cli-<target>` package with `bin/usemcpkit[.exe]` and `bin/usemcpkit-servers[.exe]`, the GitHub Release
-assets (`usemcpkit-<target>[.exe]`, `usemcpkit-servers-<target>[.exe]`) and the wrapper's `optionalDependencies` at the
+`@usemcpkit/cli-<target>` package with `bin/usemcpkit[.exe]`, `bin/usemcpkit-servers[.exe]` and `bin/usemcpkit-window[.exe]`, the GitHub Release
+assets (`usemcpkit-<target>[.exe]`, `usemcpkit-servers-<target>[.exe]`, `usemcpkit-window-<target>[.exe]`) and the wrapper's `optionalDependencies` at the
 release version, beside the core and wrapper builds of the first job. It fails unless `apps/npx` and the Cargo workspace have the same version. `publish-npm.sh` skips any
 version npm already has, so a release only publishes what was bumped.
 
@@ -196,7 +194,7 @@ needs for losing its runtime exports (executor, auth, mapping) and `validateMani
   the window program needs it, and without it the credentials form opens in the default browser.
 - Decide whether the first release also ships the runner as `package/bin/mcpkit[.exe]`, so TS `0.9.0` installs update
   themselves into it, or whether those users reinstall with `npx usemcpkit` (see "Moving users from the `mcpkit` name").
-- Homebrew and winget packages must ship `usemcpkit-servers` next to `usemcpkit`.
+- Homebrew and winget packages must ship `usemcpkit-servers` and `usemcpkit-window` next to `usemcpkit`.
 
 ## Testing hazards
 

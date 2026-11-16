@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Creates the GitHub Release for the current usemcpkit version with both binaries of every target
-# (`usemcpkit-<target>[.exe]`, `usemcpkit-servers-<target>[.exe]`), a SHA256SUMS file and the registry of this version
+# Creates the GitHub Release for the current usemcpkit version with the three binaries of every target
+# (`usemcpkit-<target>[.exe]`, `usemcpkit-servers-<target>[.exe]`, `usemcpkit-window-<target>[.exe]`), a SHA256SUMS file and the registry of this version
 # (`registry.tar.gz`). winget and Homebrew download the binaries, so the tag is created once per version; the registry
 # asset is replaced on every run, since the registry deploy rebuilds each version's `v<version>/` folder from it.
 set -euo pipefail
