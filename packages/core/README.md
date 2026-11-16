@@ -95,7 +95,7 @@ An option is skipped when its credentials are missing or the API answers `401`. 
 saying why. `none` can only be the last entry. Leaving out `auth` means no auth.
 
 **Fallbacks.** The manifest never holds a secret, only where to find it:
-`none`, `bearer {env}`, `header {env, name, prefix?}`, `query {env, name}`, `basic {usernameEnv, passwordEnv}`
+`none`, `bearer {env}`, `header {env, name, prefix?}`, `query {env, name, extra?: [{env, name}]}`, `basic {usernameEnv, passwordEnv}`
 (each also takes an optional `label`, the option's title in the form; all but `none` take an optional
 `ui`, see below).
 Env vars always win, so CI keeps working without a browser.

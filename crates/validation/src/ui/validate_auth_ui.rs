@@ -18,9 +18,16 @@ pub fn validate_auth_ui(auth: &Map<String, Value>, location: &str, has_domain: b
     let Some(ui) = ui.as_object() else {
         return vec![format!("{ui_location} must be an object")];
     };
+    let extra_envs = auth
+        .get("extra")
+        .and_then(Value::as_array)
+        .into_iter()
+        .flatten()
+        .filter_map(|param| param.get("env").and_then(Value::as_str).map(str::to_owned));
     let env_names: Vec<String> = AUTH_ENV_KEYS
         .iter()
         .filter_map(|key| auth.get(*key).and_then(Value::as_str).map(str::to_owned))
+        .chain(extra_envs)
         .collect();
     let mut errors: Vec<String> = ui
         .keys()
