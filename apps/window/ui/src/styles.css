@@ -367,8 +367,32 @@ button.ghost:hover:not(:disabled) {
   font-size: 13.5px;
 }
 
+.domain-row {
+  display: flex;
+  gap: 8px;
+}
+
+.domain-check {
+  flex: none;
+  min-width: 124px;
+  height: 44px;
+}
+
+.domain-checked {
+  color: var(--muted);
+}
+
+.domain-check-error {
+  color: var(--error);
+}
+
 .combobox-control {
   position: relative;
+}
+
+.domain-row .combobox-control {
+  flex: 1;
+  min-width: 0;
 }
 
 .combobox-control input {

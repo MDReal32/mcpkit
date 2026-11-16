@@ -1,3 +1,4 @@
+import type { Applies } from "../applies";
 import type { InputSchema } from "./input-schema";
 import type { RequestSpec } from "./request-spec";
 import type { ResponseSpec } from "./response-spec";
@@ -11,4 +12,6 @@ export interface ToolSpec {
   response?: ResponseSpec;
   /** Per-edition overrides, keyed by the manifest's `editions`. */
   editions?: Readonly<Record<string, ToolEdition>>;
+  /** In an OpenAPI manifest, the sources and versions this hand-written tool applies to. */
+  applies?: Applies;
 }

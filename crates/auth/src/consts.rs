@@ -13,8 +13,8 @@ pub const DEFAULT_HOST_KEY: &str = "default";
 
 /// The category of the servers that existed before the config grouped them by category.
 pub const LEGACY_SERVER_CATEGORIES: &[(&str, &str)] = &[
-    ("confluence", "atlassian"),
-    ("jira", "atlassian"),
+    ("confluence", "orgs/atlassian"),
+    ("jira", "orgs/atlassian"),
     ("github", "git"),
     ("gitlab", "git"),
 ];

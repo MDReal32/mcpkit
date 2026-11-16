@@ -1,9 +1,11 @@
-import { defineConfluenceServer } from "../../providers/confluence";
-import { confluenceTools } from "./tools";
+import { defineServer } from "@usemcpkit/core";
+import { CONFLUENCE_BASE, CONFLUENCE_SOURCES } from "./const";
 
-export const confluence = defineConfluenceServer({
+export const confluence = defineServer({
+  ...CONFLUENCE_BASE,
   name: "confluence",
   description:
-    "Confluence REST API for Cloud and Data Center. Tools are named '<group>:<resource>:<action>': group cloud is Cloud REST v2 (/wiki/api/v2), cloud_v1 is Cloud REST v1 (/wiki/rest/api) and datacenter is Data Center / Server REST (/rest/api); call the group that matches the configured host.",
-  tools: confluenceTools,
+    "Confluence REST API of Confluence Cloud (REST v2 and v1) or of the Data Center release the host runs: pages, blog posts, spaces, attachments, comments, labels, properties, users and groups, permissions and administration. Tools are named after their endpoint, '<path>:<method>' (wiki/api/v2/pages/{id}:get on Cloud, rest/api/content/{id}:get on Data Center).",
+  openapi: { sources: CONFLUENCE_SOURCES },
+  tools: [],
 });

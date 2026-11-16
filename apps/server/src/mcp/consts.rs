@@ -4,6 +4,9 @@ pub const SERVER_NAME: &str = "usemcpkit";
 
 pub const TOOL_ID_SEPARATOR: char = ':';
 
+/// Between the segments of the path in an endpoint's tool name.
+pub const PATH_SEPARATOR: char = '/';
+
 pub const PARSE_ERROR: i64 = -32700;
 
 pub const INVALID_REQUEST: i64 = -32600;

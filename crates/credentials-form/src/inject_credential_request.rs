@@ -44,6 +44,7 @@ mod tests {
             loopback_http: false,
             options: Vec::new(),
             sign_in: false,
+            manifest: None,
         }
     }
 

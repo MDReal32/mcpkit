@@ -1,6 +1,6 @@
 import { nameUpstreamTool } from "@usemcpkit/core";
 import { describe, expect, it } from "vitest";
-import { n8nMcp } from "../src/servers/n8n-mcp/n8n-mcp";
+import { n8n } from "../src/servers/n8n/n8n";
 
 /** Every tool of n8n's instance-level MCP server: `TOOLS_BY_SCOPE` in `packages/cli/src/modules/mcp/mcp-scopes.ts`, 2.47.0. */
 const UPSTREAM_TOOLS =
@@ -19,7 +19,7 @@ const RENAMED_TOOLS = {
 
 const MAX_NAME_LENGTH = 51;
 
-const naming = n8nMcp.upstream?.naming;
+const naming = n8n.upstream?.type === "http" ? n8n.upstream.naming : undefined;
 
 describe("n8n MCP naming rules", () => {
   const names = UPSTREAM_TOOLS.map((tool) => nameUpstreamTool(naming, tool));
@@ -33,7 +33,7 @@ describe("n8n MCP naming rules", () => {
   });
 
   it("keep every MCP tool name within the client's limit", () => {
-    const tooLong = names.filter((name) => `automation_n8n_mcp_${name?.replaceAll(":", "_")}`.length > MAX_NAME_LENGTH);
+    const tooLong = names.filter((name) => `automation_n8n_${name?.replaceAll(":", "_")}`.length > MAX_NAME_LENGTH);
 
     expect(tooLong).toEqual([]);
   });

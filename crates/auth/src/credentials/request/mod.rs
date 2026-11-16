@@ -6,6 +6,7 @@ mod request_credentials_once;
 mod resolve_credential_form;
 mod to_credential_field;
 mod to_credential_option;
+mod to_domain_source;
 
 pub use build_credential_request::build_credential_request;
 pub use request_credentials_once::request_credentials_once;

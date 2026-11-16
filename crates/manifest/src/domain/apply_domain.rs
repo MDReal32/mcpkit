@@ -1,3 +1,4 @@
+use crate::auth::AuthSpec;
 use crate::domain::apply_auth_domain::apply_auth_domain;
 use crate::domain::apply_tool_edition::apply_tool_edition;
 use crate::domain::fill_domain_url::fill_domain_url;
@@ -13,9 +14,16 @@ pub fn apply_domain(manifest: &Manifest, domain: Option<&str>) -> Manifest {
     };
     let loopback_http = manifest.domain.as_ref().is_some_and(DomainSpec::allows_loopback_http);
     let edition_name = find_edition(manifest.editions.as_ref(), domain);
+    let fill_auth = |entries: &Vec<AuthSpec>| -> Vec<AuthSpec> {
+        entries
+            .iter()
+            .map(|auth| apply_auth_domain(auth, domain, loopback_http))
+            .collect()
+    };
     let upstream = match &manifest.upstream {
         Some(UpstreamSpec::Http(upstream)) => Some(UpstreamSpec::Http(HttpUpstream {
             url: fill_domain_url(&upstream.url, domain, loopback_http),
+            auth: upstream.auth.as_ref().map(fill_auth),
             ..upstream.clone()
         })),
         other => other.clone(),
@@ -23,12 +31,7 @@ pub fn apply_domain(manifest: &Manifest, domain: Option<&str>) -> Manifest {
     Manifest {
         base_url: fill_domain_url(&manifest.base_url, domain, loopback_http),
         upstream,
-        auth: manifest.auth.as_ref().map(|entries| {
-            entries
-                .iter()
-                .map(|auth| apply_auth_domain(auth, domain, loopback_http))
-                .collect()
-        }),
+        auth: manifest.auth.as_ref().map(fill_auth),
         tools: manifest
             .tools
             .iter()

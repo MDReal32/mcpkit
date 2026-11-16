@@ -7,6 +7,9 @@ pub const CREDENTIALS_FORM_CANCEL_PATH: &str = "/api/cancel";
 /// The page posts here to have the server fetch a token from a provider's CLI.
 pub const CREDENTIALS_FORM_IMPORT_PATH: &str = "/api/import";
 
+/// The page posts the typed host and credentials here to have the server asked its version.
+pub const CREDENTIALS_FORM_CHECK_PATH: &str = "/api/check";
+
 /// Carries the session token from the page URL's fragment on every API call.
 pub const CREDENTIALS_FORM_SESSION_HEADER: &str = "X-Usemcpkit-Session";
 

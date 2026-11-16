@@ -1,7 +1,9 @@
 <script lang="ts">
   import type { CredentialRequest } from "@usemcpkit/core";
+  import { fillTemplate } from "@usemcpkit/core";
   import { untrack } from "svelte";
   import { cancelCredentials } from "../api/cancel-credentials";
+  import { checkHost } from "../api/check-host";
   import { importCliToken } from "../api/import-cli-token";
   import { submitCredentials } from "../api/submit-credentials";
   import { buildMethods } from "../form/build-methods";
@@ -9,8 +11,12 @@
   import { buildTokenImportRequest } from "../form/build-token-import-request";
   import { buildTokenResponse } from "../form/build-token-response";
   import { createFormDraft } from "../form/create-form-draft";
+  import { findHostSource } from "../form/find-host-source";
+  import { isOptionOffered } from "../form/is-option-offered";
   import { pickMethodOption } from "../form/pick-method-option";
   import { resolveVisibleActions } from "../form/resolve-visible-actions";
+  import type { CheckedHost } from "../types/checked-host";
+  import type { FailedHostCheck } from "../types/failed-host-check";
   import type { FormStatus } from "../types/form-status";
   import type { SubmitResult } from "../types/submit-result";
   import DomainSelect from "./DomainSelect.svelte";
@@ -29,11 +35,58 @@
   let errors = $state<readonly string[]>([]);
   let busy = $state(false);
   let saving = $state(false);
-  const methods = $derived(buildMethods(request));
+  let checking = $state(false);
+  let check = $state<CheckedHost>();
+  let failedCheck = $state<FailedHostCheck>();
+  const typedHost = $derived(draft.domain.trim());
+  const hostSource = $derived(findHostSource(request.domain?.sources ?? [], typedHost));
+  const checked = $derived(check?.host === typedHost ? check.result : undefined);
+  const checkError = $derived(failedCheck?.host === typedHost ? failedCheck.message : "");
+  const canCheck = $derived(
+    request.domain?.check === true && hostSource?.versioned === true && typedHost !== request.domain.value,
+  );
+  const offered = $derived(
+    request.options.filter((option) => isOptionOffered(option.applies, hostSource?.name, checked?.version)),
+  );
+  const methods = $derived(buildMethods({ ...request, options: offered }));
   const method = $derived(methods.find((candidate) => candidate.key === draft.method));
   const chosen = $derived(method?.type === "manual" ? method.option : undefined);
   const actions = $derived(resolveVisibleActions(request, draft, chosen));
   const texts = $derived(request.texts);
+
+  $effect(() => {
+    const [first] = methods;
+    if (first && !methods.some((candidate) => candidate.key === draft.method)) {
+      untrack(() => {
+        draft.method = first.key;
+        selectMethod(first.key);
+      });
+    }
+  });
+
+  const checkTypedHost = async () => {
+    const host = typedHost;
+    checking = true;
+    failedCheck = undefined;
+    try {
+      const values = Object.fromEntries(
+        (chosen?.fields ?? []).map((field) => [field.key, draft.values[field.key] ?? ""]),
+      );
+      const outcome = await checkHost(
+        { domain: host, ...(chosen ? { option: chosen.index, values } : {}) },
+        texts.requestFailed,
+      );
+      if (outcome.ok) {
+        check = { host, result: outcome.result };
+      } else {
+        failedCheck = { host, message: outcome.errors.join("; ") };
+      }
+    } catch (error) {
+      failedCheck = { host, message: error instanceof Error ? error.message : String(error) };
+    } finally {
+      checking = false;
+    }
+  };
 
   const send = async (post: () => Promise<SubmitResult>, doneStatus: FormStatus) => {
     busy = true;
@@ -102,6 +155,13 @@
       showHostsLabel={texts.domainShowHosts}
       knownHosts={request.domain.knownHosts}
       suggestedHosts={request.domain.suggestedHosts ?? []}
+      prefilled={request.domain.value}
+      {canCheck}
+      checkLabel={checking ? texts.domainChecking : texts.domainCheck}
+      {checking}
+      checked={checked ? fillTemplate(texts.domainChecked, { source: checked.label, version: checked.version ?? '' }).trim() : ''}
+      {checkError}
+      oncheck={checkTypedHost}
       bind:value={draft.domain}
     />
   {/if}

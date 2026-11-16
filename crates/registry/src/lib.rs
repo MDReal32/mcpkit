@@ -13,11 +13,11 @@ mod remote;
 mod sync;
 mod warn_on_stderr;
 
-pub use catalog::{load_group_manifest, load_groups, load_manifest};
+pub use catalog::{load_group_manifest, load_groups, load_manifest, load_server_manifest};
 pub use consts::{DEFAULT_REGISTRY_URL, REGISTRY_ENV, REGISTRY_VERSION_DIR, TOOL_NAME_SEPARATOR};
 pub use local::{read_cached_index, resolve_user_dir};
 pub use registry_context::RegistryContext;
 pub use registry_error::RegistryError;
-pub use remote::{Fetch, HttpFetcher, resolve_registry_url};
+pub use remote::{Fetch, HttpFetcher, resolve_registry_link, resolve_registry_url};
 pub use sync::{SyncFailure, SyncReport, ensure_manifest_index, sync_registry};
 pub use warn_on_stderr::warn_on_stderr;

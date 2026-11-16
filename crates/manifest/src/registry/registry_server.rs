@@ -15,4 +15,7 @@ pub struct RegistryServer {
     /// Set when the manifest fronts another MCP server: the tools are discovered from it.
     #[serde(default, skip_serializing_if = "std::ops::Not::not")]
     pub upstream: bool,
+    /// Set when the server's tools are built on the user's machine from an OpenAPI document.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub openapi: bool,
 }

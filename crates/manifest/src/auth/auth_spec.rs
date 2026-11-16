@@ -1,3 +1,4 @@
+use crate::Applies;
 use crate::auth::{BasicAuth, BearerAuth, HeaderAuth, OAuthAuth, QueryAuth};
 use crate::ui::UiSpec;
 use serde::{Deserialize, Serialize};
@@ -33,9 +34,10 @@ impl AuthSpec {
             AuthSpec::None => Vec::new(),
             AuthSpec::Basic(auth) => vec![auth.username_env.as_str(), auth.password_env.as_str()],
             AuthSpec::OAuth(auth) => auth.client_secret_env.iter().map(String::as_str).collect(),
-            AuthSpec::Bearer(BearerAuth { env, .. })
-            | AuthSpec::Header(HeaderAuth { env, .. })
-            | AuthSpec::Query(QueryAuth { env, .. }) => vec![env.as_str()],
+            AuthSpec::Bearer(BearerAuth { env, .. }) | AuthSpec::Header(HeaderAuth { env, .. }) => vec![env.as_str()],
+            AuthSpec::Query(auth) => std::iter::once(auth.env.as_str())
+                .chain(auth.extra.iter().flatten().map(|param| param.env.as_str()))
+                .collect(),
         }
     }
 
@@ -69,6 +71,17 @@ impl AuthSpec {
             AuthSpec::Header(auth) => auth.ui.as_ref(),
             AuthSpec::Query(auth) => auth.ui.as_ref(),
             AuthSpec::Basic(auth) => auth.ui.as_ref(),
+            AuthSpec::None | AuthSpec::OAuth(_) => None,
+        }
+    }
+
+    /// Where the credentials form offers a fallback entry; everywhere when absent.
+    pub fn applies(&self) -> Option<&Applies> {
+        match self {
+            AuthSpec::Bearer(auth) => auth.applies.as_ref(),
+            AuthSpec::Header(auth) => auth.applies.as_ref(),
+            AuthSpec::Query(auth) => auth.applies.as_ref(),
+            AuthSpec::Basic(auth) => auth.applies.as_ref(),
             AuthSpec::None | AuthSpec::OAuth(_) => None,
         }
     }

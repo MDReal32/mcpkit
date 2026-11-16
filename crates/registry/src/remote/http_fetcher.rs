@@ -1,4 +1,4 @@
-use crate::consts::FETCH_TIMEOUT;
+use crate::consts::{FETCH_TIMEOUT, USER_AGENT};
 use crate::registry_error::RegistryError;
 use crate::remote::fetch::Fetch;
 
@@ -10,6 +10,7 @@ impl HttpFetcher {
     pub fn new() -> Result<Self, RegistryError> {
         reqwest::Client::builder()
             .timeout(FETCH_TIMEOUT)
+            .user_agent(USER_AGENT)
             .build()
             .map(|client| HttpFetcher { client })
             .map_err(|error| RegistryError::failed(format!("cannot start the HTTP client: {error}")))

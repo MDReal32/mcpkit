@@ -1,3 +1,4 @@
+use crate::credentials::DomainSource;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
@@ -13,4 +14,10 @@ pub struct DomainField {
     /// Hosts the server suggests (`domain.suggestedHosts`), offered after the known ones; none is picked for the user.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub suggested_hosts: Vec<String>,
+    /// Whether a Check button after the field asks the server its version (`domain.check`).
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub check: bool,
+    /// The manifest's OpenAPI sources, in order: the first whose hosts match the typed host is the one in use.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub sources: Vec<DomainSource>,
 }

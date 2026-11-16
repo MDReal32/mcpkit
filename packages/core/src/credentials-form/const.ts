@@ -3,6 +3,7 @@ export const CREDENTIALS_FORM_API = {
   submit: "/api/submit",
   cancel: "/api/cancel",
   import: "/api/import",
+  check: "/api/check",
 } as const;
 
 export const CREDENTIALS_REQUEST_ELEMENT_ID = "usemcpkit-request";

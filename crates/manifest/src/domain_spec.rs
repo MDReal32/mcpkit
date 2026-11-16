@@ -24,10 +24,18 @@ pub struct DomainSpec {
     /// Reaches a `localhost` or `127.0.0.1` domain over `http://`, for servers that usually run locally without TLS.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub loopback_http: Option<bool>,
+    /// Puts a Check button after the host field of the credentials form, which asks the server its version when the
+    /// OpenAPI source matching the host has a version probe.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub check: Option<bool>,
 }
 
 impl DomainSpec {
     pub fn allows_loopback_http(&self) -> bool {
         self.loopback_http == Some(true)
+    }
+
+    pub fn offers_check(&self) -> bool {
+        self.check == Some(true)
     }
 }

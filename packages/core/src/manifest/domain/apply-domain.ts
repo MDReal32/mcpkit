@@ -16,7 +16,13 @@ export const applyDomain = (manifest: Manifest, domain: string | undefined) => {
     baseUrl: fillDomainUrl(manifest.baseUrl, domain, loopbackHttp),
     upstream:
       manifest.upstream?.type === "http"
-        ? { ...manifest.upstream, url: fillDomainUrl(manifest.upstream.url, domain, loopbackHttp) }
+        ? {
+            ...manifest.upstream,
+            url: fillDomainUrl(manifest.upstream.url, domain, loopbackHttp),
+            ...(manifest.upstream.auth && {
+              auth: manifest.upstream.auth.map((auth) => applyAuthDomain(auth, domain, loopbackHttp)),
+            }),
+          }
         : manifest.upstream,
     auth: manifest.auth?.map((auth) => applyAuthDomain(auth, domain, loopbackHttp)),
     tools: manifest.tools.map((tool) => applyToolEdition(tool, editionName)),

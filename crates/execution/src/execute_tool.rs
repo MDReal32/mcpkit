@@ -20,6 +20,7 @@ pub async fn execute_tool(
     let AcceptedAuthAttempt {
         response,
         tool: sent_tool,
+        ..
     } = send_with_auth_fallback(manifest, tool, &args, context).await?;
     if let Some(save_to_arg) = &sent_tool.request.save_to_arg
         && response.is_ok()

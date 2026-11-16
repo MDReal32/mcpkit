@@ -109,13 +109,7 @@
       ]
     },
     "cloud/cloudflare": {
-      "names": [
-        "docs",
-        "search",
-        "execute",
-        "whoami",
-        "Execute"
-      ],
+      "names": ["docs", "search", "execute", "whoami", "Execute"],
       "catalog": [
         "docs:docs:search",
         "api:spec:search",

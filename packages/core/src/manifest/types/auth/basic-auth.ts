@@ -1,3 +1,4 @@
+import type { Applies } from "../applies";
 import type { UiSpec } from "../ui/ui-spec";
 
 export interface BasicAuth {
@@ -8,4 +9,6 @@ export interface BasicAuth {
   label?: string;
   /** Texts, field labels and buttons of the credentials page for this entry. */
   ui?: UiSpec;
+  /** In an OpenAPI manifest, the sources and versions the credentials form offers this entry for. */
+  applies?: Applies;
 }

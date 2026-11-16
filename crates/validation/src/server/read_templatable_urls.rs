@@ -1,12 +1,16 @@
 use serde_json::{Map, Value};
 
-/// The URLs that may contain `{domain}`: `baseUrl`, the oauth endpoints and `discovery` url, and an HTTP upstream's
-/// `url`.
+/// The URLs that may contain `{domain}`: `baseUrl`, the oauth endpoints and `discovery` url of the manifest's and of an
+/// HTTP upstream's own `auth`, and the upstream's `url`.
 pub fn read_templatable_urls(manifest: &Map<String, Value>) -> Vec<&str> {
-    let auth_entries = manifest
-        .get("auth")
-        .and_then(Value::as_array)
+    let upstream_auth = manifest
+        .get("upstream")
+        .and_then(Value::as_object)
+        .and_then(|upstream| upstream.get("auth"));
+    let auth_entries = [manifest.get("auth"), upstream_auth]
         .into_iter()
+        .flatten()
+        .filter_map(Value::as_array)
         .flatten()
         .filter_map(Value::as_object);
     let auth_urls = auth_entries.flat_map(|auth| {

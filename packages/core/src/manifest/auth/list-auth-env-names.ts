@@ -8,9 +8,10 @@ export const listAuthEnvNames = (auth: AuthSpec) => {
       return [auth.usernameEnv, auth.passwordEnv];
     case "oauth":
       return auth.clientSecretEnv ? [auth.clientSecretEnv] : [];
+    case "query":
+      return [auth.env, ...(auth.extra ?? []).map((param) => param.env)];
     case "bearer":
     case "header":
-    case "query":
       return [auth.env];
     default: {
       const unsupported: never = auth;

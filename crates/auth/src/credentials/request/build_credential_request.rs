@@ -2,6 +2,7 @@ use crate::credentials::CredentialRequest;
 use crate::credentials::request::build_domain_field::build_domain_field;
 use crate::credentials::request::to_credential_option::to_credential_option;
 use crate::ui::build_ui_texts;
+use std::sync::Arc;
 use usemcpkit_core::env::Env;
 use usemcpkit_manifest::{DomainSpec, Manifest};
 
@@ -27,5 +28,10 @@ pub fn build_credential_request(
             .collect(),
         sign_in: auth.iter().any(|entry| entry.is_interactive()),
         texts,
+        manifest: manifest
+            .domain
+            .as_ref()
+            .filter(|spec| spec.offers_check())
+            .map(|_| Arc::new(manifest.clone())),
     }
 }

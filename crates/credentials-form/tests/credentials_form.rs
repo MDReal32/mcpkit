@@ -8,8 +8,8 @@ use tokio::net::TcpStream;
 use tokio::sync::oneshot;
 use usemcpkit_auth::AuthError;
 use usemcpkit_auth::credentials::{
-    CREDENTIALS_FORM_CANCEL_PATH, CREDENTIALS_FORM_IMPORT_PATH, CREDENTIALS_FORM_SESSION_HEADER,
-    CREDENTIALS_FORM_SUBMIT_PATH, CredentialRequest,
+    CREDENTIALS_FORM_CANCEL_PATH, CREDENTIALS_FORM_CHECK_PATH, CREDENTIALS_FORM_IMPORT_PATH,
+    CREDENTIALS_FORM_SESSION_HEADER, CREDENTIALS_FORM_SUBMIT_PATH, CredentialRequest, build_credential_request,
 };
 use usemcpkit_core::env::Env;
 use usemcpkit_credentials_form::{CREDENTIALS_FORM_TIMEOUT, CredentialsFormOptions, create_credentials_form};
@@ -351,6 +351,118 @@ async fn hides_the_cli_button_and_refuses_the_import_when_the_cli_is_not_on_path
         assert_eq!(
             errors(&refused),
             json!(["this credential cannot be fetched automatically"])
+        );
+        call_api(&url, CREDENTIALS_FORM_CANCEL_PATH, &json!({})).await;
+    };
+
+    let (answer, ()) = tokio::join!(answer, page);
+
+    assert!(answer.is_err());
+}
+
+/// A Data Center server on a free loopback port that tells its version only to `Bearer good`.
+async fn start_fake_jira() -> String {
+    let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
+    let host = listener.local_addr().unwrap().to_string();
+    tokio::spawn(async move {
+        loop {
+            let (mut stream, _) = listener.accept().await.unwrap();
+            let mut buffer = vec![0; 4096];
+            let read = stream.read(&mut buffer).await.unwrap();
+            let request = String::from_utf8_lossy(&buffer[..read]).to_ascii_lowercase();
+            let (status, body) = if request.starts_with("get /rest/api/2/serverinfo ")
+                && request.contains("authorization: bearer good")
+            {
+                ("200 OK", r#"{"version":"10.3.5"}"#)
+            } else {
+                ("401 Unauthorized", "{}")
+            };
+            let answer = format!(
+                "HTTP/1.1 {status}\r\ncontent-type: application/json\r\ncontent-length: {}\r\nconnection: close\r\n\r\n{body}",
+                body.len()
+            );
+            stream.write_all(answer.as_bytes()).await.unwrap();
+        }
+    });
+    host
+}
+
+fn jira_manifest() -> usemcpkit_manifest::Manifest {
+    serde_json::from_value(json!({
+        "name": "jira",
+        "category": "productivity",
+        "version": "1.0.0",
+        "baseUrl": "https://{domain}",
+        "domain": { "check": true, "loopbackHttp": true },
+        "auth": [{
+            "type": "bearer",
+            "env": "JIRA_TOKEN",
+            "label": "Personal access token",
+            "applies": { "sources": ["datacenter"], "if": "{version} >= 8.14" },
+        }],
+        "openapi": {
+            "sources": [
+                { "name": "cloud", "label": "Cloud", "hosts": [".atlassian.net"], "url": "cloud.json" },
+                {
+                    "name": "datacenter",
+                    "label": "Data Center",
+                    "url": "datacenter-{version}.json",
+                    "version": {
+                        "probe": { "path": "/rest/api/2/serverInfo", "field": "version", "match": "^(\\d+\\.\\d+)" },
+                    },
+                },
+            ],
+        },
+    }))
+    .unwrap()
+}
+
+#[tokio::test]
+async fn checks_the_typed_host_with_the_typed_token_and_keeps_the_manifest_out_of_the_page() {
+    let jira = start_fake_jira().await;
+    let request = build_credential_request(&jira_manifest(), None, Vec::new(), &Env::default());
+    let (announced, answer) = open_form(request, PAGE, CREDENTIALS_FORM_TIMEOUT, Env::default());
+    let page = async {
+        let url = announced.await.unwrap();
+        let injected = read_injected_request(&url).await;
+        assert_eq!(injected["domain"]["check"], json!(true));
+        assert_eq!(injected["domain"]["sources"][1]["versioned"], json!(true));
+        assert_eq!(
+            injected["options"][0]["applies"],
+            json!({ "sources": ["datacenter"], "if": "{version} >= 8.14" })
+        );
+        assert!(injected.get("manifest").is_none());
+
+        let cloud = call_api(
+            &url,
+            CREDENTIALS_FORM_CHECK_PATH,
+            &json!({ "domain": "acme.atlassian.net" }),
+        )
+        .await;
+        assert_eq!(cloud.status, 200);
+        assert_eq!(
+            serde_json::from_str::<Value>(&cloud.body).unwrap(),
+            json!({ "source": "cloud", "label": "Cloud" })
+        );
+
+        let anonymous = call_api(
+            &url,
+            CREDENTIALS_FORM_CHECK_PATH,
+            &json!({ "domain": jira, "option": 0 }),
+        )
+        .await;
+        assert_eq!(anonymous.status, 400);
+        assert_eq!(
+            errors(&anonymous),
+            json!(["the server refused the check; fill in the credentials and check again"])
+        );
+
+        let typed = json!({ "domain": jira, "option": 0, "values": { "JIRA_TOKEN": "good" } });
+        let checked = call_api(&url, CREDENTIALS_FORM_CHECK_PATH, &typed).await;
+        assert_eq!(checked.status, 200, "{}", checked.body);
+        assert_eq!(
+            serde_json::from_str::<Value>(&checked.body).unwrap(),
+            json!({ "source": "datacenter", "label": "Data Center", "version": "10.3" })
         );
         call_api(&url, CREDENTIALS_FORM_CANCEL_PATH, &json!({})).await;
     };

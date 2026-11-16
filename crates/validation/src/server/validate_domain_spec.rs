@@ -1,4 +1,5 @@
 use crate::guards::is_domain_value_list;
+use crate::openapi::has_versioned_source;
 use crate::server::consts::DOMAIN_TEXT_KEYS;
 use crate::server::read_templatable_urls::read_templatable_urls;
 use serde_json::{Map, Value};
@@ -44,6 +45,14 @@ pub fn validate_domain_spec(manifest: &Map<String, Value>) -> Vec<String> {
     }
     if domain.get("loopbackHttp").is_some_and(|value| !value.is_boolean()) {
         errors.push("domain.loopbackHttp must be a boolean".to_owned());
+    }
+    match domain.get("check") {
+        None => {}
+        Some(Value::Bool(true)) if !has_versioned_source(manifest) => {
+            errors.push("domain.check needs an OpenAPI source with a version probe".to_owned());
+        }
+        Some(Value::Bool(_)) => {}
+        Some(_) => errors.push("domain.check must be a boolean".to_owned()),
     }
     errors
 }

@@ -17,12 +17,14 @@
       <project name="usemcpkit-http" file="file://$PROJECT_DIR$/crates/http/project.json" />
       <project name="usemcpkit-manifest" file="file://$PROJECT_DIR$/crates/manifest/project.json" />
       <project name="usemcpkit-napi" file="file://$PROJECT_DIR$/crates/napi/project.json" />
+      <project name="usemcpkit-openapi" file="file://$PROJECT_DIR$/crates/openapi/project.json" />
       <project name="usemcpkit-registry" file="file://$PROJECT_DIR$/crates/registry/project.json" />
       <project name="usemcpkit-runner" file="file://$PROJECT_DIR$/apps/runner/project.json" />
       <project name="usemcpkit-servers" file="file://$PROJECT_DIR$/apps/server/project.json" />
       <project name="usemcpkit-testing" file="file://$PROJECT_DIR$/crates/testing/project.json" />
       <project name="usemcpkit-upstream" file="file://$PROJECT_DIR$/crates/upstream/project.json" />
       <project name="usemcpkit-validation" file="file://$PROJECT_DIR$/crates/validation/project.json" />
+      <project name="usemcpkit-window" file="file://$PROJECT_DIR$/apps/window/project.json" />
       <project name="usemcpkit-wire-log" file="file://$PROJECT_DIR$/crates/wire-log/project.json" />
     </projects>
   </component>

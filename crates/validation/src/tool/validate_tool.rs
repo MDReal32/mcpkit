@@ -5,12 +5,12 @@ use crate::tool::validate_tool_fields::validate_tool_fields;
 use serde_json::Value;
 use std::collections::HashSet;
 
-pub fn validate_tool(tool: &Value, index: usize, edition_names: &HashSet<&str>) -> Vec<String> {
+pub fn validate_tool(tool: &Value, index: usize, edition_names: &HashSet<&str>, endpoint_names: bool) -> Vec<String> {
     let location = describe_tool_location(tool, index);
     let Some(tool) = tool.as_object() else {
         return vec![format!("{location} must be an object")];
     };
-    let mut errors = validate_tool_fields(tool, &location);
+    let mut errors = validate_tool_fields(tool, &location, endpoint_names);
     let Some(input) = tool
         .get("input")
         .and_then(Value::as_object)

@@ -92,6 +92,7 @@ impl HttpClient for FakeMcpServer {
 fn http_spec() -> UpstreamSpec {
     UpstreamSpec::Http(HttpUpstream {
         url: URL.to_owned(),
+        auth: None,
         naming: None,
     })
 }

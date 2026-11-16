@@ -9,11 +9,11 @@
     "usemcpkit-execution",
     "usemcpkit-http",
     "usemcpkit-manifest",
+    "usemcpkit-openapi",
     "usemcpkit-registry",
     "usemcpkit-runner",
     "usemcpkit-testing",
     "usemcpkit-upstream",
-    "usemcpkit-window",
     "usemcpkit-wire-log",
     "@usemcpkit/servers",
     "@usemcpkit/ui"

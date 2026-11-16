@@ -4,7 +4,7 @@ use crate::upstream::upstream_server::UpstreamServer;
 use usemcpkit_execution::CallContext;
 use usemcpkit_manifest::registry::RegistryServer;
 use usemcpkit_manifest::upstream::UpstreamSpec;
-use usemcpkit_registry::{Fetch, RegistryContext, load_manifest};
+use usemcpkit_registry::{Fetch, RegistryContext, load_server_manifest};
 
 /// The upstream server behind a catalog entry, with its tools discovered: from the cache when there is one, otherwise
 /// by starting it (which clones and sets up its repository the first time). Called when the server is first opened,
@@ -15,7 +15,7 @@ pub async fn hydrate_upstream_server<F: Fetch>(
     calls: &CallContext,
 ) -> Result<UpstreamServer, String> {
     let hydrated = async {
-        let manifest = load_manifest(server, context, "")
+        let manifest = load_server_manifest(server, context)
             .await
             .map_err(|error| error.to_string())?;
         let tools = discover_tools(&context.dir, &server.id, &manifest, calls).await?;

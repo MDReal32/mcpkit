@@ -1,0 +1,16 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "usemcpkit-openapi",
+  "projectType": "library",
+  "implicitDependencies": ["usemcpkit-manifest"],
+  "targets": {
+    "test": {
+      "command": "cargo test -p usemcpkit-openapi",
+      "inputs": ["default", "^production", "cargo"]
+    },
+    "lint": {
+      "command": "cargo fmt -p usemcpkit-openapi --check && cargo clippy -p usemcpkit-openapi --all-targets",
+      "inputs": ["default", "^production", "cargo"]
+    }
+  }
+}

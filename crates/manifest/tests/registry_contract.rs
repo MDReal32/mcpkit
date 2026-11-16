@@ -48,11 +48,16 @@ fn reads_and_writes_every_registry_file_unchanged() {
 
     let mut files = Vec::new();
     json_files(&dir, &mut files);
-    let (mut manifests, mut shells, mut parts) = (0, 0, 0);
+    let (mut manifests, mut shells, mut parts, mut documents) = (0, 0, 0, 0);
 
     for path in files {
         let (text, original) = read_json(&path);
         let relative = path.strip_prefix(&dir).expect("inside the registry");
+        let is_openapi_document = ["openapi", "swagger"].iter().any(|key| original.get(key).is_some());
+        if relative.components().count() == 3 && is_openapi_document {
+            documents += 1;
+            continue;
+        }
         let written = if relative == Path::new("index.json") {
             let index: RegistryIndex = serde_json::from_str(&text).unwrap_or_else(|error| panic!("index: {error}"));
             assert!(!index.servers.is_empty(), "the index lists no servers");
@@ -76,6 +81,6 @@ fn reads_and_writes_every_registry_file_unchanged() {
     }
 
     assert!(manifests > 0, "no whole manifests found");
-    assert!(shells > 0, "no shell manifests found");
-    assert!(parts > 0, "no part files found");
+    assert_eq!(shells, parts, "a shell without parts or a part without a shell");
+    assert!(documents > 0, "no published OpenAPI documents found");
 }

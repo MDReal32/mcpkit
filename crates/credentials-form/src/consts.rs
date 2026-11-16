@@ -26,3 +26,8 @@ pub const WINDOW_APP_ORIGINS: [&str; 3] = ["tauri://localhost", "http://tauri.lo
 
 /// How long a browser may reuse the answer to a preflight request.
 pub const PREFLIGHT_MAX_AGE_SECONDS: &str = "600";
+
+/// How long the Check button waits for the server to say its version.
+pub const VERSION_CHECK_TIMEOUT: Duration = Duration::from_secs(15);
+
+pub const REFUSED_CHECK_MESSAGE: &str = "the server refused the check; fill in the credentials and check again";

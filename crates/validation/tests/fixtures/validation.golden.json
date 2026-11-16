@@ -341,7 +341,7 @@
       },
       "errors": [
         "name must match /^[a-z][a-z0-9_]*$/",
-        "category must match /^[a-z][a-z0-9-]*$/",
+        "category must match /^(orgs\\/)?[a-z][a-z0-9-]*$/",
         "version is required",
         "baseUrl must be an https:// URL",
         "auth[0].env is required for auth type \"bearer\"",
@@ -737,7 +737,7 @@
         }
       },
       "errors": [
-        "ui.texts.nope is not a text of the page, use one of: brand, pageTitle, title, intro, domainLabel, domainHint, domainPlaceholder, domainNewHost, domainShowHosts, signInLabel, tokenDivider, credentialLegend, fieldHint, tokenLabel, usernameLabel, passwordLabel, headerLabel, queryLabel, actionsDivider, cancel, submit, checking, requiredField, savedTitle, savedBody, signingInTitle, signingInBody, cancelledTitle, cancelledBody, failedTitle, requestFailed",
+        "ui.texts.nope is not a text of the page, use one of: brand, pageTitle, title, intro, domainLabel, domainHint, domainPlaceholder, domainNewHost, domainShowHosts, domainCheck, domainChecking, domainChecked, signInLabel, tokenDivider, credentialLegend, fieldHint, tokenLabel, usernameLabel, passwordLabel, headerLabel, queryLabel, actionsDivider, cancel, submit, checking, requiredField, savedTitle, savedBody, signingInTitle, signingInBody, cancelledTitle, cancelledBody, failedTitle, requestFailed",
         "ui.texts.cancel must be a string"
       ]
     },
@@ -1844,8 +1844,7 @@
         }
       },
       "errors": [
-        "upstream.command must be a program name on PATH, not a path",
-        "tools must be empty when the manifest has an upstream"
+        "upstream.command must be a program name on PATH, not a path"
       ]
     },
     {
@@ -1887,7 +1886,7 @@
       "manifest": {},
       "errors": [
         "name must match /^[a-z][a-z0-9_]*$/",
-        "category must match /^[a-z][a-z0-9-]*$/",
+        "category must match /^(orgs\\/)?[a-z][a-z0-9-]*$/",
         "version is required",
         "baseUrl must be an https:// URL",
         "tools must be a non-empty array"
@@ -1926,7 +1925,7 @@
       },
       "errors": [
         "name must match /^[a-z][a-z0-9_]*$/",
-        "category must match /^[a-z][a-z0-9-]*$/",
+        "category must match /^(orgs\\/)?[a-z][a-z0-9-]*$/",
         "version is required",
         "baseUrl must be an https:// URL",
         "headers must be an object of strings"
@@ -1962,7 +1961,7 @@
       },
       "errors": [
         "name must match /^[a-z][a-z0-9_]*$/",
-        "category must match /^[a-z][a-z0-9-]*$/",
+        "category must match /^(orgs\\/)?[a-z][a-z0-9-]*$/",
         "domain is required when a URL uses {domain}"
       ]
     },
@@ -3174,7 +3173,7 @@
         }
       },
       "errors": [
-        "ui.texts.nope is not a text of the page, use one of: brand, pageTitle, title, intro, domainLabel, domainHint, domainPlaceholder, domainNewHost, domainShowHosts, signInLabel, tokenDivider, credentialLegend, fieldHint, tokenLabel, usernameLabel, passwordLabel, headerLabel, queryLabel, actionsDivider, cancel, submit, checking, requiredField, savedTitle, savedBody, signingInTitle, signingInBody, cancelledTitle, cancelledBody, failedTitle, requestFailed",
+        "ui.texts.nope is not a text of the page, use one of: brand, pageTitle, title, intro, domainLabel, domainHint, domainPlaceholder, domainNewHost, domainShowHosts, domainCheck, domainChecking, domainChecked, signInLabel, tokenDivider, credentialLegend, fieldHint, tokenLabel, usernameLabel, passwordLabel, headerLabel, queryLabel, actionsDivider, cancel, submit, checking, requiredField, savedTitle, savedBody, signingInTitle, signingInBody, cancelledTitle, cancelledBody, failedTitle, requestFailed",
         "ui.texts.intro must be a string"
       ]
     },
@@ -4358,9 +4357,7 @@
           "url": "https://a/mcp"
         }
       },
-      "errors": [
-        "tools must be empty when the manifest has an upstream"
-      ]
+      "errors": []
     },
     {
       "manifest": {
@@ -4373,9 +4370,7 @@
           "url": "https://a/mcp"
         }
       },
-      "errors": [
-        "tools must be empty when the manifest has an upstream"
-      ]
+      "errors": []
     },
     {
       "manifest": {

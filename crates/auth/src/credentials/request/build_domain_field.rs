@@ -1,4 +1,5 @@
 use crate::credentials::DomainField;
+use crate::credentials::request::to_domain_source::to_domain_source;
 use indexmap::IndexMap;
 use usemcpkit_core::env::Env;
 use usemcpkit_manifest::Manifest;
@@ -23,5 +24,11 @@ pub fn build_domain_field(
         value: domain.unwrap_or_default().to_owned(),
         known_hosts,
         suggested_hosts: spec.suggested_hosts.clone().unwrap_or_default(),
+        check: spec.offers_check(),
+        sources: manifest
+            .openapi
+            .iter()
+            .flat_map(|openapi| openapi.sources.iter().map(to_domain_source))
+            .collect(),
     })
 }

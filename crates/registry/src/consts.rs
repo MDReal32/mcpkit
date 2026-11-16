@@ -4,6 +4,9 @@ pub const MANIFESTS_DIR_NAME: &str = "manifests";
 
 pub const FETCH_TIMEOUT: Duration = Duration::from_secs(30);
 
+/// GitHub's API, which lists the GHES documents, answers 403 to a request without a `User-Agent`.
+pub const USER_AGENT: &str = concat!("usemcpkit/", env!("CARGO_PKG_VERSION"));
+
 pub const REGISTRY_ENV: &str = "USEMCPKIT_REGISTRY";
 
 /// Where CI publishes the compiled manifests; the same value as `DEFAULT_REGISTRY_URL` in `packages/servers`.

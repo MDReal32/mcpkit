@@ -37,6 +37,7 @@ pub async fn request_forwarded_credentials(
         label: texts.get("credentialLegend").cloned().unwrap_or_default(),
         actions: to_option_actions(upstream.ui.as_ref(), &manifest.name, fields.len()),
         fields,
+        applies: None,
     };
     let request = CredentialRequest {
         server_name: manifest.name.clone(),
@@ -46,6 +47,7 @@ pub async fn request_forwarded_credentials(
         loopback_http: false,
         options: vec![option],
         sign_in: false,
+        manifest: None,
     };
     let exchange =
         request_credentials_once(&manifest.name, Box::pin(async move { Ok(request) }), context, requester).await?;

@@ -12,8 +12,8 @@ export const RELEASE_TARGETS: readonly ReleaseTarget[] = [
   { name: "windows-x64", os: "win32", cpu: "x64" },
 ];
 
-/** The runner and the server it runs from the same folder; every platform package holds both. */
-export const RELEASE_BINARIES = ["usemcpkit", "usemcpkit-servers"] as const;
+/** The runner, the server it runs and the credentials window the server opens, from one folder; every platform package holds all three. */
+export const RELEASE_BINARIES = ["usemcpkit", "usemcpkit-servers", "usemcpkit-window"] as const;
 
 /** CI uploads each target's binaries as the artifact `binaries-<target>`. */
 export const BINARIES_ARTIFACT_PREFIX = "binaries-";

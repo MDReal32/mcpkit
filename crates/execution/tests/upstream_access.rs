@@ -228,9 +228,31 @@ async fn reaches_an_upstream_on_the_host_in_use_over_http_for_a_loopback_host() 
         None,
     );
 
-    let access = start(&built_manifest("automation/n8n_mcp"), &context).await.unwrap();
+    let access = start(&built_manifest("automation/n8n"), &context).await.unwrap();
 
     assert_eq!(upstream_url(&access), "http://localhost:5678/mcp-server/http");
+    assert_eq!(
+        access.headers.get("Authorization").map(String::as_str),
+        Some("Bearer mcp-token")
+    );
+}
+
+#[tokio::test]
+async fn signs_an_upstream_in_with_its_own_auth_and_not_the_one_of_the_manifest_s_tools() {
+    let home = TempDir::new().unwrap();
+    let context = context(
+        home.path(),
+        &[
+            ("N8N_HOST", "localhost:5678"),
+            ("N8N_API_KEY", "rest-key"),
+            ("N8N_MCP_TOKEN", "mcp-token"),
+        ],
+        None,
+    );
+
+    let access = start(&built_manifest("automation/n8n"), &context).await.unwrap();
+
+    assert_eq!(access.headers.get("X-N8N-API-KEY"), None);
     assert_eq!(
         access.headers.get("Authorization").map(String::as_str),
         Some("Bearer mcp-token")
@@ -242,7 +264,7 @@ async fn reaches_an_upstream_on_the_host_the_credentials_form_chose() {
     let home = TempDir::new().unwrap();
     let context = context(home.path(), &[], Some(domain_and_token_answer()));
 
-    let access = start(&built_manifest("automation/n8n_mcp"), &context).await.unwrap();
+    let access = start(&built_manifest("automation/n8n"), &context).await.unwrap();
 
     assert_eq!(upstream_url(&access), "https://acme.app.n8n.cloud/mcp-server/http");
     assert_eq!(

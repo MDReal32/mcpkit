@@ -6,9 +6,9 @@ use serde::Deserialize;
 use serde_json::Value;
 use std::collections::BTreeMap;
 use usemcpkit_auth::credentials::{
-    CREDENTIALS_FORM_CANCEL_PATH, CREDENTIALS_FORM_IMPORT_PATH, CREDENTIALS_FORM_SESSION_HEADER,
-    CREDENTIALS_FORM_SUBMIT_PATH, CREDENTIALS_REQUEST_ELEMENT_ID, CredentialRequest, build_credential_request,
-    validate_credential_response,
+    CREDENTIALS_FORM_CANCEL_PATH, CREDENTIALS_FORM_CHECK_PATH, CREDENTIALS_FORM_IMPORT_PATH,
+    CREDENTIALS_FORM_SESSION_HEADER, CREDENTIALS_FORM_SUBMIT_PATH, CREDENTIALS_REQUEST_ELEMENT_ID, CredentialRequest,
+    build_credential_request, validate_credential_response,
 };
 use usemcpkit_core::env::Env;
 use usemcpkit_manifest::Manifest;
@@ -53,6 +53,7 @@ fn shares_the_page_contract_constants() {
                 "submit": CREDENTIALS_FORM_SUBMIT_PATH,
                 "cancel": CREDENTIALS_FORM_CANCEL_PATH,
                 "import": CREDENTIALS_FORM_IMPORT_PATH,
+                "check": CREDENTIALS_FORM_CHECK_PATH,
             },
             "sessionHeader": CREDENTIALS_FORM_SESSION_HEADER,
             "requestElementId": CREDENTIALS_REQUEST_ELEMENT_ID,

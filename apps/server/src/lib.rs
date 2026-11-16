@@ -2,5 +2,6 @@ pub mod browser;
 pub mod catalog;
 pub mod cli;
 pub mod mcp;
+pub mod openapi;
 pub mod upstream;
 pub mod window_app;

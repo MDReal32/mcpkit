@@ -13,7 +13,7 @@ import type { PlatformPackageJson } from "./types/platform-package-json.ts";
 import type { ReleaseTarget } from "./types/release-target.ts";
 
 /**
- * Lays out `<npmDir>/cli-<target>/` ready for `npm publish`, with both binaries in `bin/`. The executable bit is set
+ * Lays out `<npmDir>/cli-<target>/` ready for `npm publish`, with the three binaries in `bin/`. The executable bit is set
  * here because CI artifacts do not keep file modes.
  */
 export const writePlatformPackage = async (
