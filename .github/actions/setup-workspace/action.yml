@@ -1,5 +1,5 @@
 name: Setup workspace
-description: Node.js, Corepack and the Yarn dependencies of the workspace
+description: Node.js, Corepack and the Yarn dependencies of the workspace, from the cached Yarn downloads
 
 runs:
   using: composite
@@ -13,6 +13,13 @@ runs:
     - name: Enable Corepack
       shell: bash
       run: corepack enable
+
+    - name: Restore the Yarn cache
+      uses: actions/cache@v6
+      with:
+        path: ~/.yarn/berry/cache
+        key: yarn-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('yarn.lock') }}
+        restore-keys: yarn-${{ runner.os }}-${{ runner.arch }}-
 
     - name: Install dependencies
       shell: bash
