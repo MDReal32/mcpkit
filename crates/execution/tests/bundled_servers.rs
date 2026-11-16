@@ -276,7 +276,7 @@ async fn jira_cloud_creates_issues_through_rest_api_2() {
         "post",
         &json!({ "requestBody": json_body(&json!({ "fields": { "type": "object", "properties": { "summary": { "type": "string" } } } })) }),
     );
-    let jira = built_server("atlassian/jira", "cloud", &spec, None);
+    let jira = built_server("orgs/atlassian/jira", "cloud", &spec, None);
 
     let request = send(
         &jira,
@@ -298,7 +298,7 @@ async fn jira_data_center_tools_take_the_cloud_names_and_keep_the_context_path()
         "delete",
         &json!({ "parameters": path_parameters(&["issueIdOrKey", "id"]) }),
     );
-    let jira = built_server("atlassian/jira", "datacenter", &spec, Some("10.3"));
+    let jira = built_server("orgs/atlassian/jira", "datacenter", &spec, Some("10.3"));
 
     let request = send(
         &jira,
@@ -319,7 +319,7 @@ async fn jira_data_center_tools_take_the_cloud_names_and_keep_the_context_path()
 #[tokio::test]
 async fn jira_data_center_downloads_attachments_from_the_servlet() {
     let spec = document("http://{baseurl}/rest", "/api/2/serverInfo", "get", &json!({}));
-    let jira = built_server("atlassian/jira", "datacenter", &spec, Some("10.3"));
+    let jira = built_server("orgs/atlassian/jira", "datacenter", &spec, Some("10.3"));
     let dir = tempfile::tempdir().unwrap();
 
     let request = send(
@@ -331,7 +331,7 @@ async fn jira_data_center_downloads_attachments_from_the_servlet() {
     .await;
 
     assert_eq!(request.url, "https://jira.acme.com/jira/secure/attachment/7/a%20b.png");
-    let cloud = built_server("atlassian/jira", "cloud", &spec, None);
+    let cloud = built_server("orgs/atlassian/jira", "cloud", &spec, None);
     assert!(
         !cloud
             .tools
@@ -351,7 +351,7 @@ async fn jira_data_center_uploads_attachments_as_file_parts() {
         "post",
         &operation,
     );
-    let jira = built_server("atlassian/jira", "datacenter", &spec, Some("10.3"));
+    let jira = built_server("orgs/atlassian/jira", "datacenter", &spec, Some("10.3"));
     let dir = tempfile::tempdir().unwrap();
     let file = dir.path().join("notes.txt");
     std::fs::write(&file, "hi").unwrap();
@@ -388,7 +388,7 @@ async fn jira_data_center_9_has_hand_written_core_tools_of_the_names_10_builds()
         "servers": [{ "url": "http://{baseurl}/rest" }],
         "paths": {},
     });
-    let jira = built_server("atlassian/jira", "datacenter", &empty, Some("9.4"));
+    let jira = built_server("orgs/atlassian/jira", "datacenter", &empty, Some("9.4"));
 
     let request = send(
         &jira,
@@ -403,7 +403,7 @@ async fn jira_data_center_9_has_hand_written_core_tools_of_the_names_10_builds()
     assert_eq!(query_value(&request, "jql").as_deref(), Some("project = VOEN"));
     assert_eq!(query_value(&request, "maxResults").as_deref(), Some("5"));
     assert_eq!(jira.tools.len(), 27);
-    let ten = built_server("atlassian/jira", "datacenter", &empty, Some("10.0"));
+    let ten = built_server("orgs/atlassian/jira", "datacenter", &empty, Some("10.0"));
     assert_eq!(
         ten.tools.iter().map(|tool| tool.name.as_str()).collect::<Vec<_>>(),
         [
@@ -421,7 +421,7 @@ async fn confluence_cloud_reaches_v2_under_wiki_api_v2_and_renames_hyphenated_pa
         "get",
         &json!({ "parameters": path_parameters(&["page-id"]) }),
     );
-    let confluence = built_server("atlassian/confluence", "cloud", &spec, None);
+    let confluence = built_server("orgs/atlassian/confluence", "cloud", &spec, None);
 
     let request = send(
         &confluence,
@@ -442,7 +442,7 @@ async fn confluence_cloud_reaches_v1_under_wiki_rest_api() {
         "get",
         &json!({ "parameters": path_parameters(&["id"]) }),
     );
-    let confluence = built_server("atlassian/confluence", "cloud-v1", &spec, None);
+    let confluence = built_server("orgs/atlassian/confluence", "cloud-v1", &spec, None);
 
     let request = send(
         &confluence,
@@ -468,7 +468,7 @@ async fn confluence_data_center_keeps_the_context_path_of_the_host() {
             ],
         }),
     );
-    let confluence = built_server("atlassian/confluence", "datacenter", &spec, Some("10.2"));
+    let confluence = built_server("orgs/atlassian/confluence", "datacenter", &spec, Some("10.2"));
 
     let request = send(
         &confluence,

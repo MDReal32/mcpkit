@@ -2,7 +2,7 @@ use crate::ids::{is_part_name, parse_server_id};
 use crate::registry_error::RegistryError;
 use std::path::{Path, PathBuf};
 
-/// `<dir>/<category>/<name>/<part>.json`; both patterns admit no separators or dots, so it cannot leave `dir`.
+/// `<dir>/<category>/<name>/<part>.json`; the patterns admit no dots and no separator but the one of `orgs/`, so it cannot leave `dir`.
 pub fn resolve_part_path(dir: &Path, id: &str, part_name: &str) -> Result<PathBuf, RegistryError> {
     match parse_server_id(id) {
         Some((category, name)) if is_part_name(part_name) => {

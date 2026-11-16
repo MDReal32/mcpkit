@@ -13,7 +13,7 @@ Public surface: `src/main.ts` (built to `build/usemcpkit.core.js` with bundled t
 ```jsonc
 {
   "name": "github",                       // [a-z][a-z0-9_]*
-  "category": "git",                      // [a-z][a-z0-9-]*, groups servers of one kind
+  "category": "git",                      // [a-z][a-z0-9-]*, groups servers of one kind; orgs/<org> for the servers one organization offers several of
   "version": "1.0.0",
   "baseUrl": "https://{domain}",          // https only; {domain} is optional, see Domain
   "domain": { "label": "GitHub API host", "default": "api.github.com", "env": "GITHUB_API_HOST" },

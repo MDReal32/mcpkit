@@ -64,7 +64,7 @@ export const JIRA_SOURCES: OpenApiSource[] = [
 ];
 
 export const JIRA_BASE: Omit<Manifest, "name" | "description" | "tools"> = {
-  category: "atlassian",
+  category: "orgs/atlassian",
   version: "1.0.0",
   baseUrl: "https://{domain}",
   domain: {

@@ -76,7 +76,7 @@ describe("compileServers", () => {
 
     expect(compiled).toEqual([]);
     expect(errors).toEqual([
-      "broken: category must match /^[a-z][a-z0-9-]*$/",
+      "broken: category must match /^(orgs\\/)?[a-z][a-z0-9-]*$/",
       "broken: baseUrl must be an https:// URL",
       "broken: tools must be a non-empty array",
       "empty: missing entry file empty/empty.ts",
