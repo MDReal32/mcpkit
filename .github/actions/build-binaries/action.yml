@@ -1,5 +1,5 @@
 name: Build binaries
-description: Builds the credentials window, then the usemcpkit and usemcpkit-servers binaries for this runner, from the credentials page of the `ui` artifact
+description: Builds the usemcpkit, usemcpkit-servers and usemcpkit-window binaries for this runner, from the credentials page of the `ui` artifact
 
 inputs:
   target:
@@ -30,13 +30,9 @@ runs:
       with:
         key: ${{ inputs.target }}
 
-    - name: Build the credentials window
-      shell: bash
-      run: cargo build --release --locked -p usemcpkit-window
-
     - name: Build
       shell: bash
-      run: cargo build --release --locked -p usemcpkit-runner -p usemcpkit-servers
+      run: cargo build --release --locked -p usemcpkit-runner -p usemcpkit-servers -p usemcpkit-window
 
     - name: Print the versions
       shell: bash

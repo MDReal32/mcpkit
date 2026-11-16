@@ -14,7 +14,7 @@ use usemcpkit_binary::tar::{TAR_BLOCK_SIZE, extract_tar_file};
 use usemcpkit_binary::{
     BinaryContext, BinarySource, BinaryUpdateResult, InstalledBinary, PackageManagerInstall, PackageRelease,
     UPDATE_CHECK_INTERVAL_MS, auto_update_binary, check_for_binary_update, find_package_manager_install,
-    install_binary, read_package_release, restore_server_binary, update_binary, verify_integrity,
+    install_binary, read_package_release, restore_sibling_binaries, update_binary, verify_integrity,
 };
 use usemcpkit_core::env::Env;
 use usemcpkit_http::HttpResponse;
@@ -78,8 +78,9 @@ fn json_body(body: &Value) -> HttpResponse {
     }
 }
 
-/// A registry that publishes `version` of the darwin-arm64 package, holding a runner and a server.
+/// A registry that publishes `version` of the darwin-arm64 package, holding a runner, a server and a window.
 fn release_client(version: &str, runner: &str, server: &str) -> RouteClient {
+    let window = format!("{version} window");
     let tarball = gzip(&create_tar(&[
         TarEntry {
             path: "package/bin/usemcpkit",
@@ -90,6 +91,11 @@ fn release_client(version: &str, runner: &str, server: &str) -> RouteClient {
             path: "package/bin/usemcpkit-servers",
             prefix: "",
             content: server,
+        },
+        TarEntry {
+            path: "package/bin/usemcpkit-window",
+            prefix: "",
+            content: &window,
         },
     ]));
     let tarball_url = format!("{REGISTRY}/cli-darwin-arm64-{version}.tgz");
@@ -193,18 +199,19 @@ fn read_package_release_fails_for_unpublished_versions() {
     assert!(error.0.contains("pkg@9.9.9 is not published"), "{error}");
 }
 
-fn write_installed_pair(dir: &Path) -> PathBuf {
+fn write_installed_set(dir: &Path) -> PathBuf {
     fs::create_dir_all(dir).unwrap();
     let path = dir.join("usemcpkit");
     fs::write(&path, "old").unwrap();
     fs::write(dir.join("usemcpkit-servers"), "old server").unwrap();
+    fs::write(dir.join("usemcpkit-window"), "old window").unwrap();
     path
 }
 
 #[tokio::test(flavor = "current_thread")]
-async fn update_binary_replaces_both_binaries_with_a_newer_verified_release() {
+async fn update_binary_replaces_the_three_binaries_with_a_newer_verified_release() {
     let home = TempDir::new().unwrap();
-    let path = write_installed_pair(&home.path().join("bin"));
+    let path = write_installed_set(&home.path().join("bin"));
     let context = create_context(home.path(), release_client("0.2.0", "new", "new server"), path.clone());
 
     let result = update_binary(&context, &path, "0.1.0").await.unwrap();
@@ -219,6 +226,7 @@ async fn update_binary_replaces_both_binaries_with_a_newer_verified_release() {
     );
     assert_eq!(read(&path), "new");
     assert_eq!(read(&home.path().join("bin").join("usemcpkit-servers")), "new server");
+    assert_eq!(read(&home.path().join("bin").join("usemcpkit-window")), "0.2.0 window");
     #[cfg(unix)]
     {
         use std::os::unix::fs::PermissionsExt;
@@ -264,7 +272,7 @@ async fn update_binary_explains_how_to_proceed_when_the_platform_package_is_not_
 #[tokio::test(flavor = "current_thread")]
 async fn update_binary_writes_nothing_when_the_release_lacks_the_server() {
     let home = TempDir::new().unwrap();
-    let path = write_installed_pair(&home.path().join("bin"));
+    let path = write_installed_set(&home.path().join("bin"));
     let tarball = gzip(&create_tar(&[TarEntry {
         path: "package/bin/usemcpkit",
         prefix: "",
@@ -294,9 +302,49 @@ async fn update_binary_writes_nothing_when_the_release_lacks_the_server() {
 }
 
 #[tokio::test(flavor = "current_thread")]
+async fn update_binary_writes_nothing_when_the_release_lacks_the_window() {
+    let home = TempDir::new().unwrap();
+    let path = write_installed_set(&home.path().join("bin"));
+    let tarball = gzip(&create_tar(&[
+        TarEntry {
+            path: "package/bin/usemcpkit",
+            prefix: "",
+            content: "new",
+        },
+        TarEntry {
+            path: "package/bin/usemcpkit-servers",
+            prefix: "",
+            content: "new server",
+        },
+    ]));
+    let tarball_url = format!("{REGISTRY}/no-window.tgz");
+    let metadata = json!({
+        "dist-tags": { "latest": "0.2.0" },
+        "versions": { "0.2.0": { "dist": { "tarball": tarball_url, "integrity": to_integrity(&tarball) } } },
+    });
+    let client = RouteClient::new([
+        (
+            format!("{REGISTRY}/@usemcpkit%2fcli-darwin-arm64"),
+            json_body(&metadata),
+        ),
+        (tarball_url, bytes_response(tarball)),
+    ]);
+    let context = create_context(home.path(), client, path.clone());
+
+    let error = update_binary(&context, &path, "0.1.0").await.unwrap_err();
+
+    assert!(
+        error.0.contains("tarball has no package/bin/usemcpkit-window"),
+        "{error}"
+    );
+    assert_eq!(read(&path), "old");
+    assert_eq!(read(&home.path().join("bin").join("usemcpkit-servers")), "old server");
+}
+
+#[tokio::test(flavor = "current_thread")]
 async fn update_binary_rejects_a_tarball_that_fails_its_integrity() {
     let home = TempDir::new().unwrap();
-    let path = write_installed_pair(&home.path().join("bin"));
+    let path = write_installed_set(&home.path().join("bin"));
     let tarball_url = format!("{REGISTRY}/tampered.tgz");
     let metadata = json!({
         "dist-tags": { "latest": "0.2.0" },
@@ -318,13 +366,14 @@ async fn update_binary_rejects_a_tarball_that_fails_its_integrity() {
 }
 
 #[test]
-fn install_binary_copies_a_local_runner_and_its_server_into_usemcpkit_home_bin() {
+fn install_binary_copies_a_local_runner_its_server_and_its_window_into_usemcpkit_home_bin() {
     let home = TempDir::new().unwrap();
     let source_dir = home.path().join("build");
     fs::create_dir(&source_dir).unwrap();
     let source = source_dir.join("usemcpkit");
     fs::write(&source, "local").unwrap();
     fs::write(source_dir.join("usemcpkit-servers"), "local server").unwrap();
+    fs::write(source_dir.join("usemcpkit-window"), "local window").unwrap();
     let context = create_context(home.path(), empty_client(), PathBuf::from("unused"));
 
     let installed = install_binary(
@@ -347,15 +396,17 @@ fn install_binary_copies_a_local_runner_and_its_server_into_usemcpkit_home_bin()
     );
     assert_eq!(read(&installed.path), "local");
     assert_eq!(read(&installed.server_path), "local server");
+    assert_eq!(read(&bin.join("usemcpkit-window")), "local window");
 }
 
 #[test]
-fn install_binary_copies_the_running_runner_and_the_server_next_to_it() {
+fn install_binary_copies_the_running_runner_and_the_server_and_window_next_to_it() {
     let home = TempDir::new().unwrap();
     let running_dir = home.path().join("downloads");
     fs::create_dir(&running_dir).unwrap();
     fs::write(running_dir.join("usemcpkit"), "running").unwrap();
     fs::write(running_dir.join("usemcpkit-servers"), "running server").unwrap();
+    fs::write(running_dir.join("usemcpkit-window"), "running window").unwrap();
     let context = create_context(home.path(), empty_client(), running_dir.join("usemcpkit"));
 
     let installed = install_binary(
@@ -369,6 +420,10 @@ fn install_binary_copies_the_running_runner_and_the_server_next_to_it() {
 
     assert_eq!(read(&installed.path), "running");
     assert_eq!(read(&installed.server_path), "running server");
+    assert_eq!(
+        read(&home.path().join("bin").join("usemcpkit-window")),
+        "running window"
+    );
 }
 
 #[test]
@@ -391,6 +446,27 @@ fn install_binary_refuses_a_runner_without_its_server() {
     assert!(!home.path().join("bin").join("usemcpkit").exists());
 }
 
+#[test]
+fn install_binary_refuses_a_runner_without_its_window() {
+    let home = TempDir::new().unwrap();
+    let source = home.path().join("usemcpkit");
+    fs::write(&source, "local").unwrap();
+    fs::write(home.path().join("usemcpkit-servers"), "local server").unwrap();
+    let context = create_context(home.path(), empty_client(), PathBuf::from("unused"));
+
+    let error = install_binary(
+        &context,
+        &BinarySource {
+            path: Some(source),
+            version: "0.1.0".to_owned(),
+        },
+    )
+    .unwrap_err();
+
+    assert!(error.0.contains("usemcpkit-window"), "{error}");
+    assert!(!home.path().join("bin").join("usemcpkit").exists());
+}
+
 #[tokio::test(flavor = "current_thread")]
 async fn auto_update_binary_does_nothing_outside_the_installed_binary() {
     let home = TempDir::new().unwrap();
@@ -408,7 +484,7 @@ const START: u64 = 10 * UPDATE_CHECK_INTERVAL_MS;
 #[tokio::test(flavor = "current_thread")]
 async fn check_for_binary_update_does_not_record_a_failed_check_so_the_next_call_tries_again() {
     let home = TempDir::new().unwrap();
-    let path = write_installed_pair(home.path());
+    let path = write_installed_set(home.path());
 
     let failed = create_context(home.path(), empty_client(), path.clone());
     let error = check_for_binary_update(&failed, &path, "0.1.0", START)
@@ -434,7 +510,7 @@ async fn check_for_binary_update_does_not_record_a_failed_check_so_the_next_call
 #[tokio::test(flavor = "current_thread")]
 async fn check_for_binary_update_skips_until_the_interval_has_passed_once_a_check_has_finished() {
     let home = TempDir::new().unwrap();
-    let path = write_installed_pair(home.path());
+    let path = write_installed_set(home.path());
     let context = create_context(home.path(), release_client("0.1.0", "same", "same"), path.clone());
     let up_to_date = Some(BinaryUpdateResult::UpToDate {
         version: "0.1.0".to_owned(),
@@ -523,7 +599,7 @@ fn detect_package_manager_install_follows_the_homebrew_bin_link_into_the_cellar(
 }
 
 #[tokio::test(flavor = "current_thread")]
-async fn restore_server_binary_writes_the_server_of_the_running_version_next_to_the_runner() {
+async fn restore_sibling_binaries_writes_the_server_and_window_of_the_running_version_next_to_the_runner() {
     let home = TempDir::new().unwrap();
     let runner = home.path().join("bin").join("usemcpkit");
     fs::create_dir_all(runner.parent().unwrap()).unwrap();
@@ -534,24 +610,26 @@ async fn restore_server_binary_writes_the_server_of_the_running_version_next_to_
         runner.clone(),
     );
 
-    let path = restore_server_binary(&context, "0.2.0").await.unwrap();
+    let path = restore_sibling_binaries(&context, "0.2.0").await.unwrap();
 
     assert_eq!(path, home.path().join("bin").join("usemcpkit-servers"));
     assert_eq!(read(&path), "server");
+    assert_eq!(read(&home.path().join("bin").join("usemcpkit-window")), "0.2.0 window");
     assert_eq!(read(&runner), "runner");
 }
 
 #[tokio::test(flavor = "current_thread")]
-async fn restore_server_binary_fails_for_a_version_that_is_not_published() {
+async fn restore_sibling_binaries_fails_for_a_version_that_is_not_published() {
     let home = TempDir::new().unwrap();
     let runner = home.path().join("bin").join("usemcpkit");
     let context = create_context(home.path(), release_client("0.2.0", "runner", "server"), runner);
 
-    let error = restore_server_binary(&context, "0.1.0").await.unwrap_err();
+    let error = restore_sibling_binaries(&context, "0.1.0").await.unwrap_err();
 
     assert!(
         error.0.contains("@usemcpkit/cli-darwin-arm64@0.1.0 is not published"),
         "{error}"
     );
     assert!(!home.path().join("bin").join("usemcpkit-servers").exists());
+    assert!(!home.path().join("bin").join("usemcpkit-window").exists());
 }

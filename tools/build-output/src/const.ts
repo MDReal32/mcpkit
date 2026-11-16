@@ -14,6 +14,6 @@ export const PROJECT_BUILDS: readonly BuildCopy[] = [
 ];
 
 /** The Rust release binaries, copied from Cargo's `target/release` to the top of {@link BUILD_OUTPUT_DIR}. */
-export const RELEASE_BINARIES = ["usemcpkit", "usemcpkit-servers"] as const;
+export const RELEASE_BINARIES = ["usemcpkit", "usemcpkit-servers", "usemcpkit-window"] as const;
 
 export const CARGO_RELEASE_DIR = "target/release";

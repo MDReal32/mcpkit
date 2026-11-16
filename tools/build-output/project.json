@@ -10,7 +10,8 @@
     "@usemcpkit/ui",
     "usemcpkit",
     "usemcpkit-runner",
-    "usemcpkit-servers"
+    "usemcpkit-servers",
+    "usemcpkit-window"
   ],
   "targets": {
     "build": {

@@ -6,9 +6,9 @@ use crate::install::is_same_file_path::is_same_file_path;
 use crate::install::read_install_source_binaries::read_install_source_binaries;
 use crate::install::resolve_installed_binary_path::resolve_installed_binary_path;
 use crate::install::sibling_server_path::sibling_server_path;
-use crate::install::write_binary_pair::write_binary_pair;
+use crate::install::write_binary_set::write_binary_set;
 
-/// Places the runner and its server in `<usemcpkit home>/bin`; a runner started from there is left as it is.
+/// Places the runner, its server and the credentials window in `<usemcpkit home>/bin`; a runner started from there is left as it is.
 pub fn install_binary(context: &BinaryContext, source: &BinarySource) -> Result<InstalledBinary, BinaryError> {
     let path = resolve_installed_binary_path(&context.home_dir, context.target);
     let installed = InstalledBinary {
@@ -20,6 +20,6 @@ pub fn install_binary(context: &BinaryContext, source: &BinarySource) -> Result<
         return Ok(installed);
     }
     let binaries = read_install_source_binaries(context, source)?;
-    write_binary_pair(&installed.path, context.target, &binaries)?;
+    write_binary_set(&installed.path, context.target, &binaries)?;
     Ok(installed)
 }
