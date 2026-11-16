@@ -12,6 +12,7 @@ export type { AuthSpec } from "./types/auth/auth-spec";
 export type { FallbackAuth } from "./types/auth/fallback-auth";
 export type { InteractiveAuth } from "./types/auth/interactive-auth";
 export type { OAuthAuth, OAuthDiscoveryAuth, OAuthEndpointsAuth } from "./types/auth/oauth-auth";
+export type { QueryParam } from "./types/auth/query-param";
 export type { Manifest } from "./types/manifest";
 export type { ConversionOptions } from "./types/openapi/conversion-options";
 export type { OpenApiSource } from "./types/openapi/open-api-source";

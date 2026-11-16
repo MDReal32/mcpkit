@@ -34,9 +34,10 @@ impl AuthSpec {
             AuthSpec::None => Vec::new(),
             AuthSpec::Basic(auth) => vec![auth.username_env.as_str(), auth.password_env.as_str()],
             AuthSpec::OAuth(auth) => auth.client_secret_env.iter().map(String::as_str).collect(),
-            AuthSpec::Bearer(BearerAuth { env, .. })
-            | AuthSpec::Header(HeaderAuth { env, .. })
-            | AuthSpec::Query(QueryAuth { env, .. }) => vec![env.as_str()],
+            AuthSpec::Bearer(BearerAuth { env, .. }) | AuthSpec::Header(HeaderAuth { env, .. }) => vec![env.as_str()],
+            AuthSpec::Query(auth) => std::iter::once(auth.env.as_str())
+                .chain(auth.extra.iter().flatten().map(|param| param.env.as_str()))
+                .collect(),
         }
     }
 

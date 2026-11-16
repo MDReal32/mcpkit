@@ -23,10 +23,16 @@ pub fn resolve_static_auth(auth: &AuthSpec, server_name: &str, values: &Env) -> 
                 query: IndexMap::new(),
             }
         }
-        AuthSpec::Query(query) => ResolvedAuth {
-            headers: IndexMap::new(),
-            query: IndexMap::from([(query.name.clone(), secret(&query.env)?)]),
-        },
+        AuthSpec::Query(query) => {
+            let mut params = IndexMap::from([(query.name.clone(), secret(&query.env)?)]);
+            for param in query.extra.iter().flatten() {
+                params.insert(param.name.clone(), secret(&param.env)?);
+            }
+            ResolvedAuth {
+                headers: IndexMap::new(),
+                query: params,
+            }
+        }
         AuthSpec::Basic(basic) => {
             let username = secret(&basic.username_env)?;
             let password = secret(&basic.password_env)?;
@@ -81,6 +87,14 @@ mod tests {
         assert_eq!(
             resolve(json!({ "type": "query", "env": "TOKEN", "name": "key" })).query,
             header("key", "secret")
+        );
+        assert_eq!(
+            resolve(json!({ "type": "query", "env": "TOKEN", "name": "token", "extra": [{ "env": "TOKEN", "name": "key" }] }))
+                .query,
+            IndexMap::from([
+                ("token".to_owned(), "secret".to_owned()),
+                ("key".to_owned(), "secret".to_owned())
+            ])
         );
         assert_eq!(
             resolve(json!({ "type": "basic", "usernameEnv": "TOKEN", "passwordEnv": "TOKEN" })).headers,

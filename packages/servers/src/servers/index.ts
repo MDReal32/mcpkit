@@ -12,6 +12,7 @@ import { n8n } from "./n8n/n8n";
 import { postman } from "./postman/postman";
 import { reddit } from "./reddit/reddit";
 import { teams } from "./teams/teams";
+import { trello } from "./trello/trello";
 
 export const servers = [
   bitwarden,
@@ -28,4 +29,5 @@ export const servers = [
   postman,
   reddit,
   teams,
+  trello,
 ];
