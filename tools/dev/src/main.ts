@@ -1,7 +1,8 @@
-import { resolve } from "node:path";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { buildAll } from "./build-all.ts";
 import { checkPrerequisites } from "./check-prerequisites.ts";
-import { DEFAULT_ARGS, UPDATE_COMMAND } from "./const.ts";
+import { DEFAULT_ARGS, NO_BUILD_ENV, UPDATE_COMMAND } from "./const.ts";
 import { installBinaries } from "./install-binaries.ts";
 import { resolveDevPaths } from "./resolve-dev-paths.ts";
 import { runUsemcpkit } from "./run-usemcpkit.ts";
@@ -9,10 +10,12 @@ import { startRegistryServer } from "./start-registry-server.ts";
 
 const given = process.argv.slice(2);
 const args = given.length === 0 ? DEFAULT_ARGS : given;
-const workspaceRoot = resolve(process.cwd());
+const workspaceRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..", "..");
 const paths = resolveDevPaths(workspaceRoot);
-await checkPrerequisites(workspaceRoot);
-await buildAll(workspaceRoot);
+if (process.env[NO_BUILD_ENV] !== "1") {
+  await checkPrerequisites(workspaceRoot);
+  await buildAll(workspaceRoot);
+}
 await installBinaries(paths);
 const registry = await startRegistryServer(paths.registryDir);
 try {

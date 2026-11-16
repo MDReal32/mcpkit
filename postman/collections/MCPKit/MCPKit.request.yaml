@@ -1,6 +1,6 @@
 $kind: mcp-request
 transport: stdio
-command: /Users/mdrealiyev/Projects/mcpkit/build/usemcpkit serve
+command: yarn usemcpkit:dev serve
 message: |-
   {
     "method": "tools/call",
