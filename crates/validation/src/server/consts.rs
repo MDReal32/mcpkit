@@ -1,7 +1,7 @@
 /// `SERVER_NAME_PATTERN` as core prints it in its errors.
 pub const SERVER_NAME_PATTERN: &str = "/^[a-z][a-z0-9_]*$/";
 
-pub const SERVER_CATEGORY_PATTERN: &str = "/^[a-z][a-z0-9-]*$/";
+pub const SERVER_CATEGORY_PATTERN: &str = "/^(orgs\\/)?[a-z][a-z0-9-]*$/";
 
 pub const EDITION_NAME_PATTERN: &str = "/^[a-z][a-z0-9-]*$/";
 

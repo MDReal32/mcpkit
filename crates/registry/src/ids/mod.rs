@@ -1,3 +1,4 @@
+mod is_category_identifier;
 mod is_lower_identifier;
 mod is_part_name;
 mod is_sha256;

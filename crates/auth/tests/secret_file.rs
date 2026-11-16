@@ -13,7 +13,7 @@ fn github(domain: Option<&str>) -> SecretOwner {
 
 fn jira() -> SecretOwner {
     SecretOwner {
-        server: ServerKey::new("atlassian", "jira"),
+        server: ServerKey::new("orgs/atlassian", "jira"),
         domain: None,
     }
 }
@@ -59,7 +59,7 @@ async fn saves_plain_text_by_server_and_key_in_a_private_file() {
             "version": 4,
             "servers": {
                 "git": { "github": { "hosts": { "default": { "secrets": { "GITHUB_TOKEN": "ghp_1" } } } } },
-                "atlassian": { "jira": { "hosts": { "default": { "secrets": { "JIRA_TOKEN": "jt" } } } } },
+                "orgs/atlassian": { "jira": { "hosts": { "default": { "secrets": { "JIRA_TOKEN": "jt" } } } } },
             },
         })
     );
@@ -195,7 +195,7 @@ async fn upgrades_a_config_without_a_version_and_its_old_secrets_json_to_version
             "version": 4,
             "servers": {
                 "git": { "github": { "hosts": { "ghe.example.com": { "secrets": { "GITHUB_TOKEN": "old" } } } } },
-                "atlassian": { "jira": { "hosts": { "default": { "secrets": { "JIRA_TOKEN": "jt" } } } } },
+                "orgs/atlassian": { "jira": { "hosts": { "default": { "secrets": { "JIRA_TOKEN": "jt" } } } } },
             },
         })
     );
@@ -252,7 +252,7 @@ async fn upgrades_a_version_2_config_by_dropping_the_last_used_domain_and_groupi
             "version": 4,
             "servers": {
                 "git": { "github": { "hosts": { "ghe.example.com": { "secrets": { "GITHUB_TOKEN": "t" } } } } },
-                "atlassian": { "jira": { "hosts": { "jira.example.com": {} } } },
+                "orgs/atlassian": { "jira": { "hosts": { "jira.example.com": {} } } },
                 "other": { "custom": { "hosts": { "default": { "secrets": { "CUSTOM_TOKEN": "c" } } } } },
             },
         })

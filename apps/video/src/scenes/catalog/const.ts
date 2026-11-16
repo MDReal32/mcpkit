@@ -33,7 +33,7 @@ export const SERVER_TILES: readonly ServerTileData[] = [
     ],
   },
   {
-    category: "atlassian",
+    category: "orgs/atlassian",
     name: "Jira",
     tools: 758,
     examples: [
@@ -48,7 +48,7 @@ export const SERVER_TILES: readonly ServerTileData[] = [
     ],
   },
   {
-    category: "atlassian",
+    category: "orgs/atlassian",
     name: "Confluence",
     tools: 623,
     examples: [

@@ -341,7 +341,7 @@
       },
       "errors": [
         "name must match /^[a-z][a-z0-9_]*$/",
-        "category must match /^[a-z][a-z0-9-]*$/",
+        "category must match /^(orgs\\/)?[a-z][a-z0-9-]*$/",
         "version is required",
         "baseUrl must be an https:// URL",
         "auth[0].env is required for auth type \"bearer\"",
@@ -1886,7 +1886,7 @@
       "manifest": {},
       "errors": [
         "name must match /^[a-z][a-z0-9_]*$/",
-        "category must match /^[a-z][a-z0-9-]*$/",
+        "category must match /^(orgs\\/)?[a-z][a-z0-9-]*$/",
         "version is required",
         "baseUrl must be an https:// URL",
         "tools must be a non-empty array"
@@ -1925,7 +1925,7 @@
       },
       "errors": [
         "name must match /^[a-z][a-z0-9_]*$/",
-        "category must match /^[a-z][a-z0-9-]*$/",
+        "category must match /^(orgs\\/)?[a-z][a-z0-9-]*$/",
         "version is required",
         "baseUrl must be an https:// URL",
         "headers must be an object of strings"
@@ -1961,7 +1961,7 @@
       },
       "errors": [
         "name must match /^[a-z][a-z0-9_]*$/",
-        "category must match /^[a-z][a-z0-9-]*$/",
+        "category must match /^(orgs\\/)?[a-z][a-z0-9-]*$/",
         "domain is required when a URL uses {domain}"
       ]
     },

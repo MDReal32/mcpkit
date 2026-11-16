@@ -2,7 +2,7 @@ use crate::ids::{is_sha256, parse_server_id};
 use serde_json::Value;
 use usemcpkit_manifest::registry::RegistryServer;
 
-const SERVER_ID_PATTERN: &str = "/^[a-z][a-z0-9-]*:[a-z][a-z0-9_]*$/";
+const SERVER_ID_PATTERN: &str = "/^(orgs\\/)?[a-z][a-z0-9-]*:[a-z][a-z0-9_]*$/";
 
 /// One entry of the index, with the messages the CLI reports for a broken one.
 pub fn parse_registry_server(entry: &Value, position: usize) -> Result<RegistryServer, String> {
