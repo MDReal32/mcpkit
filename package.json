@@ -13,7 +13,8 @@
     "test": "nx run-many -t test",
     "typecheck": "nx run-many -t typecheck",
     "lint": "nx run-many -t lint",
-    "format": "biome check --write"
+    "format": "biome check --write",
+    "usemcpkit:dev": "nx run usemcpkit-dev:dev --output-style=stream --skip-nx-cache"
   },
   "engines": {
     "node": ">=22.18"
