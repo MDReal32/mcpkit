@@ -6,7 +6,7 @@ use std::rc::Rc;
 use usemcpkit_manifest::Manifest;
 use usemcpkit_manifest::domain::apply_domain;
 
-/// The `tokens.json` token first, then fallbacks whose credentials are set or saved, and only when nothing else works
+/// The sign-in token first, then fallbacks whose credentials are set or saved, and only when nothing else works
 /// the credentials form or the OAuth2 browser sign-in. A server that needs a domain and has none gets only the form or
 /// the candidate that says so.
 pub fn build_auth_candidates<'a>(

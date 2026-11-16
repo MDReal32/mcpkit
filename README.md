@@ -59,6 +59,7 @@ usemcpkit install --all --auto-update=false    # every client, no scheduled upgr
 usemcpkit uninstall [--all | --clients ...] # remove the entry; the binary stays
 usemcpkit update                            # refresh the cached manifests now
 usemcpkit upgrade                           # update the cached manifests, then the installed binary
+usemcpkit config                            # print config.json with secrets and tokens masked, safe to paste
 ```
 
 Supported clients (ids): `claude-desktop`, `claude-code` (`~/.claude.json`), `cursor`, `vscode`, `vscode-insiders`
@@ -74,7 +75,7 @@ it, `usemcpkit-servers` and `usemcpkit-window`. Installing copies all three. A r
 `sha512` integrity. Building and publishing those packages is release work, see `docs/rust-port.md`.
 
 **Auto-update.** `usemcpkit serve`, when it is the installed binary, checks the npm registry at most every six hours
-(`~/.usemcpkit/update-state.json`) in the background: at start, and then every hour for as long as it runs, so a server
+(`~/.usemcpkit/.updated-state`) in the background: at start, and then every hour for as long as it runs, so a server
 that stays up for days still finds a new release. A newer release replaces the binary and is picked up without
 restarting the client, see Live reload. `USEMCPKIT_AUTOUPDATE=0` turns this off and unloads the scheduled
 `usemcpkit upgrade` (the next `serve` removes it), `1` or unset loads it again; `USEMCPKIT_NPM_REGISTRY` points at another
@@ -373,12 +374,12 @@ and a new manifest builds them again. Until then `search` lists the server with 
 
 Every tool call tries, in this order, and uses the first that works:
 
-1. the server's OAuth2 token in `tokens.json`, refreshed if it expired (only when `auth` has `oauth` entries);
+1. the server's OAuth2 token (`signIn` in `config.json`), refreshed if it expired (only when `auth` has `oauth` entries);
 2. each fallback whose value is set, top to bottom. A value comes from its env var, or else from `config.json`;
 3. the **credentials form**: a local page opened in the browser that asks for the missing values (and the domain,
    see below), or offers "Sign in with OAuth2" when the server has `oauth` entries.
 
-An option is skipped when its credentials are missing or the API answers `401`. A fallback that worked is tried right after `tokens.json` on later calls in the same process. If nothing works, the call fails with one line per option
+An option is skipped when its credentials are missing or the API answers `401`. A fallback that worked is tried right after the saved token on later calls in the same process. If nothing works, the call fails with one line per option
 saying why. `none` can only be the last entry. Leaving out `auth` means no auth.
 
 **Fallbacks.** The manifest never holds a secret, only where to find it:
@@ -399,7 +400,7 @@ which you can edit by hand. Credentials never cross hosts. With several hosts fo
 its env var; the host its project (git root) was bound to the first time you answered the form; the saved host the
 project's `origin` remote points at (servers whose manifest sets `domain.matchGitRemote`, such as GitHub and GitLab);
 otherwise the form asks, and the answer is remembered for that project. Credentials are plain text, with file mode `0600` in a `0700` directory, the way `gh` and `glab` keep
-their tokens. The file carries a `version` (now 2); a file without one is version 1 and, like an older `secrets.json`, is upgraded on first use by the migration list in `crates/auth/src/config/config_migrations.rs` (a new version is one appended entry), and a file from a newer usemcpkit is refused rather than overwritten. There is no password and nothing to unlock. Any program running as your user can read the file, so
+their tokens. The file carries a `version` (1 until the 1.0 release); the keys are written sorted, each host and sign-in with a `savedAt` time, and a file from a newer usemcpkit is refused rather than overwritten. `usemcpkit config` prints it with every secret and token masked, safe to paste in an issue. There is no password and nothing to unlock. Any program running as your user can read the file, so
 protect your account and disk; to forget a credential, delete its entry or the file. Environment variables always win
 over the file.
 
@@ -479,7 +480,7 @@ localhost.
 
 The sign-in starts on the first tool call that has no working token: `usemcpkit serve` prints the URL to stderr
 and opens the browser. The redirect goes to `http://127.0.0.1:<port>/callback`, and the authorization code is
-exchanged with a S256 code verifier. The token is saved to `~/.usemcpkit/tokens.json` (`USEMCPKIT_HOME` overrides)
+exchanged with a S256 code verifier. The token is saved as the server's `signIn` in `~/.usemcpkit/config.json` (`USEMCPKIT_HOME` overrides)
 with file mode `0600`, together with the entry that issued it. Tool calls send it as a Bearer token and refresh
 it before it expires. Concurrent calls share one sign-in. If the MCP client gives up waiting, the sign-in still
 finishes and the next call uses the token.
@@ -496,7 +497,7 @@ RFC 9728 named by its `/.well-known/oauth-protected-resource`, then the authoriz
 registers itself there as a public client (RFC 7591, no secret) for a loopback redirect on a free port, and runs the
 same PKCE sign-in as above: one click on "Sign in with OAuth2" in the credentials window, or none when the entry is the
 server's only auth, approve in the browser tab that opens, and the tab closes itself where the browser allows it. The registered client id is saved
-in `~/.usemcpkit/oauth-clients.json` (0600) by issuer, and refreshes use it. A `clientId` next to `discovery` skips the
+as `oauthClients` in `~/.usemcpkit/config.json` by issuer, and refreshes use it. A `clientId` next to `discovery` skips the
 registration, for a server that does not register clients itself. `cloud:cloudflare`, `api:postman` and
 `automation:n8n` (in its `upstream.auth`) carry this entry before their token fallback. The url may contain `{domain}` like `baseUrl`
 (`https://{domain}/mcp-server/http` for n8n), filled with the host in use, and over `http://` for a loopback host when

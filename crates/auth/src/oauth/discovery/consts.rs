@@ -11,5 +11,3 @@ pub const OPENID_CONFIGURATION_WELL_KNOWN: &str = "/.well-known/openid-configura
 pub const CLIENT_NAME: &str = "usemcpkit";
 
 pub const PKCE_METHOD: &str = "S256";
-
-pub const CLIENTS_FILE_NAME: &str = "oauth-clients.json";

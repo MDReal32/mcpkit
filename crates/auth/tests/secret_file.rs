@@ -22,16 +22,29 @@ fn config_file(home: &TempDir) -> PathBuf {
     home.path().join("config.json")
 }
 
-fn legacy_file(home: &TempDir) -> PathBuf {
-    home.path().join("secrets.json")
-}
-
 fn write(file: &Path, value: Value) {
     std::fs::write(file, value.to_string()).unwrap();
 }
 
 fn read(file: &Path) -> Value {
     serde_json::from_str(&std::fs::read_to_string(file).unwrap()).unwrap()
+}
+
+fn without_saved_at(value: Value) -> Value {
+    match value {
+        Value::Object(object) => Value::Object(
+            object
+                .into_iter()
+                .filter(|(key, _)| key != "savedAt")
+                .map(|(key, value)| (key, without_saved_at(value)))
+                .collect(),
+        ),
+        other => other,
+    }
+}
+
+fn read_without_saved_at(file: &Path) -> Value {
+    without_saved_at(read(file))
 }
 
 fn store(home: &TempDir) -> FileSecretStore {
@@ -54,9 +67,9 @@ async fn saves_plain_text_by_server_and_key_in_a_private_file() {
     store.set(&jira(), "JIRA_TOKEN", "jt").await.unwrap();
 
     assert_eq!(
-        read(&config_file(&home)),
+        read_without_saved_at(&config_file(&home)),
         json!({
-            "version": 4,
+            "version": 1,
             "servers": {
                 "git": { "github": { "hosts": { "default": { "secrets": { "GITHUB_TOKEN": "ghp_1" } } } } },
                 "orgs/atlassian": { "jira": { "hosts": { "default": { "secrets": { "JIRA_TOKEN": "jt" } } } } },
@@ -64,7 +77,7 @@ async fn saves_plain_text_by_server_and_key_in_a_private_file() {
         })
     );
     let text = std::fs::read_to_string(config_file(&home)).unwrap();
-    assert!(text.starts_with("{\n  \"version\": 4,\n"), "{text}");
+    assert!(text.starts_with("{\n  \"version\": 1,\n"), "{text}");
     assert!(text.ends_with("}\n"), "{text}");
     #[cfg(unix)]
     {
@@ -93,7 +106,7 @@ async fn keeps_concurrent_saves_and_sees_saves_from_other_stores() {
 async fn fails_on_a_malformed_file_instead_of_overwriting_it() {
     let home = tempfile::tempdir().unwrap();
     let malformed = json!({
-        "version": 4,
+        "version": 1,
         "servers": { "git": { "github": { "hosts": { "default": { "secrets": { "GITHUB_TOKEN": 1 } } } } } },
     });
     write(&config_file(&home), malformed.clone());
@@ -132,7 +145,7 @@ async fn keeps_the_secrets_under_the_host_of_a_server() {
     let home = tempfile::tempdir().unwrap();
     write(
         &config_file(&home),
-        json!({ "version": 4, "servers": { "git": { "github": { "hosts": { "ghe.example.com": {} } } } } }),
+        json!({ "version": 1, "servers": { "git": { "github": { "hosts": { "ghe.example.com": {} } } } } }),
     );
 
     store(&home)
@@ -141,120 +154,10 @@ async fn keeps_the_secrets_under_the_host_of_a_server() {
         .unwrap();
 
     assert_eq!(
-        read(&config_file(&home)),
+        read_without_saved_at(&config_file(&home)),
         json!({
-            "version": 4,
+            "version": 1,
             "servers": { "git": { "github": { "hosts": { "ghe.example.com": { "secrets": { "GITHUB_TOKEN": "ghp_1" } } } } } },
-        })
-    );
-}
-
-#[tokio::test]
-async fn moves_an_old_secrets_json_into_the_config_file_and_removes_it() {
-    let home = tempfile::tempdir().unwrap();
-    write(&legacy_file(&home), json!({ "github": { "GITHUB_TOKEN": "old" } }));
-    write(
-        &config_file(&home),
-        json!({ "version": 4, "servers": { "git": { "github": { "hosts": { "ghe.example.com": {} } } } } }),
-    );
-
-    let token = store(&home)
-        .get(&github(Some("ghe.example.com")), "GITHUB_TOKEN")
-        .await
-        .unwrap();
-
-    assert_eq!(token.as_deref(), Some("old"));
-    assert_eq!(
-        read(&config_file(&home)),
-        json!({
-            "version": 4,
-            "servers": { "git": { "github": { "hosts": { "ghe.example.com": { "secrets": { "GITHUB_TOKEN": "old" } } } } } },
-        })
-    );
-    assert!(!legacy_file(&home).exists());
-}
-
-#[tokio::test]
-async fn upgrades_a_config_without_a_version_and_its_old_secrets_json_to_version_4() {
-    let home = tempfile::tempdir().unwrap();
-    write(
-        &config_file(&home),
-        json!({ "servers": { "github": { "domain": "ghe.example.com" }, "jira": {} } }),
-    );
-    write(
-        &legacy_file(&home),
-        json!({ "github": { "GITHUB_TOKEN": "old" }, "jira": { "JIRA_TOKEN": "jt" } }),
-    );
-
-    let token = store(&home).get(&jira(), "JIRA_TOKEN").await.unwrap();
-
-    assert_eq!(token.as_deref(), Some("jt"));
-    assert_eq!(
-        read(&config_file(&home)),
-        json!({
-            "version": 4,
-            "servers": {
-                "git": { "github": { "hosts": { "ghe.example.com": { "secrets": { "GITHUB_TOKEN": "old" } } } } },
-                "orgs/atlassian": { "jira": { "hosts": { "default": { "secrets": { "JIRA_TOKEN": "jt" } } } } },
-            },
-        })
-    );
-}
-
-#[tokio::test]
-async fn upgrades_a_version_1_config_that_keeps_secrets_per_server() {
-    let home = tempfile::tempdir().unwrap();
-    write(
-        &config_file(&home),
-        json!({ "servers": { "github": { "domain": "ghe.example.com", "secrets": { "GITHUB_TOKEN": "t" } } } }),
-    );
-
-    store(&home)
-        .set(&github(Some("ghe.example.com")), "OTHER", "o")
-        .await
-        .unwrap();
-
-    assert_eq!(
-        read(&config_file(&home)),
-        json!({
-            "version": 4,
-            "servers": {
-                "git": { "github": { "hosts": { "ghe.example.com": { "secrets": { "GITHUB_TOKEN": "t", "OTHER": "o" } } } } },
-            },
-        })
-    );
-}
-
-#[tokio::test]
-async fn upgrades_a_version_2_config_by_dropping_the_last_used_domain_and_grouping_servers() {
-    let home = tempfile::tempdir().unwrap();
-    write(
-        &config_file(&home),
-        json!({
-            "version": 2,
-            "servers": {
-                "github": { "domain": "ghe.example.com", "hosts": { "ghe.example.com": { "secrets": { "GITHUB_TOKEN": "t" } } } },
-                "jira": { "domain": "jira.example.com" },
-                "custom": { "hosts": { "default": { "secrets": { "CUSTOM_TOKEN": "c" } } } },
-            },
-        }),
-    );
-
-    let token = store(&home)
-        .get(&github(Some("ghe.example.com")), "GITHUB_TOKEN")
-        .await
-        .unwrap();
-
-    assert_eq!(token.as_deref(), Some("t"));
-    assert_eq!(
-        read(&config_file(&home)),
-        json!({
-            "version": 4,
-            "servers": {
-                "git": { "github": { "hosts": { "ghe.example.com": { "secrets": { "GITHUB_TOKEN": "t" } } } } },
-                "orgs/atlassian": { "jira": { "hosts": { "jira.example.com": {} } } },
-                "other": { "custom": { "hosts": { "default": { "secrets": { "CUSTOM_TOKEN": "c" } } } } },
-            },
         })
     );
 }
@@ -262,35 +165,12 @@ async fn upgrades_a_version_2_config_by_dropping_the_last_used_domain_and_groupi
 #[tokio::test]
 async fn refuses_a_config_from_a_newer_usemcpkit_instead_of_overwriting_it() {
     let home = tempfile::tempdir().unwrap();
-    write(&config_file(&home), json!({ "version": 5, "servers": {} }));
+    write(&config_file(&home), json!({ "version": 2, "servers": {} }));
 
     let error = store(&home).set(&github(None), "GITHUB_TOKEN", "x").await.unwrap_err();
 
     assert!(error.0.contains("update usemcpkit"), "{error}");
-    assert_eq!(read(&config_file(&home)), json!({ "version": 5, "servers": {} }));
-}
-
-#[tokio::test]
-async fn keeps_hosts_and_projects_of_a_config_written_before_versions_existed() {
-    let home = tempfile::tempdir().unwrap();
-    let hosts = json!({ "gitlab.a.example": { "secrets": { "GITLAB_TOKEN": "t" } } });
-    let projects = json!({ "/work/app": "gitlab.a.example" });
-    write(
-        &config_file(&home),
-        json!({ "servers": { "gitlab": { "domain": "gitlab.a.example", "hosts": hosts, "projects": projects } } }),
-    );
-    let owner = SecretOwner {
-        server: ServerKey::new("git", "gitlab"),
-        domain: Some("gitlab.a.example".into()),
-    };
-
-    let token = store(&home).get(&owner, "GITLAB_TOKEN").await.unwrap();
-
-    assert_eq!(token.as_deref(), Some("t"));
-    assert_eq!(
-        read(&config_file(&home)),
-        json!({ "version": 4, "servers": { "git": { "gitlab": { "hosts": hosts, "projects": projects } } } })
-    );
+    assert_eq!(read(&config_file(&home)), json!({ "version": 2, "servers": {} }));
 }
 
 #[tokio::test]
@@ -298,17 +178,33 @@ async fn keeps_keys_it_does_not_know_about() {
     let home = tempfile::tempdir().unwrap();
     write(
         &config_file(&home),
-        json!({ "version": 4, "future": { "a": 1 }, "servers": { "git": { "github": { "note": "kept" } } } }),
+        json!({ "version": 1, "future": { "a": 1 }, "servers": { "git": { "github": { "note": "kept" } } } }),
     );
 
     store(&home).set(&github(None), "GITHUB_TOKEN", "x").await.unwrap();
 
     assert_eq!(
-        read(&config_file(&home)),
+        read_without_saved_at(&config_file(&home)),
         json!({
-            "version": 4,
+            "version": 1,
             "future": { "a": 1 },
             "servers": { "git": { "github": { "note": "kept", "hosts": { "default": { "secrets": { "GITHUB_TOKEN": "x" } } } } } },
         })
     );
+}
+
+#[tokio::test]
+async fn writes_sorted_keys_and_stamps_when_the_secrets_of_a_host_were_saved() {
+    let home = tempfile::tempdir().unwrap();
+    let store = store(&home);
+
+    store.set(&jira(), "JIRA_TOKEN", "jt").await.unwrap();
+    store.set(&github(None), "GITHUB_TOKEN", "ghp_1").await.unwrap();
+
+    let text = std::fs::read_to_string(config_file(&home)).unwrap();
+    let order = |needle: &str| text.find(needle).unwrap();
+    assert!(order("\"version\"") < order("\"servers\""), "{text}");
+    assert!(order("\"git\"") < order("\"orgs/atlassian\""), "{text}");
+    let saved_at = &read(&config_file(&home))["servers"]["git"]["github"]["hosts"]["default"]["savedAt"];
+    assert!(saved_at.as_str().is_some_and(|time| time.ends_with('Z')), "{saved_at}");
 }

@@ -1,5 +1,8 @@
 use crate::config::{load_config, read_server_config, update_server_config};
+use crate::consts::SAVED_AT_KEY;
 use crate::json::object_entry;
+use crate::oauth::now_epoch_ms;
+use crate::timestamp::format_timestamp;
 use crate::{AuthError, SecretOwner, SecretStore};
 use serde_json::Value;
 use std::path::PathBuf;
@@ -39,6 +42,7 @@ impl SecretStore for FileSecretStore {
             update_server_config(&self.home, &owner.server, |current| {
                 let host = object_entry(object_entry(current, "hosts"), owner.host_key());
                 object_entry(host, "secrets").insert(key.to_owned(), Value::String(value.to_owned()));
+                host.insert(SAVED_AT_KEY.to_owned(), Value::String(format_timestamp(now_epoch_ms())));
             })
             .await?;
             Ok(())

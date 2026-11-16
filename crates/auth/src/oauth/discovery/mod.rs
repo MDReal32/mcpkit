@@ -1,6 +1,5 @@
 mod authorization_server_metadata;
 mod client_registration;
-mod clients_file;
 mod consts;
 mod discover_authorization_server;
 mod fetch_json;

@@ -47,11 +47,27 @@ fn auth_list() -> Value {
 }
 
 fn write_tokens(home: &Path, tokens: Value) {
-    std::fs::write(home.join("tokens.json"), tokens.to_string()).unwrap();
+    let servers: Map<String, Value> = tokens
+        .as_object()
+        .expect("tokens are an object")
+        .iter()
+        .map(|(name, token)| (name.clone(), json!({ "signIn": token })))
+        .collect();
+    let config = json!({ "version": 1, "servers": { "test": servers } });
+    std::fs::write(home.join("config.json"), config.to_string()).unwrap();
 }
 
 fn read_tokens(home: &Path) -> Value {
-    serde_json::from_str(&std::fs::read_to_string(home.join("tokens.json")).unwrap()).unwrap()
+    let config: Value = serde_json::from_str(&std::fs::read_to_string(home.join("config.json")).unwrap()).unwrap();
+    let servers = config["servers"]["test"]
+        .as_object()
+        .expect("the test servers are saved");
+    Value::Object(
+        servers
+            .iter()
+            .map(|(name, server)| (name.clone(), server["signIn"].clone()))
+            .collect(),
+    )
 }
 
 async fn call_ping(manifest: &Manifest, context: &CallContext) -> Result<Option<Value>, String> {
@@ -154,7 +170,7 @@ async fn returns_non_json_bodies_as_text() {
 }
 
 #[tokio::test]
-async fn uses_the_tokens_json_token_first() {
+async fn uses_the_sign_in_token_first() {
     let home = tempfile::tempdir().unwrap();
     let expires_at = usemcpkit_auth::oauth::now_epoch_ms() + 3_600_000.0;
     write_tokens(
@@ -237,7 +253,7 @@ async fn lists_every_option_when_none_works() {
         error,
         [
             "none_works: no auth option worked",
-            "  tokens.json: none_works: not signed in yet",
+            "  signIn: none_works: not signed in yet",
             "  auth[1] bearer FIRST_TOKEN: API answered 401: Bad credentials",
             "  auth[2] bearer SECOND_TOKEN: none_works: missing credential, set the SECOND_TOKEN environment variable or enter it in the credentials form",
             "  auth[0] oauth pkce sign-in: none_works: sign-in needs a browser, which this caller does not provide",
@@ -316,7 +332,7 @@ async fn surfaces_provider_errors_reported_with_http_200() {
 }
 
 #[tokio::test]
-async fn refuses_a_malformed_tokens_file_instead_of_overwriting_it() {
+async fn refuses_a_malformed_sign_in_instead_of_overwriting_it() {
     let home = tempfile::tempdir().unwrap();
     write_tokens(home.path(), json!({ "demo": { "accessToken": 1 } }));
     let manifest = ping_manifest("demo", Some(json!([demo_oauth()])));
@@ -324,7 +340,7 @@ async fn refuses_a_malformed_tokens_file_instead_of_overwriting_it() {
 
     let error = call_ping(&manifest, &context).await.unwrap_err();
 
-    assert!(error.contains("is not a valid tokens file"), "{error}");
+    assert!(error.contains("holds an invalid sign-in for test:demo"), "{error}");
     assert_eq!(read_tokens(home.path()), json!({ "demo": { "accessToken": 1 } }));
 }
 

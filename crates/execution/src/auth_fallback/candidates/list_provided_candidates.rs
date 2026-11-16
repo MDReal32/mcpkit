@@ -7,7 +7,7 @@ use std::rc::Rc;
 use usemcpkit_manifest::Manifest;
 use usemcpkit_manifest::auth::AuthSpec;
 
-/// Auth that needs nothing from the user: the `tokens.json` token and fallbacks whose credentials are set or saved.
+/// Auth that needs nothing from the user: the sign-in token and fallbacks whose credentials are set or saved.
 pub fn list_provided_candidates<'a>(
     manifest: &Rc<Manifest>,
     domain: Option<&'a str>,

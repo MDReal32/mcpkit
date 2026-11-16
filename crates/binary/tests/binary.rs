@@ -528,8 +528,8 @@ async fn check_for_binary_update_skips_until_the_interval_has_passed_once_a_chec
     assert_eq!(soon, None);
     assert_eq!(later, up_to_date);
     assert_eq!(
-        read(&home.path().join("update-state.json")),
-        format!("{{\"checkedAt\":{}}}\n", START + UPDATE_CHECK_INTERVAL_MS)
+        read(&home.path().join(".updated-state")),
+        format!("{}\n", START + UPDATE_CHECK_INTERVAL_MS)
     );
 }
 
