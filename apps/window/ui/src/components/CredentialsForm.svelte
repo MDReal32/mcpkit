@@ -12,6 +12,7 @@
   import { buildTokenResponse } from "../form/build-token-response";
   import { createFormDraft } from "../form/create-form-draft";
   import { findHostSource } from "../form/find-host-source";
+  import { isAwaitingCheck } from "../form/is-awaiting-check";
   import { isOptionOffered } from "../form/is-option-offered";
   import { pickMethodOption } from "../form/pick-method-option";
   import { resolveVisibleActions } from "../form/resolve-visible-actions";
@@ -44,6 +45,9 @@
   const checkError = $derived(failedCheck?.host === typedHost ? failedCheck.message : "");
   const canCheck = $derived(
     request.domain?.check === true && hostSource?.versioned === true && typedHost !== request.domain.value,
+  );
+  const awaitingCheck = $derived(
+    isAwaitingCheck({ canCheck, answered: checked !== undefined, failed: checkError !== "" }),
   );
   const offered = $derived(
     request.options.filter((option) => isOptionOffered(option.applies, hostSource?.name, checked?.version)),
@@ -166,7 +170,7 @@
     />
   {/if}
 
-  {#if methods.length > 1}
+  {#if !awaitingCheck && methods.length > 1}
     <MethodPicker
       legend={texts.credentialLegend}
       {methods}
@@ -176,7 +180,7 @@
     />
   {/if}
 
-  {#if chosen}
+  {#if !awaitingCheck && chosen}
     {#each chosen.fields as field (field.key)}
       <FieldInput
         id={field.key}
@@ -200,7 +204,7 @@
 
   <div class="actions">
     <button type="button" class="ghost" disabled={busy} onclick={cancel}>{texts.cancel}</button>
-    {#if method}
+    {#if method && !awaitingCheck}
       <button type="submit" class="primary" disabled={busy}>
         {#if saving}
           <span class="spinner" aria-hidden="true"></span>
