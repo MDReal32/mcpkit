@@ -24,8 +24,10 @@ export const DEFAULT_ARGS = ["list"];
 
 export const UPDATE_COMMAND = "update";
 
-/** Set it to skip the builds, for a client that starts the script with no `cargo` or `yarn` on its PATH. */
+/** Set it, or pass `--no-build` first, to skip the builds, for a client that starts the script with no `cargo` or `yarn` on its PATH. */
 export const NO_BUILD_ENV = "USEMCPKIT_DEV_NO_BUILD";
+
+export const NO_BUILD_FLAG = "--no-build";
 
 export const HOME_ENV = "USEMCPKIT_HOME";
 
