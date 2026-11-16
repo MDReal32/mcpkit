@@ -35,6 +35,8 @@ const REDDIT: &[(&str, &str)] = &[("REDDIT_ACCESS_TOKEN", "t")];
 
 const FIGMA: &[(&str, &str)] = &[("FIGMA_ACCESS_TOKEN", "figd_t")];
 
+const TRELLO: &[(&str, &str)] = &[("TRELLO_API_KEY", "k1"), ("TRELLO_TOKEN", "t1")];
+
 const N8N: &[(&str, &str)] = &[("N8N_HOST", "n8n.acme.com/automation"), ("N8N_API_KEY", "n8n_key")];
 
 fn manifests_dir() -> PathBuf {
@@ -576,6 +578,23 @@ async fn figma_reads_nodes_of_a_file_with_the_token_in_x_figma_token() {
     assert_eq!(endpoint(&request), "https://api.figma.com/v1/files/K/nodes");
     assert_eq!(query_value(&request, "ids").as_deref(), Some("1:2"));
     assert_eq!(header(&request, "X-Figma-Token"), Some("figd_t"));
+}
+
+#[tokio::test]
+async fn trello_sends_the_key_and_the_token_with_every_call() {
+    let spec = document(
+        "https://api.trello.com/1",
+        "/boards/{id}/cards",
+        "get",
+        &json!({ "parameters": path_parameters(&["id"]) }),
+    );
+    let trello = built_server("orgs/atlassian/trello", "rest", &spec, None);
+
+    let request = send(&trello, "boards/{id}/cards:get", json!({ "id": "b1" }), TRELLO).await;
+
+    assert_eq!(endpoint(&request), "https://api.trello.com/1/boards/b1/cards");
+    assert_eq!(query_value(&request, "key").as_deref(), Some("k1"));
+    assert_eq!(query_value(&request, "token").as_deref(), Some("t1"));
 }
 
 #[tokio::test]

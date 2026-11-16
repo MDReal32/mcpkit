@@ -10,8 +10,9 @@ import { jira } from "../src/servers/jira/jira";
 import { medium } from "../src/servers/medium/medium";
 import { n8n } from "../src/servers/n8n/n8n";
 import { reddit } from "../src/servers/reddit/reddit";
+import { trello } from "../src/servers/trello/trello";
 
-const OPENAPI_SERVERS = [github, gitlab, jira, confluence, clickup, discord, figma, n8n, reddit, medium];
+const OPENAPI_SERVERS = [github, gitlab, jira, confluence, clickup, discord, figma, n8n, reddit, medium, trello];
 
 describe("bundled OpenAPI servers", () => {
   it.each(OPENAPI_SERVERS)("$name compiles to a valid manifest", (server) => {

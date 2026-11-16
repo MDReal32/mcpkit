@@ -44,6 +44,7 @@ export type {
   OAuthEndpointsAuth,
   OpenApiSource,
   OpenApiSpec,
+  QueryParam,
   RepoSetupStep,
   ResponseSpec,
   SpecVersioning,

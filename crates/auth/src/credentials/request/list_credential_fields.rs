@@ -17,8 +17,15 @@ pub fn list_credential_fields(auth: &AuthSpec, texts: &IndexMap<String, String>)
             vec![field(&auth.env, label, true)]
         }
         AuthSpec::Query(auth) => {
-            let label = fill_template(&text("queryLabel"), &[("name", &auth.name)]);
-            vec![field(&auth.env, label, true)]
+            let template = text("queryLabel");
+            let label = |name: &str| fill_template(&template, &[("name", name)]);
+            let own = field(&auth.env, label(&auth.name), true);
+            let extra = auth
+                .extra
+                .iter()
+                .flatten()
+                .map(|param| field(&param.env, label(&param.name), true));
+            std::iter::once(own).chain(extra).collect()
         }
         AuthSpec::Basic(auth) => vec![
             field(&auth.username_env, text("usernameLabel"), false),

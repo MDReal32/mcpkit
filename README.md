@@ -153,8 +153,9 @@ and grouped by its first segment.
 | --- | --- | --- | --- |
 | `github` | `git` | github.com, GitHub Enterprise Server | the GitHub REST API, built from the description of github.com or of the Enterprise Server version the host runs, for example `repos/{owner}/{repo}/pulls:get`, `repos/{owner}/{repo}/issues:post` |
 | `gitlab` | `git` | gitlab.com, self-managed GitLab (`<host>[/<relative url root>]`) | the GitLab REST API, built from the description of gitlab.com or of the release the host runs (its Swagger 2.0 file), for example `api/v4/projects/{id}/issues:get`, `api/v4/projects/{id}/merge_requests/{merge_request_iid}/notes:post` |
-| `jira` | `atlassian` | Jira Cloud (`<site>.atlassian.net`), Jira Data Center 10.0 and later, and 9.x with a core set of hand-written tools | the Jira platform REST API (`/rest/api/2`) and Jira Software boards and sprints, built from the Cloud descriptions or from the one of the Data Center release the host runs, for example `rest/api/2/issue:post`, `rest/api/2/search:get` (Data Center) or `rest/api/2/search/jql:get` (Cloud), `rest/agile/1.0/board:get` |
-| `confluence` | `atlassian` | Confluence Cloud (`<site>.atlassian.net`), Confluence Data Center 9.0 and later | the Confluence REST APIs, built from the Cloud v2 and v1 descriptions or from the one of the Data Center release the host runs, for example `wiki/api/v2/pages:post` and `wiki/rest/api/search:get` on Cloud, `rest/api/content:post` on Data Center |
+| `jira` | `orgs/atlassian` | Jira Cloud (`<site>.atlassian.net`), Jira Data Center 10.0 and later, and 9.x with a core set of hand-written tools | the Jira platform REST API (`/rest/api/2`) and Jira Software boards and sprints, built from the Cloud descriptions or from the one of the Data Center release the host runs, for example `rest/api/2/issue:post`, `rest/api/2/search:get` (Data Center) or `rest/api/2/search/jql:get` (Cloud), `rest/agile/1.0/board:get` |
+| `confluence` | `orgs/atlassian` | Confluence Cloud (`<site>.atlassian.net`), Confluence Data Center 9.0 and later | the Confluence REST APIs, built from the Cloud v2 and v1 descriptions or from the one of the Data Center release the host runs, for example `wiki/api/v2/pages:post` and `wiki/rest/api/search:get` on Cloud, `rest/api/content:post` on Data Center |
+| `trello` | `orgs/atlassian` | Trello (`api.trello.com`) | the Trello REST API with an API key and token, built from Atlassian's description, for example `boards/{id}:get`, `boards/{id}/lists:get`, `cards:post`, `cards/{id}/actions/comments:post` |
 | `clickup` | `productivity` | ClickUp (`api.clickup.com`) | the ClickUp REST API v2 and v3, for example `api/v2/list/{list_id}/task:get`, `api/v2/folder/{folder_id}/list:post`, `api/v3/workspaces/{workspace_id}/docs:get` |
 | `discord` | `communication` | Discord (`discord.com/api/v10`) | the Discord HTTP API v10 as a bot, for example `channels/{channel_id}/messages:post`, `guilds/{guild_id}/members:get`, `users/@me/guilds:get` |
 | `figma` | `design` | Figma (`api.figma.com`) | the Figma REST API with a personal access token, for example `v1/files/{file_key}/nodes:get`, `v1/files/{file_key}/comments:post`, `v1/files/{file_key}/components:get` |
@@ -176,6 +177,11 @@ only the endpoints it serves.
 Confluence Cloud v2 tools take a space id (`wiki/api/v2/spaces:get`) instead of a space key. Data Center downloads an
 attachment with `rest/api/2/attachment/content/{id}:get`, a hand-written tool that takes the file name from the
 attachment's metadata, since Data Center serves the file from `/secure/attachment/{id}/{filename}`.
+
+Trello reads an API key (a Power-Up's, from trello.com/power-ups/admin) in `TRELLO_API_KEY` and a token generated for that
+key in `TRELLO_TOKEN`, and sends both as the `key` and `token` query parameters of every call. The token's scope and
+expiry (`read`, `write`, `account`) decide what the AI can do. Atlassian's description names OAuth scopes on most
+endpoints; the key and token serve them all.
 
 ClickUp reads a personal API token (`pk_…`, from Settings → Apps) in `CLICKUP_API_TOKEN` and sends it as the
 `Authorization` header. The v2 tools call the Workspace id `team_id` (`api/v2/team:get` lists them), and array filters such as `statuses` take a list.
