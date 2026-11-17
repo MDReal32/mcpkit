@@ -107,6 +107,8 @@ describe("writeManifests", () => {
     expect(reddit.openapi.sources[0].sha256).toBe(createHash("sha256").update(spec).digest("hex"));
     const teams = index.servers.find((server: { id: string }) => server.id === "communication:teams");
     expect(teams.openapi).toBeUndefined();
+    expect(teams.disabled).toBe(true);
+    expect(github.disabled).toBeUndefined();
   });
 
   it("splits a server whose tools are all <group>:<resource>:<action> into a shell and one file per group", async () => {

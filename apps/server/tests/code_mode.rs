@@ -60,6 +60,7 @@ fn tracker_server(registry: &TempDir) -> McpServer<FolderFetcher> {
         description: Some("Issues".into()),
         upstream: false,
         openapi: false,
+        disabled: false,
     }];
     let context = RegistryContext::new(
         registry.path().join("manifests"),

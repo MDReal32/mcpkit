@@ -17,21 +17,21 @@ pub async fn load_catalog<F: Fetch>(
     else {
         return Err("no registry index found; run `usemcpkit update` to download it".into());
     };
+    let index_servers: Vec<_> = index.servers.into_iter().filter(|server| !server.disabled).collect();
     let unknown: Vec<&str> = selection
         .iter()
-        .filter(|name| !index.servers.iter().any(|server| matches_selection(&server.id, name)))
+        .filter(|name| !index_servers.iter().any(|server| matches_selection(&server.id, name)))
         .map(String::as_str)
         .collect();
     if !unknown.is_empty() {
-        let available: Vec<&str> = index.servers.iter().map(|server| server.id.as_str()).collect();
+        let available: Vec<&str> = index_servers.iter().map(|server| server.id.as_str()).collect();
         return Err(format!(
             "unknown server(s): {}. Available: {}",
             unknown.join(", "),
             available.join(", ")
         ));
     }
-    let servers = index
-        .servers
+    let servers = index_servers
         .into_iter()
         .filter(|server| selection.is_empty() || selection.iter().any(|name| matches_selection(&server.id, name)))
         .collect();

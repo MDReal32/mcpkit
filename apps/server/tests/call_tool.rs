@@ -74,6 +74,7 @@ fn tracker_server(registry: &TempDir, http: Rc<TrackerApi>) -> McpServer<FolderF
         description: Some("Issues".into()),
         upstream: false,
         openapi: false,
+        disabled: false,
     }];
     let context = RegistryContext::new(
         registry.path().join("manifests"),

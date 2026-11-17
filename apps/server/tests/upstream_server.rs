@@ -175,6 +175,7 @@ fn server_for(
         description: Some("A remote MCP server".into()),
         upstream: true,
         openapi: false,
+        disabled: false,
     }];
     let context = RegistryContext::new(
         registry.join("manifests"),

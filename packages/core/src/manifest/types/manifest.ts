@@ -12,6 +12,8 @@ export interface Manifest {
   category: string;
   version: string;
   description?: string;
+  /** Keeps the server in the registry but hides it: the index marks it, and `list`, `search` and `serve` leave it out until the flag is removed. */
+  disabled?: boolean;
   /** May contain `{domain}`, as may the oauth URLs (`discovery` included) and an HTTP upstream's `url`; `domain` then says where the value comes from. A manifest with an `upstream` and no tools never requests it, so it only names the service's https home. */
   baseUrl: string;
   domain?: DomainSpec;

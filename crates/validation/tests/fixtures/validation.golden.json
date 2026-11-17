@@ -4690,6 +4690,30 @@
         }
       },
       "errors": []
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [],
+        "disabled": "yes"
+      },
+      "errors": [
+        "disabled must be a boolean"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [],
+        "disabled": true
+      },
+      "errors": []
     }
   ]
 }

@@ -118,6 +118,7 @@ fn pets_server(home: &TempDir, http: Rc<RouteClient>) -> McpServer<FolderFetcher
         description: Some("Pets".into()),
         upstream: false,
         openapi: true,
+        disabled: false,
     }];
     let context = RegistryContext::new(
         home.path().join("manifests"),

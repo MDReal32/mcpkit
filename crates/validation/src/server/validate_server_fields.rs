@@ -22,5 +22,8 @@ pub fn validate_server_fields(manifest: &Map<String, Value>) -> Vec<String> {
     {
         errors.push("headers must be an object of strings".to_owned());
     }
+    if manifest.get("disabled").is_some_and(|disabled| !disabled.is_boolean()) {
+        errors.push("disabled must be a boolean".to_owned());
+    }
     errors
 }

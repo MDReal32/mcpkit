@@ -40,6 +40,7 @@ fn offline_server(calls: &Rc<Cell<usize>>, cache: &TempDir) -> McpServer<Offline
         description: None,
         upstream: false,
         openapi: false,
+        disabled: false,
     }];
     let calls = call_context(cache.path(), &[], Rc::new(FixedClient::new(HttpResponse::default())));
     McpServer::new(RegistryCatalog::new(servers, context, calls.clone()), calls)

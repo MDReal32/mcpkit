@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { compareVersions } from "../src/form/compare-versions";
 import { findHostSource } from "../src/form/find-host-source";
 import { isAwaitingCheck } from "../src/form/is-awaiting-check";
+import { isAwaitingHost } from "../src/form/is-awaiting-host";
 import { isOptionOffered } from "../src/form/is-option-offered";
 import { parseVersionCondition } from "../src/form/parse-version-condition";
 
@@ -77,5 +78,13 @@ describe("isAwaitingCheck", () => {
     expect(isAwaitingCheck({ canCheck: true, answered: true, failed: false })).toBe(false);
     expect(isAwaitingCheck({ canCheck: true, answered: false, failed: true })).toBe(false);
     expect(isAwaitingCheck({ canCheck: false, answered: false, failed: false })).toBe(false);
+  });
+});
+
+describe("isAwaitingHost", () => {
+  it("holds the credentials back while a form that asks for a host has none typed", () => {
+    expect(isAwaitingHost(true, "")).toBe(true);
+    expect(isAwaitingHost(true, "jira.acme.com")).toBe(false);
+    expect(isAwaitingHost(false, "")).toBe(false);
   });
 });
