@@ -85,12 +85,11 @@ registry.
 real server as a worker (`usemcpkit serve --worker`). It polls its own binary file and, once the file was replaced and
 stayed the same for two polls (3 s each), starts the new binary as a second worker, replays the client's `initialize`
 handshake to it and only then switches new requests over. The old worker finishes the requests it already has (up to
-5 minutes) and exits. The client is told with `notifications/tools/list_changed`, which the server advertises as
-`tools.listChanged`, so a changed server list in the description of `search` shows up without a restart. The same applies when you copy a rebuilt
+5 minutes) and exits. The client is not notified, so it sees a changed server list in the description of `search` the next time it lists
+tools. The same applies when you copy a rebuilt
 binary over `~/.usemcpkit/bin/usemcpkit` or when auto-update downloads a release. If the new binary fails to answer
 `initialize` within 15 s, the running server stays and the reason is logged to stderr. The supervisor itself is not
-swapped: a release that changes it needs one client restart. Clients that ignore `list_changed` need a restart to see
-a changed server list; calls always run on the new server. A Homebrew upgrade moves the binary to a new `Cellar/<version>`
+swapped: a release that changes it needs one client restart. Calls always run on the new server. A Homebrew upgrade moves the binary to a new `Cellar/<version>`
 folder, so that install is not reloaded live.
 
 **Homebrew and winget.** The package only installs the binary. Running `usemcpkit` afterwards shows the same client

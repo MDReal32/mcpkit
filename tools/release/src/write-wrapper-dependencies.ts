@@ -1,6 +1,6 @@
 import { writeFile } from "node:fs/promises";
-import { PLATFORM_PACKAGE_PREFIX, RELEASE_TARGETS } from "./const.ts";
-import type { WrapperPackageJson } from "./types/wrapper-package-json.ts";
+import { PLATFORM_PACKAGE_PREFIX, RELEASE_TARGETS } from "./const";
+import type { WrapperPackageJson } from "./types/wrapper-package-json";
 
 /**
  * Lists every platform package as an optional dependency of the npx wrapper at `version`, so npm installs the one of

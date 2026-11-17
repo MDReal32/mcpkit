@@ -1,7 +1,7 @@
 import { cp, mkdir, rm } from "node:fs/promises";
 import { join } from "node:path";
-import { BUILD_OUTPUT_DIR, CARGO_RELEASE_DIR, PROJECT_BUILDS, RELEASE_BINARIES } from "./const.ts";
-import { toExecutableName } from "./to-executable-name.ts";
+import { BUILD_OUTPUT_DIR, CARGO_RELEASE_DIR, PROJECT_BUILDS, RELEASE_BINARIES } from "./const";
+import { toExecutableName } from "./to-executable-name";
 
 /**
  * Replaces `<workspaceRoot>/build` with a copy of every project's build and the Rust release binaries. The projects

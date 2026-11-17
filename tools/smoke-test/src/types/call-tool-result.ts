@@ -1,4 +1,4 @@
-import type { TextContent } from "./text-content.ts";
+import type { TextContent } from "./text-content";
 
 export interface CallToolResult {
   content: TextContent[];

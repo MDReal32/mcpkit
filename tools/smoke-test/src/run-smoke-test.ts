@@ -13,14 +13,14 @@ import {
   SERVER_COUNT_CODE,
   SERVER_NAME,
   UNREACHABLE_REGISTRY,
-} from "./const.ts";
-import { readIndexedServerCount } from "./read-indexed-server-count.ts";
-import { seedHome } from "./seed-home.ts";
-import { startStdioSession } from "./start-stdio-session.ts";
-import type { CallToolResult } from "./types/call-tool-result.ts";
-import type { InitializeResult } from "./types/initialize-result.ts";
-import type { StdioSession } from "./types/stdio-session.ts";
-import type { ToolsListResult } from "./types/tools-list-result.ts";
+} from "./const";
+import { readIndexedServerCount } from "./read-indexed-server-count";
+import { seedHome } from "./seed-home";
+import { startStdioSession } from "./start-stdio-session";
+import type { CallToolResult } from "./types/call-tool-result";
+import type { InitializeResult } from "./types/initialize-result";
+import type { StdioSession } from "./types/stdio-session";
+import type { ToolsListResult } from "./types/tools-list-result";
 
 const runCode = async (session: StdioSession, id: number, name: string, code: string) => {
   session.send({ jsonrpc: "2.0", id, method: "tools/call", params: { name, arguments: { code } } });

@@ -5,8 +5,8 @@
   "description": "The 30-second usemcpkit promo, made with Remotion.",
   "type": "module",
   "scripts": {
-    "audio": "node scripts/audio/generate-audio.ts",
-    "voiceover": "node --env-file-if-exists=.env scripts/voiceover/generate-voiceover.ts",
+    "audio": "node --import ../../tools/ts-resolver/src/register.ts scripts/audio/generate-audio.ts",
+    "voiceover": "node --import ../../tools/ts-resolver/src/register.ts --env-file-if-exists=.env scripts/voiceover/generate-voiceover.ts",
     "studio": "yarn audio && remotion studio",
     "render": "yarn audio && remotion render Promo build/usemcpkit.video.mp4",
     "pages": "yarn audio && rm -rf build/pages && remotion render Promo build/pages/usemcpkit.mp4 && remotion still Promo build/pages/poster.jpg --frame=1900 --image-format=jpeg --jpeg-quality=90 && cp site/index.html build/pages/index.html",

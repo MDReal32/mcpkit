@@ -1,4 +1,4 @@
-import { SAMPLE_RATE } from "../const.ts";
+import { SAMPLE_RATE } from "../const";
 
 /** 16-bit PCM WAV with the channels interleaved. */
 export const encodeWav = (channels: readonly Float32Array[]) => {

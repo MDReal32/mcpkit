@@ -7,10 +7,10 @@ import {
   PLATFORM_PACKAGE_PREFIX,
   PLATFORM_PACKAGE_REPOSITORY_URL,
   RELEASE_BINARIES,
-} from "./const.ts";
-import { toBinaryFileName } from "./to-binary-file-name.ts";
-import type { PlatformPackageJson } from "./types/platform-package-json.ts";
-import type { ReleaseTarget } from "./types/release-target.ts";
+} from "./const";
+import { toBinaryFileName } from "./to-binary-file-name";
+import type { PlatformPackageJson } from "./types/platform-package-json";
+import type { ReleaseTarget } from "./types/release-target";
 
 /**
  * Lays out `<npmDir>/cli-<target>/` ready for `npm publish`, with the three binaries in `bin/`. The executable bit is set

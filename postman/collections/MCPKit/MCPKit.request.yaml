@@ -7,7 +7,7 @@ message: |-
     "params": {
       "name": "search",
       "arguments": {
-        "code": "git:github"
+        "code": "async () => {console.log(1234)}"
       }
     }
   }

@@ -170,7 +170,7 @@ request (by hand for now). Homebrew will be a workflow of its own. Steps that mo
 composite actions in `.github/actions/<name>/action.yml` (`setup-workspace`, `install-webkitgtk-dev`, `build-binaries`,
 `build-registry`, `setup-npm-publish`), not shared jobs. Each `binaries` job runs on its target's own runner
 (`linux-x64`, `linux-arm64`, `darwin-x64`, `darwin-arm64`, `windows-x64`), builds from the credentials page the first job
-built, checks that each binary prints `--version` and runs `tools/smoke-test` against them (`node tools/smoke-test/src/main.ts
+built, checks that each binary prints `--version` and runs `tools/smoke-test` against them (`node --import ./tools/ts-resolver/src/register.ts tools/smoke-test/src/main.ts
 <usemcpkit binary> <registry dir>`: the real `usemcpkit serve`, with the server next to it, over stdio in a temp home
 seeded from the first job's registry, auto-update off and the registry unreachable; it initializes, expects `search` and
 `execute` as the only tools, searches the indexed servers and the groups of `git:github` and runs a piece of code with

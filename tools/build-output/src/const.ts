@@ -1,4 +1,4 @@
-import type { BuildCopy } from "./types/build-copy.ts";
+import type { BuildCopy } from "./types/build-copy";
 
 /** The folder every build is collected in, relative to the workspace root. */
 export const BUILD_OUTPUT_DIR = "build";

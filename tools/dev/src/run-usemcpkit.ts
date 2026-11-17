@@ -6,7 +6,12 @@ import type { DevPaths } from "./types/dev-paths";
 
 export const runUsemcpkit = async (paths: DevPaths, registryUrl: string, args: string[], quiet: boolean) => {
   const child = spawn(join(paths.binDir, RUNNER_NAME), args, {
-    env: { ...process.env, [HOME_ENV]: paths.home, [REGISTRY_ENV]: registryUrl, [AUTO_UPDATE_ENV]: "0" },
+    env: {
+      ...process.env,
+      [HOME_ENV]: paths.home,
+      [REGISTRY_ENV]: registryUrl,
+      [AUTO_UPDATE_ENV]: "0",
+    },
     stdio: quiet ? ["ignore", "pipe", "pipe"] : "inherit",
   });
   let output = "";

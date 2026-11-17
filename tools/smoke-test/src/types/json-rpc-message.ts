@@ -1,4 +1,4 @@
-import type { JsonRpcError } from "./json-rpc-error.ts";
+import type { JsonRpcError } from "./json-rpc-error";
 
 export interface JsonRpcMessage<Result = unknown> {
   jsonrpc: "2.0";

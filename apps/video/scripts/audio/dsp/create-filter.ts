@@ -1,5 +1,5 @@
-import { SAMPLE_RATE } from "../const.ts";
-import type { FilterOutput } from "./filter-output.ts";
+import { SAMPLE_RATE } from "../const";
+import type { FilterOutput } from "./filter-output";
 
 /** A state-variable filter (topology-preserving) that gives low, band and high pass at once. */
 export const createFilter = () => {

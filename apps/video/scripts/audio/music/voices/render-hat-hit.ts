@@ -1,6 +1,6 @@
-import { SAMPLE_RATE } from "../../const.ts";
-import { createFilter } from "../../dsp/create-filter.ts";
-import { createRandom } from "../../dsp/create-random.ts";
+import { SAMPLE_RATE } from "../../const";
+import { createFilter } from "../../dsp/create-filter";
+import { createRandom } from "../../dsp/create-random";
 
 /** A short closed hat: high-passed noise with a fast decay. */
 export const renderHatHit = (seed: number) => {

@@ -1,5 +1,5 @@
 import { resolve } from "node:path";
-import { runSmokeTest } from "./run-smoke-test.ts";
+import { runSmokeTest } from "./run-smoke-test";
 
 const [runner, registryDir] = process.argv.slice(2);
 if (runner === undefined || registryDir === undefined) {

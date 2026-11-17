@@ -15,7 +15,7 @@
   ],
   "targets": {
     "build": {
-      "command": "node src/main.ts",
+      "command": "node --import ../ts-resolver/src/register.ts src/main.ts",
       "options": { "cwd": "{projectRoot}" },
       "cache": false
     },

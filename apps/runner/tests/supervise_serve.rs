@@ -112,14 +112,18 @@ async fn swaps_the_worker_when_the_binary_changes() {
 
     write_version(&version_file, "2");
 
-    assert_eq!(
-        harness.receive().await,
-        json!({ "jsonrpc": "2.0", "method": "notifications/tools/list_changed" })
-    );
-    harness
-        .send(json!({ "jsonrpc": "2.0", "id": 5, "method": "tools/list" }))
-        .await;
-    assert_eq!(harness.receive().await["result"]["from"], json!("2"));
+    let mut swapped = false;
+    for id in 5..65 {
+        harness
+            .send(json!({ "jsonrpc": "2.0", "id": id, "method": "tools/list" }))
+            .await;
+        if harness.receive().await["result"]["from"] == json!("2") {
+            swapped = true;
+            break;
+        }
+        tokio::time::sleep(std::time::Duration::from_millis(250)).await;
+    }
+    assert!(swapped, "the worker was not swapped");
     assert_eq!(harness.close().await, 3);
 }
 

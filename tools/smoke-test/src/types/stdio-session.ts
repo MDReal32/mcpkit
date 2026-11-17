@@ -1,4 +1,4 @@
-import type { JsonRpcMessage } from "./json-rpc-message.ts";
+import type { JsonRpcMessage } from "./json-rpc-message";
 
 export interface StdioSession {
   send: (message: JsonRpcMessage) => void;
