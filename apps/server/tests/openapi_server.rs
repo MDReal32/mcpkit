@@ -197,10 +197,10 @@ async fn builds_the_tools_of_every_source_from_the_nearest_older_document_and_ke
         "{text}"
     );
     assert!(
-        text.contains("\"test:pets:pets/{petId}:get\",\n    \"Gets a pet the way 2.2 and 2.3 really answer\""),
+        text.contains("\"test:pets:pets/{petId}:get\",\n  \"Gets a pet the way 2.2 and 2.3 really answer\""),
         "{text}"
     );
-    assert!(text.contains("\"test:pets:pets:get\",\n    \"List pets"), "{text}");
+    assert!(text.contains("\"test:pets:pets:get\",\n  \"List pets"), "{text}");
     assert!(text.contains("\"test:pets:owners:get\""), "{text}");
     assert!(!text.contains("Pets of the owners"), "{text}");
     assert!(!text.contains("delete"), "{text}");
@@ -237,7 +237,7 @@ async fn builds_the_tools_of_every_source_from_the_nearest_older_document_and_ke
         r#"async () => (await codemode.tools()).map((tool) => tool.id)"#,
     )
     .await;
-    assert!(text_of(&cached).contains("\"test:pets:pets:get\""), "{cached}");
+    assert!(text_of(&cached).contains("test:pets:pets:get"), "{cached}");
     assert!(later_http.requests.borrow().is_empty());
 }
 

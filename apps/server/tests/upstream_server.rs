@@ -6,7 +6,7 @@ use std::cell::{Cell, RefCell};
 use std::path::{Path, PathBuf};
 use std::rc::Rc;
 use std::time::Duration;
-use support::{call_context, result_text, run_code};
+use support::{call_context, result_text, result_values, run_code};
 use tempfile::TempDir;
 use tokio::task::LocalSet;
 use usemcpkit_core::LocalFuture;
@@ -199,16 +199,11 @@ fn to_sent(pairs: &[(&str, &str)]) -> Vec<(String, String)> {
         .collect()
 }
 
-/// What a successful `search` or `execute` returned: the `json` item, or the `text` item of a returned string.
+/// What a successful `search` or `execute` returned, one entry per content item after the console.
 async fn run_json(server: &McpServer<FolderFetcher>, tool: &str, code: &str) -> Value {
     let result = run_code(server, tool, code).await;
     assert_eq!(result.get("isError"), None, "{result}");
-    let items = result["content"].as_array().unwrap();
-    let returned = items.last().unwrap();
-    match returned["type"].as_str() {
-        Some("json") => returned["json"].clone(),
-        _ => returned["text"].clone(),
-    }
+    Value::Array(result_values(&result))
 }
 
 fn cache_file(registry: &Path) -> PathBuf {
@@ -280,7 +275,7 @@ async fn lists_an_upstream_among_every_tool_only_once_it_was_started() {
     let after = run_json(&server, SEARCH_TOOL, every_tool).await;
     server.close().await;
 
-    assert_eq!(before, json!([]));
+    assert_eq!(before, json!([[]]));
     assert!(started_nothing, "listing every tool never starts an upstream");
     assert_eq!(
         after,
@@ -386,7 +381,7 @@ async fn reopens_a_kept_connection_whose_token_was_revoked_and_sends_the_call_on
     let result = run_json(&server, EXECUTE_TOOL, LIST_ITEMS).await;
     server.close().await;
 
-    assert_eq!(result, json!("ran list_items"));
+    assert_eq!(result, json!(["ran list_items"]));
     assert_eq!(
         *http.sent.borrow(),
         to_sent(&[
@@ -414,7 +409,7 @@ async fn starts_a_new_session_when_the_upstream_ended_the_kept_one() {
     let result = run_json(&server, EXECUTE_TOOL, LIST_ITEMS).await;
     server.close().await;
 
-    assert_eq!(result, json!("ran list_items"));
+    assert_eq!(result, json!(["ran list_items"]));
     assert_eq!(
         *http.sent.borrow(),
         to_sent(&[

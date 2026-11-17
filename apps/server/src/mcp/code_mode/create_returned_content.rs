@@ -1,57 +1,61 @@
-use crate::mcp::code_mode::consts::MAX_OUTPUT_CHARS;
-use crate::mcp::code_mode::format_returned_json::format_returned_json;
+use crate::mcp::code_mode::create_element_items::create_element_items;
+use crate::mcp::code_mode::create_value_item::create_value_item;
 use crate::mcp::code_mode::truncate_output::truncate_output;
 use crate::mcp::tools::create_text_content;
-use serde_json::{Value, json};
+use serde_json::Value;
 
-/// The content item for what the function returned: a string as `text`, any other value as a `json` item holding the
-/// value itself. A value whose JSON is longer than the output limit is cut as `text`, since JSON cannot be cut.
-pub fn create_returned_content(json: &str) -> Value {
+/// The content items for what the function returned: one item per element of a non-empty array (see
+/// `create_element_items`), a single item for any other value (see `create_value_item`), and the text itself when the
+/// sandbox wrote something that is not JSON.
+pub fn create_returned_content(json: &str) -> Vec<Value> {
     match serde_json::from_str::<Value>(json) {
-        Ok(Value::String(text)) => create_text_content(&truncate_output(text)),
-        Ok(value) => {
-            let printed = format_returned_json(json);
-            if printed.chars().count() > MAX_OUTPUT_CHARS {
-                return create_text_content(&truncate_output(printed));
-            }
-            json!({ "type": "json", "json": value })
-        }
-        Err(_unparsed) => create_text_content(&truncate_output(json.to_owned())),
+        Ok(Value::Array(elements)) if !elements.is_empty() => create_element_items(elements),
+        Ok(value) => vec![create_value_item(value)],
+        Err(_unparsed) => vec![create_text_content(&truncate_output(json.to_owned()))],
     }
 }
 
 #[cfg(test)]
 mod tests {
     use super::create_returned_content;
-    use crate::mcp::code_mode::consts::{MAX_OUTPUT_CHARS, TRUNCATED_MARKER};
     use serde_json::json;
 
     #[test]
-    fn returns_objects_numbers_and_arrays_as_json_items() {
+    fn returns_objects_and_numbers_as_one_json_item() {
         assert_eq!(
             create_returned_content(r#"{"a":[1,2]}"#),
-            json!({ "type": "json", "json": { "a": [1, 2] } })
+            vec![json!({ "type": "json", "json": { "a": [1, 2] } })]
         );
-        assert_eq!(create_returned_content("42"), json!({ "type": "json", "json": 42 }));
+        assert_eq!(
+            create_returned_content("42"),
+            vec![json!({ "type": "json", "json": 42 })]
+        );
     }
 
     #[test]
     fn returns_a_string_as_text() {
         assert_eq!(
             create_returned_content(r#""hello""#),
-            json!({ "type": "text", "text": "hello" })
+            vec![json!({ "type": "text", "text": "hello" })]
         );
     }
 
     #[test]
-    fn cuts_json_longer_than_the_limit_as_text() {
-        let long = format!(r#"["{}"]"#, "x".repeat(MAX_OUTPUT_CHARS));
-        let item = create_returned_content(&long);
-        assert_eq!(item["type"], "text");
-        assert!(
-            item["text"]
-                .as_str()
-                .is_some_and(|text| text.contains(TRUNCATED_MARKER))
+    fn spreads_an_array_over_one_item_per_element() {
+        assert_eq!(
+            create_returned_content(r#"[{"id":"a"},"b"]"#),
+            vec![
+                json!({ "type": "json", "json": { "id": "a" } }),
+                json!({ "type": "text", "text": "b" }),
+            ]
+        );
+    }
+
+    #[test]
+    fn keeps_an_empty_array_as_one_json_item() {
+        assert_eq!(
+            create_returned_content("[]"),
+            vec![json!({ "type": "json", "json": [] })]
         );
     }
 }

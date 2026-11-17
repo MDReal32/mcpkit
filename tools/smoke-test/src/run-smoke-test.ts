@@ -22,14 +22,17 @@ import type { InitializeResult } from "./types/initialize-result";
 import type { StdioSession } from "./types/stdio-session";
 import type { ToolsListResult } from "./types/tools-list-result";
 
+const CONSOLE_HEADING = "--- console ---";
+
 const runCode = async (session: StdioSession, id: number, name: string, code: string) => {
   session.send({ jsonrpc: "2.0", id, method: "tools/call", params: { name, arguments: { code } } });
   const answered = await session.receive<CallToolResult>();
   assert.equal(answered.id, id);
-  const returned = answered.result?.content.at(-1);
   assert.equal(answered.result?.isError, undefined, JSON.stringify(answered.result));
-  assert.ok(returned, "the result has no content");
-  return returned.type === "json" ? returned.json : returned.text;
+  const items = answered.result?.content ?? [];
+  return items
+    .filter((item) => !(item.type === "text" && item.text.startsWith(CONSOLE_HEADING)))
+    .map((item) => (item.type === "json" ? item.json : item.text));
 };
 
 const talkToServer = async (session: StdioSession, serverCount: number) => {
@@ -47,10 +50,10 @@ const talkToServer = async (session: StdioSession, serverCount: number) => {
   );
 
   const servers = await runCode(session, 2, SEARCH_TOOL, SERVER_COUNT_CODE);
-  assert.equal(servers, serverCount, "search sees every indexed server");
-  const groups = (await runCode(session, 3, SEARCH_TOOL, GITHUB_GROUPS_CODE)) as string[];
+  assert.deepEqual(servers, [serverCount], "search sees every indexed server");
+  const groups = await runCode(session, 3, SEARCH_TOOL, GITHUB_GROUPS_CODE);
   assert.ok(groups.includes(GITHUB_GROUP), `${GITHUB_GROUP} missing from ${groups.join(", ")}`);
-  assert.equal(await runCode(session, 4, EXECUTE_TOOL, EXECUTE_CODE), EXECUTE_RESULT);
+  assert.deepEqual(await runCode(session, 4, EXECUTE_TOOL, EXECUTE_CODE), [EXECUTE_RESULT]);
 };
 
 /**

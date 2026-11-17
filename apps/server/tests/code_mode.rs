@@ -129,7 +129,7 @@ async fn search_finds_tools_with_their_ids_and_schemas() {
 
     assert_eq!(
         found,
-        json_result(json!([{ "id": "test:tracker:issues:search", "required": ["jql"] }]))
+        json_result(json!({ "id": "test:tracker:issues:search", "required": ["jql"] }))
     );
 }
 
@@ -151,7 +151,7 @@ async fn search_lists_every_tool_when_no_server_is_named() {
     )
     .await;
 
-    assert_eq!(found, json_result(json!(["test:tracker:issues:search"])));
+    assert_eq!(found, text_result("test:tracker:issues:search"));
     assert!(
         error_text(&picked_group).starts_with("Error: codemode.tools needs a server to pick a group from\n"),
         "{picked_group}"

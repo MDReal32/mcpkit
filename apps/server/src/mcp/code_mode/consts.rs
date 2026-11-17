@@ -38,7 +38,7 @@ pub const WRAPPER: &str = include_str!("wrapper.js");
 
 pub const CODE_PLACEHOLDER: &str = "__USEMCPKIT_CODE__";
 
-pub const SANDBOX_NOTE: &str = "It runs in a sandbox with no network or file access; what it returns comes back as a json content item (a string as text), \
+pub const SANDBOX_NOTE: &str = "It runs in a sandbox with no network or file access; what it returns comes back as content items: a json item for a value (an array becomes one item per element, a string a text item), \
 after a text item with anything it wrote with console.log. Return only what is needed: output longer than about 24000 characters is cut.";
 
 pub const SEARCH_API: &str = "In the code:

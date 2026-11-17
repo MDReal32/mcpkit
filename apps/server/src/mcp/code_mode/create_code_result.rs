@@ -6,7 +6,7 @@ use crate::mcp::tools::create_text_content;
 use serde_json::{Value, json};
 
 /// The MCP result of a run, one `content` item per part: the console lines as `text`, then what the function returned
-/// (see `create_returned_content`) or the error it threw as `text`. A thrown error is an `isError` result.
+/// (one item, or one per element of an array, see `create_returned_content`) or the error it threw as `text`. A thrown error is an `isError` result.
 pub fn create_code_result(run: CodeRun) -> Value {
     let mut content = Vec::new();
     if !run.logs.is_empty() {
@@ -14,11 +14,11 @@ pub fn create_code_result(run: CodeRun) -> Value {
         content.push(create_text_content(&truncate_output(console)));
     }
     let is_error = run.result.is_err();
-    content.push(match run.result {
-        Ok(Some(json)) => create_returned_content(&json),
-        Ok(None) => create_text_content(NO_RETURN_VALUE),
-        Err(error) => create_text_content(&truncate_output(error)),
-    });
+    match run.result {
+        Ok(Some(json)) => content.extend(create_returned_content(&json)),
+        Ok(None) => content.push(create_text_content(NO_RETURN_VALUE)),
+        Err(error) => content.push(create_text_content(&truncate_output(error))),
+    }
     let mut result = json!({ "content": content });
     if is_error {
         result["isError"] = json!(true);
@@ -35,14 +35,14 @@ mod tests {
     #[test]
     fn puts_the_console_in_a_text_item_before_the_returned_json() {
         let result = create_code_result(CodeRun {
-            result: Ok(Some("[1]".to_owned())),
+            result: Ok(Some(r#"{"a":1}"#.to_owned())),
             logs: vec!["one".to_owned()],
         });
         assert_eq!(
             result,
             json!({ "content": [
                 { "type": "text", "text": "--- console ---\none" },
-                { "type": "json", "json": [1] },
+                { "type": "json", "json": { "a": 1 } },
             ] })
         );
     }
