@@ -1,5 +1,14 @@
 #!/bin/sh
-root="$(cd "$(dirname "$0")/../.." && pwd)"
+source="$0"
+while [ -h "$source" ]; do
+  directory="$(cd "$(dirname "$source")" && pwd)"
+  source="$(readlink "$source")"
+  case "$source" in
+    /*) ;;
+    *) source="$directory/$source" ;;
+  esac
+done
+root="$(cd "$(dirname "$source")/../.." && pwd)"
 log="$root/tmp/dev-serve.log"
 mkdir -p "$root/tmp"
 node_bin="$(command -v node 2>/dev/null)"

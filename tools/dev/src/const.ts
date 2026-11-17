@@ -29,6 +29,11 @@ export const NO_BUILD_ENV = "USEMCPKIT_DEV_NO_BUILD";
 
 export const NO_BUILD_FLAG = "--no-build";
 
+/** The name a client starts, found on PATH, so a committed request holds no path of this machine. */
+export const SERVE_LINK_NAME = "usemcpkit-dev-serve";
+
+export const SERVE_SCRIPT_SEGMENTS = ["tools", "dev", "serve.sh"];
+
 export const HOME_ENV = "USEMCPKIT_HOME";
 
 export const REGISTRY_ENV = "USEMCPKIT_REGISTRY";

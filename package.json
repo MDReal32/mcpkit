@@ -14,7 +14,8 @@
     "typecheck": "nx run-many -t typecheck",
     "lint": "nx run-many -t lint",
     "format": "biome check --write",
-    "usemcpkit:dev": "node tools/dev/src/main.ts"
+    "usemcpkit:dev": "node tools/dev/src/main.ts",
+    "usemcpkit:dev:link": "node tools/dev/src/link.ts"
   },
   "engines": {
     "node": ">=22.18"

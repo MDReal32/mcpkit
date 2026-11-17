@@ -1,6 +1,6 @@
 $kind: mcp-request
 transport: stdio
-command: /Users/mdrealiyev/Projects/mcpkit/tools/dev/serve.sh
+command: usemcpkit-dev-serve
 message: ""
 settings:
   version: auto
