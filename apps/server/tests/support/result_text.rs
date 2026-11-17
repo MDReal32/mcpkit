@@ -1,32 +1,27 @@
 use serde_json::Value;
 
-/// What the items of a result hold, in order, without the console item: a `json` item's value, a `text` item's text as
-/// a string.
-pub fn result_values(result: &Value) -> Vec<Value> {
+const CONSOLE_HEADING: &str = "--- console ---";
+
+fn text_items(result: &Value) -> Vec<&str> {
     let items = result["content"].as_array().map(Vec::as_slice).unwrap_or_default();
-    items
-        .iter()
-        .filter(|item| {
-            !item["text"]
-                .as_str()
-                .is_some_and(|text| text.starts_with("--- console ---"))
-        })
-        .map(|item| match item["type"].as_str() {
-            Some("json") => item["json"].clone(),
-            _ => item["text"].clone(),
-        })
-        .collect()
+    items.iter().filter_map(|item| item["text"].as_str()).collect()
 }
 
-/// A result's content as one text: `text` items as they are and `json` items printed.
+/// What a run returned: the elements of an array in `structuredContent`, the value of any other `structuredContent`,
+/// or the `text` items after the console when there is none (a returned string).
+pub fn result_values(result: &Value) -> Vec<Value> {
+    match &result["structuredContent"]["result"] {
+        Value::Null => text_items(result)
+            .into_iter()
+            .filter(|text| !text.starts_with(CONSOLE_HEADING))
+            .map(|text| Value::String(text.to_owned()))
+            .collect(),
+        Value::Array(elements) => elements.clone(),
+        value => vec![value.clone()],
+    }
+}
+
+/// Every `text` item of a result as one text.
 pub fn result_text(result: &Value) -> String {
-    let items = result["content"].as_array().map(Vec::as_slice).unwrap_or_default();
-    items
-        .iter()
-        .map(|item| match item["type"].as_str() {
-            Some("json") => serde_json::to_string_pretty(&item["json"]).unwrap(),
-            _ => item["text"].as_str().unwrap_or_default().to_owned(),
-        })
-        .collect::<Vec<_>>()
-        .join("\n")
+    text_items(result).join("\n")
 }

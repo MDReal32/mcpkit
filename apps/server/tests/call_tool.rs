@@ -109,7 +109,7 @@ async fn runs_a_tool_on_its_edition_and_keeps_the_auth_that_worked() {
     )
     .await;
 
-    let found = json!({ "content": [{ "type": "json", "json": { "key": "A-1" } }] });
+    let found = json!({ "content": [{ "type": "text", "text": "{\n  \"key\": \"A-1\"\n}" }], "structuredContent": { "result": [{ "key": "A-1" }] } });
     assert_eq!(first, found);
     assert_eq!(second, found);
     let url = "https://acme.atlassian.net/rest/api/2/search/jql?jql=x";

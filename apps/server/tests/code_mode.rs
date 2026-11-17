@@ -83,10 +83,6 @@ fn text_result(text: &str) -> Value {
     json!({ "content": [{ "type": "text", "text": text }] })
 }
 
-fn json_result(json: Value) -> Value {
-    json!({ "content": [{ "type": "json", "json": json }] })
-}
-
 fn error_text(result: &Value) -> &str {
     assert_eq!(result["isError"], json!(true), "{result}");
     result["content"][0]["text"].as_str().unwrap()
@@ -129,7 +125,10 @@ async fn search_finds_tools_with_their_ids_and_schemas() {
 
     assert_eq!(
         found,
-        json_result(json!({ "id": "test:tracker:issues:search", "required": ["jql"] }))
+        json!({
+            "content": [{ "type": "text", "text": "{\n  \"id\": \"test:tracker:issues:search\",\n  \"required\": [\n    \"jql\"\n  ]\n}" }],
+            "structuredContent": { "result": [{ "id": "test:tracker:issues:search", "required": ["jql"] }] },
+        })
     );
 }
 
@@ -151,7 +150,10 @@ async fn search_lists_every_tool_when_no_server_is_named() {
     )
     .await;
 
-    assert_eq!(found, text_result("test:tracker:issues:search"));
+    assert_eq!(
+        found,
+        json!({ "content": [{ "type": "text", "text": "test:tracker:issues:search" }], "structuredContent": { "result": ["test:tracker:issues:search"] } })
+    );
     assert!(
         error_text(&picked_group).starts_with("Error: codemode.tools needs a server to pick a group from\n"),
         "{picked_group}"

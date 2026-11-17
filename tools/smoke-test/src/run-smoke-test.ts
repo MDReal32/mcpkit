@@ -29,10 +29,14 @@ const runCode = async (session: StdioSession, id: number, name: string, code: st
   const answered = await session.receive<CallToolResult>();
   assert.equal(answered.id, id);
   assert.equal(answered.result?.isError, undefined, JSON.stringify(answered.result));
-  const items = answered.result?.content ?? [];
-  return items
-    .filter((item) => !(item.type === "text" && item.text.startsWith(CONSOLE_HEADING)))
-    .map((item) => (item.type === "json" ? item.json : item.text));
+  const structured = answered.result?.structuredContent?.result;
+  if (Array.isArray(structured)) {
+    return structured;
+  }
+  if (structured !== undefined) {
+    return [structured];
+  }
+  return (answered.result?.content ?? []).map((item) => item.text).filter((text) => !text.startsWith(CONSOLE_HEADING));
 };
 
 const talkToServer = async (session: StdioSession, serverCount: number) => {

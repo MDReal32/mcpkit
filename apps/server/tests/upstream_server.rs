@@ -275,7 +275,7 @@ async fn lists_an_upstream_among_every_tool_only_once_it_was_started() {
     let after = run_json(&server, SEARCH_TOOL, every_tool).await;
     server.close().await;
 
-    assert_eq!(before, json!([[]]));
+    assert_eq!(before, json!([]));
     assert!(started_nothing, "listing every tool never starts an upstream");
     assert_eq!(
         after,
