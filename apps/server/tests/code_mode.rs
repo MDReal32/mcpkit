@@ -127,7 +127,6 @@ async fn search_finds_tools_with_their_ids_and_schemas() {
         found,
         json!({
             "content": [{ "type": "text", "text": "{\n  \"id\": \"test:tracker:issues:search\",\n  \"required\": [\n    \"jql\"\n  ]\n}" }],
-            "structuredContent": { "result": [{ "id": "test:tracker:issues:search", "required": ["jql"] }] },
         })
     );
 }
@@ -152,7 +151,7 @@ async fn search_lists_every_tool_when_no_server_is_named() {
 
     assert_eq!(
         found,
-        json!({ "content": [{ "type": "text", "text": "test:tracker:issues:search" }], "structuredContent": { "result": ["test:tracker:issues:search"] } })
+        json!({ "content": [{ "type": "text", "text": "test:tracker:issues:search" }] })
     );
     assert!(
         error_text(&picked_group).starts_with("Error: codemode.tools needs a server to pick a group from\n"),
@@ -197,6 +196,47 @@ async fn execute_calls_tools_and_returns_the_console_and_the_value() {
             { "type": "text", "text": "--- console ---\nfound 1 {\"first\":\"A-1\"}" },
             { "type": "text", "text": "A-1" },
         ] })
+    );
+}
+
+#[tokio::test]
+async fn a_returned_object_is_the_structured_content_and_not_repeated_in_content() {
+    let registry = TempDir::new().unwrap();
+    let server = tracker_server(&registry);
+
+    let result = run_code(
+        &server,
+        EXECUTE_TOOL,
+        r#"async () => ({ key: "A-1", result: 2, text: "x".repeat(50000) })"#,
+    )
+    .await;
+
+    assert_eq!(
+        result,
+        json!({ "content": [], "structuredContent": { "key": "A-1", "result": 2, "text": "x".repeat(50000) } })
+    );
+}
+
+#[tokio::test]
+async fn a_large_array_is_cut_in_content_and_has_no_structured_content() {
+    let registry = TempDir::new().unwrap();
+    let server = tracker_server(&registry);
+
+    let result = run_code(
+        &server,
+        EXECUTE_TOOL,
+        r#"async () => Array.from({ length: 100 }, (_, index) => ({ index, text: "x".repeat(1000) }))"#,
+    )
+    .await;
+
+    assert!(result.get("structuredContent").is_none());
+    let items = result["content"].as_array().unwrap();
+    assert!(items.len() < 100);
+    assert!(
+        items.last().unwrap()["text"]
+            .as_str()
+            .unwrap()
+            .starts_with("--- TRUNCATED ---")
     );
 }
 

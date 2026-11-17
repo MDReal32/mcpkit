@@ -7,21 +7,29 @@ fn text_items(result: &Value) -> Vec<&str> {
     items.iter().filter_map(|item| item["text"].as_str()).collect()
 }
 
-/// What a run returned: the elements of an array in `structuredContent`, the value of any other `structuredContent`,
-/// or the `text` items after the console when there is none (a returned string).
+/// What a run returned: the `structuredContent` object when there is one, else the `text` items after the console, each
+/// parsed as JSON when it is (an element of an array, printed) and kept as a string when it is not; a lone `[]` is an
+/// empty array.
 pub fn result_values(result: &Value) -> Vec<Value> {
-    match &result["structuredContent"]["result"] {
-        Value::Null => text_items(result)
-            .into_iter()
-            .filter(|text| !text.starts_with(CONSOLE_HEADING))
-            .map(|text| Value::String(text.to_owned()))
-            .collect(),
-        Value::Array(elements) => elements.clone(),
-        value => vec![value.clone()],
+    if let Some(object) = result.get("structuredContent") {
+        return vec![object.clone()];
+    }
+    let values: Vec<Value> = text_items(result)
+        .into_iter()
+        .filter(|text| !text.starts_with(CONSOLE_HEADING))
+        .map(|text| serde_json::from_str(text).unwrap_or_else(|_| Value::String(text.to_owned())))
+        .collect();
+    match values.as_slice() {
+        [Value::Array(elements)] if elements.is_empty() => Vec::new(),
+        _ => values,
     }
 }
 
-/// Every `text` item of a result as one text.
+/// Every `text` item of a result as one text, followed by its `structuredContent` printed as JSON when it has one.
 pub fn result_text(result: &Value) -> String {
-    text_items(result).join("\n")
+    let mut parts: Vec<String> = text_items(result).into_iter().map(str::to_owned).collect();
+    if let Some(object) = result.get("structuredContent") {
+        parts.push(serde_json::to_string_pretty(object).unwrap());
+    }
+    parts.join("\n")
 }

@@ -24,19 +24,30 @@ import type { ToolsListResult } from "./types/tools-list-result";
 
 const CONSOLE_HEADING = "--- console ---";
 
+const parseJsonOrKeep = (text: string) => {
+  try {
+    return JSON.parse(text);
+  } catch (error) {
+    if (error instanceof SyntaxError) {
+      return text;
+    }
+    throw error;
+  }
+};
+
 const runCode = async (session: StdioSession, id: number, name: string, code: string) => {
   session.send({ jsonrpc: "2.0", id, method: "tools/call", params: { name, arguments: { code } } });
   const answered = await session.receive<CallToolResult>();
   assert.equal(answered.id, id);
   assert.equal(answered.result?.isError, undefined, JSON.stringify(answered.result));
-  const structured = answered.result?.structuredContent?.result;
-  if (Array.isArray(structured)) {
-    return structured;
-  }
+  const structured = answered.result?.structuredContent;
   if (structured !== undefined) {
     return [structured];
   }
-  return (answered.result?.content ?? []).map((item) => item.text).filter((text) => !text.startsWith(CONSOLE_HEADING));
+  return (answered.result?.content ?? [])
+    .map((item) => item.text)
+    .filter((text) => !text.startsWith(CONSOLE_HEADING))
+    .map(parseJsonOrKeep);
 };
 
 const talkToServer = async (session: StdioSession, serverCount: number) => {

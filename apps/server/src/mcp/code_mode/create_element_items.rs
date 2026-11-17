@@ -1,6 +1,6 @@
-use crate::mcp::code_mode::consts::{MAX_OUTPUT_CHARS, TRUNCATED_MARKER};
+use crate::mcp::code_mode::consts::TRUNCATED_MARKER;
 use crate::mcp::code_mode::create_value_item::create_value_item;
-use crate::mcp::code_mode::print_value::print_value;
+use crate::mcp::code_mode::measure_elements::measure_elements;
 use crate::mcp::tools::create_text_content;
 use serde_json::Value;
 
@@ -8,30 +8,19 @@ use serde_json::Value;
 /// left out are named in a closing `text` item. An array whose first element alone is over the limit comes back as one
 /// item.
 pub fn create_element_items(elements: Vec<Value>) -> Vec<Value> {
-    let lengths: Vec<usize> = elements
-        .iter()
-        .map(|element| print_value(element).chars().count())
-        .collect();
-    let total: usize = lengths.iter().sum();
-    if total <= MAX_OUTPUT_CHARS {
+    let window = measure_elements(&elements);
+    let count = elements.len();
+    if window.shown == count {
         return elements.iter().map(create_value_item).collect();
     }
-    let count = elements.len();
-    let mut used = 0;
-    let mut items = Vec::new();
-    for (element, length) in elements.iter().zip(&lengths) {
-        if used + length > MAX_OUTPUT_CHARS {
-            break;
-        }
-        used += length;
-        items.push(create_value_item(element));
-    }
-    if items.is_empty() {
+    if window.shown == 0 {
         return vec![create_value_item(&Value::Array(elements))];
     }
+    let mut items: Vec<Value> = elements[..window.shown].iter().map(create_value_item).collect();
     items.push(create_text_content(&format!(
         "{TRUNCATED_MARKER}\nShowing {shown} of {count} items; the whole array was {total} characters. Return less, for example by filtering or picking fields in the code.",
-        shown = items.len(),
+        shown = window.shown,
+        total = window.total_chars,
     )));
     items
 }

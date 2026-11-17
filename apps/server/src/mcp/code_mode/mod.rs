@@ -24,6 +24,7 @@ mod load_openapi_tools;
 mod load_own_tools;
 mod load_server_tools;
 mod load_upstream_tools;
+mod measure_elements;
 mod merge_upstream_tools;
 mod print_value;
 mod read_mcp_result;
