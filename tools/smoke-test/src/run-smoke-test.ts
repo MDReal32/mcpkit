@@ -26,9 +26,10 @@ const runCode = async (session: StdioSession, id: number, name: string, code: st
   session.send({ jsonrpc: "2.0", id, method: "tools/call", params: { name, arguments: { code } } });
   const answered = await session.receive<CallToolResult>();
   assert.equal(answered.id, id);
-  const text = answered.result?.content[0]?.text ?? "";
-  assert.equal(answered.result?.isError, undefined, text);
-  return text;
+  const returned = answered.result?.content.at(-1);
+  assert.equal(answered.result?.isError, undefined, JSON.stringify(answered.result));
+  assert.ok(returned, "the result has no content");
+  return returned.type === "json" ? returned.json : returned.text;
 };
 
 const talkToServer = async (session: StdioSession, serverCount: number) => {
@@ -46,8 +47,8 @@ const talkToServer = async (session: StdioSession, serverCount: number) => {
   );
 
   const servers = await runCode(session, 2, SEARCH_TOOL, SERVER_COUNT_CODE);
-  assert.equal(servers, String(serverCount), "search sees every indexed server");
-  const groups: string[] = JSON.parse(await runCode(session, 3, SEARCH_TOOL, GITHUB_GROUPS_CODE));
+  assert.equal(servers, serverCount, "search sees every indexed server");
+  const groups = (await runCode(session, 3, SEARCH_TOOL, GITHUB_GROUPS_CODE)) as string[];
   assert.ok(groups.includes(GITHUB_GROUP), `${GITHUB_GROUP} missing from ${groups.join(", ")}`);
   assert.equal(await runCode(session, 4, EXECUTE_TOOL, EXECUTE_CODE), EXECUTE_RESULT);
 };

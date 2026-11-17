@@ -4,7 +4,7 @@ use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
 use std::path::Path;
 use std::rc::Rc;
-use support::{FolderFetcher, call_context, run_code};
+use support::{FolderFetcher, call_context, result_text, run_code};
 use tempfile::TempDir;
 use usemcpkit_manifest::registry::RegistryServer;
 use usemcpkit_registry::RegistryContext;
@@ -151,8 +151,8 @@ fn pets_api_at(version: &str) -> Rc<RouteClient> {
     ]))
 }
 
-fn text_of(result: &Value) -> &str {
-    result["content"][0]["text"].as_str().unwrap()
+fn text_of(result: &Value) -> String {
+    result_text(result)
 }
 
 #[tokio::test]

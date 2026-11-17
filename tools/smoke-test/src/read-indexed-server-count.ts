@@ -4,5 +4,5 @@ import type { RegistryIndex } from "./types/registry-index";
 
 export const readIndexedServerCount = async (registryDir: string) => {
   const index: RegistryIndex = JSON.parse(await readFile(join(registryDir, "index.json"), "utf8"));
-  return index.servers.length;
+  return index.servers.filter((server) => !server.disabled).length;
 };

@@ -5,7 +5,7 @@ use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
 use std::rc::Rc;
-use support::{FolderFetcher, call_context, registry_root, run_code};
+use support::{FolderFetcher, call_context, registry_root, result_text, run_code};
 use tempfile::TempDir;
 use usemcpkit_execution::CallContext;
 use usemcpkit_http::HttpResponse;
@@ -162,7 +162,7 @@ async fn describes_every_tool_of_the_built_registry() {
         "async () => { const ids = (await codemode.tools()).map((tool) => tool.id); return [ids.length, new Set(ids).size]; }",
     )
     .await;
-    let text = every_tool["content"][0]["text"].as_str().unwrap();
+    let text = result_text(&every_tool);
     let answer = text
         .lines()
         .skip_while(|line| !line.starts_with('['))

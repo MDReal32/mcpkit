@@ -5,6 +5,7 @@ mod consts;
 mod create_code_result;
 mod create_envelope;
 mod create_host_object;
+mod create_returned_content;
 mod describe_search_tool;
 mod describe_tools;
 mod describe_unbuilt_server;

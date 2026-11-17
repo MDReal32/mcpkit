@@ -1,3 +1,4 @@
+mod create_text_content;
 mod create_text_result;
 mod create_tool_id;
 mod find_tool;
@@ -7,6 +8,7 @@ mod read_tool_arguments;
 mod run_server_tool;
 mod tool_outcome;
 
+pub use create_text_content::create_text_content;
 pub use create_text_result::create_text_result;
 pub use create_tool_id::create_tool_id;
 pub use read_tool_arguments::read_tool_arguments;

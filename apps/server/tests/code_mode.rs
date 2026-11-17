@@ -83,6 +83,10 @@ fn text_result(text: &str) -> Value {
     json!({ "content": [{ "type": "text", "text": text }] })
 }
 
+fn json_result(json: Value) -> Value {
+    json!({ "content": [{ "type": "json", "json": json }] })
+}
+
 fn error_text(result: &Value) -> &str {
     assert_eq!(result["isError"], json!(true), "{result}");
     result["content"][0]["text"].as_str().unwrap()
@@ -125,9 +129,7 @@ async fn search_finds_tools_with_their_ids_and_schemas() {
 
     assert_eq!(
         found,
-        text_result(
-            "[\n  {\n    \"id\": \"test:tracker:issues:search\",\n    \"required\": [\n      \"jql\"\n    ]\n  }\n]"
-        )
+        json_result(json!([{ "id": "test:tracker:issues:search", "required": ["jql"] }]))
     );
 }
 
@@ -149,7 +151,7 @@ async fn search_lists_every_tool_when_no_server_is_named() {
     )
     .await;
 
-    assert_eq!(found, text_result("[\n  \"test:tracker:issues:search\"\n]"));
+    assert_eq!(found, json_result(json!(["test:tracker:issues:search"])));
     assert!(
         error_text(&picked_group).starts_with("Error: codemode.tools needs a server to pick a group from\n"),
         "{picked_group}"
@@ -189,7 +191,10 @@ async fn execute_calls_tools_and_returns_the_console_and_the_value() {
 
     assert_eq!(
         result,
-        text_result("--- console ---\nfound 1 {\"first\":\"A-1\"}\n\n--- result ---\n\"A-1\"")
+        json!({ "content": [
+            { "type": "text", "text": "--- console ---\nfound 1 {\"first\":\"A-1\"}" },
+            { "type": "text", "text": "A-1" },
+        ] })
     );
 }
 

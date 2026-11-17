@@ -38,8 +38,8 @@ pub const WRAPPER: &str = include_str!("wrapper.js");
 
 pub const CODE_PLACEHOLDER: &str = "__USEMCPKIT_CODE__";
 
-pub const SANDBOX_NOTE: &str = "It runs in a sandbox with no network or file access; what it returns comes back as JSON, \
-after anything it wrote with console.log. Return only what is needed: output longer than about 24000 characters is cut.";
+pub const SANDBOX_NOTE: &str = "It runs in a sandbox with no network or file access; what it returns comes back as a json content item (a string as text), \
+after a text item with anything it wrote with console.log. Return only what is needed: output longer than about 24000 characters is cut.";
 
 pub const SEARCH_API: &str = "In the code:
 - codemode.servers(): Promise<{ id: string, description: string, upstream: boolean }[]>
@@ -81,5 +81,3 @@ pub const FAILED_TOOL_TEXT: &str = "the tool failed without saying why";
 pub const NO_RETURN_VALUE: &str = "undefined";
 
 pub const CONSOLE_HEADING: &str = "--- console ---";
-
-pub const RESULT_HEADING: &str = "--- result ---";
