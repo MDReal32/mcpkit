@@ -34,6 +34,7 @@ describe("compileServers", () => {
       "figma",
       "github",
       "gitlab",
+      "graphify",
       "jira",
       "medium",
       "n8n",
