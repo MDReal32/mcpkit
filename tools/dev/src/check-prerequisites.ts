@@ -1,6 +1,6 @@
 import { access } from "node:fs/promises";
 import { join } from "node:path";
-import { PREREQUISITES } from "./const.ts";
+import { PREREQUISITES } from "./const";
 
 export const checkPrerequisites = async (workspaceRoot: string) => {
   const missing: string[] = [];

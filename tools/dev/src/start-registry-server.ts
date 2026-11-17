@@ -2,8 +2,8 @@ import { readFile } from "node:fs/promises";
 import { createServer } from "node:http";
 import type { AddressInfo } from "node:net";
 import { extname, resolve, sep } from "node:path";
-import { BINARY_CONTENT_TYPE, JSON_CONTENT_TYPE, LOOPBACK_HOST } from "./const.ts";
-import type { RegistryServer } from "./types/registry-server.ts";
+import { BINARY_CONTENT_TYPE, JSON_CONTENT_TYPE, LOOPBACK_HOST } from "./const";
+import type { RegistryServer } from "./types/registry-server";
 
 /** Serves the built manifests over HTTP, since a registry link must be a URL and the client reads no plain folder. */
 export const startRegistryServer = async (registryDir: string) => {

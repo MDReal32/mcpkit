@@ -1,6 +1,6 @@
 import { lstat, mkdir, readlink, symlink, unlink } from "node:fs/promises";
 import { dirname, join } from "node:path";
-import { SERVE_LINK_NAME, SERVE_SCRIPT_SEGMENTS } from "./const.ts";
+import { SERVE_LINK_NAME, SERVE_SCRIPT_SEGMENTS } from "./const";
 
 /** Puts `serve.sh` on PATH next to the running `node`, since a client takes its PATH from the user's shell. */
 export const linkServeScript = async (workspaceRoot: string, directory = dirname(process.execPath)) => {

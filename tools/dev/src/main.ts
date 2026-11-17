@@ -1,12 +1,12 @@
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { buildAll } from "./build-all.ts";
-import { checkPrerequisites } from "./check-prerequisites.ts";
-import { DEFAULT_ARGS, NO_BUILD_ENV, NO_BUILD_FLAG, UPDATE_COMMAND } from "./const.ts";
-import { installBinaries } from "./install-binaries.ts";
-import { resolveDevPaths } from "./resolve-dev-paths.ts";
-import { runUsemcpkit } from "./run-usemcpkit.ts";
-import { startRegistryServer } from "./start-registry-server.ts";
+import { buildAll } from "./build-all";
+import { checkPrerequisites } from "./check-prerequisites";
+import { DEFAULT_ARGS, NO_BUILD_ENV, NO_BUILD_FLAG, UPDATE_COMMAND } from "./const";
+import { installBinaries } from "./install-binaries";
+import { resolveDevPaths } from "./resolve-dev-paths";
+import { runUsemcpkit } from "./run-usemcpkit";
+import { startRegistryServer } from "./start-registry-server";
 
 const [firstArg, ...restArgs] = process.argv.slice(2);
 const skipBuild = firstArg === NO_BUILD_FLAG || process.env[NO_BUILD_ENV] === "1";

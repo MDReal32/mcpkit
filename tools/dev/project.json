@@ -4,7 +4,7 @@
   "projectType": "application",
   "targets": {
     "dev": {
-      "command": "node tools/dev/src/main.ts",
+      "command": "node --import ./tools/dev/src/register.ts tools/dev/src/main.ts",
       "options": {
         "cwd": "{workspaceRoot}"
       },

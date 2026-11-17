@@ -1,7 +1,16 @@
 $kind: mcp-request
 transport: stdio
 command: usemcpkit-dev-serve
-message: ""
+message: |-
+  {
+    "method": "tools/call",
+    "params": {
+      "name": "search",
+      "arguments": {
+        "code": "git:github"
+      }
+    }
+  }
 settings:
   version: auto
   requestTimeout: 0

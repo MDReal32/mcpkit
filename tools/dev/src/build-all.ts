@@ -1,5 +1,5 @@
-import { CARGO_PACKAGES, MANIFESTS_WORKSPACE } from "./const.ts";
-import { runCommand } from "./run-command.ts";
+import { CARGO_PACKAGES, MANIFESTS_WORKSPACE } from "./const";
+import { runCommand } from "./run-command";
 
 export const buildAll = async (workspaceRoot: string) => {
   process.stderr.write("usemcpkit:dev building the binaries and the manifests\n");

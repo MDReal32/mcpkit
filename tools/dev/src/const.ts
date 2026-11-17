@@ -1,4 +1,4 @@
-import type { Prerequisite } from "./types/prerequisite.ts";
+import type { Prerequisite } from "./types/prerequisite";
 
 export const DEV_HOME_SEGMENTS = ["tmp", ".usemcpkit"];
 

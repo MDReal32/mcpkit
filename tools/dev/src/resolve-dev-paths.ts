@@ -1,6 +1,6 @@
 import { join } from "node:path";
-import { DEV_HOME_SEGMENTS, REGISTRY_SEGMENTS, RELEASE_SEGMENTS } from "./const.ts";
-import type { DevPaths } from "./types/dev-paths.ts";
+import { DEV_HOME_SEGMENTS, REGISTRY_SEGMENTS, RELEASE_SEGMENTS } from "./const";
+import type { DevPaths } from "./types/dev-paths";
 
 export const resolveDevPaths = (workspaceRoot: string) => {
   const home = join(workspaceRoot, ...DEV_HOME_SEGMENTS);

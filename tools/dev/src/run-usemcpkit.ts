@@ -1,8 +1,8 @@
 import { spawn } from "node:child_process";
 import { once } from "node:events";
 import { join } from "node:path";
-import { AUTO_UPDATE_ENV, HOME_ENV, REGISTRY_ENV, RUNNER_NAME } from "./const.ts";
-import type { DevPaths } from "./types/dev-paths.ts";
+import { AUTO_UPDATE_ENV, HOME_ENV, REGISTRY_ENV, RUNNER_NAME } from "./const";
+import type { DevPaths } from "./types/dev-paths";
 
 export const runUsemcpkit = async (paths: DevPaths, registryUrl: string, args: string[], quiet: boolean) => {
   const child = spawn(join(paths.binDir, RUNNER_NAME), args, {
