@@ -6,6 +6,7 @@ import { discord } from "./discord/discord";
 import { figma } from "./figma/figma";
 import { github } from "./github/github";
 import { gitlab } from "./gitlab/gitlab";
+import { graphify } from "./graphify/graphify";
 import { jira } from "./jira/jira";
 import { medium } from "./medium/medium";
 import { n8n } from "./n8n/n8n";
@@ -23,6 +24,7 @@ export const servers = [
   figma,
   github,
   gitlab,
+  graphify,
   jira,
   medium,
   n8n,
