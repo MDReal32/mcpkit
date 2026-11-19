@@ -8,6 +8,7 @@
       <project name="build-output" file="file://$PROJECT_DIR$/tools/build-output/project.json" />
       <project name="release" file="file://$PROJECT_DIR$/tools/release/project.json" />
       <project name="smoke-test" file="file://$PROJECT_DIR$/tools/smoke-test/project.json" />
+      <project name="ts-resolver" file="file://$PROJECT_DIR$/tools/ts-resolver/project.json" />
       <project name="usemcpkit-auth" file="file://$PROJECT_DIR$/crates/auth/project.json" />
       <project name="usemcpkit-binary" file="file://$PROJECT_DIR$/crates/binary/project.json" />
       <project name="usemcpkit-clients" file="file://$PROJECT_DIR$/crates/clients/project.json" />
