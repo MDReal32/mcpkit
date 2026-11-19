@@ -97,3 +97,71 @@ async fn reports_a_server_that_cannot_load_and_tries_again_on_the_next_search() 
     assert_eq!(second["isError"], json!(true), "{second}");
     assert!(calls.get() > tried, "the second search did not try the registry again");
 }
+
+#[tokio::test]
+async fn serves_a_modern_client_without_initialize() {
+    let cache = TempDir::new().unwrap();
+    let server = offline_server(&Rc::new(Cell::new(0)), &cache);
+    let meta = json!({ "io.modelcontextprotocol/protocolVersion": "2026-07-28" });
+
+    let discovered = answer(
+        &server,
+        json!({ "jsonrpc": "2.0", "id": 1, "method": "server/discover", "params": { "_meta": meta } }),
+    )
+    .await
+    .unwrap();
+    let searched = answer(
+        &server,
+        json!({
+            "jsonrpc": "2.0",
+            "id": 2,
+            "method": "tools/call",
+            "params": { "_meta": meta, "name": SEARCH_TOOL, "arguments": { "code": "async () => [1, 2]" } },
+        }),
+    )
+    .await
+    .unwrap();
+
+    let result = &discovered["result"];
+    assert_eq!(result["resultType"], json!("complete"));
+    assert_eq!(result["supportedVersions"], json!(["2026-07-28"]));
+    assert_eq!(result["capabilities"], json!({ "tools": {} }));
+    assert_eq!(
+        result["_meta"]["io.modelcontextprotocol/serverInfo"]["name"],
+        json!("usemcpkit")
+    );
+    assert_eq!(
+        searched["result"],
+        json!({ "content": [], "resultType": "complete", "structuredContent": [1, 2] })
+    );
+}
+
+#[tokio::test]
+async fn refuses_a_protocol_version_it_does_not_speak() {
+    let cache = TempDir::new().unwrap();
+    let server = offline_server(&Rc::new(Cell::new(0)), &cache);
+
+    let refused = answer(
+        &server,
+        json!({
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "server/discover",
+            "params": { "_meta": { "io.modelcontextprotocol/protocolVersion": "2099-01-01" } },
+        }),
+    )
+    .await;
+
+    assert_eq!(
+        refused,
+        Some(json!({
+            "jsonrpc": "2.0",
+            "id": 1,
+            "error": {
+                "code": -32022,
+                "message": "Unsupported protocol version",
+                "data": { "supported": ["2026-07-28"], "requested": "2099-01-01" },
+            },
+        }))
+    );
+}

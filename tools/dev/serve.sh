@@ -19,8 +19,10 @@ if [ -z "$node_bin" ]; then
     fi
   done
 fi
+PATH="$(dirname "$node_bin"):$HOME/.cargo/bin:$PATH"
+export PATH
 printf '%s start pid=%s cwd=%s node=%s args=%s\n' "$(date -u +%FT%TZ)" "$$" "$(pwd)" "$node_bin" "$*" >> "$log"
-"$node_bin" --import "$root/tools/ts-resolver/src/register.ts" "$root/tools/dev/src/main.ts" --no-build serve "$@" 2>> "$log"
+"$node_bin" --import "$root/tools/ts-resolver/src/register.ts" "$root/tools/dev/src/main.ts" serve "$@" 2>> "$log"
 status=$?
 printf '%s exit status=%s\n' "$(date -u +%FT%TZ)" "$status" >> "$log"
 exit "$status"
