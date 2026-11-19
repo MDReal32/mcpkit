@@ -1,4 +1,4 @@
-import type { ListedTool } from "./listed-tool.ts";
+import type { ListedTool } from "./listed-tool";
 
 export interface ToolsListResult {
   tools: ListedTool[];

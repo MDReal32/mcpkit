@@ -51,7 +51,7 @@ fn create_repo(home: &TempDir, name: &str, remote: &str) -> PathBuf {
 }
 
 fn save_config(home: &TempDir, servers: Value) {
-    let config = json!({ "version": 4, "servers": { "git": servers } });
+    let config = json!({ "version": 1, "servers": { "git": servers } });
     std::fs::write(home.path().join("config.json"), config.to_string()).unwrap();
 }
 

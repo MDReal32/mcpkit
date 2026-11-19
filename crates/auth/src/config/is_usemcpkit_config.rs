@@ -1,9 +1,10 @@
 use crate::config::config_migrations::CONFIG_VERSION;
+use crate::consts::{OAUTH_CLIENTS_KEY, SERVERS_KEY, SIGN_IN_KEY};
 use crate::json::is_string_record;
 use serde_json::{Map, Value};
 
 /// The current version with `servers.<category>.<name>` objects whose `hosts.<host>.secrets` and `projects` hold
-/// strings; any other key is kept as it is.
+/// strings and whose `signIn` is an object, and `oauthClients` an object; any other key is kept as it is.
 pub fn is_usemcpkit_config(config: &Map<String, Value>) -> bool {
     let is_host = |host: &Value| {
         host.as_object()
@@ -15,13 +16,15 @@ pub fn is_usemcpkit_config(config: &Map<String, Value>) -> bool {
                 .get("hosts")
                 .is_none_or(|hosts| hosts.as_object().is_some_and(|hosts| hosts.values().all(is_host)))
                 && server.get("projects").is_none_or(is_string_record)
+                && server.get(SIGN_IN_KEY).is_none_or(Value::is_object)
         })
     };
     let is_group = |group: &Value| group.as_object().is_some_and(|group| group.values().all(is_server));
     config.get("version").and_then(Value::as_f64) == Some(CONFIG_VERSION as f64)
-        && config.get("servers").is_none_or(|servers| {
+        && config.get(SERVERS_KEY).is_none_or(|servers| {
             servers
                 .as_object()
                 .is_some_and(|servers| servers.values().all(is_group))
         })
+        && config.get(OAUTH_CLIENTS_KEY).is_none_or(Value::is_object)
 }

@@ -10,7 +10,7 @@ use usemcpkit_http::HttpClient;
 #[derive(Clone)]
 pub struct AuthContext {
     pub env: Env,
-    /// The folder `config.json` and `tokens.json` live in.
+    /// The folder `config.json` lives in.
     pub home: PathBuf,
     pub http: Rc<dyn HttpClient>,
     /// Shows the user the URL of a browser sign-in; without it, OAuth2 entries that need one are rejected.

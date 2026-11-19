@@ -1,7 +1,7 @@
 use crate::auth_fallback::auth_candidate::AuthCandidate;
 use crate::auth_fallback::auth_candidate_kind::AuthCandidateKind;
 
-/// `tokens.json` always goes first so a fresh sign-in wins; the last working provided auth comes right after it.
+/// The sign-in token always goes first so a fresh sign-in wins; the last working provided auth comes right after it.
 pub fn order_auth_candidates<'a>(
     preferred_label: Option<&str>,
     candidates: Vec<AuthCandidate<'a>>,

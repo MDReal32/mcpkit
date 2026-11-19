@@ -3,7 +3,7 @@ mod support;
 use serde_json::{Value, json};
 use std::path::Path;
 use std::time::Duration;
-use support::registry_root;
+use support::{registry_root, result_values};
 use tokio::io::{AsyncBufReadExt, AsyncWriteExt, BufReader, DuplexStream, Lines};
 use usemcpkit_runner::supervisor::{SuperviseOptions, WorkerLaunch, supervise_serve};
 
@@ -97,7 +97,7 @@ async fn searches_the_tools_through_the_runner() {
     assert_eq!(names, ["search", "execute"]);
     assert_eq!(searched["id"], json!(2));
     assert_eq!(searched["result"].get("isError"), None, "{searched}");
-    let groups = searched["result"]["content"][0]["text"].as_str().unwrap();
-    assert!(groups.contains("\"repos\""), "{groups}");
+    let groups = result_values(&searched["result"]);
+    assert!(groups.contains(&json!("repos")), "{groups:?}");
     assert_eq!(code, 0);
 }

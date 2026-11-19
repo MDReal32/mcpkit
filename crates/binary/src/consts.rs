@@ -1,6 +1,6 @@
 pub const BIN_DIR_NAME: &str = "bin";
 
-pub const UPDATE_STATE_FILE_NAME: &str = "update-state.json";
+pub const UPDATE_STATE_FILE_NAME: &str = ".updated-state";
 
 pub const UPDATE_CHECK_INTERVAL_MS: u64 = 6 * 60 * 60_000;
 

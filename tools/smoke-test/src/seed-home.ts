@@ -1,7 +1,7 @@
 import { copyFile, mkdir, mkdtemp } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
-import { SEEDED_MANIFESTS } from "./const.ts";
+import { SEEDED_MANIFESTS } from "./const";
 
 /** A fresh `USEMCPKIT_HOME` whose manifest cache holds {@link SEEDED_MANIFESTS} from the built registry. */
 export const seedHome = async (registryDir: string) => {

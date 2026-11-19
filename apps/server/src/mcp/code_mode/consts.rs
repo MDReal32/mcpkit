@@ -38,8 +38,8 @@ pub const WRAPPER: &str = include_str!("wrapper.js");
 
 pub const CODE_PLACEHOLDER: &str = "__USEMCPKIT_CODE__";
 
-pub const SANDBOX_NOTE: &str = "It runs in a sandbox with no network or file access; what it returns comes back as JSON, \
-after anything it wrote with console.log. Return only what is needed: output longer than about 24000 characters is cut.";
+pub const SANDBOX_NOTE: &str = "It runs in a sandbox with no network or file access. What it returns is the structuredContent, exactly as returned; \
+the text content holds only what it wrote with console.log (cut at about 24000 characters) or the error it threw. Return only what is needed.";
 
 pub const SEARCH_API: &str = "In the code:
 - codemode.servers(): Promise<{ id: string, description: string, upstream: boolean }[]>
@@ -47,7 +47,8 @@ pub const SEARCH_API: &str = "In the code:
 - codemode.tools(server?: string, group?: string): Promise<{ id: string, description: string, inputSchema: object }[]>, \
 every tool when called with no server (the tools of an upstream are in it once it was started, and those of a server \
 built from its OpenAPI document once they were built for its host, so call codemode.tools(server) for a server whose \
-tools are missing), or the tools of one server or one of its groups";
+tools are missing), the tools of one server or one of its groups, or, given the start of a tool id instead of a \
+server (codemode.tools(\"git:gitlab:api/v4/projects/{id}/merge_requests\")), the tools whose ids start with it";
 
 pub const SEARCH_INTRO: &str = "Finds the tools of the servers below by running JavaScript: write an async arrow function, \
 such as async () => { ... }.";
@@ -78,8 +79,4 @@ pub const SERVERS_HEADING: &str = "Servers:";
 
 pub const FAILED_TOOL_TEXT: &str = "the tool failed without saying why";
 
-pub const NO_RETURN_VALUE: &str = "undefined";
-
 pub const CONSOLE_HEADING: &str = "--- console ---";
-
-pub const RESULT_HEADING: &str = "--- result ---";

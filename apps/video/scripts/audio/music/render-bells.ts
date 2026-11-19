@@ -1,8 +1,8 @@
-import { RESOLVE_BELLS, SAMPLE_RATE } from "../const.ts";
-import { addInto } from "../dsp/add-into.ts";
-import type { MusicSections } from "./music-sections.ts";
-import type { StereoMix } from "./stereo-mix.ts";
-import { renderBellNote } from "./voices/render-bell-note.ts";
+import { RESOLVE_BELLS, SAMPLE_RATE } from "../const";
+import { addInto } from "../dsp/add-into";
+import type { MusicSections } from "./music-sections";
+import type { StereoMix } from "./stereo-mix";
+import { renderBellNote } from "./voices/render-bell-note";
 
 /** A rolled Am9 on bells as the call to action lands. */
 export const renderBells = (sections: MusicSections, mix: StereoMix) => {

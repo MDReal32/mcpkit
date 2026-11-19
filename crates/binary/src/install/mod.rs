@@ -8,6 +8,7 @@ mod io_failure;
 mod is_installed_binary;
 mod is_same_file_path;
 mod package_manager_install;
+mod path_exists;
 mod place_binary_file;
 mod read_install_source_binaries;
 mod read_local_binaries;

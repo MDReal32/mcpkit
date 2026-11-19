@@ -1,5 +1,5 @@
 {
-  "name": "usemcpkit-workspace",
+  "name": "@usemcpkit/workspace",
   "private": true,
   "type": "module",
   "workspaces": [
@@ -13,7 +13,9 @@
     "test": "nx run-many -t test",
     "typecheck": "nx run-many -t typecheck",
     "lint": "nx run-many -t lint",
-    "format": "biome check --write"
+    "format": "biome check --write",
+    "usemcpkit:dev": "node --import ./tools/ts-resolver/src/register.ts tools/dev/src/main.ts",
+    "usemcpkit:dev:link": "node --import ./tools/ts-resolver/src/register.ts tools/dev/src/link.ts"
   },
   "engines": {
     "node": ">=22.18"

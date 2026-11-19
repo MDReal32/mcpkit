@@ -2,7 +2,7 @@ use crate::catalog::RegistryCatalog;
 use crate::mcp::code_mode::{call_code_mode_tool, list_code_mode_tools};
 use crate::mcp::consts::METHOD_NOT_FOUND;
 use crate::mcp::handled_line::HandledLine;
-use crate::mcp::methods::initialize;
+use crate::mcp::methods::{check_protocol_version, discover, initialize};
 use crate::mcp::rpc::{RpcError, RpcMessage, create_error_response, create_result_response, parse_rpc_message};
 use serde_json::{Value, json};
 use std::rc::Rc;
@@ -55,7 +55,9 @@ impl<F: Fetch + 'static> McpServer<F> {
 
     async fn dispatch(&self, message: &RpcMessage) -> Result<Value, RpcError> {
         let params = message.params.as_ref();
+        check_protocol_version(params)?;
         match message.method.as_str() {
+            "server/discover" => Ok(discover()),
             "initialize" => Ok(initialize(params)),
             "ping" => Ok(json!({})),
             "tools/list" => Ok(list_code_mode_tools(&self.catalog.servers)),

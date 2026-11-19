@@ -1,4 +1,4 @@
-import type { ReleaseTarget } from "./types/release-target.ts";
+import type { ReleaseTarget } from "./types/release-target";
 
 /**
  * The targets CI builds, named as `Target::name()` in `crates/binary` names them, since the runner's updater asks npm

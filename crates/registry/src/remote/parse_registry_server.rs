@@ -39,6 +39,11 @@ pub fn parse_registry_server(entry: &Value, position: usize) -> Result<RegistryS
         Some(Value::Bool(openapi)) => *openapi,
         Some(_) => return Err(format!("{label} ({id}).openapi must be a boolean")),
     };
+    let disabled = match fields.get("disabled") {
+        None => false,
+        Some(Value::Bool(disabled)) => *disabled,
+        Some(_) => return Err(format!("{label} ({id}).disabled must be a boolean")),
+    };
     Ok(RegistryServer {
         id: id.to_owned(),
         version: version.to_owned(),
@@ -47,5 +52,6 @@ pub fn parse_registry_server(entry: &Value, position: usize) -> Result<RegistryS
         description,
         upstream,
         openapi,
+        disabled,
     })
 }

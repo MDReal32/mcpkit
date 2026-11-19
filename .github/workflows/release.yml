@@ -15,6 +15,7 @@ on:
       - packages/servers/**
       - tools/release/**
       - tools/smoke-test/**
+      - tools/ts-resolver/**
       - Cargo.toml
       - Cargo.lock
       - package.json
@@ -134,7 +135,7 @@ jobs:
           path: release-registry
 
       - name: Smoke test
-        run: node tools/smoke-test/src/main.ts target/release/usemcpkit${{ matrix.extension }} release-registry
+        run: node --import ./tools/ts-resolver/src/register.ts tools/smoke-test/src/main.ts target/release/usemcpkit${{ matrix.extension }} release-registry
 
       - name: Upload the binaries
         uses: actions/upload-artifact@v7
@@ -176,7 +177,7 @@ jobs:
           path: release-binaries
 
       - name: Write the platform packages and the release assets
-        run: node tools/release/src/main.ts release-binaries release
+        run: node --import ./tools/ts-resolver/src/register.ts tools/release/src/main.ts release-binaries release
 
       - name: List the WebKitGTK runtime packages
         id: webkitgtk
@@ -206,7 +207,7 @@ jobs:
           path: release-registry
 
       - name: Smoke test the packaged Linux binaries
-        run: node tools/smoke-test/src/main.ts release/npm/cli-linux-x64/bin/usemcpkit release-registry
+        run: node --import ./tools/ts-resolver/src/register.ts tools/smoke-test/src/main.ts release/npm/cli-linux-x64/bin/usemcpkit release-registry
 
       - name: Pack libraries
         run: .github/scripts/publish-npm.sh pack release-tarballs

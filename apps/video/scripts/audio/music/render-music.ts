@@ -1,13 +1,13 @@
-import { SAMPLE_RATE } from "../const.ts";
-import { applyReverb } from "../dsp/apply-reverb.ts";
-import { normalize } from "../dsp/normalize.ts";
-import { planSections } from "./plan-sections.ts";
-import { renderArp } from "./render-arp.ts";
-import { renderBass } from "./render-bass.ts";
-import { renderBells } from "./render-bells.ts";
-import { renderDrums } from "./render-drums.ts";
-import { renderPad } from "./render-pad.ts";
-import type { StereoMix } from "./stereo-mix.ts";
+import { SAMPLE_RATE } from "../const";
+import { applyReverb } from "../dsp/apply-reverb";
+import { normalize } from "../dsp/normalize";
+import { planSections } from "./plan-sections";
+import { renderArp } from "./render-arp";
+import { renderBass } from "./render-bass";
+import { renderBells } from "./render-bells";
+import { renderDrums } from "./render-drums";
+import { renderPad } from "./render-pad";
+import type { StereoMix } from "./stereo-mix";
 
 /** The whole score, exactly as long as the promo. */
 export const renderMusic = () => {

@@ -1,23 +1,18 @@
 use crate::AuthError;
-use crate::files::{parse_json_file, read_text_if_exists};
+use crate::config::{config_file, load_config};
+use crate::consts::OAUTH_CLIENTS_KEY;
 use crate::oauth::discovery::client_registration::ClientRegistration;
-use crate::oauth::discovery::clients_file::clients_file;
 use serde_json::{Map, Value};
 use std::path::Path;
 
-/// Every saved registration by issuer; a missing file means none, a malformed one fails instead of being overwritten.
+/// Every saved registration by issuer; none when the config has no `oauthClients`.
 pub async fn read_client_registrations(home: &Path) -> Result<Map<String, Value>, AuthError> {
-    let file = clients_file(home);
-    let Some(text) = read_text_if_exists(&file).await? else {
-        return Ok(Map::new());
-    };
-    match parse_json_file(&file, &text)? {
-        Value::Object(registrations) => Ok(registrations),
-        _ => Err(AuthError(format!(
-            "{} is not a valid OAuth clients file",
-            file.display()
-        ))),
-    }
+    let config = load_config(home).await?;
+    Ok(config
+        .get(OAUTH_CLIENTS_KEY)
+        .and_then(Value::as_object)
+        .cloned()
+        .unwrap_or_default())
 }
 
 pub async fn read_client_registration(home: &Path, issuer: &str) -> Result<Option<ClientRegistration>, AuthError> {
@@ -28,7 +23,7 @@ pub async fn read_client_registration(home: &Path, issuer: &str) -> Result<Optio
     serde_json::from_value(value.clone()).map(Some).map_err(|error| {
         AuthError(format!(
             "{} holds an invalid registration for {issuer}: {error}",
-            clients_file(home).display()
+            config_file(home).display()
         ))
     })
 }

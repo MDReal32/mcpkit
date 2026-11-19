@@ -11,7 +11,7 @@ pub fn list_command() -> i32 {
             .await
             .map_err(|error| error.to_string())?
             .ok_or("no registry index found; run `usemcpkit update` to download it")?;
-        for server in &index.servers {
+        for server in index.servers.iter().filter(|server| !server.disabled) {
             println!("{} — {}", server.id, server.description.as_deref().unwrap_or_default());
         }
         Ok(EXIT_SUCCESS)

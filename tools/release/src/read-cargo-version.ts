@@ -1,6 +1,6 @@
 import { execFileSync } from "node:child_process";
-import { RUNNER_CRATE } from "./const.ts";
-import type { CargoMetadata } from "./types/cargo-metadata.ts";
+import { RUNNER_CRATE } from "./const";
+import type { CargoMetadata } from "./types/cargo-metadata";
 
 /** The version of {@link RUNNER_CRATE}, the one `usemcpkit --version` prints and the updater compares with npm's. */
 export const readCargoVersion = (workspaceRoot: string) => {

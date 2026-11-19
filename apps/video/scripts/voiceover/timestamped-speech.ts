@@ -1,4 +1,4 @@
-import type { TakeAlignment } from "./take-alignment.ts";
+import type { TakeAlignment } from "./take-alignment";
 
 /** The body of ElevenLabs' `with-timestamps` reply. */
 export interface TimestampedSpeech {

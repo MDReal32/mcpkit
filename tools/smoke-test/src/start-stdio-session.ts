@@ -1,9 +1,9 @@
 import { spawn } from "node:child_process";
 import { once } from "node:events";
 import { createInterface } from "node:readline";
-import type { JsonRpcMessage } from "./types/json-rpc-message.ts";
-import type { SessionOptions } from "./types/session-options.ts";
-import type { StdioSession } from "./types/stdio-session.ts";
+import type { JsonRpcMessage } from "./types/json-rpc-message";
+import type { SessionOptions } from "./types/session-options";
+import type { StdioSession } from "./types/stdio-session";
 
 /** Starts `command` as an MCP client would: one JSON-RPC message per line on its stdin and stdout. */
 export const startStdioSession = (options: SessionOptions) => {

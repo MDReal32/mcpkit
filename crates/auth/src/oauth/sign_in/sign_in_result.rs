@@ -4,5 +4,6 @@ use std::path::PathBuf;
 #[derive(Clone, Debug, PartialEq)]
 pub struct SignInResult {
     pub token: StoredToken,
-    pub tokens_file: PathBuf,
+    /// The config file the token was saved in.
+    pub config_file: PathBuf,
 }

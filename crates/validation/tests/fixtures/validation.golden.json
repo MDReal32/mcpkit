@@ -4690,6 +4690,70 @@
         }
       },
       "errors": []
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "disabled": "yes"
+      },
+      "errors": [
+        "disabled must be a boolean"
+      ]
+    },
+    {
+      "manifest": {
+        "name": "demo",
+        "category": "test",
+        "version": "1.0.0",
+        "baseUrl": "https://api.example.com/",
+        "tools": [
+          {
+            "name": "list_items",
+            "description": "List items",
+            "input": {
+              "type": "object",
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                }
+              }
+            },
+            "request": {
+              "method": "GET",
+              "path": "/owners/{owner}/items"
+            }
+          }
+        ],
+        "disabled": true
+      },
+      "errors": []
     }
   ]
 }

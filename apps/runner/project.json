@@ -3,6 +3,7 @@
   "name": "usemcpkit-runner",
   "projectType": "application",
   "implicitDependencies": [
+    "usemcpkit-auth",
     "usemcpkit-binary",
     "usemcpkit-clients",
     "usemcpkit-core",

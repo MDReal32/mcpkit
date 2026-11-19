@@ -86,12 +86,12 @@ The edition follows the domain in use, including one typed in the credentials fo
 
 Every tool call tries, in this order, and uses the first that works:
 
-1. the server's OAuth2 token in `tokens.json`, refreshed if it expired (only when `auth` has `oauth` entries);
+1. the server's OAuth2 token (`signIn` in `config.json`), refreshed if it expired (only when `auth` has `oauth` entries);
 2. each fallback whose value is set, top to bottom. A value comes from its env var, or else from `config.json`;
 3. the **credentials form**: a local page opened in the browser that asks for the missing values (and the domain,
    see below), or offers "Sign in with OAuth2" when the server has `oauth` entries.
 
-An option is skipped when its credentials are missing or the API answers `401`. A fallback that worked is tried right after `tokens.json` on later calls in the same process. If nothing works, the call fails with one line per option
+An option is skipped when its credentials are missing or the API answers `401`. A fallback that worked is tried right after the saved token on later calls in the same process. If nothing works, the call fails with one line per option
 saying why. `none` can only be the last entry. Leaving out `auth` means no auth.
 
 **Fallbacks.** The manifest never holds a secret, only where to find it:
@@ -112,7 +112,7 @@ which you can edit by hand. Credentials never cross hosts. With several hosts fo
 its env var; the host its project (git root) was bound to the first time you answered the form; the saved host the
 project's `origin` remote points at (servers whose manifest sets `domain.matchGitRemote`, such as GitHub and GitLab);
 otherwise the form asks, and the answer is remembered for that project. Credentials are plain text, with file mode `0600` in a `0700` directory, the way `gh` and `glab` keep
-their tokens. The file carries a `version` (now 2); a file without one is version 1 and, like an older `secrets.json`, is upgraded on first use by the migration list in `crates/auth/src/config/config_migrations.rs` (a new version is one appended entry), and a file from a newer usemcpkit is refused rather than overwritten. There is no password and nothing to unlock. Any program running as your user can read the file, so
+their tokens. The file carries a `version` (1 until the 1.0 release); the keys are written sorted, each host and sign-in with a `savedAt` time, and a file from a newer usemcpkit is refused rather than overwritten. `usemcpkit config` prints it with every secret and token masked, safe to paste in an issue. There is no password and nothing to unlock. Any program running as your user can read the file, so
 protect your account and disk; to forget a credential, delete its entry or the file. Environment variables always win
 over the file.
 
@@ -191,7 +191,7 @@ localhost.
 
 The sign-in starts on the first tool call that has no working token: `usemcpkit serve` prints the URL to stderr
 and opens the browser. The redirect goes to `http://127.0.0.1:<port>/callback`, and the authorization code is
-exchanged with a S256 code verifier. The token is saved to `~/.usemcpkit/tokens.json` (`USEMCPKIT_HOME` overrides)
+exchanged with a S256 code verifier. The token is saved as the server's `signIn` in `~/.usemcpkit/config.json` (`USEMCPKIT_HOME` overrides)
 with file mode `0600`, together with the entry that issued it. Tool calls send it as a Bearer token and refresh
 it before it expires. Concurrent calls share one sign-in. If the MCP client gives up waiting, the sign-in still
 finishes and the next call uses the token.

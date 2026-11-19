@@ -6,11 +6,15 @@ use std::thread::JoinHandle;
 use url::Url;
 use url::form_urlencoded;
 use usemcpkit_auth::oauth::{AuthorizationUrlHandler, sign_in, sign_in_once, to_code_challenge};
-use usemcpkit_auth::{AuthContext, AuthState};
+use usemcpkit_auth::{AuthContext, AuthState, ServerKey};
 use usemcpkit_core::env::Env;
 use usemcpkit_http::{HttpClient, RequestBody};
 use usemcpkit_manifest::auth::{AuthSpec, OAuthAuth};
 use usemcpkit_testing::{DEMO_TOKEN_URL, RecordingClient, approve_sign_in, demo_oauth};
+
+fn demo() -> ServerKey {
+    ServerKey::new("cloud", "demo")
+}
 
 fn context(home: &Path, http: Rc<dyn HttpClient>) -> AuthContext {
     AuthContext {
@@ -90,7 +94,7 @@ async fn runs_the_pkce_flow_through_the_loopback_callback_and_stores_the_token()
     let browser = Rc::new(Browser::default());
 
     let signed_in = sign_in(
-        "demo",
+        &demo(),
         &oauth(demo_oauth()),
         &context(home.path(), http.clone()),
         &*browser.handler(None),
@@ -114,11 +118,13 @@ async fn runs_the_pkce_flow_through_the_loopback_callback_and_stores_the_token()
     let verifier = form_value(&form, "code_verifier").unwrap();
     assert_eq!(Some(to_code_challenge(verifier)), query_param(&url, "code_challenge"));
     assert_eq!(signed_in.token.access_token, "at-1");
-    assert_eq!(signed_in.tokens_file, home.path().join("tokens.json"));
-    let tokens: Value = serde_json::from_str(&std::fs::read_to_string(&signed_in.tokens_file).unwrap()).unwrap();
-    assert_eq!(tokens["demo"]["accessToken"], "at-1");
-    assert_eq!(tokens["demo"]["refreshToken"], "rt-1");
-    assert_eq!(tokens["demo"]["authKey"], format!("oauth {DEMO_TOKEN_URL}"));
+    assert_eq!(signed_in.config_file, home.path().join("config.json"));
+    let config: Value = serde_json::from_str(&std::fs::read_to_string(&signed_in.config_file).unwrap()).unwrap();
+    let saved = &config["servers"]["cloud"]["demo"]["signIn"];
+    assert_eq!(saved["accessToken"], "at-1");
+    assert_eq!(saved["refreshToken"], "rt-1");
+    assert_eq!(saved["authKey"], format!("oauth {DEMO_TOKEN_URL}"));
+    assert!(saved["savedAt"].is_string());
 }
 
 #[tokio::test]
@@ -132,7 +138,7 @@ async fn adds_authorization_params_and_sends_the_client_over_http_basic_with_tok
     auth["tokenHeaders"] = json!({ "User-Agent": "usemcpkit-test" });
 
     sign_in(
-        "demo",
+        &demo(),
         &oauth(auth),
         &context(home.path(), http.clone()),
         &*browser.handler(None),
@@ -159,7 +165,7 @@ async fn rejects_a_callback_with_a_foreign_state() {
     let browser = Rc::new(Browser::default());
 
     let error = sign_in(
-        "demo",
+        &demo(),
         &oauth(demo_oauth()),
         &context(home.path(), http.clone()),
         &*browser.handler(Some("forged")),
@@ -170,7 +176,7 @@ async fn rejects_a_callback_with_a_foreign_state() {
     assert_eq!(error.0, "demo: authorization state mismatch, sign-in aborted");
     assert_eq!(browser.statuses(), ["HTTP/1.1 200 OK"]);
     assert!(http.requests.borrow().is_empty());
-    assert!(!home.path().join("tokens.json").exists());
+    assert!(!home.path().join("config.json").exists());
 }
 
 #[tokio::test]
@@ -182,9 +188,11 @@ async fn shares_one_sign_in_between_concurrent_calls() {
     let context = context(home.path(), http.clone());
     let handler = browser.handler(None);
 
+    let server = demo();
+
     let (first, second) = tokio::join!(
-        sign_in_once("demo", &auth, &context, &handler),
-        sign_in_once("demo", &auth, &context, &handler)
+        sign_in_once(&server, &auth, &context, &handler),
+        sign_in_once(&server, &auth, &context, &handler)
     );
 
     assert_eq!(first.unwrap().token.access_token, "at-1");

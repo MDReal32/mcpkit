@@ -528,8 +528,8 @@ async fn check_for_binary_update_skips_until_the_interval_has_passed_once_a_chec
     assert_eq!(soon, None);
     assert_eq!(later, up_to_date);
     assert_eq!(
-        read(&home.path().join("update-state.json")),
-        format!("{{\"checkedAt\":{}}}\n", START + UPDATE_CHECK_INTERVAL_MS)
+        read(&home.path().join(".updated-state")),
+        format!("{}\n", START + UPDATE_CHECK_INTERVAL_MS)
     );
 }
 
@@ -616,6 +616,27 @@ async fn restore_sibling_binaries_writes_the_server_and_window_of_the_running_ve
     assert_eq!(read(&path), "server");
     assert_eq!(read(&home.path().join("bin").join("usemcpkit-window")), "0.2.0 window");
     assert_eq!(read(&runner), "runner");
+}
+
+#[tokio::test(flavor = "current_thread")]
+async fn restore_sibling_binaries_writes_only_the_missing_window_and_leaves_the_server_alone() {
+    let home = TempDir::new().unwrap();
+    let runner = home.path().join("bin").join("usemcpkit");
+    let server = home.path().join("bin").join("usemcpkit-servers");
+    fs::create_dir_all(runner.parent().unwrap()).unwrap();
+    fs::write(&runner, "runner").unwrap();
+    fs::write(&server, "installed server").unwrap();
+    let context = create_context(
+        home.path(),
+        release_client("0.2.0", "released runner", "server"),
+        runner.clone(),
+    );
+
+    let path = restore_sibling_binaries(&context, "0.2.0").await.unwrap();
+
+    assert_eq!(path, server);
+    assert_eq!(read(&server), "installed server");
+    assert_eq!(read(&home.path().join("bin").join("usemcpkit-window")), "0.2.0 window");
 }
 
 #[tokio::test(flavor = "current_thread")]

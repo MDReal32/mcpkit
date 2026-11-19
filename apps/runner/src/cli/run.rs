@@ -1,7 +1,7 @@
 use crate::cli::command::{Cli, Command};
 use crate::cli::commands::{
-    install_command, list_command, serve_command, serve_worker_command, uninstall_command, update_command,
-    upgrade_command,
+    config_command, install_command, list_command, serve_command, serve_worker_command, uninstall_command,
+    update_command, upgrade_command,
 };
 
 pub fn run(cli: Cli) -> i32 {
@@ -19,6 +19,7 @@ pub fn run(cli: Cli) -> i32 {
         } => serve_worker_command(servers, server),
         Command::Serve { servers, server, .. } => serve_command(servers, server),
         Command::List => list_command(),
+        Command::Config => config_command(),
         Command::Update { registry } => update_command(registry),
     }
 }

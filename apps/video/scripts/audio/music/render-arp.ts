@@ -1,9 +1,9 @@
-import { ARP_PATTERN, BEAT_SECONDS, CHORDS, SAMPLE_RATE } from "../const.ts";
-import { addInto } from "../dsp/add-into.ts";
-import { chordIndexAt } from "./chord-index-at.ts";
-import type { MusicSections } from "./music-sections.ts";
-import type { StereoMix } from "./stereo-mix.ts";
-import { renderPluckNote } from "./voices/render-pluck-note.ts";
+import { ARP_PATTERN, BEAT_SECONDS, CHORDS, SAMPLE_RATE } from "../const";
+import { addInto } from "../dsp/add-into";
+import { chordIndexAt } from "./chord-index-at";
+import type { MusicSections } from "./music-sections";
+import type { StereoMix } from "./stereo-mix";
+import { renderPluckNote } from "./voices/render-pluck-note";
 
 /** Sixteenth-note arpeggios over the chord, with a ping-pong echo, once every client is on screen. */
 export const renderArp = (sections: MusicSections, mix: StereoMix) => {

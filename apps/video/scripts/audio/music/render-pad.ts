@@ -1,8 +1,8 @@
-import { BAR_SECONDS, BEAT_SECONDS, CHORDS, SAMPLE_RATE } from "../const.ts";
-import { createFilter } from "../dsp/create-filter.ts";
-import { addChord } from "./add-chord.ts";
-import type { MusicSections } from "./music-sections.ts";
-import type { StereoMix } from "./stereo-mix.ts";
+import { BAR_SECONDS, BEAT_SECONDS, CHORDS, SAMPLE_RATE } from "../const";
+import { createFilter } from "../dsp/create-filter";
+import { addChord } from "./add-chord";
+import type { MusicSections } from "./music-sections";
+import type { StereoMix } from "./stereo-mix";
 
 /** Warm filtered pads through the whole piece, ducking under the kick, resolving on Am9 at the end. */
 export const renderPad = (sections: MusicSections, mix: StereoMix) => {

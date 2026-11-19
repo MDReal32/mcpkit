@@ -6,7 +6,7 @@ use std::cell::{Cell, RefCell};
 use std::path::{Path, PathBuf};
 use std::rc::Rc;
 use std::time::Duration;
-use support::{call_context, run_code};
+use support::{call_context, result_text, result_values, run_code};
 use tempfile::TempDir;
 use tokio::task::LocalSet;
 use usemcpkit_core::LocalFuture;
@@ -175,6 +175,7 @@ fn server_for(
         description: Some("A remote MCP server".into()),
         upstream: true,
         openapi: false,
+        disabled: false,
     }];
     let context = RegistryContext::new(
         registry.join("manifests"),
@@ -198,11 +199,11 @@ fn to_sent(pairs: &[(&str, &str)]) -> Vec<(String, String)> {
         .collect()
 }
 
-/// The JSON a successful `search` or `execute` returned.
+/// What a successful `search` or `execute` returned, one entry per content item after the console.
 async fn run_json(server: &McpServer<FolderFetcher>, tool: &str, code: &str) -> Value {
     let result = run_code(server, tool, code).await;
     assert_eq!(result.get("isError"), None, "{result}");
-    serde_json::from_str(result["content"][0]["text"].as_str().unwrap()).unwrap()
+    Value::Array(result_values(&result))
 }
 
 fn cache_file(registry: &Path) -> PathBuf {
@@ -380,7 +381,7 @@ async fn reopens_a_kept_connection_whose_token_was_revoked_and_sends_the_call_on
     let result = run_json(&server, EXECUTE_TOOL, LIST_ITEMS).await;
     server.close().await;
 
-    assert_eq!(result, json!("ran list_items"));
+    assert_eq!(result, json!(["ran list_items"]));
     assert_eq!(
         *http.sent.borrow(),
         to_sent(&[
@@ -408,7 +409,7 @@ async fn starts_a_new_session_when_the_upstream_ended_the_kept_one() {
     let result = run_json(&server, EXECUTE_TOOL, LIST_ITEMS).await;
     server.close().await;
 
-    assert_eq!(result, json!("ran list_items"));
+    assert_eq!(result, json!(["ran list_items"]));
     assert_eq!(
         *http.sent.borrow(),
         to_sent(&[
@@ -556,7 +557,7 @@ async fn keeps_the_own_tools_and_says_why_when_the_upstream_cannot_start() {
     server.close().await;
 
     assert_eq!(result.get("isError"), None, "{result}");
-    let text = result["content"][0]["text"].as_str().unwrap();
+    let text = result_text(&result);
     assert!(text.contains("warning: test:remote is unavailable"), "{text}");
     assert!(text.contains("test:remote:store:own:ping"), "{text}");
 }
@@ -573,7 +574,7 @@ async fn hides_an_upstream_tool_that_shares_its_name_with_an_own_tool() {
     let result = run_code(&server, SEARCH_TOOL, SERVER_TOOLS).await;
     server.close().await;
 
-    let text = result["content"][0]["text"].as_str().unwrap();
+    let text = result_text(&result);
     assert!(
         text.contains("warning: test:remote: the upstream tools store:items:list share a name"),
         "{text}"

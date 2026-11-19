@@ -1,8 +1,8 @@
 import { chmod, copyFile, mkdir } from "node:fs/promises";
 import { extname, join } from "node:path";
-import { EXECUTABLE_MODE, RELEASE_BINARIES } from "./const.ts";
-import { toBinaryFileName } from "./to-binary-file-name.ts";
-import type { ReleaseTarget } from "./types/release-target.ts";
+import { EXECUTABLE_MODE, RELEASE_BINARIES } from "./const";
+import { toBinaryFileName } from "./to-binary-file-name";
+import type { ReleaseTarget } from "./types/release-target";
 
 /** Copies a target's binaries into `<assetsDir>` as `<binary>-<target>[.exe]`, the GitHub Release asset names. */
 export const writeReleaseAssets = async (assetsDir: string, target: ReleaseTarget, binariesDir: string) => {

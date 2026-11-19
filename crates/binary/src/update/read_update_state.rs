@@ -1,7 +1,6 @@
 use crate::binary_error::BinaryError;
 use crate::update::resolve_update_state_path::resolve_update_state_path;
 use crate::update::update_state::UpdateState;
-use serde_json::Value;
 use std::io::ErrorKind;
 use std::path::Path;
 
@@ -14,11 +13,10 @@ pub fn read_update_state(home_dir: &Path) -> Result<UpdateState, BinaryError> {
         Err(error) if error.kind() == ErrorKind::NotFound => return Ok(empty),
         Err(error) => return Err(BinaryError(format!("cannot read {}: {error}", path.display()))),
     };
-    let Ok(data) = serde_json::from_str::<Value>(&text) else {
-        return Ok(empty);
-    };
-    Ok(data
-        .get("checkedAt")
-        .and_then(Value::as_f64)
+    Ok(text
+        .trim()
+        .parse::<f64>()
+        .ok()
+        .filter(|checked_at| checked_at.is_finite())
         .map_or(empty, |checked_at| UpdateState { checked_at }))
 }

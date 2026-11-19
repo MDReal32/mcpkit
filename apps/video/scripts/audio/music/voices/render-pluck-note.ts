@@ -1,5 +1,5 @@
-import { SAMPLE_RATE } from "../../const.ts";
-import { midiToFrequency } from "../../dsp/midi-to-frequency.ts";
+import { SAMPLE_RATE } from "../../const";
+import { midiToFrequency } from "../../dsp/midi-to-frequency";
 
 /** A soft mallet pluck for the arpeggio. */
 export const renderPluckNote = (note: number) => {

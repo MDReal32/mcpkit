@@ -1,8 +1,8 @@
 import { mkdir, rm, writeFile } from "node:fs/promises";
-import { VOICE_LINES } from "../../src/voiceover/const.ts";
-import { DEFAULT_VOICE_ID, OUTPUT_DIR } from "./const.ts";
-import { cutLine } from "./cut-line.ts";
-import { synthesizeTake } from "./synthesize-take.ts";
+import { VOICE_LINES } from "../../src/voiceover/const";
+import { DEFAULT_VOICE_ID, OUTPUT_DIR } from "./const";
+import { cutLine } from "./cut-line";
+import { synthesizeTake } from "./synthesize-take";
 
 const apiKey = process.env.ELEVENLABS_API_KEY;
 if (!apiKey) {

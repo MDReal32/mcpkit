@@ -1,5 +1,5 @@
-import { SAMPLE_RATE } from "../../const.ts";
-import { midiToFrequency } from "../../dsp/midi-to-frequency.ts";
+import { SAMPLE_RATE } from "../../const";
+import { midiToFrequency } from "../../dsp/midi-to-frequency";
 
 /** A round sine bass pluck. */
 export const renderBassNote = (note: number) => {

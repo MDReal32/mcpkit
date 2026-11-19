@@ -9,26 +9,27 @@ import {
   LISTED_TOOLS,
   PROTOCOL_VERSION,
   RESPONSE_TIMEOUT_MS,
+  RESULT_TYPE_COMPLETE,
   SEARCH_TOOL,
   SERVER_COUNT_CODE,
   SERVER_NAME,
   UNREACHABLE_REGISTRY,
-} from "./const.ts";
-import { readIndexedServerCount } from "./read-indexed-server-count.ts";
-import { seedHome } from "./seed-home.ts";
-import { startStdioSession } from "./start-stdio-session.ts";
-import type { CallToolResult } from "./types/call-tool-result.ts";
-import type { InitializeResult } from "./types/initialize-result.ts";
-import type { StdioSession } from "./types/stdio-session.ts";
-import type { ToolsListResult } from "./types/tools-list-result.ts";
+} from "./const";
+import { readIndexedServerCount } from "./read-indexed-server-count";
+import { seedHome } from "./seed-home";
+import { startStdioSession } from "./start-stdio-session";
+import type { CallToolResult } from "./types/call-tool-result";
+import type { InitializeResult } from "./types/initialize-result";
+import type { StdioSession } from "./types/stdio-session";
+import type { ToolsListResult } from "./types/tools-list-result";
 
 const runCode = async (session: StdioSession, id: number, name: string, code: string) => {
   session.send({ jsonrpc: "2.0", id, method: "tools/call", params: { name, arguments: { code } } });
   const answered = await session.receive<CallToolResult>();
   assert.equal(answered.id, id);
-  const text = answered.result?.content[0]?.text ?? "";
-  assert.equal(answered.result?.isError, undefined, text);
-  return text;
+  assert.equal(answered.result?.isError, undefined, JSON.stringify(answered.result));
+  assert.equal(answered.result?.resultType, RESULT_TYPE_COMPLETE);
+  return answered.result?.structuredContent;
 };
 
 const talkToServer = async (session: StdioSession, serverCount: number) => {
@@ -46,9 +47,12 @@ const talkToServer = async (session: StdioSession, serverCount: number) => {
   );
 
   const servers = await runCode(session, 2, SEARCH_TOOL, SERVER_COUNT_CODE);
-  assert.equal(servers, String(serverCount), "search sees every indexed server");
-  const groups: string[] = JSON.parse(await runCode(session, 3, SEARCH_TOOL, GITHUB_GROUPS_CODE));
-  assert.ok(groups.includes(GITHUB_GROUP), `${GITHUB_GROUP} missing from ${groups.join(", ")}`);
+  assert.equal(servers, serverCount, "search sees every indexed server");
+  const groups = await runCode(session, 3, SEARCH_TOOL, GITHUB_GROUPS_CODE);
+  assert.ok(
+    Array.isArray(groups) && groups.includes(GITHUB_GROUP),
+    `${GITHUB_GROUP} missing from ${JSON.stringify(groups)}`,
+  );
   assert.equal(await runCode(session, 4, EXECUTE_TOOL, EXECUTE_CODE), EXECUTE_RESULT);
 };
 

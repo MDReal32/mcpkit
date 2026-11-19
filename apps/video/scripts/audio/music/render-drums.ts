@@ -1,9 +1,9 @@
-import { BEAT_SECONDS, SAMPLE_RATE } from "../const.ts";
-import { addInto } from "../dsp/add-into.ts";
-import type { MusicSections } from "./music-sections.ts";
-import type { StereoMix } from "./stereo-mix.ts";
-import { renderHatHit } from "./voices/render-hat-hit.ts";
-import { renderKickHit } from "./voices/render-kick-hit.ts";
+import { BEAT_SECONDS, SAMPLE_RATE } from "../const";
+import { addInto } from "../dsp/add-into";
+import type { MusicSections } from "./music-sections";
+import type { StereoMix } from "./stereo-mix";
+import { renderHatHit } from "./voices/render-hat-hit";
+import { renderKickHit } from "./voices/render-kick-hit";
 
 /** Four-on-the-floor soft kick with off-beat hats and quieter sixteenth ghosts, from the first chat to the close. */
 export const renderDrums = (sections: MusicSections, mix: StereoMix) => {
