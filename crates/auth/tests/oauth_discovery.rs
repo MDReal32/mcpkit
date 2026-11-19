@@ -4,7 +4,7 @@ use std::rc::Rc;
 use url::Url;
 use usemcpkit_auth::oauth::{AuthorizationUrlHandler, read_fresh_access_token, sign_in, sign_in_once};
 use usemcpkit_auth::token_store::read_stored_token;
-use usemcpkit_auth::{AuthContext, AuthState};
+use usemcpkit_auth::{AuthContext, AuthState, ServerKey};
 use usemcpkit_core::env::Env;
 use usemcpkit_http::{HttpClient, RequestBody};
 use usemcpkit_manifest::auth::{AuthSpec, OAuthAuth};
@@ -15,6 +15,10 @@ const PROTECTED_RESOURCE_URL: &str = "https://mcp.example.com/.well-known/oauth-
 const METADATA_URL: &str = "https://auth.example.com/.well-known/oauth-authorization-server";
 const TOKEN_URL: &str = "https://auth.example.com/token";
 const REGISTER_URL: &str = "https://auth.example.com/register";
+
+fn demo() -> ServerKey {
+    ServerKey::new("cloud", "demo")
+}
 
 fn context(home: &Path, http: Rc<dyn HttpClient>) -> AuthContext {
     AuthContext {
@@ -92,7 +96,7 @@ async fn discovers_the_endpoints_registers_a_client_and_signs_in_with_it() {
         approve_sign_in(url, None);
     });
 
-    let signed_in = sign_in("demo", &discovering(), &context(home.path(), http.clone()), &*handler)
+    let signed_in = sign_in(&demo(), &discovering(), &context(home.path(), http.clone()), &*handler)
         .await
         .unwrap();
 
@@ -120,8 +124,11 @@ async fn discovers_the_endpoints_registers_a_client_and_signs_in_with_it() {
         Some(format!("oauth {RESOURCE}").as_str())
     );
     let saved: Value =
-        serde_json::from_str(&std::fs::read_to_string(home.path().join("oauth-clients.json")).unwrap()).unwrap();
-    assert_eq!(saved["https://auth.example.com"]["clientId"], "dynamic-1");
+        serde_json::from_str(&std::fs::read_to_string(home.path().join("config.json")).unwrap()).unwrap();
+    assert_eq!(
+        saved["oauthClients"]["https://auth.example.com"]["clientId"],
+        "dynamic-1"
+    );
 }
 
 #[tokio::test]
@@ -132,10 +139,12 @@ async fn refreshes_with_the_client_the_sign_in_registered() {
     let auth = discovering();
     let handler = approving();
 
-    sign_in_once("demo", &auth, &context, &handler).await.unwrap();
-    let mut stored = read_stored_token(home.path(), "demo").await.unwrap().unwrap();
+    sign_in_once(&demo(), &auth, &context, &handler).await.unwrap();
+    let mut stored = read_stored_token(home.path(), &demo()).await.unwrap().unwrap();
     stored.expires_at = Some(1.0);
-    let refreshed = read_fresh_access_token("demo", &auth, &stored, &context).await.unwrap();
+    let refreshed = read_fresh_access_token(&demo(), &auth, &stored, &context)
+        .await
+        .unwrap();
 
     assert_eq!(refreshed, "at-1");
     let requests = http.requests.borrow();
@@ -155,12 +164,12 @@ async fn asks_for_a_client_id_when_the_server_cannot_register_clients() {
     let home = tempfile::tempdir().unwrap();
     let http = server(false);
 
-    let error = sign_in("demo", &discovering(), &context(home.path(), http), &*approving())
+    let error = sign_in(&demo(), &discovering(), &context(home.path(), http), &*approving())
         .await
         .unwrap_err();
 
     assert!(error.0.contains("does not register clients by itself"), "{error}");
-    assert!(!home.path().join("tokens.json").exists());
+    assert!(!home.path().join("config.json").exists());
 }
 
 #[tokio::test]
@@ -168,7 +177,7 @@ async fn names_a_server_that_publishes_no_metadata() {
     let home = tempfile::tempdir().unwrap();
     let http = Rc::new(RecordingClient::new([]));
 
-    let error = sign_in("demo", &discovering(), &context(home.path(), http), &*approving())
+    let error = sign_in(&demo(), &discovering(), &context(home.path(), http), &*approving())
         .await
         .unwrap_err();
 

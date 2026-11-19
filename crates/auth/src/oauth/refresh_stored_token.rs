@@ -1,12 +1,12 @@
 use crate::oauth::discovery::resolve_oauth_endpoints;
 use crate::oauth::request_token::request_token;
 use crate::token_store::{StoredToken, save_token};
-use crate::{AuthContext, AuthError};
+use crate::{AuthContext, AuthError, ServerKey};
 use usemcpkit_manifest::auth::OAuthAuth;
 
 /// Providers may omit `refresh_token` on refresh; the previous one then stays valid.
 pub async fn refresh_stored_token(
-    server_name: &str,
+    server: &ServerKey,
     auth: &OAuthAuth,
     token: &StoredToken,
     context: &AuthContext,
@@ -17,17 +17,18 @@ pub async fn refresh_stored_token(
         .filter(|refresh_token| !refresh_token.is_empty())
     else {
         return Err(AuthError(format!(
-            "{server_name}: the stored session expired and has no refresh token"
+            "{}: the stored session expired and has no refresh token",
+            server.name
         )));
     };
     let grant = [("grant_type", "refresh_token"), ("refresh_token", refresh_token)];
-    let auth = resolve_oauth_endpoints(server_name, auth, None, context).await?;
-    let fresh = request_token(&auth, &grant, server_name, context).await?;
+    let auth = resolve_oauth_endpoints(&server.name, auth, None, context).await?;
+    let fresh = request_token(&auth, &grant, &server.name, context).await?;
     let refreshed = StoredToken {
         refresh_token: fresh.refresh_token.or_else(|| token.refresh_token.clone()),
         auth_key: token.auth_key.clone(),
         ..fresh
     };
-    save_token(&context.home, server_name, &refreshed).await?;
+    save_token(&context.home, server, &refreshed).await?;
     Ok(refreshed)
 }

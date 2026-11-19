@@ -1,5 +1,5 @@
-import { DETUNE_CENTS, SAMPLE_RATE } from "../const.ts";
-import { midiToFrequency } from "../dsp/midi-to-frequency.ts";
+import { DETUNE_CENTS, SAMPLE_RATE } from "../const";
+import { midiToFrequency } from "../dsp/midi-to-frequency";
 
 /** Adds a chord as detuned saws into `left`/`right` from `start` to `end` seconds, with soft edges. */
 export const addChord = (

@@ -20,6 +20,7 @@ usemcpkit-http.workspace = true
 usemcpkit-manifest.workspace = true
 serde.workspace = true
 serde_json.workspace = true
+humantime.workspace = true
 sha2.workspace = true
 tokio.workspace = true
 url.workspace = true

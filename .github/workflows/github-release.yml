@@ -14,6 +14,7 @@ on:
       - packages/native/**
       - packages/servers/**
       - tools/release/**
+      - tools/ts-resolver/**
       - Cargo.toml
       - Cargo.lock
       - yarn.lock
@@ -124,7 +125,7 @@ jobs:
           path: release-binaries
 
       - name: Write the release assets
-        run: node tools/release/src/main.ts release-binaries release
+        run: node --import ./tools/ts-resolver/src/register.ts tools/release/src/main.ts release-binaries release
 
       - name: GitHub Release
         run: .github/scripts/publish-github-release.sh

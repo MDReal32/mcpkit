@@ -12,11 +12,10 @@ use std::collections::HashMap;
 use std::sync::Arc;
 use tokio::sync::mpsc;
 use tokio::task::JoinHandle;
-use usemcpkit_core::mcp::TOOLS_LIST_CHANGED;
 use usemcpkit_wire_log::{WireLog, describe_wire_line};
 
 /// The supervisor's state, changed only by the events of its one loop. A reload starts a replacement, replays the
-/// client's handshake to it, switches new requests over and announces `tools/list_changed`; the old worker finishes the
+/// client's handshake to it, switches new requests over; the old worker finishes the
 /// requests it already has. A replacement that fails to start leaves the running worker alone.
 pub struct SupervisorState {
     launch: WorkerLaunch,
@@ -141,20 +140,11 @@ impl SupervisorState {
                 eprintln!("usemcpkit: reloaded, now serving {version}");
                 let previous = std::mem::replace(&mut self.current, worker);
                 retire_worker(previous, &mut self.retired);
-                if self.record.initialize.is_some() {
-                    self.forward(TOOLS_LIST_CHANGED.to_string());
-                }
             }
         }
         if self.reload_pending {
             self.reload_pending = false;
             self.queue_reload();
-        }
-    }
-
-    fn forward(&self, line: String) {
-        if self.output.send(OutputMessage::Line(line)).is_err() {
-            eprintln!("usemcpkit: the client output is closed");
         }
     }
 }

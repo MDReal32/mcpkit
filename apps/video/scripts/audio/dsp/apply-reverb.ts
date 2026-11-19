@@ -1,4 +1,4 @@
-import { REVERB, SAMPLE_RATE } from "../const.ts";
+import { REVERB, SAMPLE_RATE } from "../const";
 
 /** A Schroeder reverb: parallel damped combs into series all-passes; returns only the wet signal. */
 export const applyReverb = (input: Float32Array, stretch = 1) => {

@@ -12,6 +12,7 @@ export const teams = defineServer({
   name: "teams",
   category: "communication",
   version: "1.0.0",
+  disabled: true,
   description:
     "Microsoft Teams through the community MCP server by Inditex (github.com/InditexTech/mcp-teams-server), cloned on first use into ~/.usemcpkit/repos/communication/teams, set up with uv and run locally on a Python that uv installs for it (the system Python is never used). It works in the one team and channel it is configured for: start a thread, reply to it, read a thread or the channel's threads, and look up team members to mention. It signs in as a Microsoft Entra application (a bot) and needs git and uv on PATH. The first call opens a form for TEAMS_APP_ID, TEAMS_APP_PASSWORD, TEAMS_APP_TENANT_ID, TEAM_ID and TEAMS_CHANNEL_ID (or set them in the client's env for usemcpkit). It posts as the bot into a real channel, so allow the write tools only when you want that.",
   baseUrl: "https://graph.microsoft.com",

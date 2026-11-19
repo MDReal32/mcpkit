@@ -16,6 +16,9 @@ pub struct Manifest {
     pub version: String,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
+    /// Keeps the server in the registry but hides it from `list`, `search` and `serve`.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub disabled: bool,
     /// May contain `{domain}`, as may the oauth URLs (`discovery` included) and an HTTP upstream's `url`; `domain` then
     /// says where the value comes from.
     pub base_url: String,

@@ -1,4 +1,4 @@
-import { SAMPLE_RATE } from "../../const.ts";
+import { SAMPLE_RATE } from "../../const";
 
 /** A soft kick: a sine dropping from about 150 Hz to 42 Hz. */
 export const renderKickHit = () => {

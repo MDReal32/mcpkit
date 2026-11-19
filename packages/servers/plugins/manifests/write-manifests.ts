@@ -15,6 +15,7 @@ const toIndexEntry = (entry: CompiledManifest, shellJson: string) => ({
   description: entry.manifest.description,
   ...(entry.manifest.upstream ? { upstream: true } : {}),
   ...(entry.manifest.openapi ? { openapi: true } : {}),
+  ...(entry.manifest.disabled ? { disabled: true } : {}),
   url: toManifestPath(entry),
   sha256: createHash("sha256").update(shellJson).digest("hex"),
 });

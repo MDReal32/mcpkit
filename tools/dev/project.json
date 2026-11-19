@@ -1,0 +1,26 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "usemcpkit-dev",
+  "projectType": "application",
+  "targets": {
+    "dev": {
+      "command": "node --import ./tools/ts-resolver/src/register.ts tools/dev/src/main.ts",
+      "options": {
+        "cwd": "{workspaceRoot}"
+      },
+      "cache": false
+    },
+    "typecheck": {
+      "command": "tsc --noEmit",
+      "options": {
+        "cwd": "{projectRoot}"
+      }
+    },
+    "lint": {
+      "command": "biome check .",
+      "options": {
+        "cwd": "{projectRoot}"
+      }
+    }
+  }
+}

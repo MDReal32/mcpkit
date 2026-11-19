@@ -16,6 +16,7 @@ path = "src/lib.rs"
 [dependencies]
 clap.workspace = true
 cliclack.workspace = true
+usemcpkit-auth.workspace = true
 usemcpkit-binary.workspace = true
 usemcpkit-clients.workspace = true
 usemcpkit-core.workspace = true

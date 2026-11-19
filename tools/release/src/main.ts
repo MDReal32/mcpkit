@@ -1,5 +1,5 @@
 import { join, resolve } from "node:path";
-import { writeRelease } from "./write-release.ts";
+import { writeRelease } from "./write-release";
 
 const [binariesDir, outputDir] = process.argv.slice(2);
 if (binariesDir === undefined || outputDir === undefined) {

@@ -149,12 +149,11 @@ TS and Rust handle them the same way:
   the `usemcpkit` entry counts as configured (`LEGACY_ENTRY_NAMES`).
 - Every update of the upgrade schedule also removes the old job, so it stops upgrading the old binary; uninstalling
   removes both.
-- `serve` (the worker) copies `config.json`, `secrets.json` and `tokens.json` from `~/.mcpkit` into `~/.usemcpkit`
-  once, while the new home has none of them (`adopt_legacy_home`). It never does with `USEMCPKIT_HOME` set, and it
-  leaves the old folder alone. Caches, cloned repos and logs are not copied: they come back on first use.
+- Saved credentials are no longer copied from `~/.mcpkit`: the adoption (`adopt_legacy_home`) and the config
+  migrations before the single-file format were dropped, since the format stays at version 1 until 1.0.
 - The old `MCPKIT_*` variables are no longer read. The old entry is replaced as a whole, its `env` (Codex
   `[mcp_servers.mcpkit.env]` included) with it: `MCPKIT_AUTO_UPDATE=0` must become `USEMCPKIT_AUTOUPDATE=0` (named `USEMCPKIT_AUTO_UPDATE` up to 0.12), and
-  credentials under a custom `MCPKIT_HOME` are not adopted, since only `~/.mcpkit` is looked at.
+  credentials under a custom `MCPKIT_HOME` are not adopted.
 - An installed TS `0.9.0` updates itself from `package/bin/mcpkit[.exe]` of the platform package and knows nothing of
   the new names. Until a release ships that path too, those installs stay on `0.9.0`, and `npx usemcpkit` moves them
   over once.
@@ -171,7 +170,7 @@ request (by hand for now). Homebrew will be a workflow of its own. Steps that mo
 composite actions in `.github/actions/<name>/action.yml` (`setup-workspace`, `install-webkitgtk-dev`, `build-binaries`,
 `build-registry`, `setup-npm-publish`), not shared jobs. Each `binaries` job runs on its target's own runner
 (`linux-x64`, `linux-arm64`, `darwin-x64`, `darwin-arm64`, `windows-x64`), builds from the credentials page the first job
-built, checks that each binary prints `--version` and runs `tools/smoke-test` against them (`node tools/smoke-test/src/main.ts
+built, checks that each binary prints `--version` and runs `tools/smoke-test` against them (`node --import ./tools/ts-resolver/src/register.ts tools/smoke-test/src/main.ts
 <usemcpkit binary> <registry dir>`: the real `usemcpkit serve`, with the server next to it, over stdio in a temp home
 seeded from the first job's registry, auto-update off and the registry unreachable; it initializes, expects `search` and
 `execute` as the only tools, searches the indexed servers and the groups of `git:github` and runs a piece of code with

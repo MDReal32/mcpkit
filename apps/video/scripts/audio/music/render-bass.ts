@@ -1,9 +1,9 @@
-import { BASS_ROOTS, BEAT_SECONDS, SAMPLE_RATE } from "../const.ts";
-import { addInto } from "../dsp/add-into.ts";
-import { chordIndexAt } from "./chord-index-at.ts";
-import type { MusicSections } from "./music-sections.ts";
-import type { StereoMix } from "./stereo-mix.ts";
-import { renderBassNote } from "./voices/render-bass-note.ts";
+import { BASS_ROOTS, BEAT_SECONDS, SAMPLE_RATE } from "../const";
+import { addInto } from "../dsp/add-into";
+import { chordIndexAt } from "./chord-index-at";
+import type { MusicSections } from "./music-sections";
+import type { StereoMix } from "./stereo-mix";
+import { renderBassNote } from "./voices/render-bass-note";
 
 /** Off-beat bass on the chord roots, from the install scene to the close. */
 export const renderBass = (sections: MusicSections, mix: StereoMix) => {

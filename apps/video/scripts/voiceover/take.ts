@@ -1,4 +1,4 @@
-import type { TakeAlignment } from "./take-alignment.ts";
+import type { TakeAlignment } from "./take-alignment";
 
 export interface Take {
   audio: Buffer;

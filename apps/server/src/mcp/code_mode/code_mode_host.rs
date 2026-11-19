@@ -1,9 +1,11 @@
 use crate::catalog::RegistryCatalog;
 use crate::mcp::code_mode::consts::{GROUP_WITHOUT_SERVER, MAX_OUTPUT_CHARS};
+use crate::mcp::code_mode::find_tools_scope::find_tools_scope;
 use crate::mcp::code_mode::listed::Listed;
 use crate::mcp::code_mode::load_all_tools::load_all_tools;
 use crate::mcp::code_mode::load_group_names::load_group_names;
 use crate::mcp::code_mode::load_server_tools::load_server_tools;
+use crate::mcp::code_mode::prefix_group::prefix_group;
 use crate::mcp::code_mode::read_outcome_value::read_outcome_value;
 use crate::mcp::code_mode::server_tool::ServerTool;
 use crate::mcp::code_mode::upstream_listing::UpstreamListing;
@@ -58,17 +60,21 @@ impl<F: Fetch> CodeModeHost<F> {
         Ok(json!(groups.items))
     }
 
-    /// The tools of one group or server, which starts its upstream when that is not known yet; with no server, every
-    /// tool that can be listed without starting an upstream.
+    /// The tools of one group or server, which starts its upstream when that is not known yet, or the tools whose ids
+    /// start with `server` when it is the start of a tool id; with no server, every tool that can be listed without
+    /// starting an upstream.
     pub async fn tools(&self, server: Option<&str>, group: Option<&str>) -> Result<Value, String> {
         let tools = match (server, group) {
-            (Some(server), _) => {
-                let server = self.catalog.find_server(server)?;
+            (Some(query), _) => {
+                let scope = find_tools_scope(&self.catalog.servers, query)?;
+                let server = scope.server;
+                let group = group.or_else(|| scope.prefix.and_then(prefix_group));
                 let listed = load_server_tools(&self.catalog, server, group, UpstreamListing::Start).await?;
                 Listed {
                     items: listed
                         .items
                         .into_iter()
+                        .filter(|descriptor| scope.prefix.is_none_or(|prefix| descriptor.tool.starts_with(prefix)))
                         .map(|descriptor| ServerTool {
                             server_id: server.id.clone(),
                             descriptor,

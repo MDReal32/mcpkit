@@ -39,6 +39,8 @@ pub enum Command {
     },
     /// List available servers; their tools are listed when the client opens them
     List,
+    /// Print config.json with the saved secrets and tokens masked, safe to paste in an issue
+    Config,
     /// Refresh the registry index and the manifests already cached; servers you have not used are not downloaded
     Update {
         /// Registry base URL (default: USEMCPKIT_REGISTRY, else the usemcpkit registry)

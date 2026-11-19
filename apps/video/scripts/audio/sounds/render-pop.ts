@@ -1,6 +1,6 @@
-import { POP_ROOT, POP_STEPS, SAMPLE_RATE } from "../const.ts";
-import { midiToFrequency } from "../dsp/midi-to-frequency.ts";
-import { normalize } from "../dsp/normalize.ts";
+import { POP_ROOT, POP_STEPS, SAMPLE_RATE } from "../const";
+import { midiToFrequency } from "../dsp/midi-to-frequency";
+import { normalize } from "../dsp/normalize";
 
 /** A rounded blip for an item landing; `step` climbs a pentatonic scale. */
 export const renderPop = (step: number) => {

@@ -1,8 +1,5 @@
-use crate::config::config_files::config_file;
-use crate::config::config_lock::CONFIG_LOCK;
-use crate::config::migrate_config::migrate_config;
-use crate::config::read_config::read_config;
-use crate::files::write_json_file;
+use crate::config::update_config::update_config;
+use crate::consts::SERVERS_KEY;
 use crate::json::object_entry;
 use crate::{AuthError, ServerKey};
 use serde_json::{Map, Value};
@@ -14,12 +11,9 @@ pub async fn update_server_config(
     server: &ServerKey,
     change: impl FnOnce(&mut Map<String, Value>),
 ) -> Result<PathBuf, AuthError> {
-    let _lock = CONFIG_LOCK.lock().await;
-    migrate_config(home).await?;
-    let file = config_file(home);
-    let mut config = read_config(&file).await?;
-    let servers = object_entry(&mut config, "servers");
-    change(object_entry(object_entry(servers, &server.category), &server.name));
-    write_json_file(&file, &Value::Object(config)).await?;
-    Ok(file)
+    update_config(home, |config| {
+        let servers = object_entry(config, SERVERS_KEY);
+        change(object_entry(object_entry(servers, &server.category), &server.name));
+    })
+    .await
 }

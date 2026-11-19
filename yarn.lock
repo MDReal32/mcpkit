@@ -4366,6 +4366,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@usemcpkit/workspace@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@usemcpkit/workspace@workspace:."
+  dependencies:
+    "@biomejs/biome": "npm:2.5.15"
+    "@types/node": "npm:^24.0.0"
+    nx: "npm:23.3.0"
+    typescript: "npm:^5.9.0"
+    vite: "npm:^8.0.0"
+    vitest: "npm:^4.0.0"
+  languageName: unknown
+  linkType: soft
+
 "@vitest/expect@npm:4.1.12":
   version: 4.1.12
   resolution: "@vitest/expect@npm:4.1.12"
@@ -9623,19 +9636,6 @@ __metadata:
   checksum: 10c0/5c0769472715b57371208c3146cc07a4f0917c1d18cc34f60325bc4234f4a28f332e50b99f675999ff311315231ff19beb22a815dfe04ccc1e798e1d389514d7
   languageName: node
   linkType: hard
-
-"usemcpkit-workspace@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "usemcpkit-workspace@workspace:."
-  dependencies:
-    "@biomejs/biome": "npm:2.5.15"
-    "@types/node": "npm:^24.0.0"
-    nx: "npm:23.3.0"
-    typescript: "npm:^5.9.0"
-    vite: "npm:^8.0.0"
-    vitest: "npm:^4.0.0"
-  languageName: unknown
-  linkType: soft
 
 "usemcpkit@workspace:apps/npx":
   version: 0.0.0-use.local

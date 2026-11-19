@@ -1,16 +1,13 @@
 $kind: mcp-request
 transport: stdio
-command: /Users/mdrealiyev/Projects/mcpkit/build/usemcpkit serve
+command: usemcpkit-dev-serve
 message: |-
   {
     "method": "tools/call",
     "params": {
-      "name": "git_github_repos_checks_create",
+      "name": "search",
       "arguments": {
-        "owner": "",
-        "repo": "",
-        "name": "",
-        "head_sha": ""
+        "code": "async () => {console.log(1234)}"
       }
     }
   }

@@ -1,6 +1,6 @@
-import { MODEL_ID, VOICE_SETTINGS } from "./const.ts";
-import type { Take } from "./take.ts";
-import type { TimestampedSpeech } from "./timestamped-speech.ts";
+import { MODEL_ID, VOICE_SETTINGS } from "./const";
+import type { Take } from "./take";
+import type { TimestampedSpeech } from "./timestamped-speech";
 
 /** The whole script read in one go, so the delivery flows; the reply times every character. */
 export const synthesizeTake = async (text: string, voiceId: string, apiKey: string) => {

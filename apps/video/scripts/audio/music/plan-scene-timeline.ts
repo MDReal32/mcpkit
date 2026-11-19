@@ -1,5 +1,5 @@
-import { SCENE_SECONDS, TRANSITION_SECONDS, VIDEO } from "../../../src/const.ts";
-import type { SceneTimeline } from "./scene-timeline.ts";
+import { SCENE_SECONDS, TRANSITION_SECONDS, VIDEO } from "../../../src/const";
+import type { SceneTimeline } from "./scene-timeline";
 
 /** Where each scene starts in the promo, frame-rounded the way the composition rounds them. */
 export const planSceneTimeline = () => {

@@ -4,7 +4,7 @@ use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
 use std::path::Path;
 use std::rc::Rc;
-use support::{FolderFetcher, call_context, run_code};
+use support::{FolderFetcher, call_context, result_text, run_code};
 use tempfile::TempDir;
 use usemcpkit_manifest::registry::RegistryServer;
 use usemcpkit_registry::RegistryContext;
@@ -118,6 +118,7 @@ fn pets_server(home: &TempDir, http: Rc<RouteClient>) -> McpServer<FolderFetcher
         description: Some("Pets".into()),
         upstream: false,
         openapi: true,
+        disabled: false,
     }];
     let context = RegistryContext::new(
         home.path().join("manifests"),
@@ -150,8 +151,8 @@ fn pets_api_at(version: &str) -> Rc<RouteClient> {
     ]))
 }
 
-fn text_of(result: &Value) -> &str {
-    result["content"][0]["text"].as_str().unwrap()
+fn text_of(result: &Value) -> String {
+    result_text(result)
 }
 
 #[tokio::test]
@@ -169,6 +170,26 @@ async fn lists_no_tools_with_a_note_before_they_are_built() {
     );
     assert!(text.ends_with("[]"), "{text}");
     assert!(http.requests.borrow().is_empty());
+}
+
+#[tokio::test]
+async fn lists_the_tools_whose_ids_start_with_the_one_asked_for() {
+    let home = TempDir::new().unwrap();
+    let server = pets_server(&home, pets_api());
+
+    let listed = run_code(
+        &server,
+        SEARCH_TOOL,
+        r#"async () => (await codemode.tools("test:pets:pets/")).map((tool) => tool.id)"#,
+    )
+    .await;
+
+    let ids = listed["structuredContent"].as_array().unwrap();
+    assert!(ids.contains(&json!("test:pets:pets/{petId}:get")), "{listed}");
+    assert!(
+        ids.iter().all(|id| id.as_str().unwrap().starts_with("test:pets:pets/")),
+        "{listed}"
+    );
 }
 
 #[tokio::test]
@@ -195,11 +216,20 @@ async fn builds_the_tools_of_every_source_from_the_nearest_older_document_and_ke
         text.contains("no OpenAPI document of selfhosted is published for 2.3; its tools come from the one of 2.1"),
         "{text}"
     );
+    let tools = listed["structuredContent"].as_array().unwrap();
     assert!(
-        text.contains("\"test:pets:pets/{petId}:get\",\n    \"Gets a pet the way 2.2 and 2.3 really answer\""),
+        tools.contains(&json!([
+            "test:pets:pets/{petId}:get",
+            "Gets a pet the way 2.2 and 2.3 really answer"
+        ])),
         "{text}"
     );
-    assert!(text.contains("\"test:pets:pets:get\",\n    \"List pets"), "{text}");
+    assert!(
+        tools
+            .iter()
+            .any(|tool| tool[0] == "test:pets:pets:get" && tool[1].as_str().unwrap().starts_with("List pets")),
+        "{text}"
+    );
     assert!(text.contains("\"test:pets:owners:get\""), "{text}");
     assert!(!text.contains("Pets of the owners"), "{text}");
     assert!(!text.contains("delete"), "{text}");
@@ -236,7 +266,7 @@ async fn builds_the_tools_of_every_source_from_the_nearest_older_document_and_ke
         r#"async () => (await codemode.tools()).map((tool) => tool.id)"#,
     )
     .await;
-    assert!(text_of(&cached).contains("\"test:pets:pets:get\""), "{cached}");
+    assert!(text_of(&cached).contains("test:pets:pets:get"), "{cached}");
     assert!(later_http.requests.borrow().is_empty());
 }
 

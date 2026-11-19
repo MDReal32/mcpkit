@@ -1,6 +1,6 @@
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { CUT_PADDING } from "./const.ts";
+import { CUT_PADDING } from "./const";
 
 /** Copies `start`..`end` seconds of the take into its own MP3 with ffmpeg. */
 export const cutLine = (take: URL, output: URL, start: number, end: number) => {

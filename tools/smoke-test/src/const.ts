@@ -21,8 +21,11 @@ export const GITHUB_GROUP = "repos";
 /** Runs in the sandbox of the release binary without calling a tool. */
 export const EXECUTE_CODE = "async () => 6 * 7";
 
-export const EXECUTE_RESULT = "42";
+export const EXECUTE_RESULT = 42;
 /** Port 9 (discard) refuses connections, so any registry request fails at once instead of reaching the network. */
 export const UNREACHABLE_REGISTRY = "http://127.0.0.1:9";
 
 export const RESPONSE_TIMEOUT_MS = 20_000;
+
+/** The `resultType` of a finished `tools/call` (MCP `CallToolResult`, 2026-07-28). */
+export const RESULT_TYPE_COMPLETE = "complete";

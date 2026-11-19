@@ -258,6 +258,9 @@ build/
 /release-tarballs/
 /release-registry/
 
+# the dev home of `yarn usemcpkit:dev`
+/tmp/
+
 # macOS
 .DS_Store
 

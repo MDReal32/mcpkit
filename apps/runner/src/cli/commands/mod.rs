@@ -1,3 +1,4 @@
+mod config_command;
 mod install_command;
 mod list_command;
 mod serve_command;
@@ -6,6 +7,7 @@ mod uninstall_command;
 mod update_command;
 mod upgrade_command;
 
+pub use config_command::config_command;
 pub use install_command::install_command;
 pub use list_command::list_command;
 pub use serve_command::serve_command;

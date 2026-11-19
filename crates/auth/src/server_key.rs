@@ -1,3 +1,4 @@
+use std::fmt::{Display, Formatter};
 use usemcpkit_manifest::Manifest;
 
 /// Where a server's settings live in the config: `servers.<category>.<name>`.
@@ -17,5 +18,11 @@ impl ServerKey {
 
     pub fn of(manifest: &Manifest) -> Self {
         ServerKey::new(&manifest.category, &manifest.name)
+    }
+}
+
+impl Display for ServerKey {
+    fn fmt(&self, formatter: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(formatter, "{}:{}", self.category, self.name)
     }
 }

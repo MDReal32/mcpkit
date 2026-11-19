@@ -1,25 +1,29 @@
 pub const CONFIG_FILE_NAME: &str = "config.json";
 
-/// The file credentials were kept in before they moved into the config.
-pub const SECRETS_FILE_NAME: &str = "secrets.json";
+/// The file OAuth tokens were kept in before they moved into the config.
+pub const LEGACY_TOKENS_FILE_NAME: &str = "tokens.json";
 
-pub const TOKENS_FILE_NAME: &str = "tokens.json";
-
-/// Every file credentials are or were saved in, which a new home folder adopts from the old one.
-pub const SAVED_FILE_NAMES: [&str; 3] = [CONFIG_FILE_NAME, SECRETS_FILE_NAME, TOKENS_FILE_NAME];
+/// The file OAuth client registrations were kept in before they moved into the config.
+pub const LEGACY_CLIENTS_FILE_NAME: &str = "oauth-clients.json";
 
 /// The host key of a server that has no domain, so its credentials still live under `hosts`.
 pub const DEFAULT_HOST_KEY: &str = "default";
 
-/// The category of the servers that existed before the config grouped them by category.
-pub const LEGACY_SERVER_CATEGORIES: &[(&str, &str)] = &[
-    ("confluence", "orgs/atlassian"),
-    ("jira", "orgs/atlassian"),
-    ("github", "git"),
-    ("gitlab", "git"),
-];
-
+/// The category a token of the old tokens file is filed under when no server of that name is in the config.
 pub const UNKNOWN_CATEGORY: &str = "other";
+
+/// The top-level keys of the config, in the order they are written; any other key follows in alphabetical order.
+pub const CONFIG_KEY_ORDER: [&str; 3] = ["version", "servers", "oauthClients"];
+
+pub const SERVERS_KEY: &str = "servers";
+
+pub const OAUTH_CLIENTS_KEY: &str = "oauthClients";
+
+/// The key of a server's OAuth sign-in: its token and when it was saved.
+pub const SIGN_IN_KEY: &str = "signIn";
+
+/// When a host's credentials or a sign-in were last saved, as a UTC time.
+pub const SAVED_AT_KEY: &str = "savedAt";
 
 #[cfg(unix)]
 pub const PRIVATE_DIR_MODE: u32 = 0o700;

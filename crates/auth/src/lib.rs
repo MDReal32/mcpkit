@@ -7,6 +7,7 @@ pub mod oauth;
 pub mod project;
 pub mod resolve;
 pub mod secret_file;
+pub mod timestamp;
 pub mod token_store;
 pub mod ui;
 

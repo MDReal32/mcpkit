@@ -6,12 +6,12 @@ import {
   NPM_OUTPUT_DIR,
   RELEASE_TARGETS,
   WRAPPER_PACKAGE_JSON,
-} from "./const.ts";
-import { readCargoVersion } from "./read-cargo-version.ts";
-import { readWrapperPackageJson } from "./read-wrapper-package-json.ts";
-import { writePlatformPackage } from "./write-platform-package.ts";
-import { writeReleaseAssets } from "./write-release-assets.ts";
-import { writeWrapperDependencies } from "./write-wrapper-dependencies.ts";
+} from "./const";
+import { readCargoVersion } from "./read-cargo-version";
+import { readWrapperPackageJson } from "./read-wrapper-package-json";
+import { writePlatformPackage } from "./write-platform-package";
+import { writeReleaseAssets } from "./write-release-assets";
+import { writeWrapperDependencies } from "./write-wrapper-dependencies";
 
 /**
  * Turns the per-target binaries CI built (`<binariesDir>/binaries-<target>/`) into the npm platform packages

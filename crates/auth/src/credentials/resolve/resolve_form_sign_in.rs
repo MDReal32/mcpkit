@@ -1,6 +1,6 @@
 use crate::credentials::FormAnswer;
 use crate::resolve::resolve_signed_in_auth;
-use crate::{AuthContext, AuthError, AuthResolution};
+use crate::{AuthContext, AuthError, AuthResolution, ServerKey};
 use indexmap::IndexMap;
 use std::rc::Rc;
 use usemcpkit_manifest::Manifest;
@@ -14,7 +14,7 @@ pub async fn resolve_form_sign_in(
     let Some(oauth) = manifest.auth.iter().flatten().find_map(|auth| auth.as_interactive()) else {
         return Err(AuthError(format!("{}: this server has no sign-in", manifest.name)));
     };
-    let resolved = resolve_signed_in_auth(&manifest.name, oauth, context).await?;
+    let resolved = resolve_signed_in_auth(&ServerKey::of(&manifest), oauth, context).await?;
     Ok(AuthResolution {
         auth: resolved,
         save: Some(FormAnswer {
