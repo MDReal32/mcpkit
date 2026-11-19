@@ -15,17 +15,9 @@
   ],
   "targets": {
     "build": {
-      "command": "node --import ../ts-resolver/src/register.ts src/main.ts",
+      "command": "bash build-output.sh",
       "options": { "cwd": "{projectRoot}" },
       "cache": false
-    },
-    "typecheck": {
-      "command": "tsc --noEmit",
-      "options": { "cwd": "{projectRoot}" }
-    },
-    "lint": {
-      "command": "biome check .",
-      "options": { "cwd": "{projectRoot}" }
     }
   }
 }
