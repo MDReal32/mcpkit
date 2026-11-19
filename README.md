@@ -553,7 +553,9 @@ server starts:
   `{ id, description, inputSchema }` for each tool. With no server, `codemode.tools()` returns every tool at once, so
   the code can filter all of them in one pass; the tools of an upstream are in that list once it was started, in this run
   or an earlier one whose tool list is cached, and `codemode.tools("<id>")` starts one that is not (a server with tools
-  of its own, such as n8n, lists those always and says in the console output when its upstream could not be started). Its description lists
+  of its own, such as n8n, lists those always and says in the console output when its upstream could not be started).
+  Given the start of a tool id instead of a server, `codemode.tools("git:gitlab:api/v4/projects/{id}/merge_requests")`
+  returns the tools whose ids start with it, downloading only the group the prefix names. Its description lists
   the served servers.
 - `execute` runs the same kind of function with `codemode.call(id, args)` as well, which runs a tool by its full id
   (`git:github:repos:repos:list_branches`) and resolves to its result: a registry tool's JSON, or an upstream tool's

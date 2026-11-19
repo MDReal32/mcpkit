@@ -47,7 +47,8 @@ pub const SEARCH_API: &str = "In the code:
 - codemode.tools(server?: string, group?: string): Promise<{ id: string, description: string, inputSchema: object }[]>, \
 every tool when called with no server (the tools of an upstream are in it once it was started, and those of a server \
 built from its OpenAPI document once they were built for its host, so call codemode.tools(server) for a server whose \
-tools are missing), or the tools of one server or one of its groups";
+tools are missing), the tools of one server or one of its groups, or, given the start of a tool id instead of a \
+server (codemode.tools(\"git:gitlab:api/v4/projects/{id}/merge_requests\")), the tools whose ids start with it";
 
 pub const SEARCH_INTRO: &str = "Finds the tools of the servers below by running JavaScript: write an async arrow function, \
 such as async () => { ... }.";

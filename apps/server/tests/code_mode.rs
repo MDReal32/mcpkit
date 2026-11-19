@@ -156,6 +156,40 @@ async fn search_lists_every_tool_when_no_server_is_named() {
 }
 
 #[tokio::test]
+async fn search_finds_the_tools_whose_ids_start_with_the_one_asked_for() {
+    let registry = TempDir::new().unwrap();
+    let server = tracker_server(&registry);
+
+    let found = run_code(
+        &server,
+        SEARCH_TOOL,
+        r#"async () => (await codemode.tools("test:tracker:issues:se")).map((tool) => tool.id)"#,
+    )
+    .await;
+    let none = run_code(
+        &server,
+        SEARCH_TOOL,
+        r#"async () => codemode.tools("test:tracker:issues:create")"#,
+    )
+    .await;
+    let unknown = run_code(&server, SEARCH_TOOL, r#"async () => codemode.tools("test:track")"#).await;
+
+    assert_eq!(
+        found,
+        json!({ "content": [], "resultType": "complete", "structuredContent": ["test:tracker:issues:search"] })
+    );
+    assert_eq!(
+        none,
+        json!({ "content": [], "resultType": "complete", "structuredContent": [] })
+    );
+    assert!(
+        error_text(&unknown)
+            .starts_with("Error: unknown server \"test:track\": pass a server id or the start of a tool id\n"),
+        "{unknown}"
+    );
+}
+
+#[tokio::test]
 async fn search_cannot_call_tools() {
     let registry = TempDir::new().unwrap();
     let server = tracker_server(&registry);

@@ -173,6 +173,26 @@ async fn lists_no_tools_with_a_note_before_they_are_built() {
 }
 
 #[tokio::test]
+async fn lists_the_tools_whose_ids_start_with_the_one_asked_for() {
+    let home = TempDir::new().unwrap();
+    let server = pets_server(&home, pets_api());
+
+    let listed = run_code(
+        &server,
+        SEARCH_TOOL,
+        r#"async () => (await codemode.tools("test:pets:pets/")).map((tool) => tool.id)"#,
+    )
+    .await;
+
+    let ids = listed["structuredContent"].as_array().unwrap();
+    assert!(ids.contains(&json!("test:pets:pets/{petId}:get")), "{listed}");
+    assert!(
+        ids.iter().all(|id| id.as_str().unwrap().starts_with("test:pets:pets/")),
+        "{listed}"
+    );
+}
+
+#[tokio::test]
 async fn builds_the_tools_of_every_source_from_the_nearest_older_document_and_keeps_them() {
     let home = TempDir::new().unwrap();
     let http = pets_api();
