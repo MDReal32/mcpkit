@@ -1,0 +1,22 @@
+---
+import SiteFooter from "../components/site-footer.astro";
+import SiteHeader from "../components/site-header.astro";
+import PageLayout from "../layouts/page-layout.astro";
+---
+
+<PageLayout title="Not found · usemcpkit" description="This page does not exist.">
+  <SiteHeader />
+  <main class="container not-found">
+    <p class="eyebrow">404</p>
+    <h1 class="section-title">Nothing here</h1>
+    <p class="section-lead">This page does not exist. <a href="/">Back to usemcpkit</a>.</p>
+  </main>
+  <SiteFooter />
+</PageLayout>
+
+<style>
+  .not-found {
+    min-height: 60vh;
+    padding-top: 120px;
+  }
+</style>

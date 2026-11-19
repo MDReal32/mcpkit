@@ -18,7 +18,7 @@
     "usemcpkit:dev:link": "node --import ./tools/ts-resolver/src/register.ts tools/dev/src/link.ts"
   },
   "engines": {
-    "node": ">=22.18"
+    "node": ">=22.23.4"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.15",

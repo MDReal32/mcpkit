@@ -1,0 +1,21 @@
+{
+  "name": "@usemcpkit/site",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The usemcpkit landing page at mcpkit.mdreal.org, a static Astro site served by a Cloudflare Worker.",
+  "type": "module",
+  "scripts": {
+    "build": "astro build",
+    "dev": "astro dev",
+    "typecheck": "astro check && tsc --noEmit -p worker",
+    "lint": "biome check ."
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@astrojs/check": "0.9.12",
+    "@biomejs/biome": "2.5.15",
+    "astro": "7.4.7",
+    "typescript": "^5.9.0",
+    "wrangler": "4.152.0"
+  }
+}

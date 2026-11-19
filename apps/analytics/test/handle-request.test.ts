@@ -9,7 +9,7 @@ const createEnv = () => {
   return { env, bind };
 };
 
-const post = (body: string) => new Request("https://usage.test/v1/use", { method: "POST", body });
+const post = (body: string, path = "/api/v1/use") => new Request(`https://usage.test${path}`, { method: "POST", body });
 
 describe("handleRequest", () => {
   it("counts a valid event", async () => {
@@ -36,6 +36,13 @@ describe("handleRequest", () => {
     const { env, bind } = createEnv();
     expect((await handleRequest(post(body), env)).status).toBe(400);
     expect(bind).not.toHaveBeenCalled();
+  });
+
+  it("counts an event posted to the path of 0.9.0 CLIs", async () => {
+    const { env, bind } = createEnv();
+    const response = await handleRequest(post('{"tool":"git:github:repos:get"}', "/v1/use"), env);
+    expect(response.status).toBe(204);
+    expect(bind).toHaveBeenCalledWith("git:github:repos:get");
   });
 
   it("rejects other routes", async () => {
