@@ -196,11 +196,20 @@ async fn builds_the_tools_of_every_source_from_the_nearest_older_document_and_ke
         text.contains("no OpenAPI document of selfhosted is published for 2.3; its tools come from the one of 2.1"),
         "{text}"
     );
+    let tools = listed["structuredContent"].as_array().unwrap();
     assert!(
-        text.contains("\"test:pets:pets/{petId}:get\",\n  \"Gets a pet the way 2.2 and 2.3 really answer\""),
+        tools.contains(&json!([
+            "test:pets:pets/{petId}:get",
+            "Gets a pet the way 2.2 and 2.3 really answer"
+        ])),
         "{text}"
     );
-    assert!(text.contains("\"test:pets:pets:get\",\n  \"List pets"), "{text}");
+    assert!(
+        tools
+            .iter()
+            .any(|tool| tool[0] == "test:pets:pets:get" && tool[1].as_str().unwrap().starts_with("List pets")),
+        "{text}"
+    );
     assert!(text.contains("\"test:pets:owners:get\""), "{text}");
     assert!(!text.contains("Pets of the owners"), "{text}");
     assert!(!text.contains("delete"), "{text}");

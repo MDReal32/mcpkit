@@ -563,10 +563,11 @@ A server's shell, group files and upstream tools are loaded only when the code a
 once into `~/.usemcpkit/manifests`, and an upstream (Bitwarden, Cloudflare, n8n's MCP server, Postman, Teams) is started only when
 the code looks up or calls its tools. A server that cannot be loaded makes the code throw, with the reason, and the next
 call tries again. The code runs in QuickJS (`rquickjs`), a fresh runtime per call with no network, file or module
-access, 64 MB of memory and a 120-second limit that interrupts a busy loop as well as a slow tool. `console.log` lines
-come back before the returned value, which is printed as JSON; an output longer than 24000 characters (about 6000
-tokens) is cut and ends in `--- TRUNCATED ---`, so the code should filter and pick fields before it returns. The
-client's permission rules only see `search` and `execute`, not the tools the code calls.
+access, 64 MB of memory and a 120-second limit that interrupts a busy loop as well as a slow tool. The function's
+return value is the `structuredContent` of the MCP `CallToolResult` (`resultType: "complete"`), exactly as returned and nowhere else, so the code should filter and
+pick fields before it returns. The text `content` holds only the `console.log` lines (cut at 24000 characters, about
+6000 tokens, ending in `--- TRUNCATED ---`) and a thrown error. The client's permission rules only see `search` and
+`execute`, not the tools the code calls.
 
 Ids still come from `index.json`: `<category>:<server>:<resource>:<action>` selects `<category>/<server>.json`.
 `usemcpkit serve [servers…]` limits the catalog to the given ids or bare names.

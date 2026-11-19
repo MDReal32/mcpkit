@@ -38,9 +38,8 @@ pub const WRAPPER: &str = include_str!("wrapper.js");
 
 pub const CODE_PLACEHOLDER: &str = "__USEMCPKIT_CODE__";
 
-pub const SANDBOX_NOTE: &str = "It runs in a sandbox with no network or file access; a returned object comes back whole as structuredContent, \
-anything else as text items (an array one item per element, cut at about 24000 characters), after a text item with anything it wrote with console.log. \
-Return only what is needed.";
+pub const SANDBOX_NOTE: &str = "It runs in a sandbox with no network or file access. What it returns is the structuredContent, exactly as returned; \
+the text content holds only what it wrote with console.log (cut at about 24000 characters) or the error it threw. Return only what is needed.";
 
 pub const SEARCH_API: &str = "In the code:
 - codemode.servers(): Promise<{ id: string, description: string, upstream: boolean }[]>
@@ -78,7 +77,5 @@ pub const CODE_ARGUMENT_DESCRIPTION: &str = "An async arrow function, such as as
 pub const SERVERS_HEADING: &str = "Servers:";
 
 pub const FAILED_TOOL_TEXT: &str = "the tool failed without saying why";
-
-pub const NO_RETURN_VALUE: &str = "undefined";
 
 pub const CONSOLE_HEADING: &str = "--- console ---";

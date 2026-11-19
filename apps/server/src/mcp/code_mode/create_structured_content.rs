@@ -1,13 +1,9 @@
 use serde_json::Value;
 
-/// The `structuredContent` of a run: exactly the object the function returned, uncut and unwrapped. MCP allows only an
-/// object there, so a returned array, string, number or `null`, and text that is not JSON, have none and are returned
-/// as `content` items instead (see `create_returned_content`).
-pub fn create_structured_content(json: &str) -> Option<Value> {
-    match serde_json::from_str::<Value>(json) {
-        Ok(object @ Value::Object(_)) => Some(object),
-        _ => None,
-    }
+/// The `structuredContent` of a run: exactly the value the function returned, uncut and unwrapped, whatever its type.
+/// Text from the sandbox that is not JSON is that text as a string.
+pub fn create_structured_content(json: &str) -> Value {
+    serde_json::from_str(json).unwrap_or_else(|_not_json| Value::String(json.to_owned()))
 }
 
 #[cfg(test)]
@@ -17,23 +13,25 @@ mod tests {
     use serde_json::json;
 
     #[test]
-    fn uses_a_returned_object_as_it_is() {
+    fn uses_the_returned_value_as_it_is() {
         assert_eq!(
             create_structured_content(r#"{"a":1,"result":2}"#),
-            Some(json!({ "a": 1, "result": 2 }))
+            json!({ "a": 1, "result": 2 })
         );
+        assert_eq!(create_structured_content("[1,2]"), json!([1, 2]));
+        assert_eq!(create_structured_content("42"), json!(42));
+        assert_eq!(create_structured_content("null"), json!(null));
+        assert_eq!(create_structured_content(r#""hello""#), json!("hello"));
     }
 
     #[test]
-    fn never_cuts_the_object() {
-        let object = json!({ "text": "x".repeat(MAX_OUTPUT_CHARS * 2) });
-        assert_eq!(create_structured_content(&object.to_string()), Some(object));
+    fn never_cuts_the_value() {
+        let value = json!({ "text": "x".repeat(MAX_OUTPUT_CHARS * 2) });
+        assert_eq!(create_structured_content(&value.to_string()), value);
     }
 
     #[test]
-    fn has_none_for_anything_that_is_not_an_object() {
-        for json in ["[1,2]", "[]", "42", "null", r#""hello""#, "not json"] {
-            assert_eq!(create_structured_content(json), None, "{json}");
-        }
+    fn keeps_text_that_is_not_json_as_a_string() {
+        assert_eq!(create_structured_content("not json"), json!("not json"));
     }
 }

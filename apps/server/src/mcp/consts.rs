@@ -2,6 +2,9 @@ pub const DEFAULT_PROTOCOL_VERSION: &str = "2025-06-18";
 
 pub const SERVER_NAME: &str = "usemcpkit";
 
+/// The `resultType` of a finished `tools/call`, which the MCP `CallToolResult` (2026-07-28) requires.
+pub const RESULT_TYPE_COMPLETE: &str = "complete";
+
 pub const TOOL_ID_SEPARATOR: char = ':';
 
 /// Between the segments of the path in an endpoint's tool name.

@@ -9,6 +9,7 @@ import {
   LISTED_TOOLS,
   PROTOCOL_VERSION,
   RESPONSE_TIMEOUT_MS,
+  RESULT_TYPE_COMPLETE,
   SEARCH_TOOL,
   SERVER_COUNT_CODE,
   SERVER_NAME,
@@ -22,32 +23,13 @@ import type { InitializeResult } from "./types/initialize-result";
 import type { StdioSession } from "./types/stdio-session";
 import type { ToolsListResult } from "./types/tools-list-result";
 
-const CONSOLE_HEADING = "--- console ---";
-
-const parseJsonOrKeep = (text: string) => {
-  try {
-    return JSON.parse(text);
-  } catch (error) {
-    if (error instanceof SyntaxError) {
-      return text;
-    }
-    throw error;
-  }
-};
-
 const runCode = async (session: StdioSession, id: number, name: string, code: string) => {
   session.send({ jsonrpc: "2.0", id, method: "tools/call", params: { name, arguments: { code } } });
   const answered = await session.receive<CallToolResult>();
   assert.equal(answered.id, id);
   assert.equal(answered.result?.isError, undefined, JSON.stringify(answered.result));
-  const structured = answered.result?.structuredContent;
-  if (structured !== undefined) {
-    return [structured];
-  }
-  return (answered.result?.content ?? [])
-    .map((item) => item.text)
-    .filter((text) => !text.startsWith(CONSOLE_HEADING))
-    .map(parseJsonOrKeep);
+  assert.equal(answered.result?.resultType, RESULT_TYPE_COMPLETE);
+  return answered.result?.structuredContent;
 };
 
 const talkToServer = async (session: StdioSession, serverCount: number) => {
@@ -65,10 +47,13 @@ const talkToServer = async (session: StdioSession, serverCount: number) => {
   );
 
   const servers = await runCode(session, 2, SEARCH_TOOL, SERVER_COUNT_CODE);
-  assert.deepEqual(servers, [serverCount], "search sees every indexed server");
+  assert.equal(servers, serverCount, "search sees every indexed server");
   const groups = await runCode(session, 3, SEARCH_TOOL, GITHUB_GROUPS_CODE);
-  assert.ok(groups.includes(GITHUB_GROUP), `${GITHUB_GROUP} missing from ${groups.join(", ")}`);
-  assert.deepEqual(await runCode(session, 4, EXECUTE_TOOL, EXECUTE_CODE), [EXECUTE_RESULT]);
+  assert.ok(
+    Array.isArray(groups) && groups.includes(GITHUB_GROUP),
+    `${GITHUB_GROUP} missing from ${JSON.stringify(groups)}`,
+  );
+  assert.equal(await runCode(session, 4, EXECUTE_TOOL, EXECUTE_CODE), EXECUTE_RESULT);
 };
 
 /**

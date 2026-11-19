@@ -79,10 +79,6 @@ async fn send(server: &McpServer<FolderFetcher>, message: Value) -> Value {
     server.handle_line(&message.to_string()).await.response.unwrap()
 }
 
-fn text_result(text: &str) -> Value {
-    json!({ "content": [{ "type": "text", "text": text }] })
-}
-
 fn error_text(result: &Value) -> &str {
     assert_eq!(result["isError"], json!(true), "{result}");
     result["content"][0]["text"].as_str().unwrap()
@@ -126,7 +122,7 @@ async fn search_finds_tools_with_their_ids_and_schemas() {
     assert_eq!(
         found,
         json!({
-            "content": [{ "type": "text", "text": "{\n  \"id\": \"test:tracker:issues:search\",\n  \"required\": [\n    \"jql\"\n  ]\n}" }],
+            "content": [], "resultType": "complete", "structuredContent": [{ "id": "test:tracker:issues:search", "required": ["jql"] }],
         })
     );
 }
@@ -151,7 +147,7 @@ async fn search_lists_every_tool_when_no_server_is_named() {
 
     assert_eq!(
         found,
-        json!({ "content": [{ "type": "text", "text": "test:tracker:issues:search" }] })
+        json!({ "content": [], "resultType": "complete", "structuredContent": ["test:tracker:issues:search"] })
     );
     assert!(
         error_text(&picked_group).starts_with("Error: codemode.tools needs a server to pick a group from\n"),
@@ -192,10 +188,11 @@ async fn execute_calls_tools_and_returns_the_console_and_the_value() {
 
     assert_eq!(
         result,
-        json!({ "content": [
-            { "type": "text", "text": "--- console ---\nfound 1 {\"first\":\"A-1\"}" },
-            { "type": "text", "text": "A-1" },
-        ] })
+        json!({
+            "content": [{ "type": "text", "text": "--- console ---\nfound 1 {\"first\":\"A-1\"}" }],
+            "resultType": "complete",
+            "structuredContent": "A-1",
+        })
     );
 }
 
@@ -213,12 +210,12 @@ async fn a_returned_object_is_the_structured_content_and_not_repeated_in_content
 
     assert_eq!(
         result,
-        json!({ "content": [], "structuredContent": { "key": "A-1", "result": 2, "text": "x".repeat(50000) } })
+        json!({ "content": [], "resultType": "complete", "structuredContent": { "key": "A-1", "result": 2, "text": "x".repeat(50000) } })
     );
 }
 
 #[tokio::test]
-async fn a_large_array_is_cut_in_content_and_has_no_structured_content() {
+async fn a_large_array_is_the_whole_structured_content_and_not_in_content() {
     let registry = TempDir::new().unwrap();
     let server = tracker_server(&registry);
 
@@ -229,15 +226,8 @@ async fn a_large_array_is_cut_in_content_and_has_no_structured_content() {
     )
     .await;
 
-    assert!(result.get("structuredContent").is_none());
-    let items = result["content"].as_array().unwrap();
-    assert!(items.len() < 100);
-    assert!(
-        items.last().unwrap()["text"]
-            .as_str()
-            .unwrap()
-            .starts_with("--- TRUNCATED ---")
-    );
+    assert_eq!(result["content"], json!([]));
+    assert_eq!(result["structuredContent"].as_array().unwrap().len(), 100);
 }
 
 #[tokio::test]
@@ -262,13 +252,13 @@ async fn errors_come_back_as_error_results() {
 }
 
 #[tokio::test]
-async fn a_function_that_returns_nothing_says_so() {
+async fn a_function_that_returns_nothing_has_no_structured_content() {
     let registry = TempDir::new().unwrap();
     let server = tracker_server(&registry);
 
     assert_eq!(
         run_code(&server, EXECUTE_TOOL, "async () => {}").await,
-        text_result("undefined")
+        json!({ "content": [], "resultType": "complete" })
     );
 }
 
