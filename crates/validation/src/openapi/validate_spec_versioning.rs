@@ -56,5 +56,15 @@ pub fn validate_spec_versioning(version: &Value, location: &str) -> Vec<String> 
     if version.get("known").is_some_and(|known| !is_string_record(Some(known))) {
         errors.push(format!("{location}.known must map versions to strings"));
     }
+    match version.get("fallbackToOldest") {
+        None => {}
+        Some(Value::Bool(true)) => {
+            if version.get("known").is_none() && version.get("list").is_none() {
+                errors.push(format!("{location}.fallbackToOldest needs known or list"));
+            }
+        }
+        Some(Value::Bool(false)) => {}
+        Some(_) => errors.push(format!("{location}.fallbackToOldest must be a boolean")),
+    }
     errors
 }

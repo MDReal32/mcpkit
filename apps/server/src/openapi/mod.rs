@@ -12,6 +12,7 @@ mod hydrate_openapi_server;
 mod is_build_current;
 mod is_check_due;
 mod open_api_server;
+mod pick_document;
 mod probe_answer;
 mod probe_server;
 mod read_cached_build;

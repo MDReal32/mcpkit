@@ -7,6 +7,7 @@ use usemcpkit_manifest::domain::{apply_domain, is_domain_value};
 use usemcpkit_openapi::version::read_version;
 
 /// Finds the primary source of the typed host and asks its server for the version, with the credentials typed so far.
+/// A source that falls back to its oldest document checks out without a version when the server has no probe path.
 pub async fn run_version_check(manifest: &Manifest, body: &Map<String, Value>) -> Result<HostCheckResult, String> {
     let domain = body
         .get("domain")
@@ -33,6 +34,16 @@ pub async fn run_version_check(manifest: &Manifest, body: &Map<String, Value>) -
     let auth = read_typed_auth(manifest, body)?;
     let target = apply_domain(manifest, Some(domain));
     let answer = send_version_probe(&target, &versioning.probe.path, auth.as_ref()).await?;
+    let Some(answer) = answer else {
+        if versioning.fallback_to_oldest == Some(true) {
+            return Ok(HostCheckResult {
+                source: source.name.clone(),
+                label,
+                version: None,
+            });
+        }
+        return Err(format!("GET {}{} answered 404", target.base_url, versioning.probe.path));
+    };
     let version = read_version(&answer, &versioning.probe).map_err(|error| error.0)?;
     Ok(HostCheckResult {
         source: source.name.clone(),

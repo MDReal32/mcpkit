@@ -134,3 +134,30 @@ fn takes_endpoint_names_only_beside_openapi_sources() {
         ["tools[0] (repos/{owner}:get).name must match /^[a-z][a-z0-9_]*(:[a-z][a-z0-9_]*)*$/"]
     );
 }
+
+#[test]
+fn checks_fallback_to_oldest() {
+    let source = |version: Value| json!({ "name": "dc", "url": "dc-{version}.json", "version": version });
+    let probe = json!({ "path": "/v", "field": "version", "match": "^(\\d+)" });
+    let with = |extra: Value| {
+        let mut version = json!({ "probe": probe });
+        version
+            .as_object_mut()
+            .unwrap()
+            .extend(extra.as_object().unwrap().clone());
+        validate_manifest(&manifest_with(json!({ "sources": [source(version)] }), json!([])))
+    };
+
+    assert_eq!(
+        with(json!({ "known": { "9.0": "9.0.1" }, "fallbackToOldest": true })),
+        Vec::<String>::new()
+    );
+    assert_eq!(
+        with(json!({ "fallbackToOldest": true })),
+        ["openapi.sources[0].version.fallbackToOldest needs known or list"]
+    );
+    assert_eq!(
+        with(json!({ "known": { "9.0": "9.0.1" }, "fallbackToOldest": "yes" })),
+        ["openapi.sources[0].version.fallbackToOldest must be a boolean"]
+    );
+}

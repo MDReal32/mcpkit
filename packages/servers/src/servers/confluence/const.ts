@@ -8,7 +8,11 @@ export const CONFLUENCE_OPTIONS: ConversionOptions = {
   downloadPaths: ["/download$", "/thumbnail"],
 };
 
-/** The Data Center releases Atlassian publishes a description for, by version, with the release its file is named by. */
+/**
+ * The Data Center releases Atlassian publishes a description for, by version, with the release its file is named by.
+ * Confluence before 9.0 has none, and releases before 8.x lack `/rest/api/server-information` too, so those hosts are
+ * served from the 9.0 one.
+ */
 export const CONFLUENCE_DATA_CENTER_SPECS: Readonly<Record<string, string>> = {
   "9.0": "9.0.1",
   "9.2": "9.2.3",
@@ -50,6 +54,7 @@ export const CONFLUENCE_SOURCES: OpenApiSource[] = [
       probe: { path: "/rest/api/server-information", field: "version", match: "^(\\d+\\.\\d+)" },
       env: "CONFLUENCE_VERSION",
       known: CONFLUENCE_DATA_CENTER_SPECS,
+      fallbackToOldest: true,
     },
     options: CONFLUENCE_OPTIONS,
   },
