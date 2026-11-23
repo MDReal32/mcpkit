@@ -23,3 +23,6 @@ pub const PROBE_TOOL_NAME: &str = "openapi:version:probe";
 /// What a source without a version probe signs in against: the API's base url, which only a refused sign-in answers
 /// with 401.
 pub const SIGN_IN_PATH: &str = "/";
+
+/// The status a server answers a path it does not have.
+pub const NOT_FOUND_STATUS: u16 = 404;

@@ -15,4 +15,8 @@ pub struct SpecVersioning {
     /// Published versions by version, each with the text `{version}` is replaced by, for vendors without a listing.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub known: Option<IndexMap<String, String>>,
+    /// Serve a server older than every published document, or one whose probe path does not exist (a 404), from the
+    /// oldest published document instead of failing; needs `known` or `list`.
+    #[serde(default, rename = "fallbackToOldest", skip_serializing_if = "Option::is_none")]
+    pub fallback_to_oldest: Option<bool>,
 }

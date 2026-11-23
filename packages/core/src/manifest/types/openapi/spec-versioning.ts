@@ -10,4 +10,6 @@ export interface SpecVersioning {
   list?: VersionList;
   /** Published versions by version, each with the text `{version}` is replaced by, for vendors without a listing. */
   known?: Readonly<Record<string, string>>;
+  /** Serve a server older than every published document, or whose probe path answers 404, from the oldest published document instead of failing; needs `known` or `list`. */
+  fallbackToOldest?: boolean;
 }
