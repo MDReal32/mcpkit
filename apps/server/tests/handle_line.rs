@@ -132,7 +132,7 @@ async fn serves_a_modern_client_without_initialize() {
     );
     assert_eq!(
         searched["result"],
-        json!({ "content": [], "resultType": "complete", "structuredContent": [1, 2] })
+        json!({ "content": [], "resultType": "complete", "structuredContent": { "result": [1, 2] } })
     );
 }
 

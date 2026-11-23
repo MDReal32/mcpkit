@@ -184,7 +184,7 @@ async fn lists_the_tools_whose_ids_start_with_the_one_asked_for() {
     )
     .await;
 
-    let ids = listed["structuredContent"].as_array().unwrap();
+    let ids = listed["structuredContent"]["result"].as_array().unwrap();
     assert!(ids.contains(&json!("test:pets:pets/{petId}:get")), "{listed}");
     assert!(
         ids.iter().all(|id| id.as_str().unwrap().starts_with("test:pets:pets/")),
@@ -216,7 +216,7 @@ async fn builds_the_tools_of_every_source_from_the_nearest_older_document_and_ke
         text.contains("no OpenAPI document of selfhosted is published for 2.3; its tools come from the one of 2.1"),
         "{text}"
     );
-    let tools = listed["structuredContent"].as_array().unwrap();
+    let tools = listed["structuredContent"]["result"].as_array().unwrap();
     assert!(
         tools.contains(&json!([
             "test:pets:pets/{petId}:get",

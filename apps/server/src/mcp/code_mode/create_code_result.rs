@@ -6,7 +6,7 @@ use crate::mcp::consts::RESULT_TYPE_COMPLETE;
 use crate::mcp::tools::create_text_content;
 use serde_json::{Value, json};
 
-/// The MCP `CallToolResult` of a run, `resultType` `complete`. What the function returned lives only in `structuredContent`, exactly as returned (see
+/// The MCP `CallToolResult` of a run, `resultType` `complete`. What the function returned lives only in `structuredContent.result`, exactly as returned (see
 /// `create_structured_content`), and is never repeated in `content`; a function that returns nothing has none.
 /// `content` holds only `text` items, as MCP clients validate it: the console lines, and a thrown error, which makes it
 /// an `isError` result.
@@ -46,7 +46,7 @@ mod tests {
             json!({
                 "content": [{ "type": "text", "text": "--- console ---\none" }],
                 "resultType": "complete",
-                "structuredContent": { "a": 1 },
+                "structuredContent": { "result": { "a": 1 } },
             })
         );
     }
@@ -59,7 +59,7 @@ mod tests {
         });
         assert_eq!(
             result,
-            json!({ "content": [], "resultType": "complete", "structuredContent": ["a", { "b": 1 }] })
+            json!({ "content": [], "resultType": "complete", "structuredContent": { "result": ["a", { "b": 1 }] } })
         );
     }
 

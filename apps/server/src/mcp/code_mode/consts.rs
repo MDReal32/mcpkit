@@ -19,6 +19,9 @@ pub const MAX_STACK_SIZE: usize = 1024 * 1024;
 /// About 6000 tokens; longer output is cut so one run cannot flood the model's context.
 pub const MAX_OUTPUT_CHARS: usize = 24_000;
 
+/// The key of the returned value in `structuredContent`, which MCP requires to be an object.
+pub const STRUCTURED_RESULT_KEY: &str = "result";
+
 pub const TRUNCATED_MARKER: &str = "--- TRUNCATED ---";
 
 /// How many group files `codemode.tools` downloads at once for a server split into groups.
@@ -38,7 +41,7 @@ pub const WRAPPER: &str = include_str!("wrapper.js");
 
 pub const CODE_PLACEHOLDER: &str = "__USEMCPKIT_CODE__";
 
-pub const SANDBOX_NOTE: &str = "It runs in a sandbox with no network or file access. What it returns is the structuredContent, exactly as returned; \
+pub const SANDBOX_NOTE: &str = "It runs in a sandbox with no network or file access. What it returns is structuredContent.result, exactly as returned; \
 the text content holds only what it wrote with console.log (cut at about 24000 characters) or the error it threw. Return only what is needed.";
 
 pub const SEARCH_API: &str = "In the code:
