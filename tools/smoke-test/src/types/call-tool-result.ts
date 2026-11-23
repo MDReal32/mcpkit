@@ -2,7 +2,7 @@ import type { TextContent } from "./text-content";
 
 export interface CallToolResult {
   content: TextContent[];
-  structuredContent?: unknown;
+  structuredContent?: { result?: unknown };
   isError?: boolean;
   resultType: string;
 }

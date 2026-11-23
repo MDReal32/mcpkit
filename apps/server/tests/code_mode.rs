@@ -122,7 +122,7 @@ async fn search_finds_tools_with_their_ids_and_schemas() {
     assert_eq!(
         found,
         json!({
-            "content": [], "resultType": "complete", "structuredContent": [{ "id": "test:tracker:issues:search", "required": ["jql"] }],
+            "content": [], "resultType": "complete", "structuredContent": { "result": [{ "id": "test:tracker:issues:search", "required": ["jql"] }] },
         })
     );
 }
@@ -147,7 +147,7 @@ async fn search_lists_every_tool_when_no_server_is_named() {
 
     assert_eq!(
         found,
-        json!({ "content": [], "resultType": "complete", "structuredContent": ["test:tracker:issues:search"] })
+        json!({ "content": [], "resultType": "complete", "structuredContent": { "result": ["test:tracker:issues:search"] } })
     );
     assert!(
         error_text(&picked_group).starts_with("Error: codemode.tools needs a server to pick a group from\n"),
@@ -176,11 +176,11 @@ async fn search_finds_the_tools_whose_ids_start_with_the_one_asked_for() {
 
     assert_eq!(
         found,
-        json!({ "content": [], "resultType": "complete", "structuredContent": ["test:tracker:issues:search"] })
+        json!({ "content": [], "resultType": "complete", "structuredContent": { "result": ["test:tracker:issues:search"] } })
     );
     assert_eq!(
         none,
-        json!({ "content": [], "resultType": "complete", "structuredContent": [] })
+        json!({ "content": [], "resultType": "complete", "structuredContent": { "result": [] } })
     );
     assert!(
         error_text(&unknown)
@@ -225,7 +225,7 @@ async fn execute_calls_tools_and_returns_the_console_and_the_value() {
         json!({
             "content": [{ "type": "text", "text": "--- console ---\nfound 1 {\"first\":\"A-1\"}" }],
             "resultType": "complete",
-            "structuredContent": "A-1",
+            "structuredContent": { "result": "A-1" },
         })
     );
 }
@@ -244,7 +244,7 @@ async fn a_returned_object_is_the_structured_content_and_not_repeated_in_content
 
     assert_eq!(
         result,
-        json!({ "content": [], "resultType": "complete", "structuredContent": { "key": "A-1", "result": 2, "text": "x".repeat(50000) } })
+        json!({ "content": [], "resultType": "complete", "structuredContent": { "result": { "key": "A-1", "result": 2, "text": "x".repeat(50000) } } })
     );
 }
 
@@ -261,7 +261,7 @@ async fn a_large_array_is_the_whole_structured_content_and_not_in_content() {
     .await;
 
     assert_eq!(result["content"], json!([]));
-    assert_eq!(result["structuredContent"].as_array().unwrap().len(), 100);
+    assert_eq!(result["structuredContent"]["result"].as_array().unwrap().len(), 100);
 }
 
 #[tokio::test]
