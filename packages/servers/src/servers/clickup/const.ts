@@ -18,12 +18,16 @@ export const CLICKUP_SOURCES: OpenApiSource[] = [
   },
 ];
 
+/** ClickUp's MCP server publishes the OAuth metadata (PKCE S256, dynamic client registration) the sign-in uses. */
+export const CLICKUP_OAUTH_DISCOVERY_URL = "https://mcp.clickup.com/mcp";
+
 export const CLICKUP_BASE: Omit<Manifest, "name" | "description" | "tools"> = {
   category: "productivity",
   version: "1.0.0",
   baseUrl: "https://api.clickup.com",
   headers: { Accept: "application/json" },
   auth: [
+    { type: "oauth", discovery: CLICKUP_OAUTH_DISCOVERY_URL },
     {
       type: "header",
       name: "Authorization",
