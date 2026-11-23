@@ -29,7 +29,7 @@ const runCode = async (session: StdioSession, id: number, name: string, code: st
   assert.equal(answered.id, id);
   assert.equal(answered.result?.isError, undefined, JSON.stringify(answered.result));
   assert.equal(answered.result?.resultType, RESULT_TYPE_COMPLETE);
-  return answered.result?.structuredContent;
+  return answered.result?.structuredContent?.result;
 };
 
 const talkToServer = async (session: StdioSession, serverCount: number) => {

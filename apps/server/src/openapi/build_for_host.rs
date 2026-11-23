@@ -22,7 +22,8 @@ use usemcpkit_registry::{Fetch, RegistryContext};
 /// Finds the host's sources and their versions and builds their tools. The server is asked for a version, signing in
 /// as a tool call does, unless the source has no versions or its env var sets one; sources asking the same path share
 /// the answer. With no host known yet, the sign-in asks for one. A version older than every published document keeps
-/// only the hand-written tools that apply to it, and is an error when none does.
+/// only the hand-written tools that apply to it, and is an error when none does, unless the source falls back to its
+/// oldest document (then so does a server whose probe path does not exist).
 pub async fn build_for_host<F: Fetch>(
     server: &RegistryServer,
     manifest: &Manifest,
@@ -68,7 +69,7 @@ pub async fn build_for_host<F: Fetch>(
                     .iter()
                     .find(|(asked, _)| asked == path)
                     .map(|(_, answer)| answer);
-                Some(read_probed_version(answer, versioning)?)
+                read_probed_version(answer, versioning)?
             }
         };
         let spec_version = match choose_spec(source, version.as_deref(), context).await? {

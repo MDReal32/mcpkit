@@ -5,8 +5,12 @@ use usemcpkit_auth::ResolvedAuth;
 use usemcpkit_manifest::Manifest;
 
 /// GETs the probe path of a manifest whose domain is filled in, with its headers and the typed auth, and reads the
-/// JSON answer.
-pub async fn send_version_probe(manifest: &Manifest, path: &str, auth: Option<&ResolvedAuth>) -> Result<Value, String> {
+/// JSON answer; `None` when the server has no such path (a 404).
+pub async fn send_version_probe(
+    manifest: &Manifest,
+    path: &str,
+    auth: Option<&ResolvedAuth>,
+) -> Result<Option<Value>, String> {
     let mut url = Url::parse(&format!("{}{path}", manifest.base_url))
         .map_err(|error| format!("{}{path} is not a URL: {error}", manifest.base_url))?;
     if let Some(auth) = auth
@@ -35,6 +39,9 @@ pub async fn send_version_probe(manifest: &Manifest, path: &str, auth: Option<&R
     if status == reqwest::StatusCode::UNAUTHORIZED || status == reqwest::StatusCode::FORBIDDEN {
         return Err(REFUSED_CHECK_MESSAGE.to_owned());
     }
+    if status == reqwest::StatusCode::NOT_FOUND {
+        return Ok(None);
+    }
     if !status.is_success() {
         return Err(format!("GET {url} answered {}", status.as_u16()));
     }
@@ -42,5 +49,7 @@ pub async fn send_version_probe(manifest: &Manifest, path: &str, auth: Option<&R
         .text()
         .await
         .map_err(|error| format!("GET {url} failed: {error}"))?;
-    serde_json::from_str(&text).map_err(|error| format!("GET {url} did not answer JSON: {error}"))
+    serde_json::from_str(&text)
+        .map(Some)
+        .map_err(|error| format!("GET {url} did not answer JSON: {error}"))
 }

@@ -103,8 +103,18 @@ fn write(root: &Path, path: &str, text: &str) {
 }
 
 fn pets_server(home: &TempDir, http: Rc<RouteClient>) -> McpServer<FolderFetcher> {
+    pets_server_of(home, http, pets_manifest())
+}
+
+fn pets_falling_back_to_the_oldest() -> Value {
+    let mut manifest = pets_manifest();
+    manifest["openapi"]["sources"][0]["version"]["fallbackToOldest"] = json!(true);
+    manifest
+}
+
+fn pets_server_of(home: &TempDir, http: Rc<RouteClient>, manifest: Value) -> McpServer<FolderFetcher> {
     let registry = home.path().join("registry");
-    let text = pets_manifest().to_string();
+    let text = manifest.to_string();
     write(&registry, "test/pets.json", &text);
     write(&registry, "specs/versions.json", &json!(["2.1", "2.4"]).to_string());
     write(&registry, "specs/pets-2.1.json", &pets_spec(false).to_string());
@@ -184,7 +194,7 @@ async fn lists_the_tools_whose_ids_start_with_the_one_asked_for() {
     )
     .await;
 
-    let ids = listed["structuredContent"].as_array().unwrap();
+    let ids = listed["structuredContent"]["result"].as_array().unwrap();
     assert!(ids.contains(&json!("test:pets:pets/{petId}:get")), "{listed}");
     assert!(
         ids.iter().all(|id| id.as_str().unwrap().starts_with("test:pets:pets/")),
@@ -216,7 +226,7 @@ async fn builds_the_tools_of_every_source_from_the_nearest_older_document_and_ke
         text.contains("no OpenAPI document of selfhosted is published for 2.3; its tools come from the one of 2.1"),
         "{text}"
     );
-    let tools = listed["structuredContent"].as_array().unwrap();
+    let tools = listed["structuredContent"]["result"].as_array().unwrap();
     assert!(
         tools.contains(&json!([
             "test:pets:pets/{petId}:get",
@@ -322,6 +332,78 @@ async fn reports_a_version_older_than_every_document_that_no_hand_written_tool_c
     let text = text_of(&listed);
     assert!(
         text.contains("test:pets is unavailable: no OpenAPI document of selfhosted is published for 0.9 or older"),
+        "{text}"
+    );
+}
+
+#[tokio::test]
+async fn builds_a_version_older_than_every_document_from_the_oldest_one_when_the_source_falls_back() {
+    let home = TempDir::new().unwrap();
+    let server = pets_server_of(&home, pets_api_at("0.9"), pets_falling_back_to_the_oldest());
+
+    let listed = run_code(
+        &server,
+        SEARCH_TOOL,
+        r#"async () => (await codemode.tools("test:pets")).map((tool) => tool.id)"#,
+    )
+    .await;
+
+    let text = text_of(&listed);
+    assert!(
+        text.contains("no OpenAPI document of selfhosted is published for 0.9; its tools come from the one of 2.1"),
+        "{text}"
+    );
+    assert!(text.contains("\"test:pets:pets/{petId}:get\""), "{text}");
+    assert!(!text.contains("pets/{petId}:delete"), "{text}");
+    let dir = home.path().join("manifests/openapi/test/pets");
+    let hosts: Value = serde_json::from_str(&std::fs::read_to_string(dir.join("hosts.json")).unwrap()).unwrap();
+    assert_eq!(
+        hosts["pets.test"]["sources"][0],
+        json!({ "source": "selfhosted", "version": "0.9", "specVersion": "2.1" })
+    );
+}
+
+#[tokio::test]
+async fn builds_a_server_without_the_probe_path_from_the_oldest_document_when_the_source_falls_back() {
+    let home = TempDir::new().unwrap();
+    let http = Rc::new(RouteClient::new([]));
+    let server = pets_server_of(&home, http, pets_falling_back_to_the_oldest());
+
+    let listed = run_code(
+        &server,
+        SEARCH_TOOL,
+        r#"async () => (await codemode.tools("test:pets")).map((tool) => tool.id)"#,
+    )
+    .await;
+
+    let text = text_of(&listed);
+    assert!(
+        text.contains(
+            "the version of the selfhosted server could not be read; its tools come from the oldest OpenAPI document, the one of 2.1"
+        ),
+        "{text}"
+    );
+    assert!(text.contains("\"test:pets:pets/{petId}:get\""), "{text}");
+    let dir = home.path().join("manifests/openapi/test/pets");
+    let hosts: Value = serde_json::from_str(&std::fs::read_to_string(dir.join("hosts.json")).unwrap()).unwrap();
+    assert_eq!(
+        hosts["pets.test"]["sources"][0],
+        json!({ "source": "selfhosted", "specVersion": "2.1" })
+    );
+}
+
+#[tokio::test]
+async fn names_the_env_var_when_the_probe_path_does_not_exist_and_the_source_does_not_fall_back() {
+    let home = TempDir::new().unwrap();
+    let mut manifest = pets_manifest();
+    manifest["openapi"]["sources"][0]["version"]["env"] = json!("PETS_VERSION");
+    let server = pets_server_of(&home, Rc::new(RouteClient::new([])), manifest);
+
+    let listed = run_code(&server, SEARCH_TOOL, r#"async () => codemode.tools("test:pets")"#).await;
+
+    let text = text_of(&listed);
+    assert!(
+        text.contains("GET /api/version answered 404, so this server may be older than the release that has it; set PETS_VERSION to its version"),
         "{text}"
     );
 }
