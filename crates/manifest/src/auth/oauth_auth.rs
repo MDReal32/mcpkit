@@ -34,4 +34,8 @@ pub struct OAuthAuth {
     pub client_authentication: Option<ClientAuthentication>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub token_headers: Option<IndexMap<String, String>>,
+    /// The resource indicator (RFC 8707) sent with the authorization request and every token request, for an
+    /// authorization server that refuses a request without it (`invalid_target`), such as the MCP server url itself.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub resource: Option<String>,
 }

@@ -34,6 +34,9 @@ pub async fn request_token(
     );
     let mut body = form_urlencoded::Serializer::new(String::new());
     body.extend_pairs(grant);
+    if let Some(resource) = &auth.resource {
+        body.append_pair("resource", resource);
+    }
     if auth.client_authentication == Some(ClientAuthentication::Basic) {
         let credentials = encode_basic_credentials(&auth.client_id, secret.as_deref().unwrap_or_default());
         headers.insert("Authorization".to_owned(), credentials);

@@ -18,6 +18,9 @@ pub fn build_authorization_url(auth: &OAuthAuth, request: &AuthorizationRequest)
     set_search_param(&mut params, "code_challenge", request.challenge);
     set_search_param(&mut params, "code_challenge_method", "S256");
     set_search_param(&mut params, "state", request.state);
+    if let Some(resource) = &auth.resource {
+        set_search_param(&mut params, "resource", resource);
+    }
     if let Some(scopes) = auth.scopes.as_ref().filter(|scopes| !scopes.is_empty()) {
         set_search_param(&mut params, "scope", &scopes.join(" "));
     }
@@ -55,6 +58,29 @@ mod tests {
             "https://auth.example.com/authorize?prompt=none&duration=permanent&response_type=code&client_id=client-1\
              &redirect_uri=http%3A%2F%2F127.0.0.1%3A8976%2Fcallback&code_challenge=c&code_challenge_method=S256\
              &state=s&scope=repo+user"
+        );
+    }
+
+    #[test]
+    fn names_the_resource_after_the_state() {
+        let auth: OAuthAuth = serde_json::from_value(json!({
+            "authorizationUrl": "https://auth.example.com/authorize",
+            "tokenUrl": "https://auth.example.com/token",
+            "clientId": "client-1",
+            "resource": "https://mcp.example.com/mcp",
+        }))
+        .unwrap();
+        let request = AuthorizationRequest {
+            redirect_uri: "http://127.0.0.1:8976/callback",
+            challenge: "c",
+            state: "s",
+        };
+
+        let url = build_authorization_url(&auth, &request).unwrap();
+
+        assert!(
+            url.ends_with("&state=s&resource=https%3A%2F%2Fmcp.example.com%2Fmcp"),
+            "{url}"
         );
     }
 }

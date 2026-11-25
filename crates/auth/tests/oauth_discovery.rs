@@ -285,3 +285,38 @@ fn publishes_a_document_that_names_the_client_id_it_is_served_at() {
             .contains(&json!("refresh_token"))
     );
 }
+
+#[tokio::test]
+async fn sends_the_resource_with_the_authorization_request_and_every_token_request() {
+    let home = tempfile::tempdir().unwrap();
+    let http = server(true);
+    let context = context(home.path(), http.clone());
+    let spec: AuthSpec = serde_json::from_value(json!({
+        "type": "oauth",
+        "discovery": RESOURCE,
+        "resource": RESOURCE,
+    }))
+    .unwrap();
+    let auth = spec.as_interactive().unwrap().clone();
+    let shown = Rc::new(std::cell::RefCell::new(Vec::new()));
+    let recorder = Rc::clone(&shown);
+    let handler: AuthorizationUrlHandler = Rc::new(move |url: &str| {
+        recorder.borrow_mut().push(url.to_owned());
+        approve_sign_in(url, None);
+    });
+
+    sign_in_once(&demo(), &auth, &context, &handler).await.unwrap();
+    let mut stored = read_stored_token(home.path(), &demo()).await.unwrap().unwrap();
+    stored.expires_at = Some(1.0);
+    read_fresh_access_token(&demo(), &auth, &stored, &context)
+        .await
+        .unwrap();
+
+    assert_eq!(query_param(&shown.borrow()[0], "resource").as_deref(), Some(RESOURCE));
+    let requests = http.requests.borrow();
+    let grants: Vec<_> = requests.iter().filter(|request| request.url == TOKEN_URL).collect();
+    assert_eq!(grants.len(), 2);
+    for grant in grants {
+        assert_eq!(form_value(&grant.body, "resource").as_deref(), Some(RESOURCE));
+    }
+}
