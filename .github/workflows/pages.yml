@@ -7,6 +7,7 @@ on:
     paths:
       - apps/npx/package.json
       - apps/video/**
+      - crates/auth/client-metadata/**
       - crates/core/**
       - crates/manifest/**
       - crates/napi/**

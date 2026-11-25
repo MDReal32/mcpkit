@@ -35,5 +35,9 @@ pub fn read_authorization_server_metadata(
         authorization_endpoint,
         token_endpoint,
         registration_endpoint: read_string(document, "registration_endpoint"),
+        supports_client_id_metadata_document: document
+            .get("client_id_metadata_document_supported")
+            .and_then(Value::as_bool)
+            .unwrap_or(false),
     })
 }
