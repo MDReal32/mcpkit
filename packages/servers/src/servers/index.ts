@@ -9,6 +9,7 @@ import { gitlab } from "./gitlab/gitlab";
 import { jira } from "./jira/jira";
 import { medium } from "./medium/medium";
 import { n8n } from "./n8n/n8n";
+import { ngrok } from "./ngrok/ngrok";
 import { postman } from "./postman/postman";
 import { reddit } from "./reddit/reddit";
 import { teams } from "./teams/teams";
@@ -26,6 +27,7 @@ export const servers = [
   jira,
   medium,
   n8n,
+  ngrok,
   postman,
   reddit,
   teams,

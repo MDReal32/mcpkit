@@ -2,7 +2,9 @@ use serde_json::{Value, json};
 use std::path::Path;
 use std::rc::Rc;
 use url::Url;
-use usemcpkit_auth::oauth::{AuthorizationUrlHandler, read_fresh_access_token, sign_in, sign_in_once};
+use usemcpkit_auth::oauth::{
+    AuthorizationUrlHandler, CLIENT_METADATA_URL, read_fresh_access_token, sign_in, sign_in_once,
+};
 use usemcpkit_auth::token_store::read_stored_token;
 use usemcpkit_auth::{AuthContext, AuthState, ServerKey};
 use usemcpkit_core::env::Env;
@@ -39,6 +41,10 @@ fn discovering() -> OAuthAuth {
 }
 
 fn server(registration: bool) -> Rc<RecordingClient> {
+    server_of(registration, false)
+}
+
+fn server_of(registration: bool, client_metadata_documents: bool) -> Rc<RecordingClient> {
     let mut metadata = json!({
         "issuer": "https://auth.example.com",
         "authorization_endpoint": "https://auth.example.com/authorize",
@@ -47,6 +53,9 @@ fn server(registration: bool) -> Rc<RecordingClient> {
     });
     if registration {
         metadata["registration_endpoint"] = json!(REGISTER_URL);
+    }
+    if client_metadata_documents {
+        metadata["client_id_metadata_document_supported"] = json!(true);
     }
     Rc::new(RecordingClient::new([
         (
@@ -184,5 +193,95 @@ async fn names_a_server_that_publishes_no_metadata() {
     assert!(
         error.0.contains("publishes no authorization server metadata"),
         "{error}"
+    );
+}
+
+#[tokio::test]
+async fn signs_in_with_the_client_metadata_document_when_the_server_cannot_register_clients() {
+    let home = tempfile::tempdir().unwrap();
+    let http = server_of(false, true);
+    let shown = Rc::new(std::cell::RefCell::new(Vec::new()));
+    let recorder = Rc::clone(&shown);
+    let handler: AuthorizationUrlHandler = Rc::new(move |url: &str| {
+        recorder.borrow_mut().push(url.to_owned());
+        approve_sign_in(url, None);
+    });
+
+    sign_in(&demo(), &discovering(), &context(home.path(), http.clone()), &*handler)
+        .await
+        .unwrap();
+
+    let url = shown.borrow()[0].clone();
+    assert_eq!(query_param(&url, "client_id").as_deref(), Some(CLIENT_METADATA_URL));
+    let requests = http.requests.borrow();
+    assert!(requests.iter().all(|request| request.url != REGISTER_URL));
+    let token_request = requests.iter().find(|request| request.url == TOKEN_URL).unwrap();
+    assert_eq!(
+        form_value(&token_request.body, "client_id").as_deref(),
+        Some(CLIENT_METADATA_URL)
+    );
+}
+
+#[tokio::test]
+async fn refreshes_with_the_client_metadata_document() {
+    let home = tempfile::tempdir().unwrap();
+    let http = server_of(false, true);
+    let context = context(home.path(), http.clone());
+    let auth = discovering();
+    let handler = approving();
+
+    sign_in_once(&demo(), &auth, &context, &handler).await.unwrap();
+    let mut stored = read_stored_token(home.path(), &demo()).await.unwrap().unwrap();
+    stored.expires_at = Some(1.0);
+    read_fresh_access_token(&demo(), &auth, &stored, &context)
+        .await
+        .unwrap();
+
+    let requests = http.requests.borrow();
+    let refresh = requests
+        .iter()
+        .filter(|request| request.url == TOKEN_URL)
+        .find(|request| form_value(&request.body, "grant_type").as_deref() == Some("refresh_token"))
+        .unwrap();
+    assert_eq!(
+        form_value(&refresh.body, "client_id").as_deref(),
+        Some(CLIENT_METADATA_URL)
+    );
+}
+
+#[tokio::test]
+async fn prefers_registering_a_client_when_the_server_offers_both() {
+    let home = tempfile::tempdir().unwrap();
+    let http = server_of(true, true);
+
+    sign_in(
+        &demo(),
+        &discovering(),
+        &context(home.path(), http.clone()),
+        &*approving(),
+    )
+    .await
+    .unwrap();
+
+    let requests = http.requests.borrow();
+    let token_request = requests.iter().find(|request| request.url == TOKEN_URL).unwrap();
+    assert_eq!(
+        form_value(&token_request.body, "client_id").as_deref(),
+        Some("dynamic-1")
+    );
+}
+
+#[test]
+fn publishes_a_document_that_names_the_client_id_it_is_served_at() {
+    let document: Value = serde_json::from_str(include_str!("../client-metadata/oauth-client.json")).unwrap();
+
+    assert_eq!(document["client_id"], CLIENT_METADATA_URL);
+    assert_eq!(document["token_endpoint_auth_method"], "none");
+    assert_eq!(document["redirect_uris"], json!(["http://127.0.0.1/callback"]));
+    assert!(
+        document["grant_types"]
+            .as_array()
+            .unwrap()
+            .contains(&json!("refresh_token"))
     );
 }

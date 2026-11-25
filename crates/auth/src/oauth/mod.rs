@@ -12,7 +12,7 @@ mod refresh_stored_token;
 mod request_token;
 mod sign_in;
 
-pub use discovery::resolve_oauth_endpoints;
+pub use discovery::{CLIENT_METADATA_URL, resolve_oauth_endpoints};
 pub use is_token_expired::is_token_expired;
 pub use now_epoch_ms::now_epoch_ms;
 pub use pending_token::PendingToken;
