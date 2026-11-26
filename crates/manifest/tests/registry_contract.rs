@@ -53,16 +53,20 @@ fn reads_and_writes_every_registry_file_unchanged() {
     for path in files {
         let (text, original) = read_json(&path);
         let relative = path.strip_prefix(&dir).expect("inside the registry");
-        let is_openapi_document = ["openapi", "swagger"].iter().any(|key| original.get(key).is_some());
-        if relative.components().count() == 3 && is_openapi_document {
+        let is_openapi_document =
+            original.get("paths").is_some() && ["openapi", "swagger"].iter().any(|key| original.get(key).is_some());
+        if is_openapi_document {
             documents += 1;
             continue;
         }
+        let is_part = original
+            .as_object()
+            .is_some_and(|object| object.len() == 1 && object.contains_key("tools"));
         let written = if relative == Path::new("index.json") {
             let index: RegistryIndex = serde_json::from_str(&text).unwrap_or_else(|error| panic!("index: {error}"));
             assert!(!index.servers.is_empty(), "the index lists no servers");
             serde_json::to_value(&index).expect("index serializes")
-        } else if relative.components().count() == 3 {
+        } else if is_part {
             let part: PartFile =
                 serde_json::from_str(&text).unwrap_or_else(|error| panic!("{}: {error}", relative.display()));
             parts += 1;
