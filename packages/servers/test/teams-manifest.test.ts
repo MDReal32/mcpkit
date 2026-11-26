@@ -1,6 +1,6 @@
 import { isValidManifest } from "@usemcpkit/native";
 import { describe, expect, it } from "vitest";
-import { teams } from "../src/servers/teams/teams";
+import { teams } from "../src/servers/communication/teams";
 
 describe("teams manifest", () => {
   it("is valid and describes a form input for every credential it forwards", () => {

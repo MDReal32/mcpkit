@@ -1,16 +1,16 @@
 import { validateManifest } from "@usemcpkit/native";
 import { describe, expect, it } from "vitest";
-import { clickup } from "../src/servers/clickup/clickup";
-import { confluence } from "../src/servers/confluence/confluence";
-import { discord } from "../src/servers/discord/discord";
-import { figma } from "../src/servers/figma/figma";
-import { github } from "../src/servers/github/github";
-import { gitlab } from "../src/servers/gitlab/gitlab";
-import { jira } from "../src/servers/jira/jira";
-import { medium } from "../src/servers/medium/medium";
-import { n8n } from "../src/servers/n8n/n8n";
-import { reddit } from "../src/servers/reddit/reddit";
-import { trello } from "../src/servers/trello/trello";
+import { n8n } from "../src/servers/automation/n8n";
+import { discord } from "../src/servers/communication/discord";
+import { medium } from "../src/servers/communication/medium";
+import { reddit } from "../src/servers/communication/reddit";
+import { figma } from "../src/servers/design/figma";
+import { github } from "../src/servers/git/github";
+import { gitlab } from "../src/servers/git/gitlab";
+import { confluence } from "../src/servers/orgs/atlassian/confluence";
+import { jira } from "../src/servers/orgs/atlassian/jira";
+import { trello } from "../src/servers/orgs/atlassian/trello";
+import { clickup } from "../src/servers/productivity/clickup";
 
 const OPENAPI_SERVERS = [github, gitlab, jira, confluence, clickup, discord, figma, n8n, reddit, medium, trello];
 

@@ -1,6 +1,6 @@
 import { nameUpstreamTool } from "@usemcpkit/core";
 import { describe, expect, it } from "vitest";
-import { postman } from "../src/servers/postman/postman";
+import { postman } from "../src/servers/api/postman";
 
 /** The Full mode tools of github.com/postmanlabs/postman-mcp-server (`full` in `src/enabledResources.ts`, 2.15.0). */
 const UPSTREAM_TOOLS =

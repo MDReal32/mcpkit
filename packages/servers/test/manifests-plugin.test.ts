@@ -66,7 +66,9 @@ describe("compileServers", () => {
         .update(spec?.json ?? "")
         .digest("hex"),
     );
-    expect(dependencies.some((dependency) => dependency.endsWith("servers/reddit/openapi.json"))).toBe(true);
+    expect(dependencies.some((dependency) => dependency.endsWith("servers/communication/reddit/openapi.json"))).toBe(
+      true,
+    );
     expect(dependencies.some((dependency) => dependency.endsWith("src/sdk/index.ts"))).toBe(true);
   });
 

@@ -5,7 +5,8 @@ import type { ServerEntry } from "./types/server-entry";
 
 /**
  * A folder holding `<folder>.ts` is a server and a folder that only holds other folders groups them.
- * `dir` is the path below serversDir, so `github/actions/actions.ts` is the server `github_actions`.
+ * `dir` is the path below serversDir, so `orgs/atlassian/jira/jira.ts` is the server `jira`: the folders above a server
+ * only mirror its category.
  */
 export const listServerEntries = async (serversDir: string, parent = ""): Promise<ServerEntry[]> => {
   const folders = (await readdir(join(serversDir, parent), { withFileTypes: true }))

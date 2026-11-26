@@ -1,5 +1,5 @@
 export interface JetBrainsIde {
-  /** The server name, also its folder in `src/servers`. */
+  /** The server name, also its folder in `src/servers/orgs/jetbrains`. */
   name: string;
   /** How JetBrains writes the product, as the name shown to the user. */
   productName: string;
