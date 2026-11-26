@@ -1,0 +1,160 @@
+---
+import { PROMO_POSTER_URL } from "../const";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const poster = new URL(PROMO_POSTER_URL, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#101116" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={poster} />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    color-scheme: dark;
+    --bg: #101116;
+    --surface: #171820;
+    --surface-raised: #1e202a;
+    --border: #2b2d39;
+    --border-strong: #3b3d50;
+    --text: #f1f1f8;
+    --muted: #a5a7ba;
+    --quiet: #85889c;
+    --accent: #b5a8ff;
+    --accent-strong: #c5baff;
+    --accent-ink: #211637;
+    --accent-soft: rgba(181, 168, 255, 0.12);
+    --accent-border: rgba(181, 168, 255, 0.4);
+    --glow: rgba(181, 168, 255, 0.1);
+    --danger: #ff8a8a;
+    --shadow: 0 40px 120px rgba(0, 0, 0, 0.5);
+    --sans: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "SFMono-Regular", ui-monospace, Menlo, Consolas, "Liberation Mono", monospace;
+    --radius: 14px;
+    --gutter: 24px;
+    --content: 1120px;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background: radial-gradient(ellipse 70% 40% at 50% 0%, var(--glow), transparent 70%), var(--bg);
+    background-repeat: no-repeat;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  code {
+    font-family: var(--mono);
+    font-size: 0.92em;
+  }
+
+  .container {
+    width: 100%;
+    max-width: calc(var(--content) + 2 * var(--gutter));
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  .section {
+    padding: 104px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 14px;
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+
+  .eyebrow::before {
+    width: 14px;
+    height: 1px;
+    background: var(--accent);
+    content: "";
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  .section-title {
+    margin: 0;
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+  }
+
+  .section-lead {
+    max-width: 640px;
+    margin: 16px 0 0;
+    color: var(--muted);
+    font-size: 18px;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+</style>

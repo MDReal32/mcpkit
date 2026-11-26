@@ -13,6 +13,7 @@ PROJECT_BUILDS=(
   "packages/core/build:core"
   "packages/native/build:native"
   "packages/servers/build:servers"
+  "apps/site/build:site"
   "apps/window/ui/build:ui"
 )
 RELEASE_BINARIES=(usemcpkit usemcpkit-servers usemcpkit-window)

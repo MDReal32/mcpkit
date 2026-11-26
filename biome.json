@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "includes": ["**", "!**/node_modules", "!**/build", "!**/.nx", "!**/.yarn"]
+    "includes": ["**", "!**/node_modules", "!**/build", "!**/.nx", "!**/.yarn", "!**/.astro", "!**/.wrangler"]
   },
   "formatter": {
     "enabled": true,
@@ -59,7 +59,7 @@
   },
   "overrides": [
     {
-      "includes": ["**/vite.config.ts"],
+      "includes": ["**/vite.config.ts", "**/astro.config.ts"],
       "linter": {
         "rules": {
           "style": {
@@ -74,6 +74,21 @@
         "rules": {
           "style": {
             "noDefaultExport": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["**/*.astro"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnusedImports": "off",
+            "noUnusedVariables": "off"
+          },
+          "style": {
+            "useConst": "off",
+            "useImportType": "off"
           }
         }
       }

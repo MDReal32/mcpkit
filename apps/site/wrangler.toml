@@ -1,0 +1,17 @@
+name = "usemcpkit-site"
+main = "worker/main.ts"
+compatibility_date = "2026-01-01"
+workers_dev = false
+
+[assets]
+directory = "build"
+not_found_handling = "404-page"
+run_worker_first = ["/api/*", "/v1/*"]
+
+[[routes]]
+pattern = "mcpkit.mdreal.org"
+custom_domain = true
+
+[[services]]
+binding = "ANALYTICS"
+service = "mcpkit"

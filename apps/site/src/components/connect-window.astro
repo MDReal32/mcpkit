@@ -1,0 +1,202 @@
+---
+---
+
+<figure class="window" aria-label="The window usemcpkit opens when a tool needs access">
+  <div class="titlebar" aria-hidden="true">
+    <span></span><span></span><span></span>
+    <em>usemcpkit · Connect</em>
+  </div>
+  <div class="body" aria-hidden="true">
+    <div class="head">
+      <span class="mark">›_</span>
+      <div>
+        <h3>Connect Cloudflare</h3>
+        <p>A tool call needs access to Cloudflare. What you enter is saved on this computer and used for later calls.</p>
+      </div>
+    </div>
+    <p class="legend">Credential</p>
+    <div class="methods">
+      <span>Sign in with OAuth2</span>
+      <span class="selected">API token</span>
+    </div>
+    <p class="label">Access token</p>
+    <div class="input"><span>••••••••••••••••</span></div>
+    <p class="note">Saved on this computer only.</p>
+    <div class="buttons">
+      <span class="ghost">Cancel</span>
+      <span class="primary">Save and continue →</span>
+    </div>
+  </div>
+  <figcaption>The first call that needs access opens this window. Nothing is asked up front.</figcaption>
+</figure>
+
+<style>
+  .window {
+    width: 100%;
+    max-width: 460px;
+    margin: 0;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .titlebar {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-bottom: 0;
+    border-radius: 14px 14px 0 0;
+    background: var(--surface-raised);
+  }
+
+  .titlebar span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border-strong);
+  }
+
+  .titlebar em {
+    margin-left: 8px;
+    color: var(--quiet);
+    font-family: var(--mono);
+    font-size: 11px;
+    font-style: normal;
+  }
+
+  .body {
+    padding: 22px;
+    border: 1px solid var(--border);
+    border-radius: 0 0 14px 14px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+
+  .head {
+    display: flex;
+    gap: 14px;
+  }
+
+  .mark {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid #474068;
+    border-radius: 9px;
+    background: #24223a;
+    color: #c4b8ff;
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+  }
+
+  .head p {
+    margin: 4px 0 0;
+    color: var(--muted);
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+
+  .legend,
+  .label {
+    margin: 20px 0 6px;
+    color: #dfe0ed;
+    font-size: 12px;
+    font-weight: 650;
+  }
+
+  .label {
+    margin-top: 16px;
+  }
+
+  .methods {
+    display: flex;
+    gap: 1px;
+    padding: 1px;
+    overflow: hidden;
+    border-radius: 10px;
+    background: var(--border-strong);
+  }
+
+  .methods span {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 8px 12px;
+    background: var(--surface-raised);
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .methods .selected {
+    background: var(--accent-soft);
+    box-shadow: inset 0 0 0 1px var(--accent);
+    color: var(--text);
+  }
+
+  .input {
+    padding: 10px 12px;
+    border: 1px solid var(--border-strong);
+    border-radius: 9px;
+    background: #12131a;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    cursor: text;
+  }
+
+  .note {
+    margin: 6px 0 0;
+    color: var(--quiet);
+    font-size: 11.5px;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .buttons span {
+    padding: 9px 16px;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .ghost {
+    border: 1px solid var(--border-strong);
+    color: var(--muted);
+  }
+
+  .primary {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+
+  figcaption {
+    user-select: text;
+    -webkit-user-select: text;
+    margin-top: 16px;
+    color: var(--quiet);
+    font-size: 13px;
+    text-align: center;
+  }
+</style>
