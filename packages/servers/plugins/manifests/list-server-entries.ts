@@ -1,16 +1,17 @@
 import { readdir } from "node:fs/promises";
 import { basename, join } from "node:path";
+import { SHARED_CODE_FOLDER_NAMES } from "./const";
 import { isServerGroup } from "./is-server-group";
 import type { ServerEntry } from "./types/server-entry";
 
 /**
  * A folder holding `<folder>.ts` is a server and a folder that only holds other folders groups them.
  * `dir` is the path below serversDir, so `orgs/atlassian/jira/jira.ts` is the server `jira`: the folders above a server
- * only mirror its category.
+ * only mirror its category. A folder named `utils` holds shared code and is skipped.
  */
 export const listServerEntries = async (serversDir: string, parent = ""): Promise<ServerEntry[]> => {
   const folders = (await readdir(join(serversDir, parent), { withFileTypes: true }))
-    .filter((dirent) => dirent.isDirectory())
+    .filter((dirent) => dirent.isDirectory() && !SHARED_CODE_FOLDER_NAMES.includes(dirent.name))
     .map((dirent) => (parent ? `${parent}/${dirent.name}` : dirent.name))
     .sort();
   const nested = await Promise.all(

@@ -1,4 +1,4 @@
-import { defineJetBrainsIde } from "../../../../jetbrains";
+import { defineJetBrainsIde } from "../utils";
 
 export const intellij = defineJetBrainsIde({
   name: "intellij",

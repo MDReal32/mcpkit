@@ -81,6 +81,17 @@ describe("compileServers", () => {
     expect(compiled.map(({ manifest }) => manifest.name)).toEqual(["my_api"]);
   });
 
+  it("skips a utils folder, which holds shared code and not a server", async () => {
+    await writeServer("my-api", `export const myApi = ${JSON.stringify({ name: "my_api", ...VALID_DEFINITION })};\n`);
+    await mkdir(join(readDir(), "utils"));
+    await writeFile(join(readDir(), "utils", "index.ts"), "export const shared = 1;\n");
+
+    const { compiled, errors } = await compileServers(readDir());
+
+    expect(errors).toEqual([]);
+    expect(compiled.map(({ manifest }) => manifest.name)).toEqual(["my_api"]);
+  });
+
   it("reports invalid definitions, name mismatches, export problems and missing entries per folder", async () => {
     await writeServer("broken", "export const broken = { name: 'broken', version: '1.0.0' };\n");
     await writeServer("other", `export const other = ${JSON.stringify({ name: "renamed", ...VALID_DEFINITION })};\n`);
