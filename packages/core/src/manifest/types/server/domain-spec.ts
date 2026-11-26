@@ -1,3 +1,5 @@
+import type { DomainDiscovery } from "./domain-discovery";
+
 /** Lets one server talk to any host of the same API, for example a self-hosted GitHub Enterprise. */
 export interface DomainSpec {
   /** Shown next to the domain field of the credentials form. */
@@ -19,4 +21,6 @@ export interface DomainSpec {
    * OpenAPI source matching the host has a version probe.
    */
   check?: boolean;
+  /** Reads the host from the running program when the env var is not set, ahead of the saved host. */
+  discover?: DomainDiscovery;
 }

@@ -163,6 +163,7 @@ and grouped by its first segment.
 | `n8n` | `automation` | n8n Cloud (`<name>.app.n8n.cloud`), self-hosted n8n (`<host>[/<path>]`, HTTPS); the MCP tools need n8n 1.120.0 or later | the n8n public REST API, for example `workflows:get`, `workflows/{id}/activate:post`, `executions/{id}/retry:post`; plus n8n's own instance-level MCP server (`https://<host>/mcp-server/http`, n8n 1.120.0 or later with MCP access turned on) as an HTTP upstream beside them, with its own one-click OAuth and its tools named `<group>:<resource>:<action>`, for example `workflows:workflows:search`, `workflows:workflows:execute`, `builder:nodes:search`, `data_tables:rows:add` (its tools are listed once the server is opened with `codemode.tools("automation:n8n")`); the MCP naming is in `src/servers/n8n/mcp.ts` |
 | `cloudflare` | `cloud` | Cloudflare (`mcp.cloudflare.com`) | Cloudflare's own remote MCP server in code mode, reached as an HTTP upstream: `api:spec:search` and `api:requests:execute` take JavaScript that searches the OpenAPI spec and calls any Cloudflare API endpoint, plus `docs:docs:search` and `account:account:whoami`; see `servers/cloudflare` |
 | `ngrok` | `cloud` | ngrok (`mcp.ngrok.com`) | ngrok's own remote MCP server (85 tools), reached as an HTTP upstream and opened by group: `platform`, `gw`, `aigw`, `docs`, `resources` and `feedback`, for example `platform:account:whoami`, `gw:endpoints:list`, `gw:endpoints:create`, `aigw:access_keys:list`; see `servers/ngrok` |
+| `webstorm` … | `orgs/jetbrains` | Your running JetBrains IDE (`127.0.0.1:<port>`) | the IDE's own built-in MCP server (IDE 2025.2 or later, Settings → Tools → MCP Server), one server per IDE: `webstorm`, `intellij`, `pycharm`, `goland`, `phpstorm`, `clion`, `rider`, `datagrip`, `rubymine`, `rustrover` and `dataspell`; its tools (files, search, code problems, refactorings, run configurations, terminal, version control) stay `tools:<name>` and act on the projects open in the IDE |
 | `postman` | `api` | Postman (`mcp.postman.com`) | Postman's own remote MCP server in its Full mode (234 tools), reached as an HTTP upstream and opened by group: `collections`, `environments`, `mocks`, `monitors`, `specs`, `workspaces`, `catalog`, `governance` and more, for example `collections:requests:create`, `environments:environments:list`; see `servers/postman` |
 | `teams` | `communication` | Microsoft Teams (Microsoft Graph) | the community Teams MCP server by Inditex, cloned on first use and run locally with uv, in the one team and channel it is configured for: `channel:threads:start`, `channel:threads:update`, `channel:threads:read`, `channel:threads:list`, `team:members:list` and `team:members:get_by_name`; see `servers/teams` |
 | `medium` | `communication` | Medium (`api.medium.com`) | Medium's archived API, which needs an integration token you already have: `me:get`, `users/{userId}/publications:get`, `publications/{publicationId}/contributors:get`, `users/{authorId}/posts:post`, `publications/{publicationId}/posts:post` (HTML or Markdown, draft, unlisted or public) and `images:post`; it cannot read, edit or delete posts |
@@ -239,6 +240,14 @@ the client metadata document of usemcpkit instead of registering a client), or r
 (dashboard.ngrok.com/access-tokens, `ngrok_pat_…`; API keys and authtokens do not work) in `NGROK_ACCESS_TOKEN` and sends
 it as a bearer token to `https://mcp.ngrok.com/mcp`. The scopes of the token, or the ones approved at sign-in, decide
 what the AI can see and change. A tool ngrok adds later stays `tools:<name>` until `servers/ngrok/const.ts` names it.
+
+JetBrains IDEs run an MCP server of their own on a local port they pick when they start and write nowhere but their log
+(`Responding at http://127.0.0.1:<port>` in `idea.log`). The `orgs/jetbrains` servers need no sign-in: usemcpkit takes the
+port from `IJ_MCP_SERVER_PORT` when the IDE started it, else from the newest `idea.log` of that IDE (macOS
+`~/Library/Logs/JetBrains/<IDE><version>`, Linux `~/.cache/JetBrains/<IDE><version>/log`, Windows
+`~/AppData/Local/JetBrains/<IDE><version>/log`) and connects to `http://127.0.0.1:<port>/stream`. The IDE has to be
+running with its MCP server switched on; a call names the project with `projectPath` when several are open. When no port
+is found the credentials form asks for `host:port`.
 
 Medium reads an integration token (medium.com → Settings → Security and apps → Integration tokens) in
 `MEDIUM_INTEGRATION_TOKEN` and sends it as a bearer token to `https://api.medium.com/v1`. Medium has archived this API and

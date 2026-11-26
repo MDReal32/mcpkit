@@ -1,5 +1,6 @@
 mod consts;
 mod read_templatable_urls;
+mod validate_domain_discovery;
 mod validate_domain_spec;
 mod validate_editions;
 mod validate_http_upstream;
