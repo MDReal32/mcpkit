@@ -25,6 +25,9 @@ pub fn validate_oauth_fields(auth: &Map<String, Value>, location: &str) -> Vec<S
     {
         errors.push(format!("{location}.clientAuthentication must be \"body\" or \"basic\""));
     }
+    if auth.contains_key("resource") && !is_https_url(auth.get("resource")) {
+        errors.push(format!("{location}.resource must be an https:// URL"));
+    }
     errors.extend(validate_sign_in_fields(auth, location));
     errors
 }

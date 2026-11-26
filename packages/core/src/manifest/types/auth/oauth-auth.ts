@@ -9,6 +9,8 @@ interface OAuthSignInOptions {
   clientAuthentication?: "body" | "basic";
   /** Extra headers on token requests, for providers that reject anonymous clients. */
   tokenHeaders?: Readonly<Record<string, string>>;
+  /** The resource indicator (RFC 8707) sent with the authorization request and every token request, for an authorization server that answers `invalid_target` without it; an https url, usually the MCP server's own. */
+  resource?: string;
 }
 
 /** OAuth 2.0 authorization code flow with PKCE; the browser sign-in starts on the first tool call without a stored token. */

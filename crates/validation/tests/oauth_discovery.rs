@@ -52,3 +52,20 @@ fn requires_the_discovery_url_to_be_https() {
 
     assert_eq!(errors, ["auth[0].discovery must be an https:// URL"]);
 }
+
+#[test]
+fn accepts_an_https_resource_indicator_and_rejects_any_other() {
+    let accepted = validate_manifest(&manifest_with(json!({
+        "type": "oauth",
+        "discovery": "https://mcp.example.com/mcp",
+        "resource": "https://mcp.example.com/mcp",
+    })));
+    let rejected = validate_manifest(&manifest_with(json!({
+        "type": "oauth",
+        "discovery": "https://mcp.example.com/mcp",
+        "resource": "mcp.example.com",
+    })));
+
+    assert_eq!(accepted, Vec::<String>::new());
+    assert_eq!(rejected, ["auth[0].resource must be an https:// URL"]);
+}
