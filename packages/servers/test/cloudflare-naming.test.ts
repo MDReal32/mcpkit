@@ -1,6 +1,6 @@
 import { nameUpstreamTool } from "@usemcpkit/core";
 import { describe, expect, it } from "vitest";
-import { cloudflare } from "../src/servers/cloud/cloudflare";
+import { cloudflare } from "../src/servers/cloud";
 
 const UPSTREAM_TOOLS = ["docs", "search", "execute", "whoami"];
 

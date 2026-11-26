@@ -1,16 +1,11 @@
 import { validateManifest } from "@usemcpkit/native";
 import { describe, expect, it } from "vitest";
-import { n8n } from "../src/servers/automation/n8n";
-import { discord } from "../src/servers/communication/discord";
-import { medium } from "../src/servers/communication/medium";
-import { reddit } from "../src/servers/communication/reddit";
-import { figma } from "../src/servers/design/figma";
-import { github } from "../src/servers/git/github";
-import { gitlab } from "../src/servers/git/gitlab";
-import { confluence } from "../src/servers/orgs/atlassian/confluence";
-import { jira } from "../src/servers/orgs/atlassian/jira";
-import { trello } from "../src/servers/orgs/atlassian/trello";
-import { clickup } from "../src/servers/productivity/clickup";
+import { n8n } from "../src/servers/automation";
+import { discord, medium, reddit } from "../src/servers/communication";
+import { figma } from "../src/servers/design";
+import { github, gitlab } from "../src/servers/git";
+import { confluence, jira, trello } from "../src/servers/orgs/atlassian";
+import { clickup } from "../src/servers/productivity";
 
 const OPENAPI_SERVERS = [github, gitlab, jira, confluence, clickup, discord, figma, n8n, reddit, medium, trello];
 
