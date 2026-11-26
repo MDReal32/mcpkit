@@ -5,6 +5,41 @@ export const NGROK_MCP_URL = "https://mcp.ngrok.com/mcp";
 
 export const NGROK_ACCESS_TOKEN_ENV = "NGROK_ACCESS_TOKEN";
 
+/**
+ * ngrok refuses a sign-in that names no scope ("You don't have permission to give this app the access it requested")
+ * unless the account role covers everything, so the read scopes of the server's `scopes_supported` are requested.
+ */
+export const NGROK_SCOPES = [
+  "ship:apps:read",
+  "integrations:read",
+  "events:read",
+  "team:read",
+  "service-users:read",
+  "api-keys:read",
+  "ssh-credentials:read",
+  "credentials:read",
+  "ip-policies:read",
+  "tls-certificates:read",
+  "certificate-authorities:read",
+  "vaults:read",
+  "app-users:read",
+  "app-sessions:read",
+  "kubernetes-operators:read",
+  "tcp-addrs:read",
+  "tunnel-sessions:read",
+  "domains:read",
+  "endpoints:read",
+  "ngrok:usage:read",
+  "ngrok:limits:read",
+  "ai-gateway:usage:read",
+  "ai-gateway:captures:read",
+  "ai-gateway:providers:read",
+  "ai-gateway:access-keys:read",
+  "ai-gateway:virtual-models:read",
+  "ai-gateway:mcp:read",
+  "ai-gateway:settings:read",
+];
+
 export const NGROK_ACCESS_TOKEN_UI = defineUI({
   inputs: {
     [NGROK_ACCESS_TOKEN_ENV]: {
