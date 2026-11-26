@@ -1,3 +1,4 @@
+use crate::domain_discovery::DomainDiscovery;
 use serde::{Deserialize, Serialize};
 
 /// Lets one server talk to any host of the same API, for example a self-hosted GitHub Enterprise.
@@ -28,6 +29,9 @@ pub struct DomainSpec {
     /// OpenAPI source matching the host has a version probe.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub check: Option<bool>,
+    /// Reads the host from the running program when the env var is not set, ahead of the saved host.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub discover: Option<DomainDiscovery>,
 }
 
 impl DomainSpec {

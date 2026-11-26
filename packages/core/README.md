@@ -174,6 +174,11 @@ user change it (`host[:port][/path]`, no scheme), unless the env var is set.
 offering one does not pick it. With `loopbackHttp: true`, a `localhost` or `127.0.0.1` domain is reached over
 `http://` in `baseUrl`, the upstream and OAuth URLs and `{domain}` links; every other server stays on `https://`, even on
 localhost.
+`discover` finds the domain of a program that picks its port when it starts, such as an IDE's MCP server, ahead of the
+saved host: `{ host: "127.0.0.1", ports: [{ type: "env", name: "IJ_MCP_SERVER_PORT" }, { type: "log", files: ["~/Library/Logs/JetBrains/WebStorm*/idea*.log"], pattern: "Responding at http://127\\.0\\.0\\.1:(\\d+)" }] }`
+makes the domain `127.0.0.1:<port>` from the first source that has one: an env var of the process, or the last match of
+`pattern` (its first capture group is the port) in the file changed last that has one, searched in the five newest of the
+files the globs match (`~/` is the home). Nothing found leaves the saved host, the default, or the form.
 
 **OAuth 2.0 with PKCE.** The user signs in once in the browser against the provider directly:
 

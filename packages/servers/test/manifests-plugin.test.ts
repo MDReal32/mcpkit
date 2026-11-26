@@ -28,19 +28,31 @@ describe("compileServers", () => {
     expect(compiled.map(({ manifest }) => manifest.name)).toEqual([
       "bitwarden",
       "clickup",
+      "clion",
       "cloudflare",
       "confluence",
+      "datagrip",
+      "dataspell",
       "discord",
       "figma",
       "github",
       "gitlab",
+      "goland",
+      "intellij",
       "jira",
       "medium",
       "n8n",
+      "ngrok",
+      "phpstorm",
       "postman",
+      "pycharm",
       "reddit",
+      "rider",
+      "rubymine",
+      "rustrover",
       "teams",
       "trello",
+      "webstorm",
     ]);
     const github = compiled.find(({ manifest }) => manifest.name === "github");
     expect(JSON.parse(github?.json ?? "null")).toEqual(github?.manifest);
@@ -54,12 +66,25 @@ describe("compileServers", () => {
         .update(spec?.json ?? "")
         .digest("hex"),
     );
-    expect(dependencies.some((dependency) => dependency.endsWith("servers/reddit/openapi.json"))).toBe(true);
+    expect(dependencies.some((dependency) => dependency.endsWith("servers/communication/reddit/openapi.json"))).toBe(
+      true,
+    );
     expect(dependencies.some((dependency) => dependency.endsWith("src/sdk/index.ts"))).toBe(true);
   });
 
   it("maps dashes in folder names to underscores in server names", async () => {
     await writeServer("my-api", `export const myApi = ${JSON.stringify({ name: "my_api", ...VALID_DEFINITION })};\n`);
+
+    const { compiled, errors } = await compileServers(readDir());
+
+    expect(errors).toEqual([]);
+    expect(compiled.map(({ manifest }) => manifest.name)).toEqual(["my_api"]);
+  });
+
+  it("skips a utils folder, which holds shared code and not a server", async () => {
+    await writeServer("my-api", `export const myApi = ${JSON.stringify({ name: "my_api", ...VALID_DEFINITION })};\n`);
+    await mkdir(join(readDir(), "utils"));
+    await writeFile(join(readDir(), "utils", "index.ts"), "export const shared = 1;\n");
 
     const { compiled, errors } = await compileServers(readDir());
 

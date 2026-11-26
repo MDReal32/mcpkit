@@ -2,6 +2,7 @@ use crate::guards::is_domain_value_list;
 use crate::openapi::has_versioned_source;
 use crate::server::consts::DOMAIN_TEXT_KEYS;
 use crate::server::read_templatable_urls::read_templatable_urls;
+use crate::server::validate_domain_discovery::validate_domain_discovery;
 use serde_json::{Map, Value};
 use usemcpkit_manifest::domain::{DOMAIN_PLACEHOLDER, is_domain_value};
 
@@ -46,6 +47,7 @@ pub fn validate_domain_spec(manifest: &Map<String, Value>) -> Vec<String> {
     if domain.get("loopbackHttp").is_some_and(|value| !value.is_boolean()) {
         errors.push("domain.loopbackHttp must be a boolean".to_owned());
     }
+    errors.extend(validate_domain_discovery(domain));
     match domain.get("check") {
         None => {}
         Some(Value::Bool(true)) if !has_versioned_source(manifest) => {

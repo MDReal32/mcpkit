@@ -54,9 +54,6 @@
             "filenameCases": ["kebab-case"]
           }
         }
-      },
-      "performance": {
-        "noReExportAll": "error"
       }
     }
   },

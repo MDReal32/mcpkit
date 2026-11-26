@@ -6,6 +6,7 @@ on:
       - master
     paths:
       - apps/npx/package.json
+      - crates/auth/client-metadata/**
       - crates/core/**
       - crates/manifest/**
       - crates/napi/**

@@ -4,10 +4,11 @@ The server definitions usemcpkit ships. Private: the build turns `src/servers` i
 to GitHub Pages.
 
 ```
-src/servers/<name>/<name>.ts          one defineServer export per server
-src/servers/<name>/const.ts           its host, headers, auth and OpenAPI sources
-src/servers/<name>/tools/<tool>.ts    hand-written tools, one per file
-src/servers/<name>/openapi.json       a description written by hand, for a vendor that publishes none
+src/servers/<category>/<name>/<name>.ts          one defineServer export per server
+src/servers/<category>/<name>/index.ts           re-exports that server
+src/servers/<category>/<name>/const.ts           its host, headers, auth and OpenAPI sources
+src/servers/<category>/<name>/tools/<tool>.ts    hand-written tools, one per file
+src/servers/<category>/<name>/openapi.json       a description written by hand, for a vendor that publishes none
 plugins/manifests/                    Vite plugin: compiles and validates src/servers, writes build/manifests
 ```
 
@@ -22,7 +23,8 @@ one `<category>/<server>/<group>.json` per group; the CLI downloads only the gro
 
 ## Adding a server
 
-Create `src/servers/<name>/<name>.ts` with exactly one named export built with `defineServer` from `@usemcpkit/core`.
+Create `src/servers/<category>/<name>/<name>.ts` (the folders above the server mirror its category, `orgs/atlassian/jira` for
+`orgs/atlassian:jira`) and an `index.ts` that re-exports it, with exactly one named export built with `defineServer` from `@usemcpkit/core`.
 Folder dashes become underscores in the server name (`my-api` → `my_api`). For a REST API with an OpenAPI description,
 list it in `openapi.sources`; pin a url without `{version}` to an immutable address (a commit, a package version) and
 its `sha256`, and give a self-hosted product a `version` probe and a `known` table or `list` of published versions. A

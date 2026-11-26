@@ -104,7 +104,7 @@ command instead. The Homebrew formula's `caveats` and the winget manifest's `Ins
 ## CLI
 
 ```
-packages/servers/src/servers/gitlab/gitlab.ts   author servers in TypeScript (one folder per server, one tool per file)
+packages/servers/src/servers/git/gitlab/gitlab.ts   author servers in TypeScript (one folder per server under its category, one tool per file)
   └─ vite build                          packages/servers: plugins/manifests/ compiles + validates src/servers/*
        └─ build/manifests/*.json          compiled manifests + index.json (the registry; CI publishes it to GitHub Pages)
 cargo build --release -p usemcpkit-window  apps/window: the Tauri credentials window, with its Svelte page inside
@@ -162,10 +162,12 @@ and grouped by its first segment.
 | `clickup` | `productivity` | ClickUp (`api.clickup.com`) | the ClickUp REST API v2 and v3, for example `api/v2/list/{list_id}/task:get`, `api/v2/folder/{folder_id}/list:post`, `api/v3/workspaces/{workspace_id}/docs:get` |
 | `discord` | `communication` | Discord (`discord.com/api/v10`) | the Discord HTTP API v10 as a bot, for example `channels/{channel_id}/messages:post`, `guilds/{guild_id}/members:get`, `users/@me/guilds:get` |
 | `figma` | `design` | Figma (`api.figma.com`) | the Figma REST API with a personal access token, for example `v1/files/{file_key}/nodes:get`, `v1/files/{file_key}/comments:post`, `v1/files/{file_key}/components:get` |
-| `n8n` | `automation` | n8n Cloud (`<name>.app.n8n.cloud`), self-hosted n8n (`<host>[/<path>]`, HTTPS); the MCP tools need n8n 1.120.0 or later | the n8n public REST API, for example `workflows:get`, `workflows/{id}/activate:post`, `executions/{id}/retry:post`; plus n8n's own instance-level MCP server (`https://<host>/mcp-server/http`, n8n 1.120.0 or later with MCP access turned on) as an HTTP upstream beside them, with its own one-click OAuth and its tools named `<group>:<resource>:<action>`, for example `workflows:workflows:search`, `workflows:workflows:execute`, `builder:nodes:search`, `data_tables:rows:add` (its tools are listed once the server is opened with `codemode.tools("automation:n8n")`); the MCP naming is in `src/servers/n8n/mcp.ts` |
-| `cloudflare` | `cloud` | Cloudflare (`mcp.cloudflare.com`) | Cloudflare's own remote MCP server in code mode, reached as an HTTP upstream: `api:spec:search` and `api:requests:execute` take JavaScript that searches the OpenAPI spec and calls any Cloudflare API endpoint, plus `docs:docs:search` and `account:account:whoami`; see `servers/cloudflare` |
-| `postman` | `api` | Postman (`mcp.postman.com`) | Postman's own remote MCP server in its Full mode (234 tools), reached as an HTTP upstream and opened by group: `collections`, `environments`, `mocks`, `monitors`, `specs`, `workspaces`, `catalog`, `governance` and more, for example `collections:requests:create`, `environments:environments:list`; see `servers/postman` |
-| `teams` | `communication` | Microsoft Teams (Microsoft Graph) | the community Teams MCP server by Inditex, cloned on first use and run locally with uv, in the one team and channel it is configured for: `channel:threads:start`, `channel:threads:update`, `channel:threads:read`, `channel:threads:list`, `team:members:list` and `team:members:get_by_name`; see `servers/teams` |
+| `n8n` | `automation` | n8n Cloud (`<name>.app.n8n.cloud`), self-hosted n8n (`<host>[/<path>]`, HTTPS); the MCP tools need n8n 1.120.0 or later | the n8n public REST API, for example `workflows:get`, `workflows/{id}/activate:post`, `executions/{id}/retry:post`; plus n8n's own instance-level MCP server (`https://<host>/mcp-server/http`, n8n 1.120.0 or later with MCP access turned on) as an HTTP upstream beside them, with its own one-click OAuth and its tools named `<group>:<resource>:<action>`, for example `workflows:workflows:search`, `workflows:workflows:execute`, `builder:nodes:search`, `data_tables:rows:add` (its tools are listed once the server is opened with `codemode.tools("automation:n8n")`); the MCP naming is in `src/servers/automation/n8n/mcp.ts` |
+| `cloudflare` | `cloud` | Cloudflare (`mcp.cloudflare.com`) | Cloudflare's own remote MCP server in code mode, reached as an HTTP upstream: `api:spec:search` and `api:requests:execute` take JavaScript that searches the OpenAPI spec and calls any Cloudflare API endpoint, plus `docs:docs:search` and `account:account:whoami`; see `servers/cloud/cloudflare` |
+| `ngrok` | `cloud` | ngrok (`mcp.ngrok.com`) | ngrok's own remote MCP server (85 tools), reached as an HTTP upstream and opened by group: `platform`, `gw`, `aigw`, `docs`, `resources` and `feedback`, for example `platform:account:whoami`, `gw:endpoints:list`, `gw:endpoints:create`, `aigw:access_keys:list`; see `servers/cloud/ngrok` |
+| `webstorm` … | `orgs/jetbrains` | Your running JetBrains IDE (`127.0.0.1:<port>`) | the IDE's own built-in MCP server (IDE 2025.2 or later, Settings → Tools → MCP Server), one server per IDE: `webstorm`, `intellij`, `pycharm`, `goland`, `phpstorm`, `clion`, `rider`, `datagrip`, `rubymine`, `rustrover` and `dataspell`; its tools (files, search, code problems, refactorings, run configurations, terminal, version control) stay `tools:<name>` and act on the projects open in the IDE |
+| `postman` | `api` | Postman (`mcp.postman.com`) | Postman's own remote MCP server in its Full mode (234 tools), reached as an HTTP upstream and opened by group: `collections`, `environments`, `mocks`, `monitors`, `specs`, `workspaces`, `catalog`, `governance` and more, for example `collections:requests:create`, `environments:environments:list`; see `servers/api/postman` |
+| `teams` | `communication` | Microsoft Teams (Microsoft Graph) | the community Teams MCP server by Inditex, cloned on first use and run locally with uv, in the one team and channel it is configured for: `channel:threads:start`, `channel:threads:update`, `channel:threads:read`, `channel:threads:list`, `team:members:list` and `team:members:get_by_name`; see `servers/communication/teams` |
 | `medium` | `communication` | Medium (`api.medium.com`) | Medium's archived API, which needs an integration token you already have: `me:get`, `users/{userId}/publications:get`, `publications/{publicationId}/contributors:get`, `users/{authorId}/posts:post`, `publications/{publicationId}/posts:post` (HTML or Markdown, draft, unlisted or public) and `images:post`; it cannot read, edit or delete posts |
 
 GitLab reads `GITLAB_HOST` (default `gitlab.com`) and a personal access token in `GITLAB_TOKEN`. Tools take a project
@@ -222,7 +224,7 @@ callback on any port. Clients only reach workflows enabled for MCP, apart from `
 previews every workflow the user can see. Which tools exist depends on the instance's version, license and settings
 (the workflow builder, agents, skills, folders) and on the permissions granted at sign-in. Tools older instances
 serve under earlier names (`get_execution`, `list_tags`, …) get the same names, and a tool n8n adds later stays
-`tools:<name>` until `src/servers/n8n/mcp.ts` names it.
+`tools:<name>` until `src/servers/automation/n8n/mcp.ts` names it.
 
 Cloudflare signs in with one click: the first call opens the credentials window, whose "Sign in with OAuth2" button runs Cloudflare's own sign-in in the browser (see "OAuth for MCP servers" below). It also reads an API token (Cloudflare dashboard → My Profile → API Tokens, user or account token) in
 `CLOUDFLARE_API_TOKEN` and sends it as a bearer token to `https://mcp.cloudflare.com/mcp`. The token decides what the AI
@@ -233,7 +235,21 @@ supported.
 Postman signs in with one click through its own OAuth (see "OAuth for MCP servers" below), or reads an API key (Postman → Settings → API keys, `PMAK-…`) in `POSTMAN_API_KEY` and sends it as a bearer token to
 `https://mcp.postman.com/mcp`, the Full mode of Postman's server; the key decides what the AI can see and change. The EU
 region (`mcp.eu.postman.com`) is not used. A tool Postman adds later stays `tools:<name>`
-until `servers/postman/const.ts` names it, and the server then opens as one flat list.
+until `servers/api/postman/const.ts` names it, and the server then opens as one flat list.
+
+ngrok signs in with one click through its own OAuth (see "OAuth for MCP servers" below; its authorization server takes
+the client metadata document of usemcpkit instead of registering a client), or reads an access token
+(dashboard.ngrok.com/access-tokens, `ngrok_pat_…`; API keys and authtokens do not work) in `NGROK_ACCESS_TOKEN` and sends
+it as a bearer token to `https://mcp.ngrok.com/mcp`. The scopes of the token, or the ones approved at sign-in, decide
+what the AI can see and change. A tool ngrok adds later stays `tools:<name>` until `servers/cloud/ngrok/const.ts` names it.
+
+JetBrains IDEs run an MCP server of their own on a local port they pick when they start and write nowhere but their log
+(`Responding at http://127.0.0.1:<port>` in `idea.log`). The `orgs/jetbrains` servers need no sign-in: usemcpkit takes the
+port from `IJ_MCP_SERVER_PORT` when the IDE started it, else from the newest `idea.log` of that IDE (macOS
+`~/Library/Logs/JetBrains/<IDE><version>`, Linux `~/.cache/JetBrains/<IDE><version>/log`, Windows
+`~/AppData/Local/JetBrains/<IDE><version>/log`) and connects to `http://127.0.0.1:<port>/stream`. The IDE has to be
+running with its MCP server switched on; a call names the project with `projectPath` when several are open. When no port
+is found the credentials form asks for `host:port`.
 
 Medium reads an integration token (medium.com → Settings → Security and apps → Integration tokens) in
 `MEDIUM_INTEGRATION_TOKEN` and sends it as a bearer token to `https://api.medium.com/v1`. Medium has archived this API and
@@ -495,7 +511,9 @@ endpoints and no client id:
 
 On the first call without a token, usemcpkit asks the server where it signs in (the protected resource metadata of
 RFC 9728 named by its `/.well-known/oauth-protected-resource`, then the authorization server's metadata of RFC 8414),
-registers itself there as a public client (RFC 7591, no secret) for a loopback redirect on a free port, and runs the
+registers itself there as a public client (RFC 7591, no secret) for a loopback redirect on a free port, or, when the
+server registers nobody but accepts client metadata documents (`client_id_metadata_document_supported`, ngrok), uses the
+url of its own document, `https://mdreal32.github.io/mcpkit/oauth-client.json`, as the client id, and runs the
 same PKCE sign-in as above: one click on "Sign in with OAuth2" in the credentials window, or none when the entry is the
 server's only auth, approve in the browser tab that opens, and the tab closes itself where the browser allows it. The registered client id is saved
 as `oauthClients` in `~/.usemcpkit/config.json` by issuer, and refreshes use it. A `clientId` next to `discovery` skips the
