@@ -1,1 +1,1 @@
-export { intellij } from "./intellij";
+export * from "./intellij";

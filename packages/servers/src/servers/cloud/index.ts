@@ -1,2 +1,2 @@
-export { cloudflare } from "./cloudflare";
-export { ngrok } from "./ngrok";
+export * from "./cloudflare";
+export * from "./ngrok";

@@ -1,1 +1,1 @@
-export { bitwarden } from "./bitwarden";
+export * from "./bitwarden";

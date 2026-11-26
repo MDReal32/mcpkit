@@ -1,1 +1,1 @@
-export { rubymine } from "./rubymine";
+export * from "./rubymine";

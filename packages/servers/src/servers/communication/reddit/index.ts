@@ -1,1 +1,1 @@
-export { reddit } from "./reddit";
+export * from "./reddit";

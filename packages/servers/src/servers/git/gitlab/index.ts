@@ -1,1 +1,1 @@
-export { gitlab } from "./gitlab";
+export * from "./gitlab";

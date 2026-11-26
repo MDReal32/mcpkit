@@ -1,1 +1,1 @@
-export { teams } from "./teams";
+export * from "./teams";

@@ -1,1 +1,1 @@
-export { discord } from "./discord";
+export * from "./discord";

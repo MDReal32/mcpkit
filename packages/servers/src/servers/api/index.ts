@@ -1,1 +1,1 @@
-export { postman } from "./postman";
+export * from "./postman";

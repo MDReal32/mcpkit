@@ -1,1 +1,1 @@
-export { phpstorm } from "./phpstorm";
+export * from "./phpstorm";

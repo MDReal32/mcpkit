@@ -1,1 +1,1 @@
-export { cloudflare } from "./cloudflare";
+export * from "./cloudflare";

@@ -1,3 +1,3 @@
-export { confluence } from "./confluence";
-export { jira } from "./jira";
-export { trello } from "./trello";
+export * from "./confluence";
+export * from "./jira";
+export * from "./trello";

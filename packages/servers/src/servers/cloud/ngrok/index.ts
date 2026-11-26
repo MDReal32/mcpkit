@@ -1,1 +1,1 @@
-export { ngrok } from "./ngrok";
+export * from "./ngrok";

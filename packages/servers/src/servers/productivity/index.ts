@@ -1,1 +1,1 @@
-export { clickup } from "./clickup";
+export * from "./clickup";

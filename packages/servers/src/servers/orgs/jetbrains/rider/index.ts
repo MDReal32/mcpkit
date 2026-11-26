@@ -1,1 +1,1 @@
-export { rider } from "./rider";
+export * from "./rider";

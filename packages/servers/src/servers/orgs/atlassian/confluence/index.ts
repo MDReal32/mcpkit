@@ -1,1 +1,1 @@
-export { confluence } from "./confluence";
+export * from "./confluence";

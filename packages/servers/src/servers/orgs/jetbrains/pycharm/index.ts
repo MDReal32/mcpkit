@@ -1,1 +1,1 @@
-export { pycharm } from "./pycharm";
+export * from "./pycharm";

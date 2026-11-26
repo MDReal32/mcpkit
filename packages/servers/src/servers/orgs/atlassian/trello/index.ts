@@ -1,1 +1,1 @@
-export { trello } from "./trello";
+export * from "./trello";

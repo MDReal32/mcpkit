@@ -1,1 +1,1 @@
-export { figma } from "./figma";
+export * from "./figma";

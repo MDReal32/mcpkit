@@ -1,1 +1,1 @@
-export { n8n } from "./n8n";
+export * from "./n8n";

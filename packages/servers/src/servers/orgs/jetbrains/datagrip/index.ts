@@ -1,1 +1,1 @@
-export { datagrip } from "./datagrip";
+export * from "./datagrip";

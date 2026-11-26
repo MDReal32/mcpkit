@@ -1,1 +1,1 @@
-export { dataspell } from "./dataspell";
+export * from "./dataspell";

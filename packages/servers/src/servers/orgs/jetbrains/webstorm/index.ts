@@ -1,1 +1,1 @@
-export { webstorm } from "./webstorm";
+export * from "./webstorm";

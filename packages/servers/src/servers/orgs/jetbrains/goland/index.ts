@@ -1,1 +1,1 @@
-export { goland } from "./goland";
+export * from "./goland";

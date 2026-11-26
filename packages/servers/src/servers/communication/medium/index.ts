@@ -1,1 +1,1 @@
-export { medium } from "./medium";
+export * from "./medium";

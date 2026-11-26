@@ -1,1 +1,1 @@
-export { jira } from "./jira";
+export * from "./jira";

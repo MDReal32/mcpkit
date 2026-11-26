@@ -1,2 +1,2 @@
-export { github } from "./github";
-export { gitlab } from "./gitlab";
+export * from "./github";
+export * from "./gitlab";
