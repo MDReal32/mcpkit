@@ -4,7 +4,7 @@ import { n8n } from "../src/servers/automation";
 import { discord, medium, reddit } from "../src/servers/communication";
 import { figma } from "../src/servers/design";
 import { github, gitlab } from "../src/servers/git";
-import { confluence, jira, trello } from "../src/servers/orgs/atlassian";
+import { confluence, jira, trello } from "../src/servers/orgs";
 import { clickup } from "../src/servers/productivity";
 
 const OPENAPI_SERVERS = [github, gitlab, jira, confluence, clickup, discord, figma, n8n, reddit, medium, trello];
