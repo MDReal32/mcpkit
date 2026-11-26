@@ -1,30 +1,27 @@
-import { bitwarden } from "./bitwarden/bitwarden";
-import { clickup } from "./clickup/clickup";
-import { clion } from "./clion/clion";
-import { cloudflare } from "./cloudflare/cloudflare";
-import { confluence } from "./confluence/confluence";
-import { datagrip } from "./datagrip/datagrip";
-import { dataspell } from "./dataspell/dataspell";
-import { discord } from "./discord/discord";
-import { figma } from "./figma/figma";
-import { github } from "./github/github";
-import { gitlab } from "./gitlab/gitlab";
-import { goland } from "./goland/goland";
-import { intellij } from "./intellij/intellij";
-import { jira } from "./jira/jira";
-import { medium } from "./medium/medium";
-import { n8n } from "./n8n/n8n";
-import { ngrok } from "./ngrok/ngrok";
-import { phpstorm } from "./phpstorm/phpstorm";
-import { postman } from "./postman/postman";
-import { pycharm } from "./pycharm/pycharm";
-import { reddit } from "./reddit/reddit";
-import { rider } from "./rider/rider";
-import { rubymine } from "./rubymine/rubymine";
-import { rustrover } from "./rustrover/rustrover";
-import { teams } from "./teams/teams";
-import { trello } from "./trello/trello";
-import { webstorm } from "./webstorm/webstorm";
+import { postman } from "./api";
+import { n8n } from "./automation";
+import { cloudflare, ngrok } from "./cloud";
+import { discord, medium, reddit, teams } from "./communication";
+import { figma } from "./design";
+import { github, gitlab } from "./git";
+import {
+  clion,
+  confluence,
+  datagrip,
+  dataspell,
+  goland,
+  intellij,
+  jira,
+  phpstorm,
+  pycharm,
+  rider,
+  rubymine,
+  rustrover,
+  trello,
+  webstorm,
+} from "./orgs";
+import { clickup } from "./productivity";
+import { bitwarden } from "./security";
 
 export const servers = [
   bitwarden,

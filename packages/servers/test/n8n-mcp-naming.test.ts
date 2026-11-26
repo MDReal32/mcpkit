@@ -1,6 +1,6 @@
 import { nameUpstreamTool } from "@usemcpkit/core";
 import { describe, expect, it } from "vitest";
-import { n8n } from "../src/servers/n8n/n8n";
+import { n8n } from "../src/servers/automation";
 
 /** Every tool of n8n's instance-level MCP server: `TOOLS_BY_SCOPE` in `packages/cli/src/modules/mcp/mcp-scopes.ts`, 2.47.0. */
 const UPSTREAM_TOOLS =

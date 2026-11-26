@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ngrok } from "../src/servers/ngrok/ngrok";
+import { ngrok } from "../src/servers/cloud";
 
 const oauth = ngrok.auth?.find((entry) => entry.type === "oauth");
 

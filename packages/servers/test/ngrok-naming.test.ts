@@ -1,6 +1,6 @@
 import { nameUpstreamTool } from "@usemcpkit/core";
 import { describe, expect, it } from "vitest";
-import { ngrok } from "../src/servers/ngrok/ngrok";
+import { ngrok } from "../src/servers/cloud";
 
 /** The tools in ngrok.com/docs/mcp-server/tools and ngrok.com/docs/mcp-server/ai-gateway (2026-11). */
 const UPSTREAM_TOOLS =
