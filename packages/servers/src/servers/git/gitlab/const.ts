@@ -1,4 +1,4 @@
-import type { Manifest, OpenApiSource } from "@usemcpkit/core";
+import type { Applies, Manifest, OpenApiSource } from "@usemcpkit/core";
 import { defineUI } from "@usemcpkit/core";
 
 /**
@@ -23,6 +23,12 @@ export const GITLAB_SOURCES: OpenApiSource[] = [
     },
   },
 ];
+
+/**
+ * The self-managed description has no notes or discussions endpoints (gitlab.com's has), so the tools that read and
+ * write merge request comments are written by hand for it.
+ */
+export const GITLAB_SELF_MANAGED: Applies = { sources: ["self-managed"] };
 
 export const GITLAB_BASE: Omit<Manifest, "name" | "description" | "tools"> = {
   category: "git",
